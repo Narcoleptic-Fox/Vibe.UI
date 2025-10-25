@@ -1,12 +1,15 @@
 Vibe.UI
 ======
 
-Vibe.UI is a comprehensive, production-ready Blazor component library inspired by Shadcn UI, built with Razor components and C#. Complete with 65+ components, comprehensive theming, testing infrastructure, CLI tooling, and IDE extensions.
+Vibe.UI is a comprehensive, production-ready Blazor component library inspired by Shadcn UI, built with Razor components and C#. Complete with **90+ components**, comprehensive theming, Chart.js integration, form validation, icon library, testing infrastructure, CLI tooling, and IDE extensions.
 
 ## Features
 
-### Components & Theming
-- **65+ Accessible UI Components** - Complete component library matching Shadcn UI (Button, Dialog, Table, Chart, and more)
+### Components & Features
+- **90+ Accessible UI Components** - Comprehensive component library with Input, Form, Data Display, Navigation, Overlay, Feedback, and Advanced components
+- **Chart.js Integration** - Full-featured data visualization with 7 chart types (Line, Bar, Pie, Doughnut, Radar, PolarArea, Area)
+- **Icon Library** - 70+ Lucide icons built-in with SVG support and customizable styling
+- **Form Validation** - Built-in validators (email, phone, password strength, credit card, etc.) with real-time feedback
 - **Comprehensive Theme Management** - Create, customize, and switch between themes at runtime
 - **Built-in Light and Dark Themes** - Ready to use out of the box
 - **Support for External CSS Frameworks** - Integrate with Material, Bootstrap, and Tailwind CSS
@@ -152,6 +155,79 @@ In your `index.html` (for Blazor WebAssembly) or `_Host.cshtml` (for Blazor Serv
 </Card>
 ```
 
+### Icons
+
+Use 70+ built-in Lucide icons:
+
+```razor
+<!-- Basic icon -->
+<Icon Name="heart" Size="24" />
+
+<!-- Colored icon -->
+<Icon Name="check-circle" Color="#10b981" Size="32" />
+
+<!-- Animated icon -->
+<Icon Name="loader" CssClass="icon-spin" />
+
+<!-- Available icons: menu, x, check, plus, edit, trash, search, user, home, heart, star, calendar, bell, mail, and 60+ more -->
+```
+
+### Charts
+
+Full Chart.js integration for data visualization:
+
+```razor
+@using Vibe.UI.Services
+
+<!-- Line Chart -->
+<Chart ChartData="@chartData"
+       Type="ChartType.Line"
+       Title="Sales Data"
+       Height="400" />
+
+@code {
+    private ChartData chartData = new ChartDataBuilder()
+        .WithLabels("Jan", "Feb", "Mar", "Apr", "May", "Jun")
+        .AddDataset("Revenue", new[] { 65.0, 59.0, 80.0, 81.0, 56.0, 55.0 })
+        .AddDataset("Costs", new[] { 28.0, 48.0, 40.0, 19.0, 86.0, 27.0 })
+        .Build();
+}
+
+<!-- Chart types: Line, Bar, Pie, Doughnut, Radar, PolarArea, Area -->
+<!-- See docs/CHARTS.md for complete documentation -->
+```
+
+### Form Validation
+
+Built-in validation with real-time feedback:
+
+```razor
+@using Vibe.UI.Services
+
+<ValidatedInput @bind-Value="email"
+                Label="Email Address"
+                InputType="email"
+                Required="true"
+                Validator="@FormValidators.Email()"
+                HelperText="We'll never share your email"
+                ShowValidationIcon="true" />
+
+<ValidatedInput @bind-Value="password"
+                Label="Password"
+                InputType="password"
+                Required="true"
+                Validator="@FormValidators.StrongPassword(minLength: 8)"
+                ShowValidationIcon="true" />
+
+@code {
+    private string email = "";
+    private string password = "";
+
+    // Available validators: Required, Email, Phone, Url, MinLength, MaxLength,
+    // Range, Pattern, StrongPassword, CreditCard, FutureDate, PastDate, and more
+}
+```
+
 ### Theme Components
 
 Choose from several theme-related components to enhance your user experience:
@@ -164,9 +240,9 @@ Choose from several theme-related components to enhance your user experience:
 <ThemeSelector Label="Choose theme:" />
 
 <!-- Full theme customization panel -->
-<ThemePanel 
+<ThemePanel
     Title="Theme Settings"
-    CollapsiblePanel="true" 
+    CollapsiblePanel="true"
     InitiallyExpanded="false"
     AllowCustomization="true"
     AllowCreateTheme="true" />
@@ -294,7 +370,7 @@ Vibe.UI uses CSS variables for theming. Here are the main variables:
 
 ## Available Components
 
-Vibe.UI includes a comprehensive set of over 45 components:
+Vibe.UI includes a comprehensive set of **90+ production-ready components**:
 
 ### Layout Components
 - **AspectRatio** - Container maintaining a specific aspect ratio
@@ -307,9 +383,10 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **Avatar** - User or entity image representations
 - **Badge** - Small status indicators or counts
 - **Table** - Standard data table for structured information
-- **DataTable** - Enhanced table with sorting, filtering, and pagination
+- **DataTable** - Enhanced table with sorting, filtering, pagination, and CSV/JSON export
 - **Progress** - Visual indicators of completion percentage or activity
-- **Chart** - Data visualization with support for multiple chart types
+- **Chart** - Full Chart.js integration with 7 chart types and real-time updates
+- **Timeline** - Event timeline with status indicators and timestamps
 
 ### Navigation Components
 - **Breadcrumb** - Path-based navigation indicators
@@ -332,6 +409,15 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **ToggleGroup** - Group of toggle buttons with single or multiple selection
 - **ColorPicker** - Visual color selection tool with HSL/RGB/HEX support
 - **MultiSelect** - Selection control for multiple options
+- **ValidatedInput** - Input with built-in validation and real-time feedback
+- **InputOTP** - One-time password input with auto-focus
+- **FileUpload** - Drag-and-drop file upload with multiple file support
+- **Rating** - Star rating component with half-star support
+- **TagInput** - Multi-tag input field with suggestions
+- **RichTextEditor** - WYSIWYG editor with formatting toolbar
+- **Mentions** - @mention and #hashtag input with autocomplete
+- **TransferList** - Dual-list selector for moving items between lists
+- **ImageCropper** - Image cropping tool with zoom and rotation
 
 ### Disclosure Components
 - **Accordion** - Expandable content sections
@@ -351,6 +437,11 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **Alert** - Contextual feedback messages
 - **Skeleton** - Loading state placeholders
 - **Toast** - Temporary notification messages
+- **Sonner** - Enhanced toast notifications with stacking and promise support
+- **EmptyState** - Placeholder for empty content areas
+- **Spinner** - Loading indicator with customizable sizes
+- **NotificationCenter** - Centralized notification hub with badge and dropdown panel
+- **Confetti** - Celebratory confetti animation with customizable particles
 
 ### Date & Time Components
 - **Calendar** - Date selection calendar
@@ -364,6 +455,8 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **FormMessage** - Validation and help text
 - **Label** - Standalone accessible label component
 - **Combobox** - Combined input and dropdown
+- **ValidatedInput** - Input with validation, error messages, and icons
+- **FormValidators** - Built-in validators (Email, Phone, URL, Password, CreditCard, etc.)
 
 ### Theme Components
 - **ThemeRoot** - Root theme provider component
@@ -371,10 +464,35 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **ThemeToggle** - Light/dark mode toggle
 - **ThemePanel** - Complete theme customization panel
 
+### Layout Components
+- **AspectRatio** - Container maintaining a specific aspect ratio
+- **Card** - Versatile content container with header, body, and footer sections
+- **Separator** - Visual divider for content separation
+- **Resizable** - Panels with user-adjustable dimensions
+- **Sheet** - Slide-in panel for secondary content
+- **MasonryGrid** - Pinterest-style masonry grid layout for variable-height items
+- **Splitter** - Resizable split pane divider with drag support
+
+### Navigation Components
+- **Breadcrumb** - Path-based navigation indicators
+- **Menubar** - Horizontal navigation system
+- **NavigationMenu** - Hierarchical navigation structure
+- **Pagination** - Page navigation controls
+- **Tabs** - Content organization into selectable tabs
+- **Sidebar** - Collapsible sidebar with resize support
+
 ### Utility Components
 - **Command** - Keyboard command palette interface
 - **ScrollArea** - Custom scrollable container
 - **DropdownMenu** - Context-specific dropdown menu
+- **Icon** - 70+ Lucide icons with SVG support and customizable styling
+- **Kbd** - Keyboard shortcut display component
+- **QRCode** - QR code generator for URLs and text
+
+### Advanced Components
+- **TreeView** - Hierarchical data display with expand/collapse
+- **KanbanBoard** - Kanban board with draggable cards and columns
+- **VirtualScroll** - Efficient rendering for large lists with virtual scrolling
 
 ## CLI Reference
 
