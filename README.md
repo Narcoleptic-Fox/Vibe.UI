@@ -1,26 +1,62 @@
 Vibe.UI
 ======
 
-Vibe.UI is a powerful theme-enabled Blazor component library inspired by Shadcn UI, built primarily with Razor components and C#. This library provides comprehensive theme management capabilities along with beautiful, responsive UI components.
+Vibe.UI is a comprehensive, production-ready Blazor component library inspired by Shadcn UI, built with Razor components and C#. Complete with 65+ components, comprehensive theming, testing infrastructure, CLI tooling, and IDE extensions.
 
 ## Features
 
+### Components & Theming
+- **65+ Accessible UI Components** - Complete component library matching Shadcn UI (Button, Dialog, Table, Chart, and more)
 - **Comprehensive Theme Management** - Create, customize, and switch between themes at runtime
 - **Built-in Light and Dark Themes** - Ready to use out of the box
 - **Support for External CSS Frameworks** - Integrate with Material, Bootstrap, and Tailwind CSS
 - **Customizable CSS Variables** - Fine-tune theming with an extensive set of CSS variables
 - **Auto-Detection of System Theme** - Automatically adapt to user's OS theme preference
 - **Pure Razor Components** - Built with Razor/C# with minimal JavaScript
-- **45+ Accessible UI Components** - From simple buttons to complex data tables and date pickers
 - **Complete Theming API** - Programmatic control over themes via C# API
 - **Theme Persistence** - Save user theme preferences across sessions
-- **Fully Shadcn UI Compatible** - Implementation matches Shadcn UI components for easy migration
+
+### Developer Tools
+- **Vibe CLI** - Command-line tool to add components like shadcn (`vibe add button`)
+- **VS Code Extension** - Snippets, commands, and IntelliSense support
+- **Visual Studio 2022 Extension** - Project templates, item templates, and integrated tooling
+- **Comprehensive Testing** - Unit and integration tests with bUnit and xUnit
+- **Demo Application** - Interactive showcase of all components
 
 ## Getting Started
 
-### Installation
+### Quick Start with CLI (Recommended)
 
-First, add the Vibe.UI library to your Blazor project:
+Install the Vibe CLI globally:
+
+```bash
+dotnet tool install -g Vibe.UI.CLI
+```
+
+Initialize Vibe.UI in your Blazor project:
+
+```bash
+cd your-blazor-project
+vibe init
+```
+
+Add components as needed:
+
+```bash
+vibe add button
+vibe add dialog
+vibe add card
+```
+
+List all available components:
+
+```bash
+vibe list
+```
+
+### Manual Installation
+
+Alternatively, add the Vibe.UI library manually:
 
 ```bash
 dotnet add package Vibe.UI
@@ -273,6 +309,7 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **Table** - Standard data table for structured information
 - **DataTable** - Enhanced table with sorting, filtering, and pagination
 - **Progress** - Visual indicators of completion percentage or activity
+- **Chart** - Data visualization with support for multiple chart types
 
 ### Navigation Components
 - **Breadcrumb** - Path-based navigation indicators
@@ -286,12 +323,14 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **Checkbox** - Binary selection controls
 - **Input** - Text input fields
 - **Radio** - Single-selection option buttons
+- **RadioGroup** - Group of radio buttons with single selection
 - **Select** - Dropdown selection menu
 - **Slider** - Range selection control
 - **Switch** - Toggle controls
 - **TextArea** - Multi-line text input
 - **Toggle** - Alternative toggle control
-- **ColorPicker** - Visual color selection tool
+- **ToggleGroup** - Group of toggle buttons with single or multiple selection
+- **ColorPicker** - Visual color selection tool with HSL/RGB/HEX support
 - **MultiSelect** - Selection control for multiple options
 
 ### Disclosure Components
@@ -323,6 +362,7 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **FormField** - Structured form field wrapper
 - **FormLabel** - Accessible form input labels
 - **FormMessage** - Validation and help text
+- **Label** - Standalone accessible label component
 - **Combobox** - Combined input and dropdown
 
 ### Theme Components
@@ -335,6 +375,128 @@ Vibe.UI includes a comprehensive set of over 45 components:
 - **Command** - Keyboard command palette interface
 - **ScrollArea** - Custom scrollable container
 - **DropdownMenu** - Context-specific dropdown menu
+
+## CLI Reference
+
+The Vibe CLI provides several commands for working with components:
+
+### Commands
+
+- `vibe init` - Initialize Vibe.UI in your project
+- `vibe add <component>` - Add a component to your project
+- `vibe list` - List all available components
+- `vibe update [component]` - Update components to latest version
+
+### Options
+
+- `-y, --yes` - Skip confirmation prompts
+- `-p, --path <path>` - Specify project directory
+- `-o, --overwrite` - Overwrite existing files
+
+## IDE Extensions
+
+### Visual Studio Code
+
+Install the Vibe.UI extension from the VS Code marketplace:
+
+1. Open VS Code
+2. Go to Extensions (Ctrl+Shift+X)
+3. Search for "Vibe.UI"
+4. Click Install
+
+**Features:**
+- Code snippets for all components
+- Quick add component command
+- IntelliSense support
+- Direct access to documentation
+
+### Visual Studio 2022
+
+Install the Vibe.UI VSIX extension:
+
+1. Download from Visual Studio Marketplace or GitHub Releases
+2. Double-click the VSIX file to install
+3. Restart Visual Studio
+
+**Features:**
+- Project templates with Vibe.UI pre-configured
+- Item templates for common component patterns
+- Right-click menu to add components
+- Integrated CLI commands
+
+## Testing
+
+Vibe.UI includes comprehensive testing infrastructure using bUnit and xUnit.
+
+Run tests:
+
+```bash
+dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj
+```
+
+Example test structure:
+
+```csharp
+public class ButtonTests : TestContext
+{
+    public ButtonTests()
+    {
+        this.AddVibeUIServices();
+    }
+
+    [Fact]
+    public void Button_RendersWithDefaultProps()
+    {
+        var cut = RenderComponent<Button>(parameters => parameters
+            .Add(p => p.ChildContent, "Click me"));
+
+        cut.Find("button").Should().NotBeNull();
+        cut.Find("button").TextContent.Should().Be("Click me");
+    }
+}
+```
+
+## Demo Application
+
+Explore all components interactively:
+
+```bash
+cd samples/Vibe.UI.Demo
+dotnet run
+```
+
+Navigate to `https://localhost:5001` to see all components in action.
+
+## Contributing
+
+We welcome contributions! Please see our contributing guidelines for more information.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/yourusername/Vibe.UI/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/Vibe.UI/discussions)
+- **Documentation**: [Full Documentation](https://github.com/yourusername/Vibe.UI/wiki)
+
+## Project Structure
+
+```
+Vibe.UI/
+├── src/
+│   ├── Vibe.UI/              # Core component library
+│   └── Vibe.UI.CLI/          # Command-line tool
+├── tests/
+│   └── Vibe.UI.Tests/        # Unit and integration tests
+├── samples/
+│   └── Vibe.UI.Demo/         # Demo application
+├── extensions/
+│   ├── vscode/               # VS Code extension
+│   └── vs2022/               # Visual Studio 2022 extension
+└── README.md
+```
+
+## Acknowledgments
+
+Vibe.UI is inspired by [shadcn/ui](https://ui.shadcn.com/) and built for the Blazor community.
 
 ## License
 
