@@ -1,5 +1,7 @@
 @namespace Vibe.UI.Components
 @inherits ThemedComponentBase
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     @if (!string.IsNullOrEmpty(Title))
@@ -13,17 +15,17 @@
         </div>
     }
 
-    <div class="vibe-chart-container">
-        <canvas @ref="canvasRef" class="vibe-chart-canvas"></canvas>
+    <div class="vibe-chart-container" style="height: @(Height)px;">
+        <canvas @ref="_canvasRef" id="@_canvasId" class="vibe-chart-canvas"></canvas>
     </div>
 
-    @if (ShowLegend && ChartData?.Datasets?.Any() == true)
+    @if (ShowLegend && ChartData?.Datasets?.Any() == true && !UseBuiltInLegend)
     {
         <div class="vibe-chart-legend">
             @foreach (var dataset in ChartData.Datasets)
             {
                 <div class="vibe-chart-legend-item">
-                    <span class="vibe-chart-legend-color" style="background-color: @dataset.Color;"></span>
+                    <span class="vibe-chart-legend-color" style="background-color: @(dataset.BackgroundColor ?? dataset.Color);"></span>
                     <span class="vibe-chart-legend-label">@dataset.Label</span>
                 </div>
             }
@@ -39,7 +41,9 @@
 </div>
 
 @code {
-    private ElementReference canvasRef;
+    private ElementReference _canvasRef;
+    private string _canvasId = $"chart-{Guid.NewGuid():N}";
+    private bool _chartCreated = false;
 
     /// <summary>
     /// The chart data to display.
@@ -70,6 +74,12 @@
     /// </summary>
     [Parameter]
     public bool ShowLegend { get; set; } = true;
+
+    /// <summary>
+    /// Use Chart.js built-in legend instead of custom HTML legend.
+    /// </summary>
+    [Parameter]
+    public bool UseBuiltInLegend { get; set; } = false;
 
     /// <summary>
     /// Whether to show grid lines.
@@ -114,10 +124,170 @@
     {
         if (firstRender && ChartData != null)
         {
-            // In a real implementation, this would use JS interop to render
-            // the chart using a library like Chart.js, ApexCharts, or similar
-            // For now, this is a placeholder structure
-            await Task.CompletedTask;
+            await RenderChart();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_chartCreated && ChartData != null)
+        {
+            await UpdateChart();
+        }
+    }
+
+    private async Task RenderChart()
+    {
+        try
+        {
+            var config = BuildChartConfig();
+            await JSRuntime.InvokeVoidAsync("vibeChart.createChart", _canvasId, config);
+            _chartCreated = true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error rendering chart: {ex.Message}");
+        }
+    }
+
+    private async Task UpdateChart()
+    {
+        try
+        {
+            var config = BuildChartConfig();
+            await JSRuntime.InvokeVoidAsync("vibeChart.updateChart", _canvasId, config);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating chart: {ex.Message}");
+        }
+    }
+
+    private object BuildChartConfig()
+    {
+        var options = Options ?? new ChartOptions();
+
+        var chartOptions = new
+        {
+            responsive = options.Responsive,
+            maintainAspectRatio = options.MaintainAspectRatio,
+            plugins = new
+            {
+                legend = new
+                {
+                    display = ShowLegend && UseBuiltInLegend,
+                    position = "top"
+                },
+                tooltip = new
+                {
+                    enabled = options.Tooltip?.Enabled ?? true,
+                    mode = options.Tooltip?.Mode ?? "index",
+                    intersect = options.Tooltip?.Intersect ?? false
+                }
+            },
+            scales = BuildScales(),
+            animation = new
+            {
+                duration = options.Animation?.Duration ?? 400,
+                easing = options.Animation?.Easing ?? "easeInOutQuart"
+            }
+        };
+
+        return new
+        {
+            type = Type.ToString().ToLower(),
+            data = new
+            {
+                labels = ChartData?.Labels ?? new List<string>(),
+                datasets = ChartData?.Datasets.Select(ds => new
+                {
+                    label = ds.Label,
+                    data = ds.Data,
+                    backgroundColor = ds.BackgroundColor ?? (Type == ChartType.Line ? "transparent" : ds.Color),
+                    borderColor = ds.BorderColor ?? ds.Color,
+                    borderWidth = ds.BorderWidth,
+                    fill = ds.Fill,
+                    tension = Type == ChartType.Line || Type == ChartType.Area ? 0.4 : 0,
+                    pointRadius = Type == ChartType.Line || Type == ChartType.Area ? 3 : 0,
+                    pointHoverRadius = Type == ChartType.Line || Type == ChartType.Area ? 5 : 0
+                }).ToArray() ?? Array.Empty<object>()
+            },
+            options = chartOptions
+        };
+    }
+
+    private object? BuildScales()
+    {
+        // Don't show scales for pie, doughnut, radar, or polarArea charts
+        if (Type == ChartType.Pie || Type == ChartType.Doughnut ||
+            Type == ChartType.Radar || Type == ChartType.PolarArea)
+        {
+            return null;
+        }
+
+        return new
+        {
+            y = new
+            {
+                beginAtZero = true,
+                grid = new
+                {
+                    display = ShowGrid
+                }
+            },
+            x = new
+            {
+                grid = new
+                {
+                    display = ShowGrid
+                }
+            }
+        };
+    }
+
+    /// <summary>
+    /// Manually refresh the chart.
+    /// </summary>
+    public async Task RefreshAsync()
+    {
+        if (_chartCreated)
+        {
+            await UpdateChart();
+        }
+        else
+        {
+            await RenderChart();
+        }
+    }
+
+    /// <summary>
+    /// Export chart as base64 image.
+    /// </summary>
+    public async Task<string?> ExportAsImageAsync()
+    {
+        try
+        {
+            return await JSRuntime.InvokeAsync<string>("vibeChart.toBase64Image", _canvasId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error exporting chart: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_chartCreated)
+        {
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("vibeChart.destroyChart", _canvasId);
+            }
+            catch
+            {
+                // Ignore errors during disposal
+            }
         }
     }
 }
@@ -142,7 +312,7 @@ public class ChartDataset
 public class ChartOptions
 {
     public bool Responsive { get; set; } = true;
-    public bool MaintainAspectRatio { get; set; } = true;
+    public bool MaintainAspectRatio { get; set; } = false;
     public ChartAnimation? Animation { get; set; }
     public ChartTooltip? Tooltip { get; set; }
 }
