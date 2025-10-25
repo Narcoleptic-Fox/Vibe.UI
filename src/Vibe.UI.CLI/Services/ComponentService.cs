@@ -86,6 +86,10 @@ public class ComponentService
             ["fileupload"] = new ComponentInfo { Name = "FileUpload", Category = "Input", Description = "Drag-and-drop file upload with multiple file support" },
             ["rating"] = new ComponentInfo { Name = "Rating", Category = "Input", Description = "Star rating component with half-star support" },
             ["taginput"] = new ComponentInfo { Name = "TagInput", Category = "Input", Description = "Multi-tag input field with suggestions" },
+            ["richtexteditor"] = new ComponentInfo { Name = "RichTextEditor", Category = "Input", Description = "WYSIWYG rich text editor with formatting toolbar" },
+            ["mentions"] = new ComponentInfo { Name = "Mentions", Category = "Input", Description = "@mention and #hashtag input with autocomplete" },
+            ["transferlist"] = new ComponentInfo { Name = "TransferList", Category = "Input", Description = "Dual-list selector for moving items between lists" },
+            ["imagecropper"] = new ComponentInfo { Name = "ImageCropper", Category = "Input", Description = "Image cropping tool with zoom and rotation" },
 
             // Form Components
             ["form"] = new ComponentInfo { Name = "Form", Category = "Form", Description = "Building forms with validation" },
@@ -110,6 +114,8 @@ public class ComponentService
             ["separator"] = new ComponentInfo { Name = "Separator", Category = "Layout", Description = "Visually or semantically separates content" },
             ["resizable"] = new ComponentInfo { Name = "Resizable", Category = "Layout", Description = "Accessible resizable panel groups and layouts" },
             ["sheet"] = new ComponentInfo { Name = "Sheet", Category = "Layout", Description = "Extends the Dialog component to display content that complements the main content" },
+            ["masonrygrid"] = new ComponentInfo { Name = "MasonryGrid", Category = "Layout", Description = "Pinterest-style masonry grid layout for variable-height items" },
+            ["splitter"] = new ComponentInfo { Name = "Splitter", Category = "Layout", Description = "Resizable split pane divider with drag support" },
 
             // Navigation
             ["breadcrumb"] = new ComponentInfo { Name = "Breadcrumb", Category = "Navigation", Description = "Displays the path to the current resource using a hierarchy of links", Dependencies = new List<string> { "BreadcrumbItem" } },
@@ -140,6 +146,8 @@ public class ComponentService
             ["sonner"] = new ComponentInfo { Name = "Sonner", Category = "Feedback", Description = "Enhanced toast notifications with stacking and promise support" },
             ["emptystate"] = new ComponentInfo { Name = "EmptyState", Category = "Feedback", Description = "Placeholder for empty content areas" },
             ["spinner"] = new ComponentInfo { Name = "Spinner", Category = "Feedback", Description = "Loading indicator with customizable sizes" },
+            ["notificationcenter"] = new ComponentInfo { Name = "NotificationCenter", Category = "Feedback", Description = "Centralized notification hub with badge and dropdown panel" },
+            ["confetti"] = new ComponentInfo { Name = "Confetti", Category = "Feedback", Description = "Celebratory confetti animation with customizable particles" },
 
             // Date & Time
             ["calendar"] = new ComponentInfo { Name = "Calendar", Category = "DateTime", Description = "A date field component that allows users to enter and edit date" },
@@ -151,9 +159,12 @@ public class ComponentService
             ["scrollarea"] = new ComponentInfo { Name = "ScrollArea", Category = "Utility", Description = "Augments native scroll functionality for custom, cross-browser styling" },
             ["dropdownmenu"] = new ComponentInfo { Name = "DropdownMenu", Category = "Utility", Description = "Displays a menu to the user triggered by a button" },
             ["kbd"] = new ComponentInfo { Name = "Kbd", Category = "Utility", Description = "Keyboard shortcut display component" },
+            ["qrcode"] = new ComponentInfo { Name = "QRCode", Category = "Utility", Description = "QR code generator for URLs and text" },
 
             // Advanced Components
             ["treeview"] = new ComponentInfo { Name = "TreeView", Category = "Advanced", Description = "Hierarchical data display with expand/collapse" },
+            ["kanbanboard"] = new ComponentInfo { Name = "KanbanBoard", Category = "Advanced", Description = "Kanban board with draggable cards and columns" },
+            ["virtualscroll"] = new ComponentInfo { Name = "VirtualScroll", Category = "Advanced", Description = "Efficient rendering for large lists with virtual scrolling" },
 
             // Disclosure
             ["accordion"] = new ComponentInfo { Name = "Accordion", Category = "Disclosure", Description = "A vertically stacked set of interactive headings", Dependencies = new List<string> { "AccordionItem" } },
