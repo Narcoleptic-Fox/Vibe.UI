@@ -82,6 +82,10 @@ public class ComponentService
             ["togglegroupitem"] = new ComponentInfo { Name = "ToggleGroupItem", Category = "Input", Description = "An item within a toggle group" },
             ["colorpicker"] = new ComponentInfo { Name = "ColorPicker", Category = "Input", Description = "A color picker component for selecting colors" },
             ["multiselect"] = new ComponentInfo { Name = "MultiSelect", Category = "Input", Description = "Select multiple items from a dropdown" },
+            ["inputotp"] = new ComponentInfo { Name = "InputOTP", Category = "Input", Description = "One-time password input with auto-focus and keyboard navigation" },
+            ["fileupload"] = new ComponentInfo { Name = "FileUpload", Category = "Input", Description = "Drag-and-drop file upload with multiple file support" },
+            ["rating"] = new ComponentInfo { Name = "Rating", Category = "Input", Description = "Star rating component with half-star support" },
+            ["taginput"] = new ComponentInfo { Name = "TagInput", Category = "Input", Description = "Multi-tag input field with suggestions" },
 
             // Form Components
             ["form"] = new ComponentInfo { Name = "Form", Category = "Form", Description = "Building forms with validation" },
@@ -98,6 +102,7 @@ public class ComponentService
             ["progress"] = new ComponentInfo { Name = "Progress", Category = "DataDisplay", Description = "Displays an indicator showing the completion progress of a task" },
             ["table"] = new ComponentInfo { Name = "Table", Category = "DataDisplay", Description = "A responsive table component" },
             ["chart"] = new ComponentInfo { Name = "Chart", Category = "DataDisplay", Description = "Data visualization charts" },
+            ["timeline"] = new ComponentInfo { Name = "Timeline", Category = "DataDisplay", Description = "Event timeline with status indicators and timestamps" },
 
             // Layout
             ["aspectratio"] = new ComponentInfo { Name = "AspectRatio", Category = "Layout", Description = "Displays content within a desired aspect ratio" },
@@ -110,6 +115,7 @@ public class ComponentService
             ["breadcrumb"] = new ComponentInfo { Name = "Breadcrumb", Category = "Navigation", Description = "Displays the path to the current resource using a hierarchy of links", Dependencies = new List<string> { "BreadcrumbItem" } },
             ["breadcrumbitem"] = new ComponentInfo { Name = "BreadcrumbItem", Category = "Navigation", Description = "An item within a breadcrumb" },
             ["menubar"] = new ComponentInfo { Name = "Menubar", Category = "Navigation", Description = "A visually persistent menu common in desktop applications" },
+            ["sidebar"] = new ComponentInfo { Name = "Sidebar", Category = "Navigation", Description = "Collapsible sidebar with resize support" },
             ["navigationmenu"] = new ComponentInfo { Name = "NavigationMenu", Category = "Navigation", Description = "A collection of links for navigating websites", Dependencies = new List<string> { "NavigationMenuItem" } },
             ["navigationmenuitem"] = new ComponentInfo { Name = "NavigationMenuItem", Category = "Navigation", Description = "An item within a navigation menu" },
             ["pagination"] = new ComponentInfo { Name = "Pagination", Category = "Navigation", Description = "Pagination with page navigation, next and previous links" },
@@ -131,6 +137,9 @@ public class ComponentService
             ["skeleton"] = new ComponentInfo { Name = "Skeleton", Category = "Feedback", Description = "Use to show a placeholder while content is loading" },
             ["toast"] = new ComponentInfo { Name = "Toast", Category = "Feedback", Description = "A succinct message that is displayed temporarily", Dependencies = new List<string> { "ToastContainer" } },
             ["toastcontainer"] = new ComponentInfo { Name = "ToastContainer", Category = "Feedback", Description = "Container for toast notifications" },
+            ["sonner"] = new ComponentInfo { Name = "Sonner", Category = "Feedback", Description = "Enhanced toast notifications with stacking and promise support" },
+            ["emptystate"] = new ComponentInfo { Name = "EmptyState", Category = "Feedback", Description = "Placeholder for empty content areas" },
+            ["spinner"] = new ComponentInfo { Name = "Spinner", Category = "Feedback", Description = "Loading indicator with customizable sizes" },
 
             // Date & Time
             ["calendar"] = new ComponentInfo { Name = "Calendar", Category = "DateTime", Description = "A date field component that allows users to enter and edit date" },
@@ -141,6 +150,10 @@ public class ComponentService
             ["command"] = new ComponentInfo { Name = "Command", Category = "Utility", Description = "Fast, composable, unstyled command menu" },
             ["scrollarea"] = new ComponentInfo { Name = "ScrollArea", Category = "Utility", Description = "Augments native scroll functionality for custom, cross-browser styling" },
             ["dropdownmenu"] = new ComponentInfo { Name = "DropdownMenu", Category = "Utility", Description = "Displays a menu to the user triggered by a button" },
+            ["kbd"] = new ComponentInfo { Name = "Kbd", Category = "Utility", Description = "Keyboard shortcut display component" },
+
+            // Advanced Components
+            ["treeview"] = new ComponentInfo { Name = "TreeView", Category = "Advanced", Description = "Hierarchical data display with expand/collapse" },
 
             // Disclosure
             ["accordion"] = new ComponentInfo { Name = "Accordion", Category = "Disclosure", Description = "A vertically stacked set of interactive headings", Dependencies = new List<string> { "AccordionItem" } },
