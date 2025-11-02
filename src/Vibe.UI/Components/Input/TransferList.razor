@@ -162,13 +162,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-transfer",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string GetItemKey(TItem item)
     {

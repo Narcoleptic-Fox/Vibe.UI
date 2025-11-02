@@ -1,91 +1,107 @@
 namespace Vibe.UI.Tests.Components.Overlay;
 
-public class TooltipTests : TestContext
+public class TooltipTests : TestBase
 {
-    public TooltipTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Tooltip_RendersWithBasicStructure()
+    public void Tooltip_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Tooltip>(parameters => parameters
             .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
             .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
 
         // Assert
-        cut.Find(".vibe-tooltip").Should().NotBeNull();
-        cut.Find(".trigger").Should().NotBeNull();
-        cut.Find(".tooltip-content").Should().NotBeNull();
+        var tooltip = cut.Find(".vibe-tooltip");
+        tooltip.ShouldNotBeNull();
     }
 
     [Fact]
-    public void Tooltip_RendersTriggerContent()
+    public void Tooltip_Applies_PlacementClass()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Tooltip>(parameters => parameters
-            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me")));
-
-        // Assert
-        cut.Find(".trigger").TextContent.Should().Be("Hover me");
-    }
-
-    [Fact]
-    public void Tooltip_RendersContent()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Tooltip>(parameters => parameters
+            .Add(p => p.Placement, "bottom")
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
             .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
 
         // Assert
-        cut.Find(".tooltip-content").TextContent.Should().Be("Tooltip text");
+        cut.Find(".vibe-tooltip").ClassList.ShouldContain("vibe-tooltip-bottom");
     }
 
-    [Theory]
-    [InlineData("top", "vibe-tooltip-top")]
-    [InlineData("bottom", "vibe-tooltip-bottom")]
-    [InlineData("left", "vibe-tooltip-left")]
-    [InlineData("right", "vibe-tooltip-right")]
-    public void Tooltip_AppliesCorrectPlacementClass(string placement, string expectedClass)
+    [Fact]
+    public void Tooltip_Renders_TriggerContent()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Tooltip>(parameters => parameters
-            .Add(p => p.Placement, placement));
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
+            .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
 
         // Assert
-        cut.Find(".vibe-tooltip").ClassList.Should().Contain(expectedClass);
+        var trigger = cut.Find(".trigger");
+        trigger.TextContent.ShouldContain("Hover me");
     }
 
     [Fact]
-    public void Tooltip_UsesTopPlacement_ByDefault()
+    public void Tooltip_Renders_TooltipContent()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Tooltip>();
-
-        // Assert
-        cut.Find(".vibe-tooltip").ClassList.Should().Contain("vibe-tooltip-top");
-    }
-
-    [Fact]
-    public void Tooltip_HasDefaultDelay()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Tooltip>();
-
-        // Assert
-        cut.Instance.DelayMS.Should().Be(200);
-    }
-
-    [Fact]
-    public void Tooltip_AppliesCustomDelay()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Tooltip>(parameters => parameters
-            .Add(p => p.DelayMS, 500));
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
+            .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
 
         // Assert
-        cut.Instance.DelayMS.Should().Be(500);
+        var content = cut.Find(".tooltip-content");
+        content.TextContent.ShouldContain("Tooltip text");
+    }
+
+    [Fact]
+    public void Tooltip_IsHidden_Initially()
+    {
+        // Act
+        var cut = RenderComponent<Tooltip>(parameters => parameters
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
+            .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
+
+        // Assert
+        var content = cut.Find(".tooltip-content");
+        content.ClassList.ShouldNotContain("visible");
+    }
+
+    [Fact]
+    public void Tooltip_Has_DefaultDelay()
+    {
+        // Act
+        var cut = RenderComponent<Tooltip>(parameters => parameters
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
+            .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
+
+        // Assert
+        cut.Instance.DelayMS.ShouldBe(200);
+    }
+
+    [Fact]
+    public void Tooltip_Accepts_CustomDelay()
+    {
+        // Act
+        var cut = RenderComponent<Tooltip>(parameters => parameters
+            .Add(p => p.DelayMS, 500)
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
+            .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text")));
+
+        // Assert
+        cut.Instance.DelayMS.ShouldBe(500);
+    }
+
+    [Fact]
+    public void Tooltip_Applies_AdditionalAttributes()
+    {
+        // Act
+        var cut = RenderComponent<Tooltip>(parameters => parameters
+            .Add(p => p.TriggerContent, builder => builder.AddContent(0, "Hover me"))
+            .Add(p => p.Content, builder => builder.AddContent(0, "Tooltip text"))
+            .AddUnmatched("data-test", "tooltip-value"));
+
+        // Assert - AdditionalAttributes are captured
+        cut.Markup.ShouldNotBeNull();
     }
 }

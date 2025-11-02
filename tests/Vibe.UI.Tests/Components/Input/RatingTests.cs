@@ -1,248 +1,456 @@
 namespace Vibe.UI.Tests.Components.Input;
 
-public class RatingTests : TestContext
+public class RatingTests : TestBase
 {
-    public RatingTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Rating_RendersWithBasicStructure()
+    public void Rating_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>();
 
         // Assert
-        cut.Find(".vibe-rating").Should().NotBeNull();
-        cut.Find("[role='radiogroup']").Should().NotBeNull();
+        var rating = cut.Find(".vibe-rating");
+        rating.ShouldNotBeNull();
+        rating.GetAttribute("role").ShouldBe("radiogroup");
     }
 
     [Fact]
-    public void Rating_Renders5Stars_ByDefault()
+    public void Rating_Renders_DefaultFiveStars()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>();
 
         // Assert
-        cut.FindAll(".rating-star").Should().HaveCount(5);
+        var stars = cut.FindAll(".rating-star");
+        stars.Count.ShouldBe(5);
     }
 
     [Fact]
-    public void Rating_RendersCustomMaxRating()
+    public void Rating_Renders_CustomMaxRating()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>(parameters => parameters
             .Add(p => p.MaxRating, 10));
 
         // Assert
-        cut.FindAll(".rating-star").Should().HaveCount(10);
+        var stars = cut.FindAll(".rating-star");
+        stars.Count.ShouldBe(10);
     }
 
     [Fact]
-    public void Rating_DisplaysEmptyStars_WhenValueIsZero()
+    public void Rating_Displays_CurrentValue()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Value, 0));
-
-        // Assert
-        var stars = cut.FindAll(".star-filled");
-        stars.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void Rating_DisplaysFilledStars_WhenValueIsSet()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Value, 3));
-
-        // Assert
-        var stars = cut.FindAll(".star-filled");
-        stars.Should().HaveCount(3);
-    }
-
-    [Fact]
-    public void Rating_UpdatesValue_OnStarClick()
-    {
-        // Arrange
-        double changedValue = 0;
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Value, 0)
-            .Add(p => p.ValueChanged, EventCallback.Factory.Create<double>(this, value => changedValue = value)));
-
         // Act
-        cut.FindAll(".rating-star")[2].Click();
-
-        // Assert
-        changedValue.Should().Be(3);
-    }
-
-    [Fact]
-    public void Rating_DoesNotUpdateValue_WhenReadOnly()
-    {
-        // Arrange
-        double changedValue = 0;
         var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Value, 0)
-            .Add(p => p.ReadOnly, true)
-            .Add(p => p.ValueChanged, EventCallback.Factory.Create<double>(this, value => changedValue = value)));
-
-        // Act
-        cut.FindAll(".rating-star")[2].Click();
+            .Add(p => p.Value, 3)
+            .Add(p => p.MaxRating, 5));
 
         // Assert
-        changedValue.Should().Be(0);
-        cut.Instance.Value.Should().Be(0);
-    }
-
-    [Fact]
-    public void Rating_DoesNotUpdateValue_WhenDisabled()
-    {
-        // Arrange
-        double changedValue = 0;
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Value, 0)
-            .Add(p => p.Disabled, true)
-            .Add(p => p.ValueChanged, EventCallback.Factory.Create<double>(this, value => changedValue = value)));
-
-        // Act
-        cut.FindAll(".rating-star")[2].Click();
-
-        // Assert
-        changedValue.Should().Be(0);
-    }
-
-    [Fact]
-    public void Rating_AppliesReadOnlyClass_WhenReadOnly()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.ReadOnly, true));
-
-        // Assert
-        cut.Find(".vibe-rating").ClassList.Should().Contain("rating-readonly");
-    }
-
-    [Fact]
-    public void Rating_AppliesDisabledClass_WhenDisabled()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Disabled, true));
-
-        // Assert
-        cut.Find(".vibe-rating").ClassList.Should().Contain("rating-disabled");
-    }
-
-    [Fact]
-    public void Rating_DisablesStarButtons_WhenDisabled()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Disabled, true));
-
-        // Assert
-        var buttons = cut.FindAll(".rating-star");
-        buttons.Should().AllSatisfy(button => button.HasAttribute("disabled").Should().BeTrue());
-    }
-
-    [Fact]
-    public void Rating_DisablesStarButtons_WhenReadOnly()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.ReadOnly, true));
-
-        // Assert
-        var buttons = cut.FindAll(".rating-star");
-        buttons.Should().AllSatisfy(button => button.HasAttribute("disabled").Should().BeTrue());
+        var filledStars = cut.FindAll(".star-filled");
+        filledStars.Count.ShouldBe(3);
     }
 
     [Fact]
     public void Rating_ShowsValue_WhenShowValueIsTrue()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Value, 3.5)
+            .Add(p => p.Value, 4.5)
+            .Add(p => p.MaxRating, 5)
             .Add(p => p.ShowValue, true));
 
         // Assert
         var valueDisplay = cut.Find(".rating-value");
-        valueDisplay.Should().NotBeNull();
-        valueDisplay.TextContent.Should().Contain("3.5");
+        valueDisplay.TextContent.ShouldContain("4.5");
+        valueDisplay.TextContent.ShouldContain("5");
     }
 
     [Fact]
     public void Rating_HidesValue_WhenShowValueIsFalse()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 3)
             .Add(p => p.ShowValue, false));
 
         // Assert
-        cut.FindAll(".rating-value").Should().BeEmpty();
-    }
-
-    [Theory]
-    [InlineData(RatingSize.Small, "rating-small")]
-    [InlineData(RatingSize.Default, "rating-default")]
-    [InlineData(RatingSize.Large, "rating-large")]
-    public void Rating_AppliesCorrectSizeClass(RatingSize size, string expectedClass)
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.Size, size));
-
-        // Assert
-        cut.Find(".vibe-rating").ClassList.Should().Contain(expectedClass);
+        cut.FindAll(".rating-value").ShouldBeEmpty();
     }
 
     [Fact]
-    public void Rating_AppliesAriaLabel()
+    public void Rating_Applies_SizeClass()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.AriaLabel, "Product rating"));
+            .Add(p => p.Size, Rating.RatingSize.Large));
 
         // Assert
-        cut.Find("[role='radiogroup']").GetAttribute("aria-label").Should().Be("Product rating");
+        cut.Find(".vibe-rating").ClassList.ShouldContain("rating-large");
     }
 
     [Fact]
-    public void Rating_AppliesCustomCssClass()
+    public void Rating_Applies_DisabledState()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Rating>(parameters => parameters
-            .Add(p => p.CssClass, "custom-rating"));
+            .Add(p => p.Disabled, true));
 
         // Assert
-        cut.Find(".vibe-rating").ClassList.Should().Contain("custom-rating");
+        cut.Find(".vibe-rating").ClassList.ShouldContain("rating-disabled");
+        var stars = cut.FindAll(".rating-star");
+        foreach (var star in stars)
+        {
+            star.HasAttribute("disabled").ShouldBeTrue();
+        }
     }
 
     [Fact]
-    public void Rating_SupportsHalfRatings_WhenAllowHalfIsTrue()
+    public void Rating_Applies_ReadOnlyState()
     {
-        // Arrange & Act
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.ReadOnly, true));
+
+        // Assert
+        cut.Find(".vibe-rating").ClassList.ShouldContain("rating-readonly");
+        var stars = cut.FindAll(".rating-star");
+        foreach (var star in stars)
+        {
+            star.HasAttribute("disabled").ShouldBeTrue();
+        }
+    }
+
+    [Fact]
+    public void Rating_InvokesValueChanged_WhenStarClicked()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 0)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        var stars = cut.FindAll(".rating-star");
+        stars[2].Click(); // Click the 3rd star
+
+        // Assert
+        newValue.ShouldBe(3);
+    }
+
+    [Fact]
+    public void Rating_SupportsHalfStars_WhenAllowHalfIsTrue()
+    {
+        // Act
         var cut = RenderComponent<Rating>(parameters => parameters
             .Add(p => p.Value, 2.5)
             .Add(p => p.AllowHalf, true));
 
         // Assert
-        cut.FindAll(".star-half").Should().NotBeEmpty();
+        var halfStars = cut.FindAll(".star-half");
+        halfStars.ShouldNotBeEmpty();
     }
 
     [Fact]
-    public void Rating_AppliesAriaLabels_ToStars()
+    public void Rating_HasAccessibilityLabel()
     {
-        // Arrange & Act
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.AriaLabel, "Product Rating"));
+
+        // Assert
+        var rating = cut.Find(".vibe-rating");
+        rating.GetAttribute("aria-label").ShouldBe("Product Rating");
+    }
+
+    [Fact]
+    public void Rating_DoesNotInvokeCallback_WhenDisabled()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Disabled, true)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        var stars = cut.FindAll(".rating-star");
+        stars[2].Click();
+
+        // Assert
+        newValue.ShouldBe(0);
+    }
+
+    [Fact]
+    public void Rating_Value0_AllStarsEmpty()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 0));
+
+        // Assert
+        var filledStars = cut.FindAll(".star-filled");
+        filledStars.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Rating_ValueEqualToMax_AllStarsFilled()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 5)
+            .Add(p => p.MaxRating, 5));
+
+        // Assert
+        var filledStars = cut.FindAll(".star-filled");
+        filledStars.Count.ShouldBe(5);
+    }
+
+    [Fact]
+    public void Rating_NegativeValue_ShowsEmpty()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, -1));
+
+        // Assert
+        var filledStars = cut.FindAll(".star-filled");
+        filledStars.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Rating_ValueAboveMax_ShowsAllFilled()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 10)
+            .Add(p => p.MaxRating, 5));
+
+        // Assert
+        var filledStars = cut.FindAll(".star-filled");
+        filledStars.Count.ShouldBe(5);
+    }
+
+    [Fact]
+    public void Rating_HalfRating_RendersHalfStar()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 2.5)
+            .Add(p => p.AllowHalf, true));
+
+        // Assert
+        var halfStars = cut.FindAll(".star-half");
+        halfStars.Count.ShouldBe(1);
+        var filledStars = cut.FindAll(".star-filled");
+        filledStars.Count.ShouldBe(2);
+    }
+
+    [Fact]
+    public void Rating_AllowHalf_ClickSameRating_GivesHalf()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 3)
+            .Add(p => p.AllowHalf, true)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act - Click the 3rd star when value is already 3
+        var stars = cut.FindAll(".rating-star");
+        stars[2].Click();
+
+        // Assert - Should give half rating (2.5)
+        newValue.ShouldBe(2.5);
+    }
+
+    [Fact]
+    public void Rating_AllowHalf_False_NoHalfStars()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 2.5)
+            .Add(p => p.AllowHalf, false));
+
+        // Assert
+        var halfStars = cut.FindAll(".star-half");
+        halfStars.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Rating_ReadOnly_ClickDoesNothing()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 2)
+            .Add(p => p.ReadOnly, true)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        var stars = cut.FindAll(".rating-star");
+        stars[3].Click();
+
+        // Assert
+        newValue.ShouldBe(0);
+    }
+
+    [Fact]
+    public void Rating_CustomMaxRating10_Renders10Stars()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.MaxRating, 10));
+
+        // Assert
+        var stars = cut.FindAll(".rating-star");
+        stars.Count.ShouldBe(10);
+    }
+
+    [Fact]
+    public void Rating_CustomMaxRating1_RendersSingleStar()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.MaxRating, 1));
+
+        // Assert
+        var stars = cut.FindAll(".rating-star");
+        stars.Count.ShouldBe(1);
+    }
+
+    [Fact]
+    public void Rating_ShowValue_DisplaysCurrentAndMax()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Value, 3.5)
+            .Add(p => p.MaxRating, 10)
+            .Add(p => p.ShowValue, true));
+
+        // Assert
+        var valueDisplay = cut.Find(".rating-value");
+        valueDisplay.TextContent.ShouldContain("3.5");
+        valueDisplay.TextContent.ShouldContain("10");
+    }
+
+    [Fact]
+    public void Rating_SizeSmall_HasSmallClass()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Size, Rating.RatingSize.Small));
+
+        // Assert
+        cut.Find(".vibe-rating").ClassList.ShouldContain("rating-small");
+    }
+
+    [Fact]
+    public void Rating_SizeLarge_HasLargeClass()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Size, Rating.RatingSize.Large));
+
+        // Assert
+        cut.Find(".vibe-rating").ClassList.ShouldContain("rating-large");
+    }
+
+    [Fact]
+    public void Rating_SizeDefault_HasDefaultClass()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.Size, Rating.RatingSize.Default));
+
+        // Assert
+        cut.Find(".vibe-rating").ClassList.ShouldContain("rating-default");
+    }
+
+    [Fact]
+    public void Rating_DefaultAriaLabel_IsRating()
+    {
+        // Act
+        var cut = RenderComponent<Rating>();
+
+        // Assert
+        var rating = cut.Find(".vibe-rating");
+        rating.GetAttribute("aria-label").ShouldBe("Rating");
+    }
+
+    [Fact]
+    public void Rating_StarButtons_HaveAriaLabels()
+    {
+        // Act
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.MaxRating, 3));
+
+        // Assert
+        var stars = cut.FindAll(".rating-star");
+        stars[0].GetAttribute("aria-label").ShouldBe("1 star");
+        stars[1].GetAttribute("aria-label").ShouldBe("2 stars");
+        stars[2].GetAttribute("aria-label").ShouldBe("3 stars");
+    }
+
+    [Fact]
+    public void Rating_ClickFirstStar_SetsValue1()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        var stars = cut.FindAll(".rating-star");
+        stars[0].Click();
+
+        // Assert
+        newValue.ShouldBe(1);
+    }
+
+    [Fact]
+    public void Rating_ClickLastStar_SetsMaxValue()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.MaxRating, 7)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        var stars = cut.FindAll(".rating-star");
+        stars[6].Click();
+
+        // Assert
+        newValue.ShouldBe(7);
+    }
+
+    [Fact]
+    public void Rating_DoesNotInvokeCallback_WhenReadOnly()
+    {
+        // Arrange
+        double newValue = 0;
+        var cut = RenderComponent<Rating>(parameters => parameters
+            .Add(p => p.ReadOnly, true)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        var stars = cut.FindAll(".rating-star");
+        stars[2].Click();
+
+        // Assert
+        newValue.ShouldBe(0);
+    }
+
+    [Fact]
+    public void Rating_AllStarsHaveButtonType()
+    {
+        // Act
         var cut = RenderComponent<Rating>();
 
         // Assert
         var stars = cut.FindAll(".rating-star");
-        stars[0].GetAttribute("aria-label").Should().Be("1 star");
-        stars[1].GetAttribute("aria-label").Should().Be("2 stars");
-        stars[4].GetAttribute("aria-label").Should().Be("5 stars");
+        foreach (var star in stars)
+        {
+            star.GetAttribute("type").ShouldBe("button");
+        }
     }
 }

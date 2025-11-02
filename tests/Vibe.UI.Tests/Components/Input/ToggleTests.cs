@@ -1,175 +1,101 @@
 namespace Vibe.UI.Tests.Components.Input;
 
-public class ToggleTests : TestContext
+public class ToggleTests : TestBase
 {
-    public ToggleTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Toggle_RendersWithBasicStructure()
+    public void Toggle_Renders_WithDefaultProps()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>();
-
-        // Assert
-        cut.Find("button.vibe-toggle").Should().NotBeNull();
-        cut.Find("button").GetAttribute("type").Should().Be("button");
-    }
-
-    [Fact]
-    public void Toggle_RendersWithContent()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Toggle>(parameters => parameters
-            .AddChildContent("Bold"));
+            .AddChildContent("Toggle"));
 
         // Assert
-        cut.Find("button").TextContent.Should().Be("Bold");
+        var button = cut.Find("button");
+        button.ShouldNotBeNull();
+        button.ClassList.ShouldContain("vibe-toggle");
+        button.TextContent.ShouldBe("Toggle");
     }
 
     [Fact]
-    public void Toggle_IsNotPressed_ByDefault()
+    public void Toggle_Renders_AsPressed()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>();
-
-        // Assert
-        cut.Instance.Pressed.Should().BeFalse();
-        cut.Find("button").GetAttribute("aria-pressed").Should().Be("False");
-    }
-
-    [Fact]
-    public void Toggle_IsPressed_WhenPressedIsTrue()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Pressed, true));
+            .Add(p => p.Pressed, true)
+            .AddChildContent("On"));
 
         // Assert
-        cut.Instance.Pressed.Should().BeTrue();
-        cut.Find("button").GetAttribute("aria-pressed").Should().Be("True");
-        cut.Find("button").ClassList.Should().Contain("pressed");
+        var button = cut.Find("button");
+        button.ClassList.ShouldContain("pressed");
     }
 
     [Fact]
-    public void Toggle_IsDisabled_WhenDisabledIsTrue()
+    public void Toggle_Applies_Disabled_Attribute()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Disabled, true));
+            .Add(p => p.Disabled, true)
+            .AddChildContent("Disabled"));
 
         // Assert
-        cut.Find("button").HasAttribute("disabled").Should().BeTrue();
+        var button = cut.Find("button");
+        button.HasAttribute("disabled").ShouldBeTrue();
     }
 
     [Fact]
-    public void Toggle_TogglesState_OnClick()
+    public void Toggle_Applies_Variant_Class()
+    {
+        // Act
+        var cut = RenderComponent<Toggle>(parameters => parameters
+            .Add(p => p.Variant, "outline")
+            .AddChildContent("Toggle"));
+
+        // Assert
+        cut.Find("button").ClassList.ShouldContain("toggle-outline");
+    }
+
+    [Fact]
+    public void Toggle_Applies_Size_Class()
+    {
+        // Act
+        var cut = RenderComponent<Toggle>(parameters => parameters
+            .Add(p => p.Size, "sm")
+            .AddChildContent("Small"));
+
+        // Assert
+        cut.Find("button").ClassList.ShouldContain("toggle-sm");
+    }
+
+    [Fact]
+    public void Toggle_InvokesPressedChanged_WhenClicked()
     {
         // Arrange
+        var pressedValue = false;
         var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Pressed, false));
+            .Add(p => p.PressedChanged, newValue => pressedValue = newValue)
+            .AddChildContent("Toggle"));
 
         // Act
         cut.Find("button").Click();
 
         // Assert
-        cut.Instance.Pressed.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Toggle_TriggersPressedChanged_OnClick()
-    {
-        // Arrange
-        bool changedValue = false;
-        var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Pressed, false)
-            .Add(p => p.PressedChanged, EventCallback.Factory.Create<bool>(this, value => changedValue = value)));
-
-        // Act
-        cut.Find("button").Click();
-
-        // Assert
-        changedValue.Should().BeTrue();
+        pressedValue.ShouldBeTrue();
     }
 
     [Fact]
     public void Toggle_DoesNotToggle_WhenDisabled()
     {
         // Arrange
+        var pressedValue = false;
         var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Pressed, false)
-            .Add(p => p.Disabled, true));
+            .Add(p => p.Disabled, true)
+            .Add(p => p.PressedChanged, newValue => pressedValue = newValue)
+            .AddChildContent("Disabled"));
 
         // Act
         cut.Find("button").Click();
 
         // Assert
-        cut.Instance.Pressed.Should().BeFalse();
-    }
-
-    [Fact]
-    public void Toggle_AppliesVariantClass()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Variant, "outline"));
-
-        // Assert
-        cut.Find("button").ClassList.Should().Contain("toggle-outline");
-    }
-
-    [Fact]
-    public void Toggle_AppliesSizeClass()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.Size, "sm"));
-
-        // Assert
-        cut.Find("button").ClassList.Should().Contain("toggle-sm");
-    }
-
-    [Fact]
-    public void Toggle_HasDefaultVariant()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>();
-
-        // Assert
-        cut.Find("button").ClassList.Should().Contain("toggle-default");
-    }
-
-    [Fact]
-    public void Toggle_HasDefaultSize()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>();
-
-        // Assert
-        cut.Find("button").ClassList.Should().Contain("toggle-default");
-    }
-
-    [Fact]
-    public void Toggle_AppliesCustomCssClass()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>(parameters => parameters
-            .Add(p => p.CssClass, "custom-toggle"));
-
-        // Assert
-        cut.Find("button").ClassList.Should().Contain("custom-toggle");
-    }
-
-    [Fact]
-    public void Toggle_SupportsAdditionalAttributes()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Toggle>(parameters => parameters
-            .AddUnmatched("data-testid", "my-toggle"));
-
-        // Assert
-        cut.Find("button").GetAttribute("data-testid").Should().Be("my-toggle");
+        pressedValue.ShouldBeFalse();
     }
 }

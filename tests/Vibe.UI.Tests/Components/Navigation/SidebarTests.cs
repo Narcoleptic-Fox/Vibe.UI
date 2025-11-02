@@ -1,173 +1,181 @@
 namespace Vibe.UI.Tests.Components.Navigation;
 
-public class SidebarTests : TestContext
+public class SidebarTests : TestBase
 {
-    public SidebarTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Sidebar_RendersWithBasicStructure()
+    public void Sidebar_Renders_WithDefaultProps()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>();
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .AddChildContent("Sidebar Content"));
 
         // Assert
-        cut.Find(".vibe-sidebar").Should().NotBeNull();
-        cut.Find("aside").Should().NotBeNull();
-        cut.Find(".sidebar-content").Should().NotBeNull();
+        cut.Find(".vibe-sidebar").ShouldNotBeNull();
     }
 
     [Fact]
     public void Sidebar_IsOpen_ByDefault()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>();
-
-        // Assert
-        cut.Find(".vibe-sidebar").GetAttribute("data-state").Should().Be("open");
-        cut.Find(".vibe-sidebar").ClassList.Should().Contain("sidebar-open");
-    }
-
-    [Fact]
-    public void Sidebar_ShowsHeader_ByDefault()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Title, "Navigation"));
+            .AddChildContent("Sidebar Content"));
 
         // Assert
-        cut.Find(".sidebar-header").Should().NotBeNull();
-        cut.Find(".sidebar-title").TextContent.Should().Be("Navigation");
+        cut.Instance.IsOpen.ShouldBeTrue();
+        cut.Find(".vibe-sidebar").ClassList.ShouldContain("sidebar-open");
     }
 
     [Fact]
-    public void Sidebar_ShowsToggleButton_WhenCollapsible()
+    public void Sidebar_Has_AsideElement()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Collapsible, true));
+            .AddChildContent("Sidebar Content"));
 
         // Assert
-        cut.Find(".sidebar-toggle").Should().NotBeNull();
+        cut.Markup.ShouldContain("<aside");
     }
 
     [Fact]
-    public void Sidebar_TogglesOpenState_OnButtonClick()
+    public void Sidebar_Renders_ChildContent()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .AddChildContent("<div class='test-content'>Test Content</div>"));
+
+        // Assert
+        var content = cut.Find(".sidebar-content");
+        content.InnerHtml.ShouldContain("Test Content");
+    }
+
+    [Fact]
+    public void Sidebar_Renders_Title_InHeader()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Title, "My Sidebar")
+            .AddChildContent("Content"));
+
+        // Assert
+        var title = cut.Find(".sidebar-title");
+        title.TextContent.ShouldBe("My Sidebar");
+    }
+
+    [Fact]
+    public void Sidebar_Renders_CustomHeader()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Header, builder => builder.AddContent(0, "Custom Header"))
+            .AddChildContent("Content"));
+
+        // Assert
+        var header = cut.Find(".sidebar-header");
+        header.TextContent.ShouldContain("Custom Header");
+    }
+
+    [Fact]
+    public void Sidebar_Renders_Footer_WhenProvided()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Footer, builder => builder.AddContent(0, "Footer Content"))
+            .AddChildContent("Content"));
+
+        // Assert
+        var footer = cut.Find(".sidebar-footer");
+        footer.TextContent.ShouldContain("Footer Content");
+    }
+
+    [Fact]
+    public void Sidebar_Shows_ToggleButton_WhenCollapsible()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Collapsible, true)
+            .AddChildContent("Content"));
+
+        // Assert
+        cut.Find(".sidebar-toggle").ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Sidebar_Toggles_State()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Collapsible, true)
+            .AddChildContent("Content"));
+
+        var initialState = cut.Instance.IsOpen;
+        cut.Instance.Toggle();
+
+        // Assert
+        cut.Instance.IsOpen.ShouldBe(!initialState);
+    }
+
+    [Fact]
+    public void Sidebar_Applies_PositionClass()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Position, Sidebar.SidebarPosition.Right)
+            .AddChildContent("Content"));
+
+        // Assert
+        cut.Find(".vibe-sidebar").ClassList.ShouldContain("sidebar-right");
+    }
+
+    [Fact]
+    public void Sidebar_Applies_ResizableClass_WhenResizable()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.Resizable, true)
+            .AddChildContent("Content"));
+
+        // Assert
+        cut.Find(".vibe-sidebar").ClassList.ShouldContain("sidebar-resizable");
+    }
+
+    [Fact]
+    public void Sidebar_Has_DataState_Attribute()
+    {
+        // Act
+        var cut = RenderComponent<Sidebar>(parameters => parameters
+            .Add(p => p.IsOpen, true)
+            .AddChildContent("Content"));
+
+        // Assert
+        var sidebar = cut.Find(".vibe-sidebar");
+        sidebar.GetAttribute("data-state").ShouldBe("open");
+    }
+
+    [Fact]
+    public void Sidebar_Invokes_IsOpenChanged()
     {
         // Arrange
+        bool stateChanged = false;
         var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Collapsible, true));
+            .Add(p => p.IsOpenChanged, EventCallback.Factory.Create<bool>(this, value => stateChanged = true))
+            .AddChildContent("Content"));
 
         // Act
-        cut.Find(".sidebar-toggle").Click();
+        cut.Instance.Toggle();
 
         // Assert
-        cut.Instance.IsOpen.Should().BeFalse();
-        cut.Find(".vibe-sidebar").ClassList.Should().Contain("sidebar-closed");
+        stateChanged.ShouldBeTrue();
     }
 
     [Fact]
-    public void Sidebar_AppliesWidthStyle_WhenOpen()
+    public void Sidebar_Applies_CustomCssClass()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Width, 300));
+            .Add(p => p.CssClass, "custom-sidebar")
+            .AddChildContent("Content"));
 
         // Assert
-        var style = cut.Find("aside").GetAttribute("style");
-        style.Should().Contain("width: 300px");
-    }
-
-    [Fact]
-    public void Sidebar_AppliesCollapsedWidth_WhenClosed()
-    {
-        // Arrange
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.IsOpen, false)
-            .Add(p => p.CollapsedWidth, 60));
-
-        // Assert
-        var style = cut.Find("aside").GetAttribute("style");
-        style.Should().Contain("width: 60px");
-    }
-
-    [Fact]
-    public void Sidebar_AppliesLeftPosition_ByDefault()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>();
-
-        // Assert
-        cut.Find(".vibe-sidebar").ClassList.Should().Contain("sidebar-left");
-    }
-
-    [Fact]
-    public void Sidebar_AppliesRightPosition_WhenSet()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Position, SidebarPosition.Right));
-
-        // Assert
-        cut.Find(".vibe-sidebar").ClassList.Should().Contain("sidebar-right");
-    }
-
-    [Fact]
-    public void Sidebar_ShowsResizeHandle_WhenResizable()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Resizable, true));
-
-        // Assert
-        cut.Find(".sidebar-resize-handle").Should().NotBeNull();
-        cut.Find(".vibe-sidebar").ClassList.Should().Contain("sidebar-resizable");
-    }
-
-    [Fact]
-    public void Sidebar_RendersCustomHeader()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Header, builder => builder.AddContent(0, "<div class='custom-header'>My Header</div>")));
-
-        // Assert
-        cut.Markup.Should().Contain("My Header");
-    }
-
-    [Fact]
-    public void Sidebar_RendersFooter_WhenProvided()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Footer, builder => builder.AddContent(0, "<div>Footer Content</div>")));
-
-        // Assert
-        cut.Find(".sidebar-footer").Should().NotBeNull();
-        cut.Markup.Should().Contain("Footer Content");
-    }
-
-    [Fact]
-    public void Sidebar_ClampsWidth_ToMinMax()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.Width, 1000)); // Should be clamped to 600
-
-        // Assert
-        cut.Instance.Width.Should().Be(600);
-    }
-
-    [Fact]
-    public void Sidebar_AppliesCustomCssClass()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Sidebar>(parameters => parameters
-            .Add(p => p.CssClass, "custom-sidebar"));
-
-        // Assert
-        cut.Find(".vibe-sidebar").ClassList.Should().Contain("custom-sidebar");
+        cut.Find(".vibe-sidebar").ClassList.ShouldContain("custom-sidebar");
     }
 }

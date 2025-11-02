@@ -22,19 +22,19 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-spinner",
         $"spinner-{Size.ToString().ToLower()}",
         CssClass
     );
-}
 
-public enum SpinnerSize
-{
-    Small,
-    Default,
-    Large
+    protected override string ComponentClass => CombinedCssClass;
+
+    public enum SpinnerSize
+    {
+        Small,
+        Default,
+        Medium,
+        Large
+    }
 }

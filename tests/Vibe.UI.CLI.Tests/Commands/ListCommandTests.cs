@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Spectre.Console.Cli;
 using Vibe.UI.CLI.Commands;
+using Vibe.UI.CLI.Tests.Helpers;
 using Xunit;
 
 namespace Vibe.UI.CLI.Tests.Commands;
@@ -19,9 +20,10 @@ public class ListCommandTests
     {
         // Arrange
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "list",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "list",
+            null);
 
         // Act
         var result = _command.Execute(context);
@@ -35,9 +37,10 @@ public class ListCommandTests
     {
         // Arrange
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "list",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "list",
+            null);
 
         // Act
         Action act = () => _command.Execute(context);
@@ -55,9 +58,10 @@ public class ListCommandTests
 
         // Arrange
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "list",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "list",
+            null);
 
         // Act
         var result = _command.Execute(context);

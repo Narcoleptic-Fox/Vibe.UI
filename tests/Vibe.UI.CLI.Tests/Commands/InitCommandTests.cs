@@ -3,10 +3,16 @@ using Spectre.Console.Cli;
 using Vibe.UI.CLI.Commands;
 using Vibe.UI.CLI.Models;
 using Vibe.UI.CLI.Services;
+using Vibe.UI.CLI.Tests.Helpers;
 using Xunit;
 
 namespace Vibe.UI.CLI.Tests.Commands;
 
+/// <summary>
+/// Tests for InitCommand. Uses SpectreConsole collection to prevent parallel execution
+/// due to Spectre.Console's global exclusivity lock for interactive operations.
+/// </summary>
+[Collection("SpectreConsole")]
 public class InitCommandTests : IDisposable
 {
     private readonly string _testProjectPath;
@@ -37,9 +43,10 @@ public class InitCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "init",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -63,9 +70,10 @@ public class InitCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "init",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
 
         // Act
         await _command.ExecuteAsync(context, settings);
@@ -88,9 +96,10 @@ public class InitCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "init",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
 
         // Act
         await _command.ExecuteAsync(context, settings);
@@ -120,9 +129,10 @@ public class InitCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "init",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
 
         // Act
         await _command.ExecuteAsync(context, settings);
@@ -156,9 +166,10 @@ public class InitCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "init",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -186,9 +197,10 @@ public class InitCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "init",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
 
         // Act
         await _command.ExecuteAsync(context, settings);

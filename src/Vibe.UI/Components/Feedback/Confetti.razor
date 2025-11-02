@@ -50,14 +50,13 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-confetti",
         _isActive ? "active" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     protected override void OnParametersSet()
     {
@@ -153,25 +152,25 @@
         public int Rotation { get; set; }
         public string Style { get; set; } = string.Empty;
     }
-}
 
-public enum ConfettiOrigin
-{
-    Center,
-    Top,
-    Bottom,
-    Left,
-    Right,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
-}
+    public enum ConfettiOrigin
+    {
+        Center,
+        Top,
+        Bottom,
+        Left,
+        Right,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    }
 
-public enum ConfettiPattern
-{
-    Explosion,
-    Fountain,
-    Rain,
-    Fireworks
+    public enum ConfettiPattern
+    {
+        Explosion,
+        Fountain,
+        Rain,
+        Fireworks
+    }
 }

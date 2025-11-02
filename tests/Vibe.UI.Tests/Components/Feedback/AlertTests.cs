@@ -1,97 +1,290 @@
 namespace Vibe.UI.Tests.Components.Feedback;
 
-public class AlertTests : TestContext
+public class AlertTests : TestBase
 {
-    public AlertTests()
+    [Fact]
+    public void Alert_Renders_WithDefaultProps()
     {
-        this.AddVibeUIServices();
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .AddChildContent("Test alert"));
+
+        // Assert
+        var alert = cut.Find(".vibe-alert");
+        alert.ShouldNotBeNull();
+        alert.TextContent.ShouldContain("Test alert");
     }
 
     [Fact]
-    public void Alert_RendersWithTitle()
+    public void Alert_Applies_Variant_Class()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Title, "Alert Title"));
+            .Add(p => p.Variant, Alert.AlertVariant.Success)
+            .AddChildContent("Success"));
+
+        // Assert
+        cut.Find(".vibe-alert").ClassList.ShouldContain("vibe-alert-success");
+    }
+
+    [Fact]
+    public void Alert_Renders_Dismissible_WithCloseButton()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Dismissible, true)
+            .AddChildContent("Dismissible alert"));
+
+        // Assert
+        cut.FindAll("button").ShouldNotBeEmpty();
+    }
+
+    [Fact]
+    public void Alert_HasCloseButton_WhenDismissible()
+    {
+        // Arrange
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Dismissible, true)
+            .AddChildContent("Alert"));
+
+        // Assert
+        var closeButton = cut.FindAll("button");
+        closeButton.ShouldNotBeEmpty();
+    }
+
+    // ===== Variant Tests =====
+
+    [Fact]
+    public void Alert_DefaultVariant_HasDefaultClass()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Variant, Alert.AlertVariant.Default)
+            .AddChildContent("Default alert"));
+
+        // Assert
+        cut.Find(".vibe-alert").ClassList.ShouldContain("vibe-alert-default");
+    }
+
+    [Fact]
+    public void Alert_SuccessVariant_HasSuccessClass()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Variant, Alert.AlertVariant.Success)
+            .AddChildContent("Success alert"));
+
+        // Assert
+        cut.Find(".vibe-alert").ClassList.ShouldContain("vibe-alert-success");
+    }
+
+    [Fact]
+    public void Alert_InfoVariant_HasInfoClass()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Variant, Alert.AlertVariant.Info)
+            .AddChildContent("Info alert"));
+
+        // Assert
+        cut.Find(".vibe-alert").ClassList.ShouldContain("vibe-alert-info");
+    }
+
+    [Fact]
+    public void Alert_WarningVariant_HasWarningClass()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Variant, Alert.AlertVariant.Warning)
+            .AddChildContent("Warning alert"));
+
+        // Assert
+        cut.Find(".vibe-alert").ClassList.ShouldContain("vibe-alert-warning");
+    }
+
+    [Fact]
+    public void Alert_DestructiveVariant_HasDestructiveClass()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Variant, Alert.AlertVariant.Destructive)
+            .AddChildContent("Destructive alert"));
+
+        // Assert
+        cut.Find(".vibe-alert").ClassList.ShouldContain("vibe-alert-destructive");
+    }
+
+    // ===== Title Tests =====
+
+    [Fact]
+    public void Alert_WithTitle_RendersTitleElement()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Title, "Important Notice")
+            .AddChildContent("Alert content"));
 
         // Assert
         var title = cut.Find(".vibe-alert-title");
-        title.TextContent.Should().Contain("Alert Title");
+        title.ShouldNotBeNull();
+        title.TextContent.ShouldBe("Important Notice");
     }
 
     [Fact]
-    public void Alert_RendersWithDescription()
+    public void Alert_WithoutTitle_NoTitleElement()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.ChildContent, builder => builder.AddContent(0, "Alert description")));
+            .AddChildContent("Alert content"));
 
         // Assert
-        cut.Markup.Should().Contain("Alert description");
-    }
-
-    [Theory]
-    [InlineData(AlertType.Default, "vibe-alert-default")]
-    [InlineData(AlertType.Info, "vibe-alert-info")]
-    [InlineData(AlertType.Success, "vibe-alert-success")]
-    [InlineData(AlertType.Warning, "vibe-alert-warning")]
-    [InlineData(AlertType.Error, "vibe-alert-error")]
-    public void Alert_AppliesCorrectTypeClass(AlertType type, string expectedClass)
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Type, type));
-
-        // Assert
-        cut.Find(".vibe-alert").ClassList.Should().Contain(expectedClass);
+        cut.FindAll(".vibe-alert-title").ShouldBeEmpty();
     }
 
     [Fact]
-    public void Alert_ShowsDismissButton_WhenDismissible()
+    public void Alert_WithTitleAndContent_RendersBothSections()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.IsDismissible, true));
+            .Add(p => p.Title, "Alert Title")
+            .AddChildContent("Alert Description"));
 
         // Assert
-        cut.FindAll("button").Should().NotBeEmpty();
+        var title = cut.Find(".vibe-alert-title");
+        var description = cut.Find(".vibe-alert-description");
+
+        title.TextContent.ShouldBe("Alert Title");
+        description.TextContent.ShouldContain("Alert Description");
+    }
+
+    // ===== Icon Tests =====
+
+    [Fact]
+    public void Alert_WithIcon_RendersIconContent()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Icon, builder => builder.AddMarkupContent(0, "<span class='test-icon'>!</span>"))
+            .AddChildContent("Alert with icon"));
+
+        // Assert
+        var iconContainer = cut.Find(".vibe-alert-icon");
+        iconContainer.ShouldNotBeNull();
+        iconContainer.InnerHtml.ShouldContain("test-icon");
     }
 
     [Fact]
-    public void Alert_HidesDismissButton_WhenNotDismissible()
+    public void Alert_WithoutIcon_NoIconElement()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.IsDismissible, false));
+            .AddChildContent("Alert without icon"));
 
         // Assert
-        cut.FindAll("button").Should().BeEmpty();
+        cut.FindAll(".vibe-alert-icon").ShouldBeEmpty();
+    }
+
+    // ===== Dismissible Behavior Tests =====
+
+    [Fact]
+    public void Alert_NonDismissible_NoCloseButton()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .Add(p => p.Dismissible, false)
+            .AddChildContent("Non-dismissible alert"));
+
+        // Assert
+        cut.FindAll("button").ShouldBeEmpty();
     }
 
     [Fact]
-    public void Alert_TriggersDismiss_OnButtonClick()
+    public void Alert_CloseButton_InvokesOnDismiss()
     {
         // Arrange
-        var dismissed = false;
+        var dismissCalled = false;
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.IsDismissible, true)
-            .Add(p => p.OnDismiss, EventCallback.Factory.Create(this, () => dismissed = true)));
+            .Add(p => p.Dismissible, true)
+            .Add(p => p.OnDismiss, EventCallback.Factory.Create(this, () => dismissCalled = true))
+            .AddChildContent("Dismissible alert"));
 
         // Act
-        cut.Find("button").Click();
+        var closeButton = cut.Find("button");
+        closeButton.Click();
 
         // Assert
-        dismissed.Should().BeTrue();
+        dismissCalled.ShouldBeTrue();
     }
 
     [Fact]
-    public void Alert_AppliesCustomCssClass()
+    public void Alert_CloseButtonHasAriaLabel()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.CssClass, "custom-alert"));
+            .Add(p => p.Dismissible, true)
+            .AddChildContent("Alert"));
 
         // Assert
-        cut.Find(".vibe-alert").ClassList.Should().Contain("custom-alert");
+        var closeButton = cut.Find("button");
+        closeButton.GetAttribute("aria-label").ShouldBe("Close");
+    }
+
+    // ===== Accessibility Tests =====
+
+    [Fact]
+    public void Alert_HasCorrectAriaRole()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .AddChildContent("Accessible alert"));
+
+        // Assert
+        var alert = cut.Find(".vibe-alert");
+        alert.GetAttribute("role").ShouldBe("alert");
+    }
+
+    // ===== Edge Case Tests =====
+
+    [Fact]
+    public void Alert_WithEmptyContent_Renders()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .AddChildContent(""));
+
+        // Assert
+        var alert = cut.Find(".vibe-alert");
+        alert.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Alert_WithLongContent_HandlesOverflow()
+    {
+        // Arrange
+        var longContent = new string('a', 500);
+
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .AddChildContent(longContent));
+
+        // Assert
+        var description = cut.Find(".vibe-alert-description");
+        description.TextContent.ShouldContain(longContent);
+    }
+
+    [Fact]
+    public void Alert_ContentSection_RendersInDescriptionDiv()
+    {
+        // Act
+        var cut = RenderComponent<Alert>(parameters => parameters
+            .AddChildContent("Test content"));
+
+        // Assert
+        var content = cut.Find(".vibe-alert-content");
+        var description = cut.Find(".vibe-alert-description");
+
+        content.ShouldNotBeNull();
+        description.ShouldNotBeNull();
+        description.TextContent.ShouldBe("Test content");
     }
 }

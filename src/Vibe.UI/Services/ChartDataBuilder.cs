@@ -1,4 +1,5 @@
 using Vibe.UI.Components;
+using static Vibe.UI.Components.Chart;
 
 namespace Vibe.UI.Services;
 

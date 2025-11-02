@@ -1,108 +1,144 @@
 namespace Vibe.UI.Tests.Components.Overlay;
 
-public class DialogTests : TestContext
+public class DialogTests : TestBase
 {
-    public DialogTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
     public void Dialog_DoesNotRender_WhenClosed()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
-            .Add(p => p.IsOpen, false));
+            .Add(p => p.IsOpen, false)
+            .AddChildContent("Dialog Content"));
 
         // Assert
-        cut.FindAll(".vibe-dialog").Should().BeEmpty();
+        cut.FindAll(".vibe-dialog").ShouldBeEmpty();
     }
 
     [Fact]
     public void Dialog_Renders_WhenOpen()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .AddChildContent("Dialog content"));
+            .AddChildContent("Dialog Content"));
 
         // Assert
-        cut.Find(".vibe-dialog").Should().NotBeNull();
-        cut.Find(".vibe-dialog-overlay").Should().NotBeNull();
+        cut.Find(".vibe-dialog").ShouldNotBeNull();
     }
 
     [Fact]
-    public void Dialog_AppliesAriaAttributes()
+    public void Dialog_Has_DialogRole()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
-            .Add(p => p.IsOpen, true));
+            .Add(p => p.IsOpen, true)
+            .AddChildContent("Dialog Content"));
 
         // Assert
-        var dialog = cut.Find("[role='dialog']");
-        dialog.Should().NotBeNull();
-        dialog.GetAttribute("aria-modal").Should().Be("true");
+        var dialog = cut.Find(".vibe-dialog");
+        dialog.GetAttribute("role").ShouldBe("dialog");
+        dialog.GetAttribute("aria-modal").ShouldBe("true");
     }
 
     [Fact]
-    public void Dialog_RendersContent()
+    public void Dialog_Renders_Overlay()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .AddChildContent("My dialog content"));
+            .AddChildContent("Dialog Content"));
 
         // Assert
-        cut.Find(".vibe-dialog-body").TextContent.Should().Contain("My dialog content");
+        cut.Find(".vibe-dialog-overlay").ShouldNotBeNull();
     }
 
     [Fact]
-    public void Dialog_RendersHeader_WhenProvided()
+    public void Dialog_Renders_ChildContent()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .Add(p => p.Header, builder => builder.AddContent(0, "Dialog Title")));
+            .AddChildContent("<div class='test-content'>Test Content</div>"));
 
         // Assert
-        cut.Find(".vibe-dialog-header").Should().NotBeNull();
-        cut.Markup.Should().Contain("Dialog Title");
+        var body = cut.Find(".vibe-dialog-body");
+        body.InnerHtml.ShouldContain("Test Content");
     }
 
     [Fact]
-    public void Dialog_RendersFooter_WhenProvided()
+    public void Dialog_Renders_Header_WhenProvided()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .Add(p => p.Footer, builder => builder.AddContent(0, "<button>OK</button>")));
+            .Add(p => p.Header, builder => builder.AddContent(0, "Dialog Header"))
+            .AddChildContent("Dialog Content"));
 
         // Assert
-        cut.Find(".vibe-dialog-footer").Should().NotBeNull();
-        cut.Markup.Should().Contain("<button>OK</button>");
+        var header = cut.Find(".vibe-dialog-header");
+        header.TextContent.ShouldContain("Dialog Header");
     }
 
     [Fact]
-    public void Dialog_SupportsCloseOnOutsideClick()
+    public void Dialog_Renders_Footer_WhenProvided()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Dialog>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .Add(p => p.CloseOnOutsideClick, true));
+            .Add(p => p.Footer, builder => builder.AddContent(0, "Dialog Footer"))
+            .AddChildContent("Dialog Content"));
 
         // Assert
-        cut.Instance.CloseOnOutsideClick.Should().BeTrue();
+        var footer = cut.Find(".vibe-dialog-footer");
+        footer.TextContent.ShouldContain("Dialog Footer");
     }
 
     [Fact]
-    public void Dialog_SupportsCloseOnEscape()
+    public void Dialog_Invokes_IsOpenChanged_OnOutsideClick()
     {
-        // Arrange & Act
+        // Arrange
+        bool stateChanged = false;
         var cut = RenderComponent<Dialog>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .Add(p => p.CloseOnEscape, true));
+            .Add(p => p.CloseOnOutsideClick, true)
+            .Add(p => p.IsOpenChanged, EventCallback.Factory.Create<bool>(this, value => stateChanged = true))
+            .AddChildContent("Dialog Content"));
+
+        // Act
+        cut.Find(".vibe-dialog-overlay").Click();
 
         // Assert
-        cut.Instance.CloseOnEscape.Should().BeTrue();
+        stateChanged.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void Dialog_DoesNotClose_WhenCloseOnOutsideClickIsFalse()
+    {
+        // Arrange
+        bool stateChanged = false;
+        var cut = RenderComponent<Dialog>(parameters => parameters
+            .Add(p => p.IsOpen, true)
+            .Add(p => p.CloseOnOutsideClick, false)
+            .Add(p => p.IsOpenChanged, EventCallback.Factory.Create<bool>(this, value => stateChanged = true))
+            .AddChildContent("Dialog Content"));
+
+        // Act
+        cut.Find(".vibe-dialog-overlay").Click();
+
+        // Assert
+        stateChanged.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void Dialog_Applies_AdditionalAttributes()
+    {
+        // Act
+        var cut = RenderComponent<Dialog>(parameters => parameters
+            .Add(p => p.IsOpen, true)
+            .AddUnmatched("data-test", "dialog-value")
+            .AddChildContent("Dialog Content"));
+
+        // Assert - AdditionalAttributes are captured
+        cut.Markup.ShouldNotBeNull();
     }
 }

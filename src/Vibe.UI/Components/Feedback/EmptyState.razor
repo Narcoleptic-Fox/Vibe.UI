@@ -49,11 +49,10 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-empty-state",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 }

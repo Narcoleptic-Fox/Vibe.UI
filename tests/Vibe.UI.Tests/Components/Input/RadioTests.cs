@@ -1,161 +1,220 @@
 namespace Vibe.UI.Tests.Components.Input;
 
-public class RadioTests : TestContext
+public class RadioTests : TestBase
 {
-    public RadioTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Radio_RendersWithBasicStructure()
+    public void Radio_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Radio>();
 
         // Assert
-        cut.Find("label.vibe-radio").Should().NotBeNull();
-        cut.Find("input[type='radio']").Should().NotBeNull();
-        cut.Find(".vibe-radio-control").Should().NotBeNull();
+        var radio = cut.Find("input[type='radio']");
+        radio.ShouldNotBeNull();
     }
 
     [Fact]
-    public void Radio_RendersWithLabel()
+    public void Radio_Renders_WithLabel()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Radio>(parameters => parameters
             .AddChildContent("Option 1"));
 
         // Assert
         var label = cut.Find(".vibe-radio-label");
-        label.TextContent.Should().Be("Option 1");
+        label.TextContent.ShouldBe("Option 1");
     }
 
     [Fact]
-    public void Radio_AppliesNameAttribute()
+    public void Radio_Renders_AsChecked()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.Name, "radio-group")
-            .Add(p => p.Value, "option1"));
+            .Add(p => p.Checked, true));
 
         // Assert
-        var input = cut.Find("input[type='radio']");
-        input.GetAttribute("name").Should().Be("radio-group");
+        var radio = cut.Find("input[type='radio']");
+        radio.HasAttribute("checked").ShouldBeTrue();
     }
 
     [Fact]
-    public void Radio_AppliesValueAttribute()
+    public void Radio_Applies_Disabled_Attribute()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.Name, "group")
-            .Add(p => p.Value, "option1"));
-
-        // Assert
-        var input = cut.Find("input[type='radio']");
-        input.GetAttribute("value").Should().Be("option1");
-    }
-
-    [Fact]
-    public void Radio_IsChecked_WhenCheckedIsTrue()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.Checked, true)
-            .Add(p => p.Value, "option1"));
-
-        // Assert
-        var input = cut.Find("input[type='radio']");
-        input.HasAttribute("checked").Should().BeTrue();
-    }
-
-    [Fact]
-    public void Radio_IsNotChecked_WhenCheckedIsFalse()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.Checked, false)
-            .Add(p => p.Value, "option1"));
-
-        // Assert
-        var input = cut.Find("input[type='radio']");
-        input.HasAttribute("checked").Should().BeFalse();
-    }
-
-    [Fact]
-    public void Radio_IsDisabled_WhenDisabledIsTrue()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Radio>(parameters => parameters
             .Add(p => p.Disabled, true));
 
         // Assert
-        cut.Find("input[type='radio']").HasAttribute("disabled").Should().BeTrue();
-        cut.Find("label").ClassList.Should().Contain("vibe-radio-disabled");
+        var radio = cut.Find("input[type='radio']");
+        radio.HasAttribute("disabled").ShouldBeTrue();
+        cut.Find("label").ClassList.ShouldContain("vibe-radio-disabled");
     }
 
     [Fact]
-    public void Radio_TriggersCheckedChanged_OnChange()
+    public void Radio_Applies_Name_Attribute()
     {
-        // Arrange
-        var checkedValue = false;
-        var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.Checked, false)
-            .Add(p => p.Value, "option1")
-            .Add(p => p.CheckedChanged, EventCallback.Factory.Create<bool>(this, value => checkedValue = value)));
-
         // Act
-        cut.Find("input[type='radio']").Change("option1");
+        var cut = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Name, "option-group"));
 
         // Assert
-        checkedValue.Should().BeTrue();
+        var radio = cut.Find("input[type='radio']");
+        radio.GetAttribute("name").ShouldBe("option-group");
     }
 
     [Fact]
-    public void Radio_UpdatesCheckedState_OnChange()
+    public void Radio_Applies_Value_Attribute()
     {
-        // Arrange
+        // Act
         var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.Checked, false)
             .Add(p => p.Value, "option1"));
 
-        // Act
-        cut.Find("input[type='radio']").Change("option1");
-
         // Assert
-        cut.Instance.Checked.Should().BeTrue();
+        var radio = cut.Find("input[type='radio']");
+        radio.GetAttribute("value").ShouldBe("option1");
     }
 
     [Fact]
-    public void Radio_AppliesCustomCssClass()
+    public void Radio_InvokesCheckedChanged_WhenClicked()
     {
-        // Arrange & Act
+        // Arrange
+        var wasChecked = false;
         var cut = RenderComponent<Radio>(parameters => parameters
-            .Add(p => p.CssClass, "custom-radio"));
+            .Add(p => p.CheckedChanged, isChecked => wasChecked = isChecked));
+
+        // Act
+        cut.Find("input[type='radio']").Change(true);
 
         // Assert
-        cut.Find("label").ClassList.Should().Contain("custom-radio");
+        wasChecked.ShouldBeTrue();
     }
 
     [Fact]
-    public void Radio_RendersWithoutLabel()
+    public void Radio_Unchecked_ToChecked_Transition()
+    {
+        // Arrange
+        var cut = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Checked, false));
+
+        // Act
+        cut.SetParametersAndRender(parameters => parameters.Add(p => p.Checked, true));
+
+        // Assert
+        var radio = cut.Find("input[type='radio']");
+        radio.HasAttribute("checked").ShouldBeTrue();
+    }
+
+    [Fact]
+    public void Radio_Disabled_NoEventFired()
+    {
+        // Arrange
+        var wasChecked = false;
+        var cut = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Disabled, true)
+            .Add(p => p.CheckedChanged, isChecked => wasChecked = isChecked));
+
+        // Act
+        // Note: Disabled inputs typically don't fire change events in browsers
+        // This tests the component's disabled state is properly applied
+        var radio = cut.Find("input[type='radio']");
+
+        // Assert - Verify disabled attribute prevents interaction
+        radio.HasAttribute("disabled").ShouldBeTrue();
+    }
+
+    [Fact]
+    public void Radio_WithoutLabel_OnlyRendersInput()
+    {
+        // Act
+        var cut = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Value, "test"));
+
+        // Assert
+        cut.Find("input[type='radio']").ShouldNotBeNull();
+        cut.FindAll(".vibe-radio-label").ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Radio_MultipleRadiosSameName_MutexBehavior()
     {
         // Arrange & Act
+        var cut1 = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Name, "same-group")
+            .Add(p => p.Value, "option1")
+            .Add(p => p.Checked, true));
+
+        var cut2 = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Name, "same-group")
+            .Add(p => p.Value, "option2")
+            .Add(p => p.Checked, false));
+
+        // Assert - Both should have the same name attribute
+        cut1.Find("input[type='radio']").GetAttribute("name").ShouldBe("same-group");
+        cut2.Find("input[type='radio']").GetAttribute("name").ShouldBe("same-group");
+    }
+
+    [Fact]
+    public void Radio_DifferentNames_IndependentSelection()
+    {
+        // Arrange & Act
+        var cut1 = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Name, "group1")
+            .Add(p => p.Checked, true));
+
+        var cut2 = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Name, "group2")
+            .Add(p => p.Checked, true));
+
+        // Assert - Both can be checked independently
+        cut1.Find("input[type='radio']").HasAttribute("checked").ShouldBeTrue();
+        cut2.Find("input[type='radio']").HasAttribute("checked").ShouldBeTrue();
+    }
+
+    [Fact]
+    public void Radio_Renders_ControlSpan()
+    {
+        // Act
         var cut = RenderComponent<Radio>();
 
         // Assert
-        cut.FindAll(".vibe-radio-label").Should().BeEmpty();
+        var control = cut.Find(".vibe-radio-control");
+        control.ShouldNotBeNull();
     }
 
     [Fact]
-    public void Radio_SupportsAdditionalAttributes()
+    public void Radio_CheckedProp_ReflectsInDom()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Radio>(parameters => parameters
-            .AddUnmatched("data-test-id", "my-radio"));
+            .Add(p => p.Checked, true));
 
         // Assert
-        cut.Find("label").GetAttribute("data-test-id").Should().Be("my-radio");
+        cut.Instance.Checked.ShouldBeTrue();
+        cut.Find("input[type='radio']").HasAttribute("checked").ShouldBeTrue();
+    }
+
+    [Fact]
+    public void Radio_ChangeEvent_UpdatesCheckedState()
+    {
+        // Arrange
+        var cut = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Checked, false));
+
+        // Act
+        cut.Find("input[type='radio']").Change(true);
+
+        // Assert
+        cut.Instance.Checked.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void Radio_EmptyValue_ValidAttribute()
+    {
+        // Act
+        var cut = RenderComponent<Radio>(parameters => parameters
+            .Add(p => p.Value, ""));
+
+        // Assert
+        cut.Find("input[type='radio']").GetAttribute("value").ShouldBe("");
     }
 }

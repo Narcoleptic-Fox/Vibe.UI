@@ -116,13 +116,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-kanban",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private async Task HandleCardClick(KanbanCard card)
     {
@@ -153,31 +152,31 @@
 
         StateHasChanged();
     }
-}
 
-public class KanbanColumn
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Title { get; set; } = string.Empty;
-    public List<KanbanCard> Cards { get; set; } = new();
-    public RenderFragment? Badge { get; set; }
-    public RenderFragment? Footer { get; set; }
-    public string? Color { get; set; }
-}
+    public class KanbanColumn
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Title { get; set; } = string.Empty;
+        public List<KanbanCard> Cards { get; set; } = new();
+        public RenderFragment? Badge { get; set; }
+        public RenderFragment? Footer { get; set; }
+        public string? Color { get; set; }
+    }
 
-public class KanbanCard
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string? Title { get; set; }
-    public string? Description { get; set; }
-    public List<string>? Tags { get; set; }
-    public RenderFragment? Footer { get; set; }
-    public object? Data { get; set; }
-}
+    public class KanbanCard
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public List<string>? Tags { get; set; }
+        public RenderFragment? Footer { get; set; }
+        public object? Data { get; set; }
+    }
 
-public class CardMovedEventArgs
-{
-    public KanbanCard Card { get; set; } = new();
-    public string FromColumnId { get; set; } = string.Empty;
-    public string ToColumnId { get; set; } = string.Empty;
+    public class CardMovedEventArgs
+    {
+        public KanbanCard Card { get; set; } = new();
+        public string FromColumnId { get; set; } = string.Empty;
+        public string ToColumnId { get; set; } = string.Empty;
+    }
 }

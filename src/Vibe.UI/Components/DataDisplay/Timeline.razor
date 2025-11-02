@@ -61,14 +61,13 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-timeline",
         $"timeline-{Position.ToString().ToLower()}",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string FormatTimestamp(DateTime timestamp)
     {
@@ -81,31 +80,31 @@
 
         return timestamp.ToString("MMM d, yyyy");
     }
-}
 
-public class TimelineItem
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string? Title { get; set; }
-    public string? Description { get; set; }
-    public RenderFragment? Content { get; set; }
-    public RenderFragment? Icon { get; set; }
-    public DateTime? Timestamp { get; set; }
-    public TimelineStatus Status { get; set; } = TimelineStatus.Default;
-}
+    public class TimelineItem
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public RenderFragment? Content { get; set; }
+        public RenderFragment? Icon { get; set; }
+        public DateTime? Timestamp { get; set; }
+        public TimelineStatus Status { get; set; } = TimelineStatus.Default;
+    }
 
-public enum TimelineStatus
-{
-    Default,
-    Success,
-    Error,
-    Warning,
-    Info
-}
+    public enum TimelineStatus
+    {
+        Default,
+        Success,
+        Error,
+        Warning,
+        Info
+    }
 
-public enum TimelinePosition
-{
-    Left,
-    Right,
-    Alternate
+    public enum TimelinePosition
+    {
+        Left,
+        Right,
+        Alternate
+    }
 }

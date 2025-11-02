@@ -1,3 +1,4 @@
+@using Vibe.UI.Services
 @namespace Vibe.UI.Components
 @inherits ThemedComponentBase
 
@@ -6,8 +7,8 @@
     <svg @attributes="AdditionalAttributes"
          class="@CombinedCssClass"
          style="@IconStyle"
-         width="@Width"
-         height="@Height"
+         width="@ActualWidth"
+         height="@ActualHeight"
          viewBox="0 0 24 24"
          fill="@Fill"
          stroke="@Stroke"
@@ -108,13 +109,12 @@ else if (CustomSvg != null)
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-icon",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string IconStyle => Color != null ? $"color: {Color};" : string.Empty;
 
@@ -132,7 +132,7 @@ else if (CustomSvg != null)
             foreach (var path in paths)
             {
                 builder.OpenElement(index++, path.Element);
-                foreach (var (attr, value) in path.Attributes)
+                foreach ((string attr, string value) in path.Attributes)
                 {
                     builder.AddAttribute(index++, attr, value);
                 }

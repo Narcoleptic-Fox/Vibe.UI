@@ -3,10 +3,16 @@ using Spectre.Console.Cli;
 using Vibe.UI.CLI.Commands;
 using Vibe.UI.CLI.Models;
 using Vibe.UI.CLI.Services;
+using Vibe.UI.CLI.Tests.Helpers;
 using Xunit;
 
 namespace Vibe.UI.CLI.Tests.Commands;
 
+/// <summary>
+/// Tests for AddCommand. Uses SpectreConsole collection to prevent parallel execution
+/// due to Spectre.Console's global exclusivity lock for interactive operations.
+/// </summary>
+[Collection("SpectreConsole")]
 public class AddCommandTests : IDisposable
 {
     private readonly string _testProjectPath;
@@ -31,9 +37,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -56,9 +63,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -83,9 +91,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -108,9 +117,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -143,9 +153,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -177,9 +188,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         var result = await _command.ExecuteAsync(context, settings);
@@ -209,9 +221,10 @@ public class AddCommandTests : IDisposable
         };
 
         var context = new CommandContext(
-            remainingArguments: Array.Empty<string>(),
-            name: "add",
-            data: null);
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "add",
+            null);
 
         // Act
         await _command.ExecuteAsync(context, settings);

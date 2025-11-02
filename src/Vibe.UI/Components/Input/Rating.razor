@@ -68,9 +68,6 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-rating",
         $"rating-{Size.ToString().ToLower()}",
@@ -78,6 +75,8 @@
         Disabled ? "rating-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private async Task HandleClick(int rating)
     {
@@ -102,11 +101,11 @@
         _hoverValue = 0;
         StateHasChanged();
     }
-}
 
-public enum RatingSize
-{
-    Small,
-    Default,
-    Large
+    public enum RatingSize
+    {
+        Small,
+        Default,
+        Large
+    }
 }

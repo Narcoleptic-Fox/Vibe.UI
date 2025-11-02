@@ -1,70 +1,72 @@
 namespace Vibe.UI.Tests.Components.Input;
 
-public class SwitchTests : TestContext
+public class SwitchTests : TestBase
 {
-    public SwitchTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Switch_RendersWithDefaultState()
+    public void Switch_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Switch>();
 
         // Assert
-        var input = cut.Find("input[type='checkbox']");
-        input.Should().NotBeNull();
-        input.GetAttribute("checked").Should().BeNull();
+        var switchInput = cut.Find("input[type='checkbox']");
+        switchInput.ShouldNotBeNull();
+        cut.Find(".vibe-switch").ShouldNotBeNull();
     }
 
     [Fact]
-    public void Switch_IsChecked_WhenCheckedPropIsTrue()
+    public void Switch_Renders_AsChecked()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Switch>(parameters => parameters
             .Add(p => p.Checked, true));
 
         // Assert
-        cut.Find("input").HasAttribute("checked").Should().BeTrue();
+        var switchInput = cut.Find("input[type='checkbox']");
+        switchInput.HasAttribute("checked").ShouldBeTrue();
     }
 
     [Fact]
-    public void Switch_IsDisabled_WhenDisabledPropIsTrue()
+    public void Switch_Applies_Disabled_Attribute()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Switch>(parameters => parameters
             .Add(p => p.Disabled, true));
 
         // Assert
-        cut.Find("input").HasAttribute("disabled").Should().BeTrue();
+        var switchInput = cut.Find("input[type='checkbox']");
+        switchInput.HasAttribute("disabled").ShouldBeTrue();
+        cut.Find("label").ClassList.ShouldContain("disabled");
     }
 
     [Fact]
-    public void Switch_TriggersCheckedChanged_OnClick()
+    public void Switch_InvokesCheckedChanged_WhenToggled()
     {
         // Arrange
         var checkedValue = false;
         var cut = RenderComponent<Switch>(parameters => parameters
-            .Add(p => p.CheckedChanged, EventCallback.Factory.Create<bool>(
-                this, value => checkedValue = value)));
+            .Add(p => p.CheckedChanged, newValue => checkedValue = newValue));
 
         // Act
-        cut.Find("input").Change(true);
+        cut.Find("input[type='checkbox']").Change(true);
 
         // Assert
-        checkedValue.Should().BeTrue();
+        checkedValue.ShouldBeTrue();
     }
 
     [Fact]
-    public void Switch_AppliesCustomCssClass()
+    public void Switch_DoesNotToggle_WhenDisabled()
     {
-        // Arrange & Act
+        // Arrange
+        var checkedValue = false;
         var cut = RenderComponent<Switch>(parameters => parameters
-            .Add(p => p.CssClass, "custom-switch"));
+            .Add(p => p.Disabled, true)
+            .Add(p => p.CheckedChanged, newValue => checkedValue = newValue));
+
+        // Act
+        cut.Find("input[type='checkbox']").Change(true);
 
         // Assert
-        cut.Markup.Should().Contain("custom-switch");
+        checkedValue.ShouldBeFalse();
     }
 }

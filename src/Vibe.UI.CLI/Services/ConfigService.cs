@@ -21,7 +21,14 @@ public class ConfigService
             return null;
 
         var json = await File.ReadAllTextAsync(configPath);
-        return JsonSerializer.Deserialize<VibeConfig>(json);
+
+        // Use the same JsonSerializerOptions as SaveConfigAsync for consistent serialization/deserialization
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        return JsonSerializer.Deserialize<VibeConfig>(json, options);
     }
 
     public async Task SaveConfigAsync(string projectPath, VibeConfig config)

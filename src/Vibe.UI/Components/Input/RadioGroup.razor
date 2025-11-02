@@ -66,15 +66,14 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-radio-group",
         $"vibe-radio-group-{Orientation.ToString().ToLower()}",
         Disabled ? "vibe-radio-group-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     internal async Task HandleValueChange(string itemValue)
     {
@@ -88,10 +87,10 @@
     {
         return Value == itemValue;
     }
-}
 
-public enum RadioGroupOrientation
-{
-    Horizontal,
-    Vertical
+    public enum RadioGroupOrientation
+    {
+        Horizontal,
+        Vertical
+    }
 }

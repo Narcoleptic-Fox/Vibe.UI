@@ -161,13 +161,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-image-cropper",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string ImageStyle => $"transform: scale({_zoom}) rotate({_rotation}deg) scaleX({(_flipH ? -1 : 1)}) scaleY({(_flipV ? -1 : 1)});";
 
@@ -231,28 +230,28 @@
 
         await OnCropped.InvokeAsync(croppedData);
     }
-}
 
-public class AspectRatioOption
-{
-    public string Label { get; set; } = string.Empty;
-    public double Ratio { get; set; }
-}
+    public class AspectRatioOption
+    {
+        public string Label { get; set; } = string.Empty;
+        public double Ratio { get; set; }
+    }
 
-public class CropArea
-{
-    public double X { get; set; }
-    public double Y { get; set; }
-    public double Width { get; set; }
-    public double Height { get; set; }
-}
+    public class CropArea
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+    }
 
-public class CroppedImageData
-{
-    public CropArea CropArea { get; set; } = new();
-    public double Zoom { get; set; }
-    public int Rotation { get; set; }
-    public bool FlipHorizontal { get; set; }
-    public bool FlipVertical { get; set; }
-    public string? ImageData { get; set; }
+    public class CroppedImageData
+    {
+        public CropArea CropArea { get; set; } = new();
+        public double Zoom { get; set; }
+        public int Rotation { get; set; }
+        public bool FlipHorizontal { get; set; }
+        public bool FlipVertical { get; set; }
+        public string? ImageData { get; set; }
+    }
 }

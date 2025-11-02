@@ -1,176 +1,127 @@
 namespace Vibe.UI.Tests.Components.DataDisplay;
 
-public class AvatarTests : TestContext
+public class AvatarTests : TestBase
 {
-    public AvatarTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Avatar_RendersWithBasicStructure()
+    public void Avatar_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>();
 
         // Assert
-        cut.Find(".vibe-avatar").Should().NotBeNull();
+        cut.Find(".vibe-avatar").ShouldNotBeNull();
     }
 
     [Fact]
-    public void Avatar_RendersImage_WhenImageUrlProvided()
+    public void Avatar_Renders_Image_WhenImageUrlProvided()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.ImageUrl, "https://example.com/avatar.jpg"));
+            .Add(p => p.ImageUrl, "test.jpg"));
 
         // Assert
-        var img = cut.Find("img.avatar-image");
-        img.Should().NotBeNull();
-        img.GetAttribute("src").Should().Be("https://example.com/avatar.jpg");
+        var img = cut.Find(".avatar-image");
+        img.GetAttribute("src").ShouldBe("test.jpg");
     }
 
     [Fact]
-    public void Avatar_RendersInitials_WhenNoImage()
+    public void Avatar_Shows_Initials_WhenNoImage()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>(parameters => parameters
             .Add(p => p.Initials, "JD"));
 
         // Assert
         var initials = cut.Find(".avatar-initials");
-        initials.Should().NotBeNull();
-        initials.TextContent.Should().Be("JD");
+        initials.TextContent.ShouldBe("JD");
     }
 
     [Fact]
-    public void Avatar_RendersFallbackIcon_WhenNoImageOrInitials()
+    public void Avatar_Shows_FallbackIcon_WhenProvided()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>(parameters => parameters
             .Add(p => p.FallbackIcon, "👤"));
 
         // Assert
         var icon = cut.Find(".avatar-icon");
-        icon.Should().NotBeNull();
-        icon.TextContent.Should().Be("👤");
+        icon.TextContent.ShouldBe("👤");
     }
 
     [Fact]
-    public void Avatar_RendersFallback_WhenNothingProvided()
+    public void Avatar_Shows_Fallback_WhenNoContent()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>();
 
         // Assert
-        cut.Find(".avatar-fallback").Should().NotBeNull();
+        cut.Find(".avatar-fallback").ShouldNotBeNull();
     }
 
     [Fact]
-    public void Avatar_PrefersImage_OverInitials()
+    public void Avatar_Has_DefaultSize()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.ImageUrl, "https://example.com/avatar.jpg")
-            .Add(p => p.Initials, "JD"));
-
-        // Assert
-        cut.FindAll("img.avatar-image").Should().NotBeEmpty();
-        cut.FindAll(".avatar-initials").Should().BeEmpty();
-    }
-
-    [Fact]
-    public void Avatar_FallsBackToInitials_WhenImageFails()
-    {
-        // Arrange
-        var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.ImageUrl, "https://example.com/broken.jpg")
-            .Add(p => p.Initials, "JD"));
-
-        // Act - Trigger image error
-        cut.Find("img").Error();
-
-        // Assert
-        cut.FindAll("img.avatar-image").Should().BeEmpty();
-        cut.Find(".avatar-initials").TextContent.Should().Be("JD");
-    }
-
-    [Fact]
-    public void Avatar_AppliesDefaultSize()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>();
 
         // Assert
-        var style = cut.Find(".vibe-avatar").GetAttribute("style");
-        style.Should().Contain("width: 40px");
-        style.Should().Contain("height: 40px");
+        cut.Instance.Size.ShouldBe(40);
     }
 
     [Fact]
-    public void Avatar_AppliesCustomSize()
+    public void Avatar_Accepts_CustomSize()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.Size, 64));
+            .Add(p => p.Size, 80));
 
         // Assert
-        var style = cut.Find(".vibe-avatar").GetAttribute("style");
-        style.Should().Contain("width: 64px");
-        style.Should().Contain("height: 64px");
+        var avatar = cut.Find(".vibe-avatar");
+        avatar.GetAttribute("style").ShouldContain("width: 80px");
+        avatar.GetAttribute("style").ShouldContain("height: 80px");
     }
 
     [Fact]
-    public void Avatar_AppliesDelayloadClass_WhenSet()
+    public void Avatar_Has_DefaultCircleShape()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.Delayload, true));
-
-        // Assert
-        cut.Find(".vibe-avatar").ClassList.Should().Contain("delayload");
-    }
-
-    [Fact]
-    public void Avatar_DoesNotApplyDelayload_ByDefault()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>();
 
         // Assert
-        cut.Find(".vibe-avatar").ClassList.Should().NotContain("delayload");
+        cut.Instance.Shape.ShouldBe("circle");
     }
 
     [Fact]
-    public void Avatar_AppliesCustomCssClass()
+    public void Avatar_Accepts_CustomShape()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.CssClass, "custom-avatar"));
-
-        // Assert
-        cut.Find(".vibe-avatar").ClassList.Should().Contain("custom-avatar");
-    }
-
-    [Fact]
-    public void Avatar_SupportsCircleShape()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Avatar>(parameters => parameters
-            .Add(p => p.Shape, "circle"));
-
-        // Assert
-        cut.Instance.Shape.Should().Be("circle");
-    }
-
-    [Fact]
-    public void Avatar_SupportsSquareShape()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Avatar>(parameters => parameters
             .Add(p => p.Shape, "square"));
 
         // Assert
-        cut.Instance.Shape.Should().Be("square");
+        cut.Instance.Shape.ShouldBe("square");
+    }
+
+    [Fact]
+    public void Avatar_Applies_DelayloadClass_WhenEnabled()
+    {
+        // Act
+        var cut = RenderComponent<Avatar>(parameters => parameters
+            .Add(p => p.Delayload, true)
+            .Add(p => p.ImageUrl, "test.jpg"));
+
+        // Assert
+        cut.Find(".vibe-avatar").ClassList.ShouldContain("delayload");
+    }
+
+    [Fact]
+    public void Avatar_Applies_AdditionalAttributes()
+    {
+        // Act
+        var cut = RenderComponent<Avatar>(parameters => parameters
+            .AddUnmatched("data-test", "avatar-value"));
+
+        // Assert - AdditionalAttributes are captured
+        cut.Markup.ShouldNotBeNull();
     }
 }

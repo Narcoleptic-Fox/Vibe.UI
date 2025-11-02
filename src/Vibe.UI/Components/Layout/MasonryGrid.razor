@@ -2,12 +2,12 @@
 @inherits ThemedComponentBase
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass" style="@GridStyle">
-    @if (Items != null && Items.Any())
+    @for (int col = 0; col < Columns; col++)
     {
-        @for (int col = 0; col < Columns; col++)
-        {
-            var columnIndex = col;
-            <div class="masonry-column">
+        var columnIndex = col;
+        <div class="masonry-column">
+            @if (Items != null && Items.Any())
+            {
                 @foreach (var item in GetColumnItems(columnIndex))
                 {
                     <div class="masonry-item" @key="item.Id">
@@ -21,10 +21,11 @@
                         }
                     </div>
                 }
-            </div>
-        }
+            }
+        </div>
     }
-    else if (EmptyContent != null)
+
+    @if ((Items == null || !Items.Any()) && EmptyContent != null)
     {
         <div class="masonry-empty">
             @EmptyContent
@@ -51,13 +52,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-masonry",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string GridStyle => $"gap: {Gap}px;";
 
@@ -70,11 +70,11 @@
             .Where((item, index) => index % Columns == columnIndex)
             .ToList();
     }
-}
 
-public class MasonryItem
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public RenderFragment? Content { get; set; }
-    public object? Data { get; set; }
+    public class MasonryItem
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public RenderFragment? Content { get; set; }
+        public object? Data { get; set; }
+    }
 }

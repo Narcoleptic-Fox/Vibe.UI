@@ -57,15 +57,14 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-splitter",
         $"splitter-{Orientation.ToString().ToLower()}",
         _isDragging ? "dragging" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string FirstPaneStyle
     {
@@ -123,10 +122,10 @@
         _currentSize = InitialSize;
         StateHasChanged();
     }
-}
 
-public enum SplitterOrientation
-{
-    Horizontal,
-    Vertical
+    public enum SplitterOrientation
+    {
+        Horizontal,
+        Vertical
+    }
 }

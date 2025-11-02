@@ -59,13 +59,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-virtual-scroll",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string ContainerStyle => $"height: {Height}px; overflow-y: auto;";
 

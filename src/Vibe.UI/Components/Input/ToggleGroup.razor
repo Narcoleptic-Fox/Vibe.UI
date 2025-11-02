@@ -74,9 +74,6 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-toggle-group",
         $"vibe-toggle-group-{Orientation.ToString().ToLower()}",
@@ -84,6 +81,8 @@
         Disabled ? "vibe-toggle-group-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     internal async Task HandleItemToggle(string itemValue)
     {
@@ -117,23 +116,23 @@
             ? Value == itemValue
             : Values.Contains(itemValue);
     }
-}
 
-public enum ToggleGroupType
-{
-    Single,
-    Multiple
-}
+    public enum ToggleGroupType
+    {
+        Single,
+        Multiple
+    }
 
-public enum ToggleGroupOrientation
-{
-    Horizontal,
-    Vertical
-}
+    public enum ToggleGroupOrientation
+    {
+        Horizontal,
+        Vertical
+    }
 
-public enum ToggleGroupSize
-{
-    Small,
-    Default,
-    Large
+    public enum ToggleGroupSize
+    {
+        Small,
+        Default,
+        Large
+    }
 }

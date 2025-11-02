@@ -5,7 +5,7 @@
         @attributes="AdditionalAttributes"
         class="@CombinedCssClass"
         disabled="@IsDisabled"
-        aria-pressed="@IsPressed"
+        aria-pressed="@IsPressed.ToString().ToLower()"
         @onclick="HandleClick">
     @ChildContent
 </button>
@@ -35,9 +35,6 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter]
     private ToggleGroup? Parent { get; set; }
 
@@ -50,6 +47,8 @@
         IsDisabled ? "vibe-toggle-group-item-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private async Task HandleClick()
     {

@@ -36,13 +36,12 @@
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-label",
         Required ? "vibe-label-required" : null,
         Disabled ? "vibe-label-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 }

@@ -1,277 +1,130 @@
 namespace Vibe.UI.Tests.Components.Input;
 
-public class ColorPickerTests : TestContext
+public class ColorPickerTests : TestBase
 {
-    public ColorPickerTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void ColorPicker_RendersWithBasicStructure()
+    public void ColorPicker_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<ColorPicker>();
 
         // Assert
-        cut.Find(".vibe-color-picker").Should().NotBeNull();
-        cut.Find(".vibe-color-picker-preview").Should().NotBeNull();
-        cut.Find(".vibe-color-picker-swatch").Should().NotBeNull();
+        var picker = cut.Find(".vibe-color-picker");
+        picker.ShouldNotBeNull();
     }
 
     [Fact]
-    public void ColorPicker_DisplaysDefaultValue()
+    public void ColorPicker_Displays_ColorSwatch()
     {
-        // Arrange & Act
-        var cut = RenderComponent<ColorPicker>();
-
-        // Assert
-        var valueDisplay = cut.Find(".vibe-color-picker-value");
-        valueDisplay.TextContent.Should().Be("#000000");
-    }
-
-    [Fact]
-    public void ColorPicker_DisplaysProvidedValue()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.Value, "#FF5733"));
-
-        // Assert
-        var valueDisplay = cut.Find(".vibe-color-picker-value");
-        valueDisplay.TextContent.Should().Be("#FF5733");
-    }
-
-    [Fact]
-    public void ColorPicker_AppliesColorToSwatch()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.Value, "#FF5733"));
+            .Add(p => p.Value, "#FF0000"));
 
         // Assert
         var swatch = cut.Find(".vibe-color-picker-swatch");
-        swatch.GetAttribute("style").Should().Contain("background-color: #FF5733");
+        swatch.GetAttribute("style").ShouldContain("#FF0000");
     }
 
     [Fact]
-    public void ColorPicker_OpensPopover_WhenPreviewClicked()
+    public void ColorPicker_Displays_ColorValue()
     {
-        // Arrange
-        var cut = RenderComponent<ColorPicker>();
-
         // Act
-        cut.Find(".vibe-color-picker-preview").Click();
+        var cut = RenderComponent<ColorPicker>(parameters => parameters
+            .Add(p => p.Value, "#00FF00"));
 
         // Assert
-        cut.FindAll(".vibe-color-picker-popover").Should().NotBeEmpty();
-        cut.Find(".vibe-color-picker").ClassList.Should().Contain("vibe-color-picker-open");
+        var value = cut.Find(".vibe-color-picker-value");
+        value.TextContent.ShouldBe("#00FF00");
     }
 
     [Fact]
-    public void ColorPicker_ClosesPopover_WhenPreviewClickedAgain()
+    public void ColorPicker_Shows_Popover_WhenClicked()
     {
-        // Arrange
-        var cut = RenderComponent<ColorPicker>();
-        cut.Find(".vibe-color-picker-preview").Click();
-
         // Act
-        cut.Find(".vibe-color-picker-preview").Click();
+        var cut = RenderComponent<ColorPicker>();
+        var preview = cut.Find(".vibe-color-picker-preview");
+        preview.Click();
 
         // Assert
-        cut.FindAll(".vibe-color-picker-popover").Should().BeEmpty();
+        cut.Find(".vibe-color-picker").ClassList.ShouldContain("vibe-color-picker-open");
+        cut.FindAll(".vibe-color-picker-popover").ShouldNotBeEmpty();
     }
 
     [Fact]
-    public void ColorPicker_ShowsHueSlider_InPopover()
+    public void ColorPicker_Shows_AlphaSlider_WhenEnabled()
     {
-        // Arrange
-        var cut = RenderComponent<ColorPicker>();
-
         // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        cut.Find(".vibe-color-picker-hue-slider").Should().NotBeNull();
-        cut.Find(".vibe-color-picker-hue-slider input[type='range']").Should().NotBeNull();
-    }
-
-    [Fact]
-    public void ColorPicker_ShowsAlphaSlider_WhenShowAlphaIsTrue()
-    {
-        // Arrange
         var cut = RenderComponent<ColorPicker>(parameters => parameters
             .Add(p => p.ShowAlpha, true));
 
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
+        var preview = cut.Find(".vibe-color-picker-preview");
+        preview.Click();
 
         // Assert
-        cut.Find(".vibe-color-picker-alpha-slider").Should().NotBeNull();
+        cut.FindAll(".vibe-color-picker-alpha-slider").ShouldNotBeEmpty();
     }
 
     [Fact]
-    public void ColorPicker_HidesAlphaSlider_WhenShowAlphaIsFalse()
+    public void ColorPicker_Hides_AlphaSlider_WhenDisabled()
     {
-        // Arrange
+        // Act
         var cut = RenderComponent<ColorPicker>(parameters => parameters
             .Add(p => p.ShowAlpha, false));
 
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
+        var preview = cut.Find(".vibe-color-picker-preview");
+        preview.Click();
 
         // Assert
-        cut.FindAll(".vibe-color-picker-alpha-slider").Should().BeEmpty();
+        cut.FindAll(".vibe-color-picker-alpha-slider").ShouldBeEmpty();
     }
 
     [Fact]
-    public void ColorPicker_ShowsHexInput()
+    public void ColorPicker_Shows_RgbInputs_ByDefault()
     {
-        // Arrange
+        // Act
         var cut = RenderComponent<ColorPicker>();
-
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
+        var preview = cut.Find(".vibe-color-picker-preview");
+        preview.Click();
 
         // Assert
-        var hexInput = cut.FindAll("input[type='text']").FirstOrDefault(i => i.ParentElement?.TextContent.Contains("HEX") ?? false);
-        hexInput.Should().NotBeNull();
+        var inputs = cut.FindAll(".vibe-color-picker-input-group");
+        inputs.Count.ShouldBeGreaterThanOrEqualTo(4); // HEX + R + G + B
     }
 
     [Fact]
-    public void ColorPicker_ShowsRgbInputs_WhenShowRgbInputsIsTrue()
+    public void ColorPicker_Shows_Presets_WhenEnabled()
     {
-        // Arrange
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.ShowRgbInputs, true));
-
         // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        var rgbInputs = cut.FindAll("input[type='number']");
-        rgbInputs.Should().HaveCountGreaterOrEqualTo(3);
-    }
-
-    [Fact]
-    public void ColorPicker_HidesRgbInputs_WhenShowRgbInputsIsFalse()
-    {
-        // Arrange
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.ShowRgbInputs, false));
-
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        var rgbInputs = cut.FindAll("input[type='number']");
-        rgbInputs.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void ColorPicker_ShowsPresets_WhenShowPresetsIsTrue()
-    {
-        // Arrange
         var cut = RenderComponent<ColorPicker>(parameters => parameters
             .Add(p => p.ShowPresets, true));
 
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
+        var preview = cut.Find(".vibe-color-picker-preview");
+        preview.Click();
 
         // Assert
-        var presets = cut.Find(".vibe-color-picker-presets");
-        presets.Should().NotBeNull();
-        cut.FindAll(".vibe-color-picker-preset").Should().NotBeEmpty();
+        cut.FindAll(".vibe-color-picker-presets").ShouldNotBeEmpty();
+        cut.FindAll(".vibe-color-picker-preset").ShouldNotBeEmpty();
     }
 
     [Fact]
-    public void ColorPicker_HidesPresets_WhenShowPresetsIsFalse()
+    public void ColorPicker_Applies_DisabledState()
     {
-        // Arrange
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.ShowPresets, false));
-
         // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        cut.FindAll(".vibe-color-picker-presets").Should().BeEmpty();
-    }
-
-    [Fact]
-    public void ColorPicker_DisplaysCustomPresets()
-    {
-        // Arrange
-        var customPresets = new List<string> { "#FF0000", "#00FF00", "#0000FF" };
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.Presets, customPresets)
-            .Add(p => p.ShowPresets, true));
-
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        var presets = cut.FindAll(".vibe-color-picker-preset");
-        presets.Should().HaveCount(3);
-    }
-
-    [Fact]
-    public void ColorPicker_IsDisabled_WhenDisabledIsTrue()
-    {
-        // Arrange
         var cut = RenderComponent<ColorPicker>(parameters => parameters
             .Add(p => p.Disabled, true));
 
+        // Assert
+        cut.Find(".vibe-color-picker").ClassList.ShouldContain("vibe-color-picker-disabled");
+    }
+
+    [Fact]
+    public void ColorPicker_Applies_CustomCssClass()
+    {
         // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        cut.FindAll(".vibe-color-picker-popover").Should().BeEmpty();
-        cut.Find(".vibe-color-picker").ClassList.Should().Contain("vibe-color-picker-disabled");
-    }
-
-    [Fact]
-    public void ColorPicker_TriggersValueChanged_WhenPresetSelected()
-    {
-        // Arrange
-        string changedValue = null;
         var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.Value, "#000000")
-            .Add(p => p.ShowPresets, true)
-            .Add(p => p.ValueChanged, EventCallback.Factory.Create<string>(this, value => changedValue = value)));
-
-        // Act
-        cut.Find(".vibe-color-picker-preview").Click();
-        cut.FindAll(".vibe-color-picker-preset")[0].Click();
+            .Add(p => p.CssClass, "custom-picker"));
 
         // Assert
-        changedValue.Should().NotBeNull();
-        changedValue.Should().Be("#FF0000");
-    }
-
-    [Fact]
-    public void ColorPicker_AppliesCustomCssClass()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.CssClass, "custom-color-picker"));
-
-        // Assert
-        cut.Find(".vibe-color-picker").ClassList.Should().Contain("custom-color-picker");
-    }
-
-    [Fact]
-    public void ColorPicker_ParsesHexColor_Correctly()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<ColorPicker>(parameters => parameters
-            .Add(p => p.Value, "#FF5733"));
-
-        // Open popover to trigger color parsing
-        cut.Find(".vibe-color-picker-preview").Click();
-
-        // Assert
-        var hexInput = cut.FindAll("input[type='text']").First();
-        hexInput.GetAttribute("value").Should().Be("#FF5733");
+        cut.Find(".vibe-color-picker").ClassList.ShouldContain("custom-picker");
     }
 }

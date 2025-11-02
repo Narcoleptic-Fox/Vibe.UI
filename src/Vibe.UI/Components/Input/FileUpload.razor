@@ -86,14 +86,13 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-file-upload",
         _isDragging ? "file-upload-dragging" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private async Task OpenFilePicker()
     {
@@ -133,13 +132,13 @@
         }
         return $"{len:0.##} {sizes[order]}";
     }
-}
 
-public class UploadedFile
-{
-    public string Name { get; set; } = string.Empty;
-    public long Size { get; set; }
-    public string ContentType { get; set; } = string.Empty;
-    public DateTime UploadedAt { get; set; } = DateTime.Now;
-    public byte[]? Data { get; set; }
+    public class UploadedFile
+    {
+        public string Name { get; set; } = string.Empty;
+        public long Size { get; set; }
+        public string ContentType { get; set; } = string.Empty;
+        public DateTime UploadedAt { get; set; } = DateTime.Now;
+        public byte[]? Data { get; set; }
+    }
 }

@@ -1,120 +1,120 @@
 namespace Vibe.UI.Tests.Components.Overlay;
 
-public class DrawerTests : TestContext
+public class DrawerTests : TestBase
 {
-    public DrawerTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
     public void Drawer_DoesNotRender_WhenClosed()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Drawer>(parameters => parameters
             .Add(p => p.IsOpen, false));
 
         // Assert
-        cut.FindAll(".vibe-drawer").Should().BeEmpty();
+        cut.FindAll(".vibe-drawer").ShouldBeEmpty();
     }
 
     [Fact]
     public void Drawer_Renders_WhenOpen()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Drawer>(parameters => parameters
-            .Add(p => p.IsOpen, true)
-            .AddChildContent("Drawer content"));
-
-        // Assert
-        cut.Find(".vibe-drawer").Should().NotBeNull();
-        cut.Find(".drawer-overlay").Should().NotBeNull();
-        cut.Find(".drawer-content").Should().NotBeNull();
-    }
-
-    [Fact]
-    public void Drawer_RendersContent()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Drawer>(parameters => parameters
-            .Add(p => p.IsOpen, true)
-            .AddChildContent("My drawer content"));
-
-        // Assert
-        cut.Find(".drawer-body").TextContent.Should().Contain("My drawer content");
-    }
-
-    [Fact]
-    public void Drawer_ShowsCloseButton_ByDefault()
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Drawer>(parameters => parameters
             .Add(p => p.IsOpen, true));
 
         // Assert
-        cut.Find(".drawer-close").Should().NotBeNull();
+        var drawer = cut.Find(".vibe-drawer");
+        drawer.ShouldNotBeNull();
     }
 
     [Fact]
-    public void Drawer_HidesCloseButton_WhenDisabled()
+    public void Drawer_Displays_ChildContent()
     {
-        // Arrange & Act
+        // Arrange
+        var content = "Drawer Content";
+
+        // Act
         var cut = RenderComponent<Drawer>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .Add(p => p.ShowCloseButton, false));
+            .Add(p => p.ChildContent, builder => builder.AddContent(0, content)));
 
         // Assert
-        cut.FindAll(".drawer-close").Should().BeEmpty();
+        var body = cut.Find(".drawer-body");
+        body.TextContent.ShouldContain(content);
     }
 
     [Fact]
-    public void Drawer_AppliesRightSide_ByDefault()
+    public void Drawer_Applies_SideClass()
     {
-        // Arrange & Act
-        var cut = RenderComponent<Drawer>(parameters => parameters
-            .Add(p => p.IsOpen, true));
+        // Arrange
+        var side = "left";
 
-        // Assert
-        cut.Find(".vibe-drawer").ClassList.Should().Contain("drawer-right");
-    }
-
-    [Theory]
-    [InlineData("left", "drawer-left")]
-    [InlineData("right", "drawer-right")]
-    [InlineData("top", "drawer-top")]
-    [InlineData("bottom", "drawer-bottom")]
-    public void Drawer_AppliesCorrectSideClass(string side, string expectedClass)
-    {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Drawer>(parameters => parameters
             .Add(p => p.IsOpen, true)
             .Add(p => p.Side, side));
 
         // Assert
-        cut.Find(".vibe-drawer").ClassList.Should().Contain(expectedClass);
+        var drawer = cut.Find(".vibe-drawer");
+        drawer.ClassList.ShouldContain($"drawer-{side}");
     }
 
     [Fact]
-    public void Drawer_SupportsCloseOnOverlayClick()
+    public void Drawer_Applies_DefaultSide()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Drawer>(parameters => parameters
-            .Add(p => p.IsOpen, true)
-            .Add(p => p.CloseOnOverlayClick, true));
+            .Add(p => p.IsOpen, true));
 
         // Assert
-        cut.Instance.CloseOnOverlayClick.Should().BeTrue();
+        var drawer = cut.Find(".vibe-drawer");
+        drawer.ClassList.ShouldContain("drawer-right");
     }
 
     [Fact]
-    public void Drawer_AppliesCustomCssClass()
+    public void Drawer_Shows_CloseButton_WhenEnabled()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Drawer>(parameters => parameters
             .Add(p => p.IsOpen, true)
-            .Add(p => p.CssClass, "custom-drawer"));
+            .Add(p => p.ShowCloseButton, true));
 
         // Assert
-        cut.Find(".vibe-drawer").ClassList.Should().Contain("custom-drawer");
+        var closeButton = cut.Find(".drawer-close");
+        closeButton.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Drawer_Hides_CloseButton_WhenDisabled()
+    {
+        // Act
+        var cut = RenderComponent<Drawer>(parameters => parameters
+            .Add(p => p.IsOpen, true)
+            .Add(p => p.ShowCloseButton, false));
+
+        // Assert
+        cut.FindAll(".drawer-close").ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Drawer_Renders_Overlay()
+    {
+        // Act
+        var cut = RenderComponent<Drawer>(parameters => parameters
+            .Add(p => p.IsOpen, true));
+
+        // Assert
+        var overlay = cut.Find(".drawer-overlay");
+        overlay.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Drawer_Renders_Content()
+    {
+        // Act
+        var cut = RenderComponent<Drawer>(parameters => parameters
+            .Add(p => p.IsOpen, true));
+
+        // Assert
+        var content = cut.Find(".drawer-content");
+        content.ShouldNotBeNull();
     }
 }

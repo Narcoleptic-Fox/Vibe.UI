@@ -98,6 +98,7 @@ public class ComponentService
             ["formmessage"] = new ComponentInfo { Name = "FormMessage", Category = "Form", Description = "Displays form validation messages" },
             ["label"] = new ComponentInfo { Name = "Label", Category = "Form", Description = "Renders an accessible label associated with controls" },
             ["combobox"] = new ComponentInfo { Name = "Combobox", Category = "Form", Description = "Autocomplete input and command palette with a list of suggestions" },
+            ["validatedinput"] = new ComponentInfo { Name = "ValidatedInput", Category = "Form", Description = "Input field with integrated validation display" },
 
             // Data Display
             ["avatar"] = new ComponentInfo { Name = "Avatar", Category = "DataDisplay", Description = "An image element with a fallback for representing the user" },
@@ -137,6 +138,7 @@ public class ComponentService
             ["hovercard"] = new ComponentInfo { Name = "HoverCard", Category = "Overlay", Description = "For sighted users to preview content available behind a link" },
             ["popover"] = new ComponentInfo { Name = "Popover", Category = "Overlay", Description = "Displays rich content in a portal, triggered by a button" },
             ["tooltip"] = new ComponentInfo { Name = "Tooltip", Category = "Overlay", Description = "A popup that displays information related to an element" },
+            ["dialogcontainer"] = new ComponentInfo { Name = "DialogContainer", Category = "Overlay", Description = "Container for managing multiple dialog instances" },
 
             // Feedback
             ["alert"] = new ComponentInfo { Name = "Alert", Category = "Feedback", Description = "Displays a callout for user attention" },
@@ -160,9 +162,11 @@ public class ComponentService
             ["dropdownmenu"] = new ComponentInfo { Name = "DropdownMenu", Category = "Utility", Description = "Displays a menu to the user triggered by a button" },
             ["kbd"] = new ComponentInfo { Name = "Kbd", Category = "Utility", Description = "Keyboard shortcut display component" },
             ["qrcode"] = new ComponentInfo { Name = "QRCode", Category = "Utility", Description = "QR code generator for URLs and text" },
+            ["icon"] = new ComponentInfo { Name = "Icon", Category = "Utility", Description = "Lucide icon component with size and color customization" },
 
             // Advanced Components
-            ["treeview"] = new ComponentInfo { Name = "TreeView", Category = "Advanced", Description = "Hierarchical data display with expand/collapse" },
+            ["treeview"] = new ComponentInfo { Name = "TreeView", Category = "Advanced", Description = "Hierarchical data display with expand/collapse", Dependencies = new List<string> { "TreeViewNode" } },
+            ["treeviewnode"] = new ComponentInfo { Name = "TreeViewNode", Category = "Advanced", Description = "Individual node component within TreeView hierarchy" },
             ["kanbanboard"] = new ComponentInfo { Name = "KanbanBoard", Category = "Advanced", Description = "Kanban board with draggable cards and columns" },
             ["virtualscroll"] = new ComponentInfo { Name = "VirtualScroll", Category = "Advanced", Description = "Efficient rendering for large lists with virtual scrolling" },
 
@@ -172,6 +176,12 @@ public class ComponentService
             ["carousel"] = new ComponentInfo { Name = "Carousel", Category = "Disclosure", Description = "A carousel with motion and swipe support", Dependencies = new List<string> { "CarouselItem" } },
             ["carouselitem"] = new ComponentInfo { Name = "CarouselItem", Category = "Disclosure", Description = "An item within a carousel" },
             ["collapsible"] = new ComponentInfo { Name = "Collapsible", Category = "Disclosure", Description = "An interactive component which expands/collapses a panel" },
+
+            // Theme
+            ["themepanel"] = new ComponentInfo { Name = "ThemePanel", Category = "Theme", Description = "Theme customization panel with color and radius controls" },
+            ["themeroot"] = new ComponentInfo { Name = "ThemeRoot", Category = "Theme", Description = "Root theme provider component for managing application theme" },
+            ["themeselector"] = new ComponentInfo { Name = "ThemeSelector", Category = "Theme", Description = "Theme selector dropdown for switching between themes" },
+            ["themetoggle"] = new ComponentInfo { Name = "ThemeToggle", Category = "Theme", Description = "Dark/light mode toggle button" },
         };
 
         return components;

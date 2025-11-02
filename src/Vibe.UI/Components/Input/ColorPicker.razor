@@ -111,9 +111,6 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private bool IsOpen { get; set; }
     private double Hue { get; set; }
     private double Saturation { get; set; } = 100;
@@ -131,6 +128,8 @@
         Disabled ? "vibe-color-picker-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     protected override void OnParametersSet()
     {

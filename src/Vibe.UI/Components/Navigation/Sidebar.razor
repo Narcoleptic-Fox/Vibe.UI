@@ -106,9 +106,6 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-sidebar",
         $"sidebar-{Position.ToString().ToLower()}",
@@ -116,6 +113,8 @@
         Resizable ? "sidebar-resizable" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string SidebarStyle => IsOpen
         ? $"width: {Width}px;"
@@ -134,10 +133,10 @@
         _isResizing = true;
         // Would need JS interop for actual drag handling
     }
-}
 
-public enum SidebarPosition
-{
-    Left,
-    Right
+    public enum SidebarPosition
+    {
+        Left,
+        Right
+    }
 }

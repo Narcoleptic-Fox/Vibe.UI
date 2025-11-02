@@ -19,10 +19,10 @@
         <canvas @ref="_canvasRef" id="@_canvasId" class="vibe-chart-canvas"></canvas>
     </div>
 
-    @if (ShowLegend && ChartData?.Datasets?.Any() == true && !UseBuiltInLegend)
+    @if (ShowLegend && Data?.Datasets?.Any() == true && !UseBuiltInLegend)
     {
         <div class="vibe-chart-legend">
-            @foreach (var dataset in ChartData.Datasets)
+            @foreach (var dataset in Data.Datasets)
             {
                 <div class="vibe-chart-legend-item">
                     <span class="vibe-chart-legend-color" style="background-color: @(dataset.BackgroundColor ?? dataset.Color);"></span>
@@ -49,7 +49,7 @@
     /// The chart data to display.
     /// </summary>
     [Parameter, EditorRequired]
-    public ChartData? ChartData { get; set; }
+    public ChartData? Data { get; set; }
 
     /// <summary>
     /// The type of chart to render.
@@ -120,9 +120,11 @@
         CssClass
     );
 
+    protected override string ComponentClass => CombinedCssClass;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && ChartData != null)
+        if (firstRender && Data != null)
         {
             await RenderChart();
         }
@@ -130,7 +132,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (_chartCreated && ChartData != null)
+        if (_chartCreated && Data != null)
         {
             await UpdateChart();
         }
@@ -198,8 +200,8 @@
             type = Type.ToString().ToLower(),
             data = new
             {
-                labels = ChartData?.Labels ?? new List<string>(),
-                datasets = ChartData?.Datasets.Select(ds => new
+                labels = Data?.Labels ?? new List<string>(),
+                datasets = Data?.Datasets.Select(ds => new
                 {
                     label = ds.Label,
                     data = ds.Data,
@@ -290,53 +292,53 @@
             }
         }
     }
-}
 
-public class ChartData
-{
-    public List<string> Labels { get; set; } = new();
-    public List<ChartDataset> Datasets { get; set; } = new();
-}
+    public class ChartData
+    {
+        public List<string> Labels { get; set; } = new();
+        public List<ChartDataset> Datasets { get; set; } = new();
+    }
 
-public class ChartDataset
-{
-    public string Label { get; set; } = string.Empty;
-    public List<double> Data { get; set; } = new();
-    public string Color { get; set; } = "#3b82f6";
-    public string? BackgroundColor { get; set; }
-    public string? BorderColor { get; set; }
-    public int BorderWidth { get; set; } = 2;
-    public bool Fill { get; set; }
-}
+    public class ChartDataset
+    {
+        public string Label { get; set; } = string.Empty;
+        public List<double> Data { get; set; } = new();
+        public string Color { get; set; } = "#3b82f6";
+        public string? BackgroundColor { get; set; }
+        public string? BorderColor { get; set; }
+        public int BorderWidth { get; set; } = 2;
+        public bool Fill { get; set; }
+    }
 
-public class ChartOptions
-{
-    public bool Responsive { get; set; } = true;
-    public bool MaintainAspectRatio { get; set; } = false;
-    public ChartAnimation? Animation { get; set; }
-    public ChartTooltip? Tooltip { get; set; }
-}
+    public class ChartOptions
+    {
+        public bool Responsive { get; set; } = true;
+        public bool MaintainAspectRatio { get; set; } = false;
+        public ChartAnimation? Animation { get; set; }
+        public ChartTooltip? Tooltip { get; set; }
+    }
 
-public class ChartAnimation
-{
-    public int Duration { get; set; } = 400;
-    public string Easing { get; set; } = "easeInOutQuart";
-}
+    public class ChartAnimation
+    {
+        public int Duration { get; set; } = 400;
+        public string Easing { get; set; } = "easeInOutQuart";
+    }
 
-public class ChartTooltip
-{
-    public bool Enabled { get; set; } = true;
-    public string Mode { get; set; } = "index";
-    public bool Intersect { get; set; } = false;
-}
+    public class ChartTooltip
+    {
+        public bool Enabled { get; set; } = true;
+        public string Mode { get; set; } = "index";
+        public bool Intersect { get; set; } = false;
+    }
 
-public enum ChartType
-{
-    Line,
-    Bar,
-    Pie,
-    Doughnut,
-    Radar,
-    PolarArea,
-    Area
+    public enum ChartType
+    {
+        Line,
+        Bar,
+        Pie,
+        Doughnut,
+        Radar,
+        PolarArea,
+        Area
+    }
 }

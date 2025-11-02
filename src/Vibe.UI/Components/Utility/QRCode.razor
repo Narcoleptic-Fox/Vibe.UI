@@ -80,13 +80,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-qrcode",
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private string ContainerStyle => $"width: {Size}px; height: {Size}px;";
     private string ImageStyle => $"width: {Size}px; height: {Size}px;";
@@ -152,12 +151,12 @@
         svg += "</svg>";
         return svg;
     }
-}
 
-public enum QRCodeLevel
-{
-    L = 0,  // Low - 7% error correction
-    M = 1,  // Medium - 15% error correction
-    Q = 2,  // Quartile - 25% error correction
-    H = 3   // High - 30% error correction
+    public enum QRCodeLevel
+    {
+        L = 0,  // Low - 7% error correction
+        M = 1,  // Medium - 15% error correction
+        Q = 2,  // Quartile - 25% error correction
+        H = 3   // High - 30% error correction
+    }
 }

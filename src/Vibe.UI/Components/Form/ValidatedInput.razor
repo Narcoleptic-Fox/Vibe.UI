@@ -100,9 +100,6 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-validated-input",
         IsValid.HasValue ? (IsValid.Value ? "valid" : "invalid") : null,
@@ -110,6 +107,8 @@
         Disabled ? "disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private bool? IsValid
     {

@@ -23,11 +23,13 @@
         $"kbd-{Size.ToString().ToLower()}",
         CssClass
     );
-}
 
-public enum KbdSize
-{
-    Small,
-    Default,
-    Large
+    protected override string ComponentClass => CombinedCssClass;
+
+    public enum KbdSize
+    {
+        Small,
+        Default,
+        Large
+    }
 }

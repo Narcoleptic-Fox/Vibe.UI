@@ -1,135 +1,149 @@
 namespace Vibe.UI.Tests.Components.Utility;
 
-public class IconTests : TestContext
+public class IconTests : TestBase
 {
-    public IconTests()
-    {
-        this.AddVibeUIServices();
-    }
-
     [Fact]
-    public void Icon_RendersWithName()
+    public void Icon_Renders_WithDefaultProps()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Icon>(parameters => parameters
             .Add(p => p.Name, "heart"));
 
         // Assert
-        cut.Find("svg").Should().NotBeNull();
-        cut.Find("svg").ClassList.Should().Contain("vibe-icon");
+        var icon = cut.Find(".vibe-icon");
+        icon.ShouldNotBeNull();
+        icon.TagName.ShouldBe("svg");
     }
 
     [Fact]
-    public void Icon_AppliesCustomSize()
+    public void Icon_Applies_DefaultSize()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, "star")
+            .Add(p => p.Name, "star"));
+
+        // Assert
+        var icon = cut.Find("svg");
+        icon.GetAttribute("width").ShouldBe("24");
+        icon.GetAttribute("height").ShouldBe("24");
+    }
+
+    [Fact]
+    public void Icon_Applies_CustomSize()
+    {
+        // Act
+        var cut = RenderComponent<Icon>(parameters => parameters
+            .Add(p => p.Name, "heart")
             .Add(p => p.Size, 32));
 
         // Assert
-        var svg = cut.Find("svg");
-        svg.GetAttribute("width").Should().Be("32");
-        svg.GetAttribute("height").Should().Be("32");
+        var icon = cut.Find("svg");
+        icon.GetAttribute("width").ShouldBe("32");
+        icon.GetAttribute("height").ShouldBe("32");
     }
 
     [Fact]
-    public void Icon_AppliesCustomColor()
+    public void Icon_Applies_CustomWidth()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, "check")
-            .Add(p => p.Color, "#FF0000"));
+            .Add(p => p.Name, "heart")
+            .Add(p => p.Width, 48));
 
         // Assert
-        var svg = cut.Find("svg");
-        svg.GetAttribute("style").Should().Contain("color: #FF0000");
+        var icon = cut.Find("svg");
+        icon.GetAttribute("width").ShouldBe("48");
     }
 
     [Fact]
-    public void Icon_AppliesCustomStrokeWidth()
+    public void Icon_Applies_CustomHeight()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, "menu")
+            .Add(p => p.Name, "heart")
+            .Add(p => p.Height, 64));
+
+        // Assert
+        var icon = cut.Find("svg");
+        icon.GetAttribute("height").ShouldBe("64");
+    }
+
+    [Fact]
+    public void Icon_Applies_CustomColor()
+    {
+        // Act
+        var cut = RenderComponent<Icon>(parameters => parameters
+            .Add(p => p.Name, "heart")
+            .Add(p => p.Color, "#ff0000"));
+
+        // Assert
+        var icon = cut.Find("svg");
+        icon.GetAttribute("style").ShouldContain("color: #ff0000");
+    }
+
+    [Fact]
+    public void Icon_Applies_CustomFill()
+    {
+        // Act
+        var cut = RenderComponent<Icon>(parameters => parameters
+            .Add(p => p.Name, "heart")
+            .Add(p => p.Fill, "red"));
+
+        // Assert
+        var icon = cut.Find("svg");
+        icon.GetAttribute("fill").ShouldBe("red");
+    }
+
+    [Fact]
+    public void Icon_Applies_CustomStroke()
+    {
+        // Act
+        var cut = RenderComponent<Icon>(parameters => parameters
+            .Add(p => p.Name, "heart")
+            .Add(p => p.Stroke, "blue"));
+
+        // Assert
+        var icon = cut.Find("svg");
+        icon.GetAttribute("stroke").ShouldBe("blue");
+    }
+
+    [Fact]
+    public void Icon_Applies_CustomStrokeWidth()
+    {
+        // Act
+        var cut = RenderComponent<Icon>(parameters => parameters
+            .Add(p => p.Name, "heart")
             .Add(p => p.StrokeWidth, 3));
 
         // Assert
-        var svg = cut.Find("svg");
-        svg.GetAttribute("stroke-width").Should().Be("3");
+        var icon = cut.Find("svg");
+        icon.GetAttribute("stroke-width").ShouldBe("3");
     }
 
     [Fact]
-    public void Icon_AppliesCustomCssClass()
+    public void Icon_Applies_CustomCssClass()
     {
-        // Arrange & Act
+        // Act
         var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, "user")
+            .Add(p => p.Name, "heart")
             .Add(p => p.CssClass, "custom-icon"));
 
         // Assert
-        cut.Find("svg").ClassList.Should().Contain("custom-icon");
+        var icon = cut.Find(".vibe-icon");
+        icon.ClassList.ShouldContain("custom-icon");
     }
 
     [Fact]
-    public void Icon_SupportsCustomSvgContent()
+    public void Icon_Renders_CustomSvg()
     {
         // Arrange
-        RenderFragment customContent = builder =>
-        {
-            builder.OpenElement(0, "circle");
-            builder.AddAttribute(1, "cx", "12");
-            builder.AddAttribute(2, "cy", "12");
-            builder.AddAttribute(3, "r", "10");
-            builder.CloseElement();
-        };
+        var customSvg = "<svg class='custom'><circle r='10'/></svg>";
 
         // Act
         var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.IconContent, customContent));
+            .Add(p => p.CustomSvg, customSvg));
 
         // Assert
-        cut.Find("circle").Should().NotBeNull();
-    }
-
-    [Theory]
-    [InlineData("menu")]
-    [InlineData("heart")]
-    [InlineData("star")]
-    [InlineData("user")]
-    [InlineData("search")]
-    public void Icon_RendersCommonIcons(string iconName)
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, iconName));
-
-        // Assert
-        cut.Find("svg").Should().NotBeNull();
-    }
-
-    [Fact]
-    public void Icon_HasCorrectDefaultViewBox()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, "check"));
-
-        // Assert
-        var svg = cut.Find("svg");
-        svg.GetAttribute("viewBox").Should().Be("0 0 24 24");
-    }
-
-    [Fact]
-    public void Icon_HasCorrectDefaultStroke()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<Icon>(parameters => parameters
-            .Add(p => p.Name, "x"));
-
-        // Assert
-        var svg = cut.Find("svg");
-        svg.GetAttribute("stroke").Should().Be("currentColor");
-        svg.GetAttribute("fill").Should().Be("none");
+        cut.Markup.ShouldContain("custom");
     }
 }

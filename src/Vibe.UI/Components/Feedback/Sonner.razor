@@ -57,15 +57,14 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "sonner-container",
         $"sonner-{Position.ToString().ToLower()}",
         RichColors ? "sonner-rich" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     protected override void OnInitialized()
     {
@@ -193,43 +192,43 @@
     {
         _timer?.Dispose();
     }
-}
 
-public class SonnerToast
-{
-    public string Id { get; set; } = string.Empty;
-    public string? Title { get; set; }
-    public RenderFragment? Description { get; set; }
-    public RenderFragment? Icon { get; set; }
-    public SonnerType Type { get; set; } = SonnerType.Default;
-    public int? Duration { get; set; }
-    public bool Dismissible { get; set; } = true;
-    public DateTime CreatedAt { get; set; }
-    public SonnerAction? Action { get; set; }
-}
+    public class SonnerToast
+    {
+        public string Id { get; set; } = string.Empty;
+        public string? Title { get; set; }
+        public RenderFragment? Description { get; set; }
+        public RenderFragment? Icon { get; set; }
+        public SonnerType Type { get; set; } = SonnerType.Default;
+        public int? Duration { get; set; }
+        public bool Dismissible { get; set; } = true;
+        public DateTime CreatedAt { get; set; }
+        public SonnerAction? Action { get; set; }
+    }
 
-public class SonnerAction
-{
-    public string Label { get; set; } = string.Empty;
-    public Action? OnClick { get; set; }
-}
+    public class SonnerAction
+    {
+        public string Label { get; set; } = string.Empty;
+        public Action? OnClick { get; set; }
+    }
 
-public enum SonnerType
-{
-    Default,
-    Success,
-    Error,
-    Warning,
-    Info,
-    Loading
-}
+    public enum SonnerType
+    {
+        Default,
+        Success,
+        Error,
+        Warning,
+        Info,
+        Loading
+    }
 
-public enum SonnerPosition
-{
-    TopLeft,
-    TopCenter,
-    TopRight,
-    BottomLeft,
-    BottomCenter,
-    BottomRight
+    public enum SonnerPosition
+    {
+        TopLeft,
+        TopCenter,
+        TopRight,
+        BottomLeft,
+        BottomCenter,
+        BottomRight
+    }
 }

@@ -63,10 +63,10 @@
     private string _searchQuery = string.Empty;
 
     [Parameter]
-    public List<MentionItem> Mentions { get; set; } = new();
+    public List<MentionItem> Items { get; set; } = new();
 
     [Parameter]
-    public EventCallback<List<MentionItem>> MentionsChanged { get; set; }
+    public EventCallback<List<MentionItem>> ItemsChanged { get; set; }
 
     [Parameter]
     public List<MentionSuggestion> Suggestions { get; set; } = new();
@@ -101,14 +101,13 @@
     [Parameter]
     public string? CssClass { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string CombinedCssClass => CombineClasses(
         "vibe-mentions",
         Disabled ? "mentions-disabled" : null,
         CssClass
     );
+
+    protected override string ComponentClass => CombinedCssClass;
 
     private List<MentionSuggestion> FilteredSuggestions => string.IsNullOrWhiteSpace(_searchQuery)
         ? Suggestions
@@ -116,9 +115,9 @@
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
-        if (e.Key == "Backspace" && string.IsNullOrEmpty(_inputValue) && Mentions.Any())
+        if (e.Key == "Backspace" && string.IsNullOrEmpty(_inputValue) && Items.Any())
         {
-            await RemoveMention(Mentions.Last().Name);
+            await RemoveMention(Items.Last().Name);
         }
         else if (_inputValue.StartsWith(MentionPrefix) || (AllowHashtags && _inputValue.StartsWith(HashtagPrefix)))
         {
@@ -140,8 +139,8 @@
             Type = _inputValue.StartsWith(MentionPrefix) ? MentionType.User : MentionType.Hashtag
         };
 
-        Mentions.Add(mention);
-        await MentionsChanged.InvokeAsync(Mentions);
+        Items.Add(mention);
+        await ItemsChanged.InvokeAsync(Items);
         await OnMentionAdded.InvokeAsync(mention);
 
         _inputValue = string.Empty;
@@ -151,11 +150,11 @@
 
     private async Task RemoveMention(string name)
     {
-        var mention = Mentions.FirstOrDefault(m => m.Name == name);
+        var mention = Items.FirstOrDefault(m => m.Name == name);
         if (mention != null)
         {
-            Mentions.Remove(mention);
-            await MentionsChanged.InvokeAsync(Mentions);
+            Items.Remove(mention);
+            await ItemsChanged.InvokeAsync(Items);
             await OnMentionRemoved.InvokeAsync(mention);
             UpdateDisplayItems();
         }
@@ -163,7 +162,7 @@
 
     private void UpdateDisplayItems()
     {
-        _displayItems = Mentions.Select(m => new DisplayItem { Text = m.Name, IsMention = true }).ToList();
+        _displayItems = Items.Select(m => new DisplayItem { Text = m.Name, IsMention = true }).ToList();
     }
 
     private class DisplayItem
@@ -171,25 +170,25 @@
         public string Text { get; set; } = string.Empty;
         public bool IsMention { get; set; }
     }
-}
 
-public class MentionItem
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Name { get; set; } = string.Empty;
-    public MentionType Type { get; set; } = MentionType.User;
-}
+    public class MentionItem
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = string.Empty;
+        public MentionType Type { get; set; } = MentionType.User;
+    }
 
-public class MentionSuggestion
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
-    public RenderFragment? Avatar { get; set; }
-}
+    public class MentionSuggestion
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public RenderFragment? Avatar { get; set; }
+    }
 
-public enum MentionType
-{
-    User,
-    Hashtag
+    public enum MentionType
+    {
+        User,
+        Hashtag
+    }
 }

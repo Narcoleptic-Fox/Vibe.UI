@@ -13,6 +13,7 @@ public class ProjectService
 
         var csprojContent = await File.ReadAllTextAsync(csprojFiles[0]);
 
+        // Check WebAssembly first since it contains "Components.Web" as a substring
         if (csprojContent.Contains("Microsoft.AspNetCore.Components.WebAssembly"))
             return "Blazor WebAssembly";
 

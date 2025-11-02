@@ -37,7 +37,8 @@ public class ListCommand : Command
         }
 
         AnsiConsole.MarkupLine($"[grey]Total: {components.Count} components available[/]");
-        AnsiConsole.MarkupLine($"\n[blue]Usage:[/] vibe add [component-name]");
+        // Escape the square brackets in the usage example to prevent Spectre.Console from parsing them as markup
+        AnsiConsole.MarkupLine($"\n[blue]Usage:[/] vibe add [[component-name]]");
 
         return 0;
     }
