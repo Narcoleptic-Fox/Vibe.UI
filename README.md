@@ -1,6 +1,5 @@
 # Vibe.UI
 
-[![Build](https://github.com/Dieshen/Vibe.UI/actions/workflows/ci.yml/badge.svg)](https://github.com/Dieshen/Vibe.UI/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/Vibe.UI.svg)](https://www.nuget.org/packages/Vibe.UI/)
 [![codecov](https://codecov.io/gh/Dieshen/Vibe.UI/branch/main/graph/badge.svg)](https://codecov.io/gh/Dieshen/Vibe.UI)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -519,37 +518,6 @@ The Vibe CLI provides several commands for working with components:
 - `-p, --path <path>` - Specify project directory
 - `-o, --overwrite` - Overwrite existing files
 
-## IDE Extensions
-
-### Visual Studio Code
-
-Install the Vibe.UI extension from the VS Code marketplace:
-
-1. Open VS Code
-2. Go to Extensions (Ctrl+Shift+X)
-3. Search for "Vibe.UI"
-4. Click Install
-
-**Features:**
-- Code snippets for all components
-- Quick add component command
-- IntelliSense support
-- Direct access to documentation
-
-### Visual Studio 2022
-
-Install the Vibe.UI VSIX extension:
-
-1. Download from Visual Studio Marketplace or GitHub Releases
-2. Double-click the VSIX file to install
-3. Restart Visual Studio
-
-**Features:**
-- Project templates with Vibe.UI pre-configured
-- Item templates for common component patterns
-- Right-click menu to add components
-- Integrated CLI commands
-
 ## Testing
 
 Vibe.UI includes comprehensive testing infrastructure using bUnit and xUnit.
@@ -611,9 +579,6 @@ Vibe.UI/
 │   └── Vibe.UI.Tests/        # Unit and integration tests
 ├── samples/
 │   └── Vibe.UI.Docs/         # Documentation site
-├── extensions/
-│   ├── vscode/               # VS Code extension
-│   └── vs2022/               # Visual Studio 2022 extension
 └── README.md
 ```
 

@@ -114,8 +114,8 @@ public class ComponentServiceTests : IDisposable
     [Fact]
     public void GetInstalledComponents_ReturnsInstalledComponents()
     {
-        // Arrange
-        var componentsDir = Path.Combine(_testProjectPath, "Components", "Input");
+        // Arrange - Flat structure: components go directly to Components/
+        var componentsDir = Path.Combine(_testProjectPath, "Components");
         Directory.CreateDirectory(componentsDir);
         File.WriteAllText(Path.Combine(componentsDir, "Button.razor"), "<button></button>");
         File.WriteAllText(Path.Combine(componentsDir, "Checkbox.razor"), "<input type='checkbox' />");
@@ -136,19 +136,19 @@ public class ComponentServiceTests : IDisposable
         await _componentService.InstallComponentAsync(_testProjectPath, "Components", "button", false);
 
         // Assert
-        var componentPath = Path.Combine(_testProjectPath, "Components", "Input", "Button.razor");
+        var componentPath = Path.Combine(_testProjectPath, "Components", "Button.razor");
         File.Exists(componentPath).Should().BeTrue();
     }
 
     [Fact]
-    public async Task InstallComponentAsync_CreatesCorrectDirectoryStructure()
+    public async Task InstallComponentAsync_CreatesComponentInFlatStructure()
     {
         // Act
         await _componentService.InstallComponentAsync(_testProjectPath, "Components", "dialog", false);
 
-        // Assert
-        var overlayDir = Path.Combine(_testProjectPath, "Components", "Overlay");
-        Directory.Exists(overlayDir).Should().BeTrue();
+        // Assert - Flat structure: component goes directly to Components/Dialog.razor (no category subdirectory)
+        var componentPath = Path.Combine(_testProjectPath, "Components", "Dialog.razor");
+        File.Exists(componentPath).Should().BeTrue();
     }
 
     [Fact]
@@ -162,8 +162,8 @@ public class ComponentServiceTests : IDisposable
     [Fact]
     public async Task InstallComponentAsync_DoesNotOverwrite_WhenOverwriteIsFalse()
     {
-        // Arrange
-        var componentDir = Path.Combine(_testProjectPath, "Components", "Input");
+        // Arrange - Flat structure: component goes directly to Components/Button.razor
+        var componentDir = Path.Combine(_testProjectPath, "Components");
         Directory.CreateDirectory(componentDir);
         var componentPath = Path.Combine(componentDir, "Button.razor");
         await File.WriteAllTextAsync(componentPath, "original content");
@@ -179,8 +179,8 @@ public class ComponentServiceTests : IDisposable
     [Fact]
     public async Task InstallComponentAsync_Overwrites_WhenOverwriteIsTrue()
     {
-        // Arrange
-        var componentDir = Path.Combine(_testProjectPath, "Components", "Input");
+        // Arrange - Flat structure: component goes directly to Components/Button.razor
+        var componentDir = Path.Combine(_testProjectPath, "Components");
         Directory.CreateDirectory(componentDir);
         var componentPath = Path.Combine(componentDir, "Button.razor");
         await File.WriteAllTextAsync(componentPath, "original content");

@@ -73,7 +73,7 @@ public class AddCommandTests : IDisposable
 
         // Assert
         result.Should().Be(0);
-        var componentPath = Path.Combine(_testProjectPath, "Components", "Input", "Button.razor");
+        var componentPath = Path.Combine(_testProjectPath, "Components", "Button.razor");
         File.Exists(componentPath).Should().BeTrue();
     }
 
@@ -127,8 +127,9 @@ public class AddCommandTests : IDisposable
 
         // Assert
         result.Should().Be(0);
-        var tabsPath = Path.Combine(_testProjectPath, "Components", "Navigation", "Tabs.razor");
-        var tabItemPath = Path.Combine(_testProjectPath, "Components", "Navigation", "TabItem.razor");
+        // Components use flat structure - all go directly into Components directory
+        var tabsPath = Path.Combine(_testProjectPath, "Components", "Tabs.razor");
+        var tabItemPath = Path.Combine(_testProjectPath, "Components", "TabItem.razor");
         File.Exists(tabsPath).Should().BeTrue();
         File.Exists(tabItemPath).Should().BeTrue();
     }
@@ -139,7 +140,8 @@ public class AddCommandTests : IDisposable
         // Arrange
         await InitializeProject();
 
-        var componentDir = Path.Combine(_testProjectPath, "Components", "Input");
+        // Components use flat structure - create directly in Components directory
+        var componentDir = Path.Combine(_testProjectPath, "Components");
         Directory.CreateDirectory(componentDir);
         var componentPath = Path.Combine(componentDir, "Button.razor");
         await File.WriteAllTextAsync(componentPath, "old content");
@@ -174,7 +176,8 @@ public class AddCommandTests : IDisposable
         // Arrange
         await InitializeProject();
 
-        var componentDir = Path.Combine(_testProjectPath, "Components", "Input");
+        // Components use flat structure - create directly in Components directory
+        var componentDir = Path.Combine(_testProjectPath, "Components");
         Directory.CreateDirectory(componentDir);
         var componentPath = Path.Combine(componentDir, "Button.razor");
         await File.WriteAllTextAsync(componentPath, "old content");
@@ -203,12 +206,12 @@ public class AddCommandTests : IDisposable
     }
 
     [Theory]
-    [InlineData("button", "Input")]
-    [InlineData("card", "Layout")]
-    [InlineData("dialog", "Overlay")]
-    [InlineData("alert", "Feedback")]
-    [InlineData("accordion", "Disclosure")]
-    public async Task ExecuteAsync_InstallsComponentInCorrectCategory(string component, string category)
+    [InlineData("button", "Button")]
+    [InlineData("card", "Card")]
+    [InlineData("dialog", "Dialog")]
+    [InlineData("alert", "Alert")]
+    [InlineData("accordion", "Accordion")]
+    public async Task ExecuteAsync_InstallsComponentUsingFlatStructure(string component, string expectedComponentName)
     {
         // Arrange
         await InitializeProject();
@@ -227,15 +230,26 @@ public class AddCommandTests : IDisposable
             null);
 
         // Act
-        await _command.ExecuteAsync(context, settings);
+        var result = await _command.ExecuteAsync(context, settings);
 
         // Assert
-        var categoryPath = Path.Combine(_testProjectPath, "Components", category);
-        Directory.Exists(categoryPath).Should().BeTrue();
+        result.Should().Be(0);
+        // Components use flat structure - all go directly into Components directory
+        var componentPath = Path.Combine(_testProjectPath, "Components", $"{expectedComponentName}.razor");
+        File.Exists(componentPath).Should().BeTrue($"component {expectedComponentName} should be installed in flat structure");
     }
 
     private async Task InitializeProject()
     {
+        // Create Vibe infrastructure directory structure
+        var vibeBasePath = Path.Combine(_testProjectPath, "Vibe", "Base");
+        Directory.CreateDirectory(vibeBasePath);
+
+        // Create required infrastructure file
+        var themedComponentBasePath = Path.Combine(vibeBasePath, "ThemedComponentBase.cs");
+        await File.WriteAllTextAsync(themedComponentBasePath, "// Placeholder for ThemedComponentBase");
+
+        // Save configuration
         var configService = new ConfigService();
         await configService.SaveConfigAsync(_testProjectPath, new VibeConfig
         {

@@ -33,6 +33,48 @@ public class ComponentService
         return razorFiles.Select(Path.GetFileNameWithoutExtension).ToList();
     }
 
+    /// <summary>
+    /// Installs a component into the target project.
+    /// </summary>
+    /// <param name="projectPath">The root path of the target project.</param>
+    /// <param name="componentsDir">The base components directory (e.g., "Components").</param>
+    /// <param name="componentName">The name of the component to install.</param>
+    /// <param name="overwrite">Whether to overwrite existing component files.</param>
+    /// <param name="customName">Optional custom name for the component (renames the component).</param>
+    /// <param name="customOutputDir">
+    /// Optional custom output directory. If not specified, uses a FLAT STRUCTURE (all components
+    /// directly in componentsDir) following the shadcn/ui pattern. This makes imports simpler and
+    /// components easier to discover. Specify this parameter to use custom organization like category
+    /// subdirectories (e.g., "Components/Input").
+    /// </param>
+    /// <remarks>
+    /// <para><strong>Directory Structure Design:</strong></para>
+    /// <para>
+    /// By default, Vibe.UI uses a FLAT directory structure where all components are installed directly
+    /// into the components directory without category subdirectories. This design choice:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item>Matches the shadcn/ui pattern that inspired this library</item>
+    ///   <item>Simplifies import paths (@using MyApp.Components.Button vs @using MyApp.Components.Input.Button)</item>
+    ///   <item>Makes components easier to discover (no need to remember categories)</item>
+    ///   <item>Reduces cognitive load (no "which category?" decisions)</item>
+    ///   <item>Scales well with modern IDE tooling</item>
+    /// </list>
+    /// <para><strong>Examples:</strong></para>
+    /// <code>
+    /// // Default flat structure (recommended):
+    /// await InstallComponentAsync(projectPath, "Components", "button", false);
+    /// // Result: Components/Button.razor
+    ///
+    /// // Custom subdirectory structure:
+    /// await InstallComponentAsync(projectPath, "Components", "button", false, null, "Components/Input");
+    /// // Result: Components/Input/Button.razor
+    /// </code>
+    /// <para>
+    /// Note: The source code in Vibe.UI.CLI is organized by category for maintainer convenience,
+    /// but components are installed flat by default for user convenience.
+    /// </para>
+    /// </remarks>
     public async Task InstallComponentAsync(
         string projectPath,
         string componentsDir,
@@ -45,7 +87,10 @@ public class ComponentService
         if (component == null)
             throw new InvalidOperationException($"Component '{componentName}' not found.");
 
-        // Determine target directory - use custom output dir or default flat structure (like shadcn/ui)
+        // Determine target directory. By default, we use a flat structure (all components directly
+        // in componentsDir) to match the shadcn/ui pattern. This makes imports simpler and components
+        // easier to discover. Users can override this with customOutputDir to maintain their own
+        // organizational structure (e.g., category subdirectories).
         var targetDir = string.IsNullOrEmpty(customOutputDir)
             ? Path.Combine(projectPath, componentsDir)
             : Path.Combine(projectPath, customOutputDir);

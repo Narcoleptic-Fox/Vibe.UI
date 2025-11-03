@@ -39,15 +39,54 @@ MyProject/
 │   ├── Base/
 │   ├── Services/
 │   └── Themes/
-├── Components/
-│   └── vibe/                ← Components (added via vibe add)
-│       ├── Button.razor
-│       ├── Input.razor
-│       └── Card.razor
+├── Components/              ← Components (added via vibe add)
+│   ├── Button.razor         ← Flat structure (default)
+│   ├── Input.razor
+│   └── Card.razor
 ├── wwwroot/
 │   └── js/
 │       └── themeInterop.js
 └── Program.cs
+```
+
+### Directory Structure Philosophy
+
+**Vibe.UI uses a FLAT directory structure by default**, inspired by shadcn/ui:
+
+✅ **Default (Flat Structure):**
+```
+Components/
+├── Button.razor
+├── Input.razor
+├── Card.razor
+├── Dialog.razor
+└── Alert.razor
+```
+
+This design provides:
+- **Simpler imports**: `@using MyApp.Components.Button` vs `@using MyApp.Components.Input.Button`
+- **Easier discovery**: All components visible in one directory
+- **Less cognitive load**: No need to remember which category a component belongs to
+- **Cleaner autocomplete**: Better IDE experience
+- **Scalable**: Works well even with 90+ components
+
+**Why not category subdirectories?**
+
+The source code IS organized by category (Input/, Form/, DataDisplay/, etc.) for maintainer convenience. However, components are installed flat for user convenience.
+
+**Want custom organization?** Use the `--output` flag:
+
+```bash
+# Custom category structure
+vibe add button --output Components/Input
+vibe add dialog --output Components/Overlay
+
+# Result:
+Components/
+├── Input/
+│   └── Button.razor
+└── Overlay/
+    └── Dialog.razor
 ```
 
 ## Features

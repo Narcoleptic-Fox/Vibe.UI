@@ -55,7 +55,7 @@ public class UpdateCommandTests : IDisposable
         // Arrange
         await InitializeProjectWithComponent("button");
 
-        var componentPath = Path.Combine(_testProjectPath, "Components", "Input", "Button.razor");
+        var componentPath = Path.Combine(_testProjectPath, "Components", "Button.razor");
         await File.WriteAllTextAsync(componentPath, "old version");
 
         var settings = new UpdateCommand.Settings
@@ -87,8 +87,8 @@ public class UpdateCommandTests : IDisposable
         // Arrange
         await InitializeProjectWithMultipleComponents();
 
-        var buttonPath = Path.Combine(_testProjectPath, "Components", "Input", "Button.razor");
-        var checkboxPath = Path.Combine(_testProjectPath, "Components", "Input", "Checkbox.razor");
+        var buttonPath = Path.Combine(_testProjectPath, "Components", "Button.razor");
+        var checkboxPath = Path.Combine(_testProjectPath, "Components", "Checkbox.razor");
         await File.WriteAllTextAsync(buttonPath, "old button");
         await File.WriteAllTextAsync(checkboxPath, "old checkbox");
 
@@ -140,11 +140,11 @@ public class UpdateCommandTests : IDisposable
 
         // Assert
         result.Should().Be(0);
-        var buttonPath = Path.Combine(_testProjectPath, "Components", "Input", "Button.razor");
+        var buttonPath = Path.Combine(_testProjectPath, "Components", "Button.razor");
         File.Exists(buttonPath).Should().BeTrue();
 
         // Checkbox should not be created as it wasn't installed
-        var checkboxPath = Path.Combine(_testProjectPath, "Components", "Input", "Checkbox.razor");
+        var checkboxPath = Path.Combine(_testProjectPath, "Components", "Checkbox.razor");
         File.Exists(checkboxPath).Should().BeFalse();
     }
 
@@ -154,7 +154,7 @@ public class UpdateCommandTests : IDisposable
         // Arrange
         await InitializeProjectWithComponent("button");
 
-        var componentPath = Path.Combine(_testProjectPath, "Components", "Input", "Button.razor");
+        var componentPath = Path.Combine(_testProjectPath, "Components", "Button.razor");
         await File.WriteAllTextAsync(componentPath, "custom modifications");
 
         var settings = new UpdateCommand.Settings
