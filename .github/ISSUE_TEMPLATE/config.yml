@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/Dieshen/Vibe.UI/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📚 Documentation
+    url: https://github.com/Dieshen/Vibe.UI#readme
+    about: Read the documentation and guides
+  - name: 🐛 Security Issue
+    url: https://github.com/Dieshen/Vibe.UI/security/advisories/new
+    about: Report a security vulnerability privately

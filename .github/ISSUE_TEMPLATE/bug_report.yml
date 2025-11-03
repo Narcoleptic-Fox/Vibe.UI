@@ -1,0 +1,123 @@
+name: Bug Report
+description: Report a bug or issue with Vibe.UI
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below to help us investigate.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: When I click the button, nothing happens...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package are you using?
+      options:
+        - Vibe.UI (NuGet package)
+        - Vibe.UI.CLI (CLI tool)
+        - Documentation site
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of Vibe.UI are you using?
+      placeholder: e.g., 1.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: dotnet-version
+    attributes:
+      label: .NET Version
+      options:
+        - .NET 9
+        - .NET 8
+        - .NET 7
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Install Vibe.UI via NuGet
+        2. Add Button component
+        3. Click the button
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: The button should trigger the OnClick event
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Nothing happens when clicking the button
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Code Sample
+      description: Please provide a minimal code sample that reproduces the issue
+      render: razor
+      placeholder: |
+        <Button OnClick="@HandleClick">Click Me</Button>
+
+        @code {
+            private void HandleClick()
+            {
+                // Expected to be called
+            }
+        }
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Messages / Logs
+      description: Please copy and paste any relevant error messages or logs
+      render: shell
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser (if applicable)
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+        - Not applicable
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or information about the problem here.
