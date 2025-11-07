@@ -9,25 +9,46 @@
                RelatedComponents="@relatedComponents">
 
     <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px;">
-            <Input Label="Username" Placeholder="Enter your username" />
+        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
+            <div>
+                <h4 style="margin-bottom: 1rem; color: var(--vibe-foreground);">Text Variant (Underline Only)</h4>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <Input Label="Username" Placeholder="Enter your username" Variant="text" />
+                    <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="text" HelperText="We'll never share your email" />
+                    <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Size="small" Variant="text" />
+                </div>
+            </div>
 
-            <Input Label="Email" Type="email" Placeholder="you@example.com" HelperText="We'll never share your email" />
+            <div>
+                <h4 style="margin-bottom: 1rem; color: var(--vibe-foreground);">Filled Variant (Muted Background)</h4>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <Input Label="Username" Placeholder="Enter your username" Variant="filled" />
+                    <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="filled" HelperText="We'll never share your email" />
+                    <Input Label="Password" Type="password" Placeholder="Enter password" LeadingIcon="🔒" Variant="filled" />
+                </div>
+            </div>
 
-            <Input Label="Password" Type="password" Placeholder="Enter password" LeadingIcon="🔒" />
-
-            <Input Label="Search" Type="search" Placeholder="Search..." LeadingIcon="🔍" Size="small" />
-
-            <Input Label="Error Example" Placeholder="Invalid input" ErrorMessage="This field is required" />
-
-            <Input Label="Disabled" Placeholder="Disabled input" Disabled="true" />
+            <div>
+                <h4 style="margin-bottom: 1rem; color: var(--vibe-foreground);">Outlined Variant (Full Border)</h4>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <Input Label="Username" Placeholder="Enter your username" Variant="outlined" />
+                    <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="outlined" HelperText="We'll never share your email" />
+                    <Input Label="Error Example" Placeholder="Invalid input" ErrorMessage="This field is required" Variant="outlined" />
+                    <Input Label="Disabled" Placeholder="Disabled input" Disabled="true" Variant="outlined" />
+                </div>
+            </div>
         </div>
     </PreviewContent>
 
     <Examples>
         <div class="example-item">
-            <h3>Basic Usage</h3>
-            <CodeBlock Code="@BasicCode" Language="razor" />
+            <h3>Variants</h3>
+            <CodeBlock Code="@VariantsCode" Language="razor" />
+        </div>
+
+        <div class="example-item">
+            <h3>Floating Labels</h3>
+            <CodeBlock Code="@FloatingLabelCode" Language="razor" />
         </div>
 
         <div class="example-item">
@@ -41,16 +62,6 @@
         </div>
 
         <div class="example-item">
-            <h3>With Placeholder and Label</h3>
-            <CodeBlock Code="@PlaceholderCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>Disabled and ReadOnly</h3>
-            <CodeBlock Code="@DisabledCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
             <h3>With Icons</h3>
             <CodeBlock Code="@IconsCode" Language="razor" />
         </div>
@@ -58,6 +69,11 @@
         <div class="example-item">
             <h3>Validation States</h3>
             <CodeBlock Code="@ValidationCode" Language="razor" />
+        </div>
+
+        <div class="example-item">
+            <h3>Disabled and ReadOnly</h3>
+            <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
     </Examples>
 
@@ -97,10 +113,16 @@
                     <td>Label text</td>
                 </tr>
                 <tr>
+                    <td><code>Variant</code></td>
+                    <td>string</td>
+                    <td>"outlined"</td>
+                    <td>Visual style variant: "text", "filled", or "outlined"</td>
+                </tr>
+                <tr>
                     <td><code>Size</code></td>
-                    <td>InputSize</td>
-                    <td>Medium</td>
-                    <td>Size of the input</td>
+                    <td>string</td>
+                    <td>"medium"</td>
+                    <td>Size of the input: "small", "medium", or "large"</td>
                 </tr>
                 <tr>
                     <td><code>Disabled</code></td>
@@ -178,28 +200,39 @@
 @code {
     private List<string> relatedComponents = new() { "Textarea", "Select", "Form", "ValidatedInput" };
 
-    private string BasicCode => @"<Input Placeholder=""Enter text..."" />";
+    private string VariantsCode => @"<!-- Text variant: Bottom border only -->
+<Input Label=""Username"" Placeholder=""Enter your username"" Variant=""text"" />
 
-    private string TypesCode => @"<Input Type=""text"" Placeholder=""Text input"" />
-<Input Type=""email"" Placeholder=""Email input"" />
-<Input Type=""password"" Placeholder=""Password input"" />
-<Input Type=""number"" Placeholder=""Number input"" />
-<Input Type=""search"" Placeholder=""Search..."" />";
+<!-- Filled variant: Muted background with rounded top corners -->
+<Input Label=""Email"" Placeholder=""you@example.com"" Variant=""filled"" />
 
-    private string SizesCode => @"<Input Size=""InputSize.Small"" Placeholder=""Small"" />
-<Input Size=""InputSize.Medium"" Placeholder=""Medium"" />
-<Input Size=""InputSize.Large"" Placeholder=""Large"" />";
+<!-- Outlined variant: Full border (default) -->
+<Input Label=""Password"" Placeholder=""Enter password"" Variant=""outlined"" />";
 
-    private string PlaceholderCode => @"<Input Label=""Username"" Placeholder=""Enter your username"" />
-<Input Label=""Email"" Type=""email"" Placeholder=""you@example.com"" />";
+    private string FloatingLabelCode => @"<!-- Label floats up and shrinks when input is focused or has a value -->
+<Input Label=""Username"" Placeholder=""Enter your username"" Variant=""filled"" />
 
-    private string DisabledCode => @"<Input Placeholder=""Disabled input"" Disabled=""true"" />
-<Input Value=""Read-only value"" ReadOnly=""true"" />";
+<!-- Label stays inside when empty and not focused -->
+<Input Label=""Email"" Type=""email"" Placeholder=""you@example.com"" Variant=""outlined"" />";
 
-    private string IconsCode => @"<Input Placeholder=""Search..."" LeftIcon=""🔍"" />
-<Input Type=""password"" Placeholder=""Password"" RightIcon=""👁️"" />";
+    private string TypesCode => @"<Input Label=""Text"" Type=""text"" Placeholder=""Text input"" Variant=""outlined"" />
+<Input Label=""Email"" Type=""email"" Placeholder=""Email input"" Variant=""outlined"" />
+<Input Label=""Password"" Type=""password"" Placeholder=""Password"" Variant=""outlined"" />
+<Input Label=""Number"" Type=""number"" Placeholder=""Number input"" Variant=""outlined"" />
+<Input Label=""Search"" Type=""search"" Placeholder=""Search..."" Variant=""outlined"" />";
 
-    private string ValidationCode => @"<Input Label=""Email"" Type=""email"" Required=""true"" />
-<Input Label=""Username"" Error=""Username is required"" />
-<Input Label=""Valid Input"" Value=""Success"" Success=""true"" />";
+    private string SizesCode => @"<Input Label=""Small"" Size=""small"" Placeholder=""Small input"" Variant=""outlined"" />
+<Input Label=""Medium"" Size=""medium"" Placeholder=""Medium input"" Variant=""outlined"" />
+<Input Label=""Large"" Size=""large"" Placeholder=""Large input"" Variant=""outlined"" />";
+
+    private string IconsCode => @"<Input Label=""Search"" Placeholder=""Search..."" LeadingIcon=""🔍"" Variant=""outlined"" />
+<Input Label=""Password"" Type=""password"" Placeholder=""Password"" LeadingIcon=""🔒"" Variant=""filled"" />
+<Input Label=""Email"" Placeholder=""you@example.com"" TrailingIcon=""✉️"" Variant=""text"" />";
+
+    private string ValidationCode => @"<Input Label=""Email"" Type=""email"" Variant=""outlined"" HelperText=""Enter a valid email address"" />
+<Input Label=""Username"" ErrorMessage=""Username is required"" Variant=""outlined"" />
+<Input Label=""Required Field"" Placeholder=""This field is required"" Variant=""filled"" />";
+
+    private string DisabledCode => @"<Input Label=""Disabled"" Placeholder=""Disabled input"" Disabled=""true"" Variant=""outlined"" />
+<Input Label=""Read-only"" Value=""Read-only value"" ReadOnly=""true"" Variant=""filled"" />";
 }

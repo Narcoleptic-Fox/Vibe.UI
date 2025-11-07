@@ -1,4 +1,5 @@
 @page "/components/dropdown"
+@using Vibe.UI.Components
 
 <PageTitle>Dropdown - Vibe.UI</PageTitle>
 
@@ -8,8 +9,35 @@
                RelatedComponents="@relatedComponents">
 
     <PreviewContent>
-        <div class="preview-demo">
-            <p>Component preview will be shown here when installed.</p>
+        <div class="preview-demo" style="display: flex; gap: 2rem; justify-content: center; padding: 2rem; flex-wrap: wrap;">
+            <DropdownMenu Position="bottom" Align="start">
+                <TriggerContent>
+                    <Button>Dropdown Menu</Button>
+                </TriggerContent>
+                <Content>
+                    <div style="background: white; border: 1px solid #ddd; border-radius: 0.5rem; padding: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 200px;">
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">Profile</div>
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">Settings</div>
+                        <div style="border-top: 1px solid #e5e7eb; margin: 0.5rem 0;"></div>
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; color: #dc2626; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#fee2e2'" onmouseout="this.style.backgroundColor='transparent'">Logout</div>
+                    </div>
+                </Content>
+            </DropdownMenu>
+
+            <DropdownMenu Position="bottom" Align="end">
+                <TriggerContent>
+                    <Button Variant="Button.ButtonVariant.Secondary">Actions ▼</Button>
+                </TriggerContent>
+                <Content>
+                    <div style="background: white; border: 1px solid #ddd; border-radius: 0.5rem; padding: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 180px;">
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">✏️ Edit</div>
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">📋 Copy</div>
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">📥 Download</div>
+                        <div style="border-top: 1px solid #e5e7eb; margin: 0.5rem 0;"></div>
+                        <div style="padding: 0.5rem 1rem; cursor: pointer; color: #dc2626; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#fee2e2'" onmouseout="this.style.backgroundColor='transparent'">🗑️ Delete</div>
+                    </div>
+                </Content>
+            </DropdownMenu>
         </div>
     </PreviewContent>
 

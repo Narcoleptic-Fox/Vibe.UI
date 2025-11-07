@@ -24,7 +24,9 @@
                 <a href="https://github.com/Dieshen/Vibe.UI" target="_blank" class="github-link" title="View on GitHub">
                     <span class="icon">⚙</span>
                 </a>
-                <ThemeToggle />
+                <button class="theme-toggle-btn" @onclick="ToggleTheme" title="Toggle theme">
+                    <span class="icon">@(currentTheme == "dark" ? "☀️" : "🌙")</span>
+                </button>
             </div>
         </div>
     </header>
@@ -58,13 +60,17 @@
 </div>
 
 @code {
+    [Inject]
+    private Vibe.UI.Themes.Services.ThemeManager ThemeManager { get; set; } = default!;
+
     private bool sidebarOpen = false;
     private bool searchOpen = false;
+    private string currentTheme = "light";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Register keyboard shortcut for search (Ctrl+K)
-        // This will be handled by JavaScript interop in SearchBar component
+        await base.OnInitializedAsync();
+        currentTheme = ThemeManager.CurrentTheme?.Id ?? "light";
     }
 
     private void ToggleSidebar()
@@ -80,6 +86,13 @@
     private void CloseSearch()
     {
         searchOpen = false;
+    }
+
+    private async Task ToggleTheme()
+    {
+        currentTheme = currentTheme == "dark" ? "light" : "dark";
+        await ThemeManager.SetThemeAsync(currentTheme);
+        StateHasChanged();
     }
 
     private string GetBaseUrl()

@@ -1,10 +1,9 @@
 @namespace Vibe.UI.Components
 @inherits Vibe.UI.Base.ThemedComponentBase
-@inject IJSRuntime JS
 
 @if (IsOpen)
 {
-    <div class="vibe-dialog-overlay" @onclick="OnOutsideClick">
+    <div class="vibe-dialog-overlay" @onclick="OnOutsideClick" @onkeydown="HandleKeyDown" tabindex="-1">
         <div class="vibe-dialog @CombinedClass" role="dialog" aria-modal="true" @onclick:stopPropagation="true" @attributes="AdditionalAttributes">
             @if (Header != null)
             {
@@ -12,11 +11,11 @@
                     @Header
                 </div>
             }
-            
+
             <div class="vibe-dialog-body">
                 @ChildContent
             </div>
-            
+
             @if (Footer != null)
             {
                 <div class="vibe-dialog-footer">
@@ -74,44 +73,10 @@
     protected override string ComponentClass => "vibe-dialog";
 
     /// <summary>
-    /// Called when the dialog is opened
-    /// </summary>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        // Add event listener for Escape key when dialog is opened
-        if (IsOpen && CloseOnEscape)
-        {
-            await JS.InvokeVoidAsync("window.addEventListener", "keydown", new Action<KeyboardEventArgs>(HandleKeyDown));
-        }
-    }
-
-    /// <summary>
-    /// Called when the dialog is closed or opened
-    /// </summary>
-    /// <param name="firstRender">Whether this is the first render</param>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        // When dialog opens, add event listener for Escape key
-        if (IsOpen && CloseOnEscape)
-        {
-            await JS.InvokeVoidAsync("window.addEventListener", "keydown", new Action<KeyboardEventArgs>(HandleKeyDown));
-        }
-        else
-        {
-            // When dialog closes, remove event listener
-            await JS.InvokeVoidAsync("window.removeEventListener", "keydown", new Action<KeyboardEventArgs>(HandleKeyDown));
-        }
-    }
-
-    /// <summary>
     /// Handles key down events to close the dialog when Escape is pressed
     /// </summary>
     /// <param name="e">Keyboard event args</param>
-    private async void HandleKeyDown(KeyboardEventArgs e)
+    private async Task HandleKeyDown(KeyboardEventArgs e)
     {
         if (e.Key == "Escape" && CloseOnEscape)
         {

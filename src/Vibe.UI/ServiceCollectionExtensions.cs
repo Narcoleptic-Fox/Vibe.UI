@@ -8,11 +8,14 @@ namespace Vibe.UI
 {
     /// <summary>
     /// Extension methods for registering Vibe.UI services with dependency injection.
+    /// OPTIONAL: Components work without service registration. Only needed for advanced theming features.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
         /// Adds Vibe.UI services to the service collection.
+        /// OPTIONAL: Only required for advanced theming (runtime switching, persistence, external themes).
+        /// Components work standalone using CSS variables without this registration.
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <returns>The service collection.</returns>
@@ -23,6 +26,8 @@ namespace Vibe.UI
 
         /// <summary>
         /// Adds Vibe.UI services to the service collection with customized theme options.
+        /// OPTIONAL: Only required for advanced theming (runtime switching, persistence, external themes).
+        /// Components work standalone using CSS variables without this registration.
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <param name="configureOptions">The action to configure theme options.</param>

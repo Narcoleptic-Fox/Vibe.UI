@@ -1,17 +1,60 @@
 ﻿@page "/"
+@using Vibe.UI.Components
 
 <PageTitle>Vibe.UI - Modern Blazor Component Library</PageTitle>
 
 <div class="landing-page">
     <!-- Hero Section -->
     <section class="hero">
-        <h1 class="hero-title">Vibe.UI</h1>
-        <p class="hero-subtitle">
-            Modern Blazor component library with 93+ production-ready components
-        </p>
-        <div class="hero-actions">
-            <a href="@GetUrl("getting-started")" class="btn btn-primary">Get Started</a>
-            <a href="@GetUrl("components/button")" class="btn btn-secondary">Browse Components</a>
+        <div class="hero-background">
+            <div class="hero-gradient-1"></div>
+            <div class="hero-gradient-2"></div>
+            <div class="hero-gradient-3"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-icon">⚡</span>
+                <span>shadcn/ui for Blazor</span>
+            </div>
+
+            <h1 class="hero-title">
+                Build beautiful<br />
+                Blazor apps faster
+            </h1>
+
+            <p class="hero-subtitle">
+                Copy-paste 93+ accessible components.<br />
+                Customize everything. Own your code.
+            </p>
+
+            <div class="hero-actions">
+                <a href="@GetUrl("getting-started")" class="hero-btn-primary">
+                    Get Started
+                    <span class="btn-arrow">→</span>
+                </a>
+                <button class="hero-btn-secondary" onclick="copyInstallCommand()">
+                    <span class="copy-icon">📋</span>
+                    <span>dotnet tool install -g Vibe.UI.CLI</span>
+                </button>
+            </div>
+
+            <!-- Live Component Preview -->
+            <div class="hero-preview">
+                <div class="preview-window">
+                    <div class="preview-tabs">
+                        <button class="tab active">Preview</button>
+                        <button class="tab">Code</button>
+                        <button class="theme-toggle" onclick="togglePreviewTheme()">🌙</button>
+                    </div>
+                    <div class="preview-content">
+                        <Button Variant="Button.ButtonVariant.Primary">Primary</Button>
+                        <Button Variant="Button.ButtonVariant.Secondary">Secondary</Button>
+                        <Button Variant="Button.ButtonVariant.Outline">Outline</Button>
+                        <Button Variant="Button.ButtonVariant.Ghost">Ghost</Button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -23,32 +66,77 @@
     </section>
 
     <!-- Features Grid -->
-    <section class="section">
-        <h2>Features</h2>
+    <section class="features-section">
+        <div class="section-header">
+            <h2>Why Vibe.UI?</h2>
+            <p>Everything you need to build modern Blazor applications</p>
+        </div>
+
         <div class="features-grid">
             <div class="feature-card">
-                <h3>🎨 93+ Components</h3>
-                <p>Comprehensive collection of production-ready components for modern web applications</p>
+                <div class="feature-icon">
+                    <span>🎨</span>
+                </div>
+                <h3>93+ Components</h3>
+                <p>Production-ready components for every use case</p>
+                <a href="@GetUrl("components/button")" class="feature-link">
+                    Browse components →
+                </a>
             </div>
+
             <div class="feature-card">
-                <h3>🛠️ CLI Tool</h3>
-                <p>shadcn/ui style workflow - copy components to your project for full control</p>
+                <div class="feature-icon">
+                    <span>📋</span>
+                </div>
+                <h3>Copy, Not Install</h3>
+                <p>Own your code. Customize everything.</p>
+                <a href="@GetUrl("getting-started")" class="feature-link">
+                    Learn about CLI →
+                </a>
             </div>
+
             <div class="feature-card">
-                <h3>🎭 Theming System</h3>
-                <p>Built-in dark mode support with customizable themes</p>
+                <div class="feature-icon">
+                    <span>🎭</span>
+                </div>
+                <h3>Built-in Theming</h3>
+                <p>Light/dark mode with runtime switching</p>
+                <a href="@GetUrl("theming")" class="feature-link">
+                    Explore themes →
+                </a>
             </div>
+
             <div class="feature-card">
-                <h3>♿ Accessible</h3>
-                <p>WCAG AA compliant with proper ARIA attributes and keyboard navigation</p>
+                <div class="feature-icon">
+                    <span>📊</span>
+                </div>
+                <h3>Chart.js Integration</h3>
+                <p>Beautiful charts and data visualization</p>
+                <a href="@GetUrl("components/chart")" class="feature-link">
+                    View charts →
+                </a>
             </div>
+
             <div class="feature-card">
-                <h3>📱 Responsive</h3>
-                <p>Mobile-first design that works on all screen sizes</p>
+                <div class="feature-icon">
+                    <span>✓</span>
+                </div>
+                <h3>Form Validation</h3>
+                <p>Built-in validation helpers for forms</p>
+                <a href="@GetUrl("components/form")" class="feature-link">
+                    Learn more →
+                </a>
             </div>
+
             <div class="feature-card">
-                <h3>⚡ Performance</h3>
-                <p>Optimized for speed with minimal bundle size</p>
+                <div class="feature-icon">
+                    <span>♿</span>
+                </div>
+                <h3>ARIA Compliant</h3>
+                <p>Accessible to all users by default</p>
+                <a href="@GetUrl("accessibility")" class="feature-link">
+                    Accessibility →
+                </a>
             </div>
         </div>
     </section>

@@ -19,8 +19,11 @@
         {
             <div class="form-field-description">@Description</div>
         }
-        
-        <ValidationMessage For="@ValidationFor" class="form-validation-message" />
+
+        @if (ValidationFor != null)
+        {
+            <ValidationMessage For="@ValidationFor" class="form-validation-message" />
+        }
     </div>
 </div>
 

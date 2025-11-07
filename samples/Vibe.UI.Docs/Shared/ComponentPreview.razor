@@ -1,0 +1,106 @@
+@inject IJSRuntime JS
+
+<div class="component-preview-card">
+    <!-- Preview Header -->
+    <div class="preview-header">
+        <h3>@Title</h3>
+        <div class="preview-actions">
+            @if (ShowThemeToggle)
+            {
+                <button class="preview-btn" @onclick="ToggleTheme" title="Toggle theme">
+                    <span class="icon">@(isDark ? "☀️" : "🌙")</span>
+                </button>
+            }
+            <button class="preview-btn" @onclick="CopyCode" title="Copy code">
+                <span class="icon">@(copied ? "✓" : "📋")</span>
+                @if (copied)
+                {
+                    <span class="tooltip">Copied!</span>
+                }
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="preview-tabs">
+        <button class="preview-tab @(activeTab == "preview" ? "active" : "")" @onclick="@(() => SetTab("preview"))">
+            Preview
+        </button>
+        <button class="preview-tab @(activeTab == "code" ? "active" : "")" @onclick="@(() => SetTab("code"))">
+            Code
+        </button>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel @(activeTab == "preview" ? "active" : "")">
+        <div class="preview-stage @(isDark ? "dark" : "")">
+            @PreviewContent
+        </div>
+    </div>
+
+    <!-- Code Panel -->
+    <div class="code-panel @(activeTab == "code" ? "active" : "")">
+        <pre><code class="language-razor">@Code</code></pre>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Component";
+
+    [Parameter]
+    public RenderFragment? PreviewContent { get; set; }
+
+    [Parameter]
+    public string Code { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool ShowThemeToggle { get; set; } = true;
+
+    private string activeTab = "preview";
+    private bool isDark = false;
+    private bool copied = false;
+
+    private void SetTab(string tab)
+    {
+        activeTab = tab;
+    }
+
+    private void ToggleTheme()
+    {
+        isDark = !isDark;
+    }
+
+    private async Task CopyCode()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Code);
+            copied = true;
+            StateHasChanged();
+
+            await Task.Delay(2000);
+            copied = false;
+            StateHasChanged();
+        }
+        catch (Exception)
+        {
+            // Fallback - could show toast notification
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && activeTab == "code")
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("Prism.highlightAll");
+            }
+            catch
+            {
+                // Prism not available
+            }
+        }
+    }
+}

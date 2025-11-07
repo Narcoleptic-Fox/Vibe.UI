@@ -1,4 +1,5 @@
 @inject NavigationManager Navigation
+@implements IDisposable
 
 <div class="nav-sidebar">
     <!-- Documentation Sections -->
@@ -74,7 +75,21 @@
 
     protected override void OnInitialized()
     {
+        // Subscribe to location changes to update active state
+        Navigation.LocationChanged += OnLocationChanged;
+
         // Expand the category of the current page
+        ExpandCurrentCategory();
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        // Trigger re-render when location changes
+        StateHasChanged();
+    }
+
+    private void ExpandCurrentCategory()
+    {
         var currentPath = new Uri(Navigation.Uri).AbsolutePath;
         foreach (var category in categories.Keys)
         {
@@ -113,5 +128,11 @@
         var targetPath = $"{new Uri(Navigation.BaseUri).AbsolutePath}{path}".TrimEnd('/');
 
         return currentPath.Equals(targetPath, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+    }
+
+    public void Dispose()
+    {
+        // Unsubscribe from location changes
+        Navigation.LocationChanged -= OnLocationChanged;
     }
 }

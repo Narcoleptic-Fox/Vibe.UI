@@ -1,4 +1,5 @@
 @page "/components/alert"
+@using Vibe.UI.Components
 
 <PageTitle>Alert - Vibe.UI</PageTitle>
 
@@ -8,8 +9,29 @@
                RelatedComponents="@relatedComponents">
 
     <PreviewContent>
-        <div class="preview-demo">
-            <p>Component preview will be shown here when installed.</p>
+        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1rem;">
+            <Alert Variant="Alert.AlertVariant.Default">
+                This is a default alert providing helpful information.
+            </Alert>
+
+            <Alert Variant="Alert.AlertVariant.Default" Title="With Title">
+                This alert has a title for additional context.
+            </Alert>
+
+            <Alert Variant="Alert.AlertVariant.Destructive" Title="Destructive Alert">
+                This is a destructive alert for warnings or errors.
+            </Alert>
+
+            @if (showDismissible)
+            {
+                <Alert Variant="Alert.AlertVariant.Default" Dismissible="true" OnDismiss="@(() => showDismissible = false)" Title="Dismissible">
+                    This alert can be dismissed by clicking the close button.
+                </Alert>
+            }
+            else
+            {
+                <Button OnClick="@(() => showDismissible = true)">Show Dismissible Alert</Button>
+            }
         </div>
     </PreviewContent>
 
@@ -110,6 +132,7 @@
 
 @code {
     private List<string> relatedComponents = new() { "Toast", "Notification", "Banner" };
+    private bool showDismissible = true;
 
     private string VariantsCode => @"<Alert Variant=""AlertVariant.Info"">
     This is an informational alert.

@@ -18,7 +18,18 @@
       "mcp__puppeteer__puppeteer_evaluate",
       "Bash(dotnet run:*)",
       "mcp__puppeteer__puppeteer_select",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "mcp__puppeteer__puppeteer_fill",
+      "Bash(cat:*)",
+      "Bash(UI_PROBLEMS.md)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "mcp__crewai__crewai_get_progress",
+      "Bash(\"D:\\Projects\\VisualStudios\\Vibe.UI\\src\\Vibe.UI\\wwwroot\\css\\vibe-components.css\")",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:mudblazor.com)"
     ],
     "deny": [],
     "ask": []

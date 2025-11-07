@@ -1,4 +1,5 @@
 @page "/components/tooltip"
+@using Vibe.UI.Components
 
 <PageTitle>Tooltip - Vibe.UI</PageTitle>
 
@@ -8,8 +9,42 @@
                RelatedComponents="@relatedComponents">
 
     <PreviewContent>
-        <div class="preview-demo">
-            <p>Component preview will be shown here when installed.</p>
+        <div class="preview-demo" style="display: flex; gap: 2rem; justify-content: center; padding: 3rem; flex-wrap: wrap;">
+            <Tooltip Placement="top">
+                <TriggerContent>
+                    <Button>Hover me (Top)</Button>
+                </TriggerContent>
+                <Content>
+                    <span>This is a tooltip on top</span>
+                </Content>
+            </Tooltip>
+
+            <Tooltip Placement="bottom">
+                <TriggerContent>
+                    <Button>Hover me (Bottom)</Button>
+                </TriggerContent>
+                <Content>
+                    <span>This is a tooltip on bottom</span>
+                </Content>
+            </Tooltip>
+
+            <Tooltip Placement="left">
+                <TriggerContent>
+                    <Button>Hover me (Left)</Button>
+                </TriggerContent>
+                <Content>
+                    <span>This is a tooltip on left</span>
+                </Content>
+            </Tooltip>
+
+            <Tooltip Placement="right">
+                <TriggerContent>
+                    <Button>Hover me (Right)</Button>
+                </TriggerContent>
+                <Content>
+                    <span>This is a tooltip on right</span>
+                </Content>
+            </Tooltip>
         </div>
     </PreviewContent>
 

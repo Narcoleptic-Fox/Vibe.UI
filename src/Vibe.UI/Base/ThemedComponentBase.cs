@@ -8,17 +8,19 @@ using Vibe.UI.Themes.Services;
 namespace Vibe.UI.Base
 {
     /// <summary>
-    /// Base class for all theme-aware components
+    /// Base class for all theme-aware components.
+    /// Components work standalone without ThemeManager - theming is optional.
+    /// Register ThemeManager via AddVibeUI() for advanced features like runtime theme switching.
     /// </summary>
     public abstract class ThemedComponentBase : ComponentBase, IDisposable
     {
         private bool _isDisposed;
 
         /// <summary>
-        /// Gets or sets the theme manager.
+        /// Gets or sets the theme manager. Optional - only required for advanced theming features.
         /// </summary>
         [Inject]
-        protected ThemeManager ThemeManager { get; set; }
+        protected ThemeManager? ThemeManager { get; set; }
 
         /// <summary>
         /// Gets or sets the CSS class for the component.
@@ -58,7 +60,8 @@ namespace Vibe.UI.Base
         {
             await base.OnInitializedAsync();
 
-            if (ThemeManager != null && !ThemeManager.CurrentTheme?.Variables.Any() == true)
+            // Only initialize ThemeManager if it's registered in DI
+            if (ThemeManager != null && ThemeManager.CurrentTheme?.Variables.Any() != true)
             {
                 await ThemeManager.InitializeAsync();
             }

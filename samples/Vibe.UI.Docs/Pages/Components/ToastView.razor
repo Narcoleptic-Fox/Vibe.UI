@@ -1,4 +1,7 @@
 @page "/components/toast"
+@using Vibe.UI.Components
+@using Vibe.UI.Services.Toast
+@inject IToastService ToastService
 
 <PageTitle>Toast - Vibe.UI</PageTitle>
 
@@ -8,8 +11,26 @@
                RelatedComponents="@relatedComponents">
 
     <PreviewContent>
-        <div class="preview-demo">
-            <p>Component preview will be shown here when installed.</p>
+        <div class="preview-demo" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <Button OnClick="@ShowDefaultToast">
+                Show Info Toast
+            </Button>
+
+            <Button Variant="Button.ButtonVariant.Primary" OnClick="@ShowSuccessToast">
+                Show Success Toast
+            </Button>
+
+            <Button Variant="Button.ButtonVariant.Destructive" OnClick="@ShowErrorToast">
+                Show Error Toast
+            </Button>
+
+            <Button Variant="Button.ButtonVariant.Secondary" OnClick="@ShowWarningToast">
+                Show Warning Toast
+            </Button>
+
+            <Button Variant="Button.ButtonVariant.Outline" OnClick="@ShowInfoToast">
+                Show Info Toast with Tip
+            </Button>
         </div>
     </PreviewContent>
 
@@ -135,6 +156,31 @@
 
 @code {
     private List<string> relatedComponents = new() { "Alert", "Notification", "Snackbar" };
+
+    private async Task ShowDefaultToast()
+    {
+        await ToastService.ShowAsync("Info", "This is an informational message");
+    }
+
+    private async Task ShowSuccessToast()
+    {
+        await ToastService.ShowSuccessAsync("Success!", "Operation completed successfully");
+    }
+
+    private async Task ShowErrorToast()
+    {
+        await ToastService.ShowErrorAsync("Error", "An error occurred");
+    }
+
+    private async Task ShowWarningToast()
+    {
+        await ToastService.ShowWarningAsync("Warning", "Please review this action");
+    }
+
+    private async Task ShowInfoToast()
+    {
+        await ToastService.ShowInfoAsync("Did you know?", "Toasts auto-dismiss after 5 seconds");
+    }
 
     private string BasicCode => @"<Toast Message=""Operation completed successfully!"" />";
 

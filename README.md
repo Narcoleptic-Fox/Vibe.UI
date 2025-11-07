@@ -73,29 +73,61 @@ dotnet add package Vibe.UI
 - ✅ Automatic updates
 - ✅ Smaller project files
 
-### Register Services
+## Quick Start
 
-In your `Program.cs` file (or `Startup.cs` for Blazor Server), register the Vibe.UI services:
+### Minimal Setup (No Service Registration Required)
+
+Components work standalone using CSS variables - perfect for getting started:
+
+```razor
+@page "/"
+@using Vibe.UI.Components
+
+<Button Variant="ButtonVariant.Primary">Click Me</Button>
+<Card>
+    <h3>Hello Vibe.UI</h3>
+    <p>Components work immediately - no setup needed!</p>
+</Card>
+```
+
+**That's it!** Components render with sensible defaults using CSS variables.
+
+### Advanced Setup (Optional - For Theme Switching)
+
+Want runtime theme switching, theme persistence, or external CSS framework integration? Add service registration:
 
 ```csharp
 using Vibe.UI;
 
-// ...
+// OPTIONAL: Only needed for advanced theming features
+// Components work without this registration!
 
 // Basic setup with default options
-builder.Services.AddVibe.UI();
+builder.Services.AddVibeUI();
 
-// OR with customized options
-builder.Services.AddVibe.UI(options => {
-    options.DefaultThemeId = "dark"; 
+// OR with customized options for theme switching, persistence, etc.
+builder.Services.AddVibeUI(options => {
+    options.DefaultThemeId = "dark";
     options.PersistTheme = true;
-    
+
     // Add external theme providers if needed
     options.AddMaterialTheme()
            .AddBootstrapTheme()
            .AddTailwindTheme();
 });
 ```
+
+**When do you need service registration?**
+- ✅ Runtime theme switching (change themes programmatically)
+- ✅ Theme persistence (save user preferences)
+- ✅ External CSS frameworks (Material, Bootstrap, Tailwind)
+- ✅ ThemeManager API access
+
+**When can you skip it?**
+- ❌ Just using components with default styling
+- ❌ Simple light/dark mode via CSS class
+- ❌ Minimal setup projects
+- ❌ Static site generation
 
 ### Add Theme Root Component
 

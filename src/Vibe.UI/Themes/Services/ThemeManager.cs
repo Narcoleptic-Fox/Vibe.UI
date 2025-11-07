@@ -233,12 +233,13 @@ namespace Vibe.UI.Themes.Services
 
         private void LoadBuiltInThemes()
         {
-            if (_options.IncludeBuiltInThemes.Contains("light"))
+            // Only register if not already registered (prevents duplicate registration)
+            if (_options.IncludeBuiltInThemes.Contains("light") && !_themes.Any(t => t.Id == "light"))
             {
                 RegisterBuiltInLightTheme();
             }
 
-            if (_options.IncludeBuiltInThemes.Contains("dark"))
+            if (_options.IncludeBuiltInThemes.Contains("dark") && !_themes.Any(t => t.Id == "dark"))
             {
                 RegisterBuiltInDarkTheme();
             }
@@ -255,21 +256,21 @@ namespace Vibe.UI.Themes.Services
                 CssClass = "vibe-theme-light",
                 Variables = new Dictionary<string, string>
                 {
-                    ["--vibe-background"] = "#ffffff",
-                    ["--vibe-foreground"] = "#111111",
-                    ["--vibe-primary"] = "#0066cc",
-                    ["--vibe-primary-foreground"] = "#ffffff",
-                    ["--vibe-secondary"] = "#f4f4f4",
-                    ["--vibe-secondary-foreground"] = "#333333",
-                    ["--vibe-accent"] = "#ff4500",
-                    ["--vibe-accent-foreground"] = "#ffffff",
-                    ["--vibe-muted"] = "#f1f1f1",
-                    ["--vibe-muted-foreground"] = "#666666",
-                    ["--vibe-card"] = "#ffffff",
-                    ["--vibe-card-foreground"] = "#111111",
-                    ["--vibe-border"] = "#e2e2e2",
-                    ["--vibe-input"] = "#ffffff",
-                    ["--vibe-ring"] = "#0066cc",
+                    ["--vibe-background"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-foreground"] = "hsl(0, 0%, 7%)",
+                    ["--vibe-primary"] = "hsl(210, 100%, 40%)",
+                    ["--vibe-primary-foreground"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-secondary"] = "hsl(0, 0%, 96%)",
+                    ["--vibe-secondary-foreground"] = "hsl(0, 0%, 20%)",
+                    ["--vibe-accent"] = "hsl(16, 100%, 50%)",
+                    ["--vibe-accent-foreground"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-muted"] = "hsl(0, 0%, 96%)",
+                    ["--vibe-muted-foreground"] = "hsl(0, 0%, 40%)",
+                    ["--vibe-card"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-card-foreground"] = "hsl(0, 0%, 7%)",
+                    ["--vibe-border"] = "hsl(0, 0%, 89%)",
+                    ["--vibe-input"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-ring"] = "hsl(210, 100%, 40%)",
                     ["--vibe-radius"] = "0.5rem",
                     ["--vibe-font"] = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
                 }
@@ -288,21 +289,21 @@ namespace Vibe.UI.Themes.Services
                 CssClass = "vibe-theme-dark",
                 Variables = new Dictionary<string, string>
                 {
-                    ["--vibe-background"] = "#1a1a1a",
-                    ["--vibe-foreground"] = "#ffffff",
-                    ["--vibe-primary"] = "#0099ff",
-                    ["--vibe-primary-foreground"] = "#ffffff",
-                    ["--vibe-secondary"] = "#2a2a2a",
-                    ["--vibe-secondary-foreground"] = "#f7f7f7",
-                    ["--vibe-accent"] = "#ff4500",
-                    ["--vibe-accent-foreground"] = "#ffffff",
-                    ["--vibe-muted"] = "#313131",
-                    ["--vibe-muted-foreground"] = "#a0a0a0",
-                    ["--vibe-card"] = "#222222",
-                    ["--vibe-card-foreground"] = "#ffffff",
-                    ["--vibe-border"] = "#404040",
-                    ["--vibe-input"] = "#2a2a2a",
-                    ["--vibe-ring"] = "#0099ff",
+                    ["--vibe-background"] = "hsl(0, 0%, 10%)",
+                    ["--vibe-foreground"] = "hsl(0, 0%, 98%)",
+                    ["--vibe-primary"] = "hsl(203, 100%, 50%)",
+                    ["--vibe-primary-foreground"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-secondary"] = "hsl(0, 0%, 15%)",
+                    ["--vibe-secondary-foreground"] = "hsl(0, 0%, 90%)",
+                    ["--vibe-accent"] = "hsl(16, 100%, 50%)",
+                    ["--vibe-accent-foreground"] = "hsl(0, 0%, 100%)",
+                    ["--vibe-muted"] = "hsl(0, 0%, 15%)",
+                    ["--vibe-muted-foreground"] = "hsl(0, 0%, 65%)",
+                    ["--vibe-card"] = "hsl(0, 0%, 13%)",
+                    ["--vibe-card-foreground"] = "hsl(0, 0%, 98%)",
+                    ["--vibe-border"] = "hsl(0, 0%, 25%)",
+                    ["--vibe-input"] = "hsl(0, 0%, 15%)",
+                    ["--vibe-ring"] = "hsl(203, 100%, 50%)",
                     ["--vibe-radius"] = "0.5rem",
                     ["--vibe-font"] = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
                 }
@@ -392,6 +393,12 @@ namespace Vibe.UI.Themes.Services
             if (_currentTheme == null)
                 return;
 
+            // Apply CSS variables - escape quotes in values to prevent JavaScript syntax errors
+            // Use double quotes in CSS instead of single quotes to avoid JavaScript string escaping issues
+            var cssVariables = string.Join(" ", _currentTheme.Variables.Select(v =>
+                $"{v.Key}: {v.Value.Replace("'", "\"")};"
+            ));
+
             // Apply CSS variables
             await _jsRuntime.InvokeVoidAsync(
                 "eval",
@@ -403,8 +410,8 @@ namespace Vibe.UI.Themes.Services
                         document.head.appendChild(s);
                         return s;
                     }})();
-                    
-                    style.textContent = ':root {{ {string.Join(" ", _currentTheme.Variables.Select(v => $"{v.Key}: {v.Value};"))} }}';
+
+                    style.textContent = ':root {{ {cssVariables} }}';
                 ");
 
             // Load external stylesheets if needed
