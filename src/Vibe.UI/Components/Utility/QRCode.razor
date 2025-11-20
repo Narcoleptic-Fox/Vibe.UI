@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     @if (!string.IsNullOrEmpty(Value))
@@ -7,10 +7,7 @@
         <div class="qr-container" style="@ContainerStyle">
             @if (!string.IsNullOrEmpty(_qrCodeDataUrl))
             {
-                <img src="@_qrCodeDataUrl"
-                     alt="QR Code"
-                     class="qr-image"
-                     style="@ImageStyle" />
+                <img src="@_qrCodeDataUrl" alt="QR Code" class="qr-image" style="@ImageStyle" />
             }
             else
             {
@@ -36,9 +33,7 @@
         @if (AllowDownload && !string.IsNullOrEmpty(_qrCodeDataUrl))
         {
             <div class="qr-actions">
-                <a href="@_qrCodeDataUrl"
-                   download="qrcode.png"
-                   class="qr-download-btn">
+                <a href="@_qrCodeDataUrl" download="qrcode.png" class="qr-download-btn">
                     Download
                 </a>
             </div>
@@ -81,8 +76,8 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-qrcode",
-        CssClass
+    "vibe-qrcode",
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;
@@ -135,11 +130,11 @@
         var hash = text.GetHashCode();
         var random = new Random(hash);
         var svg = $@"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-            <rect width='100' height='100' fill='{BackgroundColor}'/>
-            <rect x='5' y='5' width='20' height='20' fill='{ForegroundColor}'/>
-            <rect x='75' y='5' width='20' height='20' fill='{ForegroundColor}'/>
-            <rect x='5' y='75' width='20' height='20' fill='{ForegroundColor}'/>
-            ";
+<rect width='100' height='100' fill='{BackgroundColor}'/>
+<rect x='5' y='5' width='20' height='20' fill='{ForegroundColor}'/>
+<rect x='75' y='5' width='20' height='20' fill='{ForegroundColor}'/>
+<rect x='5' y='75' width='20' height='20' fill='{ForegroundColor}'/>
+";
 
         for (int i = 0; i < 30; i++)
         {
@@ -154,9 +149,9 @@
 
     public enum QRCodeLevel
     {
-        L = 0,  // Low - 7% error correction
-        M = 1,  // Medium - 15% error correction
-        Q = 2,  // Quartile - 25% error correction
-        H = 3   // High - 30% error correction
+        L = 0, // Low - 7% error correction
+        M = 1, // Medium - 15% error correction
+        Q = 2, // Quartile - 25% error correction
+        H = 3 // High - 30% error correction
     }
 }

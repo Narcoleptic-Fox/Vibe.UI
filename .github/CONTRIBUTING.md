@@ -209,7 +209,7 @@ test(checkbox): add unit tests for indeterminate state
 2. **Component structure**
    ```razor
    @namespace Vibe.UI.Components
-   @inherits Vibe.UI.Base.ThemedComponentBase
+   @inherits Vibe.UI.Base.VibeComponent
 
    <div class="@CombinedClass" @attributes="AdditionalAttributes">
        @ChildContent

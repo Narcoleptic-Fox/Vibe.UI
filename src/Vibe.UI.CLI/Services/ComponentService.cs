@@ -254,9 +254,6 @@ public class ComponentService
             ["collapsible"] = new ComponentInfo { Name = "Collapsible", Category = "Disclosure", Description = "An interactive component which expands/collapses a panel" },
 
             // Theme
-            ["themepanel"] = new ComponentInfo { Name = "ThemePanel", Category = "Theme", Description = "Theme customization panel with color and radius controls" },
-            ["themeroot"] = new ComponentInfo { Name = "ThemeRoot", Category = "Theme", Description = "Root theme provider component for managing application theme" },
-            ["themeselector"] = new ComponentInfo { Name = "ThemeSelector", Category = "Theme", Description = "Theme selector dropdown for switching between themes" },
             ["themetoggle"] = new ComponentInfo { Name = "ThemeToggle", Category = "Theme", Description = "Dark/light mode toggle button" },
         };
 

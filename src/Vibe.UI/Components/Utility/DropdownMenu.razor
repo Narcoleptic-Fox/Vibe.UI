@@ -1,17 +1,17 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
 <div class="@CombinedClass" @ref="DropdownRef">
     <div class="dropdown-trigger" @onclick="ToggleDropdown">
         @TriggerContent
     </div>
-    
+
     @if (IsOpen)
     {
         <div class="dropdown-content @PositionClass" style="@PositionStyle">
             @Content
         </div>
-        
+
         <div class="dropdown-backdrop" @onclick="CloseDropdown"></div>
     }
 </div>
@@ -88,7 +88,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        
+
         // In a real implementation, you would use JS interop to handle click outside
         // and other advanced positioning features
     }

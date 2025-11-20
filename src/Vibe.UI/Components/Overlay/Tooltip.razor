@@ -1,6 +1,7 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 @inject IJSRuntime JSRuntime
+@implements IDisposable
 
 <div class="@CombinedClass" @onmouseenter="OnMouseEnter" @onmouseleave="OnMouseLeave">
     <div class="trigger">
@@ -66,10 +67,10 @@
         _showTimer.Elapsed += (sender, e) =>
         {
             InvokeAsync(() =>
-            {
-                IsVisible = true;
-                StateHasChanged();
-            });
+    {
+            IsVisible = true;
+            StateHasChanged();
+        });
         };
         _showTimer.AutoReset = false;
         _showTimer.Start();
@@ -88,13 +89,8 @@
     /// <summary>
     /// Disposes the component.
     /// </summary>
-    /// <param name="disposing">Whether this is being called from Dispose or the finalizer.</param>
-    protected override void Dispose(bool disposing)
+    public void Dispose()
     {
-        if (disposing)
-        {
-            _showTimer?.Dispose();
-        }
-        base.Dispose(disposing);
+        _showTimer?.Dispose();
     }
 }

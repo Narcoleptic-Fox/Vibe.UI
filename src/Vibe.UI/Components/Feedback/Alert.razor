@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass" role="alert" @attributes="AdditionalAttributes">
     @if (Icon != null)
@@ -19,10 +19,7 @@
     </div>
     @if (Dismissible)
     {
-        <button type="button" 
-                class="vibe-alert-close" 
-                aria-label="Close" 
-                @onclick="OnDismissClick">
+        <button type="button" class="vibe-alert-close" aria-label="Close" @onclick="OnDismissClick">
             <span class="vibe-alert-close-icon"></span>
         </button>
     }

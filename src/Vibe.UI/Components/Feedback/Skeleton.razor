@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
 <div class="@CombinedClass" style="@SkeletonStyle">
 </div>
@@ -45,17 +45,17 @@
     private string GetSkeletonClass()
     {
         var classes = new List<string> { "vibe-skeleton" };
-        
+
         if (Rounded)
         {
             classes.Add("rounded");
         }
-        
+
         if (Circle)
         {
             classes.Add("circle");
         }
-        
+
         return string.Join(" ", classes);
     }
 }

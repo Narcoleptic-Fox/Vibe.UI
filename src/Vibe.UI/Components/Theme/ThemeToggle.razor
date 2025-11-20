@@ -1,12 +1,16 @@
 @namespace Vibe.UI.Components
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
+@inject IJSRuntime JS
 
-<button type="button" 
-        class="@CombinedClass" 
-        @attributes="AdditionalAttributes" 
-        @onclick="ToggleTheme" 
-        title="@GetTooltip()">
-    @if (ThemeManager.CurrentTheme?.Id == "dark")
+@*
+    Simple theme toggle component following shadcn/ui patterns.
+    Toggles the 'dark' class on the document root element.
+    No complex service layer - just pure CSS and minimal JS.
+*@
+
+<button type="button" class="@CombinedClass" @onclick="ToggleTheme" aria-label="Toggle theme" title="@GetTooltip()"
+    @attributes="AdditionalAttributes">
+    @if (_isDark)
     {
         @if (LightIcon != null)
         {
@@ -14,7 +18,19 @@
         }
         else
         {
-            <span class="vibe-theme-toggle-icon vibe-theme-toggle-icon-light"></span>
+            @* Sun icon for dark mode - clicking shows light *@
+            <svg class="vibe-theme-toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+            </svg>
         }
     }
     else
@@ -25,64 +41,112 @@
         }
         else
         {
-            <span class="vibe-theme-toggle-icon vibe-theme-toggle-icon-dark"></span>
+            @* Moon icon for light mode - clicking shows dark *@
+            <svg class="vibe-theme-toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
         }
+    }
+    @if (ShowLabel)
+    {
+        <span class="vibe-theme-toggle-label">@(_isDark ? "Light" : "Dark")</span>
     }
 </button>
 
 @code {
     /// <summary>
-    /// Gets or sets the icon to display when switching to dark mode
+    /// Gets or sets the icon to display when switching to dark mode (shown in light mode).
     /// </summary>
     [Parameter]
-    public RenderFragment DarkIcon { get; set; }
+    public RenderFragment? DarkIcon { get; set; }
 
     /// <summary>
-    /// Gets or sets the icon to display when switching to light mode
+    /// Gets or sets the icon to display when switching to light mode (shown in dark mode).
     /// </summary>
     [Parameter]
-    public RenderFragment LightIcon { get; set; }
-    
+    public RenderFragment? LightIcon { get; set; }
+
     /// <summary>
-    /// Gets or sets a value indicating whether to show a tooltip
+    /// Gets or sets whether to show a text label next to the icon.
+    /// </summary>
+    [Parameter]
+    public bool ShowLabel { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets whether to show a tooltip.
     /// </summary>
     [Parameter]
     public bool ShowTooltip { get; set; } = true;
-    
+
     /// <summary>
-    /// Gets or sets the tooltip text for dark mode
+    /// Gets or sets the tooltip text for dark mode.
     /// </summary>
     [Parameter]
     public string DarkModeTooltip { get; set; } = "Switch to dark mode";
-    
+
     /// <summary>
-    /// Gets or sets the tooltip text for light mode
+    /// Gets or sets the tooltip text for light mode.
     /// </summary>
     [Parameter]
     public string LightModeTooltip { get; set; } = "Switch to light mode";
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Gets or sets the storage key for persisting theme preference.
+    /// </summary>
+    [Parameter]
+    public string StorageKey { get; set; } = "vibe-theme";
+
+    private bool _isDark = false;
+
     protected override string ComponentClass => "vibe-theme-toggle";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize theme from localStorage or system preference
+        _isDark = await JS.InvokeAsync<bool>("eval",
+        $@"(function() {{
+const stored = localStorage.getItem('{StorageKey}');
+if (stored) return stored === 'dark';
+return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}})()");
+
+        // Apply initial theme
+        await ApplyTheme(false);
+    }
 
     private async Task ToggleTheme()
     {
-        if (ThemeManager.CurrentTheme?.Id == "dark")
+        _isDark = !_isDark;
+        await ApplyTheme(true);
+    }
+
+    private async Task ApplyTheme(bool stateChanged)
+    {
+        var theme = _isDark ? "dark" : "light";
+
+        // Toggle dark class on document element
+        await JS.InvokeVoidAsync("eval",
+        $@"(function() {{
+if ('{theme}' === 'dark') {{
+document.documentElement.classList.add('dark');
+}} else {{
+document.documentElement.classList.remove('dark');
+}}
+localStorage.setItem('{StorageKey}', '{theme}');
+}})()");
+
+        if (stateChanged)
         {
-            await ThemeManager.SetThemeAsync("light");
-        }
-        else
-        {
-            await ThemeManager.SetThemeAsync("dark");
+            StateHasChanged();
         }
     }
 
-    private string GetTooltip()
+    private string? GetTooltip()
     {
         if (!ShowTooltip)
             return null;
-            
-        return ThemeManager.CurrentTheme?.Id == "dark" 
-            ? LightModeTooltip 
-            : DarkModeTooltip;
+
+        return _isDark ? LightModeTooltip : DarkModeTooltip;
     }
 }

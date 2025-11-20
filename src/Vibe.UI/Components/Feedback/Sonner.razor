@@ -1,13 +1,11 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 @implements IDisposable
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     @foreach (var toast in _toasts)
     {
-        <div class="@GetToastClass(toast)"
-             style="@GetToastStyle(toast)"
-             @key="toast.Id">
+        <div class="@GetToastClass(toast)" style="@GetToastStyle(toast)" @key="toast.Id">
             @if (toast.Icon != null)
             {
                 <div class="sonner-icon">@toast.Icon</div>
@@ -58,10 +56,10 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "sonner-container",
-        $"sonner-{Position.ToString().ToLower()}",
-        RichColors ? "sonner-rich" : null,
-        CssClass
+    "sonner-container",
+    $"sonner-{Position.ToString().ToLower()}",
+    RichColors ? "sonner-rich" : null,
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;
@@ -159,8 +157,8 @@
     {
         var now = DateTime.Now;
         var expired = _toasts.Where(t =>
-            t.Duration.HasValue &&
-            (now - t.CreatedAt).TotalMilliseconds > t.Duration.Value
+        t.Duration.HasValue &&
+        (now - t.CreatedAt).TotalMilliseconds > t.Duration.Value
         ).ToList();
 
         if (expired.Any())
@@ -176,9 +174,9 @@
     private string GetToastClass(SonnerToast toast)
     {
         return CombineClasses(
-            "sonner-toast",
-            $"sonner-{toast.Type.ToString().ToLower()}",
-            toast.Dismissible ? "sonner-dismissible" : null
+        "sonner-toast",
+        $"sonner-{toast.Type.ToString().ToLower()}",
+        toast.Dismissible ? "sonner-dismissible" : null
         );
     }
 

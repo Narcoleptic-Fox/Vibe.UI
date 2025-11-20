@@ -1,6 +1,6 @@
 namespace Vibe.UI.Base;
 
-public class ThemedComponentBase
+public class VibeComponent
 {
     // Placeholder for testing
 }

@@ -104,10 +104,12 @@ public class InitCommandTests : IDisposable
         // Act
         await _command.ExecuteAsync(context, settings);
 
-        // Assert
-        var wwwrootPath = Path.Combine(_testProjectPath, "wwwroot", "js");
-        Directory.Exists(wwwrootPath).Should().BeTrue();
-        File.Exists(Path.Combine(wwwrootPath, "themeInterop.js")).Should().BeTrue();
+        // Assert - Should create CSS theme variables
+        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "css", "app.css");
+        File.Exists(cssPath).Should().BeTrue();
+        var cssContent = await File.ReadAllTextAsync(cssPath);
+        cssContent.Should().Contain("@layer vibe");
+        cssContent.Should().Contain("--vibe-background");
     }
 
     [Fact]

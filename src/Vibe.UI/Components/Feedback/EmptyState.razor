@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     @if (Icon != null)
@@ -50,8 +50,8 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-empty-state",
-        CssClass
+    "vibe-empty-state",
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

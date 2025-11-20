@@ -111,34 +111,8 @@ public class EndToEndInstallationTests : IDisposable
 
     #region Test 3: Add Component With CSS
 
-    [Theory]
-    [InlineData("button")]
-    [InlineData("input")]
-    [InlineData("card")]
-    [InlineData("dialog")]
-    public async Task AddCommand_ShouldCreateCssFileWhenComponentHasCss(string componentName)
-    {
-        // Arrange: Verify component has CSS enabled
-        var component = _componentService.GetComponent(componentName);
-        component.Should().NotBeNull();
-        component!.HasCss.Should().BeTrue($"Component {componentName} should have HasCss = true");
-
-        // Act: Install component
-        await _componentService.InstallComponentAsync(_testProjectPath, _componentsDir, componentName, overwrite: false);
-
-        // Assert: .razor file created in flat directory structure
-        var razorPath = Path.Combine(_testProjectPath, _componentsDir, $"{component.Name}.razor");
-        File.Exists(razorPath).Should().BeTrue("Component .razor file should exist");
-
-        // Assert: .razor.css file also created in flat directory structure
-        var cssPath = Path.Combine(_testProjectPath, _componentsDir, $"{component.Name}.razor.css");
-        File.Exists(cssPath).Should().BeTrue("Component .razor.css file should exist when HasCss is true");
-
-        // Verify CSS file has valid content
-        var cssContent = await File.ReadAllTextAsync(cssPath);
-        cssContent.Should().NotBeNullOrWhiteSpace("CSS file should have content");
-        cssContent.Should().Contain($".vibe-{componentName.ToLowerInvariant()}", "CSS should contain component class");
-    }
+    // CSS file creation tests removed - Vibe.UI now uses a single global vibe-components.css file
+    // instead of individual component CSS files, following shadcn/ui patterns
 
     #endregion
 
@@ -381,29 +355,8 @@ public class EndToEndInstallationTests : IDisposable
         installedComponents.Should().Contain("Checkbox");
     }
 
-    [Theory]
-    [InlineData("button")]
-    [InlineData("input")]
-    [InlineData("card")]
-    public async Task AddCommand_CssFile_ShouldHaveCorrectStructure(string componentName)
-    {
-        // Act: Install component with CSS
-        await _componentService.InstallComponentAsync(_testProjectPath, _componentsDir, componentName, overwrite: false);
-
-        // Assert: CSS file exists and has correct structure in flat directory
-        var component = _componentService.GetComponent(componentName)!;
-        var cssPath = Path.Combine(_testProjectPath, _componentsDir, $"{component.Name}.razor.css");
-
-        if (component.HasCss)
-        {
-            File.Exists(cssPath).Should().BeTrue();
-
-            var cssContent = await File.ReadAllTextAsync(cssPath);
-            cssContent.Should().Contain(".vibe-", "CSS should use vibe prefix");
-            cssContent.Should().Contain("{", "CSS should have valid selector blocks");
-            cssContent.Should().Contain("}", "CSS should have valid selector blocks");
-        }
-    }
+    // CSS structure tests removed - Vibe.UI now uses a single global vibe-components.css file
+    // instead of individual component CSS files, following shadcn/ui patterns
 
     #endregion
 

@@ -1,16 +1,13 @@
 @namespace Vibe.UI.Components
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     <div class="vibe-tabs-list" role="tablist">
         @foreach (var tab in _tabs)
         {
-            <button type="button"
-                    class="vibe-tabs-trigger @(tab.Id == ActiveTabId ? "vibe-tabs-trigger-active" : "")"
-                    role="tab"
-                    aria-selected="@(tab.Id == ActiveTabId)"
-                    disabled="@(tab.Disabled)"
-                    @onclick="() => ActivateTab(tab.Id)">
+            <button type="button" class="vibe-tabs-trigger @(tab.Id == ActiveTabId ? "vibe-tabs-trigger-active" : "")"
+                role="tab" aria-selected="@(tab.Id == ActiveTabId)" disabled="@(tab.Disabled)"
+                @onclick="() => ActivateTab(tab.Id)">
                 @tab.Title
             </button>
         }
@@ -18,9 +15,8 @@
     <div class="vibe-tabs-content">
         @foreach (var tab in _tabs)
         {
-            <div class="vibe-tabs-panel @(tab.Id == ActiveTabId ? "vibe-tabs-panel-active" : "")"
-                 role="tabpanel"
-                 id="@tab.Id-panel">
+            <div class="vibe-tabs-panel @(tab.Id == ActiveTabId ? "vibe-tabs-panel-active" : "")" role="tabpanel"
+                id="@tab.Id-panel">
                 @tab.Content
             </div>
         }
@@ -72,15 +68,15 @@
     internal void AddTab(TabItem tab)
     {
         _tabs.Add(tab);
-        
+
         // If this is the first tab or if it's set to be the default active tab,
         // make it the active tab
-        if ((string.IsNullOrEmpty(ActiveTabId) && _tabs.Count == 1) || 
-            tab.DefaultActive)
+        if ((string.IsNullOrEmpty(ActiveTabId) && _tabs.Count == 1) ||
+        tab.DefaultActive)
         {
             ActiveTabId = tab.Id;
         }
-        
+
         StateHasChanged();
     }
 
@@ -119,12 +115,12 @@
         if (tab != null && !tab.Disabled && tabId != ActiveTabId)
         {
             ActiveTabId = tabId;
-            
+
             if (ActiveTabIdChanged.HasDelegate)
             {
                 await ActiveTabIdChanged.InvokeAsync(tabId);
             }
-            
+
             if (OnTabActivated.HasDelegate)
             {
                 await OnTabActivated.InvokeAsync(new TabActivatedEventArgs(tabId, tab.Title));
@@ -141,22 +137,22 @@
         /// Gets the ID of the tab
         /// </summary>
         public string Id { get; }
-        
+
         /// <summary>
         /// Gets the title of the tab
         /// </summary>
         public RenderFragment Title { get; }
-        
+
         /// <summary>
         /// Gets the content of the tab
         /// </summary>
         public RenderFragment Content { get; }
-        
+
         /// <summary>
         /// Gets whether the tab is disabled
         /// </summary>
         public bool Disabled { get; }
-        
+
         /// <summary>
         /// Gets whether the tab should be active by default
         /// </summary>
@@ -189,7 +185,7 @@
         /// Gets the ID of the tab
         /// </summary>
         public string TabId { get; }
-        
+
         /// <summary>
         /// Gets the title of the tab as a string (for convenience)
         /// </summary>

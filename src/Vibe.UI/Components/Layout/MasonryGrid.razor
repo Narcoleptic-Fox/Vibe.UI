@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass" style="@GridStyle">
     @for (int col = 0; col < Columns; col++)
@@ -53,8 +53,8 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-masonry",
-        CssClass
+    "vibe-masonry",
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;
@@ -67,8 +67,8 @@
             return new List<MasonryItem>();
 
         return Items
-            .Where((item, index) => index % Columns == columnIndex)
-            .ToList();
+        .Where((item, index) => index % Columns == columnIndex)
+        .ToList();
     }
 
     public class MasonryItem

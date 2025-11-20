@@ -43,7 +43,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         var componentService = new ComponentService();
 
         // Check if vibe init was run
-        var infrastructurePath = Path.Combine(settings.ProjectPath, "Vibe", "Base", "ThemedComponentBase.cs");
+        var infrastructurePath = Path.Combine(settings.ProjectPath, "Vibe", "Base", "VibeComponent.cs");
         if (!File.Exists(infrastructurePath))
         {
             AnsiConsole.MarkupLine("[yellow]Warning:[/] Vibe.UI infrastructure not found.");

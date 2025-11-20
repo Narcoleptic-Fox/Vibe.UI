@@ -1,20 +1,14 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 @inject IJSRuntime JSRuntime
 @implements IDisposable
 
-<div class="@CombinedClass" 
-     id="@Id"
-     @onmouseenter="HandleMouseEnter" 
-     @onmouseleave="HandleMouseLeave"
-     @ref="_elementReference">
-    <button type="button" 
-            class="navigation-menu-item-trigger"
-            disabled="@Disabled"
-            @onclick="HandleClick">
+<div class="@CombinedClass" id="@Id" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave"
+    @ref="_elementReference">
+    <button type="button" class="navigation-menu-item-trigger" disabled="@Disabled" @onclick="HandleClick">
         @TriggerContent
     </button>
-    
+
     @if (Content != null && IsActive)
     {
         <div class="navigation-menu-item-content">
@@ -29,53 +23,53 @@
     /// </summary>
     [Parameter]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    
+
     /// <summary>
     /// Gets or sets the content of the trigger button.
     /// </summary>
     [Parameter]
     public RenderFragment TriggerContent { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the content to display when the item is active.
     /// </summary>
     [Parameter]
     public RenderFragment Content { get; set; }
-    
+
     /// <summary>
     /// Gets or sets whether the menu item is disabled.
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the callback when the menu item is clicked.
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
-    
+
     /// <summary>
     /// Gets or sets whether viewport content should be shown when this item is active.
     /// </summary>
     [Parameter]
     public bool UseViewport { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the parent navigation menu.
     /// </summary>
     [CascadingParameter]
     public NavigationMenu ParentMenu { get; set; }
-    
+
     /// <summary>
     /// Gets whether the menu item is active.
     /// </summary>
     private bool IsActive { get; set; }
-    
+
     /// <summary>
     /// Reference to the menu item element.
     /// </summary>
     private ElementReference _elementReference;
-    
+
     /// <summary>
     /// Gets the component CSS class name.
     /// </summary>
@@ -87,26 +81,26 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Id))
         {
             Id = Guid.NewGuid().ToString();
         }
     }
-    
+
     /// <summary>
     /// Updates the menu item position after rendering.
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        
+
         if (firstRender)
         {
             await UpdatePosition();
         }
     }
-    
+
     /// <summary>
     /// Updates the menu item position.
     /// </summary>
@@ -114,12 +108,14 @@
     {
         try
         {
-            var boundingRect = await JSRuntime.InvokeAsync<DOMRect>("eval", $"document.getElementById('{Id}').getBoundingClientRect()");
-            
+            var boundingRect = await JSRuntime.InvokeAsync<DOMRect>("eval",
+            $"document.getElementById('{Id}').getBoundingClientRect()");
+
             // Calculate the position relative to the parent
-            var parentRect = await JSRuntime.InvokeAsync<DOMRect>("eval", $"document.getElementById('{Id}').parentElement.getBoundingClientRect()");
+            var parentRect = await JSRuntime.InvokeAsync<DOMRect>("eval",
+            $"document.getElementById('{Id}').parentElement.getBoundingClientRect()");
             var leftPosition = boundingRect.Left - parentRect.Left;
-            
+
             ParentMenu?.RegisterItem(Id, leftPosition, boundingRect.Width);
         }
         catch
@@ -127,7 +123,7 @@
             // Ignore errors when updating position
         }
     }
-    
+
     /// <summary>
     /// Handles mouse enter events.
     /// </summary>
@@ -136,16 +132,16 @@
         if (!Disabled)
         {
             IsActive = true;
-            
+
             if (UseViewport && Content != null)
             {
                 ParentMenu.ActivateItem(Id);
             }
-            
+
             StateHasChanged();
         }
     }
-    
+
     /// <summary>
     /// Handles mouse leave events.
     /// </summary>
@@ -154,16 +150,16 @@
         if (!Disabled)
         {
             IsActive = false;
-            
+
             if (UseViewport && Content != null)
             {
                 ParentMenu.DeactivateItem();
             }
-            
+
             StateHasChanged();
         }
     }
-    
+
     /// <summary>
     /// Handles click events.
     /// </summary>
@@ -174,7 +170,7 @@
             await OnClick.InvokeAsync(args);
         }
     }
-    
+
     /// <summary>
     /// Disposes the component.
     /// </summary>
@@ -182,7 +178,7 @@
     {
         GC.SuppressFinalize(this);
     }
-    
+
     /// <summary>
     /// DOM rectangle structure for JS interop.
     /// </summary>

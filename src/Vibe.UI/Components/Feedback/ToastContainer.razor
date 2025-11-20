@@ -1,19 +1,13 @@
 @using Vibe.UI.Services.Toast
 @implements IDisposable
 @inject IToastService ToastService
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     @foreach (var toast in _toasts)
     {
-        <Toast Title="@toast.Title"
-               Description="@toast.Description"
-               Variant="@toast.Variant"
-               Icon="@toast.Icon"
-               Duration="@toast.Duration"
-               ShowCloseButton="true"
-               ShowProgress="true"
-               OnClose="() => RemoveToast(toast.Id)" />
+        <Toast Title="@toast.Title" Description="@toast.Description" Variant="@toast.Variant" Icon="@toast.Icon"
+            Duration="@toast.Duration" ShowCloseButton="true" ShowProgress="true" OnClose="() => RemoveToast(toast.Id)" />
     }
 </div>
 
@@ -36,7 +30,8 @@
 
     private void HandleToastAdded(object sender, ToastEventArgs args)
     {
-        InvokeAsync(() => {
+        InvokeAsync(() =>
+        {
             var toast = new ToastItem
             {
                 Id = args.Id,
@@ -61,7 +56,8 @@
 
     private void HandleToastRemoved(object sender, ToastEventArgs args)
     {
-        InvokeAsync(() => {
+        InvokeAsync(() =>
+        {
             RemoveToast(args.Id);
         });
     }

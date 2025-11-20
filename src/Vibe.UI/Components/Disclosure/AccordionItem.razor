@@ -1,17 +1,13 @@
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     <h3 class="vibe-accordion-item-header">
-        <button 
-            type="button" 
-            class="vibe-accordion-item-trigger"
-            @onclick="ToggleExpanded"
-            aria-expanded="@IsExpanded">
+        <button type="button" class="vibe-accordion-item-trigger" @onclick="ToggleExpanded" aria-expanded="@IsExpanded">
             @Header
             <span class="vibe-accordion-item-icon"></span>
         </button>
     </h3>
-    
+
     <div class="vibe-accordion-item-content" style="@ContentStyle">
         <div class="vibe-accordion-item-content-inner">
             @Content
@@ -21,7 +17,7 @@
 
 @code {
     private string _id = Guid.NewGuid().ToString();
-    
+
     [CascadingParameter]
     private Accordion Parent { get; set; }
 

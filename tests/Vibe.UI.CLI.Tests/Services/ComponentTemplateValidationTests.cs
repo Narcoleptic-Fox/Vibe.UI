@@ -44,11 +44,11 @@ public class ComponentTemplateValidationTests
         // Components may have @namespace directive or rely on implicit namespace from folder structure
         // Either way is acceptable in Razor components
 
-        // Should have @inherits directive (various forms: ThemedComponentBase, Base.ThemedComponentBase, or Vibe.UI.Base.ThemedComponentBase)
-        template.Should().Match(t => t.Contains("@inherits ThemedComponentBase") ||
-                                      t.Contains("@inherits Base.ThemedComponentBase") ||
-                                      t.Contains("@inherits Vibe.UI.Base.ThemedComponentBase"),
-            because: "all components must inherit from ThemedComponentBase");
+        // Should have @inherits directive (various forms: VibeComponent, Base.VibeComponent, or Vibe.UI.Base.VibeComponent)
+        template.Should().Match(t => t.Contains("@inherits VibeComponent") ||
+                                      t.Contains("@inherits Base.VibeComponent") ||
+                                      t.Contains("@inherits Vibe.UI.Base.VibeComponent"),
+            because: "all components must inherit from VibeComponent");
 
         // Should have @code block with balanced braces
         ValidateCodeBlockSyntax(template).Should().BeTrue(
@@ -76,7 +76,7 @@ public class ComponentTemplateValidationTests
             because: "component must have parameter attributes");
 
         // Components typically have ChildContent (though some specialized ones may not)
-        // Note: ThemedComponentBase provides Class and AdditionalAttributes
+        // Note: VibeComponent provides Class and AdditionalAttributes
         // Individual components define their own ChildContent
         template.Should().Match(t => t.Contains("ChildContent") ||
                                       t.Contains("RenderFragment"),
@@ -111,7 +111,7 @@ public class ComponentTemplateValidationTests
     }
 
     [Fact]
-    public void GeneratedTemplate_ShouldInheritThemedComponentBase()
+    public void GeneratedTemplate_ShouldInheritVibeComponent()
     {
         // Arrange - Test multiple components to ensure consistency
         var components = new[] { "Button", "Input", "Dialog", "Card", "Alert" };
@@ -125,10 +125,10 @@ public class ComponentTemplateValidationTests
             var template = GetComponentTemplateViaReflection(component!.Name);
 
             // Assert - Allow all forms of inheritance (short, qualified, fully qualified)
-            template.Should().Match(t => t.Contains("@inherits ThemedComponentBase") ||
-                                          t.Contains("@inherits Base.ThemedComponentBase") ||
-                                          t.Contains("@inherits Vibe.UI.Base.ThemedComponentBase"),
-                because: $"{componentName} must inherit from ThemedComponentBase for theme support");
+            template.Should().Match(t => t.Contains("@inherits VibeComponent") ||
+                                          t.Contains("@inherits Base.VibeComponent") ||
+                                          t.Contains("@inherits Vibe.UI.Base.VibeComponent"),
+                because: $"{componentName} must inherit from VibeComponent for theme support");
         }
     }
 
@@ -190,69 +190,8 @@ public class ComponentTemplateValidationTests
 
     #region CSS Template Validation Tests
 
-    [Theory]
-    [InlineData("Button")]
-    [InlineData("Input")]
-    [InlineData("Dialog")]
-    [InlineData("Card")]
-    [InlineData("ColorPicker")]
-    public void GeneratedCssTemplate_ShouldBeValidCss(string componentName)
-    {
-        // Arrange
-        var component = _componentService.GetComponent(componentName);
-        component.Should().NotBeNull();
-
-        // Act
-        var cssTemplate = GetComponentCssTemplateViaReflection(component!.Name);
-
-        // Assert
-        cssTemplate.Should().NotBeNullOrWhiteSpace();
-
-        // Should have valid CSS selector structure (class name with braces)
-        cssTemplate.Should().MatchRegex(@"\.vibe-[\w-]+\s*\{[^}]*\}",
-            because: "CSS should have a valid selector with braces");
-
-        // Should have balanced braces
-        ValidateBalancedBraces(cssTemplate).Should().BeTrue(
-            because: "CSS must have balanced curly braces");
-    }
-
-    [Theory]
-    [InlineData("Button", "vibe-button")]
-    [InlineData("Input", "vibe-input")]
-    [InlineData("ColorPicker", "vibe-color-picker")]
-    [InlineData("DateRangePicker", "vibe-daterangepicker")]
-    public void GeneratedCssTemplate_ShouldUseCorrectCssClassName(string componentName, string expectedCssClass)
-    {
-        // Arrange
-        var component = _componentService.GetComponent(componentName);
-        component.Should().NotBeNull();
-
-        // Act
-        var cssTemplate = GetComponentCssTemplateViaReflection(component!.Name);
-
-        // Assert
-        cssTemplate.Should().Contain($".{expectedCssClass}",
-            because: $"CSS should target the {expectedCssClass} class");
-    }
-
-    [Fact]
-    public void GeneratedCssTemplate_ShouldHaveActualStyles()
-    {
-        // Arrange
-        var component = _componentService.GetComponent("Button");
-        component.Should().NotBeNull();
-
-        // Act
-        var cssTemplate = GetComponentCssTemplateViaReflection(component!.Name);
-
-        // Assert - Real components should have actual CSS, not placeholder comments
-        cssTemplate.Should().NotBeNullOrWhiteSpace(
-            because: "components should have CSS styling");
-
-        cssTemplate.Should().Contain(".vibe-button",
-            because: "Button CSS should style the vibe-button class");
-    }
+    // CSS template tests removed - Vibe.UI now uses a single global vibe-components.css file
+    // instead of individual component CSS files, following shadcn/ui patterns
 
     #endregion
 

@@ -246,8 +246,8 @@ public class AddCommandTests : IDisposable
         Directory.CreateDirectory(vibeBasePath);
 
         // Create required infrastructure file
-        var themedComponentBasePath = Path.Combine(vibeBasePath, "ThemedComponentBase.cs");
-        await File.WriteAllTextAsync(themedComponentBasePath, "// Placeholder for ThemedComponentBase");
+        var VibeComponentPath = Path.Combine(vibeBasePath, "VibeComponent.cs");
+        await File.WriteAllTextAsync(VibeComponentPath, "// Placeholder for VibeComponent");
 
         // Save configuration
         var configService = new ConfigService();
