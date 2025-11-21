@@ -8,133 +8,66 @@
    ======================================== */
 
 :root {
-    /* Colors - Opinionated blue palette */
-    --vibe-background: #ffffff;
-    --vibe-foreground: #111111;
-    --vibe-primary: #0066cc;
-    --vibe-primary-foreground: #ffffff;
-    --vibe-secondary: #f4f4f4;
-    --vibe-secondary-foreground: #111111;
-    --vibe-muted: #f1f1f1;
-    --vibe-muted-foreground: #666666;
-    --vibe-accent: #0080ff;
-    --vibe-accent-foreground: #ffffff;
-    --vibe-destructive: #e11d48;
-    --vibe-destructive-foreground: #ffffff;
-    --vibe-success: #22c55e;
-    --vibe-success-foreground: #ffffff;
-    --vibe-warning: #f59e0b;
-    --vibe-warning-foreground: #ffffff;
-    --vibe-info: #3b82f6;
-    --vibe-info-foreground: #ffffff;
-    --vibe-border: #e2e2e2;
-    --vibe-input: #ffffff;
-    --vibe-ring: #0066cc;
-    --vibe-card: #ffffff;
-    --vibe-card-foreground: #111111;
-
-    /* Border Radius - Varied sizes for hierarchy */
+    /* Colors - Neutral "Zinc" Palette (Professional & Unopinionated) */
+    --vibe-background: hsl(0 0% 100%);
+    --vibe-foreground: hsl(240 10% 3.9%);
+    --vibe-card: hsl(0 0% 100%);
+    --vibe-card-foreground: hsl(240 10% 3.9%);
+    --vibe-popover: hsl(0 0% 100%);
+    --vibe-popover-foreground: hsl(240 10% 3.9%);
+    /* Primary is now Black (Light Mode) */
+    --vibe-primary: hsl(240 5.9% 10%);
+    --vibe-primary-foreground: hsl(0 0% 98%);
+    --vibe-secondary: hsl(240 4.8% 95.9%);
+    --vibe-secondary-foreground: hsl(240 5.9% 10%);
+    --vibe-muted: hsl(240 4.8% 95.9%);
+    --vibe-muted-foreground: hsl(240 3.8% 46.1%);
+    --vibe-accent: hsl(240 4.8% 95.9%);
+    --vibe-accent-foreground: hsl(240 5.9% 10%);
+    --vibe-destructive: hsl(0 84.2% 60.2%);
+    --vibe-destructive-foreground: hsl(0 0% 98%);
+    --vibe-border: hsl(240 5.9% 90%);
+    --vibe-input: hsl(240 5.9% 90%);
+    --vibe-ring: hsl(240 10% 3.9%);
+    /* Radius - Default 0.5rem (8px) for that modern feel */
     --vibe-radius: 0.5rem;
-    /* Default: 8px */
-    --vibe-radius-sm: 0.375rem;
-    /* Small (buttons, inputs): 6px */
+    --vibe-radius-sm: 0.3rem;
     --vibe-radius-md: 0.5rem;
-    /* Medium: 8px */
-    --vibe-radius-lg: 0.75rem;
-    /* Large (cards): 12px */
+    --vibe-radius-lg: 0.5rem;
     --vibe-radius-xl: 1rem;
-    /* Extra large: 16px */
-
-    /* Spacing - 4px grid system */
-    --vibe-spacing-1: 0.25rem;
-    /* 4px */
-    --vibe-spacing-2: 0.5rem;
-    /* 8px */
-    --vibe-spacing-3: 0.75rem;
-    /* 12px */
-    --vibe-spacing-4: 1rem;
-    /* 16px */
-    --vibe-spacing-5: 1.25rem;
-    /* 20px */
-    --vibe-spacing-6: 1.5rem;
-    /* 24px */
-    --vibe-spacing-8: 2rem;
-    /* 32px */
-    --vibe-spacing-10: 2.5rem;
-    /* 40px */
-    --vibe-spacing-12: 3rem;
-    /* 48px */
-    --vibe-spacing-16: 4rem;
-    /* 64px */
-    --vibe-spacing-20: 5rem;
-    /* 80px */
-
-    /* Shadows - Layered for depth */
+    /* Typography - Inter is King */
+    --vibe-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --vibe-font-mono: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', monospace;
+    /* Spacing & Shadows remain the same... */
     --vibe-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --vibe-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-        0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --vibe-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-        0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --vibe-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-        0 8px 10px -6px rgb(0 0 0 / 0.1);
-
-    /* Typography */
-    --vibe-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-        'Helvetica Neue', sans-serif;
-    --vibe-font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
-
-    /* Type Scale */
-    --text-xs: 0.75rem;
-    /* 12px */
-    --text-sm: 0.875rem;
-    /* 14px */
-    --text-base: 1rem;
-    /* 16px */
-    --text-lg: 1.125rem;
-    /* 18px */
-    --text-xl: 1.25rem;
-    /* 20px */
-    --text-2xl: 1.5rem;
-    /* 24px */
-    --text-3xl: 1.875rem;
-    /* 30px */
-    --text-4xl: 2.25rem;
-    /* 36px */
-    --text-5xl: 3rem;
-    /* 48px */
-    --text-6xl: 3.75rem;
-    /* 60px */
-
-    /* Transitions - 200ms is elegant */
+    --vibe-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --vibe-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --vibe-transition: all 0.2s ease;
 }
 
-/* Dark Theme */
+/* Dark Theme - Deep Zinc */
 .dark {
-    --vibe-background: #0f172a;
-    --vibe-foreground: #f8fafc;
-    --vibe-primary: #3b82f6;
-    --vibe-primary-foreground: #ffffff;
-    --vibe-secondary: #1e293b;
-    --vibe-secondary-foreground: #f8fafc;
-    --vibe-muted: #1e293b;
-    --vibe-muted-foreground: #94a3b8;
-    --vibe-accent: #60a5fa;
-    --vibe-accent-foreground: #0f172a;
-    --vibe-destructive: #ef4444;
-    --vibe-destructive-foreground: #ffffff;
-    --vibe-success: #22c55e;
-    --vibe-success-foreground: #ffffff;
-    --vibe-warning: #f59e0b;
-    --vibe-warning-foreground: #ffffff;
-    --vibe-info: #3b82f6;
-    --vibe-info-foreground: #ffffff;
-    --vibe-border: #334155;
-    --vibe-input: #1e293b;
-    --vibe-ring: #3b82f6;
-    --vibe-card: #1e293b;
-    --vibe-card-foreground: #f8fafc;
+    --vibe-background: hsl(240 10% 3.9%);
+    --vibe-foreground: hsl(0 0% 98%);
+    --vibe-card: hsl(240 10% 3.9%);
+    --vibe-card-foreground: hsl(0 0% 98%);
+    --vibe-popover: hsl(240 10% 3.9%);
+    --vibe-popover-foreground: hsl(0 0% 98%);
+    /* Primary is now White (Dark Mode) */
+    --vibe-primary: hsl(0 0% 98%);
+    --vibe-primary-foreground: hsl(240 5.9% 10%);
+    --vibe-secondary: hsl(240 3.7% 15.9%);
+    --vibe-secondary-foreground: hsl(0 0% 98%);
+    --vibe-muted: hsl(240 3.7% 15.9%);
+    --vibe-muted-foreground: hsl(240 5% 64.9%);
+    --vibe-accent: hsl(240 3.7% 15.9%);
+    --vibe-accent-foreground: hsl(0 0% 98%);
+    --vibe-destructive: hsl(0 62.8% 30.6%);
+    --vibe-destructive-foreground: hsl(0 0% 98%);
+    /* FIXED: Increased border/input contrast for dark mode visibility */
+    --vibe-border: hsl(240 3.7% 25%); /* Zinc-800 - much more visible */
+    --vibe-input: hsl(240 3.7% 20%); /* Slightly lighter input bg */
+    --vibe-ring: hsl(240 4.9% 83.9%);
 }
 
 /* ========================================
@@ -184,31 +117,22 @@
 .vibe-button-small,
 .vibe-btn-small {
     height: 2rem;
-    /* 32px */
-    padding: 0 var(--vibe-spacing-3);
-    /* 12px */
+    padding: 0 0.75rem;
     font-size: 0.875rem;
-    /* 14px */
 }
 
 .vibe-button-medium,
 .vibe-btn-medium {
     height: 2.5rem;
-    /* 40px */
-    padding: 0 var(--vibe-spacing-4);
-    /* 16px */
+    padding: 0 1rem;
     font-size: 0.875rem;
-    /* 14px */
 }
 
 .vibe-button-large,
 .vibe-btn-large {
     height: 3rem;
-    /* 48px */
-    padding: 0 var(--vibe-spacing-8);
-    /* 32px */
+    padding: 0 2rem;
     font-size: 0.875rem;
-    /* 14px */
 }
 
 /* Button Variants */
@@ -281,12 +205,13 @@
 
 .vibe-button-outline:hover:not(:disabled),
 .vibe-btn-outline:hover:not(:disabled) {
-    background-color: color-mix(in srgb, var(--vibe-foreground) 10%, transparent);
-    color: var(--vibe-foreground);
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
 }
 
 .vibe-button-outline:active:not(:disabled) {
     background-color: var(--vibe-muted);
+    color: var(--vibe-muted-foreground);
 }
 
 .vibe-button-ghost,
@@ -297,12 +222,13 @@
 
 .vibe-button-ghost:hover:not(:disabled),
 .vibe-btn-ghost:hover:not(:disabled) {
-    background-color: color-mix(in srgb, var(--vibe-foreground) 10%, transparent);
-    color: var(--vibe-foreground);
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
 }
 
 .vibe-button-ghost:active:not(:disabled) {
     background-color: var(--vibe-muted);
+    color: var(--vibe-muted-foreground);
 }
 
 .vibe-button-link,
@@ -6120,7 +6046,7 @@
     position: relative;
     flex-grow: 1;
     height: 0.25rem;
-    background-color: var(--vibe-muted-foreground);
+    background-color: var(--vibe-secondary);
     border-radius: 9999px;
     overflow: hidden;
 }
@@ -10031,32 +9957,7 @@
 
 /* Dark Mode Overrides - Using .dark class on html element (shadcn approach) */
 
-/* Button Outline - Increase visibility in dark mode */
-.dark .vibe-button-outline,
-.dark .vibe-btn-outline {
-    border-width: 2px;
-    border-color: var(--vibe-border);
-    color: var(--vibe-foreground);
-}
-
-.dark .vibe-button-outline:hover:not(:disabled),
-.dark .vibe-btn-outline:hover:not(:disabled) {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border-color: var(--vibe-border);
-    color: var(--vibe-foreground) !important;
-}
-
-/* Button Ghost - Fix white-on-white hover in dark mode */
-.dark .vibe-button-ghost,
-.dark .vibe-btn-ghost {
-    color: var(--vibe-foreground);
-}
-
-.dark .vibe-button-ghost:hover:not(:disabled),
-.dark .vibe-btn-ghost:hover:not(:disabled) {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: var(--vibe-foreground) !important;
-}
+/* Dark mode button variants now inherit from CSS variables - no hardcoded overrides needed */
 
 /* Table Headers - Ensure proper dark mode styling */
 .dark .vibe-table .table-header {
@@ -10075,6 +9976,39 @@
 
 .dark .vibe-datatable th {
     color: var(--vibe-foreground) !important;
+}
+
+/* Input Labels - Ensure visibility in dark mode */
+.dark .vibe-input-label {
+    color: var(--vibe-foreground); /* Use foreground instead of muted for better visibility */
+    opacity: 0.7; /* Slight opacity for non-focused state */
+}
+
+.dark .vibe-input-label-floating {
+    opacity: 1; /* Full opacity when floating */
+}
+
+/* Button hover effects - Make more visible in dark mode */
+.dark .vibe-button-primary:hover:not(:disabled),
+.dark .vibe-btn-primary:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-primary) 85%, black); /* More contrast */
+}
+
+.dark .vibe-button-secondary:hover:not(:disabled),
+.dark .vibe-btn-secondary:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-secondary) 120%, white); /* Lighten */
+}
+
+/* Outline button borders - Much more visible in dark mode */
+.dark .vibe-button-outline,
+.dark .vibe-btn-outline {
+    border-color: hsl(240 3.7% 40%); /* Significantly lighter for visibility */
+}
+
+.dark .vibe-button-outline:hover:not(:disabled),
+.dark .vibe-btn-outline:hover:not(:disabled) {
+    border-color: hsl(240 3.7% 50%);
+    background-color: hsl(240 3.7% 15%); /* Subtle background on hover */
 }
 
 .dark .vibe-datatable .datatable-toolbar {

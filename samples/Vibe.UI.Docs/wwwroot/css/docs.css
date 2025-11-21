@@ -3,21 +3,21 @@
    ========================================================================== */
 
 :root {
-    /* Vibe.UI Brand Colors */
+    /* Vibe.UI Brand Colors - Used ONLY for primary action buttons */
     --brand-teal: #065465;
     --brand-silver: #838996;
     --brand-lilac: #AA98A9;
 
-    /* Map docs variables to Vibe.UI theme variables with brand color fallbacks */
+    /* Neutral Zinc palette for "shadcn premium" aesthetic */
     --docs-primary: var(--vibe-primary, var(--brand-teal));
     --docs-secondary: var(--vibe-accent, var(--brand-lilac));
     --docs-bg: var(--vibe-background, #ffffff);
-    --docs-surface: var(--vibe-card, #f9fafb);
-    --docs-border: var(--vibe-border, #e5e7eb);
-    --docs-text: var(--vibe-foreground, #111827);
-    --docs-text-muted: var(--vibe-muted-foreground, var(--brand-silver));
-    --docs-code-bg: var(--vibe-secondary, #1f2937);
-    --docs-code-text: var(--vibe-secondary-foreground, #f3f4f6);
+    --docs-surface: var(--vibe-card, #fafafa);
+    --docs-border: var(--vibe-border, #e4e4e7); /* Zinc-200 */
+    --docs-text: var(--vibe-foreground, #09090b); /* Harsh black - Zinc-950 */
+    --docs-text-muted: var(--vibe-muted-foreground, #71717a); /* Zinc-500 */
+    --docs-code-bg: var(--vibe-secondary, #18181b); /* Zinc-900 */
+    --docs-code-text: var(--vibe-secondary-foreground, #fafafa);
     --docs-header-height: 60px;
     --docs-sidebar-width: 280px;
 }
@@ -29,11 +29,20 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--vibe-font); /* Use the new Inter variable */
     color: var(--docs-text);
     background-color: var(--docs-bg);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Critical for thin fonts */
+}
+
+/* Tight letter-spacing for headings - the shadcn/ui signature look */
+h1, h2, h3, h4, h5, h6,
+.component-title,
+.hero-title,
+.section-title {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.025em; /* Tight tracking for premium feel */
 }
 
 /* ==========================================================================
@@ -55,11 +64,16 @@ body {
     top: 0;
     z-index: 100;
     height: var(--docs-header-height);
-    background-color: var(--docs-surface);
+    /* The Blur Effect */
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--docs-border);
 }
 
-.header-content {
+.dark .docs-header {
+    background-color: rgba(9, 9, 11, 0.8); /* Dark mode transparency */
+}
+
+    .header-content {
     margin: 0 auto;
     height: 100%;
     display: flex;
@@ -213,7 +227,13 @@ body {
     position: sticky;
     top: var(--docs-header-height);
     height: calc(100vh - var(--docs-header-height));
-    background-color: var(--docs-surface);
+    /* Sidebar also gets glass effect */
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+}
+
+.dark .docs-sidebar {
+    background-color: rgba(9, 9, 11, 0.5);
 }
 
 .sidebar-nav {
@@ -396,7 +416,7 @@ body {
 
 .feature-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    /* No shadow - flat shadcn style */
     border-color: var(--docs-primary);
 }
 
@@ -666,10 +686,12 @@ body {
 }
 
 .component-title {
-    font-size: 3rem;
+    font-size: 4rem; /* Increased from 3rem - shadcn uses text-5xl/6xl */
     font-weight: 800;
     margin-bottom: 0.5rem;
     color: var(--docs-text);
+    letter-spacing: -0.02em; /* Tighter tracking for large text */
+    line-height: 1.1; /* Tighter line height for impact */
 }
 
 .category-badge {
@@ -695,19 +717,22 @@ body {
 }
 
 .component-section h2 {
-    font-size: 1.875rem;
+    font-size: 2.25rem; /* Increased from 1.875rem */
     font-weight: 700;
     margin-bottom: 1rem;
     color: var(--docs-text);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
     border-bottom: 2px solid var(--docs-border);
     padding-bottom: 0.5rem;
 }
 
 .component-section h3 {
-    font-size: 1.25rem;
+    font-size: 1.5rem; /* Increased from 1.25rem */
     font-weight: 600;
     margin: 1.5rem 0 0.75rem;
     color: var(--docs-text);
+    letter-spacing: -0.01em;
 }
 
 .preview-container {
@@ -795,11 +820,11 @@ body {
     }
 
     .component-title {
-        font-size: 2rem;
+        font-size: 2.5rem; /* Increased from 2rem for mobile */
     }
 
     .section h2 {
-        font-size: 1.5rem;
+        font-size: 1.75rem; /* Increased from 1.5rem for mobile */
     }
 }
 /* ==========================================================================
@@ -822,6 +847,19 @@ body {
   inset: 0;
   z-index: 0;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+/* Dot grid texture overlay - connects empty space and adds tactile "paper" feel */
+.hero-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 24px 24px; /* The "dot grid" */
+  mask-image: linear-gradient(to bottom, black, transparent); /* Fade it out */
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  opacity: 0.4;
+  z-index: 1;
 }
 
 .hero-gradient-1,
@@ -1122,8 +1160,7 @@ body {
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-              0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* No shadow - flat shadcn style */
   border-color: var(--docs-primary);
 }
 
@@ -1206,11 +1243,12 @@ body {
    ========================================================================== */
 
 .component-preview-card {
+  /* Flat design - borders instead of shadows for "technical" shadcn feel */
   border: 1px solid var(--docs-border);
   border-radius: 0.75rem;
   overflow: hidden;
   background: var(--docs-surface);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  /* NO shadow - flat and crisp */
   margin-bottom: 2rem;
 }
 
@@ -1486,5 +1524,120 @@ body {
 
   .code-block {
     margin: 1rem 0;
+  }
+}
+
+/* ==========================================================================
+   API REFERENCE TABLE - Component Properties Documentation
+   ========================================================================== */
+
+/* Container for API reference section */
+.api-reference {
+  margin: 3rem 0;
+}
+
+.api-reference h2,
+.api-reference h3 {
+  margin-bottom: 1.5rem;
+  color: var(--docs-text);
+}
+
+/* Extremely legible table design with monospace for technical content */
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--docs-surface);
+  margin: 2rem 0;
+}
+
+.api-table thead {
+  background: var(--docs-bg);
+  border-bottom: 2px solid var(--docs-border);
+}
+
+.api-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--docs-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.api-table tbody tr {
+  border-bottom: 1px solid var(--docs-border);
+  transition: background-color 0.2s;
+}
+
+.api-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.api-table tbody tr:hover {
+  background: var(--docs-bg);
+}
+
+.api-table td {
+  padding: 1rem;
+  font-size: 0.875rem;
+  vertical-align: top;
+}
+
+/* Prop Name - Monospaced for technical clarity */
+.api-table td:first-child {
+  font-family: var(--vibe-font-mono);
+  font-weight: 600;
+  color: var(--docs-text);
+  white-space: nowrap;
+}
+
+/* Type - Monospaced with color coding */
+.api-table td:nth-child(2) {
+  font-family: var(--vibe-font-mono);
+  color: var(--docs-primary);
+  white-space: nowrap;
+}
+
+/* Default - Monospaced */
+.api-table td:nth-child(3) {
+  font-family: var(--vibe-font-mono);
+  color: var(--docs-text-muted);
+  font-size: 0.8125rem;
+}
+
+/* Description - Regular font for readability */
+.api-table td:nth-child(4) {
+  color: var(--docs-text);
+  line-height: 1.6;
+}
+
+/* Code inline snippets within table */
+.api-table code {
+  font-family: var(--vibe-font-mono);
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.dark .api-table code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile responsive table */
+@media (max-width: 768px) {
+  .api-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .api-table th,
+  .api-table td {
+    padding: 0.5rem 0.75rem;
   }
 }

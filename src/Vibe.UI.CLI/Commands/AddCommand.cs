@@ -136,7 +136,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
             });
 
         var displayName = settings.Name ?? component.Name;
-        AnsiConsole.MarkupLine($"\n[green]✓[/] {displayName} added successfully!");
+        AnsiConsole.MarkupLine($"\n[green]✓[/] Success! {displayName} has been added to your project.");
 
         if (!string.IsNullOrEmpty(settings.Name))
         {
@@ -151,7 +151,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         // Show usage example
         if (!string.IsNullOrEmpty(component.Example))
         {
-            AnsiConsole.MarkupLine($"\n[blue]Example usage:[/]");
+            AnsiConsole.MarkupLine($"\n[blue]Usage:[/]");
             var panel = new Panel(component.Example)
             {
                 Border = BoxBorder.Rounded,
@@ -159,6 +159,18 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
             };
             AnsiConsole.Write(panel);
         }
+
+        // Next Steps section - closes the loop for the developer
+        AnsiConsole.MarkupLine("\n[yellow]Next Steps:[/]");
+        AnsiConsole.MarkupLine($"  1. Import the component: [dim]@using YourProject.{config.ComponentsDirectory}[/]");
+        AnsiConsole.MarkupLine($"  2. Use in your Razor files: [dim]<{displayName} />[/]");
+
+        if (component.Dependencies?.Any() == true)
+        {
+            AnsiConsole.MarkupLine($"  3. Dependencies installed: [dim]{string.Join(", ", component.Dependencies)}[/]");
+        }
+
+        AnsiConsole.MarkupLine($"\n[dim]💡 Tip: Run [blue]vibe add {component.Name} --help[/] for more options.[/]");
 
         return 0;
     }

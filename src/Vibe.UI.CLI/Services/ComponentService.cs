@@ -103,10 +103,30 @@ public class ComponentService
         // Get source component path
         var sourcePath = GetComponentSourcePath(component.Name, component.Category);
 
-        // Copy .razor file
+        // Copy .razor file with safety checks
         var razorFile = Path.Combine(targetDir, $"{outputComponentName}.razor");
+        var fileChangeDetector = new FileChangeDetector(projectPath);
+
         if (!File.Exists(razorFile) || overwrite)
         {
+            //Check if file has been modified before overwriting
+            if (File.Exists(razorFile) && overwrite)
+            {
+                var relativePath = Path.GetRelativePath(projectPath, razorFile);
+                var storedHash = await fileChangeDetector.GetStoredHashAsync(relativePath);
+
+                if (storedHash != null)
+                {
+                    var currentHash = FileChangeDetector.ComputeFileHash(razorFile);
+                    if (currentHash != storedHash)
+                    {
+                        // File has been modified - create backup
+                        var backupPath = await fileChangeDetector.CreateBackupAsync(razorFile);
+                        Console.WriteLine($"⚠️  File was modified. Backup created: {Path.GetRelativePath(projectPath, backupPath)}");
+                    }
+                }
+            }
+
             var razorContent = await GetComponentContentAsync(sourcePath, component.Name);
 
             // Rename component if custom name provided
@@ -115,16 +135,45 @@ public class ComponentService
                 razorContent = RenameComponentInContent(razorContent, component.Name, customName);
             }
 
+            // Update namespace if custom output directory provided
+            if (!string.IsNullOrEmpty(customOutputDir))
+            {
+                razorContent = UpdateNamespace(razorContent, customOutputDir, projectPath);
+            }
+
             await File.WriteAllTextAsync(razorFile, razorContent);
+
+            // Save new checksum
+            var newRelativePath = Path.GetRelativePath(projectPath, razorFile);
+            var newHash = FileChangeDetector.ComputeFileHash(razorFile);
+            await fileChangeDetector.SaveFileHashAsync(newRelativePath, newHash);
         }
 
-        // Copy .razor.css file if it exists
+        // Copy .razor.css file if it exists with safety checks
         var sourceCssPath = $"{sourcePath}.css";
         if (File.Exists(sourceCssPath))
         {
             var cssFile = Path.Combine(targetDir, $"{outputComponentName}.razor.css");
             if (!File.Exists(cssFile) || overwrite)
             {
+                // Check if CSS file has been modified before overwriting
+                if (File.Exists(cssFile) && overwrite)
+                {
+                    var relativePath = Path.GetRelativePath(projectPath, cssFile);
+                    var storedHash = await fileChangeDetector.GetStoredHashAsync(relativePath);
+
+                    if (storedHash != null)
+                    {
+                        var currentHash = FileChangeDetector.ComputeFileHash(cssFile);
+                        if (currentHash != storedHash)
+                        {
+                            // File has been modified - create backup
+                            var backupPath = await fileChangeDetector.CreateBackupAsync(cssFile);
+                            Console.WriteLine($"⚠️  File was modified. Backup created: {Path.GetRelativePath(projectPath, backupPath)}");
+                        }
+                    }
+                }
+
                 var cssContent = await File.ReadAllTextAsync(sourceCssPath);
 
                 // Update CSS class names if renamed
@@ -134,6 +183,11 @@ public class ComponentService
                 }
 
                 await File.WriteAllTextAsync(cssFile, cssContent);
+
+                // Save new checksum
+                var newRelativePath = Path.GetRelativePath(projectPath, cssFile);
+                var newHash = FileChangeDetector.ComputeFileHash(cssFile);
+                await fileChangeDetector.SaveFileHashAsync(newRelativePath, newHash);
             }
         }
     }
@@ -325,6 +379,44 @@ public class ComponentService
             $@"\b{originalName}\b",
             newName,
             System.Text.RegularExpressions.RegexOptions.None);
+
+        return content;
+    }
+
+    /// <summary>
+    /// Updates the @namespace directive to match the custom output directory structure.
+    /// </summary>
+    private string UpdateNamespace(string content, string customOutputDir, string projectPath)
+    {
+        // If no custom output directory, don't modify namespace
+        if (string.IsNullOrEmpty(customOutputDir))
+            return content;
+
+        // Extract the relative path and convert to namespace format
+        // Example: "Components/Forms" -> "Components.Forms"
+        var namespaceSegment = customOutputDir.Replace('/', '.').Replace('\\', '.');
+
+        // Find existing @namespace directive
+        var namespacePattern = @"@namespace\s+([^\s]+)";
+        var match = System.Text.RegularExpressions.Regex.Match(content, namespacePattern);
+
+        if (match.Success)
+        {
+            var originalNamespace = match.Groups[1].Value;
+
+            // Replace only the last segment of the namespace with custom path
+            // Example: "Vibe.UI.Components" + "Forms" -> "Vibe.UI.Components.Forms"
+            var baseNamespace = originalNamespace.Contains('.')
+                ? string.Join(".", originalNamespace.Split('.').Take(originalNamespace.Split('.').Length - 1))
+                : originalNamespace;
+
+            var newNamespace = $"{baseNamespace}.{namespaceSegment}";
+
+            content = System.Text.RegularExpressions.Regex.Replace(
+                content,
+                namespacePattern,
+                $"@namespace {newNamespace}");
+        }
 
         return content;
     }
