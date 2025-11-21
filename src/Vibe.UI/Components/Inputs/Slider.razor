@@ -5,7 +5,7 @@
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     <div class="vibe-slider-track">
-        <div class="vibe-slider-range" style="width: @GetPercentage()%"></div>
+        <div class="vibe-slider-range" style="width: calc((@GetPercentage()% * (100% - 1rem) / 100%) + 0.5rem);"></div>
     </div>
     <input
         type="range"
@@ -15,9 +15,9 @@
         step="@Step"
         value="@Value"
         disabled="@Disabled"
-        @oninput="OnInput"
-        @onchange="OnChange" />
-    
+        @oninput="HandleInputEvent"
+        @onchange="HandleChangeEvent" />
+
     @if (ShowValue)
     {
         <div class="vibe-slider-value">@Value</div>
@@ -107,44 +107,6 @@
     /// </summary>
     private string ElementId => string.IsNullOrEmpty(Id) ? _id : Id;
 
-    private async Task OnChangeHandler(ChangeEventArgs args)
-    {
-        if (OnChange.HasDelegate)
-        {
-            await OnChange.InvokeAsync(args);
-        }
-
-        if (args.Value is string valueStr && 
-            double.TryParse(valueStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var value))
-        {
-            Value = value;
-            
-            if (ValueChanged.HasDelegate)
-            {
-                await ValueChanged.InvokeAsync(value);
-            }
-        }
-    }
-
-    private async Task OnInputHandler(ChangeEventArgs args)
-    {
-        if (OnInput.HasDelegate)
-        {
-            await OnInput.InvokeAsync(args);
-        }
-
-        if (args.Value is string valueStr && 
-            double.TryParse(valueStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var value))
-        {
-            Value = value;
-            
-            if (ValueChanged.HasDelegate)
-            {
-                await ValueChanged.InvokeAsync(value);
-            }
-        }
-    }
-
     private string GetTrackFillWidth()
     {
         var percentage = ((Value - Min) / (Max - Min)) * 100;
@@ -165,7 +127,7 @@
     private string GetPercentage()
     {
         if (Min >= Max) return "0";
-        
+
         double percentage = ((Value - Min) / (Max - Min)) * 100;
         return Math.Clamp(percentage, 0, 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
     }
@@ -178,6 +140,16 @@
         if (e.Value != null && double.TryParse(e.Value.ToString(), out double newValue))
         {
             Value = Math.Clamp(newValue, Min, Max);
+
+            if (ValueChanged.HasDelegate)
+            {
+                await ValueChanged.InvokeAsync(Value);
+            }
+
+            if (OnInput.HasDelegate)
+            {
+                await OnInput.InvokeAsync(e);
+            }
         }
     }
 
@@ -189,10 +161,15 @@
         if (e.Value != null && double.TryParse(e.Value.ToString(), out double newValue))
         {
             Value = Math.Clamp(newValue, Min, Max);
-            
+
             if (ValueChanged.HasDelegate)
             {
                 await ValueChanged.InvokeAsync(Value);
+            }
+
+            if (OnChange.HasDelegate)
+            {
+                await OnChange.InvokeAsync(e);
             }
         }
     }

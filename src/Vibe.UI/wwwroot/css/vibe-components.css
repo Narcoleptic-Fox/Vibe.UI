@@ -1336,8 +1336,11 @@
     line-height: 1;
     white-space: nowrap;
     transition: all 0.2s ease;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
 }
 
+/* Variant Styles */
 .vibe-badge-default {
     background-color: var(--vibe-primary);
     color: var(--vibe-primary-foreground);
@@ -1360,19 +1363,19 @@
 }
 
 /* Sizes */
-.vibe-badge-default {
-    padding: 0.125rem 0.625rem;
-    font-size: 0.75rem;
+.vibe-badge-sm {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.625rem;
+    height: 1.125rem;
 }
 
-.vibe-badge-sm {
-    padding: 0 0.375rem;
+.vibe-badge-md {
+    padding: 0.25rem 0.625rem;
     font-size: 0.75rem;
-    height: 1.25rem;
 }
 
 .vibe-badge-lg {
-    padding: 0.375rem 0.75rem;
+    padding: 0.375rem 0.875rem;
     font-size: 0.875rem;
 }
 
@@ -6045,7 +6048,7 @@
 .vibe-slider-track {
     position: relative;
     flex-grow: 1;
-    height: 0.25rem;
+    height: 0.5rem;
     background-color: var(--vibe-secondary);
     border-radius: 9999px;
     overflow: hidden;
@@ -6056,6 +6059,7 @@
     height: 100%;
     background-color: var(--vibe-primary);
     border-radius: 9999px;
+    pointer-events: none;
 }
 
 .vibe-slider-track-fill {
@@ -10009,6 +10013,29 @@
 .dark .vibe-btn-outline:hover:not(:disabled) {
     border-color: hsl(240 3.7% 50%);
     background-color: hsl(240 3.7% 15%); /* Subtle background on hover */
+}
+
+/* Slider - Better visibility in dark mode */
+.dark .vibe-slider-track {
+    background-color: hsl(240 3.7% 20%); /* Dark track background */
+}
+
+.dark .vibe-slider-range {
+    background-color: hsl(0 0% 98%); /* Bright white for filled portion */
+}
+
+.dark .vibe-slider-thumb::-webkit-slider-thumb {
+    background-color: hsl(0 0% 98%);
+    border: 2px solid hsl(0 0% 98%);
+}
+
+.dark .vibe-slider-thumb::-moz-range-thumb {
+    background-color: hsl(0 0% 98%);
+    border: 2px solid hsl(0 0% 98%);
+}
+
+.dark .vibe-slider-value {
+    color: var(--vibe-foreground);
 }
 
 .dark .vibe-datatable .datatable-toolbar {

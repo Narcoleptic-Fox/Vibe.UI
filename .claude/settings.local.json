@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(\"D:\\Projects\\VisualStudios\\Vibe.UI\\samples\\Vibe.UI.Docs\\Pages\\Components\\DividerView.razor\")"
+      "Bash(\"D:\\Projects\\VisualStudios\\Vibe.UI\\samples\\Vibe.UI.Docs\\Pages\\Components\\DividerView.razor\")",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot"
     ],
     "deny": [],
     "ask": []
