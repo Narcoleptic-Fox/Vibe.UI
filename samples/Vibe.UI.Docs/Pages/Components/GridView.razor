@@ -1,15 +1,27 @@
 @page "/components/grid"
-@using Vibe.UI.Components
 
 <PageTitle>Grid - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Grid"
-               Category="Layout"
-               Description="A responsive grid layout system based on CSS Grid for arranging content in rows and columns."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Grid</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Grid</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A responsive grid layout system based on CSS Grid for arranging content in rows and columns.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 800px; margin: 0 auto;">
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
             <Grid Columns="3" Gap="1rem">
                 <GridItem>
                     <Card>
@@ -48,15 +60,19 @@
                 </GridItem>
             </Grid>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Grid</h3>
-            <p>Create a simple 3-column grid layout:</p>
-            <CodeBlock Code="@BasicCode" Language="razor" />
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
 
-            <div style="margin-top: 1rem;">
+        <!-- Basic Grid -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Grid</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Create a simple 3-column grid layout.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Grid Columns="3" Gap="1rem">
                     @for (int i = 1; i <= 6; i++)
                     {
@@ -69,14 +85,16 @@
                     }
                 </Grid>
             </div>
+            <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Column Spans</h3>
-            <p>Use ColSpan to make items span multiple columns:</p>
-            <CodeBlock Code="@SpansCode" Language="razor" />
-
-            <div style="margin-top: 1rem;">
+        <!-- Column Spans -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Column Spans</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use ColSpan to make items span multiple columns.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Grid Columns="12" Gap="1rem">
                     <GridItem ColSpan="12">
                         <div style="padding: 1rem; background: var(--vibe-primary); color: var(--vibe-primary-foreground); border-radius: var(--vibe-radius); text-align: center;">
@@ -95,14 +113,16 @@
                     </GridItem>
                 </Grid>
             </div>
+            <CodeBlock Code="@SpansCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Auto-fit Responsive Grid</h3>
-            <p>Use AutoFit for automatically responsive columns:</p>
-            <CodeBlock Code="@AutoFitCode" Language="razor" />
-
-            <div style="margin-top: 1rem;">
+        <!-- Auto-fit Responsive Grid -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Auto-fit Responsive Grid</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use AutoFit for automatically responsive columns.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Grid AutoFit="true" MinColumnWidth="200px" Gap="1rem">
                     @for (int i = 1; i <= 6; i++)
                     {
@@ -115,131 +135,183 @@
                     }
                 </Grid>
             </div>
+            <CodeBlock Code="@AutoFitCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Gap Control</h3>
-            <p>Control row and column gaps independently:</p>
+        <!-- Custom Gap Control -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Gap Control</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control row and column gaps independently.
+            </p>
             <CodeBlock Code="@GapCode" Language="razor" />
+        </div>
+    </section>
 
-            <div style="margin-top: 1rem;">
-                <Grid Columns="3" RowGap="2rem" ColumnGap="0.5rem">
-                    @for (int i = 1; i <= 6; i++)
-                    {
-                        var index = i;
-                        <GridItem>
-                            <div style="padding: 1rem; text-align: center; background: var(--vibe-muted); border-radius: var(--vibe-radius);">
-                                @index
-                            </div>
-                        </GridItem>
-                    }
-                </Grid>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Grid Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Grid Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Columns</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">12</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Number of columns in the grid</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Gap</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"1rem"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Gap between grid items (applies to both rows and columns)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">RowGap</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Gap between rows (overrides Gap)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ColumnGap</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Gap between columns (overrides Gap)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">AutoFit</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Use auto-fit for responsive columns</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MinColumnWidth</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"250px"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minimum column width when using AutoFit</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Grid items (GridItem components)</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </Examples>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Columns</code></td>
-                    <td>int</td>
-                    <td>12</td>
-                    <td>Number of columns in the grid</td>
-                </tr>
-                <tr>
-                    <td><code>Gap</code></td>
-                    <td>string</td>
-                    <td>"1rem"</td>
-                    <td>Gap between grid items (applies to both rows and columns)</td>
-                </tr>
-                <tr>
-                    <td><code>RowGap</code></td>
-                    <td>string?</td>
-                    <td>null</td>
-                    <td>Gap between rows (overrides Gap)</td>
-                </tr>
-                <tr>
-                    <td><code>ColumnGap</code></td>
-                    <td>string?</td>
-                    <td>null</td>
-                    <td>Gap between columns (overrides Gap)</td>
-                </tr>
-                <tr>
-                    <td><code>AutoFit</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Use auto-fit for responsive columns</td>
-                </tr>
-                <tr>
-                    <td><code>MinColumnWidth</code></td>
-                    <td>string</td>
-                    <td>"250px"</td>
-                    <td>Minimum column width when using AutoFit</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Grid items (GridItem components)</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- GridItem Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">GridItem Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ColSpan</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">1</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Number of columns this item spans</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">RowSpan</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">1</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Number of rows this item spans</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Item content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
-        <h4 style="margin-top: 1.5rem;">GridItem Props</h4>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>ColSpan</code></td>
-                    <td>int</td>
-                    <td>1</td>
-                    <td>Number of columns this item spans</td>
-                </tr>
-                <tr>
-                    <td><code>RowSpan</code></td>
-                    <td>int</td>
-                    <td>1</td>
-                    <td>Number of rows this item spans</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Item content</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Grid component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add grid" Language="bash" />
+    </section>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Maintains semantic order for screen readers</li>
-            <li>Visual layout doesn't affect navigation order</li>
-            <li>Responsive design supports various screen sizes</li>
-            <li>No ARIA attributes needed for pure layout</li>
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Maintains semantic order for screen readers
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Visual layout does not affect navigation order
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Responsive design supports various screen sizes
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                No ARIA attributes needed for pure layout
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
+                <p class="text-sm text-zinc-500">Flexbox stacking layout</p>
+            </a>
+            <a href="/components/container" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Container</h4>
+                <p class="text-sm text-zinc-500">Centered content container</p>
+            </a>
+            <a href="/components/aspectratio" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">AspectRatio</h4>
+                <p class="text-sm text-zinc-500">Maintain aspect ratios</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Stack", "Container", "AspectRatio" };
-
     private string BasicCode => @"<Grid Columns=""3"" Gap=""1rem"">
     <GridItem>Item 1</GridItem>
     <GridItem>Item 2</GridItem>

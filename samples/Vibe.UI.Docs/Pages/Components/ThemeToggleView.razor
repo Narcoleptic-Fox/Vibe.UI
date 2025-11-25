@@ -2,150 +2,232 @@
 
 <PageTitle>ThemeToggle - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="ThemeToggle"
-               Category="Theme"
-               Description="A simple, self-contained component for toggling between light and dark themes. No service registration required."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <span>Toggle theme:</span>
-                <ThemeToggle />
-            </div>
-
-            <Alert Variant="AlertVariant.Info">
-                Click the toggle button above to switch between light and dark modes.
-                The theme preference is saved to localStorage and persists across sessions.
-            </Alert>
-
-            <div style="padding: 1.5rem; border: 1px solid var(--vibe-border); border-radius: 8px; width: 100%; max-width: 400px; background: var(--vibe-card); color: var(--vibe-card-foreground);">
-                <h4>Themed Card Example</h4>
-                <p>This card automatically adapts to the selected theme using CSS variables.</p>
-                <Button Variant="ButtonVariant.Primary">Primary Button</Button>
-            </div>
+<div class="max-w-4xl">
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">ThemeToggle</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">ThemeToggle</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">A simple, self-contained component for toggling between light and dark themes. No service registration required.</p>
+    </header>
 
-    <Examples>
-        <Alert Variant="AlertVariant.Info" style="margin-bottom: 1.5rem;">
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <LivePreview>
+            <div class="flex flex-col gap-6 items-center">
+                <div class="flex gap-4 items-center">
+                    <span class="text-zinc-700 dark:text-zinc-300">Toggle theme:</span>
+                    <ThemeToggle />
+                </div>
+
+                <Alert Variant="AlertVariant.Info" Class="w-full">
+                    Click the toggle button above to switch between light and dark modes.
+                    The theme preference is saved to localStorage and persists across sessions.
+                </Alert>
+
+                <div class="p-6 border border-zinc-200 dark:border-zinc-800 rounded-lg w-full max-w-md bg-white dark:bg-zinc-900">
+                    <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-2">Themed Card Example</h4>
+                    <p class="text-zinc-600 dark:text-zinc-400 mb-4">This card automatically adapts to the selected theme using CSS variables.</p>
+                    <Button Variant="ButtonVariant.Primary">Primary Button</Button>
+                </div>
+            </div>
+        </LivePreview>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <Alert Variant="AlertVariant.Info" Class="mb-4">
             <strong>No Service Registration Required!</strong>
             <br />
             Unlike the old ThemeManager system, ThemeToggle works completely standalone. Just add it to your page and it works.
         </Alert>
+        <CodeBlock Code="@BasicCode" Language="razor" ShowLineNumbers="false" />
+    </section>
 
-        <div class="example-item">
-            <h3>Basic Usage</h3>
-            <p>Just drop it in - no setup required!</p>
-            <CodeBlock Code="@BasicCode" Language="razor" />
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <div class="space-y-8">
+            <!-- Features -->
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">Features</h3>
+                <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                    <li class="flex items-start">
+                        <span class="mr-2">✅</span>
+                        <div><strong class="text-zinc-900 dark:text-zinc-100">Zero Dependencies</strong> - No service registration, no external libraries</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">✅</span>
+                        <div><strong class="text-zinc-900 dark:text-zinc-100">System Preference Detection</strong> - Automatically detects user's OS theme preference on first load</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">✅</span>
+                        <div><strong class="text-zinc-900 dark:text-zinc-100">localStorage Persistence</strong> - Remembers user choice across sessions</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">✅</span>
+                        <div><strong class="text-zinc-900 dark:text-zinc-100">Inline JavaScript</strong> - Uses minimal inline JS for theme detection and persistence</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">✅</span>
+                        <div><strong class="text-zinc-900 dark:text-zinc-100">Pure CSS Theming</strong> - Works by toggling .dark class on document element</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">✅</span>
+                        <div><strong class="text-zinc-900 dark:text-zinc-100">Self-Contained</strong> - Everything needed is in one component file</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- In Navigation Bar -->
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">In Navigation Bar</h3>
+                <p class="text-zinc-600 dark:text-zinc-400 mb-3">Commonly placed in the header alongside other actions:</p>
+                <CodeBlock Code="@NavBarCode" Language="razor" />
+            </div>
+
+            <!-- Custom Storage Key -->
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">Custom Storage Key</h3>
+                <p class="text-zinc-600 dark:text-zinc-400 mb-3">Use a custom localStorage key for theme preference:</p>
+                <CodeBlock Code="@CustomStorageCode" Language="razor" ShowLineNumbers="false" />
+            </div>
+
+            <!-- Multiple Toggles -->
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">Multiple Toggles</h3>
+                <p class="text-zinc-600 dark:text-zinc-400 mb-3">You can have multiple ThemeToggle components on the same page - they all stay in sync:</p>
+                <CodeBlock Code="@MultipleCode" Language="razor" />
+            </div>
+
+            <!-- How It Works -->
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">How It Works Internally</h3>
+                <p class="text-zinc-600 dark:text-zinc-400 mb-3">The ThemeToggle component uses a simple, elegant approach:</p>
+                <ol class="space-y-2 text-zinc-600 dark:text-zinc-400 list-decimal list-inside mb-4">
+                    <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">On Initialization</strong> - Checks localStorage for saved preference, or falls back to system preference using <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">matchMedia('(prefers-color-scheme: dark)')</code>
+                    </li>
+                    <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">On Toggle</strong> - Adds or removes the <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">.dark</code> class on <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">document.documentElement</code> (the <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;html&gt;</code> element)
+                    </li>
+                    <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">Persistence</strong> - Saves the current theme to localStorage under the configured key
+                    </li>
+                    <li>
+                        <strong class="text-zinc-900 dark:text-zinc-100">CSS Response</strong> - All components use CSS variables defined in <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">:root</code> (light) and <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">.dark</code> (dark) selectors
+                    </li>
+                </ol>
+                <CodeBlock Code="@HowItWorksCode" Language="csharp" />
+            </div>
+
+            <!-- Implementation Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">Implementation Details</h3>
+                <p class="text-zinc-600 dark:text-zinc-400 mb-3">Here's how the component works internally:</p>
+                <CodeBlock Code="@ImplementationCode" Language="csharp" />
+            </div>
+
+            <Alert Variant="AlertVariant.Warning">
+                <strong>Breaking Change from v1.x</strong>
+                <br />
+                The old ThemeToggle that required ThemeManager service has been removed. The new version is simpler and more reliable.
+            </Alert>
         </div>
+    </section>
 
-        <div class="example-item">
-            <h3>Features</h3>
-            <ul>
-                <li>✅ <strong>Zero Dependencies</strong> - No service registration, no external libraries</li>
-                <li>✅ <strong>System Preference Detection</strong> - Automatically detects user's OS theme preference on first load</li>
-                <li>✅ <strong>localStorage Persistence</strong> - Remembers user choice across sessions</li>
-                <li>✅ <strong>Inline JavaScript</strong> - Uses minimal inline JS for theme detection and persistence</li>
-                <li>✅ <strong>Pure CSS Theming</strong> - Works by toggling .dark class on document element</li>
-                <li>✅ <strong>Self-Contained</strong> - Everything needed is in one component file</li>
-            </ul>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">API Reference</h2>
+
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Properties</h3>
+                <div class="space-y-4">
+                    <div class="border-l-2 border-zinc-300 dark:border-zinc-700 pl-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <code class="text-sm font-mono text-zinc-900 dark:text-zinc-100">StorageKey</code>
+                            <TypeBadge Type="string" />
+                        </div>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">localStorage key for persisting theme preference.</p>
+                        <div class="text-sm">
+                            <span class="text-zinc-500 dark:text-zinc-500">Default:</span>
+                            <code class="ml-2 text-xs bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded">"vibe-theme"</code>
+                        </div>
+                    </div>
+
+                    <div class="border-l-2 border-zinc-300 dark:border-zinc-700 pl-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <code class="text-sm font-mono text-zinc-900 dark:text-zinc-100">Class</code>
+                            <TypeBadge Type="string" />
+                        </div>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Additional CSS classes (inherited from VibeComponent).</p>
+                        <div class="text-sm">
+                            <span class="text-zinc-500 dark:text-zinc-500">Default:</span>
+                            <code class="ml-2 text-xs bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded">""</code>
+                        </div>
+                    </div>
+
+                    <div class="border-l-2 border-zinc-300 dark:border-zinc-700 pl-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <code class="text-sm font-mono text-zinc-900 dark:text-zinc-100">AdditionalAttributes</code>
+                            <TypeBadge Type="Dictionary<string, object>" />
+                        </div>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Additional HTML attributes (inherited from VibeComponent).</p>
+                        <div class="text-sm">
+                            <span class="text-zinc-500 dark:text-zinc-500">Default:</span>
+                            <code class="ml-2 text-xs bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded">null</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="example-item">
-            <h3>In Navigation Bar</h3>
-            <p>Commonly placed in the header alongside other actions:</p>
-            <CodeBlock Code="@NavBarCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>Custom Storage Key</h3>
-            <p>Use a custom localStorage key for theme preference:</p>
-            <CodeBlock Code="@CustomStorageCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>How It Works Internally</h3>
-            <p>The ThemeToggle component uses a simple, elegant approach:</p>
-            <ol>
-                <li>
-                    <strong>On Initialization</strong> - Checks localStorage for saved preference, or falls back to system preference using <code>matchMedia('(prefers-color-scheme: dark)')</code>
-                </li>
-                <li>
-                    <strong>On Toggle</strong> - Adds or removes the <code>.dark</code> class on <code>document.documentElement</code> (the <code>&lt;html&gt;</code> element)
-                </li>
-                <li>
-                    <strong>Persistence</strong> - Saves the current theme to localStorage under the configured key
-                </li>
-                <li>
-                    <strong>CSS Response</strong> - All components use CSS variables defined in <code>:root</code> (light) and <code>.dark</code> (dark) selectors
-                </li>
-            </ol>
-            <CodeBlock Code="@HowItWorksCode" Language="csharp" />
-        </div>
-
-        <div class="example-item">
-            <h3>Implementation Details</h3>
-            <p>Here's how the component works internally:</p>
-            <CodeBlock Code="@ImplementationCode" Language="csharp" />
-        </div>
-
-        <div class="example-item">
-            <h3>Multiple Toggles</h3>
-            <p>You can have multiple ThemeToggle components on the same page - they all stay in sync:</p>
-            <CodeBlock Code="@MultipleCode" Language="razor" />
-        </div>
-
-        <Alert Variant="AlertVariant.Warning" style="margin-top: 1.5rem;">
-            <strong>Breaking Change from v1.x</strong>
-            <br />
-            The old ThemeToggle that required ThemeManager service has been removed. The new version is simpler and more reliable.
-        </Alert>
-    </Examples>
-
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>StorageKey</code></td>
-                    <td>string</td>
-                    <td>"vibe-theme"</td>
-                    <td>localStorage key for persisting theme preference</td>
-                </tr>
-                <tr>
-                    <td><code>Class</code></td>
-                    <td>string</td>
-                    <td>""</td>
-                    <td>Additional CSS classes (inherited from VibeComponent)</td>
-                </tr>
-                <tr>
-                    <td><code>AdditionalAttributes</code></td>
-                    <td>Dictionary&lt;string, object&gt;</td>
-                    <td>null</td>
-                    <td>Additional HTML attributes (inherited from VibeComponent)</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
-
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic <code>&lt;button&gt;</code> element</li>
-            <li>Includes descriptive button text with sun/moon icons</li>
-            <li>Fully keyboard accessible (Enter/Space to toggle)</li>
-            <li>Clear focus indicators via CSS</li>
-            <li>Visual feedback on hover and active states</li>
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start">
+                <span class="mr-2">•</span>
+                <div>Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;button&gt;</code> element</div>
+            </li>
+            <li class="flex items-start">
+                <span class="mr-2">•</span>
+                <div>Includes descriptive button text with sun/moon icons</div>
+            </li>
+            <li class="flex items-start">
+                <span class="mr-2">•</span>
+                <div>Fully keyboard accessible (Enter/Space to toggle)</div>
+            </li>
+            <li class="flex items-start">
+                <span class="mr-2">•</span>
+                <div>Clear focus indicators via CSS</div>
+            </li>
+            <li class="flex items-start">
+                <span class="mr-2">•</span>
+                <div>Visual feedback on hover and active states</div>
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related Components</h2>
+        <div class="flex gap-2">
+            <a href="/components/button" class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors text-zinc-900 dark:text-zinc-100">
+                Button
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private List<string> relatedComponents = new() { "Button" };

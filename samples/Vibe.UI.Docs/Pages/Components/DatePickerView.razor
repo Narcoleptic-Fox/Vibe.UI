@@ -2,156 +2,268 @@
 
 <PageTitle>DatePicker - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="DatePicker"
-               Category="DateTime"
-               Description="An input component with a calendar popup for selecting dates with keyboard and mouse support."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 400px; margin: 0 auto;">
-            <FormField TValue="DateTime?" Label="Select a date">
-                <DatePicker @bind-Date="@selectedDate"
-                           MinDate="@DateTime.Today"
-                           MaxDate="@DateTime.Today.AddMonths(6)"
-                           Placeholder="Choose your date" />
-            </FormField>
-
-            @if (selectedDate.HasValue)
-            {
-                <Alert Variant="AlertVariant.Success">
-                    <strong>Date selected:</strong> @selectedDate.Value.ToString("dddd, MMMM dd, yyyy")
-                </Alert>
-            }
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">DatePicker</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">DatePicker</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            An input component with a calendar popup for selecting dates with keyboard and mouse support.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic DatePicker</h3>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <div class="flex flex-col gap-6 max-w-md mx-auto">
+                <FormField TValue="DateTime?" Label="Select a date">
+                    <DatePicker @bind-Date="@selectedDate"
+                               MinDate="@DateTime.Today"
+                               MaxDate="@DateTime.Today.AddMonths(6)"
+                               Placeholder="Choose your date" />
+                </FormField>
+
+                @if (selectedDate.HasValue)
+                {
+                    <Alert Variant="AlertVariant.Success">
+                        <strong>Date selected:</strong> @selectedDate.Value.ToString("dddd, MMMM dd, yyyy")
+                    </Alert>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic DatePicker</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A simple date picker with two-way binding.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Validation</h3>
+        <!-- With Validation -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Validation</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Integrate with EditForm and data annotations for validation.
+            </p>
             <CodeBlock Code="@ValidationCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Date Range Limits</h3>
+        <!-- Date Range Limits -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Date Range Limits</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Restrict selectable dates with MinDate and MaxDate.
+            </p>
             <CodeBlock Code="@LimitsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Format</h3>
+        <!-- Custom Format -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Format</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display dates in different formats.
+            </p>
             <CodeBlock Code="@FormatCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>In a Form</h3>
+        <!-- In a Form -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">In a Form</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use in a complete form with related date pickers.
+            </p>
             <CodeBlock Code="@FormCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Value</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>Selected date value</td>
-                </tr>
-                <tr>
-                    <td><code>Placeholder</code></td>
-                    <td>string</td>
-                    <td>"Select date"</td>
-                    <td>Placeholder text when empty</td>
-                </tr>
-                <tr>
-                    <td><code>Format</code></td>
-                    <td>string</td>
-                    <td>"MM/dd/yyyy"</td>
-                    <td>Date format string</td>
-                </tr>
-                <tr>
-                    <td><code>MinDate</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>Minimum selectable date</td>
-                </tr>
-                <tr>
-                    <td><code>MaxDate</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>Maximum selectable date</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Disable the input</td>
-                </tr>
-                <tr>
-                    <td><code>ShowClearButton</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Show button to clear selection</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>ValueChanged</code></td>
-                    <td>EventCallback&lt;DateTime?&gt;</td>
-                    <td>Callback when date is selected</td>
-                </tr>
-                <tr>
-                    <td><code>OnOpen</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when calendar popup opens</td>
-                </tr>
-                <tr>
-                    <td><code>OnClose</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when calendar popup closes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Selected date value</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placeholder</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"Select date"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Placeholder text when empty</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Format</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"MM/dd/yyyy"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Date format string</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MinDate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minimum selectable date</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxDate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum selectable date</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Disable the input</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowClearButton</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show button to clear selection</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Input field is fully keyboard accessible</li>
-            <li>Calendar popup triggered by button with proper label</li>
-            <li>Uses <code>role="combobox"</code> pattern</li>
-            <li>Arrow keys navigate calendar dates</li>
-            <li>Escape key closes popup and returns focus</li>
-            <li>Screen reader announces selected dates</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DateTime?>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when date is selected</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnOpen</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when calendar popup opens</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnClose</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when calendar popup closes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the DatePicker component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add datepicker" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Input field is fully keyboard accessible
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Calendar popup triggered by button with proper label
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="combobox"</code> pattern
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Arrow keys navigate calendar dates
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Escape key closes popup and returns focus
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announces selected dates
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/calendar" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Calendar</h4>
+                <p class="text-sm text-zinc-500">Calendar view component</p>
+            </a>
+            <a href="/components/daterangepicker" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DateRangePicker</h4>
+                <p class="text-sm text-zinc-500">Select date ranges</p>
+            </a>
+            <a href="/components/timepicker" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">TimePicker</h4>
+                <p class="text-sm text-zinc-500">Time selection input</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Calendar", "DateRangePicker", "TimePicker", "Input" };
     private DateTime? selectedDate;
 
     private string BasicCode => @"<DatePicker @bind-Value=""@selectedDate"" />

@@ -1,25 +1,37 @@
 @page "/components/dropdown"
-@using Vibe.UI.Components
 
 <PageTitle>Dropdown - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Dropdown"
-               Category="Overlay"
-               Description="Displays a list of actions or options when triggered."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Dropdown</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Dropdown</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            Displays a list of actions or options when triggered, with support for custom positioning and styling.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; gap: 2rem; justify-content: center; padding: 2rem; flex-wrap: wrap;">
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex justify-center gap-6 flex-wrap">
             <DropdownMenu Position="bottom" Align="start">
                 <TriggerContent>
                     <Button>Dropdown Menu</Button>
                 </TriggerContent>
                 <Content>
-                    <div style="background: white; border: 1px solid #ddd; border-radius: 0.5rem; padding: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 200px;">
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">Profile</div>
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">Settings</div>
-                        <div style="border-top: 1px solid #e5e7eb; margin: 0.5rem 0;"></div>
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; color: #dc2626; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#fee2e2'" onmouseout="this.style.backgroundColor='transparent'">Logout</div>
+                    <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2 shadow-lg min-w-[200px]">
+                        <div class="px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer text-zinc-900 dark:text-zinc-100">Profile</div>
+                        <div class="px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer text-zinc-900 dark:text-zinc-100">Settings</div>
+                        <div class="h-px bg-zinc-200 dark:bg-zinc-700 my-2"></div>
+                        <div class="px-3 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded cursor-pointer text-red-600 dark:text-red-400">Logout</div>
                     </div>
                 </Content>
             </DropdownMenu>
@@ -29,105 +41,185 @@
                     <Button Variant="ButtonVariant.Secondary">Actions ▼</Button>
                 </TriggerContent>
                 <Content>
-                    <div style="background: white; border: 1px solid #ddd; border-radius: 0.5rem; padding: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 180px;">
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">✏️ Edit</div>
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">📋 Copy</div>
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">📥 Download</div>
-                        <div style="border-top: 1px solid #e5e7eb; margin: 0.5rem 0;"></div>
-                        <div style="padding: 0.5rem 1rem; cursor: pointer; color: #dc2626; border-radius: 0.25rem;" onmouseover="this.style.backgroundColor='#fee2e2'" onmouseout="this.style.backgroundColor='transparent'">🗑️ Delete</div>
+                    <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-2 shadow-lg min-w-[180px]">
+                        <div class="px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer text-zinc-900 dark:text-zinc-100">✏️ Edit</div>
+                        <div class="px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer text-zinc-900 dark:text-zinc-100">📋 Copy</div>
+                        <div class="px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer text-zinc-900 dark:text-zinc-100">📥 Download</div>
+                        <div class="h-px bg-zinc-200 dark:bg-zinc-700 my-2"></div>
+                        <div class="px-3 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded cursor-pointer text-red-600 dark:text-red-400">🗑️ Delete</div>
                     </div>
                 </Content>
             </DropdownMenu>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple dropdown menu with actions.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Icons</h3>
+        <!-- With Icons -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Icons</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Enhance dropdown items with icons.
+            </p>
             <CodeBlock Code="@IconsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Placement Options</h3>
+        <!-- Placement Options -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Placement Options</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control the dropdown position relative to trigger.
+            </p>
             <CodeBlock Code="@PlacementCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Sections</h3>
+        <!-- With Sections -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Sections</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Organize dropdown items into logical groups.
+            </p>
             <CodeBlock Code="@SectionsCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Placement</code></td>
-                    <td>DropdownPlacement</td>
-                    <td>BottomStart</td>
-                    <td>Dropdown placement</td>
-                </tr>
-                <tr>
-                    <td><code>Trigger</code></td>
-                    <td>DropdownTrigger</td>
-                    <td>Click</td>
-                    <td>Trigger type (Click, Hover)</td>
-                </tr>
-                <tr>
-                    <td><code>CloseOnSelect</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Close after item selection</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnItemClick</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when item is clicked</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placement</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DropdownPlacement" /></td>
+                            <td class="py-3 px-4 text-zinc-500">BottomStart</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Dropdown placement</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Trigger</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DropdownTrigger" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Click</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Trigger type (Click, Hover)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CloseOnSelect</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Close after item selection</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Keyboard navigation support</li>
-            <li>ARIA roles and attributes</li>
-            <li>Focus management</li>
-            <li>Escape key to close</li>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnItemClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback&lt;string&gt;" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when item is clicked</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Dropdown component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add dropdown" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Keyboard navigation support
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                ARIA roles and attributes
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Focus management
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Escape key to close
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/menu" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Menu</h4>
+                <p class="text-sm text-zinc-500">Dropdown action menus</p>
+            </a>
+            <a href="/components/select" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Select</h4>
+                <p class="text-sm text-zinc-500">Selection controls</p>
+            </a>
+            <a href="/components/popover" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Popover</h4>
+                <p class="text-sm text-zinc-500">Contextual overlays</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Menu", "Select", "Popover" };
-
     private string BasicCode => @"<Dropdown>
     <DropdownTrigger>
         <Button>Actions</Button>

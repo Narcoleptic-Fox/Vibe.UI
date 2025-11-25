@@ -3,13 +3,26 @@
 
 <PageTitle>VirtualScroll - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="VirtualScroll"
-               Category="Advanced"
-               Description="A virtual scrolling component that efficiently renders large lists by only displaying visible items in the viewport."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">VirtualScroll</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">VirtualScroll</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A virtual scrolling component that efficiently renders large lists by only displaying visible items in the viewport.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo">
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
             <VirtualScroll Items="scrollItems" ItemHeight="60" Height="300">
                 <ItemTemplate Context="item">
                     <div style="padding: 1rem; border-bottom: 1px solid #eee;">
@@ -18,136 +31,233 @@
                 </ItemTemplate>
             </VirtualScroll>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Virtual Scroll</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Virtual Scroll -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Virtual Scroll</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Efficiently render thousands of items with fixed heights.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Variable Item Heights</h3>
+        <!-- Variable Item Heights -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Variable Item Heights</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Handle items with dynamic heights automatically measured and cached.
+            </p>
             <CodeBlock Code="@VariableHeightCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Infinite Scroll</h3>
+        <!-- Infinite Scroll -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Infinite Scroll</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Load more data automatically when scrolling to the bottom.
+            </p>
             <CodeBlock Code="@InfiniteScrollCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Horizontal Scroll</h3>
+        <!-- Horizontal Scroll -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Horizontal Scroll</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Virtualize horizontal scrolling for wide content like image galleries.
+            </p>
             <CodeBlock Code="@HorizontalCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Loading State</h3>
+        <!-- With Loading State -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Loading State</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display loading indicators while fetching more data.
+            </p>
             <CodeBlock Code="@LoadingCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Items</code></td>
-                    <td>IEnumerable&lt;TItem&gt;</td>
-                    <td>-</td>
-                    <td>Collection of items to display</td>
-                </tr>
-                <tr>
-                    <td><code>ItemTemplate</code></td>
-                    <td>RenderFragment&lt;TItem&gt;</td>
-                    <td>-</td>
-                    <td>Template for rendering each item</td>
-                </tr>
-                <tr>
-                    <td><code>ItemHeight</code></td>
-                    <td>int</td>
-                    <td>50</td>
-                    <td>Fixed height per item in pixels</td>
-                </tr>
-                <tr>
-                    <td><code>Height</code></td>
-                    <td>string</td>
-                    <td>"400px"</td>
-                    <td>Container height (CSS value)</td>
-                </tr>
-                <tr>
-                    <td><code>OverscanCount</code></td>
-                    <td>int</td>
-                    <td>3</td>
-                    <td>Number of items to render outside viewport</td>
-                </tr>
-                <tr>
-                    <td><code>Horizontal</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Enable horizontal scrolling mode</td>
-                </tr>
-                <tr>
-                    <td><code>LoadingTemplate</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Template shown when loading more items</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnScrollEnd</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when scrolled to the end</td>
-                </tr>
-                <tr>
-                    <td><code>OnScroll</code></td>
-                    <td>EventCallback&lt;ScrollEventArgs&gt;</td>
-                    <td>Callback on scroll events</td>
-                </tr>
-                <tr>
-                    <td><code>OnItemClick</code></td>
-                    <td>EventCallback&lt;TItem&gt;</td>
-                    <td>Callback when item is clicked</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Items</td>
+                            <td class="py-3 px-4"><TypeBadge Type="IEnumerable<TItem>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Collection of items to display</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ItemTemplate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment<TItem>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Template for rendering each item</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ItemHeight</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">50</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Fixed height per item in pixels</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Height</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"400px"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Container height (CSS value)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OverscanCount</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">3</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Number of items to render outside viewport</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Horizontal</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Enable horizontal scrolling mode</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">LoadingTemplate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Template shown when loading more items</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Maintains focus position during virtual scrolling</li>
-            <li>Keyboard scrolling (Arrow keys, Page Up/Down)</li>
-            <li>Screen readers announce list size and position</li>
-            <li>Uses <code>role="list"</code> and <code>role="listitem"</code></li>
-            <li>Proper <code>aria-setsize</code> and <code>aria-posinset</code> attributes</li>
-            <li>Focus restoration when items are recycled</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnScrollEnd</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when scrolled to the end</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnScroll</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<ScrollEventArgs>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback on scroll events</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnItemClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<TItem>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when item is clicked</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the VirtualScroll component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add virtualscroll" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Maintains focus position during virtual scrolling
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard scrolling (Arrow keys, Page Up/Down)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen readers announce list size and position
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="list"</code> and <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="listitem"</code>
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Proper <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-setsize</code> and <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-posinset</code> attributes
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus restoration when items are recycled
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/list" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">List</h4>
+                <p class="text-sm text-zinc-500">Simple list component</p>
+            </a>
+            <a href="/components/datagrid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DataGrid</h4>
+                <p class="text-sm text-zinc-500">Data table with advanced features</p>
+            </a>
+            <a href="/components/table" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Table</h4>
+                <p class="text-sm text-zinc-500">Table component</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private List<string> scrollItems = Enumerable.Range(1, 1000).Select(i => $"Item {i}").ToList();
-    private List<string> relatedComponents = new() { "List", "DataGrid", "Table" };
 
     private string BasicCode => @"<VirtualScroll Items=""@items"" ItemHeight=""60"" Height=""500px"">
     <ItemTemplate Context=""item"">

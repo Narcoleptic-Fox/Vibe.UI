@@ -4,140 +4,251 @@
 
 <PageTitle>KanbanBoard - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="KanbanBoard"
-               Category="Advanced"
-               Description="A kanban board component for visualizing and managing workflow with draggable cards across multiple columns."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">KanbanBoard</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">KanbanBoard</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A kanban board component for visualizing and managing workflow with draggable cards across multiple columns.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo">
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
             <KanbanBoard Columns="kanbanColumns" AllowDragDrop="false" AllowAddCard="false" />
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Kanban Board</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Kanban Board -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Kanban Board</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Create a basic kanban board with columns and cards.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Card Template</h3>
+        <!-- Custom Card Template -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Card Template</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Customize card appearance with rich templates including badges and avatars.
+            </p>
             <CodeBlock Code="@CustomCardCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Card Limits</h3>
+        <!-- With Card Limits -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Card Limits</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Set maximum card limits per column to enforce workflow constraints.
+            </p>
             <CodeBlock Code="@LimitsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Swimlanes</h3>
+        <!-- With Swimlanes -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Swimlanes</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Organize work across multiple horizontal swimlanes.
+            </p>
             <CodeBlock Code="@SwimlanesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Full Example</h3>
+        <!-- Full Example -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Full Example</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Complete example with all features including custom headers and card actions.
+            </p>
             <CodeBlock Code="@FullCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Columns</code></td>
-                    <td>IEnumerable&lt;KanbanColumn&gt;</td>
-                    <td>-</td>
-                    <td>Collection of board columns</td>
-                </tr>
-                <tr>
-                    <td><code>Cards</code></td>
-                    <td>IEnumerable&lt;TCard&gt;</td>
-                    <td>-</td>
-                    <td>Collection of cards to display</td>
-                </tr>
-                <tr>
-                    <td><code>CardTemplate</code></td>
-                    <td>RenderFragment&lt;TCard&gt;</td>
-                    <td>-</td>
-                    <td>Template for rendering cards</td>
-                </tr>
-                <tr>
-                    <td><code>ColumnHeaderTemplate</code></td>
-                    <td>RenderFragment&lt;KanbanColumn&gt;</td>
-                    <td>-</td>
-                    <td>Custom column header template</td>
-                </tr>
-                <tr>
-                    <td><code>AllowReorder</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Allow card reordering within columns</td>
-                </tr>
-                <tr>
-                    <td><code>ShowCardCount</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Show card count in column headers</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnCardMoved</code></td>
-                    <td>EventCallback&lt;CardMovedEventArgs&lt;TCard&gt;&gt;</td>
-                    <td>Callback when card is moved to different column</td>
-                </tr>
-                <tr>
-                    <td><code>OnCardReordered</code></td>
-                    <td>EventCallback&lt;CardReorderedEventArgs&lt;TCard&gt;&gt;</td>
-                    <td>Callback when card is reordered within column</td>
-                </tr>
-                <tr>
-                    <td><code>OnCardClick</code></td>
-                    <td>EventCallback&lt;TCard&gt;</td>
-                    <td>Callback when card is clicked</td>
-                </tr>
-                <tr>
-                    <td><code>OnColumnClick</code></td>
-                    <td>EventCallback&lt;KanbanColumn&gt;</td>
-                    <td>Callback when column header is clicked</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Columns</td>
+                            <td class="py-3 px-4"><TypeBadge Type="IEnumerable<KanbanColumn>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Collection of board columns</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Cards</td>
+                            <td class="py-3 px-4"><TypeBadge Type="IEnumerable<TCard>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Collection of cards to display</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardTemplate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment<TCard>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Template for rendering cards</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ColumnHeaderTemplate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment<KanbanColumn>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Custom column header template</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">AllowReorder</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Allow card reordering within columns</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowCardCount</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show card count in column headers</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Column headers are semantic headings</li>
-            <li>Cards are keyboard navigable (Tab/Arrow keys)</li>
-            <li>Drag and drop has keyboard alternatives</li>
-            <li>Screen readers announce card movements</li>
-            <li>Focus management when moving cards</li>
-            <li>Proper ARIA labels and roles throughout</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnCardMoved</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<CardMovedEventArgs<TCard>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when card is moved to different column</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnCardReordered</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<CardReorderedEventArgs<TCard>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when card is reordered within column</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnCardClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<TCard>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when card is clicked</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnColumnClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<KanbanColumn>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when column header is clicked</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the KanbanBoard component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add kanbanboard" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Column headers are semantic headings
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Cards are keyboard navigable (Tab/Arrow keys)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Drag and drop has keyboard alternatives
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen readers announce card movements
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus management when moving cards
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Proper ARIA labels and roles throughout
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/dragdrop" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DragDrop</h4>
+                <p class="text-sm text-zinc-500">Drag and drop functionality</p>
+            </a>
+            <a href="/components/card" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Card</h4>
+                <p class="text-sm text-zinc-500">Content container component</p>
+            </a>
+            <a href="/components/badge" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Badge</h4>
+                <p class="text-sm text-zinc-500">Status and label indicator</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private List<KanbanColumn> kanbanColumns = new()
@@ -146,7 +257,6 @@
         new() { Id = "progress", Title = "In Progress", Cards = new() { new() { Title = "API development", Description = "Building REST endpoints", Tags = new() { "Backend" } } } },
         new() { Id = "done", Title = "Done", Cards = new() { new() { Title = "Project setup", Description = "Initialize repository" } } }
     };
-    private List<string> relatedComponents = new() { "DragDrop", "Card", "Badge" };
 
     private string BasicCode => @"<KanbanBoard Columns=""@columns""
              Cards=""@cards""

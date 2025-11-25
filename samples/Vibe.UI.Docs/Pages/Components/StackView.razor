@@ -1,15 +1,27 @@
 @page "/components/stack"
-@using Vibe.UI.Components
 
 <PageTitle>Stack - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Stack"
-               Category="Layout"
-               Description="A flexbox-based layout component for arranging children in a vertical or horizontal stack with consistent spacing and alignment control."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Stack</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Stack</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A flexbox-based layout component for arranging children in a vertical or horizontal stack with consistent spacing and alignment control.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 600px; margin: 0 auto;">
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
             <Stack Direction="Stack.StackDirection.Vertical" Spacing="1rem">
                 <Card>
                     <div style="padding: 1.5rem; text-align: center;">First Item</div>
@@ -22,15 +34,19 @@
                 </Card>
             </Stack>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Vertical Stack</h3>
-            <p>Stack items vertically with consistent spacing:</p>
-            <CodeBlock Code="@VerticalCode" Language="razor" />
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
 
-            <div style="margin-top: 1rem;">
+        <!-- Vertical Stack -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Vertical Stack</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Stack items vertically with consistent spacing.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Stack Direction="Stack.StackDirection.Vertical" Spacing="0.75rem">
                     @for (int i = 1; i <= 4; i++)
                     {
@@ -41,30 +57,34 @@
                     }
                 </Stack>
             </div>
+            <CodeBlock Code="@VerticalCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Horizontal Stack</h3>
-            <p>Arrange items in a horizontal row:</p>
-            <CodeBlock Code="@HorizontalCode" Language="razor" />
-
-            <div style="margin-top: 1rem;">
+        <!-- Horizontal Stack -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Horizontal Stack</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Arrange items in a horizontal row.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Stack Direction="Stack.StackDirection.Horizontal" Spacing="1rem">
                     <Button>Button 1</Button>
                     <Button Variant="ButtonVariant.Outline">Button 2</Button>
                     <Button Variant="ButtonVariant.Ghost">Button 3</Button>
                 </Stack>
             </div>
+            <CodeBlock Code="@HorizontalCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Alignment Control</h3>
-            <p>Control alignment on both axes:</p>
-            <CodeBlock Code="@AlignmentCode" Language="razor" />
-
-            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 2rem;">
+        <!-- Alignment Control -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Alignment Control</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control alignment on both axes.
+            </p>
+            <div class="space-y-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <div>
-                    <p style="margin-bottom: 0.5rem; font-weight: 600;">Center Aligned:</p>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Center Aligned:</p>
                     <Stack Direction="Stack.StackDirection.Horizontal"
                            Align="Stack.StackAlign.Center"
                            Spacing="1rem">
@@ -73,9 +93,8 @@
                         <div style="padding: 1.5rem 1rem; background: var(--vibe-muted); border-radius: var(--vibe-radius);">Medium</div>
                     </Stack>
                 </div>
-
                 <div>
-                    <p style="margin-bottom: 0.5rem; font-weight: 600;">Space Between:</p>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Space Between:</p>
                     <Stack Direction="Stack.StackDirection.Horizontal"
                            Justify="Stack.StackJustify.SpaceBetween">
                         <div style="padding: 1rem; background: var(--vibe-primary); color: var(--vibe-primary-foreground); border-radius: var(--vibe-radius);">Start</div>
@@ -83,14 +102,16 @@
                     </Stack>
                 </div>
             </div>
+            <CodeBlock Code="@AlignmentCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Wrapping Stack</h3>
-            <p>Allow items to wrap to the next line:</p>
-            <CodeBlock Code="@WrapCode" Language="razor" />
-
-            <div style="margin-top: 1rem;">
+        <!-- Wrapping Stack -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Wrapping Stack</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Allow items to wrap to the next line.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Stack Direction="Stack.StackDirection.Horizontal" Wrap="true" Spacing="0.5rem">
                     @foreach (var color in new[] { "Primary", "Secondary", "Accent", "Success", "Warning", "Destructive" })
                     {
@@ -98,25 +119,26 @@
                     }
                 </Stack>
             </div>
+            <CodeBlock Code="@WrapCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Spacing</h3>
-            <p>Control the gap between items:</p>
-            <CodeBlock Code="@SpacingCode" Language="razor" />
-
-            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 2rem;">
+        <!-- Custom Spacing -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Spacing</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control the gap between items.
+            </p>
+            <div class="space-y-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <div>
-                    <p style="margin-bottom: 0.5rem; font-weight: 600;">Tight Spacing (0.25rem):</p>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Tight Spacing (0.25rem):</p>
                     <Stack Spacing="0.25rem">
                         <div style="padding: 0.5rem; background: var(--vibe-muted); border-radius: var(--vibe-radius);">Item 1</div>
                         <div style="padding: 0.5rem; background: var(--vibe-muted); border-radius: var(--vibe-radius);">Item 2</div>
                         <div style="padding: 0.5rem; background: var(--vibe-muted); border-radius: var(--vibe-radius);">Item 3</div>
                     </Stack>
                 </div>
-
                 <div>
-                    <p style="margin-bottom: 0.5rem; font-weight: 600;">Wide Spacing (2rem):</p>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Wide Spacing (2rem):</p>
                     <Stack Spacing="2rem">
                         <div style="padding: 0.5rem; background: var(--vibe-muted); border-radius: var(--vibe-radius);">Item 1</div>
                         <div style="padding: 0.5rem; background: var(--vibe-muted); border-radius: var(--vibe-radius);">Item 2</div>
@@ -124,91 +146,182 @@
                     </Stack>
                 </div>
             </div>
+            <CodeBlock Code="@SpacingCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Direction</code></td>
-                    <td>StackDirection</td>
-                    <td>Vertical</td>
-                    <td>Stack direction (Vertical or Horizontal)</td>
-                </tr>
-                <tr>
-                    <td><code>Spacing</code></td>
-                    <td>string</td>
-                    <td>"1rem"</td>
-                    <td>Space between items (CSS value)</td>
-                </tr>
-                <tr>
-                    <td><code>Align</code></td>
-                    <td>StackAlign</td>
-                    <td>Stretch</td>
-                    <td>Cross-axis alignment</td>
-                </tr>
-                <tr>
-                    <td><code>Justify</code></td>
-                    <td>StackJustify</td>
-                    <td>Start</td>
-                    <td>Main-axis alignment</td>
-                </tr>
-                <tr>
-                    <td><code>Wrap</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether items can wrap to next line</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Stack items</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-        <h4 style="margin-top: 1.5rem;">StackAlign Values</h4>
-        <ul style="list-style: none; padding: 0;">
-            <li><code>Start</code> - Align items to the start of cross-axis</li>
-            <li><code>Center</code> - Center items on cross-axis</li>
-            <li><code>End</code> - Align items to the end of cross-axis</li>
-            <li><code>Stretch</code> - Stretch items to fill cross-axis (default)</li>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Direction</td>
+                            <td class="py-3 px-4"><TypeBadge Type="StackDirection" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Vertical</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Stack direction (Vertical or Horizontal)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Spacing</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"1rem"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Space between items (CSS value)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Align</td>
+                            <td class="py-3 px-4"><TypeBadge Type="StackAlign" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Stretch</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Cross-axis alignment</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Justify</td>
+                            <td class="py-3 px-4"><TypeBadge Type="StackJustify" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Start</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Main-axis alignment</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Wrap</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether items can wrap to next line</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Stack items</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Enum Values -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">StackAlign Values</h3>
+            <div class="space-y-2 text-sm text-zinc-600 dark:text-zinc-400 mb-6">
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Start</code>
+                    <span>— Align items to the start of cross-axis</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Center</code>
+                    <span>— Center items on cross-axis</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">End</code>
+                    <span>— Align items to the end of cross-axis</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Stretch</code>
+                    <span>— Stretch items to fill cross-axis (default)</span>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">StackJustify Values</h3>
+            <div class="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Start</code>
+                    <span>— Items at start of main-axis (default)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Center</code>
+                    <span>— Items centered on main-axis</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">End</code>
+                    <span>— Items at end of main-axis</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">SpaceBetween</code>
+                    <span>— Even spacing between items</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">SpaceAround</code>
+                    <span>— Even spacing around items</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">SpaceEvenly</code>
+                    <span>— Equal spacing everywhere</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Stack component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add stack" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Maintains semantic order of content for screen readers
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                No impact on keyboard navigation
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Flexbox-based for responsive and flexible layouts
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Visual order matches DOM order
+            </li>
         </ul>
+    </section>
 
-        <h4 style="margin-top: 1.5rem;">StackJustify Values</h4>
-        <ul style="list-style: none; padding: 0;">
-            <li><code>Start</code> - Items at start of main-axis (default)</li>
-            <li><code>Center</code> - Items centered on main-axis</li>
-            <li><code>End</code> - Items at end of main-axis</li>
-            <li><code>SpaceBetween</code> - Even spacing between items</li>
-            <li><code>SpaceAround</code> - Even spacing around items</li>
-            <li><code>SpaceEvenly</code> - Equal spacing everywhere</li>
-        </ul>
-    </Props>
-
-    <AccessibilityNotes>
-        <ul>
-            <li>Maintains semantic order of content for screen readers</li>
-            <li>No impact on keyboard navigation</li>
-            <li>Flexbox-based for responsive and flexible layouts</li>
-            <li>Visual order matches DOM order</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/grid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Grid</h4>
+                <p class="text-sm text-zinc-500">CSS Grid layout system</p>
+            </a>
+            <a href="/components/container" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Container</h4>
+                <p class="text-sm text-zinc-500">Centered content container</p>
+            </a>
+            <a href="/components/divider" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Divider</h4>
+                <p class="text-sm text-zinc-500">Visual content separator</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Grid", "Container", "Divider" };
-
     private string VerticalCode => @"<Stack Direction=""Stack.StackDirection.Vertical"" Spacing=""1rem"">
     <Card>Item 1</Card>
     <Card>Item 2</Card>

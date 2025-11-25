@@ -1,113 +1,262 @@
 @page "/components/divider"
-@using Vibe.UI.Components
 
 <PageTitle>Divider - Vibe.UI</PageTitle>
-<ComponentPage ComponentName="Divider"
-               Category="Layout"
-               Description="A visual separator for content sections, supporting horizontal and vertical orientations with optional labels."
-               RelatedComponents="@relatedComponents">
 
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 600px; margin: 0 auto;">
-            <p>Content above the divider</p>
-            <Divider />
-            <p>Content below the divider</p>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Divider</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Divider</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A visual separator for content sections, supporting horizontal and vertical orientations with optional labels.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Horizontal Divider</h3>
-            <p>Basic horizontal separator:</p>
-            <CodeBlock Code="@HorizontalCode" Language="razor" />
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <p class="text-zinc-700 dark:text-zinc-300">Content above the divider</p>
+            <Divider />
+            <p class="text-zinc-700 dark:text-zinc-300">Content below the divider</p>
+        </div>
+    </section>
 
-            <div style="margin-top: 1rem;">
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Horizontal Divider -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Horizontal Divider</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Basic horizontal separator between content sections.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <p style="margin-bottom: 0;">Section 1 content</p>
                 <Divider />
                 <p style="margin-top: 0;">Section 2 content</p>
             </div>
+            <CodeBlock Code="@HorizontalCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Divider with Label</h3>
-            <p>Add labels to provide context:</p>
-            <CodeBlock Code="@LabelCode" Language="razor" />
-
-            <div style="margin-top: 1rem;">
+        <!-- Divider with Label -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Divider with Label</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Add labels to provide context between sections.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <p>Sign in with your account</p>
                 <Divider Label="OR" />
                 <p>Continue as guest</p>
             </div>
+            <CodeBlock Code="@LabelCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Vertical Divider</h3>
-            <p>Separate inline content vertically:</p>
+        <!-- Vertical Divider -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Vertical Divider</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Separate inline content vertically.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span>Item 1</span>
+                    <Divider Orientation="Divider.DividerOrientation.Vertical" style="height: 40px;" />
+                    <span>Item 2</span>
+                    <Divider Orientation="Divider.DividerOrientation.Vertical" style="height: 40px;" />
+                    <span>Item 3</span>
+                </div>
+            </div>
             <CodeBlock Code="@VerticalCode" Language="razor" />
+        </div>
 
-            <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem;">
+        <!-- Label Position -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Label Position</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control where the label appears on the divider.
+            </p>
+            <div class="space-y-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Left aligned:</p>
+                    <Divider Label="Left" LabelPosition="Divider.DividerLabelPosition.Left" />
+                </div>
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Center aligned:</p>
+                    <Divider Label="Center" LabelPosition="Divider.DividerLabelPosition.Center" />
+                </div>
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Right aligned:</p>
+                    <Divider Label="Right" LabelPosition="Divider.DividerLabelPosition.Right" />
+                </div>
+            </div>
+            <CodeBlock Code="@LabelPositionCode" Language="razor" />
+        </div>
+
+        <!-- Line Styles -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Line Styles</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Different visual styles for the divider line.
+            </p>
+            <CodeBlock Code="@LineStyleCode" Language="razor" />
+        </div>
+    </section>
+
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Orientation</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DividerOrientation" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Horizontal</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Divider orientation</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Label text to display in divider</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">LabelPosition</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DividerLabelPosition" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Center</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Label position (Left, Center, Right)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">LineStyle</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DividerLineStyle" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Solid</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Line style (Solid, Dashed, Dotted)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Thickness</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">1</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Line thickness in pixels</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </Examples>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Orientation</code></td>
-                    <td>DividerOrientation</td>
-                    <td>Horizontal</td>
-                    <td>Divider orientation</td>
-                </tr>
-                <tr>
-                    <td><code>Label</code></td>
-                    <td>string?</td>
-                    <td>null</td>
-                    <td>Label text to display in divider</td>
-                </tr>
-                <tr>
-                    <td><code>LabelPosition</code></td>
-                    <td>DividerLabelPosition</td>
-                    <td>Center</td>
-                    <td>Label position (Left, Center, Right)</td>
-                </tr>
-                <tr>
-                    <td><code>LineStyle</code></td>
-                    <td>DividerLineStyle</td>
-                    <td>Solid</td>
-                    <td>Line style (Solid, Dashed, Dotted)</td>
-                </tr>
-                <tr>
-                    <td><code>Thickness</code></td>
-                    <td>int</td>
-                    <td>1</td>
-                    <td>Line thickness in pixels</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+        <!-- Enum Values -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Enum Values</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-medium text-sm text-zinc-700 dark:text-zinc-300 mb-2">DividerOrientation</h4>
+                    <div class="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+                        <div class="flex items-start gap-2">
+                            <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Horizontal</code>
+                            <span>— Horizontal divider line</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Vertical</code>
+                            <span>— Vertical divider line</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-medium text-sm text-zinc-700 dark:text-zinc-300 mb-2">DividerLineStyle</h4>
+                    <div class="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+                        <div class="flex items-start gap-2">
+                            <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Solid</code>
+                            <span>— Solid line</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Dashed</code>
+                            <span>— Dashed line</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <code class="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">Dotted</code>
+                            <span>— Dotted line</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic <code>&lt;hr&gt;</code> element for horizontal dividers</li>
-            <li>Has proper <code>role="separator"</code> for screen readers</li>
-            <li>Does not interfere with content flow or navigation</li>
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Divider component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add divider" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;hr&gt;</code> element for horizontal dividers
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Has proper <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="separator"</code> for screen readers
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Does not interfere with content flow or navigation
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
 
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/separator" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Separator</h4>
+                <p class="text-sm text-zinc-500">Semantic content separator</p>
+            </a>
+            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
+                <p class="text-sm text-zinc-500">Layout stacking component</p>
+            </a>
+            <a href="/components/card" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Card</h4>
+                <p class="text-sm text-zinc-500">Content container</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Separator", "Stack", "Card" };
-
     private string HorizontalCode => @"<p>Content above</p>
 <Divider />
 <p>Content below</p>";
@@ -121,4 +270,12 @@
     <Divider Orientation=""Divider.DividerOrientation.Vertical"" style=""height: 40px;"" />
     <span>Item 2</span>
 </div>";
+
+    private string LabelPositionCode => @"<Divider Label=""Left"" LabelPosition=""Divider.DividerLabelPosition.Left"" />
+<Divider Label=""Center"" LabelPosition=""Divider.DividerLabelPosition.Center"" />
+<Divider Label=""Right"" LabelPosition=""Divider.DividerLabelPosition.Right"" />";
+
+    private string LineStyleCode => @"<Divider LineStyle=""Divider.DividerLineStyle.Solid"" />
+<Divider LineStyle=""Divider.DividerLineStyle.Dashed"" />
+<Divider LineStyle=""Divider.DividerLineStyle.Dotted"" />";
 }

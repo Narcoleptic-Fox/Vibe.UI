@@ -1,19 +1,31 @@
 @page "/components/form"
-@using Vibe.UI.Components
+@using Vibe.UI.Docs.Models
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Form - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Form"
-               Category="Form"
-               Description="A container for form elements with built-in validation and submission handling."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Form</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Form</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A container for form elements with built-in validation and submission handling.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Basic Form with Validation</h4>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div class="max-w-md">
                 <Form Model="@userModel" OnSubmit="@HandleValidSubmit" FormName="user-form">
                     <FormField TValue="string" Label="Name">
                         <Input Value="@userModel.Name" ValueChanged="@((string v) => userModel.Name = v)" Placeholder="Enter your name" />
@@ -27,141 +39,339 @@
                         <Textarea Value="@userModel.Message" ValueChanged="@((string v) => userModel.Message = v)" Placeholder="Your message..." Rows="4" />
                     </FormField>
 
-                    <div style="margin-top: 1rem;">
-                        <Button Type="submit" style="background-color: var(--brand-teal); color: white; padding: 0.5rem 1.5rem; border: none; border-radius: 6px; cursor: pointer;">Submit</Button>
+                    <div class="mt-4">
+                        <Button Type="submit" Variant="ButtonVariant.Primary">Submit</Button>
                     </div>
                 </Form>
 
                 @if (!string.IsNullOrEmpty(submitMessage))
                 {
-                    <div style="margin-top: 1rem; padding: 1rem; background-color: #d1fae5; border-left: 4px solid var(--brand-teal); border-radius: 4px;">
-                        <p style="margin: 0; color: #065f46;">@submitMessage</p>
+                    <div class="mt-4 p-4 bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 rounded">
+                        <p class="text-sm text-green-700 dark:text-green-400">@submitMessage</p>
                     </div>
                 }
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Create a simple form with input fields and a submit button.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <Form Model="@basicModel">
+                        <FormField TValue="string" Label="Name">
+                            <Input Value="@basicModel.Name" ValueChanged="@((string v) => basicModel.Name = v)" />
+                        </FormField>
+                        <FormField TValue="string" Label="Email">
+                            <Input Type="email" Value="@basicModel.Email" ValueChanged="@((string v) => basicModel.Email = v)" />
+                        </FormField>
+                        <div class="mt-4">
+                            <Button Type="submit">Submit</Button>
+                        </div>
+                    </Form>
+                </div>
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Validation</h3>
+        <!-- With Validation -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Validation</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Add data annotations for built-in validation.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                        This example demonstrates validation using data annotations in your model class.
+                    </p>
+                </div>
+            </div>
             <CodeBlock Code="@ValidationCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Form Layout</h3>
+        <!-- Form Layout -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Form Layouts</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control form layout with the Layout property.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-2xl space-y-6">
+                    <div>
+                        <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Vertical Layout (Default)</h4>
+                        <Form Model="@layoutModel1" Layout="FormLayout.Vertical">
+                            <FormField TValue="string" Label="Name">
+                                <Input Value="@layoutModel1.Name" ValueChanged="@((string v) => layoutModel1.Name = v)" />
+                            </FormField>
+                            <FormField TValue="string" Label="Email">
+                                <Input Value="@layoutModel1.Email" ValueChanged="@((string v) => layoutModel1.Email = v)" />
+                            </FormField>
+                        </Form>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Horizontal Layout</h4>
+                        <Form Model="@layoutModel2" Layout="FormLayout.Horizontal">
+                            <FormField TValue="string" Label="Name">
+                                <Input Value="@layoutModel2.Name" ValueChanged="@((string v) => layoutModel2.Name = v)" />
+                            </FormField>
+                            <FormField TValue="string" Label="Email">
+                                <Input Value="@layoutModel2.Email" ValueChanged="@((string v) => layoutModel2.Email = v)" />
+                            </FormField>
+                        </Form>
+                    </div>
+                </div>
+            </div>
             <CodeBlock Code="@LayoutCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Submit Handler</h3>
+        <!-- Submit Handlers -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Submit Handlers</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Handle form submission with OnValidSubmit, OnInvalidSubmit, or OnSubmit callbacks.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <Form Model="@submitModel" OnValidSubmit="@((EditContext _) => HandleSubmit())" OnInvalidSubmit="@HandleInvalidSubmit">
+                        <FormField TValue="string" Label="Username">
+                            <Input Value="@submitModel.Username" ValueChanged="@((string v) => submitModel.Username = v)" />
+                        </FormField>
+                        <div class="mt-4">
+                            <Button Type="submit">Submit</Button>
+                        </div>
+                    </Form>
+                    @if (!string.IsNullOrEmpty(submitHandlerMessage))
+                    {
+                        <p class="mt-3 text-sm text-brand-teal">@submitHandlerMessage</p>
+                    }
+                </div>
+            </div>
             <CodeBlock Code="@SubmitHandlerCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Disabled Form</h3>
+        <!-- Disabled Form -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled Form</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Disable all form elements at once with the Disabled property.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <Form Model="@disabledModel" Disabled="true">
+                        <FormField TValue="string" Label="Name">
+                            <Input Value="John Doe" />
+                        </FormField>
+                        <FormField TValue="string" Label="Email">
+                            <Input Value="john@example.com" />
+                        </FormField>
+                        <div class="mt-4">
+                            <Button Type="submit">Submit</Button>
+                        </div>
+                    </Form>
+                </div>
+            </div>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Model</code></td>
-                    <td>object</td>
-                    <td>null</td>
-                    <td>The form model for data binding</td>
-                </tr>
-                <tr>
-                    <td><code>EditContext</code></td>
-                    <td>EditContext</td>
-                    <td>null</td>
-                    <td>The edit context for validation</td>
-                </tr>
-                <tr>
-                    <td><code>Layout</code></td>
-                    <td>FormLayout</td>
-                    <td>Vertical</td>
-                    <td>Form layout (Vertical, Horizontal, Inline)</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the entire form is disabled</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Form content</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnValidSubmit</code></td>
-                    <td>EventCallback&lt;EditContext&gt;</td>
-                    <td>Callback when form is submitted and valid</td>
-                </tr>
-                <tr>
-                    <td><code>OnInvalidSubmit</code></td>
-                    <td>EventCallback&lt;EditContext&gt;</td>
-                    <td>Callback when form is submitted but invalid</td>
-                </tr>
-                <tr>
-                    <td><code>OnSubmit</code></td>
-                    <td>EventCallback&lt;EditContext&gt;</td>
-                    <td>Callback when form is submitted (regardless of validity)</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Model</td>
+                            <td class="py-3 px-4"><TypeBadge Type="object" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">The form model for data binding</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">EditContext</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EditContext" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">The edit context for validation</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">FormName</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Name attribute for the form element</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Layout</td>
+                            <td class="py-3 px-4"><TypeBadge Type="FormLayout" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Vertical</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Form layout (Vertical, Horizontal, Inline)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the entire form is disabled</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Form content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic <code>&lt;form&gt;</code> element</li>
-            <li>Proper form labeling and grouping</li>
-            <li>Error messages associated with form fields</li>
-            <li>Submit button properly identified</li>
-            <li>Focus management for validation errors</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnValidSubmit</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<EditContext>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when form is submitted and valid</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnInvalidSubmit</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<EditContext>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when form is submitted but invalid</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnSubmit</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<EditContext>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when form is submitted (regardless of validity)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Form component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add form" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;form&gt;</code> element
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Proper form labeling and field grouping
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Error messages associated with form fields via aria-describedby
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Submit button properly identified with type="submit"
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus management for validation errors
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/formfield" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">FormField</h4>
+                <p class="text-sm text-zinc-500">Form field wrapper component</p>
+            </a>
+            <a href="/components/input" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Input</h4>
+                <p class="text-sm text-zinc-500">Text input component</p>
+            </a>
+            <a href="/components/button" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Button</h4>
+                <p class="text-sm text-zinc-500">Button component</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
+    // Preview form model
     private UserFormModel userModel = new();
     private string submitMessage = "";
-    private List<string> relatedComponents = new() { "FormField", "ValidatedInput", "Button" };
+
+    // Example models
+    private BasicFormModel basicModel = new();
+    private LayoutFormModel layoutModel1 = new();
+    private LayoutFormModel layoutModel2 = new();
+    private SubmitFormModel submitModel = new();
+    private DisabledFormModel disabledModel = new();
+    private string submitHandlerMessage = "";
 
     private void HandleValidSubmit(EditContext context)
     {
         submitMessage = $"Form submitted! Name: {userModel.Name}, Email: {userModel.Email}";
+    }
+
+    private void HandleSubmit()
+    {
+        submitHandlerMessage = $"Form submitted with username: {submitModel.Username}";
+        StateHasChanged();
+    }
+
+    private void HandleInvalidSubmit(EditContext context)
+    {
+        submitHandlerMessage = "Form has validation errors!";
+        StateHasChanged();
     }
 
     public class UserFormModel
@@ -171,11 +381,34 @@
         public string Message { get; set; } = "";
     }
 
+    public class BasicFormModel
+    {
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+    }
+
+    public class LayoutFormModel
+    {
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+    }
+
+    public class SubmitFormModel
+    {
+        public string Username { get; set; } = "";
+    }
+
+    public class DisabledFormModel
+    {
+        public string Name { get; set; } = "John Doe";
+        public string Email { get; set; } = "john@example.com";
+    }
+
     private string BasicCode => @"<Form Model=""@model"">
-    <FormField Label=""Name"">
+    <FormField TValue=""string"" Label=""Name"">
         <Input @bind-Value=""@model.Name"" />
     </FormField>
-    <FormField Label=""Email"">
+    <FormField TValue=""string"" Label=""Email"">
         <Input Type=""email"" @bind-Value=""@model.Email"" />
     </FormField>
     <Button Type=""submit"">Submit</Button>
@@ -189,25 +422,56 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <FormField Label=""Name"">
+    <FormField TValue=""string"" Label=""Name"">
         <InputText @bind-Value=""@model.Name"" />
         <ValidationMessage For=""@(() => model.Name)"" />
     </FormField>
 
+    <FormField TValue=""string"" Label=""Email"">
+        <InputText @bind-Value=""@model.Email"" />
+        <ValidationMessage For=""@(() => model.Email)"" />
+    </FormField>
+
     <Button Type=""submit"">Submit</Button>
+</Form>
+
+@code {
+    private UserModel model = new();
+
+    public class UserModel
+    {
+        [Required(ErrorMessage = ""Name is required"")]
+        [StringLength(50, ErrorMessage = ""Name must be less than 50 characters"")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = ""Email is required"")]
+        [EmailAddress(ErrorMessage = ""Invalid email address"")]
+        public string Email { get; set; }
+    }
+}";
+
+    private string LayoutCode => @"<!-- Vertical Layout (Default) -->
+<Form Model=""@model"" Layout=""FormLayout.Vertical"">
+    <FormField TValue=""string"" Label=""Name"">
+        <Input @bind-Value=""@model.Name"" />
+    </FormField>
+    <FormField TValue=""string"" Label=""Email"">
+        <Input @bind-Value=""@model.Email"" />
+    </FormField>
+</Form>
+
+<!-- Horizontal Layout -->
+<Form Model=""@model"" Layout=""FormLayout.Horizontal"">
+    <FormField TValue=""string"" Label=""Name"">
+        <Input @bind-Value=""@model.Name"" />
+    </FormField>
+    <FormField TValue=""string"" Label=""Email"">
+        <Input @bind-Value=""@model.Email"" />
+    </FormField>
 </Form>";
 
-    private string LayoutCode => @"<Form Layout=""FormLayout.Horizontal"">
-    <FormField Label=""Name"">
-        <Input @bind-Value=""@name"" />
-    </FormField>
-    <FormField Label=""Email"">
-        <Input Type=""email"" @bind-Value=""@email"" />
-    </FormField>
-</Form>";
-
-    private string SubmitHandlerCode => @"<Form Model=""@model"" OnValidSubmit=""@HandleSubmit"">
-    <FormField Label=""Username"">
+    private string SubmitHandlerCode => @"<Form Model=""@model"" OnValidSubmit=""@HandleValidSubmit"" OnInvalidSubmit=""@HandleInvalidSubmit"">
+    <FormField TValue=""string"" Label=""Username"">
         <Input @bind-Value=""@model.Username"" />
     </FormField>
     <Button Type=""submit"">Submit</Button>
@@ -216,16 +480,25 @@
 @code {
     private FormModel model = new();
 
-    private async Task HandleSubmit()
+    private async Task HandleValidSubmit(EditContext context)
     {
-        // Handle form submission
-        await Task.CompletedTask;
+        // Handle valid form submission
+        await SubmitDataAsync();
+    }
+
+    private void HandleInvalidSubmit(EditContext context)
+    {
+        // Handle invalid form submission
+        Console.WriteLine(""Form has validation errors"");
     }
 }";
 
     private string DisabledCode => @"<Form Disabled=""true"">
-    <FormField Label=""Name"">
+    <FormField TValue=""string"" Label=""Name"">
         <Input Value=""John Doe"" />
+    </FormField>
+    <FormField TValue=""string"" Label=""Email"">
+        <Input Value=""john@example.com"" />
     </FormField>
     <Button Type=""submit"">Submit</Button>
 </Form>";

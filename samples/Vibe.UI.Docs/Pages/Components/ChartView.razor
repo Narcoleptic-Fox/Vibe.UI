@@ -4,146 +4,252 @@
 
 <PageTitle>Chart - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Chart"
-               Category="DataDisplay"
-               Description="Visualize data with various chart types including line, bar, pie, and more."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Chart</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Chart</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            Visualize data with various chart types including line, bar, pie, and more.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-            <div>
-                <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600;">Line Chart</h4>
-                <Chart Type="ChartType.Line"
-                       Data="@lineChartData"
-                       Height="250"
-                       ShowLegend="true" />
-            </div>
-            <div>
-                <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600;">Bar Chart</h4>
-                <Chart Type="ChartType.Bar"
-                       Data="@barChartData"
-                       Height="250"
-                       ShowLegend="true" />
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600;">Line Chart</h4>
+                    <Chart Type="ChartType.Line"
+                           Data="@lineChartData"
+                           Height="250"
+                           ShowLegend="true" />
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600;">Bar Chart</h4>
+                    <Chart Type="ChartType.Bar"
+                           Data="@barChartData"
+                           Height="250"
+                           ShowLegend="true" />
+                </div>
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Line Chart</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Line Chart -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Line Chart</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display trends over time with connected data points.
+            </p>
             <CodeBlock Code="@LineChartCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Bar Chart</h3>
+        <!-- Bar Chart -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Bar Chart</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Compare values across categories with vertical bars.
+            </p>
             <CodeBlock Code="@BarChartCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Pie Chart</h3>
+        <!-- Pie Chart -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Pie Chart</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Show proportional data as slices of a circle.
+            </p>
             <CodeBlock Code="@PieChartCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Area Chart</h3>
+        <!-- Area Chart -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Area Chart</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Emphasize magnitude of change over time with filled areas.
+            </p>
             <CodeBlock Code="@AreaChartCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Mixed Chart</h3>
+        <!-- Mixed Chart -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Mixed Chart</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Combine multiple chart types in a single visualization.
+            </p>
             <CodeBlock Code="@MixedChartCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Type</code></td>
-                    <td>ChartType</td>
-                    <td>Line</td>
-                    <td>Type of chart to display</td>
-                </tr>
-                <tr>
-                    <td><code>Data</code></td>
-                    <td>ChartData</td>
-                    <td>null</td>
-                    <td>Chart data configuration</td>
-                </tr>
-                <tr>
-                    <td><code>Options</code></td>
-                    <td>ChartOptions</td>
-                    <td>null</td>
-                    <td>Chart display options</td>
-                </tr>
-                <tr>
-                    <td><code>Width</code></td>
-                    <td>string</td>
-                    <td>"100%"</td>
-                    <td>Width of the chart</td>
-                </tr>
-                <tr>
-                    <td><code>Height</code></td>
-                    <td>string</td>
-                    <td>"400px"</td>
-                    <td>Height of the chart</td>
-                </tr>
-                <tr>
-                    <td><code>Responsive</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Whether chart is responsive</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnDataPointClick</code></td>
-                    <td>EventCallback&lt;ChartDataPoint&gt;</td>
-                    <td>Callback when data point is clicked</td>
-                </tr>
-                <tr>
-                    <td><code>OnLegendClick</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when legend item is clicked</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Type</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ChartType" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Line</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Type of chart to display</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Data</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ChartData" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Chart data configuration</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Options</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ChartOptions" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Chart display options</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Width</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"100%"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Width of the chart</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Height</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"400px"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Height of the chart</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Responsive</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether chart is responsive</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>SVG charts with descriptive titles and labels</li>
-            <li>Data table alternative for screen readers</li>
-            <li>Keyboard navigation for interactive charts</li>
-            <li>High contrast mode support</li>
-            <li>Proper ARIA labels and descriptions</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnDataPointClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<ChartDataPoint>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when data point is clicked</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnLegendClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when legend item is clicked</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Chart component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add chart" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    SVG charts with descriptive titles and labels
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Data table alternative for screen readers
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard navigation for interactive charts
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    High contrast mode support
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Proper ARIA labels and descriptions
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/datagrid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DataGrid</h4>
+                <p class="text-sm text-zinc-500">Data table with advanced features</p>
+            </a>
+            <a href="/components/table" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Table</h4>
+                <p class="text-sm text-zinc-500">Simple table component</p>
+            </a>
+            <a href="/components/progress" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Progress</h4>
+                <p class="text-sm text-zinc-500">Progress indicator</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "DataGrid", "Table", "Progress" };
-
     private ChartData lineChartData = new()
     {
         Labels = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun" },

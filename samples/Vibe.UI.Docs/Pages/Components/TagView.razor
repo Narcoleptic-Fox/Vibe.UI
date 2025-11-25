@@ -2,125 +2,261 @@
 
 <PageTitle>Tag - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Tag"
-               Category="DataDisplay"
-               Description="A small label for categorizing or tagging content, often removable."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo">
-            <p>Component preview will be shown here when installed.</p>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Tag</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Tag</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A small label for categorizing or tagging content, often removable.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="flex items-center gap-3 flex-wrap p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <span class="px-3 py-1 text-sm rounded-full bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300">React</span>
+            <span class="px-3 py-1 text-sm rounded-full bg-brand-teal/10 text-brand-teal border border-brand-teal/20">Blazor</span>
+            <span class="px-3 py-1 text-sm rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">TypeScript</span>
+            <span class="px-3 py-1 text-sm rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">Vue.js</span>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple tags for categorization and labeling.
+            </p>
+            <div class="flex items-center gap-3 flex-wrap p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Tag Label="React" />
+                <Tag Label="Blazor" />
+                <Tag Label="TypeScript" />
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Variants</h3>
+        <!-- Variants -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Variants</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Tags support different color variants to indicate status or category.
+            </p>
+            <div class="flex items-center gap-3 flex-wrap p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Tag Label="Default" Variant="TagVariant.Default" />
+                <Tag Label="Primary" Variant="TagVariant.Primary" />
+                <Tag Label="Success" Variant="TagVariant.Success" />
+                <Tag Label="Warning" Variant="TagVariant.Warning" />
+                <Tag Label="Danger" Variant="TagVariant.Danger" />
+                <Tag Label="Info" Variant="TagVariant.Info" />
+            </div>
             <CodeBlock Code="@VariantsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Removable Tags</h3>
+        <!-- Removable Tags -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Removable Tags</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Tags can include a remove button for user-controlled deletion.
+            </p>
+            <div class="flex items-center gap-3 flex-wrap p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Tag Label="React" Removable="true" OnRemove="@(() => RemoveTag("React"))" />
+                <Tag Label="Vue" Removable="true" OnRemove="@(() => RemoveTag("Vue"))" />
+                <Tag Label="Angular" Removable="true" OnRemove="@(() => RemoveTag("Angular"))" />
+            </div>
             <CodeBlock Code="@RemovableCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Sizes</h3>
+        <!-- Sizes -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sizes</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Three size options for different contexts.
+            </p>
+            <div class="flex items-center gap-3 flex-wrap p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Tag Label="Small" Size="TagSize.Small" />
+                <Tag Label="Medium" Size="TagSize.Medium" />
+                <Tag Label="Large" Size="TagSize.Large" />
+            </div>
             <CodeBlock Code="@SizesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Tag Input</h3>
+        <!-- Tag Input -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Tag Input</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Allow users to create and manage tags dynamically.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <TagInput @bind-Tags="@selectedTags" Placeholder="Add tags..." />
+                <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">Selected: @string.Join(", ", selectedTags)</p>
+            </div>
             <CodeBlock Code="@InputCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Label</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Tag label text</td>
-                </tr>
-                <tr>
-                    <td><code>Variant</code></td>
-                    <td>TagVariant</td>
-                    <td>Default</td>
-                    <td>Visual style variant</td>
-                </tr>
-                <tr>
-                    <td><code>Size</code></td>
-                    <td>TagSize</td>
-                    <td>Medium</td>
-                    <td>Size of the tag</td>
-                </tr>
-                <tr>
-                    <td><code>Removable</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether tag can be removed</td>
-                </tr>
-                <tr>
-                    <td><code>Rounded</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Whether tag has rounded corners</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnRemove</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when tag is removed</td>
-                </tr>
-                <tr>
-                    <td><code>OnClick</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when tag is clicked</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Tag label text</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Variant</td>
+                            <td class="py-3 px-4"><TypeBadge Type="TagVariant" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Default</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Visual style variant</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Size</td>
+                            <td class="py-3 px-4"><TypeBadge Type="TagSize" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Medium</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Size of the tag</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Removable</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether tag can be removed</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Rounded</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether tag has rounded corners</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Semantic HTML with proper ARIA labels</li>
-            <li>Remove button accessible via keyboard</li>
-            <li>Screen reader announces tag removal</li>
-            <li>Focus visible styles</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnRemove</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when tag is removed</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when tag is clicked</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Tag component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add tag" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Semantic HTML with proper ARIA labels
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Remove button accessible via keyboard
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announces tag removal
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus visible styles
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/badge" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Badge</h4>
+                <p class="text-sm text-zinc-500">Status and notification badges</p>
+            </a>
+            <a href="/components/chip" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Chip</h4>
+                <p class="text-sm text-zinc-500">Interactive tag-like elements</p>
+            </a>
+            <a href="/components/button" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Button</h4>
+                <p class="text-sm text-zinc-500">Action buttons</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Badge", "Chip", "Button" };
+    private List<string> selectedTags = new() { "Tag1", "Tag2" };
+
+    private void RemoveTag(string tagName)
+    {
+        Console.WriteLine($"Removed: {tagName}");
+    }
 
     private string BasicCode => @"<Tag Label=""React"" />
 <Tag Label=""Blazor"" />

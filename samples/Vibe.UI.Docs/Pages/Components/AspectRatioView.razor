@@ -1,110 +1,283 @@
 @page "/components/aspectratio"
-@using Vibe.UI.Components
 
 <PageTitle>AspectRatio - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="AspectRatio"
-               Category="Layout"
-               Description="Maintains a desired aspect ratio for its child content, responsive to container width."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 600px;">
-            <h4>16:9 Aspect Ratio</h4>
-            <AspectRatio Ratio="16.0/9.0">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%;">
-                    16:9 Video Container
-                </div>
-            </AspectRatio>
-
-            <h4 style="margin-top: 1.5rem;">4:3 Aspect Ratio</h4>
-            <AspectRatio Ratio="4.0/3.0">
-                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%;">
-                    4:3 Photo Container
-                </div>
-            </AspectRatio>
-
-            <h4 style="margin-top: 1.5rem;">1:1 Square</h4>
-            <AspectRatio Ratio="1.0">
-                <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%;">
-                    Square Container
-                </div>
-            </AspectRatio>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">AspectRatio</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">AspectRatio</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            Maintains a desired aspect ratio for its child content, responsive to container width.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>16:9 Aspect Ratio</h3>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <div class="max-w-xl">
+                <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">16:9 Video Container</h4>
+                <AspectRatio Ratio="16.0/9.0">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%; border-radius: 0.5rem;">
+                        16:9 Aspect Ratio
+                    </div>
+                </AspectRatio>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- 16:9 Aspect Ratio -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">16:9 Aspect Ratio</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Standard widescreen video format, commonly used for modern video content.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-xl">
+                    <AspectRatio Ratio="16.0/9.0">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%; border-radius: 0.5rem;">
+                            16:9 Video Container
+                        </div>
+                    </AspectRatio>
+                </div>
+            </div>
             <CodeBlock Code="@SixteenNineCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>4:3 Aspect Ratio</h3>
+        <!-- 4:3 Aspect Ratio -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">4:3 Aspect Ratio</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Classic standard format, often used for traditional photographs.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <AspectRatio Ratio="4.0/3.0">
+                        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%; border-radius: 0.5rem;">
+                            4:3 Photo Container
+                        </div>
+                    </AspectRatio>
+                </div>
+            </div>
             <CodeBlock Code="@FourThreeCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Square (1:1)</h3>
+        <!-- Square (1:1) -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Square (1:1)</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Perfect square aspect ratio, popular for profile images and social media posts.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-xs">
+                    <AspectRatio Ratio="1.0">
+                        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; height: 100%; border-radius: 0.5rem;">
+                            1:1 Square
+                        </div>
+                    </AspectRatio>
+                </div>
+            </div>
             <CodeBlock Code="@SquareCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Image</h3>
+        <!-- With Image -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Image</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use AspectRatio to ensure images maintain their proportions.
+            </p>
             <CodeBlock Code="@ImageCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Video</h3>
+        <!-- With Video -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Video</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Embed responsive video players with consistent aspect ratios.
+            </p>
             <CodeBlock Code="@VideoCode" Language="razor" />
         </div>
-    </Examples>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Ratio</code></td>
-                    <td>double</td>
-                    <td>16/9</td>
-                    <td>Aspect ratio (width / height)</td>
-                </tr>
-                <tr>
-                    <td><code>MaxWidth</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Maximum width constraint</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Content to maintain aspect ratio for</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+        <!-- Common Aspect Ratios -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Common Aspect Ratios</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Visual comparison of commonly used aspect ratios.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">21:9 (Ultrawide)</p>
+                    <AspectRatio Ratio="21.0/9.0">
+                        <div style="background: var(--vibe-accent); color: var(--vibe-accent-foreground); display: flex; align-items: center; justify-content: center; height: 100%; border-radius: 0.5rem; font-size: 0.875rem;">
+                            21:9
+                        </div>
+                    </AspectRatio>
+                </div>
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">9:16 (Portrait)</p>
+                    <div class="max-w-[200px] mx-auto">
+                        <AspectRatio Ratio="9.0/16.0">
+                            <div style="background: var(--vibe-primary); color: var(--vibe-primary-foreground); display: flex; align-items: center; justify-content: center; height: 100%; border-radius: 0.5rem; font-size: 0.875rem;">
+                                9:16
+                            </div>
+                        </AspectRatio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Preserves semantic structure of child content</li>
-            <li>No impact on keyboard navigation</li>
-            <li>Maintains accessibility of nested elements</li>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Ratio</td>
+                            <td class="py-3 px-4"><TypeBadge Type="double" /></td>
+                            <td class="py-3 px-4 text-zinc-500">16/9</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Aspect ratio (width / height)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxWidth</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum width constraint</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Content to maintain aspect ratio for</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Common Ratios Reference -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Common Aspect Ratios</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Ratio</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Value</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Common Use</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">1:1</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">1.0</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Square images, profile pictures</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">4:3</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">4/3</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Traditional photos, older monitors</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">16:9</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">16/9</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Widescreen video, HD content</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">21:9</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">21/9</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Ultrawide displays, cinematic</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">9:16</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">9/16</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Portrait video, mobile stories</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the AspectRatio component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add aspectratio" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Preserves semantic structure of child content
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                No impact on keyboard navigation
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Maintains accessibility of nested elements
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/container" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Container</h4>
+                <p class="text-sm text-zinc-500">Centered content container</p>
+            </a>
+            <a href="/components/grid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Grid</h4>
+                <p class="text-sm text-zinc-500">Grid layout system</p>
+            </a>
+            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
+                <p class="text-sm text-zinc-500">Flexbox stacking layout</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Container", "Grid", "Stack" };
-
     private string SixteenNineCode => @"<AspectRatio Ratio=""16/9"">
     <div style=""background: #3b82f6; display: flex; align-items: center; justify-content: center;"">
         16:9 Content

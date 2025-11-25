@@ -1,194 +1,429 @@
 @page "/components/slider"
-@using Vibe.UI.Components
+@using Vibe.UI.Docs.Models
 
 <PageTitle>Slider - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Slider"
-               Category="Input"
-               Description="An input where the user selects a value from within a given range."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 2rem; max-width: 500px;">
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Default (0-100)</h4>
-                <Slider Value="@volume" ValueChanged="@((double val) => volume = val)" ShowValue="true" />
-                <p style="margin-top: 0.5rem; color: var(--brand-teal);">Volume: @volume%</p>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Custom Range (0-200)</h4>
-                <Slider Min="0" Max="200" Value="@temperature" ValueChanged="@((double val) => temperature = val)" ShowValue="true" />
-                <p style="margin-top: 0.5rem;">Temperature: @temperature°F</p>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">With Step (increments of 10)</h4>
-                <Slider Min="0" Max="100" Step="10" Value="@brightness" ValueChanged="@((double val) => brightness = val)" ShowValue="true" />
-                <p style="margin-top: 0.5rem;">Brightness: @brightness%</p>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Decimal Step (0.0-1.0, step 0.1)</h4>
-                <Slider Min="0" Max="1" Step="0.1" Value="@opacity" ValueChanged="@((double val) => opacity = val)" ShowValue="true" />
-                <p style="margin-top: 0.5rem;">Opacity: @opacity.ToString("F1")</p>
-            </div>
-
-            <div style="opacity: 0.5;">
-                <h4 style="margin-bottom: 0.75rem;">Disabled</h4>
-                <Slider Value="50" Disabled="true" ShowValue="true" />
-            </div>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Slider</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Slider</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            An input where the user selects a value from within a given range.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
-            <CodeBlock Code="@BasicCode" Language="razor" />
+    <!-- Interactive Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Interactive Preview</h2>
+        <LivePreview Code="@GeneratedCode" Props="@sliderProps" OnPropChanged="HandlePropChanged" OnPropsReset="HandlePropsReset">
+            <PreviewContent>
+                <div class="w-full max-w-md">
+                    <Slider Value="@currentValue"
+                            ValueChanged="@((double val) => currentValue = val)"
+                            Min="@currentMin"
+                            Max="@currentMax"
+                            Step="@currentStep"
+                            Disabled="@currentDisabled"
+                            ShowValue="@currentShowValue" />
+                    @if (currentShowValue)
+                    {
+                        <p class="mt-2 text-sm text-brand-teal">Value: @currentValue.ToString("F1")</p>
+                    }
+                </div>
+            </PreviewContent>
+        </LivePreview>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Default -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Default</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A basic slider with default range (0-100).
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <Slider Value="@volume" ValueChanged="@((double val) => volume = val)" ShowValue="true" />
+                    <p class="mt-2 text-sm text-brand-teal">Volume: @volume%</p>
+                </div>
+            </div>
+            <CodeBlock Code="@DefaultCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Custom Range</h3>
+        <!-- Custom Range -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Range</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Define custom minimum and maximum values.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <Slider Min="0" Max="200" Value="@temperature" ValueChanged="@((double val) => temperature = val)" ShowValue="true" />
+                    <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Temperature: @temperature°F</p>
+                </div>
+            </div>
             <CodeBlock Code="@RangeCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Step</h3>
+        <!-- With Step -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Step</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control the increment granularity with the step property.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md space-y-4">
+                    <div>
+                        <label class="text-sm text-zinc-600 dark:text-zinc-400 mb-2 block">Step: 10</label>
+                        <Slider Min="0" Max="100" Step="10" Value="@brightness" ValueChanged="@((double val) => brightness = val)" ShowValue="true" />
+                        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Brightness: @brightness%</p>
+                    </div>
+                    <div>
+                        <label class="text-sm text-zinc-600 dark:text-zinc-400 mb-2 block">Step: 0.1</label>
+                        <Slider Min="0" Max="1" Step="0.1" Value="@opacity" ValueChanged="@((double val) => opacity = val)" ShowValue="true" />
+                        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Opacity: @opacity.ToString("F1")</p>
+                    </div>
+                </div>
+            </div>
             <CodeBlock Code="@StepCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Range Slider</h3>
-            <CodeBlock Code="@RangeSliderCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>Disabled State</h3>
+        <!-- Disabled State -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Prevent user interaction with the disabled state.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="max-w-md">
+                    <Slider Value="50" Disabled="true" ShowValue="true" />
+                </div>
+            </div>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Value Display</h3>
-            <CodeBlock Code="@ValueDisplayCode" Language="razor" />
+        <!-- Vertical Orientation -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Vertical Orientation</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display the slider vertically for different UI layouts.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="flex items-center gap-8">
+                    <Slider Value="@verticalValue" ValueChanged="@((double val) => verticalValue = val)" Orientation="Slider.SliderOrientation.Vertical" ShowValue="true" />
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Value: @verticalValue</p>
+                </div>
+            </div>
+            <CodeBlock Code="@VerticalCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Value</code></td>
-                    <td>double</td>
-                    <td>0</td>
-                    <td>Current value of the slider</td>
-                </tr>
-                <tr>
-                    <td><code>Min</code></td>
-                    <td>double</td>
-                    <td>0</td>
-                    <td>Minimum value</td>
-                </tr>
-                <tr>
-                    <td><code>Max</code></td>
-                    <td>double</td>
-                    <td>100</td>
-                    <td>Maximum value</td>
-                </tr>
-                <tr>
-                    <td><code>Step</code></td>
-                    <td>double</td>
-                    <td>1</td>
-                    <td>Step increment</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the slider is disabled</td>
-                </tr>
-                <tr>
-                    <td><code>ShowValue</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether to display the current value</td>
-                </tr>
-                <tr>
-                    <td><code>Orientation</code></td>
-                    <td>Orientation</td>
-                    <td>Horizontal</td>
-                    <td>Slider orientation (Horizontal, Vertical)</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>ValueChanged</code></td>
-                    <td>EventCallback&lt;double&gt;</td>
-                    <td>Callback when value changes</td>
-                </tr>
-                <tr>
-                    <td><code>OnChangeCommitted</code></td>
-                    <td>EventCallback&lt;double&gt;</td>
-                    <td>Callback when user finishes adjusting</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
+                            <td class="py-3 px-4"><TypeBadge Type="double" /></td>
+                            <td class="py-3 px-4 text-zinc-500">0</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Current value of the slider</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Min</td>
+                            <td class="py-3 px-4"><TypeBadge Type="double" /></td>
+                            <td class="py-3 px-4 text-zinc-500">0</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minimum value of the range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Max</td>
+                            <td class="py-3 px-4"><TypeBadge Type="double" /></td>
+                            <td class="py-3 px-4 text-zinc-500">100</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum value of the range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Step</td>
+                            <td class="py-3 px-4"><TypeBadge Type="double" /></td>
+                            <td class="py-3 px-4 text-zinc-500">1</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Step increment for value changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the slider is disabled</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowValue</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether to display the current value</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Orientation</td>
+                            <td class="py-3 px-4"><TypeBadge Type="SliderOrientation" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Horizontal</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Slider orientation (Horizontal, Vertical)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic <code>&lt;input type="range"&gt;</code> element</li>
-            <li>Keyboard accessible (Arrow keys to adjust value)</li>
-            <li>ARIA attributes for current value and range</li>
-            <li>Focus visible styles</li>
-            <li>Screen reader announces value changes</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<double>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when value changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnChangeCommitted</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<double>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when user finishes adjusting</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Slider component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add slider" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;input type="range"&gt;</code> element
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard accessible (Arrow keys to adjust value, Home/End for min/max)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    ARIA attributes for current value and range
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus visible styles for keyboard users
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announces value changes
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/input" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Input</h4>
+                <p class="text-sm text-zinc-500">Text input component</p>
+            </a>
+            <a href="/components/progress" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Progress</h4>
+                <p class="text-sm text-zinc-500">Progress indicator component</p>
+            </a>
+            <a href="/components/formfield" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">FormField</h4>
+                <p class="text-sm text-zinc-500">Form field wrapper</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
+    // Interactive preview state
+    private double currentValue = 50;
+    private double currentMin = 0;
+    private double currentMax = 100;
+    private double currentStep = 1;
+    private bool currentDisabled = false;
+    private bool currentShowValue = true;
+
+    // Example values
     private double volume = 75;
     private double temperature = 98;
     private double brightness = 60;
     private double opacity = 0.8;
-    private List<string> relatedComponents = new() { "Input", "NumberInput", "Progress" };
+    private double verticalValue = 50;
 
-    private string BasicCode => @"<Slider Value=""50"" />";
+    // PropTweaker props
+    private List<PropDefinition> sliderProps = new();
 
-    private string RangeCode => @"<Slider Min=""0"" Max=""200"" Value=""100"" />
-<Slider Min=""-50"" Max=""50"" Value=""0"" />";
+    protected override void OnInitialized()
+    {
+        InitializeProps();
+    }
 
-    private string StepCode => @"<Slider Step=""5"" Value=""25"" />
-<Slider Step=""0.1"" Min=""0"" Max=""1"" Value=""0.5"" />";
+    private void InitializeProps()
+    {
+        sliderProps = new List<PropDefinition>
+        {
+            PropDefinition.Number("Value", 50, description: "Current slider value"),
+            PropDefinition.Number("Min", 0, description: "Minimum value"),
+            PropDefinition.Number("Max", 100, description: "Maximum value"),
+            PropDefinition.Number("Step", 1, description: "Step increment"),
+            PropDefinition.Boolean("Disabled", false, "Disable the slider"),
+            PropDefinition.Boolean("ShowValue", true, "Display current value")
+        };
+    }
 
-    private string RangeSliderCode => @"<RangeSlider MinValue=""20"" MaxValue=""80"" />
-<RangeSlider MinValue=""10"" MaxValue=""90"" Min=""0"" Max=""100"" />";
+    private void HandlePropChanged(PropDefinition prop)
+    {
+        switch (prop.Name)
+        {
+            case "Value":
+                if (double.TryParse(prop.Value?.ToString(), out var value))
+                    currentValue = value;
+                break;
+            case "Min":
+                if (double.TryParse(prop.Value?.ToString(), out var min))
+                    currentMin = min;
+                break;
+            case "Max":
+                if (double.TryParse(prop.Value?.ToString(), out var max))
+                    currentMax = max;
+                break;
+            case "Step":
+                if (double.TryParse(prop.Value?.ToString(), out var step))
+                    currentStep = step;
+                break;
+            case "Disabled":
+                currentDisabled = prop.Value is true || prop.Value?.ToString()?.ToLower() == "true";
+                break;
+            case "ShowValue":
+                currentShowValue = prop.Value is true || prop.Value?.ToString()?.ToLower() == "true";
+                break;
+        }
+        StateHasChanged();
+    }
 
-    private string DisabledCode => @"<Slider Value=""50"" Disabled=""true"" />";
+    private void HandlePropsReset()
+    {
+        currentValue = 50;
+        currentMin = 0;
+        currentMax = 100;
+        currentStep = 1;
+        currentDisabled = false;
+        currentShowValue = true;
+        InitializeProps();
+        StateHasChanged();
+    }
 
-    private string ValueDisplayCode => @"<Slider @bind-Value=""@volume"" ShowValue=""true"" />
+    private string GeneratedCode
+    {
+        get
+        {
+            var props = new List<string>();
+
+            if (currentValue != 0)
+                props.Add($"Value=\"{currentValue}\"");
+            if (currentMin != 0)
+                props.Add($"Min=\"{currentMin}\"");
+            if (currentMax != 100)
+                props.Add($"Max=\"{currentMax}\"");
+            if (currentStep != 1)
+                props.Add($"Step=\"{currentStep}\"");
+            if (currentDisabled)
+                props.Add("Disabled=\"true\"");
+            if (currentShowValue)
+                props.Add("ShowValue=\"true\"");
+
+            var propsStr = props.Any() ? " " + string.Join(" ", props) : "";
+            return $"<Slider{propsStr} />";
+        }
+    }
+
+    private string DefaultCode => @"<Slider Value=""@volume"" ValueChanged=""@((double val) => volume = val)"" ShowValue=""true"" />
 <p>Volume: @volume%</p>
 
 @code {
     private double volume = 75;
+}";
+
+    private string RangeCode => @"<Slider Min=""0"" Max=""200"" Value=""@temperature"" ValueChanged=""@((double val) => temperature = val)"" />
+
+<Slider Min=""-50"" Max=""50"" Value=""0"" />
+
+@code {
+    private double temperature = 98;
+}";
+
+    private string StepCode => @"<Slider Step=""10"" Value=""@brightness"" ValueChanged=""@((double val) => brightness = val)"" />
+
+<Slider Step=""0.1"" Min=""0"" Max=""1"" Value=""@opacity"" ValueChanged=""@((double val) => opacity = val)"" />
+
+@code {
+    private double brightness = 60;
+    private double opacity = 0.8;
+}";
+
+    private string DisabledCode => @"<Slider Value=""50"" Disabled=""true"" />";
+
+    private string VerticalCode => @"<Slider Value=""@value""
+        ValueChanged=""@((double val) => value = val)""
+        Orientation=""Slider.SliderOrientation.Vertical"" />
+
+@code {
+    private double value = 50;
 }";
 }

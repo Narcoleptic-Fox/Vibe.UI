@@ -1,143 +1,253 @@
 @page "/components/accordion"
-@using Vibe.UI.Components
 
 <PageTitle>Accordion - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Accordion"
-               Category="Disclosure"
-               Description="A vertically stacked set of expandable/collapsible sections that allows users to show and hide content."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 600px; margin: 0 auto;">
-            <Accordion>
-                <AccordionItem>
-                    <Header>What is Blazor?</Header>
-                    <Content>Blazor is a free and open-source web framework that enables developers to create web apps using C# and HTML.</Content>
-                </AccordionItem>
-                <AccordionItem>
-                    <Header>How does it work?</Header>
-                    <Content>Blazor can run your client-side C# code directly in the browser using WebAssembly.</Content>
-                </AccordionItem>
-                <AccordionItem>
-                    <Header>Why use Blazor?</Header>
-                    <Content>Write your entire web app in C#, share code between client and server.</Content>
-                </AccordionItem>
-            </Accordion>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Accordion</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Accordion</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A vertically stacked set of expandable/collapsible sections that allows users to show and hide content.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Accordion</h3>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <Accordion>
+                    <AccordionItem>
+                        <Header>What is Blazor?</Header>
+                        <Content>Blazor is a free and open-source web framework that enables developers to create web apps using C# and HTML.</Content>
+                    </AccordionItem>
+                    <AccordionItem>
+                        <Header>How does it work?</Header>
+                        <Content>Blazor can run your client-side C# code directly in the browser using WebAssembly.</Content>
+                    </AccordionItem>
+                    <AccordionItem>
+                        <Header>Why use Blazor?</Header>
+                        <Content>Write your entire web app in C#, share code between client and server.</Content>
+                    </AccordionItem>
+                </Accordion>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Accordion -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Accordion</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Multiple collapsible sections in a single container.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Single Expand Mode</h3>
+        <!-- Single Expand Mode -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Single Expand Mode</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Allow only one section to be expanded at a time.
+            </p>
             <CodeBlock Code="@SingleExpandCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Default Expanded Items</h3>
+        <!-- Default Expanded Items -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Default Expanded Items</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Specify which items should start in an expanded state.
+            </p>
             <CodeBlock Code="@DefaultExpandedCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Disabled Items</h3>
+        <!-- Disabled Items -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled Items</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Disable specific accordion items to prevent interaction.
+            </p>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Styling</h3>
+        <!-- Custom Styling -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Styling</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Customize headers with custom templates and event handlers.
+            </p>
             <CodeBlock Code="@CustomCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>AllowMultiple</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Allow multiple items to be expanded simultaneously</td>
-                </tr>
-                <tr>
-                    <td><code>DefaultExpandedItems</code></td>
-                    <td>IEnumerable&lt;string&gt;</td>
-                    <td>null</td>
-                    <td>Item IDs that are expanded by default</td>
-                </tr>
-                <tr>
-                    <td><code>Bordered</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Show borders around items</td>
-                </tr>
-                <tr>
-                    <td><code>Flush</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Remove borders and rounded corners</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>AccordionItem components</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnItemExpanded</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when an item is expanded</td>
-                </tr>
-                <tr>
-                    <td><code>OnItemCollapsed</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when an item is collapsed</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">AllowMultiple</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Allow multiple items to be expanded simultaneously</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">DefaultExpandedItems</td>
+                            <td class="py-3 px-4"><TypeBadge Type="IEnumerable<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Item IDs that are expanded by default</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Bordered</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show borders around items</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Flush</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Remove borders and rounded corners</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">AccordionItem components</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses <code>role="region"</code> for accordion items</li>
-            <li>Headers are focusable with keyboard navigation</li>
-            <li>Uses <code>aria-expanded</code> to indicate state</li>
-            <li>Content panels have <code>aria-labelledby</code></li>
-            <li>Keyboard support (Enter/Space to toggle, Arrow keys to navigate)</li>
-            <li>Proper heading hierarchy (h2-h6 based on context)</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnItemExpanded</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when an item is expanded</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnItemCollapsed</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when an item is collapsed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Accordion component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add accordion" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="region"</code> for accordion items
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Headers are focusable with keyboard navigation
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-expanded</code> to indicate state
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Content panels have <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-labelledby</code>
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard support (Enter/Space to toggle, Arrow keys to navigate)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Proper heading hierarchy (h2-h6 based on context)
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/collapsible" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Collapsible</h4>
+                <p class="text-sm text-zinc-500">Single expandable section</p>
+            </a>
+            <a href="/components/tabs" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Tabs</h4>
+                <p class="text-sm text-zinc-500">Tabbed content panels</p>
+            </a>
+            <a href="/components/drawer" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Drawer</h4>
+                <p class="text-sm text-zinc-500">Slide-in panel component</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Collapsible", "Tabs", "Drawer" };
-
     private string BasicCode => @"<Accordion>
     <AccordionItem Title=""What is Blazor?"">
         <Content>
