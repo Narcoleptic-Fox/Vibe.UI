@@ -1,0 +1,256 @@
+/* ========================================
+   INPUT COMPONENT - Material Design Variants
+   ======================================== */
+
+/* ==================== Container ==================== */
+.vibe-input-container {
+    width: 100%;
+    font-family: var(--vibe-font);
+}
+
+/* ==================== Input Wrapper - Common Positioning ==================== */
+.vibe-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* ==================== Base Input Styles ==================== */
+::deep .vibe-input {
+    width: 100%;
+    border: none;
+    background: none;
+    color: var(--vibe-foreground);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+::deep .vibe-input:disabled,
+::deep .vibe-input:read-only {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+::deep .vibe-input::placeholder {
+    color: var(--vibe-muted-foreground);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.vibe-input-wrapper.vibe-input-focused ::deep .vibe-input::placeholder {
+    opacity: 1;
+}
+
+/* ==================== Floating Label ==================== */
+::deep .vibe-input-label {
+    position: absolute;
+    left: 0;
+    color: var(--vibe-muted-foreground);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    transform-origin: left top;
+}
+
+::deep .vibe-input-label.vibe-input-label-floating {
+    transform: translateY(-1.5rem) scale(0.75);
+    color: var(--vibe-primary);
+}
+
+/* ==================== TEXT VARIANT (Standard / Underline Only) ==================== */
+.vibe-input-wrapper.vibe-input-wrapper-text {
+    border-bottom: 1px solid var(--vibe-border);
+    padding-bottom: 0.25rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-text.vibe-input-focused {
+    border-bottom: 2px solid var(--vibe-ring);
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-text.vibe-input-has-error {
+    border-bottom-color: var(--vibe-destructive);
+}
+
+::deep .vibe-input.vibe-input-text {
+    padding: 0.5rem 0;
+}
+
+::deep .vibe-input-label.vibe-input-label-text {
+    left: 0;
+    top: 0.5rem;
+}
+
+/* ==================== FILLED VARIANT (Muted Background) ==================== */
+.vibe-input-wrapper.vibe-input-wrapper-filled {
+    background-color: var(--vibe-muted);
+    border-radius: var(--vibe-radius-sm) var(--vibe-radius-sm) 0 0;
+    border-bottom: 1px solid var(--vibe-border);
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-filled:hover:not(.vibe-input-disabled) {
+    background-color: color-mix(in srgb, var(--vibe-muted) 90%, var(--vibe-foreground));
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-filled.vibe-input-focused {
+    background-color: var(--vibe-muted);
+    border-bottom: 2px solid var(--vibe-ring);
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-filled.vibe-input-has-error {
+    border-bottom-color: var(--vibe-destructive);
+}
+
+::deep .vibe-input.vibe-input-filled {
+    padding: 1.5rem 0.75rem 0.5rem 0.75rem;
+}
+
+::deep .vibe-input-label.vibe-input-label-filled {
+    left: 0.75rem;
+    top: 1rem;
+}
+
+::deep .vibe-input-label.vibe-input-label-filled.vibe-input-label-floating {
+    transform: translateY(-0.5rem) scale(0.75);
+}
+
+/* ==================== OUTLINED VARIANT (Full Border) ==================== */
+.vibe-input-wrapper.vibe-input-wrapper-outlined {
+    border: 1px solid var(--vibe-border);
+    border-radius: var(--vibe-radius-sm);
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-outlined:hover:not(.vibe-input-disabled) {
+    border-color: color-mix(in srgb, var(--vibe-border) 70%, var(--vibe-foreground));
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-outlined.vibe-input-focused {
+    border-color: var(--vibe-ring);
+    border-width: 2px;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-outlined.vibe-input-has-error {
+    border-color: var(--vibe-destructive);
+}
+
+::deep .vibe-input.vibe-input-outlined {
+    padding: 0.75rem;
+}
+
+::deep .vibe-input-label.vibe-input-label-outlined {
+    left: 0.75rem;
+    top: 0.75rem;
+    background-color: var(--vibe-background);
+    padding: 0 0.25rem;
+}
+
+::deep .vibe-input-label.vibe-input-label-outlined.vibe-input-label-floating {
+    transform: translateY(-1.75rem) scale(0.75);
+}
+
+/* ==================== SIZE VARIANTS ==================== */
+
+/* Small Size */
+.vibe-input-wrapper.vibe-input-wrapper-small ::deep .vibe-input.vibe-input-text {
+    padding: 0.375rem 0;
+    font-size: 0.875rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-small ::deep .vibe-input.vibe-input-filled {
+    padding: 1.25rem 0.625rem 0.375rem 0.625rem;
+    font-size: 0.875rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-small ::deep .vibe-input.vibe-input-outlined {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-small ::deep .vibe-input-label {
+    font-size: 0.875rem;
+}
+
+/* Medium Size (Default) */
+.vibe-input-wrapper.vibe-input-wrapper-medium ::deep .vibe-input.vibe-input-text {
+    padding: 0.5rem 0;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-medium ::deep .vibe-input.vibe-input-filled {
+    padding: 1.5rem 0.75rem 0.5rem 0.75rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-medium ::deep .vibe-input.vibe-input-outlined {
+    padding: 0.75rem;
+}
+
+/* Large Size */
+.vibe-input-wrapper.vibe-input-wrapper-large ::deep .vibe-input.vibe-input-text {
+    padding: 0.625rem 0;
+    font-size: 1.125rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-large ::deep .vibe-input.vibe-input-filled {
+    padding: 1.75rem 1rem 0.625rem 1rem;
+    font-size: 1.125rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-large ::deep .vibe-input.vibe-input-outlined {
+    padding: 1rem;
+    font-size: 1.125rem;
+}
+
+.vibe-input-wrapper.vibe-input-wrapper-large ::deep .vibe-input-label {
+    font-size: 1.125rem;
+}
+
+/* ==================== Error and Helper Text ==================== */
+::deep .vibe-input-error {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--vibe-destructive);
+}
+
+::deep .vibe-input-helper {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--vibe-muted-foreground);
+}
+
+/* ==================== Icons ==================== */
+::deep .vibe-input-icon {
+    display: flex;
+    align-items: center;
+    color: var(--vibe-muted-foreground);
+}
+
+::deep .vibe-input-icon-leading {
+    margin-right: 0.5rem;
+}
+
+::deep .vibe-input-icon-trailing {
+    margin-left: 0.5rem;
+}
+
+/* ==================== With Icons Adjustments ==================== */
+::deep .vibe-input.vibe-input-with-leading-icon {
+    padding-left: 2.5rem;
+}
+
+::deep .vibe-input.vibe-input-with-trailing-icon {
+    padding-right: 2.5rem;
+}
+
+/* Label adjustments for inputs with leading icons */
+.vibe-input-wrapper:has(.vibe-input-with-leading-icon) ::deep .vibe-input-label.vibe-input-label-text {
+    left: 2rem;
+}
+
+.vibe-input-wrapper:has(.vibe-input-with-leading-icon) ::deep .vibe-input-label.vibe-input-label-filled {
+    left: 2.25rem;
+}
+
+.vibe-input-wrapper:has(.vibe-input-with-leading-icon) ::deep .vibe-input-label.vibe-input-label-outlined {
+    left: 2.25rem;
+}

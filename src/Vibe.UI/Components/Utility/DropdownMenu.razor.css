@@ -1,0 +1,231 @@
+/* ========================================
+   DROPDOWN MENU COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE DROPDOWN STYLES
+   ---------------------------------------- */
+
+.vibe-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* ----------------------------------------
+   DROPDOWN TRIGGER
+   ---------------------------------------- */
+
+.dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* ----------------------------------------
+   DROPDOWN CONTENT
+   ---------------------------------------- */
+
+.dropdown-content {
+    position: absolute;
+    z-index: 50;
+    min-width: 8rem;
+    overflow: hidden;
+    border-radius: var(--vibe-radius-md);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    box-shadow: var(--vibe-shadow-md);
+    animation: dropdown-in 0.15s ease-out;
+    padding: var(--vibe-spacing-1);
+}
+
+@keyframes dropdown-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ----------------------------------------
+   DROPDOWN POSITIONING
+   ---------------------------------------- */
+
+/* Bottom Positioning */
+.dropdown-bottom {
+    top: 100%;
+    margin-top: var(--vibe-spacing-2);
+}
+
+/* Top Positioning */
+.dropdown-top {
+    bottom: 100%;
+    margin-bottom: var(--vibe-spacing-2);
+}
+
+/* Left Positioning */
+.dropdown-left {
+    right: 100%;
+    margin-right: var(--vibe-spacing-2);
+}
+
+/* Right Positioning */
+.dropdown-right {
+    left: 100%;
+    margin-left: var(--vibe-spacing-2);
+}
+
+/* ----------------------------------------
+   DROPDOWN ALIGNMENT
+   ---------------------------------------- */
+
+/* Start Alignment (Default) */
+.dropdown-start {
+    left: 0;
+}
+
+/* End Alignment */
+.dropdown-end {
+    right: 0;
+}
+
+/* Center Alignment */
+.dropdown-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ----------------------------------------
+   DROPDOWN BACKDROP
+   ---------------------------------------- */
+
+.dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background-color: transparent;
+}
+
+/* ----------------------------------------
+   DROPDOWN ITEMS (for nested content)
+   ---------------------------------------- */
+
+::deep .dropdown-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--vibe-spacing-2);
+    padding: var(--vibe-spacing-2) var(--vibe-spacing-3);
+    border-radius: var(--vibe-radius-sm);
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    transition: var(--vibe-transition-fast);
+    user-select: none;
+}
+
+::deep .dropdown-item:hover {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+::deep .dropdown-item:focus {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+::deep .dropdown-item:active {
+    background-color: var(--vibe-muted);
+}
+
+::deep .dropdown-item[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ----------------------------------------
+   DROPDOWN SEPARATOR
+   ---------------------------------------- */
+
+::deep .dropdown-separator {
+    height: 1px;
+    margin: var(--vibe-spacing-1) calc(var(--vibe-spacing-1) * -1);
+    background-color: var(--vibe-border);
+}
+
+/* ----------------------------------------
+   DROPDOWN LABEL
+   ---------------------------------------- */
+
+::deep .dropdown-label {
+    padding: var(--vibe-spacing-2) var(--vibe-spacing-3);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--vibe-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ----------------------------------------
+   DROPDOWN SHORTCUT
+   ---------------------------------------- */
+
+::deep .dropdown-shortcut {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-family: var(--vibe-font-mono);
+    color: var(--vibe-muted-foreground);
+    opacity: 0.6;
+}
+
+/* ----------------------------------------
+   DROPDOWN CHECKBOX ITEM
+   ---------------------------------------- */
+
+::deep .dropdown-checkbox-item {
+    padding-left: var(--vibe-spacing-6);
+}
+
+::deep .dropdown-checkbox-indicator {
+    position: absolute;
+    left: var(--vibe-spacing-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ----------------------------------------
+   DROPDOWN SUB-MENU (for nested dropdowns)
+   ---------------------------------------- */
+
+::deep .dropdown-sub-trigger {
+    position: relative;
+}
+
+::deep .dropdown-sub-trigger::after {
+    content: '';
+    position: absolute;
+    right: var(--vibe-spacing-2);
+    width: 0;
+    height: 0;
+    border-left: 4px solid currentColor;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    opacity: 0.6;
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY
+   ---------------------------------------- */
+
+.dropdown-content:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}

@@ -1,0 +1,183 @@
+/* ========================================
+   KBD COMPONENT - SCOPED STYLES
+   Keyboard Shortcut Display
+   ======================================== */
+
+/* ----------------------------------------
+   BASE KBD STYLES
+   ---------------------------------------- */
+
+.vibe-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--vibe-radius-sm);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-muted);
+    color: var(--vibe-foreground);
+    font-family: var(--vibe-font-mono);
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+    box-shadow: 0 1px 0 0 var(--vibe-border),
+                0 2px 0 0 color-mix(in srgb, var(--vibe-border) 50%, transparent);
+    transition: var(--vibe-transition-fast);
+}
+
+/* Subtle inner shadow for depth */
+.vibe-kbd::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--vibe-background) 20%, transparent);
+    pointer-events: none;
+}
+
+/* ----------------------------------------
+   SIZE VARIANTS
+   ---------------------------------------- */
+
+/* Small Size */
+.vibe-kbd.kbd-small {
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.25rem;
+    font-size: 0.625rem;
+}
+
+/* Default Size */
+.vibe-kbd.kbd-default {
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.375rem;
+    font-size: 0.75rem;
+}
+
+/* Large Size */
+.vibe-kbd.kbd-large {
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* ----------------------------------------
+   MODIFIER KEY STYLES
+   ---------------------------------------- */
+
+.vibe-kbd-modifier {
+    text-transform: capitalize;
+}
+
+/* Common modifier key symbols */
+.vibe-kbd-cmd::before {
+    content: '⌘';
+    margin-right: 0.125rem;
+}
+
+.vibe-kbd-ctrl::before {
+    content: 'Ctrl';
+    margin-right: 0.125rem;
+}
+
+.vibe-kbd-shift::before {
+    content: '⇧';
+    margin-right: 0.125rem;
+}
+
+.vibe-kbd-alt::before {
+    content: '⌥';
+    margin-right: 0.125rem;
+}
+
+.vibe-kbd-option::before {
+    content: '⌥';
+    margin-right: 0.125rem;
+}
+
+/* ----------------------------------------
+   KBD GROUP (Multiple Keys)
+   ---------------------------------------- */
+
+.vibe-kbd-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--vibe-spacing-1);
+}
+
+.vibe-kbd-group .vibe-kbd {
+    margin: 0;
+}
+
+/* Plus sign separator */
+.vibe-kbd-group .vibe-kbd + .vibe-kbd::before {
+    content: '+';
+    display: inline-block;
+    margin: 0 var(--vibe-spacing-1);
+    color: var(--vibe-muted-foreground);
+    font-weight: normal;
+}
+
+/* ----------------------------------------
+   INTERACTIVE STATE (for documentation)
+   ---------------------------------------- */
+
+.vibe-kbd-interactive {
+    cursor: pointer;
+    position: relative;
+}
+
+.vibe-kbd-interactive:hover {
+    background-color: var(--vibe-accent);
+    border-color: color-mix(in srgb, var(--vibe-border) 80%, black);
+}
+
+.vibe-kbd-interactive:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 0 0 var(--vibe-border);
+}
+
+/* ----------------------------------------
+   PRESSED STATE
+   ---------------------------------------- */
+
+.vibe-kbd-pressed {
+    transform: translateY(1px);
+    box-shadow: 0 0 0 0 var(--vibe-border);
+    background-color: var(--vibe-accent);
+}
+
+/* ----------------------------------------
+   DISABLED STATE
+   ---------------------------------------- */
+
+.vibe-kbd[disabled],
+.vibe-kbd-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ----------------------------------------
+   DARK MODE ADJUSTMENTS
+   ---------------------------------------- */
+
+.dark .vibe-kbd {
+    box-shadow: 0 1px 0 0 color-mix(in srgb, var(--vibe-border) 80%, white),
+                0 2px 0 0 color-mix(in srgb, var(--vibe-border) 40%, white);
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY
+   ---------------------------------------- */
+
+.vibe-kbd:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+/* Screen reader helper */
+.vibe-kbd abbr[title] {
+    text-decoration: none;
+}

@@ -1,0 +1,221 @@
+/* ========================================
+   PAGINATION COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE PAGINATION CONTAINER
+   ---------------------------------------- */
+
+.vibe-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--vibe-font);
+}
+
+/* ----------------------------------------
+   PAGINATION LIST
+   ---------------------------------------- */
+
+.pagination-list {
+    display: flex;
+    align-items: center;
+    gap: var(--vibe-spacing-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ----------------------------------------
+   PAGINATION ITEMS
+   ---------------------------------------- */
+
+.pagination-item {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+/* ----------------------------------------
+   PAGINATION BUTTONS (BASE)
+   ---------------------------------------- */
+
+.pagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 var(--vibe-spacing-2);
+    background-color: transparent;
+    border: 1px solid var(--vibe-border);
+    border-radius: var(--vibe-radius-sm);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--vibe-foreground);
+    cursor: pointer;
+    transition: var(--vibe-transition);
+    user-select: none;
+    outline: none;
+}
+
+/* ----------------------------------------
+   PAGINATION BUTTON STATES
+   ---------------------------------------- */
+
+/* Hover State */
+.pagination-button:hover:not(:disabled) {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+    border-color: var(--vibe-border);
+}
+
+/* Focus State */
+.pagination-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
+}
+
+/* Focus Visible State (for keyboard navigation) */
+.pagination-button:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+/* Active State (Current Page) */
+.pagination-button.active {
+    background-color: var(--vibe-primary);
+    color: var(--vibe-primary-foreground);
+    border-color: var(--vibe-primary);
+}
+
+.pagination-button.active:hover {
+    background-color: color-mix(in srgb, var(--vibe-primary) 90%, black);
+    border-color: color-mix(in srgb, var(--vibe-primary) 90%, black);
+}
+
+/* Disabled State */
+.pagination-button:disabled,
+.pagination-button.disabled {
+    background-color: transparent;
+    color: var(--vibe-muted-foreground);
+    border-color: var(--vibe-border);
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ----------------------------------------
+   NAVIGATION BUTTONS (PREV/NEXT)
+   ---------------------------------------- */
+
+.pagination-prev,
+.pagination-next,
+.pagination-first,
+.pagination-last {
+    min-width: 2.5rem;
+}
+
+.pagination-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-icon svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ----------------------------------------
+   PAGINATION ELLIPSIS
+   ---------------------------------------- */
+
+.pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 var(--vibe-spacing-2);
+    font-size: 0.875rem;
+    color: var(--vibe-muted-foreground);
+    user-select: none;
+}
+
+/* ----------------------------------------
+   PAGE NUMBER LINKS
+   ---------------------------------------- */
+
+.pagination-link {
+    /* Inherits from .pagination-button */
+}
+
+/* ----------------------------------------
+   SIZE VARIANTS
+   ---------------------------------------- */
+
+/* Small Size */
+.vibe-pagination.vibe-pagination-small .pagination-button,
+.vibe-pagination.vibe-pagination-small .pagination-ellipsis {
+    min-width: 2rem;
+    height: 2rem;
+    font-size: 0.8125rem;
+}
+
+/* Medium Size (default) */
+.vibe-pagination.vibe-pagination-medium .pagination-button,
+.vibe-pagination.vibe-pagination-medium .pagination-ellipsis {
+    min-width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+}
+
+/* Large Size */
+.vibe-pagination.vibe-pagination-large .pagination-button,
+.vibe-pagination.vibe-pagination-large .pagination-ellipsis {
+    min-width: 3rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY IMPROVEMENTS
+   ---------------------------------------- */
+
+/* Improve contrast for keyboard focus */
+.pagination-button:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: var(--vibe-ring);
+}
+
+/* Ensure touch targets are at least 44x44 on mobile */
+@media (max-width: 768px) {
+    .pagination-button {
+        min-width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .pagination-ellipsis {
+        min-width: 2.75rem;
+        height: 2.75rem;
+    }
+}
+
+/* ----------------------------------------
+   RESPONSIVE ADJUSTMENTS
+   ---------------------------------------- */
+
+/* On very small screens, reduce spacing */
+@media (max-width: 480px) {
+    .pagination-list {
+        gap: var(--vibe-spacing-1);
+    }
+
+    .pagination-button {
+        min-width: 2rem;
+        padding: 0 var(--vibe-spacing-1);
+    }
+}

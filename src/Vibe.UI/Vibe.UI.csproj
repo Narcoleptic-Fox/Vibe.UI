@@ -24,6 +24,8 @@
     <PackageProjectUrl>https://github.com/Dieshen/Vibe.UI</PackageProjectUrl>
     <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Enable scoped CSS bundling (default true, explicit for clarity) -->
+    <ScopedCssEnabled>true</ScopedCssEnabled>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,18 @@
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
+
+<h2 class="@CombinedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</h2>
+
+@code {
+    /// <summary>
+    /// Gets or sets the title text or content for the dialog.
+    /// Rendered as an h2 element for semantic structure.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc/>
+    protected override string ComponentClass => "vibe-dialog-title";
+}

@@ -1,0 +1,386 @@
+/* ========================================
+   STEPPER COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   STEPPER CONTAINER
+   ---------------------------------------- */
+
+.vibe-stepper {
+    display: flex;
+    font-family: var(--vibe-font);
+    width: 100%;
+}
+
+/* Horizontal Layout (Default) */
+.vibe-stepper-horizontal {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+}
+
+/* Vertical Layout */
+.vibe-stepper-vertical {
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ----------------------------------------
+   STEPPER ITEM
+   ---------------------------------------- */
+
+.vibe-stepper-item {
+    position: relative;
+    display: flex;
+    flex: 1;
+}
+
+/* Horizontal Items */
+.vibe-stepper-horizontal .vibe-stepper-item {
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+/* Vertical Items */
+.vibe-stepper-vertical .vibe-stepper-item {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* ----------------------------------------
+   STEPPER INDICATOR WRAPPER
+   ---------------------------------------- */
+
+.vibe-stepper-indicator-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.vibe-stepper-horizontal .vibe-stepper-indicator-wrapper {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.vibe-stepper-vertical .vibe-stepper-indicator-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+/* ----------------------------------------
+   STEPPER INDICATOR (CIRCLE/BUTTON)
+   ---------------------------------------- */
+
+.vibe-stepper-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    background-color: var(--vibe-secondary);
+    color: var(--vibe-muted-foreground);
+    border: 2px solid var(--vibe-border);
+    transition: all 0.2s ease;
+    outline: none;
+    flex-shrink: 0;
+}
+
+/* Pending State (Default) */
+.vibe-stepper-item .vibe-stepper-indicator {
+    background-color: var(--vibe-secondary);
+    color: var(--vibe-muted-foreground);
+    border-color: var(--vibe-border);
+}
+
+/* Active State */
+.vibe-stepper-item-active .vibe-stepper-indicator {
+    background-color: var(--vibe-primary);
+    color: var(--vibe-primary-foreground);
+    border-color: var(--vibe-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--vibe-primary) 15%, transparent);
+}
+
+/* Completed State */
+.vibe-stepper-item-completed .vibe-stepper-indicator {
+    background-color: var(--vibe-primary);
+    color: var(--vibe-primary-foreground);
+    border-color: var(--vibe-primary);
+}
+
+/* Error State */
+.vibe-stepper-item-error .vibe-stepper-indicator {
+    background-color: var(--vibe-destructive);
+    color: var(--vibe-destructive-foreground);
+    border-color: var(--vibe-destructive);
+}
+
+/* Clickable/Hover States */
+.vibe-stepper-indicator:not(:disabled) {
+    cursor: pointer;
+}
+
+.vibe-stepper-indicator:not(:disabled):hover {
+    transform: scale(1.05);
+    box-shadow: var(--vibe-shadow-sm);
+}
+
+.vibe-stepper-indicator:not(:disabled):active {
+    transform: scale(0.98);
+}
+
+/* Focus States */
+.vibe-stepper-indicator:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+/* Disabled State */
+.vibe-stepper-indicator:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ----------------------------------------
+   STEPPER CONNECTOR (LINE BETWEEN STEPS)
+   ---------------------------------------- */
+
+.vibe-stepper-connector {
+    background-color: var(--vibe-border);
+    transition: background-color 0.2s ease;
+}
+
+/* Horizontal Connector */
+.vibe-stepper-horizontal .vibe-stepper-connector {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    right: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+}
+
+/* Vertical Connector */
+.vibe-stepper-vertical .vibe-stepper-connector {
+    position: relative;
+    width: 2px;
+    height: 1.5rem;
+    margin-left: calc(1rem - 1px);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Completed Connector State */
+.vibe-stepper-item-completed .vibe-stepper-connector {
+    background-color: var(--vibe-primary);
+}
+
+/* Active Connector State (partially filled) */
+.vibe-stepper-item-active .vibe-stepper-connector {
+    background: linear-gradient(
+        to right,
+        var(--vibe-primary) 0%,
+        var(--vibe-primary) 50%,
+        var(--vibe-border) 50%,
+        var(--vibe-border) 100%
+    );
+}
+
+.vibe-stepper-vertical .vibe-stepper-item-active .vibe-stepper-connector {
+    background: linear-gradient(
+        to bottom,
+        var(--vibe-primary) 0%,
+        var(--vibe-primary) 50%,
+        var(--vibe-border) 50%,
+        var(--vibe-border) 100%
+    );
+}
+
+/* ----------------------------------------
+   STEPPER CONTENT (LABEL & DESCRIPTION)
+   ---------------------------------------- */
+
+.vibe-stepper-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+/* Horizontal Content */
+.vibe-stepper-horizontal .vibe-stepper-content {
+    text-align: center;
+    align-items: center;
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0 0.5rem;
+}
+
+/* Vertical Content */
+.vibe-stepper-vertical .vibe-stepper-content {
+    text-align: left;
+    align-items: flex-start;
+    flex: 1;
+}
+
+/* ----------------------------------------
+   STEPPER LABEL
+   ---------------------------------------- */
+
+.vibe-stepper-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--vibe-muted-foreground);
+    transition: color 0.2s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Active Label */
+.vibe-stepper-item-active .vibe-stepper-label {
+    color: var(--vibe-foreground);
+}
+
+/* Completed Label */
+.vibe-stepper-item-completed .vibe-stepper-label {
+    color: var(--vibe-foreground);
+}
+
+/* Error Label */
+.vibe-stepper-item-error .vibe-stepper-label {
+    color: var(--vibe-destructive);
+}
+
+/* ----------------------------------------
+   STEPPER DESCRIPTION
+   ---------------------------------------- */
+
+.vibe-stepper-description {
+    font-size: 0.75rem;
+    color: var(--vibe-muted-foreground);
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* ----------------------------------------
+   RESPONSIVE DESIGN
+   ---------------------------------------- */
+
+/* Tablet and below - reduce spacing */
+@media (max-width: 768px) {
+    .vibe-stepper-indicator {
+        width: 1.75rem;
+        height: 1.75rem;
+        min-width: 1.75rem;
+        min-height: 1.75rem;
+        font-size: 0.75rem;
+    }
+
+    .vibe-stepper-horizontal .vibe-stepper-connector {
+        top: 0.875rem;
+    }
+
+    .vibe-stepper-vertical .vibe-stepper-connector {
+        margin-left: calc(0.875rem - 1px);
+    }
+
+    .vibe-stepper-label {
+        font-size: 0.8125rem;
+    }
+
+    .vibe-stepper-description {
+        font-size: 0.6875rem;
+    }
+
+    .vibe-stepper-indicator-wrapper {
+        gap: 0.75rem;
+    }
+}
+
+/* Mobile - minimal spacing */
+@media (max-width: 480px) {
+    .vibe-stepper-horizontal .vibe-stepper-content {
+        padding: 0 0.25rem;
+    }
+
+    .vibe-stepper-label {
+        font-size: 0.75rem;
+    }
+
+    .vibe-stepper-description {
+        display: none; /* Hide descriptions on mobile horizontal */
+    }
+
+    .vibe-stepper-vertical .vibe-stepper-description {
+        display: block; /* Keep descriptions in vertical mode */
+    }
+}
+
+/* ----------------------------------------
+   ANIMATIONS
+   ---------------------------------------- */
+
+@keyframes stepperFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.vibe-stepper-item-active .vibe-stepper-indicator {
+    animation: stepperFadeIn 0.2s ease-in-out;
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY ENHANCEMENTS
+   ---------------------------------------- */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .vibe-stepper-indicator,
+    .vibe-stepper-connector,
+    .vibe-stepper-label {
+        transition: none;
+    }
+
+    .vibe-stepper-item-active .vibe-stepper-indicator {
+        animation: none;
+    }
+
+    .vibe-stepper-indicator:not(:disabled):hover {
+        transform: none;
+    }
+
+    .vibe-stepper-indicator:not(:disabled):active {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .vibe-stepper-indicator {
+        border-width: 3px;
+    }
+
+    .vibe-stepper-connector {
+        height: 3px;
+    }
+
+    .vibe-stepper-vertical .vibe-stepper-connector {
+        width: 3px;
+    }
+}

@@ -31,12 +31,12 @@
 
       <ItemGroup>
             <!-- Components from Vibe.UI (packed into Templates/Components/) -->
-            <None Include="../Vibe.UI/Components/Input/*.razor"
+            <None Include="../Vibe.UI/Components/Inputs/*.razor"
                   Pack="true"
-                  PackagePath="Templates/Components/Input/" />
-            <None Include="../Vibe.UI/Components/Input/*.razor.css"
+                  PackagePath="Templates/Components/Inputs/" />
+            <None Include="../Vibe.UI/Components/Inputs/*.razor.css"
                   Pack="true"
-                  PackagePath="Templates/Components/Input/" />
+                  PackagePath="Templates/Components/Inputs/" />
             <None Include="../Vibe.UI/Components/Form/*.razor"
                   Pack="true"
                   PackagePath="Templates/Components/Form/" />
@@ -97,6 +97,12 @@
             <None Include="../Vibe.UI/Components/Theme/*.razor.css"
                   Pack="true"
                   PackagePath="Templates/Components/Theme/" />
+            <None Include="../Vibe.UI/Components/Utility/*.razor"
+                  Pack="true"
+                  PackagePath="Templates/Components/Utility/" />
+            <None Include="../Vibe.UI/Components/Utility/*.razor.css"
+                  Pack="true"
+                  PackagePath="Templates/Components/Utility/" />
 
             <!-- Infrastructure files (packed into Templates/Infrastructure/) -->
             <None Include="../Vibe.UI/Base/**/*.cs"
@@ -108,6 +114,9 @@
             <None Include="../Vibe.UI/Themes/**/*.cs"
                   Pack="true"
                   PackagePath="Templates/Infrastructure/Themes/%(RecursiveDir)" />
+            <None Include="../Vibe.UI/Enums/*.cs"
+                  Pack="true"
+                  PackagePath="Templates/Infrastructure/Enums/" />
             <None Include="../Vibe.UI/ServiceCollectionExtensions.cs"
                   Pack="true"
                   PackagePath="Templates/Infrastructure/" />
@@ -122,6 +131,17 @@
             <None Include="../Vibe.UI/wwwroot/js/vibe-chart.js"
                   Pack="true"
                   PackagePath="Templates/wwwroot/js/" />
+
+            <!-- CSS foundation files -->
+            <None Include="../Vibe.UI/wwwroot/css/vibe-base.css"
+                  Pack="true"
+                  PackagePath="Templates/wwwroot/css/" />
+            <None Include="../Vibe.UI/wwwroot/css/vibe-utilities.css"
+                  Pack="true"
+                  PackagePath="Templates/wwwroot/css/" />
+            <None Include="../Vibe.UI/wwwroot/css/vibe-all.css"
+                  Pack="true"
+                  PackagePath="Templates/wwwroot/css/" />
 
             <!-- Package assets -->
             <None Include="../../icon.png" Pack="true" PackagePath=""

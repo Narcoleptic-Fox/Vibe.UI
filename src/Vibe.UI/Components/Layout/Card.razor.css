@@ -1,0 +1,124 @@
+/* ========================================
+   CARD COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ========================================
+   BASE CARD
+   ======================================== */
+
+.vibe-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--vibe-radius-lg);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-card);
+    color: var(--vibe-card-foreground);
+    box-shadow: var(--vibe-shadow-sm);
+    overflow: hidden;
+    font-family: var(--vibe-font);
+    transition: var(--vibe-transition);
+}
+
+.vibe-card:hover {
+    box-shadow: var(--vibe-shadow-md);
+}
+
+/* ========================================
+   CARD VARIANTS
+   ======================================== */
+
+.vibe-card-elevated {
+    box-shadow: var(--vibe-shadow-md);
+}
+
+.vibe-card-outlined {
+    background-color: transparent;
+    border: 2px solid var(--vibe-border);
+}
+
+.vibe-card-interactive {
+    cursor: pointer;
+    border: 1px solid var(--vibe-border);
+}
+
+.vibe-card-interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--vibe-shadow-lg);
+}
+
+/* ========================================
+   CARD SECTIONS
+   ======================================== */
+
+.vibe-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vibe-spacing-2);
+    padding: var(--vibe-spacing-6);
+    padding-bottom: var(--vibe-spacing-4);
+}
+
+.vibe-card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--vibe-card-foreground);
+}
+
+.vibe-card-subtitle,
+.vibe-card-description {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--vibe-muted-foreground);
+    line-height: 1.5;
+}
+
+.vibe-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vibe-spacing-6);
+    padding: 0 var(--vibe-spacing-6);
+    padding-bottom: var(--vibe-spacing-6);
+    color: var(--vibe-card-foreground);
+    flex: 1;
+}
+
+.vibe-card-content * {
+    color: inherit;
+}
+
+.vibe-card-body {
+    padding: var(--vibe-spacing-6);
+    color: var(--vibe-card-foreground);
+}
+
+.vibe-card-body * {
+    color: inherit;
+}
+
+.vibe-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--vibe-spacing-2);
+    padding: var(--vibe-spacing-4) var(--vibe-spacing-6);
+    border-top: 1px solid var(--vibe-border);
+}
+
+/* ========================================
+   COMPACT VARIANT
+   ======================================== */
+
+.vibe-card-compact .vibe-card-header {
+    padding: var(--vibe-spacing-3) var(--vibe-spacing-4);
+}
+
+.vibe-card-compact .vibe-card-body {
+    padding: var(--vibe-spacing-4);
+}
+
+.vibe-card-compact .vibe-card-footer {
+    padding: var(--vibe-spacing-3) var(--vibe-spacing-4);
+}

@@ -115,7 +115,7 @@ public class InputTests : TestBase
     {
         // Act
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
-            .Add(p => p.Size, "large"));
+            .Add(p => p.Size, ComponentSize.Large));
 
         // Assert
         AngleSharp.Dom.IElement input = cut.Find("input");
@@ -127,7 +127,7 @@ public class InputTests : TestBase
     {
         // Act
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
-            .Add(p => p.Variant, "filled"));
+            .Add(p => p.Variant, InputVariant.Filled));
 
         // Assert
         AngleSharp.Dom.IElement input = cut.Find("input");
@@ -396,9 +396,8 @@ public class InputTests : TestBase
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
             .Add(p => p.Label, string.Empty));
 
-        // Assert
-        AngleSharp.Dom.IElement label = cut.Find(".vibe-input-label");
-        label.TextContent.ShouldBe(string.Empty);
+        // Assert - Label element should not be rendered when Label is empty
+        cut.FindAll(".vibe-input-label").ShouldBeEmpty();
     }
 
     [Fact]
@@ -408,40 +407,40 @@ public class InputTests : TestBase
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
             .Add(p => p.Label, null));
 
-        // Assert
-        AngleSharp.Dom.IElement label = cut.Find(".vibe-input-label");
-        label.TextContent.ShouldBe(string.Empty);
+        // Assert - Label element should not be rendered when Label is null
+        cut.FindAll(".vibe-input-label").ShouldBeEmpty();
     }
 
     // === Size Variants ===
 
     [Theory]
-    [InlineData("small")]
-    [InlineData("medium")]
-    [InlineData("large")]
-    public void Input_WithSize_AppliesCorrectClass(string size)
+    [InlineData(ComponentSize.Small, "small")]
+    [InlineData(ComponentSize.Medium, "medium")]
+    [InlineData(ComponentSize.Large, "large")]
+    public void Input_WithSize_AppliesCorrectClass(ComponentSize size, string expectedClass)
     {
         // Act
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
             .Add(p => p.Size, size));
 
         // Assert
-        cut.Find("input").ClassList.ShouldContain($"vibe-input-{size}");
+        cut.Find("input").ClassList.ShouldContain($"vibe-input-{expectedClass}");
     }
 
     // === Variant Styles ===
 
     [Theory]
-    [InlineData("outline")]
-    [InlineData("filled")]
-    public void Input_WithVariant_AppliesCorrectClass(string variant)
+    [InlineData(InputVariant.Outlined, "outlined")]
+    [InlineData(InputVariant.Filled, "filled")]
+    [InlineData(InputVariant.Text, "text")]
+    public void Input_WithVariant_AppliesCorrectClass(InputVariant variant, string expectedClass)
     {
         // Act
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
             .Add(p => p.Variant, variant));
 
         // Assert
-        cut.Find("input").ClassList.ShouldContain($"vibe-input-{variant}");
+        cut.Find("input").ClassList.ShouldContain($"vibe-input-{expectedClass}");
     }
 
     // === Disabled and ReadOnly Combination ===

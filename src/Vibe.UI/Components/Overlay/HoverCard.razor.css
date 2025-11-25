@@ -1,0 +1,235 @@
+/* ========================================
+   HOVERCARD COMPONENT SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   HoverCard Container (Wrapper)
+   ---------------------------------------- */
+
+.vibe-hovercard {
+    position: relative;
+    display: inline-flex;
+}
+
+/* ----------------------------------------
+   Trigger Element
+   ---------------------------------------- */
+
+.hovercard-trigger {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* ----------------------------------------
+   HoverCard Content (Popup Card)
+   ---------------------------------------- */
+
+.hovercard-content {
+    position: absolute;
+    z-index: 50;
+    width: 320px;
+    padding: 1rem;
+    border-radius: var(--vibe-radius-md, 0.5rem);
+    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    color: var(--vibe-popover-foreground, var(--vibe-foreground));
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--vibe-border);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out,
+                visibility 0.2s ease-in-out,
+                transform 0.2s ease-in-out;
+    transform: scale(0.95);
+    pointer-events: none;
+}
+
+/* Visible State - Applied when IsOpen is true */
+.hovercard-content[style*="opacity: 1"] {
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* ----------------------------------------
+   Position Variants - Top
+   ---------------------------------------- */
+
+.hovercard-top {
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+}
+
+.hovercard-top[style*="opacity: 1"] {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Arrow for Top */
+.hovercard-top::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    border: 1px solid var(--vibe-border);
+    border-top: none;
+    border-left: none;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+/* ----------------------------------------
+   Position Variants - Bottom
+   ---------------------------------------- */
+
+.hovercard-bottom {
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+}
+
+.hovercard-bottom[style*="opacity: 1"] {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Arrow for Bottom */
+.hovercard-bottom::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    border: 1px solid var(--vibe-border);
+    border-bottom: none;
+    border-right: none;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+/* ----------------------------------------
+   Position Variants - Left
+   ---------------------------------------- */
+
+.hovercard-left {
+    right: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%) scale(0.95);
+}
+
+.hovercard-left[style*="opacity: 1"] {
+    transform: translateY(-50%) scale(1);
+}
+
+/* Arrow for Left */
+.hovercard-left::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    border: 1px solid var(--vibe-border);
+    border-left: none;
+    border-bottom: none;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* ----------------------------------------
+   Position Variants - Right
+   ---------------------------------------- */
+
+.hovercard-right {
+    left: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%) scale(0.95);
+}
+
+.hovercard-right[style*="opacity: 1"] {
+    transform: translateY(-50%) scale(1);
+}
+
+/* Arrow for Right */
+.hovercard-right::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    border: 1px solid var(--vibe-border);
+    border-right: none;
+    border-top: none;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* ----------------------------------------
+   Animation Keyframes
+   ---------------------------------------- */
+
+@keyframes hoverCardFadeIn {
+    from {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+}
+
+@keyframes hoverCardFadeOut {
+    from {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.95);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 768px) {
+    .hovercard-content {
+        width: 280px;
+        max-width: calc(100vw - 2rem);
+        padding: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hovercard-content {
+        width: 240px;
+        font-size: 0.875rem;
+    }
+}
+
+/* ----------------------------------------
+   Dark Mode Support
+   ---------------------------------------- */
+
+/* Dark mode is handled through CSS variables:
+   - --vibe-popover-bg
+   - --vibe-popover-foreground
+   - --vibe-border
+   - --vibe-background
+   - --vibe-foreground
+
+   These variables should be defined in your theme configuration
+   and will automatically apply to the component.
+*/

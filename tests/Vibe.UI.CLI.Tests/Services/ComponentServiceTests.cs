@@ -24,7 +24,7 @@ public class ComponentServiceTests : IDisposable
 
         // Assert
         components.Should().NotBeEmpty();
-        components.Count.Should().BeGreaterThan(50); // We have 92 components
+        components.Count.Should().BeGreaterThan(100); // We have 109 components
     }
 
     [Fact]
@@ -39,8 +39,8 @@ public class ComponentServiceTests : IDisposable
     }
 
     [Theory]
-    [InlineData("button", "Button", "Input")]
-    [InlineData("checkbox", "Checkbox", "Input")]
+    [InlineData("button", "Button", "Inputs")]
+    [InlineData("checkbox", "Checkbox", "Inputs")]
     [InlineData("card", "Card", "Layout")]
     [InlineData("dialog", "Dialog", "Overlay")]
     [InlineData("tabs", "Tabs", "Navigation")]
@@ -48,6 +48,8 @@ public class ComponentServiceTests : IDisposable
     [InlineData("accordion", "Accordion", "Disclosure")]
     [InlineData("calendar", "Calendar", "DateTime")]
     [InlineData("treeview", "TreeView", "Advanced")]
+    [InlineData("command", "Command", "Utility")]
+    [InlineData("themetoggle", "ThemeToggle", "Theme")]
     public void GetComponent_ReturnsCorrectComponent(string name, string expectedName, string expectedCategory)
     {
         // Act
@@ -91,6 +93,9 @@ public class ComponentServiceTests : IDisposable
     [InlineData("breadcrumb", "BreadcrumbItem")]
     [InlineData("accordion", "AccordionItem")]
     [InlineData("carousel", "CarouselItem")]
+    [InlineData("menu", "MenuItem")]
+    [InlineData("grid", "GridItem")]
+    [InlineData("contextmenu", "ContextMenuItem")]
     public void GetComponent_HasCorrectDependencies(string componentName, string expectedDependency)
     {
         // Act
@@ -201,8 +206,8 @@ public class ComponentServiceTests : IDisposable
         var components = _componentService.GetAvailableComponents();
         var categories = components.Select(c => c.Category).Distinct().ToList();
 
-        // Assert
-        categories.Should().Contain("Input");
+        // Assert - 12 categories total
+        categories.Should().Contain("Inputs");
         categories.Should().Contain("Form");
         categories.Should().Contain("DataDisplay");
         categories.Should().Contain("Layout");
@@ -213,6 +218,7 @@ public class ComponentServiceTests : IDisposable
         categories.Should().Contain("DateTime");
         categories.Should().Contain("Utility");
         categories.Should().Contain("Advanced");
+        categories.Should().Contain("Theme");
     }
 
     public void Dispose()

@@ -1,0 +1,19 @@
+/* ========================================
+   BREADCRUMB COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* Container for the breadcrumb navigation */
+.vibe-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Ordered list containing breadcrumb items */
+.vibe-breadcrumb .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}

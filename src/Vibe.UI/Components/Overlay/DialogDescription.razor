@@ -1,0 +1,19 @@
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
+
+<p class="@CombinedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</p>
+
+@code {
+    /// <summary>
+    /// Gets or sets the description text or content for the dialog.
+    /// Provides additional context or instructions to the user.
+    /// Rendered as a paragraph element.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc/>
+    protected override string ComponentClass => "vibe-dialog-description";
+}

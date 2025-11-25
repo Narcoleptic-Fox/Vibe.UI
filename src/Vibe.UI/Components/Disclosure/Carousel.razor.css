@@ -1,0 +1,199 @@
+/* ========================================
+   CAROUSEL COMPONENT SCOPED STYLES
+   ======================================== */
+
+/* Main carousel container */
+::deep .vibe-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Carousel viewport - contains the visible area */
+.carousel-viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
+}
+
+.carousel-viewport:active {
+    cursor: grabbing;
+}
+
+/* Container that holds all slides */
+.carousel-container {
+    display: flex;
+    height: 100%;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+/* Vertical carousel layout */
+.carousel-container[style*="flex-direction: column"] {
+    flex-direction: column;
+}
+
+/* Navigation buttons container */
+.carousel-navigation {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Navigation button base styles */
+.carousel-button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: var(--vibe-card, rgba(255, 255, 255, 0.85));
+    color: var(--vibe-foreground, #000);
+    border: 1px solid var(--vibe-border, rgba(0, 0, 0, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    pointer-events: auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.carousel-button:hover:not(:disabled) {
+    background-color: var(--vibe-background, #fff);
+    transform: scale(1.05);
+}
+
+.carousel-button:focus-visible {
+    outline: 2px solid var(--vibe-primary, #000);
+    outline-offset: 2px;
+}
+
+.carousel-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Previous button specific positioning */
+.carousel-prev-button {
+    margin-right: auto;
+}
+
+/* Next button specific positioning */
+.carousel-next-button {
+    margin-left: auto;
+}
+
+/* Navigation button icon */
+.carousel-button-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Indicator dots container */
+.carousel-indicators {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+/* Individual indicator dot */
+.carousel-indicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: var(--vibe-muted, rgba(0, 0, 0, 0.3));
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    opacity: 0.6;
+    outline: none;
+}
+
+.carousel-indicator:hover {
+    opacity: 0.8;
+}
+
+.carousel-indicator:focus-visible {
+    outline: 2px solid var(--vibe-primary, #000);
+    outline-offset: 2px;
+}
+
+.carousel-indicator.active {
+    background-color: var(--vibe-primary, #000);
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* ========================================
+   RESPONSIVE STYLES
+   ======================================== */
+
+/* Small screens - smaller navigation buttons */
+@media (max-width: 640px) {
+    .carousel-button {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .carousel-button-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .carousel-navigation {
+        padding: 0 0.5rem;
+    }
+
+    .carousel-indicators {
+        bottom: 0.5rem;
+        gap: 0.375rem;
+    }
+
+    .carousel-indicator {
+        width: 0.625rem;
+        height: 0.625rem;
+    }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .carousel-container {
+        transition: none;
+    }
+
+    .carousel-button,
+    .carousel-indicator {
+        transition: opacity 0.2s ease;
+    }
+
+    .carousel-indicator.active {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .carousel-button {
+        border-width: 2px;
+    }
+
+    .carousel-indicator {
+        border: 2px solid var(--vibe-foreground, #000);
+    }
+}

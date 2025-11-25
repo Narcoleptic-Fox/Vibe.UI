@@ -1,0 +1,17 @@
+/* Stack Component Styles */
+
+.vibe-stack {
+    display: flex;
+}
+
+.vibe-stack-vertical {
+    flex-direction: column;
+}
+
+.vibe-stack-horizontal {
+    flex-direction: row;
+}
+
+.vibe-stack-wrap {
+    flex-wrap: wrap;
+}

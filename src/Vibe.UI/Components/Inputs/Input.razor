@@ -1,5 +1,6 @@
 @namespace Vibe.UI.Components
 @using Microsoft.AspNetCore.Components.Forms
+@using Vibe.UI.Base
 @inherits VibeComponent
 
 <div class="@GetContainerClass()">
@@ -22,7 +23,7 @@
     </div>
     @if (!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="vibe-input-error-message">@ErrorMessage</div>
+        <div class="vibe-input-error">@ErrorMessage</div>
     }
     @if (!string.IsNullOrEmpty(HelperText))
     {
@@ -43,8 +44,8 @@
     [Parameter] public string TrailingIcon { get; set; } = string.Empty;
     [Parameter] public string ErrorMessage { get; set; } = string.Empty;
     [Parameter] public string HelperText { get; set; } = string.Empty;
-    [Parameter] public string Size { get; set; } = "medium"; // small, medium, large
-    [Parameter] public string Variant { get; set; } = "outlined"; // text, filled, outlined
+    [Parameter] public ComponentSize Size { get; set; } = ComponentSize.Medium;
+    [Parameter] public InputVariant Variant { get; set; } = InputVariant.Outlined;
 
     private bool isFocused = false;
     private bool hasValue => !string.IsNullOrEmpty(Value);
@@ -73,51 +74,35 @@
 
     protected override string ComponentClass => GetContainerClass();
 
-    private string GetContainerClass()
-    {
-        var classes = new List<string> { "vibe-input-container" };
-        if (Disabled) classes.Add("vibe-input-disabled");
-        if (!string.IsNullOrEmpty(ErrorMessage)) classes.Add("vibe-input-has-error");
-        return string.Join(" ", classes);
-    }
+    private string GetContainerClass() => new ClassBuilder()
+        .Add("vibe-input-container")
+        .AddIf("vibe-input-disabled", Disabled)
+        .AddIf("vibe-input-has-error", !string.IsNullOrEmpty(ErrorMessage))
+        .Build();
 
-    private string GetInputWrapperClass()
-    {
-        var classes = new List<string> { "vibe-input-wrapper" };
-        classes.Add($"vibe-input-wrapper-{Variant}");
-        classes.Add($"vibe-input-wrapper-{Size}");
+    private string GetInputWrapperClass() => new ClassBuilder()
+        .Add("vibe-input-wrapper")
+        .AddVariant("vibe-input-wrapper", Variant)
+        .AddVariant("vibe-input-wrapper", Size)
+        .AddIf("vibe-input-focused", isFocused)
+        .AddIf("vibe-input-has-value", hasValue)
+        .AddIf("vibe-input-has-error", !string.IsNullOrEmpty(ErrorMessage))
+        .Build();
 
-        if (isFocused) classes.Add("vibe-input-focused");
-        if (hasValue) classes.Add("vibe-input-has-value");
-        if (!string.IsNullOrEmpty(ErrorMessage)) classes.Add("vibe-input-error");
+    private string GetLabelClass() => new ClassBuilder()
+        .Add("vibe-input-label")
+        .AddVariant("vibe-input-label", Variant)
+        .AddIf("vibe-input-label-floating", isFocused || hasValue)
+        .Build();
 
-        return string.Join(" ", classes);
-    }
-
-    private string GetLabelClass()
-    {
-        var classes = new List<string> { "vibe-input-label" };
-        classes.Add($"vibe-input-label-{Variant}");
-
-        if (isFocused || hasValue) classes.Add("vibe-input-label-floating");
-
-        return string.Join(" ", classes);
-    }
-
-    private string GetInputClass()
-    {
-        var classes = new List<string> { "vibe-input" };
-        classes.Add($"vibe-input-{Size}");
-        classes.Add($"vibe-input-{Variant}");
-
-        if (!string.IsNullOrEmpty(LeadingIcon))
-            classes.Add("vibe-input-with-leading-icon");
-
-        if (!string.IsNullOrEmpty(TrailingIcon))
-            classes.Add("vibe-input-with-trailing-icon");
-
-        return string.Join(" ", classes);
-    }
+    private string GetInputClass() => new ClassBuilder()
+        .Add("vibe-input")
+        .AddVariant("vibe-input", Size)
+        .AddVariant("vibe-input", Variant)
+        .AddIf("vibe-input-with-leading-icon", !string.IsNullOrEmpty(LeadingIcon))
+        .AddIf("vibe-input-with-trailing-icon", !string.IsNullOrEmpty(TrailingIcon))
+        .AddIf("vibe-input-error-state", !string.IsNullOrEmpty(ErrorMessage))
+        .Build();
 
     private string GetPlaceholder()
     {

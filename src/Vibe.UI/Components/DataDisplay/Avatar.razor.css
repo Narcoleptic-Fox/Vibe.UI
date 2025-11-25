@@ -1,0 +1,283 @@
+/* ========================================
+   AVATAR COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE AVATAR CONTAINER
+   ---------------------------------------- */
+
+.vibe-avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--vibe-secondary);
+    color: var(--vibe-secondary-foreground);
+    user-select: none;
+    flex-shrink: 0;
+}
+
+/* Circle Shape (Default) */
+.vibe-avatar {
+    border-radius: 9999px;
+}
+
+/* Square Shape */
+.vibe-avatar.square {
+    border-radius: 0.375rem;
+}
+
+/* ----------------------------------------
+   AVATAR IMAGE
+   ---------------------------------------- */
+
+.vibe-avatar .avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ----------------------------------------
+   AVATAR FALLBACK (INITIALS)
+   ---------------------------------------- */
+
+.vibe-avatar .avatar-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    line-height: 1;
+}
+
+/* ----------------------------------------
+   AVATAR ICON FALLBACK
+   ---------------------------------------- */
+
+.vibe-avatar .avatar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    color: var(--vibe-muted-foreground);
+}
+
+/* ----------------------------------------
+   AVATAR FALLBACK (EMPTY STATE)
+   ---------------------------------------- */
+
+.vibe-avatar .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    background-color: var(--vibe-muted);
+}
+
+/* ----------------------------------------
+   SIZE VARIANTS
+   ---------------------------------------- */
+
+/* Small Size */
+.vibe-avatar-sm {
+    width: 2rem;
+    height: 2rem;
+}
+
+.vibe-avatar-sm .avatar-initials {
+    font-size: 0.625rem;
+}
+
+.vibe-avatar-sm .avatar-icon {
+    font-size: 0.75rem;
+}
+
+/* Medium Size (Default) */
+.vibe-avatar-md {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.vibe-avatar-md .avatar-initials {
+    font-size: 0.875rem;
+}
+
+.vibe-avatar-md .avatar-icon {
+    font-size: 1rem;
+}
+
+/* Large Size */
+.vibe-avatar-lg {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.vibe-avatar-lg .avatar-initials {
+    font-size: 1.125rem;
+}
+
+.vibe-avatar-lg .avatar-icon {
+    font-size: 1.5rem;
+}
+
+/* Extra Large Size */
+.vibe-avatar-xl {
+    width: 5rem;
+    height: 5rem;
+}
+
+.vibe-avatar-xl .avatar-initials {
+    font-size: 1.5rem;
+}
+
+.vibe-avatar-xl .avatar-icon {
+    font-size: 2rem;
+}
+
+/* ----------------------------------------
+   STATUS INDICATOR
+   ---------------------------------------- */
+
+.vibe-avatar .avatar-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 25%;
+    min-width: 0.5rem;
+    min-height: 0.5rem;
+    border-radius: 9999px;
+    border: 2px solid var(--vibe-background);
+    box-shadow: 0 0 0 1px var(--vibe-background);
+}
+
+/* Status: Online */
+.vibe-avatar .avatar-status.online {
+    background-color: var(--vibe-success, #10b981);
+}
+
+/* Status: Offline */
+.vibe-avatar .avatar-status.offline {
+    background-color: var(--vibe-muted);
+}
+
+/* Status: Busy */
+.vibe-avatar .avatar-status.busy {
+    background-color: var(--vibe-destructive);
+}
+
+/* Status: Away */
+.vibe-avatar .avatar-status.away {
+    background-color: var(--vibe-warning, #f59e0b);
+}
+
+/* ----------------------------------------
+   AVATAR GROUP / STACK
+   ---------------------------------------- */
+
+.vibe-avatar-group {
+    display: inline-flex;
+    align-items: center;
+}
+
+.vibe-avatar-group .vibe-avatar {
+    border: 2px solid var(--vibe-background);
+    margin-left: -0.5rem;
+    transition: transform 0.2s ease, z-index 0.2s ease;
+}
+
+.vibe-avatar-group .vibe-avatar:first-child {
+    margin-left: 0;
+}
+
+.vibe-avatar-group .vibe-avatar:hover {
+    transform: translateY(-0.125rem);
+    z-index: 10;
+}
+
+/* Compact Group Spacing */
+.vibe-avatar-group.compact .vibe-avatar {
+    margin-left: -0.75rem;
+}
+
+.vibe-avatar-group.compact .vibe-avatar:first-child {
+    margin-left: 0;
+}
+
+/* ----------------------------------------
+   DELAY LOAD ANIMATION
+   ---------------------------------------- */
+
+.vibe-avatar.delayload {
+    animation: avatar-fade-in 0.3s ease;
+}
+
+@keyframes avatar-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ----------------------------------------
+   LOADING STATE
+   ---------------------------------------- */
+
+.vibe-avatar.loading {
+    animation: avatar-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes avatar-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ----------------------------------------
+   HOVER EFFECTS
+   ---------------------------------------- */
+
+.vibe-avatar.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vibe-avatar.clickable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.vibe-avatar.clickable:active {
+    transform: scale(0.98);
+}
+
+/* ----------------------------------------
+   DARK MODE SUPPORT
+   ---------------------------------------- */
+
+/* Dark mode styles are handled through CSS variables:
+   - var(--vibe-background)
+   - var(--vibe-foreground)
+   - var(--vibe-secondary)
+   - var(--vibe-secondary-foreground)
+   - var(--vibe-muted)
+   - var(--vibe-muted-foreground)
+   - var(--vibe-border)
+
+   These variables should be defined in the root theme
+   and updated for dark mode automatically.
+*/

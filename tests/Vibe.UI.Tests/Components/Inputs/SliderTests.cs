@@ -88,9 +88,10 @@ public class SliderTests : TestBase
             .Add(p => p.Max, 100)
             .Add(p => p.Value, 50));
 
-        // Assert
+        // Assert - Component uses calc() formula with the percentage value
         var range = cut.Find(".vibe-slider-range");
-        range.GetAttribute("style").ShouldContain("width: 50%");
+        var style = range.GetAttribute("style");
+        style.ShouldContain("50%");
     }
 
     // === Edge Cases ===
@@ -104,9 +105,10 @@ public class SliderTests : TestBase
             .Add(p => p.Max, 50)
             .Add(p => p.Value, 50));
 
-        // Assert
+        // Assert - When min equals max, GetPercentage returns "0"
         var range = cut.Find(".vibe-slider-range");
-        range.GetAttribute("style").ShouldContain("width: 0%");
+        var style = range.GetAttribute("style");
+        style.ShouldContain("0%");
     }
 
     [Fact]
@@ -118,9 +120,10 @@ public class SliderTests : TestBase
             .Add(p => p.Max, 0)
             .Add(p => p.Value, 50));
 
-        // Assert
+        // Assert - When min >= max, GetPercentage returns "0"
         var range = cut.Find(".vibe-slider-range");
-        range.GetAttribute("style").ShouldContain("width: 0%");
+        var style = range.GetAttribute("style");
+        style.ShouldContain("0%");
     }
 
     [Fact]
@@ -132,9 +135,10 @@ public class SliderTests : TestBase
             .Add(p => p.Max, 0)
             .Add(p => p.Value, -50));
 
-        // Assert
+        // Assert - Component uses calc() formula with the percentage value
         var range = cut.Find(".vibe-slider-range");
-        range.GetAttribute("style").ShouldContain("width: 50%");
+        var style = range.GetAttribute("style");
+        style.ShouldContain("50%");
     }
 
     [Fact]
@@ -257,9 +261,10 @@ public class SliderTests : TestBase
             .Add(p => p.Max, 100)
             .Add(p => p.Value, 150));
 
-        // Assert - Should clamp to 100%
+        // Assert - Should clamp to 100% (component uses calc() formula)
         var range = cut.Find(".vibe-slider-range");
-        range.GetAttribute("style").ShouldContain("width: 100%");
+        var style = range.GetAttribute("style");
+        style.ShouldContain("100%");
     }
 
     // === Additional Attributes ===

@@ -72,13 +72,6 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             );
         }
 
-        // Ask for global CSS file location
-        var cssFile = "wwwroot/css/app.css";
-        if (!settings.SkipPrompts)
-        {
-            cssFile = AnsiConsole.Ask("Where is your [green]global CSS file[/]?", "wwwroot/css/app.css");
-        }
-
         // Create configuration
         var config = new Models.VibeConfig
         {
@@ -96,7 +89,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
                 ctx.Status("Copying infrastructure files...");
 
-                // Copy infrastructure files
+                // Copy infrastructure files (includes CSS foundation files)
                 await CopyInfrastructureAsync(settings.ProjectPath, settings.Minimal, settings.NoTheme, settings.WithCharts);
 
                 ctx.Status("Creating component directory...");
@@ -104,19 +97,21 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                 // Create components directory
                 Directory.CreateDirectory(Path.Combine(settings.ProjectPath, componentDir));
 
-                ctx.Status("Generating CSS theme variables...");
+                ctx.Status("Applying color scheme to CSS...");
 
-                // Generate and append CSS variables
-                await GenerateThemeCssAsync(settings.ProjectPath, cssFile, baseColor);
+                // Update vibe-base.css with selected color scheme
+                await ApplyColorSchemeAsync(settings.ProjectPath, baseColor);
             });
 
         AnsiConsole.MarkupLine("\n[green]✓[/] Vibe.UI initialized successfully!");
         AnsiConsole.MarkupLine($"[grey]Infrastructure copied to Vibe/ folder[/]");
-        AnsiConsole.MarkupLine($"[grey]Theme variables added to {cssFile}[/]");
+        AnsiConsole.MarkupLine($"[grey]CSS foundation files copied to wwwroot/css/[/]");
+        AnsiConsole.MarkupLine($"[grey]Color scheme: {baseColor}[/]");
         AnsiConsole.MarkupLine($"\n[blue]Next steps:[/]");
-        AnsiConsole.MarkupLine($"  1. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
-        AnsiConsole.MarkupLine($"  2. Run [yellow]vibe add button[/] to add your first component");
-        AnsiConsole.MarkupLine($"  3. Run [yellow]vibe list[/] to see all available components");
+        AnsiConsole.MarkupLine($"  1. Add [yellow]@import 'css/vibe-base.css';[/] to your app.css or index.html");
+        AnsiConsole.MarkupLine($"  2. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
+        AnsiConsole.MarkupLine($"  3. Run [yellow]vibe add button[/] to add your first component");
+        AnsiConsole.MarkupLine($"  4. Run [yellow]vibe list[/] to see all available components");
 
         return 0;
     }
@@ -134,7 +129,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
         var targetVibeDir = Path.Combine(projectPath, "Vibe");
 
-        // Copy Base/ folder (always required)
+        // Copy Base/ folder (always required - includes ClassBuilder)
         await CopyDirectoryAsync(
             Path.Combine(infrastructurePath, "Base"),
             Path.Combine(targetVibeDir, "Base"));
@@ -143,6 +138,11 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         await CopyDirectoryAsync(
             Path.Combine(infrastructurePath, "Services"),
             Path.Combine(targetVibeDir, "Services"));
+
+        // Copy Enums/ folder (always required)
+        await CopyDirectoryAsync(
+            Path.Combine(infrastructurePath, "Enums"),
+            Path.Combine(targetVibeDir, "Enums"));
 
         // Copy Themes/ folder (unless --no-theme)
         if (!noTheme)
@@ -168,14 +168,38 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             await File.WriteAllTextAsync(importsTarget, await File.ReadAllTextAsync(importsSource));
         }
 
-        // Copy JavaScript files if needed
+        // Copy CSS foundation files to wwwroot/css/
+        var cssTemplatePath = Path.Combine(templatePath, "wwwroot", "css");
+        var cssTargetPath = Path.Combine(projectPath, "wwwroot", "css");
+        Directory.CreateDirectory(cssTargetPath);
+
+        var cssFiles = new[] { "vibe-base.css", "vibe-utilities.css", "vibe-all.css" };
+        foreach (var cssFile in cssFiles)
+        {
+            var cssSource = Path.Combine(cssTemplatePath, cssFile);
+            var cssTarget = Path.Combine(cssTargetPath, cssFile);
+            if (File.Exists(cssSource))
+            {
+                await File.WriteAllTextAsync(cssTarget, await File.ReadAllTextAsync(cssSource));
+            }
+        }
+
+        // Copy JavaScript files
+        var jsTemplatePath = Path.Combine(templatePath, "wwwroot", "js");
+        var jsTargetPath = Path.Combine(projectPath, "wwwroot", "js");
+        Directory.CreateDirectory(jsTargetPath);
+
+        // Always copy themeInterop.js (needed for theme toggling)
+        var themeJsSource = Path.Combine(jsTemplatePath, "themeInterop.js");
+        var themeJsTarget = Path.Combine(jsTargetPath, "themeInterop.js");
+        if (File.Exists(themeJsSource))
+        {
+            await File.WriteAllTextAsync(themeJsTarget, await File.ReadAllTextAsync(themeJsSource));
+        }
+
+        // Copy vibe-chart.js if charts are requested
         if (withCharts)
         {
-            var jsTemplatePath = Path.Combine(templatePath, "wwwroot", "js");
-            var jsTargetPath = Path.Combine(projectPath, "wwwroot", "js");
-            Directory.CreateDirectory(jsTargetPath);
-
-            // Copy vibe-chart.js
             var chartSource = Path.Combine(jsTemplatePath, "vibe-chart.js");
             var chartTarget = Path.Combine(jsTargetPath, "vibe-chart.js");
             if (File.Exists(chartSource))
@@ -242,46 +266,48 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             $"Searched locations: {string.Join(", ", possiblePaths)}");
     }
 
-    private async Task GenerateThemeCssAsync(string projectPath, string cssFile, string baseColor)
+    /// <summary>
+    /// Applies the selected color scheme by appending color-specific CSS variables
+    /// to the end of vibe-base.css. This allows the color scheme to override defaults.
+    /// </summary>
+    private async Task ApplyColorSchemeAsync(string projectPath, string baseColor)
     {
-        var cssFilePath = Path.Combine(projectPath, cssFile);
-        var cssDirectory = Path.GetDirectoryName(cssFilePath);
+        var vibeBaseCssPath = Path.Combine(projectPath, "wwwroot", "css", "vibe-base.css");
 
-        if (!string.IsNullOrEmpty(cssDirectory) && !Directory.Exists(cssDirectory))
+        if (!File.Exists(vibeBaseCssPath))
         {
-            Directory.CreateDirectory(cssDirectory);
+            // If vibe-base.css doesn't exist, nothing to modify
+            return;
         }
 
-        var themeCss = GetThemeCssForColor(baseColor);
-
-        // Check if file exists and if it already has vibe theme variables
-        if (File.Exists(cssFilePath))
+        // Slate is the default, no need to append overrides
+        if (baseColor == "Slate")
         {
-            var existingContent = await File.ReadAllTextAsync(cssFilePath);
-            if (existingContent.Contains("@layer vibe"))
-            {
-                // Already has vibe variables, skip
-                return;
-            }
+            return;
+        }
 
-            // Append to existing file
-            await File.AppendAllTextAsync(cssFilePath, $"\n\n{themeCss}");
-        }
-        else
+        var colorOverrides = GetColorSchemeOverrides(baseColor);
+
+        // Append color scheme overrides to vibe-base.css
+        var existingContent = await File.ReadAllTextAsync(vibeBaseCssPath);
+
+        // Check if overrides are already present
+        if (existingContent.Contains($"/* Color scheme: {baseColor} */"))
         {
-            // Create new file
-            await File.WriteAllTextAsync(cssFilePath, themeCss);
+            return;
         }
+
+        await File.AppendAllTextAsync(vibeBaseCssPath, $"\n\n{colorOverrides}");
     }
 
-    private string GetThemeCssForColor(string baseColor)
+    /// <summary>
+    /// Gets color scheme override CSS for the selected base color.
+    /// These variables override the defaults in vibe-base.css.
+    /// </summary>
+    private string GetColorSchemeOverrides(string baseColor)
     {
         var (lightColors, darkColors) = baseColor switch
         {
-            "Slate" => (
-                light: ("hsl(0 0% 100%)", "hsl(222.2 84% 4.9%)", "hsl(222.2 47.4% 11.2%)", "hsl(210 40% 96.1%)", "hsl(214.3 31.8% 91.4%)"),
-                dark: ("hsl(222.2 84% 4.9%)", "hsl(210 40% 98%)", "hsl(217.2 32.6% 17.5%)", "hsl(217.2 32.6% 17.5%)", "hsl(215 20.2% 65.1%)")
-            ),
             "Gray" => (
                 light: ("hsl(0 0% 100%)", "hsl(0 0% 3.9%)", "hsl(0 0% 14.9%)", "hsl(0 0% 96.1%)", "hsl(0 0% 89.8%)"),
                 dark: ("hsl(0 0% 3.9%)", "hsl(0 0% 98%)", "hsl(0 0% 14.9%)", "hsl(0 0% 14.9%)", "hsl(0 0% 63.9%)")
@@ -309,56 +335,48 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         };
 
         return $@"/* ============================================
-   VIBE.UI THEME VARIABLES
-   Base color: {baseColor}
+   Color scheme: {baseColor}
    Generated by Vibe.UI CLI
    ============================================ */
 
-@layer vibe {{
-  :root {{
-    --vibe-background: {lightColors.Item1};
-    --vibe-foreground: {lightColors.Item2};
-    --vibe-card: {lightColors.Item1};
-    --vibe-card-foreground: {lightColors.Item2};
-    --vibe-popover: {lightColors.Item1};
-    --vibe-popover-foreground: {lightColors.Item2};
-    --vibe-primary: {lightColors.Item3};
-    --vibe-primary-foreground: hsl(0 0% 100%);
-    --vibe-secondary: {lightColors.Item4};
-    --vibe-secondary-foreground: {lightColors.Item2};
-    --vibe-muted: {lightColors.Item5};
-    --vibe-muted-foreground: hsl(215.4 16.3% 46.9%);
-    --vibe-accent: {lightColors.Item4};
-    --vibe-accent-foreground: {lightColors.Item2};
-    --vibe-destructive: hsl(0 84.2% 60.2%);
-    --vibe-destructive-foreground: hsl(0 0% 100%);
-    --vibe-border: hsl(214.3 31.8% 91.4%);
-    --vibe-input: hsl(214.3 31.8% 91.4%);
-    --vibe-ring: {lightColors.Item3};
-    --vibe-radius: 0.5rem;
-  }}
+:root {{
+  --vibe-background: {lightColors.Item1};
+  --vibe-foreground: {lightColors.Item2};
+  --vibe-card: {lightColors.Item1};
+  --vibe-card-foreground: {lightColors.Item2};
+  --vibe-popover: {lightColors.Item1};
+  --vibe-popover-foreground: {lightColors.Item2};
+  --vibe-primary: {lightColors.Item3};
+  --vibe-primary-foreground: hsl(0 0% 100%);
+  --vibe-secondary: {lightColors.Item4};
+  --vibe-secondary-foreground: {lightColors.Item2};
+  --vibe-muted: {lightColors.Item5};
+  --vibe-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --vibe-accent: {lightColors.Item4};
+  --vibe-accent-foreground: {lightColors.Item2};
+  --vibe-border: {lightColors.Item5};
+  --vibe-input: {lightColors.Item5};
+  --vibe-ring: {lightColors.Item3};
+}}
 
-  .dark {{
-    --vibe-background: {darkColors.Item1};
-    --vibe-foreground: {darkColors.Item2};
-    --vibe-card: {darkColors.Item3};
-    --vibe-card-foreground: {darkColors.Item2};
-    --vibe-popover: {darkColors.Item3};
-    --vibe-popover-foreground: {darkColors.Item2};
-    --vibe-primary: {darkColors.Item3};
-    --vibe-primary-foreground: {darkColors.Item2};
-    --vibe-secondary: {darkColors.Item4};
-    --vibe-secondary-foreground: {darkColors.Item2};
-    --vibe-muted: {darkColors.Item4};
-    --vibe-muted-foreground: {darkColors.Item5};
-    --vibe-accent: {darkColors.Item4};
-    --vibe-accent-foreground: {darkColors.Item2};
-    --vibe-destructive: hsl(0 62.8% 30.6%);
-    --vibe-destructive-foreground: {darkColors.Item2};
-    --vibe-border: {darkColors.Item4};
-    --vibe-input: {darkColors.Item4};
-    --vibe-ring: {darkColors.Item3};
-  }}
+.dark {{
+  --vibe-background: {darkColors.Item1};
+  --vibe-foreground: {darkColors.Item2};
+  --vibe-card: {darkColors.Item3};
+  --vibe-card-foreground: {darkColors.Item2};
+  --vibe-popover: {darkColors.Item3};
+  --vibe-popover-foreground: {darkColors.Item2};
+  --vibe-primary: {darkColors.Item3};
+  --vibe-primary-foreground: {darkColors.Item2};
+  --vibe-secondary: {darkColors.Item4};
+  --vibe-secondary-foreground: {darkColors.Item2};
+  --vibe-muted: {darkColors.Item4};
+  --vibe-muted-foreground: {darkColors.Item5};
+  --vibe-accent: {darkColors.Item4};
+  --vibe-accent-foreground: {darkColors.Item2};
+  --vibe-border: {darkColors.Item4};
+  --vibe-input: {darkColors.Item4};
+  --vibe-ring: {darkColors.Item3};
 }}";
     }
 }

@@ -1,0 +1,18 @@
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
+
+<div class="@CombinedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content for the dialog footer section.
+    /// Typically contains action buttons like Cancel, Submit, or DialogClose components.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc/>
+    protected override string ComponentClass => "vibe-dialog-footer";
+}

@@ -8,12 +8,44 @@ Modern Blazor component library with 93+ components.
 dotnet add package Vibe.UI
 ```
 
-## Quick Start
+## Setup
+
+### 1. Add CSS to your app
+
+Add the following CSS references to your `_Host.cshtml`, `_Layout.cshtml`, or `index.html`:
+
+```html
+<head>
+    <!-- Vibe.UI Base Styles (Required) -->
+    <link href="_content/Vibe.UI/css/vibe-base.css" rel="stylesheet" />
+
+    <!-- Vibe.UI Component Styles (Required) -->
+    <link href="_content/Vibe.UI/Vibe.UI.styles.css" rel="stylesheet" />
+</head>
+```
+
+Optional: Include utility classes for rapid styling:
+
+```html
+<head>
+    <!-- All styles (base + utilities) -->
+    <link href="_content/Vibe.UI/css/vibe-all.css" rel="stylesheet" />
+
+    <!-- Component styles (still required) -->
+    <link href="_content/Vibe.UI/Vibe.UI.styles.css" rel="stylesheet" />
+</head>
+```
+
+See the [CSS Setup Guide](https://github.com/Dieshen/Vibe.UI/blob/main/docs/CSS-SETUP.md) for detailed configuration options.
+
+### 2. Register services
 
 ```csharp
 // Program.cs
 builder.Services.AddVibeUI();
 ```
+
+### 3. Use components
 
 ```razor
 @using Vibe.UI.Components

@@ -3,7 +3,14 @@
     "allow": [
       "Bash(\"D:\\Projects\\VisualStudios\\Vibe.UI\\samples\\Vibe.UI.Docs\\Pages\\Components\\DividerView.razor\")",
       "mcp__puppeteer__puppeteer_navigate",
-      "mcp__puppeteer__puppeteer_screenshot"
+      "mcp__puppeteer__puppeteer_screenshot",
+      "Bash(tree:*)",
+      "Bash(for dir in */)",
+      "Bash(done)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet run:*)",
+      "Bash(dotnet clean:*)"
     ],
     "deny": [],
     "ask": []

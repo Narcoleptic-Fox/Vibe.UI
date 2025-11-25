@@ -1,0 +1,12 @@
+/* ========================================
+   ACCORDION CONTAINER
+   ======================================== */
+
+.vibe-accordion {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--vibe-radius);
+    background-color: var(--vibe-background);
+    font-family: var(--vibe-font);
+}

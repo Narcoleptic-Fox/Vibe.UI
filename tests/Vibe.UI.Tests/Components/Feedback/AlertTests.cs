@@ -20,7 +20,7 @@ public class AlertTests : TestBase
     {
         // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Variant, Alert.AlertVariant.Success)
+            .Add(p => p.Variant, AlertVariant.Success)
             .AddChildContent("Success"));
 
         // Assert
@@ -59,7 +59,7 @@ public class AlertTests : TestBase
     {
         // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Variant, Alert.AlertVariant.Default)
+            .Add(p => p.Variant, AlertVariant.Default)
             .AddChildContent("Default alert"));
 
         // Assert
@@ -71,7 +71,7 @@ public class AlertTests : TestBase
     {
         // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Variant, Alert.AlertVariant.Success)
+            .Add(p => p.Variant, AlertVariant.Success)
             .AddChildContent("Success alert"));
 
         // Assert
@@ -83,7 +83,7 @@ public class AlertTests : TestBase
     {
         // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Variant, Alert.AlertVariant.Info)
+            .Add(p => p.Variant, AlertVariant.Info)
             .AddChildContent("Info alert"));
 
         // Assert
@@ -95,7 +95,7 @@ public class AlertTests : TestBase
     {
         // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Variant, Alert.AlertVariant.Warning)
+            .Add(p => p.Variant, AlertVariant.Warning)
             .AddChildContent("Warning alert"));
 
         // Assert
@@ -107,7 +107,7 @@ public class AlertTests : TestBase
     {
         // Act
         var cut = RenderComponent<Alert>(parameters => parameters
-            .Add(p => p.Variant, Alert.AlertVariant.Destructive)
+            .Add(p => p.Variant, AlertVariant.Destructive)
             .AddChildContent("Destructive alert"));
 
         // Assert

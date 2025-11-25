@@ -1,0 +1,47 @@
+/* ========================================
+   BREADCRUMB ITEM COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* Individual breadcrumb item container */
+.vibe-breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+/* Breadcrumb link styling */
+.vibe-breadcrumb-item .breadcrumb-link {
+    color: var(--vibe-muted-foreground);
+    text-decoration: none;
+    outline: none;
+    transition: color 0.2s ease-in-out;
+}
+
+/* Link hover state for better interactivity */
+.vibe-breadcrumb-item .breadcrumb-link:hover {
+    color: var(--vibe-foreground);
+    text-decoration: underline;
+}
+
+/* Link focus state for keyboard navigation accessibility */
+.vibe-breadcrumb-item .breadcrumb-link:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Separator between breadcrumb items */
+.vibe-breadcrumb-item .breadcrumb-separator {
+    display: inline-flex;
+    align-items: center;
+    color: var(--vibe-muted-foreground);
+    margin: 0 0.5rem;
+    user-select: none;
+}
+
+/* Last/current breadcrumb item (no link, shows current page) */
+.vibe-breadcrumb-item.breadcrumb-last .breadcrumb-link {
+    color: var(--vibe-foreground);
+    font-weight: 500;
+    pointer-events: none;
+}

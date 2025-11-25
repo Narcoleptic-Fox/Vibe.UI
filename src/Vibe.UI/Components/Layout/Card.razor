@@ -1,5 +1,6 @@
 @namespace Vibe.UI.Components
 @inherits Vibe.UI.Base.VibeComponent
+@using Vibe.UI.Enums
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     @if (Header != null || CardTitle != null || CardDescription != null)
@@ -67,6 +68,23 @@
     [Parameter]
     public RenderFragment CardDescription { get; set; }
 
+    /// <summary>
+    /// Gets or sets the card variant style.
+    /// Determines the visual appearance of the card (default, elevated, outlined, or interactive).
+    /// </summary>
+    [Parameter]
+    public CardVariant Variant { get; set; } = CardVariant.Default;
+
+    /// <summary>
+    /// Gets or sets whether the card should use compact spacing
+    /// </summary>
+    [Parameter]
+    public bool Compact { get; set; }
+
     /// <inheritdoc/>
-    protected override string ComponentClass => "vibe-card";
+    protected override string ComponentClass => new ClassBuilder()
+        .Add("vibe-card")
+        .AddVariant("vibe-card", Variant)
+        .AddIf("vibe-card-compact", Compact)
+        .Build();
 }

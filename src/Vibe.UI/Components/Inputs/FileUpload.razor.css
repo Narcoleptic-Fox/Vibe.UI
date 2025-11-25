@@ -1,0 +1,418 @@
+/* ========================================
+   FILEUPLOAD COMPONENT
+   ======================================== */
+
+/* ==================== Container ==================== */
+.vibe-file-upload {
+    border: 2px dashed var(--vibe-border);
+    border-radius: var(--vibe-radius, 0.5rem);
+    background-color: var(--vibe-background);
+    transition: all 0.2s ease;
+}
+
+/* ==================== Drag and Drop States ==================== */
+.vibe-file-upload.file-upload-dragging {
+    border-color: var(--vibe-primary);
+    background-color: color-mix(in srgb, var(--vibe-primary) 5%, var(--vibe-background));
+}
+
+.vibe-file-upload:hover:not(.vibe-file-upload-disabled) {
+    border-color: color-mix(in srgb, var(--vibe-border) 70%, var(--vibe-foreground));
+}
+
+/* ==================== Empty State (Dropzone) ==================== */
+.file-upload-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s ease;
+}
+
+.file-upload-empty:hover {
+    opacity: 0.8;
+}
+
+.file-upload-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+    transition: transform 0.2s ease;
+}
+
+.file-upload-empty:hover .file-upload-icon {
+    transform: scale(1.1);
+}
+
+.file-upload-text {
+    margin-bottom: 1.5rem;
+}
+
+.file-upload-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--vibe-foreground);
+}
+
+.file-upload-hint {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--vibe-muted-foreground);
+}
+
+.file-upload-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--vibe-primary-foreground);
+    background-color: var(--vibe-primary);
+    border: none;
+    border-radius: calc(var(--vibe-radius, 0.5rem) - 0.125rem);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-upload-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.file-upload-button:active {
+    transform: translateY(0);
+}
+
+/* ==================== File List ==================== */
+.file-upload-list {
+    padding: 1rem;
+}
+
+.file-upload-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--vibe-muted);
+    border-radius: calc(var(--vibe-radius, 0.5rem) - 0.125rem);
+    transition: background-color 0.2s ease;
+}
+
+.file-upload-item:hover {
+    background-color: color-mix(in srgb, var(--vibe-muted) 90%, var(--vibe-foreground));
+}
+
+.file-upload-item:last-of-type {
+    margin-bottom: 0.75rem;
+}
+
+/* ==================== File Item Content ==================== */
+.file-item-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.file-item-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.file-item-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--vibe-foreground);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-item-size {
+    font-size: 0.75rem;
+    color: var(--vibe-muted-foreground);
+}
+
+/* ==================== Remove Button ==================== */
+.file-item-remove {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--vibe-muted-foreground);
+    background: transparent;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.file-item-remove:hover {
+    color: var(--vibe-destructive);
+    background-color: color-mix(in srgb, var(--vibe-destructive) 10%, transparent);
+}
+
+.file-item-remove:active {
+    transform: scale(0.95);
+}
+
+/* ==================== Add More Button ==================== */
+.file-upload-add {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--vibe-primary);
+    background: transparent;
+    border: 1px dashed var(--vibe-border);
+    border-radius: calc(var(--vibe-radius, 0.5rem) - 0.125rem);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-upload-add:hover {
+    background-color: var(--vibe-muted);
+    border-color: var(--vibe-primary);
+}
+
+.file-upload-add:active {
+    transform: scale(0.99);
+}
+
+/* ==================== Progress Indicator ==================== */
+.file-upload-item.file-item-uploading {
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload-item.file-item-uploading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--vibe-primary);
+    animation: upload-progress 1.5s ease-in-out infinite;
+}
+
+@keyframes upload-progress {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.file-item-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: var(--vibe-primary);
+    transition: width 0.3s ease;
+}
+
+/* ==================== Error State ==================== */
+.vibe-file-upload.file-upload-error {
+    border-color: var(--vibe-destructive);
+    background-color: color-mix(in srgb, var(--vibe-destructive) 3%, var(--vibe-background));
+}
+
+.file-upload-item.file-item-error {
+    background-color: color-mix(in srgb, var(--vibe-destructive) 10%, var(--vibe-background));
+    border: 1px solid color-mix(in srgb, var(--vibe-destructive) 30%, transparent);
+}
+
+.file-upload-item.file-item-error .file-item-icon {
+    color: var(--vibe-destructive);
+}
+
+.file-upload-item.file-item-error .file-item-name {
+    color: var(--vibe-destructive);
+}
+
+.file-upload-error-message {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    color: var(--vibe-destructive);
+    background-color: color-mix(in srgb, var(--vibe-destructive) 10%, var(--vibe-background));
+    border-left: 2px solid var(--vibe-destructive);
+    border-radius: 0.25rem;
+}
+
+/* ==================== Success State ==================== */
+.file-upload-item.file-item-success {
+    background-color: color-mix(in srgb, var(--vibe-success, #10b981) 10%, var(--vibe-background));
+    border: 1px solid color-mix(in srgb, var(--vibe-success, #10b981) 30%, transparent);
+}
+
+.file-upload-item.file-item-success .file-item-icon {
+    color: var(--vibe-success, #10b981);
+}
+
+/* ==================== Disabled State ==================== */
+.vibe-file-upload.vibe-file-upload-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.vibe-file-upload.vibe-file-upload-disabled .file-upload-empty {
+    cursor: not-allowed;
+}
+
+.vibe-file-upload.vibe-file-upload-disabled .file-upload-button {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ==================== Loading State ==================== */
+.file-upload-item.file-item-loading .file-item-icon {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ==================== Size Variants ==================== */
+
+/* Small */
+.vibe-file-upload.vibe-file-upload-small .file-upload-empty {
+    padding: 2rem 1.5rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-upload-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-upload-title {
+    font-size: 0.875rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-upload-hint {
+    font-size: 0.75rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-upload-item {
+    padding: 0.5rem;
+    gap: 0.5rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-item-icon {
+    font-size: 1.25rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-item-name {
+    font-size: 0.75rem;
+}
+
+.vibe-file-upload.vibe-file-upload-small .file-item-size {
+    font-size: 0.625rem;
+}
+
+/* Large */
+.vibe-file-upload.vibe-file-upload-large .file-upload-empty {
+    padding: 4rem 3rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-upload-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-upload-title {
+    font-size: 1.25rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-upload-hint {
+    font-size: 1rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-upload-item {
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-item-icon {
+    font-size: 2rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-item-name {
+    font-size: 1rem;
+}
+
+.vibe-file-upload.vibe-file-upload-large .file-item-size {
+    font-size: 0.875rem;
+}
+
+/* ==================== Compact Variant ==================== */
+.vibe-file-upload.vibe-file-upload-compact .file-upload-list {
+    padding: 0.5rem;
+}
+
+.vibe-file-upload.vibe-file-upload-compact .file-upload-item {
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+/* ==================== Accessibility ==================== */
+.vibe-file-upload:focus-within {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+.file-upload-button:focus-visible,
+.file-upload-add:focus-visible,
+.file-item-remove:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+/* ==================== Dark Mode Support ==================== */
+/* All colors use CSS variables, so dark mode is automatically supported */
+/* through CSS variable overrides at the root level */
+
+/* ==================== Print Styles ==================== */
+@media print {
+    .vibe-file-upload {
+        border-style: solid;
+    }
+
+    .file-upload-button,
+    .file-upload-add,
+    .file-item-remove {
+        display: none;
+    }
+}
+
+/* ==================== Reduced Motion ==================== */
+@media (prefers-reduced-motion: reduce) {
+    .vibe-file-upload,
+    .file-upload-empty,
+    .file-upload-icon,
+    .file-upload-button,
+    .file-upload-item,
+    .file-upload-add,
+    .file-item-remove {
+        animation: none;
+        transition: none;
+    }
+}

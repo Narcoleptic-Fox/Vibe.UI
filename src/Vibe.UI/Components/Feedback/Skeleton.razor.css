@@ -1,0 +1,56 @@
+/* ============================================================================
+   Skeleton Component Styles
+   ============================================================================ */
+
+/* Base Skeleton
+   ========================================================================== */
+
+.vibe-skeleton {
+    display: block;
+    background: linear-gradient(
+        90deg,
+        var(--vibe-muted) 0%,
+        color-mix(in srgb, var(--vibe-muted) 95%, var(--vibe-foreground)) 50%,
+        var(--vibe-muted) 100%
+    );
+    background-size: 200% 100%;
+    border-radius: var(--vibe-radius-sm);
+    animation: vibe-skeleton-shimmer 2s ease-in-out infinite;
+}
+
+/* Shimmer Animation
+   ========================================================================== */
+
+@keyframes vibe-skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Shape Variants
+   ========================================================================== */
+
+/* Rounded corners variant */
+.vibe-skeleton.rounded {
+    border-radius: var(--vibe-radius-md);
+}
+
+/* Circle variant - perfect for avatars */
+.vibe-skeleton.circle {
+    border-radius: 9999px;
+    aspect-ratio: 1 / 1;
+}
+
+/* Alternative: Pulse Animation
+   ==========================================================================
+
+   If shimmer is too much, you can switch to pulse by replacing
+   the animation property with:
+
+   animation: vibe-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+   This uses the existing vibe-pulse animation from vibe-base.css
+   ========================================================================== */

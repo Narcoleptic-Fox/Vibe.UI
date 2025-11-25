@@ -1,0 +1,145 @@
+/* ========================================
+   DIALOG COMPONENT SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Overlay
+   ---------------------------------------- */
+
+.vibe-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* ----------------------------------------
+   Dialog Container
+   ---------------------------------------- */
+
+.vibe-dialog {
+    background-color: var(--vibe-background);
+    border-radius: var(--vibe-radius);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 32rem;
+    max-height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+    animation: dialogIn 0.2s ease-out;
+    margin: 1rem;
+    overflow: hidden;
+}
+
+/* ----------------------------------------
+   Dialog Header
+   ---------------------------------------- */
+
+.vibe-dialog-header {
+    display: flex;
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: none;
+}
+
+/* ----------------------------------------
+   Dialog Body/Content
+   ---------------------------------------- */
+
+.vibe-dialog-body {
+    padding: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* ----------------------------------------
+   Dialog Footer
+   ---------------------------------------- */
+
+.vibe-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 1.5rem 1.5rem;
+    gap: 0.5rem;
+}
+
+/* ----------------------------------------
+   Size Variants
+   ---------------------------------------- */
+
+.vibe-dialog.vibe-dialog-sm {
+    max-width: 20rem;
+}
+
+.vibe-dialog.vibe-dialog-md {
+    max-width: 32rem;
+}
+
+.vibe-dialog.vibe-dialog-lg {
+    max-width: 48rem;
+}
+
+.vibe-dialog.vibe-dialog-xl {
+    max-width: 64rem;
+}
+
+.vibe-dialog.vibe-dialog-full {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+}
+
+/* ----------------------------------------
+   Animations
+   ---------------------------------------- */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes dialogIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    .vibe-dialog {
+        max-width: calc(100vw - 2rem);
+        margin: 1rem;
+    }
+
+    .vibe-dialog-header {
+        padding: 1rem 1rem 0;
+    }
+
+    .vibe-dialog-body {
+        padding: 1rem;
+    }
+
+    .vibe-dialog-footer {
+        padding: 0 1rem 1rem;
+        flex-direction: column;
+    }
+}

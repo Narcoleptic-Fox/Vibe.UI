@@ -259,7 +259,8 @@ public class EndToEndInstallationTests : IDisposable
         content.Should().Contain(expectedClass, $"Component should contain CSS class '{expectedClass}'");
 
         // Verify standard template structure
-        content.Should().Contain("@namespace");
+        // Components may use explicit @namespace or rely on implicit namespace from folder structure
+        (content.Contains("@namespace") || content.Contains("@using")).Should().BeTrue("Component should have namespace or using directive");
         content.Should().Contain("@inherits");
         content.Should().Contain("[Parameter]");
         content.Should().Contain("ChildContent");

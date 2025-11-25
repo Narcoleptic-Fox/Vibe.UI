@@ -1,0 +1,174 @@
+/* ========================================
+   ICON COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE ICON STYLES
+   ---------------------------------------- */
+
+.vibe-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    vertical-align: middle;
+    color: currentColor;
+    transition: var(--vibe-transition-fast);
+}
+
+/* ----------------------------------------
+   SVG DEFAULTS
+   ---------------------------------------- */
+
+.vibe-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Ensure proper rendering */
+.vibe-icon svg path {
+    fill: inherit;
+    stroke: inherit;
+}
+
+/* ----------------------------------------
+   SIZE VARIANTS
+   ---------------------------------------- */
+
+.vibe-icon-xs {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.vibe-icon-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.vibe-icon-md {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.vibe-icon-lg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.vibe-icon-xl {
+    width: 2rem;
+    height: 2rem;
+}
+
+.vibe-icon-2xl {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* ----------------------------------------
+   COLOR VARIANTS
+   ---------------------------------------- */
+
+.vibe-icon-primary {
+    color: var(--vibe-primary);
+}
+
+.vibe-icon-secondary {
+    color: var(--vibe-secondary-foreground);
+}
+
+.vibe-icon-muted {
+    color: var(--vibe-muted-foreground);
+}
+
+.vibe-icon-destructive {
+    color: var(--vibe-destructive);
+}
+
+.vibe-icon-success {
+    color: var(--vibe-success);
+}
+
+.vibe-icon-warning {
+    color: var(--vibe-warning);
+}
+
+.vibe-icon-info {
+    color: var(--vibe-info);
+}
+
+/* ----------------------------------------
+   INTERACTIVE STATES
+   ---------------------------------------- */
+
+.vibe-icon-interactive {
+    cursor: pointer;
+    transition: var(--vibe-transition);
+}
+
+.vibe-icon-interactive:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.vibe-icon-interactive:active {
+    opacity: 0.6;
+    transform: scale(0.95);
+}
+
+/* ----------------------------------------
+   SPINNING ANIMATION
+   ---------------------------------------- */
+
+.vibe-icon-spin {
+    animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ----------------------------------------
+   PULSE ANIMATION
+   ---------------------------------------- */
+
+.vibe-icon-pulse {
+    animation: icon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes icon-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY
+   ---------------------------------------- */
+
+.vibe-icon:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+    border-radius: var(--vibe-radius-sm);
+}
+
+/* Screen reader only text */
+.vibe-icon-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

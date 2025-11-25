@@ -149,12 +149,12 @@ public class ButtonTests : TestBase
         // Test each variant
         var variants = new[]
         {
-            Button.ButtonVariant.Primary,
-            Button.ButtonVariant.Secondary,
-            Button.ButtonVariant.Destructive,
-            Button.ButtonVariant.Outline,
-            Button.ButtonVariant.Ghost,
-            Button.ButtonVariant.Link
+            ButtonVariant.Primary,
+            ButtonVariant.Secondary,
+            ButtonVariant.Destructive,
+            ButtonVariant.Outline,
+            ButtonVariant.Ghost,
+            ButtonVariant.Link
         };
 
         foreach (var variant in variants)
@@ -172,9 +172,9 @@ public class ButtonTests : TestBase
         // Test each size
         var sizes = new[]
         {
-            Button.ButtonSize.Small,
-            Button.ButtonSize.Medium,
-            Button.ButtonSize.Large
+            ComponentSize.Small,
+            ComponentSize.Medium,
+            ComponentSize.Large
         };
 
         foreach (var size in sizes)
