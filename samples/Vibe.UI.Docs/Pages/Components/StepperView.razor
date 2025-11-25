@@ -25,7 +25,7 @@
                 <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
                     <Button OnClick="@(() => horizontalCurrentStep = Math.Max(0, horizontalCurrentStep - 1))"
                             Disabled="@(horizontalCurrentStep == 0)"
-                            Variant="Button.ButtonVariant.Outline">
+                            Variant="ButtonVariant.Outline">
                         Previous
                     </Button>
                     <Button OnClick="@(() => horizontalCurrentStep = Math.Min(horizontalSteps.Count - 1, horizontalCurrentStep + 1))"

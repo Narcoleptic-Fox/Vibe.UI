@@ -2,6 +2,9 @@
    Vibe.UI Documentation Site Styles
    ========================================================================== */
 
+/* Import animation utilities */
+@import '_animations.css';
+
 :root {
     /* Vibe.UI Brand Colors - Used ONLY for primary action buttons */
     --brand-teal: #065465;

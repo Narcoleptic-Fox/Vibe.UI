@@ -1,99 +1,170 @@
 @inject NavigationManager Navigation
 @implements IDisposable
 
-<div class="nav-sidebar">
-    <!-- Documentation Sections -->
-    <div class="nav-section">
-        <h3 class="nav-section-title">Getting Started</h3>
-        <ul class="nav-links">
-            <li>
-                <a href="@GetUrl("getting-started")" class="@GetActiveClass("getting-started")">
-                    Introduction
-                </a>
-            </li>
-            <li>
-                <a href="@GetUrl("installation")" class="@GetActiveClass("installation")">
-                    Installation
-                </a>
-            </li>
-            <li>
-                <a href="@GetUrl("cli")" class="@GetActiveClass("cli")">
-                    CLI Tool
-                </a>
-            </li>
-            <li>
-                <a href="@GetUrl("theming")" class="@GetActiveClass("theming")">
-                    Theming
-                </a>
-            </li>
+@*
+    NavSidebar - Documentation navigation with icons and improved styling
+    Features:
+    - Category icons
+    - Component count badges
+    - Smooth expand/collapse animations
+    - Active state highlighting
+*@
+
+<div class="nav-sidebar py-4">
+    <!-- Getting Started Section -->
+    <div class="px-3 mb-4">
+        <h3 class="px-3 mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+            Getting Started
+        </h3>
+        <ul class="space-y-0.5">
+            @foreach (var item in gettingStartedItems)
+            {
+                var isActive = IsActive(item.Path);
+                <li>
+                    <a href="@GetUrl(item.Path)"
+                       class="flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors @(isActive ? "bg-brand-teal/10 text-brand-teal font-medium" : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100")">
+                        @((MarkupString)item.Icon)
+                        <span>@item.Label</span>
+                    </a>
+                </li>
+            }
         </ul>
     </div>
 
     <!-- Component Categories -->
-    @foreach (var categoryPair in categories)
-    {
-        <div class="nav-section">
-            <button class="nav-section-title" @onclick="() => ToggleCategory(categoryPair.Key)">
-                <span>@categoryPair.Key</span>
-                <span class="toggle-icon">@(expandedCategories.Contains(categoryPair.Key) ? "▼" : "▶")</span>
-            </button>
-            @if (expandedCategories.Contains(categoryPair.Key))
-            {
-                <ul class="nav-links">
-                    @foreach (var component in GetComponentsForCategory(categoryPair.Key))
-                    {
-                        <li>
-                            <a href="@GetUrl($"components/{component.ToLower()}")"
-                               class="@GetActiveClass($"components/{component.ToLower()}")">
-                                @component
-                            </a>
-                        </li>
-                    }
-                </ul>
-            }
-        </div>
-    }
+    <div class="px-3">
+        <h3 class="px-3 mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+            Components
+        </h3>
+
+        @foreach (var category in categories)
+        {
+            var isExpanded = expandedCategories.Contains(category.Key);
+            var componentCount = category.Value.Count;
+
+            <div class="mb-1">
+                <!-- Category Header -->
+                <button class="w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800 group"
+                        @onclick="() => ToggleCategory(category.Key)">
+                    <span class="flex items-center gap-2.5">
+                        <span class="w-5 h-5 flex items-center justify-center text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300">
+                            @((MarkupString)GetCategoryIcon(category.Key))
+                        </span>
+                        <span class="font-medium text-zinc-700 dark:text-zinc-300">@category.Key</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="px-1.5 py-0.5 text-[10px] font-medium rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
+                            @componentCount
+                        </span>
+                        <svg class="w-4 h-4 text-zinc-400 transition-transform duration-200 @(isExpanded ? "rotate-180" : "")"
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </span>
+                </button>
+
+                <!-- Component Links -->
+                @if (isExpanded)
+                {
+                    <ul class="mt-1 ml-5 pl-2.5 border-l border-zinc-200 dark:border-zinc-700 space-y-0.5 category-content">
+                        @foreach (var component in category.Value)
+                        {
+                            var path = $"components/{component.ToLower()}";
+                            var isActive = IsActive(path);
+                            <li>
+                                <a href="@GetUrl(path)"
+                                   class="block px-3 py-1.5 text-sm rounded-md transition-colors @(isActive ? "bg-brand-teal/10 text-brand-teal font-medium" : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100")">
+                                    @component
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        }
+    </div>
 </div>
+
+<style>
+    .category-content {
+        animation: expandIn 0.2s ease-out;
+    }
+
+    @@keyframes expandIn {
+        from {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 
 @code {
     private HashSet<string> expandedCategories = new();
 
+    private record NavItem(string Path, string Label, string Icon);
+
+    private List<NavItem> gettingStartedItems = new()
+    {
+        new("getting-started", "Introduction", @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z""></path></svg>"),
+        new("installation", "Installation", @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4""></path></svg>"),
+        new("cli", "CLI Tool", @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z""></path></svg>"),
+        new("theming", "Theming", @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01""></path></svg>")
+    };
+
     private Dictionary<string, List<string>> categories = new()
     {
-        ["Input"] = new() { "Button", "Checkbox", "ColorPicker", "Input", "RadioGroup", "Select", "Slider", "Switch", "Textarea" },
+        ["Input"] = new() { "Button", "Checkbox", "ColorPicker", "Input", "InputOTP", "Mentions", "RadioGroup", "Rating", "Select", "Slider", "Switch", "Textarea", "ToggleGroup" },
         ["Form"] = new() { "Form", "FormField", "ValidatedInput" },
-        ["DataDisplay"] = new() { "Avatar", "Badge", "Chart", "DataGrid", "Table", "Tag" },
-        ["Layout"] = new() { "Card", "AspectRatio", "Container", "Divider", "Grid", "Separator", "Stack" },
-        ["Navigation"] = new() { "Breadcrumb", "Link", "Menu", "Pagination", "Stepper", "Tabs" },
-        ["Overlay"] = new() { "Dialog", "Drawer", "Dropdown", "Modal", "Popover", "Tooltip" },
-        ["Feedback"] = new() { "Alert", "Badge", "Notification", "Progress", "Skeleton", "Spinner", "Toast" },
-        ["Advanced"] = new() { "DragDrop", "FileUpload", "KanbanBoard", "RichTextEditor", "TreeView", "VirtualScroll" },
+        ["DataDisplay"] = new() { "Avatar", "Badge", "Chart", "DataGrid", "Table", "Tag", "Timeline" },
+        ["Layout"] = new() { "AspectRatio", "Card", "Container", "Divider", "Grid", "Resizable", "ScrollArea", "Separator", "Sheet", "Splitter", "Stack" },
+        ["Navigation"] = new() { "Breadcrumb", "Link", "Menu", "NavigationMenu", "Pagination", "Sidebar", "Stepper", "Tabs" },
+        ["Overlay"] = new() { "ContextMenu", "Dialog", "Drawer", "Dropdown", "HoverCard", "Popover", "Tooltip" },
+        ["Feedback"] = new() { "Alert", "Confetti", "NotificationCenter", "Progress", "Skeleton", "Sonner", "Spinner", "Toast" },
+        ["Advanced"] = new() { "DragDrop", "FileUpload", "KanbanBoard", "QRCode", "RichTextEditor", "TreeView", "VirtualScroll" },
         ["Disclosure"] = new() { "Accordion", "Carousel", "Collapsible" },
         ["DateTime"] = new() { "Calendar", "DatePicker", "DateRangePicker", "TimePicker" },
-        ["Theme"] = new() { "ThemeToggle" }
+        ["Utility"] = new() { "Kbd", "Marquee" },
+        ["Theme"] = new() { "ThemeProvider", "ThemeToggle" }
+    };
+
+    private Dictionary<string, string> categoryIcons = new()
+    {
+        ["Input"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122""></path></svg>",
+        ["Form"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z""></path></svg>",
+        ["DataDisplay"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M4 6h16M4 10h16M4 14h16M4 18h16""></path></svg>",
+        ["Layout"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z""></path></svg>",
+        ["Navigation"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7""></path></svg>",
+        ["Overlay"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z""></path></svg>",
+        ["Feedback"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9""></path></svg>",
+        ["Advanced"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4""></path></svg>",
+        ["Disclosure"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M4 6h16M4 12h16m-7 6h7""></path></svg>",
+        ["DateTime"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z""></path></svg>",
+        ["Utility"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z""></path><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M15 12a3 3 0 11-6 0 3 3 0 016 0z""></path></svg>",
+        ["Theme"] = @"<svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z""></path></svg>"
     };
 
     protected override void OnInitialized()
     {
-        // Subscribe to location changes to update active state
         Navigation.LocationChanged += OnLocationChanged;
-
-        // Expand the category of the current page
         ExpandCurrentCategory();
     }
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
-        // Trigger re-render when location changes
+        ExpandCurrentCategory();
         StateHasChanged();
     }
 
     private void ExpandCurrentCategory()
     {
-        var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath.ToLower();
         foreach (var category in categories.Keys)
         {
-            if (categories[category].Any(c => currentPath.Contains(c.ToLower())))
+            if (categories[category].Any(c => currentPath.Contains($"/components/{c.ToLower()}")))
             {
                 expandedCategories.Add(category);
             }
@@ -103,18 +174,14 @@
     private void ToggleCategory(string category)
     {
         if (expandedCategories.Contains(category))
-        {
             expandedCategories.Remove(category);
-        }
         else
-        {
             expandedCategories.Add(category);
-        }
     }
 
-    private List<string> GetComponentsForCategory(string category)
+    private string GetCategoryIcon(string category)
     {
-        return categories.TryGetValue(category, out var components) ? components : new List<string>();
+        return categoryIcons.TryGetValue(category, out var icon) ? icon : categoryIcons["Utility"];
     }
 
     private string GetUrl(string path)
@@ -122,17 +189,15 @@
         return $"{Navigation.BaseUri}{path}";
     }
 
-    private string GetActiveClass(string path)
+    private bool IsActive(string path)
     {
-        var currentPath = new Uri(Navigation.Uri).AbsolutePath.TrimEnd('/');
-        var targetPath = $"{new Uri(Navigation.BaseUri).AbsolutePath}{path}".TrimEnd('/');
-
-        return currentPath.Equals(targetPath, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath.TrimEnd('/').ToLower();
+        var targetPath = $"{new Uri(Navigation.BaseUri).AbsolutePath}{path}".TrimEnd('/').ToLower();
+        return currentPath.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
     }
 
     public void Dispose()
     {
-        // Unsubscribe from location changes
         Navigation.LocationChanged -= OnLocationChanged;
     }
 }

@@ -1,0 +1,128 @@
+@inject IJSRuntime JS
+
+<button class="@ButtonClasses" @onclick="CopyToClipboard" title="@(Copied ? "Copied!" : "Copy to clipboard")">
+    @if (Copied)
+    {
+        <!-- Check icon with bounce animation -->
+        <svg class="w-4 h-4 text-green-500 copy-success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        @if (ShowText)
+        {
+            <span class="text-green-500">Copied!</span>
+        }
+    }
+    else
+    {
+        <!-- Copy icon -->
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg>
+        @if (ShowText)
+        {
+            <span>Copy</span>
+        }
+    }
+</button>
+
+@code {
+    /// <summary>
+    /// The code/text to copy to clipboard.
+    /// </summary>
+    [Parameter]
+    public string Code { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Alias for Code - the text to copy to clipboard.
+    /// </summary>
+    [Parameter]
+    public string Text
+    {
+        get => Code;
+        set => Code = value;
+    }
+
+    /// <summary>
+    /// Whether to show the "Copy"/"Copied!" text label.
+    /// </summary>
+    [Parameter]
+    public bool ShowText { get; set; } = true;
+
+    /// <summary>
+    /// Visual variant of the button.
+    /// </summary>
+    [Parameter]
+    public CopyButtonVariant Variant { get; set; } = CopyButtonVariant.Default;
+
+    /// <summary>
+    /// Additional CSS classes to apply.
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    private bool Copied { get; set; }
+    private System.Threading.CancellationTokenSource? _cts;
+
+    private string ButtonClasses
+    {
+        get
+        {
+            var baseClasses = "inline-flex items-center gap-1.5 transition-all duration-200 focus-ring";
+
+            var variantClasses = Variant switch
+            {
+                CopyButtonVariant.Ghost => "p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300",
+                CopyButtonVariant.Outline => "px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm",
+                _ => "px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300 text-sm font-medium"
+            };
+
+            return $"{baseClasses} {variantClasses} {Class}".Trim();
+        }
+    }
+
+    private async Task CopyToClipboard()
+    {
+        if (string.IsNullOrEmpty(Code)) return;
+
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Code);
+
+            // Cancel any previous reset timer
+            _cts?.Cancel();
+            _cts = new System.Threading.CancellationTokenSource();
+
+            Copied = true;
+            StateHasChanged();
+
+            // Reset after 2 seconds
+            try
+            {
+                await Task.Delay(2000, _cts.Token);
+                Copied = false;
+                StateHasChanged();
+            }
+            catch (TaskCanceledException)
+            {
+                // Ignore - timer was cancelled
+            }
+        }
+        catch
+        {
+            // Clipboard API might fail in some contexts
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
+    public enum CopyButtonVariant
+    {
+        Default,
+        Ghost,
+        Outline
+    }
+}

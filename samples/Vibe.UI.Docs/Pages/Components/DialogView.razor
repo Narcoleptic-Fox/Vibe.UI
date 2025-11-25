@@ -37,8 +37,8 @@
                     <p>Are you sure you want to proceed with this action? This action cannot be undone.</p>
                 </ChildContent>
                 <Footer>
-                    <Button Variant="Button.ButtonVariant.Secondary" OnClick="@(() => showConfirmDialog = false)">Cancel</Button>
-                    <Button Variant="Button.ButtonVariant.Destructive" OnClick="@(() => showConfirmDialog = false)">Confirm</Button>
+                    <Button Variant="ButtonVariant.Secondary" OnClick="@(() => showConfirmDialog = false)">Cancel</Button>
+                    <Button Variant="ButtonVariant.Destructive" OnClick="@(() => showConfirmDialog = false)">Confirm</Button>
                 </Footer>
             </Dialog>
 
@@ -59,8 +59,8 @@
                     </div>
                 </ChildContent>
                 <Footer>
-                    <Button Variant="Button.ButtonVariant.Secondary" OnClick="@(() => showFormDialog = false)">Cancel</Button>
-                    <Button Variant="Button.ButtonVariant.Primary" OnClick="@HandleFormSubmit">Submit</Button>
+                    <Button Variant="ButtonVariant.Secondary" OnClick="@(() => showFormDialog = false)">Cancel</Button>
+                    <Button Variant="ButtonVariant.Primary" OnClick="@HandleFormSubmit">Submit</Button>
                 </Footer>
             </Dialog>
         </div>

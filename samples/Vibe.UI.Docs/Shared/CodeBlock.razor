@@ -1,69 +1,147 @@
 @inject IJSRuntime JS
 
-<div class="code-block">
-    <div class="code-block-header">
-        <span class="code-block-lang">@Language</span>
-        <button class="code-block-copy @(copied ? "copied" : "")" @onclick="CopyToClipboard" title="Copy to clipboard">
-            <svg class="icon-copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <span>@(copied ? "Copied!" : "Copy")</span>
-        </button>
+@*
+    CodeBlock - Syntax highlighted code display with Shiki
+    Features:
+    - VSCode-quality syntax highlighting via Shiki
+    - Language label header
+    - Copy button with animation
+    - Dark/light theme support
+*@
+
+<div class="code-block rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-white dark:bg-zinc-900">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-800">
+        <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">@DisplayLanguage</span>
+        <CopyButton Text="@Code" Variant="CopyButton.CopyButtonVariant.Ghost" ShowText="false" />
     </div>
-    <div class="code-content">
-        <pre><code class="language-@Language.ToLower()">@Code</code></pre>
+
+    <!-- Code Content -->
+    <div class="code-content overflow-x-auto">
+        @if (!string.IsNullOrEmpty(highlightedHtml))
+        {
+            @((MarkupString)highlightedHtml)
+        }
+        else
+        {
+            <!-- Fallback while loading -->
+            <pre class="p-4 text-sm leading-relaxed"><code class="font-mono text-zinc-700 dark:text-zinc-300">@Code</code></pre>
+        }
     </div>
 </div>
 
+<style>
+    .code-block .code-content :deep(pre) {
+        margin: 0;
+        padding: 1rem;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        overflow-x: auto;
+    }
+
+    .code-block .code-content :deep(pre code) {
+        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    }
+
+    /* Shiki theme overrides */
+    .code-block .code-content :deep(.shiki) {
+        background-color: transparent !important;
+    }
+
+    /* Line numbers (optional) */
+    .code-block.show-line-numbers .code-content :deep(pre) {
+        counter-reset: line;
+    }
+
+    .code-block.show-line-numbers .code-content :deep(.line::before) {
+        counter-increment: line;
+        content: counter(line);
+        display: inline-block;
+        width: 2rem;
+        margin-right: 1rem;
+        text-align: right;
+        color: rgb(161 161 170);
+        font-size: 0.75rem;
+    }
+</style>
+
 @code {
+    /// <summary>
+    /// The code to display.
+    /// </summary>
     [Parameter]
     public string Code { get; set; } = string.Empty;
 
+    /// <summary>
+    /// The programming language for syntax highlighting.
+    /// </summary>
     [Parameter]
     public string Language { get; set; } = "razor";
 
+    /// <summary>
+    /// Whether to show line numbers.
+    /// </summary>
     [Parameter]
     public bool ShowLineNumbers { get; set; } = false;
 
-    private bool copied = false;
+    private string? highlightedHtml;
+    private string? previousCode;
+    private string? previousLanguage;
 
-    private async Task CopyToClipboard()
+    private string DisplayLanguage => Language.ToLower() switch
     {
-        try
-        {
-            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Code);
-            copied = true;
-            StateHasChanged();
-
-            // Reset after 2 seconds
-            await Task.Delay(2000);
-            copied = false;
-            StateHasChanged();
-        }
-        catch (Exception)
-        {
-            // Fallback for browsers that don't support clipboard API
-            // Could implement a textarea fallback here
-        }
-    }
+        "cs" or "csharp" => "C#",
+        "js" or "javascript" => "JavaScript",
+        "ts" or "typescript" => "TypeScript",
+        "html" or "razor" => Language.ToUpper(),
+        "css" => "CSS",
+        "json" => "JSON",
+        "xml" => "XML",
+        "bash" or "sh" or "shell" => "Shell",
+        "ps" or "ps1" or "powershell" => "PowerShell",
+        _ => Language
+    };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            // Initialize Prism.js syntax highlighting if available
-            try
+            await HighlightCode();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Only re-highlight if code or language changed
+        if (Code != previousCode || Language != previousLanguage)
+        {
+            previousCode = Code;
+            previousLanguage = Language;
+
+            if (!string.IsNullOrEmpty(Code))
             {
-                await JS.InvokeVoidAsync("Prism.highlightAll");
+                await HighlightCode();
             }
-            catch
-            {
-                // Prism not available yet, that's okay
-            }
+        }
+    }
+
+    private async Task HighlightCode()
+    {
+        if (string.IsNullOrEmpty(Code)) return;
+
+        try
+        {
+            // Detect theme from document
+            var isDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
+            var theme = isDark ? "dark" : "light";
+
+            highlightedHtml = await JS.InvokeAsync<string>("highlightCode", Code, Language, theme);
+            StateHasChanged();
+        }
+        catch
+        {
+            // Shiki not available, keep fallback
+            highlightedHtml = null;
         }
     }
 }

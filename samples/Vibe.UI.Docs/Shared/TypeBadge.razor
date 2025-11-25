@@ -1,0 +1,76 @@
+@*
+    TypeBadge - Displays property types with color coding
+    Used in API reference tables to show parameter types
+*@
+
+<span class="@BadgeClass">@Type</span>
+
+@code {
+    /// <summary>
+    /// The type name to display (e.g., "string", "bool", "ButtonVariant").
+    /// </summary>
+    [Parameter]
+    public string Type { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Optional size variant.
+    /// </summary>
+    [Parameter]
+    public TypeBadgeSize Size { get; set; } = TypeBadgeSize.Default;
+
+    private string BadgeClass
+    {
+        get
+        {
+            var baseClasses = Size switch
+            {
+                TypeBadgeSize.Small => "px-1.5 py-0.5 text-[10px]",
+                TypeBadgeSize.Large => "px-2.5 py-1 text-sm",
+                _ => "px-2 py-0.5 text-xs"
+            };
+
+            var colorClasses = GetColorClasses(Type);
+
+            return $"inline-flex items-center font-mono font-medium rounded-md {baseClasses} {colorClasses}";
+        }
+    }
+
+    private string GetColorClasses(string type)
+    {
+        var normalizedType = type.ToLower().Trim();
+
+        // Boolean types
+        if (normalizedType is "bool" or "boolean")
+            return "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400";
+
+        // String types
+        if (normalizedType is "string" or "string?" or "markupstring")
+            return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
+
+        // Number types
+        if (normalizedType is "int" or "int?" or "double" or "double?" or "float" or "decimal" or "number")
+            return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
+
+        // Event callbacks
+        if (normalizedType.StartsWith("eventcallback") || normalizedType.Contains("action") || normalizedType.Contains("func"))
+            return "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400";
+
+        // Render fragments
+        if (normalizedType.Contains("renderfragment"))
+            return "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400";
+
+        // Enums (usually contain "variant", "size", "type", etc.)
+        if (normalizedType.Contains("variant") || normalizedType.Contains("size") || normalizedType.Contains("position") || normalizedType.Contains("orientation"))
+            return "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400";
+
+        // Default for other types
+        return "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-400";
+    }
+
+    public enum TypeBadgeSize
+    {
+        Small,
+        Default,
+        Large
+    }
+}
