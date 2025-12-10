@@ -1,0 +1,34 @@
+{
+  "name": "vibe-ui-chart",
+  "version": "1.0.0",
+  "description": "TypeScript source for Vibe.UI Chart.js integration",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "deploy": "npm run build && copyfiles -f dist/vibe-chart.js ../wwwroot/js/",
+    "lint": "eslint src tests --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
+  },
+  "keywords": [
+    "vibe-ui",
+    "chart",
+    "chartjs",
+    "blazor"
+  ],
+  "author": "Vibe.UI Contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@vitest/coverage-v8": "^1.0.4",
+    "copyfiles": "^2.4.1",
+    "happy-dom": "^12.10.3",
+    "jsdom": "^23.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "dependencies": {}
+}

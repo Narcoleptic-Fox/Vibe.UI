@@ -94,6 +94,9 @@
 
     <!-- Command Palette -->
     <CommandPalette IsOpen="searchOpen" IsOpenChanged="@((value) => { searchOpen = value; StateHasChanged(); })" OnThemeToggle="HandleThemeToggle" />
+
+    <!-- Toast Container for notifications -->
+    <ToastContainer Position="bottom-right" />
 </div>
 
 @code {

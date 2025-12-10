@@ -10,7 +10,14 @@
       "Bash(dotnet new:*)",
       "Bash(dotnet add:*)",
       "Bash(dotnet run:*)",
-      "Bash(dotnet clean:*)"
+      "Bash(dotnet clean:*)",
+      "WebFetch(domain:localhost)",
+      "mcp__perplexity-ask__search",
+      "Bash(npm install)",
+      "Bash(npm run build:*)",
+      "Bash(npm test)",
+      "Bash(npm test:*)",
+      "Bash(dotnet sln:*)"
     ],
     "deny": [],
     "ask": []

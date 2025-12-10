@@ -6,20 +6,22 @@
 // Shiki highlighter instance (lazy loaded)
 let highlighter = null;
 let highlighterPromise = null;
+let initializationAttempts = 0;
+const MAX_INIT_ATTEMPTS = 3;
 
-// Supported languages for the docs (web bundle built-in languages)
-// Note: razor is not in the web bundle, so we map it to html
-const SUPPORTED_LANGUAGES = [
-    'csharp',
+// Languages included in the Shiki web bundle
+// See: https://shiki.style/languages for full list
+// The web bundle includes: html, css, javascript, typescript, json, markdown, yaml, xml
+// Languages NOT in web bundle that we need to handle: csharp, razor, powershell, bash
+const WEB_BUNDLE_LANGUAGES = [
     'html',
     'css',
     'javascript',
     'typescript',
     'json',
-    'xml',
-    'bash',
-    'powershell',
-    'markdown'
+    'markdown',
+    'yaml',
+    'xml'
 ];
 
 // Theme mapping
@@ -29,27 +31,37 @@ const THEMES = {
 };
 
 /**
- * Initialize the Shiki highlighter
+ * Initialize the Shiki highlighter with retry logic
  */
 async function initHighlighter() {
     if (highlighter) return highlighter;
     if (highlighterPromise) return highlighterPromise;
 
     highlighterPromise = (async () => {
-        try {
-            // Dynamic import of Shiki from CDN - use default export for bundle
-            const shiki = await import('https://esm.sh/shiki@1.22.0/bundle/web');
+        while (initializationAttempts < MAX_INIT_ATTEMPTS) {
+            try {
+                initializationAttempts++;
+                console.log(`[Shiki] Initializing highlighter (attempt ${initializationAttempts})...`);
 
-            highlighter = await shiki.createHighlighter({
-                themes: [THEMES.light, THEMES.dark],
-                langs: SUPPORTED_LANGUAGES
-            });
+                // Dynamic import of Shiki from CDN - use web bundle (limited languages)
+                const shiki = await import('https://esm.sh/shiki@1.22.0/bundle/web');
 
-            console.log('[Shiki] Highlighter initialized');
-            return highlighter;
-        } catch (error) {
-            console.error('[Shiki] Failed to initialize:', error);
-            throw error;
+                // Only load languages that are in the web bundle
+                highlighter = await shiki.createHighlighter({
+                    themes: [THEMES.light, THEMES.dark],
+                    langs: WEB_BUNDLE_LANGUAGES
+                });
+
+                console.log('[Shiki] Highlighter initialized successfully with web bundle languages');
+                return highlighter;
+            } catch (error) {
+                console.error(`[Shiki] Initialization attempt ${initializationAttempts} failed:`, error);
+                if (initializationAttempts >= MAX_INIT_ATTEMPTS) {
+                    throw error;
+                }
+                // Wait before retry
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
         }
     })();
 
@@ -70,21 +82,27 @@ window.highlightCode = async function(code, language, theme) {
         // Normalize language name
         let lang = (language || 'text').toLowerCase();
 
-        // Handle common aliases
-        if (lang === 'cs') lang = 'csharp';
+        // Handle common aliases and map to web bundle languages
+        // The web bundle only has: html, css, javascript, typescript, json, markdown, yaml, xml
         if (lang === 'js') lang = 'javascript';
         if (lang === 'ts') lang = 'typescript';
-        if (lang === 'sh' || lang === 'shell') lang = 'bash';
-        if (lang === 'ps' || lang === 'ps1') lang = 'powershell';
         if (lang === 'md') lang = 'markdown';
-        if (lang === 'razor' || lang === 'cshtml' || lang === 'blazor') lang = 'html'; // Razor -> HTML fallback
 
-        // Check if language is supported
-        if (!SUPPORTED_LANGUAGES.includes(lang)) {
-            lang = 'text';
+        // Languages NOT in web bundle - map to closest alternative
+        if (lang === 'cs' || lang === 'csharp' || lang === 'c#') lang = 'typescript'; // C# -> TypeScript (similar syntax)
+        if (lang === 'razor' || lang === 'cshtml' || lang === 'blazor') lang = 'html'; // Razor -> HTML (best match for markup)
+        if (lang === 'sh' || lang === 'shell' || lang === 'bash') lang = 'javascript'; // Shell -> JS (basic highlighting)
+        if (lang === 'ps' || lang === 'ps1' || lang === 'powershell') lang = 'javascript'; // PowerShell -> JS
+
+        // Check if language is in web bundle
+        if (!WEB_BUNDLE_LANGUAGES.includes(lang)) {
+            console.log(`[Shiki] Language '${lang}' not in web bundle, using 'javascript' as fallback`);
+            lang = 'javascript'; // Default fallback with decent syntax highlighting
         }
 
         const themeName = theme === 'dark' ? THEMES.dark : THEMES.light;
+
+        console.log(`[Shiki] Highlighting as '${lang}' with theme '${themeName}'`);
 
         const html = hl.codeToHtml(code, {
             lang: lang,
@@ -116,6 +134,27 @@ window.preloadHighlighter = async function() {
     } catch {
         return false;
     }
+};
+
+/**
+ * Wait for highlighter to be ready with timeout
+ * @param {number} timeoutMs - Maximum time to wait in milliseconds
+ * @returns {boolean} - True if ready, false if timeout
+ */
+window.waitForHighlighter = async function(timeoutMs = 5000) {
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeoutMs) {
+        try {
+            await initHighlighter();
+            return true;
+        } catch {
+            // If init fails, wait a bit and check again
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+    }
+
+    return highlighter !== null;
 };
 
 /**

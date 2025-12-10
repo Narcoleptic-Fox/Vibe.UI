@@ -32,14 +32,14 @@
 
 ## Quick Reference
 
-| Metric | Current Status |
-|--------|----------------|
-| Phase 1: Foundation | ✅ Complete |
-| Phase 2: Shared Components | ✅ Complete (9/10) |
-| Phase 3: Landing Page | ✅ Complete |
-| Phase 4: Component Docs | ✅ Complete (51+ pages) |
-| Phase 5: Navigation | ✅ Complete |
-| Phase 6: Polish | 🔶 Partial |
+| Metric                     | Current Status         |
+| -------------------------- | ---------------------- |
+| Phase 1: Foundation        | ✅ Complete             |
+| Phase 2: Shared Components | ✅ Complete (9/10)      |
+| Phase 3: Landing Page      | ✅ Complete             |
+| Phase 4: Component Docs    | ✅ Complete (51+ pages) |
+| Phase 5: Navigation        | ✅ Complete             |
+| Phase 6: Polish            | 🔶 Partial              |
 
 ---
 
@@ -278,11 +278,11 @@ Each modernized page includes:
 - [x] Fixed SliderView PropDefinition.Number signature
 - [x] Fixed TextareaView PropDefinition.Number signature
 
-### 6.2 Known Issues (Documented in PROBLEMS.md) ⏳
-- [ ] LivePreview Code tab not displaying highlighted code correctly
-  - Theme detection works
-  - Preview tab works
-  - Code tab shows but highlighting may not trigger
+### 6.2 Known Issues (Documented in PROBLEMS.md) ✅
+- [x] LivePreview Code tab not displaying highlighted code correctly - **FIXED**
+  - Root cause: Race condition between ES module loading and JS interop calls
+  - Fix: Added `waitForHighlighter()` with retry logic in shiki-interop.js
+  - Fix: Added proper async initialization in LivePreview.razor
 
 ### 6.3 Remaining Polish ⏳
 - [ ] Mobile responsiveness testing
@@ -294,67 +294,67 @@ Each modernized page includes:
 
 ## Issues & Solutions
 
-| Issue | Solution | Status |
-|-------|----------|--------|
-| Enum references (Button.ButtonVariant) | Added `@using Vibe.UI.Enums` and fixed syntax | ✅ Fixed |
-| Duplicate Kbd component conflict | Deleted docs Kbd.razor, using library version | ✅ Fixed |
-| InputView string enum values | Changed to `InputVariant.Text`, etc. | ✅ Fixed |
-| @bind-IsOpen syntax | Changed to explicit parameters | ✅ Fixed |
-| CopyButton missing Text parameter | Added Text as alias to Code parameter | ✅ Fixed |
-| Shiki razor language not supported | Mapped razor/cshtml/blazor to html | ✅ Fixed |
-| FormView HandleSubmit signature | Changed to `(EditContext _) => HandleSubmit()` | ✅ Fixed |
-| FormView missing Model | Added `Model="@disabledModel"` and model class | ✅ Fixed |
-| AvatarSize enum doesn't exist | Changed to numeric sizes (24, 32, 48, 64) | ✅ Fixed |
-| SpinnerSize missing prefix | Changed to `Spinner.SpinnerSize.*` | ✅ Fixed |
-| Progress double to int | Changed progress variable from double to int | ✅ Fixed |
-| PropDefinition.Number signature | Used named parameter `description:` | ✅ Fixed |
+| Issue                                  | Solution                                       | Status  |
+| -------------------------------------- | ---------------------------------------------- | ------- |
+| Enum references (Button.ButtonVariant) | Added `@using Vibe.UI.Enums` and fixed syntax  | ✅ Fixed |
+| Duplicate Kbd component conflict       | Deleted docs Kbd.razor, using library version  | ✅ Fixed |
+| InputView string enum values           | Changed to `InputVariant.Text`, etc.           | ✅ Fixed |
+| @bind-IsOpen syntax                    | Changed to explicit parameters                 | ✅ Fixed |
+| CopyButton missing Text parameter      | Added Text as alias to Code parameter          | ✅ Fixed |
+| Shiki razor language not supported     | Mapped razor/cshtml/blazor to html             | ✅ Fixed |
+| FormView HandleSubmit signature        | Changed to `(EditContext _) => HandleSubmit()` | ✅ Fixed |
+| FormView missing Model                 | Added `Model="@disabledModel"` and model class | ✅ Fixed |
+| AvatarSize enum doesn't exist          | Changed to numeric sizes (24, 32, 48, 64)      | ✅ Fixed |
+| SpinnerSize missing prefix             | Changed to `Spinner.SpinnerSize.*`             | ✅ Fixed |
+| Progress double to int                 | Changed progress variable from double to int   | ✅ Fixed |
+| PropDefinition.Number signature        | Used named parameter `description:`            | ✅ Fixed |
 
 ---
 
 ## Decisions Log
 
-| Date | Decision | Rationale |
-|------|----------|-----------|
-| 2025-11-25 | Use Tailwind CDN | Rapid development, can switch to build step later |
-| 2025-11-25 | Use Shiki for highlighting | VSCode quality, better than Prism.js |
-| 2025-11-25 | Key props only in PropTweaker | Focused UX, not overwhelming |
-| 2025-11-25 | Mix shadcn + Vercel + Tailwind aesthetic | Best of all worlds |
-| 2025-11-25 | Use library Kbd component | Avoid duplicate, keep consistency |
-| 2025-11-25 | Map razor to html in Shiki | Shiki doesn't include razor in standard bundles |
-| 2025-11-25 | Use numeric sizes for Avatar | Component accepts int, not enum |
-| 2025-11-25 | Parallel agent modernization | Efficiently update 51+ component pages |
+| Date       | Decision                                 | Rationale                                         |
+| ---------- | ---------------------------------------- | ------------------------------------------------- |
+| 2025-11-25 | Use Tailwind CDN                         | Rapid development, can switch to build step later |
+| 2025-11-25 | Use Shiki for highlighting               | VSCode quality, better than Prism.js              |
+| 2025-11-25 | Key props only in PropTweaker            | Focused UX, not overwhelming                      |
+| 2025-11-25 | Mix shadcn + Vercel + Tailwind aesthetic | Best of all worlds                                |
+| 2025-11-25 | Use library Kbd component                | Avoid duplicate, keep consistency                 |
+| 2025-11-25 | Map razor to html in Shiki               | Shiki doesn't include razor in standard bundles   |
+| 2025-11-25 | Use numeric sizes for Avatar             | Component accepts int, not enum                   |
+| 2025-11-25 | Parallel agent modernization             | Efficiently update 51+ component pages            |
 
 ---
 
 ## Files Created
 
-| File | Status | Notes |
-|------|--------|-------|
-| `wwwroot/index.html` | ✅ Done | Added Tailwind + Shiki + JetBrains Mono |
-| `wwwroot/js/shiki-interop.js` | ✅ Done | VSCode-quality highlighting, razor→html mapping |
-| `wwwroot/css/_animations.css` | ✅ Done | Stagger, page transitions, micro-interactions |
-| `Shared/CopyButton.razor` | ✅ Done | With bounce animation, 3 variants, Text alias |
-| `Shared/GradientText.razor` | ✅ Done | With optional animation |
-| `Shared/CommandPalette.razor` | ✅ Done | Full search with keyboard nav |
-| `Shared/FeatureCard.razor` | ✅ Done | Multiple icons, hover effects |
-| `Shared/PropTweaker.razor` | ✅ Done | Interactive prop editing |
-| `Shared/LivePreview.razor` | ✅ Done | Preview/Code tabs with theme toggle |
-| `Shared/TypeBadge.razor` | ✅ Done | Color-coded type badges |
-| `Models/PropDefinition.cs` | ✅ Done | Prop definition with factory methods |
-| `Pages/Components/Index.razor` | ✅ Done | Searchable components directory |
-| `PROBLEMS.md` | ✅ Done | Known issues tracking |
-| `Shared/TableOfContents.razor` | ⏳ Pending | |
+| File                           | Status    | Notes                                           |
+| ------------------------------ | --------- | ----------------------------------------------- |
+| `wwwroot/index.html`           | ✅ Done    | Added Tailwind + Shiki + JetBrains Mono         |
+| `wwwroot/js/shiki-interop.js`  | ✅ Done    | VSCode-quality highlighting, razor→html mapping |
+| `wwwroot/css/_animations.css`  | ✅ Done    | Stagger, page transitions, micro-interactions   |
+| `Shared/CopyButton.razor`      | ✅ Done    | With bounce animation, 3 variants, Text alias   |
+| `Shared/GradientText.razor`    | ✅ Done    | With optional animation                         |
+| `Shared/CommandPalette.razor`  | ✅ Done    | Full search with keyboard nav                   |
+| `Shared/FeatureCard.razor`     | ✅ Done    | Multiple icons, hover effects                   |
+| `Shared/PropTweaker.razor`     | ✅ Done    | Interactive prop editing                        |
+| `Shared/LivePreview.razor`     | ✅ Done    | Preview/Code tabs with theme toggle             |
+| `Shared/TypeBadge.razor`       | ✅ Done    | Color-coded type badges                         |
+| `Models/PropDefinition.cs`     | ✅ Done    | Prop definition with factory methods            |
+| `Pages/Components/Index.razor` | ✅ Done    | Searchable components directory                 |
+| `PROBLEMS.md`                  | ✅ Done    | Known issues tracking                           |
+| `Shared/TableOfContents.razor` | ⏳ Pending |                                                 |
 
 ## Files Modified
 
-| File | Status | Notes |
-|------|--------|-------|
-| `Layout/MainLayout.razor` | ✅ Done | New header, CommandPalette integration |
-| `Pages/Home.razor` | ✅ Done | Complete redesign with all sections |
-| `wwwroot/css/docs.css` | ✅ Done | Added _animations.css import |
-| `_Imports.razor` | ✅ Done | Added Vibe.UI.Enums namespace |
-| `Shared/CodeBlock.razor` | ✅ Done | Shiki integration, CopyButton |
-| `Pages/Components/*.razor` | ✅ Done | 51+ pages modernized |
+| File                       | Status | Notes                                  |
+| -------------------------- | ------ | -------------------------------------- |
+| `Layout/MainLayout.razor`  | ✅ Done | New header, CommandPalette integration |
+| `Pages/Home.razor`         | ✅ Done | Complete redesign with all sections    |
+| `wwwroot/css/docs.css`     | ✅ Done | Added _animations.css import           |
+| `_Imports.razor`           | ✅ Done | Added Vibe.UI.Enums namespace          |
+| `Shared/CodeBlock.razor`   | ✅ Done | Shiki integration, CopyButton          |
+| `Pages/Components/*.razor` | ✅ Done | 51+ pages modernized                   |
 
 ---
 

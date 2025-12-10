@@ -30,9 +30,9 @@ namespace Vibe.UI
             services.AddSingleton(themeOptions);
             services.AddSingleton<IThemeService, ThemeService>();
 
-            // Register toast and dialog services
-            services.AddScoped<IToastService, ToastService>();
-            services.AddScoped<IDialogService, DialogService>();
+            // Register toast and dialog services as singletons for event broadcasting
+            services.AddSingleton<IToastService, ToastService>();
+            services.AddSingleton<IDialogService, DialogService>();
 
             return services;
         }

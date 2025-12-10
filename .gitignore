@@ -126,6 +126,8 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+# But don't ignore our E2E test project
+!**/Vibe.UI.Docs.E2E/
 
 # TFS 2012 Local Workspace
 $tf/
@@ -483,5 +485,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-settings.local.json
-.claude/settings.local.json
+**/**settings.local.json

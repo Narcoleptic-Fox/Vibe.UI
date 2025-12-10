@@ -20,7 +20,7 @@
                 }
             </button>
             <button class="px-4 py-2.5 text-sm font-medium transition-colors relative @(activeTab == "code" ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300")"
-                    @onclick="async () => await SetCodeTab()">
+                    @onclick="SetCodeTab">
                 Code
                 @if (activeTab == "code")
                 {
@@ -81,16 +81,17 @@
             }
             else
             {
-                <!-- Code Panel -->
-                <div class="code-panel">
-                    @if (!string.IsNullOrEmpty(highlightedCode))
-                    {
-                        @((MarkupString)highlightedCode)
-                    }
-                    else
-                    {
-                        <pre class="p-4 text-sm font-mono text-zinc-700 dark:text-zinc-300 overflow-x-auto"><code>@Code</code></pre>
-                    }
+                <!-- Code Panel - Temporary notice about known issue -->
+                <div class="code-panel min-h-[100px] bg-zinc-950 overflow-x-auto">
+                    <div class="p-4 flex items-start gap-3 bg-amber-500/10 border-b border-amber-500/20">
+                        <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <div class="text-sm">
+                            <p class="text-amber-200 font-medium">Code preview temporarily unavailable</p>
+                            <p class="text-amber-200/70 mt-1">See the Examples section below for code snippets. This will be fixed in a future update.</p>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
@@ -167,10 +168,10 @@
     public string Code { get; set; } = string.Empty;
 
     /// <summary>
-    /// The language for syntax highlighting (default: razor).
+    /// The language for syntax highlighting (default: html).
     /// </summary>
     [Parameter]
-    public string Language { get; set; } = "razor";
+    public string Language { get; set; } = "html";
 
     /// <summary>
     /// Optional list of props for the PropTweaker.
@@ -193,20 +194,10 @@
     private string activeTab = "preview";
     private bool previewDark = false;
     private bool showProps = false;
-    private string? highlightedCode;
-    private string? previousCode;
-    private bool initialized = false;
 
     private void SetPreviewTab() => activeTab = "preview";
 
-    private async Task SetCodeTab()
-    {
-        activeTab = "code";
-        if (string.IsNullOrEmpty(highlightedCode) && !string.IsNullOrEmpty(Code))
-        {
-            await HighlightCode();
-        }
-    }
+    private void SetCodeTab() => activeTab = "code";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -216,7 +207,6 @@
             try
             {
                 previewDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
-                initialized = true;
                 StateHasChanged();
             }
             catch
@@ -227,44 +217,9 @@
         }
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        // Only re-highlight if code changed
-        if (Code != previousCode && !string.IsNullOrEmpty(Code))
-        {
-            previousCode = Code;
-            highlightedCode = null; // Reset to force re-highlight
-            if (initialized || activeTab == "code")
-            {
-                await HighlightCode();
-            }
-        }
-    }
-
-    private async Task HighlightCode()
-    {
-        if (string.IsNullOrEmpty(Code)) return;
-
-        try
-        {
-            // Use page theme for code highlighting (not preview theme)
-            var isDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
-            var theme = isDark ? "dark" : "light";
-            highlightedCode = await JS.InvokeAsync<string>("highlightCode", Code, Language, theme);
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            // Fallback to plain code display
-            Console.WriteLine($"[LivePreview] Highlight error: {ex.Message}");
-            highlightedCode = null;
-        }
-    }
-
-    private async Task TogglePreviewTheme()
+    private void TogglePreviewTheme()
     {
         previewDark = !previewDark;
-        await HighlightCode();
     }
 
     private async Task HandlePropChanged(PropDefinition prop)

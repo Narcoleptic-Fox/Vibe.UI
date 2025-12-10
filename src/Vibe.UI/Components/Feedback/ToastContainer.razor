@@ -1,9 +1,10 @@
+@namespace Vibe.UI.Components
 @using Vibe.UI.Services.Toast
 @implements IDisposable
 @inject IToastService ToastService
 @inherits Vibe.UI.Base.VibeComponent
 
-<div class="@CombinedClass" @attributes="AdditionalAttributes">
+<div class="@CombinedClass @Position" @attributes="AdditionalAttributes">
     @foreach (var toast in _toasts)
     {
         <Toast Title="@toast.Title" Description="@toast.Description" Variant="@toast.Variant" Icon="@toast.Icon"
@@ -24,12 +25,15 @@
 
     protected override void OnInitialized()
     {
+        Console.WriteLine("[ToastContainer] OnInitialized - subscribing to events");
         ToastService.OnToastAdded += HandleToastAdded;
         ToastService.OnToastRemoved += HandleToastRemoved;
+        Console.WriteLine("[ToastContainer] Subscribed successfully");
     }
 
     private void HandleToastAdded(object sender, ToastEventArgs args)
     {
+        Console.WriteLine($"[ToastContainer] HandleToastAdded called: {args.Title}");
         InvokeAsync(() =>
         {
             var toast = new ToastItem
@@ -43,6 +47,7 @@
             };
 
             _toasts.Add(toast);
+            Console.WriteLine($"[ToastContainer] Toast added, total count: {_toasts.Count}");
 
             // Enforce max number of toasts
             while (_toasts.Count > MaxToasts)
