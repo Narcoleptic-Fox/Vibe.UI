@@ -1,0 +1,19 @@
+/* DialogClose baseline styles */
+
+:global(.vibe-dialog-close) {
+  border: 1px solid var(--vibe-border);
+  background: transparent;
+  color: var(--vibe-foreground);
+  border-radius: 0.375rem;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+:global(.vibe-dialog-close:hover) {
+  background: var(--vibe-muted);
+}
+

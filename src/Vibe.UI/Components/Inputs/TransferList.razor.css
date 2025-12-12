@@ -1,0 +1,7 @@
+/* TransferList baseline styles */
+
+:global(.vibe-transfer-list) {
+  display: grid;
+  gap: 0.75rem;
+}
+

@@ -1,0 +1,8 @@
+/* RichTextEditor baseline styles */
+
+:global(.vibe-rich-text-editor) {
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  background: var(--vibe-background);
+}
+

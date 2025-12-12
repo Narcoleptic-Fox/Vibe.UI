@@ -1,0 +1,6 @@
+/* Confetti baseline styles */
+
+:global(.vibe-confetti) {
+  position: relative;
+}
+

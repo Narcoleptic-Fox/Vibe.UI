@@ -1,0 +1,11 @@
+/* Sidebar baseline styles */
+
+:global(.vibe-sidebar) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--vibe-sidebar-background, var(--vibe-muted));
+  color: var(--vibe-sidebar-foreground, var(--vibe-foreground));
+  border-right: 1px solid var(--vibe-border);
+}
+

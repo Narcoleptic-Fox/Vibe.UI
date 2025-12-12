@@ -11,12 +11,12 @@ namespace Vibe.UI.Services.Dialog
         /// <summary>
         /// Gets or sets the dialog ID.
         /// </summary>
-        public string Id { get; set; }
+        public required string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the dialog title.
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ namespace Vibe.UI.Services.Dialog
         /// <summary>
         /// Gets or sets the dialog content.
         /// </summary>
-        public RenderFragment Content { get; set; }
+        public RenderFragment? Content { get; set; }
     }
 
     /// <summary>
@@ -38,6 +38,6 @@ namespace Vibe.UI.Services.Dialog
         /// <summary>
         /// Gets or sets the dialog result.
         /// </summary>
-        public object Result { get; set; }
+        public object? Result { get; set; }
     }
 }

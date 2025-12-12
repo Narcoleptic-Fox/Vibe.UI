@@ -324,7 +324,7 @@ public class ButtonTests : TestBase
     }
 
     [Fact]
-    public void Button_AsLink_WithDisabled_HasDisabledAttribute()
+    public void Button_AsLink_WithDisabled_HasAriaDisabledAttribute()
     {
         // Act
         var cut = RenderComponent<Button>(parameters => parameters
@@ -332,8 +332,13 @@ public class ButtonTests : TestBase
             .Add(p => p.Disabled, true)
             .AddChildContent("Disabled Link"));
 
-        // Assert
-        cut.Find("a").GetAttribute("disabled").ShouldBe("disabled");
+        // Assert - anchors don't support disabled, so we use aria-disabled for accessibility
+        var anchor = cut.Find("a");
+        anchor.GetAttribute("aria-disabled").ShouldBe("true");
+        anchor.GetAttribute("tabindex").ShouldBe("-1");
+        // href should be null when disabled to prevent navigation
+        anchor.GetAttribute("href").ShouldBeNull();
+        anchor.ClassList.ShouldContain("vibe-button-disabled");
     }
 
     // === Event Handlers ===

@@ -4,8 +4,16 @@
 
 @if (Href != null)
 {
-    <a href="@Href" class="@CombinedClass" target="@Target" rel="@RelAttribute" disabled="@(Disabled ? "disabled" : null)"
-        @attributes="AdditionalAttributes" @onclick="OnClickHandler">
+    @* Note: disabled attribute doesn't work on anchors, so we use aria-disabled + pointer-events: none in CSS + click prevention *@
+    <a href="@(Disabled || Loading ? null : Href)"
+        class="@CombinedClass @(Disabled ? "vibe-button-disabled" : "")"
+        target="@Target"
+        rel="@RelAttribute"
+        aria-disabled="@(Disabled || Loading ? "true" : null)"
+        tabindex="@(Disabled || Loading ? -1 : 0)"
+        @attributes="AdditionalAttributes"
+        @onclick="OnClickHandler"
+        @onclick:preventDefault="@(Disabled || Loading)">
         @if (Loading)
         {
             <span class="vibe-button-spinner"></span>

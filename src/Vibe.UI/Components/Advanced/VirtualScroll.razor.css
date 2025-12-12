@@ -1,0 +1,7 @@
+/* VirtualScroll baseline styles */
+
+:global(.vibe-virtual-scroll) {
+  display: block;
+  overflow: auto;
+}
+

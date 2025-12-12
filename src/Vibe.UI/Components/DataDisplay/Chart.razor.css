@@ -1,0 +1,54 @@
+/* Chart baseline styles */
+
+:global(.vibe-chart) {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  background: var(--vibe-card);
+  color: var(--vibe-card-foreground);
+}
+
+:global(.vibe-chart .vibe-chart-header) {
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--vibe-border);
+}
+
+:global(.vibe-chart .vibe-chart-title) {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+:global(.vibe-chart .vibe-chart-description) {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  color: var(--vibe-muted-foreground);
+}
+
+:global(.vibe-chart .vibe-chart-container) {
+  padding: 0.75rem 0.9rem;
+}
+
+:global(.vibe-chart .vibe-chart-legend) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0 0.9rem 0.75rem 0.9rem;
+}
+
+:global(.vibe-chart .vibe-chart-legend-item) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--vibe-muted-foreground);
+}
+
+:global(.vibe-chart .vibe-chart-legend-color) {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid var(--vibe-border);
+}
+

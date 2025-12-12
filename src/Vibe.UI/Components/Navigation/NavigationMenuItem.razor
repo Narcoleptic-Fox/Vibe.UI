@@ -1,7 +1,7 @@
 @namespace Vibe.UI.Components
 @inherits Base.VibeComponent
 @inject IJSRuntime JSRuntime
-@implements IDisposable
+@implements IAsyncDisposable
 
 <div class="@CombinedClass" id="@Id" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave"
     @ref="_elementReference">
@@ -101,6 +101,8 @@
         }
     }
 
+    private IJSObjectReference? _domModule;
+
     /// <summary>
     /// Updates the menu item position.
     /// </summary>
@@ -108,15 +110,18 @@
     {
         try
         {
-            var boundingRect = await JSRuntime.InvokeAsync<DOMRect>("eval",
-            $"document.getElementById('{Id}').getBoundingClientRect()");
+            // Import DOM utilities module if not already loaded
+            _domModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-dom.js");
 
-            // Calculate the position relative to the parent
-            var parentRect = await JSRuntime.InvokeAsync<DOMRect>("eval",
-            $"document.getElementById('{Id}').parentElement.getBoundingClientRect()");
-            var leftPosition = boundingRect.Left - parentRect.Left;
+            var boundingRect = await _domModule.InvokeAsync<DOMRect?>("getBoundingRect", Id);
+            var parentRect = await _domModule.InvokeAsync<DOMRect?>("getParentBoundingRect", Id);
 
-            ParentMenu?.RegisterItem(Id, leftPosition, boundingRect.Width);
+            if (boundingRect != null && parentRect != null)
+            {
+                var leftPosition = boundingRect.Left - parentRect.Left;
+                ParentMenu?.RegisterItem(Id, leftPosition, boundingRect.Width);
+            }
         }
         catch
         {
@@ -174,8 +179,19 @@
     /// <summary>
     /// Disposes the component.
     /// </summary>
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
+        if (_domModule != null)
+        {
+            try
+            {
+                await _domModule.DisposeAsync();
+            }
+            catch
+            {
+                // Ignore disposal errors
+            }
+        }
         GC.SuppressFinalize(this);
     }
 

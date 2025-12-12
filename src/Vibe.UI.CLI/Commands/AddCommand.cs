@@ -43,8 +43,14 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         var componentService = new ComponentService();
 
         // Check if vibe init was run
-        var infrastructurePath = Path.Combine(settings.ProjectPath, "Vibe", "Base", "VibeComponent.cs");
-        if (!File.Exists(infrastructurePath))
+        var vibeBaseDir = Path.Combine(settings.ProjectPath, "Vibe", "Base");
+        var requiredInfrastructureFiles = new[]
+        {
+            Path.Combine(vibeBaseDir, "ClassBuilder.cs"),
+            Path.Combine(vibeBaseDir, "ThemedComponentBase.cs")
+        };
+
+        if (requiredInfrastructureFiles.Any(path => !File.Exists(path)))
         {
             AnsiConsole.MarkupLine("[yellow]Warning:[/] Vibe.UI infrastructure not found.");
             AnsiConsole.MarkupLine("Run [blue]vibe init[/] first to copy the required infrastructure.");
@@ -89,8 +95,8 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         table.AddColumn("Value");
         table.AddRow("Component", component.Name);
         table.AddRow("Category", component.Category);
-        table.AddRow("Description", component.Description);
-        table.AddRow("Dependencies", string.Join(", ", component.Dependencies ?? new List<string>()));
+        table.AddRow("Description", component.Description ?? "No description");
+        table.AddRow("Dependencies", component.Dependencies?.Count > 0 ? string.Join(", ", component.Dependencies) : "None");
 
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();

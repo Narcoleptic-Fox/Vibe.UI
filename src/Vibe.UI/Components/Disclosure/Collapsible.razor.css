@@ -1,0 +1,10 @@
+/* Collapsible baseline styles */
+
+:global(.vibe-collapsible) {
+  display: block;
+}
+
+:global(.vibe-collapsible-content) {
+  overflow: hidden;
+}
+

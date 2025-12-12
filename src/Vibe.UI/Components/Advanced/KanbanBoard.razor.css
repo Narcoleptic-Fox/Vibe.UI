@@ -1,0 +1,105 @@
+/* KanbanBoard baseline styles */
+
+:global(.vibe-kanban) {
+  display: block;
+  width: 100%;
+}
+
+:global(.vibe-kanban .kanban-columns) {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(16rem, 1fr);
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+}
+
+:global(.vibe-kanban .kanban-column) {
+  background: var(--vibe-card);
+  color: var(--vibe-card-foreground);
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  min-height: 8rem;
+}
+
+:global(.vibe-kanban .kanban-column-header) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--vibe-border);
+}
+
+:global(.vibe-kanban .column-title) {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+:global(.vibe-kanban .column-count),
+:global(.vibe-kanban .column-badge) {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--vibe-muted);
+  color: var(--vibe-muted-foreground);
+}
+
+:global(.vibe-kanban .column-add-btn) {
+  margin-left: auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--vibe-border);
+  background: transparent;
+  color: var(--vibe-foreground);
+  cursor: pointer;
+}
+
+:global(.vibe-kanban .kanban-cards) {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+:global(.vibe-kanban .kanban-card) {
+  background: var(--vibe-popover);
+  color: var(--vibe-popover-foreground);
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius-sm);
+  padding: 0.75rem;
+  cursor: pointer;
+}
+
+:global(.vibe-kanban .kanban-card:active) {
+  transform: translateY(1px);
+}
+
+:global(.vibe-kanban .card-title) {
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+:global(.vibe-kanban .card-description) {
+  margin: 0;
+  color: var(--vibe-muted-foreground);
+  font-size: 0.85rem;
+}
+
+:global(.vibe-kanban .card-tags) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+:global(.vibe-kanban .card-tag) {
+  font-size: 0.7rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--vibe-secondary);
+  color: var(--vibe-secondary-foreground);
+  border: 1px solid var(--vibe-border);
+}
+

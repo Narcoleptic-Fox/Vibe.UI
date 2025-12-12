@@ -1,0 +1,6 @@
+/* GridItem baseline styles */
+
+:global(.vibe-grid-item) {
+  min-width: 0;
+}
+
