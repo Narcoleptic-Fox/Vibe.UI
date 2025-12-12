@@ -1,0 +1,7 @@
+/* ToggleGroupItem baseline styles */
+
+:global(.vibe-toggle-group-item) {
+  display: inline-flex;
+  align-items: center;
+}
+

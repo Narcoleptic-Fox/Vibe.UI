@@ -173,7 +173,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         var cssTargetPath = Path.Combine(projectPath, "wwwroot", "css");
         Directory.CreateDirectory(cssTargetPath);
 
-        var cssFiles = new[] { "vibe-base.css", "vibe-utilities.css", "vibe-all.css" };
+        var cssFiles = new[] { "vibe-base.css", "vibe-utilities.css" };
         foreach (var cssFile in cssFiles)
         {
             var cssSource = Path.Combine(cssTemplatePath, cssFile);
@@ -189,13 +189,28 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         var jsTargetPath = Path.Combine(projectPath, "wwwroot", "js");
         Directory.CreateDirectory(jsTargetPath);
 
-        // Always copy themeInterop.js (needed for theme toggling)
-        var themeJsSource = Path.Combine(jsTemplatePath, "themeInterop.js");
-        var themeJsTarget = Path.Combine(jsTargetPath, "themeInterop.js");
-        if (File.Exists(themeJsSource))
+        // Copy core JS modules used by some components.
+        // ThemeToggle requires vibe-theme.js (unless --no-theme).
+        if (!noTheme)
         {
-            await File.WriteAllTextAsync(themeJsTarget, await File.ReadAllTextAsync(themeJsSource));
+            await CopyFileIfExistsAsync(
+                Path.Combine(jsTemplatePath, "vibe-theme.js"),
+                Path.Combine(jsTargetPath, "vibe-theme.js"));
         }
+
+        // NavigationMenuItem uses vibe-dom.js; Resizable uses vibe-resizable.js.
+        await CopyFileIfExistsAsync(
+            Path.Combine(jsTemplatePath, "vibe-dom.js"),
+            Path.Combine(jsTargetPath, "vibe-dom.js"));
+
+        await CopyFileIfExistsAsync(
+            Path.Combine(jsTemplatePath, "vibe-resizable.js"),
+            Path.Combine(jsTargetPath, "vibe-resizable.js"));
+
+        // Optional helper (safe to include).
+        await CopyFileIfExistsAsync(
+            Path.Combine(jsTemplatePath, "vibe-click-outside.js"),
+            Path.Combine(jsTargetPath, "vibe-click-outside.js"));
 
         // Copy vibe-chart.js if charts are requested
         if (withCharts)
@@ -206,6 +221,14 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             {
                 await File.WriteAllTextAsync(chartTarget, await File.ReadAllTextAsync(chartSource));
             }
+        }
+    }
+
+    private static async Task CopyFileIfExistsAsync(string source, string target)
+    {
+        if (File.Exists(source))
+        {
+            await File.WriteAllTextAsync(target, await File.ReadAllTextAsync(source));
         }
     }
 

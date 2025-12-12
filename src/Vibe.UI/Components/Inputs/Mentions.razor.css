@@ -1,0 +1,7 @@
+/* Mentions baseline styles */
+
+:global(.vibe-mentions) {
+  position: relative;
+  display: block;
+}
+

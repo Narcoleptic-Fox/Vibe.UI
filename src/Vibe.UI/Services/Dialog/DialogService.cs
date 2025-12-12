@@ -9,18 +9,18 @@ namespace Vibe.UI.Services.Dialog
     /// </summary>
     public class DialogService : IDialogService
     {
-        private TaskCompletionSource<object> _dialogResult;
-        private string _currentDialogId;
+        private TaskCompletionSource<object?>? _dialogResult;
+        private string? _currentDialogId;
 
         /// <summary>
         /// Event raised when a dialog is opened.
         /// </summary>
-        public event EventHandler<DialogOpenedEventArgs> OnDialogOpened;
+        public event EventHandler<DialogOpenedEventArgs>? OnDialogOpened;
 
         /// <summary>
         /// Event raised when a dialog is closed.
         /// </summary>
-        public event EventHandler<DialogClosedEventArgs> OnDialogClosed;
+        public event EventHandler<DialogClosedEventArgs>? OnDialogClosed;
 
         /// <summary>
         /// Shows a simple alert dialog with an OK button.
@@ -144,13 +144,13 @@ namespace Vibe.UI.Services.Dialog
             });
 
             var result = await ShowCustomAsync(title, content);
-            return result as string;
+            return result as string ?? string.Empty;
         }
 
         /// <summary>
         /// Shows a custom dialog using the specified component type.
         /// </summary>
-        public Task<object> ShowCustomAsync(string title, Type componentType, DialogParameters parameters = null)
+        public Task<object?> ShowCustomAsync(string title, Type componentType, DialogParameters? parameters = null)
         {
             var content = new RenderFragment(builder =>
             {
@@ -173,9 +173,9 @@ namespace Vibe.UI.Services.Dialog
         /// <summary>
         /// Shows a custom dialog using the specified render fragment.
         /// </summary>
-        public Task<object> ShowCustomAsync(string title, RenderFragment content)
+        public Task<object?> ShowCustomAsync(string title, RenderFragment content)
         {
-            _dialogResult = new TaskCompletionSource<object>();
+            _dialogResult = new TaskCompletionSource<object?>();
             
             var dialogId = Guid.NewGuid().ToString();
             _currentDialogId = dialogId;
@@ -195,18 +195,18 @@ namespace Vibe.UI.Services.Dialog
         /// <summary>
         /// Closes the currently open dialog with the specified result.
         /// </summary>
-        public void Close(object result = null)
+        public void Close(object? result = null)
         {
-            if (_dialogResult == null) return;
-            
+            if (_dialogResult == null || _currentDialogId == null) return;
+
             var args = new DialogClosedEventArgs
             {
                 Id = _currentDialogId,
                 Result = result
             };
-            
+
             OnDialogClosed?.Invoke(this, args);
-            
+
             _dialogResult.SetResult(result);
             _dialogResult = null;
             _currentDialogId = null;

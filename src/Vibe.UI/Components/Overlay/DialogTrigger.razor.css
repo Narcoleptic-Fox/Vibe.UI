@@ -1,0 +1,7 @@
+/* DialogTrigger baseline styles */
+
+:global(.vibe-dialog-trigger) {
+  display: inline-flex;
+  cursor: pointer;
+}
+

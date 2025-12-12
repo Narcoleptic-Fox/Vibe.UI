@@ -1,0 +1,8 @@
+/* ColorPicker baseline styles */
+
+:global(.vibe-color-picker) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+

@@ -1,6 +1,6 @@
 # Vibe.UI
 
-Modern Blazor component library with 93+ components.
+Modern Blazor component library with 109+ components. Inspired by shadcn/ui.
 
 ## Installation
 
@@ -10,33 +10,27 @@ dotnet add package Vibe.UI
 
 ## Setup
 
-### 1. Add CSS to your app
+### 1. Add Base CSS
 
-Add the following CSS references to your `_Host.cshtml`, `_Layout.cshtml`, or `index.html`:
+Add to your `App.razor`, `_Host.cshtml`, or `index.html`:
 
 ```html
 <head>
-    <!-- Vibe.UI Base Styles (Required) -->
+    <!-- Design tokens, themes, reset -->
     <link href="_content/Vibe.UI/css/vibe-base.css" rel="stylesheet" />
 
-    <!-- Vibe.UI Component Styles (Required) -->
+    <!-- Scoped component styles (required) -->
     <link href="_content/Vibe.UI/Vibe.UI.styles.css" rel="stylesheet" />
 </head>
 ```
 
-Optional: Include utility classes for rapid styling:
+That's it! Component styles are scoped via `.razor.css` files and bundled into `Vibe.UI.styles.css`.
+
+**Optional:** Add utility classes:
 
 ```html
-<head>
-    <!-- All styles (base + utilities) -->
-    <link href="_content/Vibe.UI/css/vibe-all.css" rel="stylesheet" />
-
-    <!-- Component styles (still required) -->
-    <link href="_content/Vibe.UI/Vibe.UI.styles.css" rel="stylesheet" />
-</head>
+<link href="_content/Vibe.UI/css/vibe-utilities.css" rel="stylesheet" />
 ```
-
-See the [CSS Setup Guide](https://github.com/Dieshen/Vibe.UI/blob/main/docs/CSS-SETUP.md) for detailed configuration options.
 
 ### 2. Register services
 
@@ -80,9 +74,20 @@ vibe add button
 
 Choose the approach that fits your needs!
 
+## Chart.js Setup (Optional)
+
+If using the `Chart` component, add Chart.js:
+
+```html
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="_content/Vibe.UI/js/vibe-chart.js"></script>
+</head>
+```
+
 ## Features
 
-- 93+ production-ready components
+- 109+ production-ready components
 - Built-in theming system (light/dark mode)
 - Chart.js integration
 - Form validation helpers

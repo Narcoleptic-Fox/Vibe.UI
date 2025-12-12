@@ -30,7 +30,11 @@ public class ComponentService
             return new List<string>();
 
         var razorFiles = Directory.GetFiles(installedPath, "*.razor", SearchOption.AllDirectories);
-        return razorFiles.Select(Path.GetFileNameWithoutExtension).ToList();
+        return razorFiles
+            .Select(Path.GetFileNameWithoutExtension)
+            .Where(name => name != null)
+            .Select(name => name!)
+            .ToList();
     }
 
     /// <summary>

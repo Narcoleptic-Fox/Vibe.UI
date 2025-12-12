@@ -1,0 +1,12 @@
+/* FormField baseline styles */
+
+:global(.vibe-form-field) {
+  display: grid;
+  gap: 0.25rem;
+}
+
+:global(.vibe-form-field-description) {
+  font-size: 0.85rem;
+  color: var(--vibe-muted-foreground);
+}
+

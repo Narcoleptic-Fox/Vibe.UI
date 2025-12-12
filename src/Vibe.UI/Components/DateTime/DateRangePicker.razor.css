@@ -1,0 +1,24 @@
+/* DateRangePicker baseline styles */
+
+:global(.date-range-picker) {
+  position: relative;
+  display: block;
+}
+
+:global(.date-range-popup) {
+  position: absolute;
+  z-index: 50;
+  margin-top: 0.5rem;
+  background: var(--vibe-popover);
+  color: var(--vibe-popover-foreground);
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  box-shadow: var(--vibe-shadow-md);
+}
+
+:global(.date-range-backdrop) {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+

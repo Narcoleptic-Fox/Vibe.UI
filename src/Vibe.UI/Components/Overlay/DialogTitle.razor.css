@@ -1,0 +1,7 @@
+/* DialogTitle baseline styles */
+
+:global(.vibe-dialog-title) {
+  margin: 0;
+  font-weight: 600;
+}
+

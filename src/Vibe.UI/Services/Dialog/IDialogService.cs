@@ -46,7 +46,7 @@ namespace Vibe.UI.Services.Dialog
         /// <param name="componentType">The type of the component to render.</param>
         /// <param name="parameters">Parameters to pass to the component.</param>
         /// <returns>The dialog result or null if cancelled/dismissed.</returns>
-        Task<object> ShowCustomAsync(string title, Type componentType, DialogParameters parameters = null);
+        Task<object?> ShowCustomAsync(string title, Type componentType, DialogParameters? parameters = null);
 
         /// <summary>
         /// Shows a custom dialog using the specified render fragment.
@@ -54,13 +54,13 @@ namespace Vibe.UI.Services.Dialog
         /// <param name="title">The title of the dialog.</param>
         /// <param name="content">The content to render in the dialog.</param>
         /// <returns>The dialog result or null if cancelled/dismissed.</returns>
-        Task<object> ShowCustomAsync(string title, RenderFragment content);
+        Task<object?> ShowCustomAsync(string title, RenderFragment content);
 
         /// <summary>
         /// Closes the currently open dialog with the specified result.
         /// </summary>
         /// <param name="result">The result to return.</param>
-        void Close(object result = null);
+        void Close(object? result = null);
 
         /// <summary>
         /// Event raised when a dialog is opened.

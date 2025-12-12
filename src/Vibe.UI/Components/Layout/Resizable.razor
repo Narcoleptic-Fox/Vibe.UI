@@ -149,49 +149,19 @@
             _dotNetRef = DotNetObjectReference.Create(this);
             try
             {
-                _dragModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/resizable-drag.js");
+                // Import the resizable JS module
+                _dragModule = await JSRuntime.InvokeAsync<IJSObjectReference>(
+                    "import", "./_content/Vibe.UI/js/vibe-resizable.js");
+
+                // Create the drag handler
+                _dragRef = await _dragModule.InvokeAsync<IJSObjectReference>(
+                    "createDragHandler", _dotNetRef, Direction == ResizableDirection.Horizontal);
             }
             catch
             {
-                // If the module doesn't exist, we'll create simplified drag behavior
-                // using mouse move events directly in the component
-                await SetupBasicDragHandlingAsync();
+                // Module not available - component will work without JS enhancements
             }
         }
-    }
-
-    /// <summary>
-    /// Sets up basic drag handling if no JS module is available.
-    /// </summary>
-    private async Task SetupBasicDragHandlingAsync()
-    {
-        // This is a simplified approach when no external JS is available
-        await JSRuntime.InvokeVoidAsync("eval", @"
-window.setupResizableDrag = function(dotNetRef) {
-const handleMouseMove = (e) => {
-dotNetRef.invokeMethodAsync('HandleDragMove', e.clientX, e.clientY);
-};
-
-const handleMouseUp = () => {
-document.removeEventListener('mousemove', handleMouseMove);
-document.removeEventListener('mouseup', handleMouseUp);
-dotNetRef.invokeMethodAsync('HandleDragEnd');
-};
-
-return {
-startDrag: function() {
-document.addEventListener('mousemove', handleMouseMove);
-document.addEventListener('mouseup', handleMouseUp);
-},
-dispose: function() {
-document.removeEventListener('mousemove', handleMouseMove);
-document.removeEventListener('mouseup', handleMouseUp);
-}
-};
-}
-");
-
-        _dragRef = await JSRuntime.InvokeAsync<IJSObjectReference>("setupResizableDrag", _dotNetRef);
     }
 
     /// <summary>
@@ -199,12 +169,7 @@ document.removeEventListener('mouseup', handleMouseUp);
     /// </summary>
     private async Task HandleDragStart()
     {
-        if (_dragModule != null)
-        {
-            await _dragModule.InvokeVoidAsync("startDrag", _handleReference, _dotNetRef,
-            Direction == ResizableDirection.Horizontal);
-        }
-        else if (_dragRef != null)
+        if (_dragRef != null)
         {
             await _dragRef.InvokeVoidAsync("startDrag");
         }

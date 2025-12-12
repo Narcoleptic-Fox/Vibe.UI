@@ -1,0 +1,6 @@
+/* ValidatedInput baseline styles */
+
+:global(.vibe-validated-input) {
+  display: block;
+}
+

@@ -1,0 +1,9 @@
+/* ImageCropper baseline styles */
+
+:global(.vibe-image-cropper) {
+  display: block;
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  background: var(--vibe-card);
+}
+

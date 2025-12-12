@@ -201,6 +201,6 @@
     /// </summary>
     public async Task FocusAsync()
     {
-        await JS.InvokeVoidAsync("eval", $"document.querySelector('[_bl_{InputRef.Id}]').focus()");
+        await InputRef.FocusAsync();
     }
 }

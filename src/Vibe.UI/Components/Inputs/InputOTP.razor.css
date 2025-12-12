@@ -1,0 +1,17 @@
+/* InputOTP baseline styles */
+
+:global(.vibe-input-otp) {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+:global(.vibe-input-otp input) {
+  width: 2.5rem;
+  height: 2.75rem;
+  text-align: center;
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius-sm);
+  background: var(--vibe-background);
+  color: var(--vibe-foreground);
+}
+

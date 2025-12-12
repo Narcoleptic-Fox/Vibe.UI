@@ -1,0 +1,10 @@
+/* DialogFooter baseline styles */
+
+:global(.vibe-dialog-footer) {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem;
+  border-top: 1px solid var(--vibe-border);
+}
+

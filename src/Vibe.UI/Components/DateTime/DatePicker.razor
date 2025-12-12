@@ -3,15 +3,15 @@
 @inject IJSRuntime JSRuntime
 @using System.Globalization
 
-<div class="@CombinedClass">
+<div class="@CombinedClass" @attributes="AdditionalAttributes">
     <div class="date-input-wrapper">
-        <Input 
+        <Input
             class="date-input"
             type="text"
             Value="@FormattedDate"
-            readonly="true"
-            placeholder="@Placeholder"
-            disabled="@Disabled" 
+            ReadOnly="true"
+            Placeholder="@Placeholder"
+            Disabled="@Disabled"
             @onclick="ToggleCalendar" />
             
         <div class="date-icon" @onclick="ToggleCalendar">

@@ -3,7 +3,7 @@
 @using Vibe.UI.Base
 @inherits VibeComponent
 
-<div class="@GetContainerClass()">
+<div class="@CombinedClass">
     <div class="@GetInputWrapperClass()">
         @if (!string.IsNullOrEmpty(LeadingIcon))
         {
@@ -11,7 +11,7 @@
         }
         <input type="@Type" class="@GetInputClass()" id="@Id" placeholder="@GetPlaceholder()" value="@Value"
             @onchange="OnValueChanged" @oninput="OnInput" @onfocus="OnFocus" @onblur="OnBlur" disabled="@Disabled"
-            readonly="@ReadOnly" />
+            readonly="@ReadOnly" @attributes="GetInputAttributes()" />
         @if (!string.IsNullOrEmpty(Label))
         {
             <label class="@GetLabelClass()" for="@Id">@Label</label>
@@ -111,5 +111,26 @@
             return Placeholder;
 
         return string.Empty;
+    }
+
+    /// <summary>
+    /// Gets the attributes to forward to the input element, filtering out container-level attributes.
+    /// </summary>
+    private Dictionary<string, object>? GetInputAttributes()
+    {
+        if (AdditionalAttributes == null || AdditionalAttributes.Count == 0)
+            return null;
+
+        // Filter out class attribute (handled separately) but forward everything else to input
+        var inputAttrs = new Dictionary<string, object>();
+        foreach (var attr in AdditionalAttributes)
+        {
+            // Skip class as it's already handled by CombinedClass on container
+            if (!attr.Key.Equals("class", StringComparison.OrdinalIgnoreCase))
+            {
+                inputAttrs[attr.Key] = attr.Value;
+            }
+        }
+        return inputAttrs.Count > 0 ? inputAttrs : null;
     }
 }

@@ -113,10 +113,25 @@
         if (Duration > 0)
         {
             _dismissTimer = new System.Timers.Timer(Duration);
-            _dismissTimer.Elapsed += (sender, e) => Close();
+            _dismissTimer.Elapsed += OnTimerElapsed;
             _dismissTimer.AutoReset = false;
             _dismissTimer.Start();
         }
+    }
+
+    /// <summary>
+    /// Handles the timer elapsed event with proper Blazor Server thread safety.
+    /// </summary>
+    private async void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        // Use InvokeAsync to ensure StateHasChanged is called on the UI thread
+        // This is critical for Blazor Server where the timer runs on a background thread
+        await InvokeAsync(async () =>
+        {
+            IsVisible = false;
+            StateHasChanged();
+            await OnClose.InvokeAsync();
+        });
     }
 
     /// <summary>
@@ -124,6 +139,7 @@
     /// </summary>
     private async Task Close()
     {
+        _dismissTimer?.Stop();
         IsVisible = false;
         StateHasChanged();
         await OnClose.InvokeAsync();

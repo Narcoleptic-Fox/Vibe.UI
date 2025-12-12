@@ -38,11 +38,6 @@
       Version="9.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\themeInterop.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="../../icon.png" Pack="true" PackagePath="" Condition="Exists('../../icon.png')" />
