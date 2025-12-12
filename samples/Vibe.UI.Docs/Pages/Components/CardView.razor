@@ -23,39 +23,31 @@
         <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
         <div class="grid gap-6 md:grid-cols-2 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
             <Card>
-                <CardHeader>
-                    <CardTitle>Card Title</CardTitle>
-                    <CardDescription>Card description goes here.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p class="text-sm text-zinc-600 dark:text-zinc-400">This is the main content area of the card.</p>
-                </CardContent>
-                <CardFooter>
+                <CardTitle>Card Title</CardTitle>
+                <CardDescription>Card description goes here.</CardDescription>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400">This is the main content area of the card.</p>
+                <Footer>
                     <Button Variant="ButtonVariant.Primary" Size="ComponentSize.Small">Action</Button>
-                </CardFooter>
+                </Footer>
             </Card>
 
             <Card>
-                <CardHeader>
-                    <CardTitle>Notifications</CardTitle>
-                    <CardDescription>You have 3 unread messages.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                            <span class="text-sm">New comment on your post</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                            <span class="text-sm">Someone liked your photo</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                            <span class="text-sm">New follower</span>
-                        </div>
+                <CardTitle>Notifications</CardTitle>
+                <CardDescription>You have 3 unread messages.</CardDescription>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                        <span class="text-sm">New comment on your post</span>
                     </div>
-                </CardContent>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                        <span class="text-sm">Someone liked your photo</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                        <span class="text-sm">New follower</span>
+                    </div>
+                </div>
             </Card>
         </div>
     </section>
@@ -81,26 +73,24 @@
             </p>
             <div class="max-w-sm p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
                 <Card>
-                    <CardHeader>
-                        <CardTitle>Create project</CardTitle>
-                        <CardDescription>Deploy your new project in one-click.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div class="space-y-4">
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium">Name</label>
-                                <Input Placeholder="Name of your project" />
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium">Framework</label>
-                                <Input Placeholder="Select framework" />
-                            </div>
+                    <CardTitle>Create project</CardTitle>
+                    <CardDescription>Deploy your new project in one-click.</CardDescription>
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Name</label>
+                            <Input Placeholder="Name of your project" />
                         </div>
-                    </CardContent>
-                    <CardFooter class="flex justify-between">
-                        <Button Variant="ButtonVariant.Outline">Cancel</Button>
-                        <Button Variant="ButtonVariant.Primary">Deploy</Button>
-                    </CardFooter>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Framework</label>
+                            <Input Placeholder="Select framework" />
+                        </div>
+                    </div>
+                    <Footer>
+                        <div class="flex justify-between">
+                            <Button Variant="ButtonVariant.Outline">Cancel</Button>
+                            <Button Variant="ButtonVariant.Primary">Deploy</Button>
+                        </div>
+                    </Footer>
                 </Card>
             </div>
             <CodeBlock Code="@FormCode" Language="razor" />
@@ -260,46 +250,38 @@
 
 @code {
     private string BasicCode => @"<Card>
-    <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card description goes here.</CardDescription>
-    </CardHeader>
-    <CardContent>
-        <p>This is the main content area of the card.</p>
-    </CardContent>
-    <CardFooter>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card description goes here.</CardDescription>
+    <p>This is the main content area of the card.</p>
+    <Footer>
         <Button>Action</Button>
-    </CardFooter>
+    </Footer>
 </Card>";
 
     private string FormCode => @"<Card>
-    <CardHeader>
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-    </CardHeader>
-    <CardContent>
-        <div class=""space-y-4"">
-            <div class=""space-y-2"">
-                <label>Name</label>
-                <Input Placeholder=""Name of your project"" />
-            </div>
-            <div class=""space-y-2"">
-                <label>Framework</label>
-                <Input Placeholder=""Select framework"" />
-            </div>
+    <CardTitle>Create project</CardTitle>
+    <CardDescription>Deploy your new project in one-click.</CardDescription>
+    <div class=""space-y-4"">
+        <div class=""space-y-2"">
+            <label>Name</label>
+            <Input Placeholder=""Name of your project"" />
         </div>
-    </CardContent>
-    <CardFooter class=""flex justify-between"">
-        <Button Variant=""ButtonVariant.Outline"">Cancel</Button>
-        <Button Variant=""ButtonVariant.Primary"">Deploy</Button>
-    </CardFooter>
+        <div class=""space-y-2"">
+            <label>Framework</label>
+            <Input Placeholder=""Select framework"" />
+        </div>
+    </div>
+    <Footer>
+        <div class=""flex justify-between"">
+            <Button Variant=""ButtonVariant.Outline"">Cancel</Button>
+            <Button Variant=""ButtonVariant.Primary"">Deploy</Button>
+        </div>
+    </Footer>
 </Card>";
 
     private string ClickableCode => @"<Card class=""cursor-pointer hover:border-brand-teal transition-colors"" @onclick=""HandleClick"">
-    <CardHeader>
-        <CardTitle>Clickable Card</CardTitle>
-        <CardDescription>Click anywhere on this card.</CardDescription>
-    </CardHeader>
+    <CardTitle>Clickable Card</CardTitle>
+    <CardDescription>Click anywhere on this card.</CardDescription>
 </Card>
 
 @code {
@@ -311,22 +293,16 @@
 
     private string GridCode => @"<div class=""grid gap-4 md:grid-cols-2 lg:grid-cols-3"">
     <Card>
-        <CardHeader>
-            <CardTitle>Card 1</CardTitle>
-        </CardHeader>
-        <CardContent>Content here</CardContent>
+        <CardTitle>Card 1</CardTitle>
+        Content here
     </Card>
     <Card>
-        <CardHeader>
-            <CardTitle>Card 2</CardTitle>
-        </CardHeader>
-        <CardContent>Content here</CardContent>
+        <CardTitle>Card 2</CardTitle>
+        Content here
     </Card>
     <Card>
-        <CardHeader>
-            <CardTitle>Card 3</CardTitle>
-        </CardHeader>
-        <CardContent>Content here</CardContent>
+        <CardTitle>Card 3</CardTitle>
+        Content here
     </Card>
 </div>";
 }

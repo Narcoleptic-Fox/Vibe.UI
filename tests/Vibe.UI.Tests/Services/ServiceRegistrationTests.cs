@@ -365,6 +365,27 @@ public class ServiceRegistrationTests
         eventFired.ShouldBeFalse(); // Event hasn't been triggered yet
     }
 
+    [Fact]
+    public async Task DialogService_ShowCustomAsync_ThrowsWhenDialogAlreadyOpen()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddVibeUI();
+        var provider = services.BuildServiceProvider();
+        var dialogService = provider.GetRequiredService<IDialogService>();
+
+        Microsoft.AspNetCore.Components.RenderFragment content = _ => { };
+
+        // Act
+        var first = dialogService.ShowCustomAsync("First", content);
+
+        // Assert
+        Should.Throw<InvalidOperationException>(() => dialogService.ShowCustomAsync("Second", content));
+
+        dialogService.Close();
+        await first;
+    }
+
     #endregion
 
     #region Multiple Registration Tests

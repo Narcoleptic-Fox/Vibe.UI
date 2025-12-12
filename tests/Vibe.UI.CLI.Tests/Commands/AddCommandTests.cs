@@ -245,9 +245,12 @@ public class AddCommandTests : IDisposable
         var vibeBasePath = Path.Combine(_testProjectPath, "Vibe", "Base");
         Directory.CreateDirectory(vibeBasePath);
 
-        // Create required infrastructure file
-        var VibeComponentPath = Path.Combine(vibeBasePath, "VibeComponent.cs");
-        await File.WriteAllTextAsync(VibeComponentPath, "// Placeholder for VibeComponent");
+        // Create required infrastructure files expected by AddCommand
+        var classBuilderPath = Path.Combine(vibeBasePath, "ClassBuilder.cs");
+        await File.WriteAllTextAsync(classBuilderPath, "// Placeholder for ClassBuilder");
+
+        var themedComponentBasePath = Path.Combine(vibeBasePath, "ThemedComponentBase.cs");
+        await File.WriteAllTextAsync(themedComponentBasePath, "// Placeholder for ThemedComponentBase");
 
         // Save configuration
         var configService = new ConfigService();

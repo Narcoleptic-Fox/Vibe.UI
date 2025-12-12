@@ -165,6 +165,30 @@ public class ComponentServiceTests : IDisposable
     }
 
     [Fact]
+    public async Task InstallComponentAsync_ThrowsException_WhenComponentsDirIsRooted()
+    {
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => _componentService.InstallComponentAsync(_testProjectPath, Path.GetTempPath(), "button", false));
+    }
+
+    [Fact]
+    public async Task InstallComponentAsync_ThrowsException_WhenComponentsDirEscapesProject()
+    {
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => _componentService.InstallComponentAsync(_testProjectPath, "..\\..\\outside", "button", false));
+    }
+
+    [Fact]
+    public async Task InstallComponentAsync_ThrowsException_WhenCustomOutputDirEscapesProject()
+    {
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => _componentService.InstallComponentAsync(_testProjectPath, "Components", "button", false, customName: null, customOutputDir: "..\\..\\outside"));
+    }
+
+    [Fact]
     public async Task InstallComponentAsync_DoesNotOverwrite_WhenOverwriteIsFalse()
     {
         // Arrange - Flat structure: component goes directly to Components/Button.razor

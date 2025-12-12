@@ -99,13 +99,13 @@
                 Group multiple avatars together with a maximum display count.
             </p>
             <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
-                <AvatarGroup Max="3">
+                <div class="flex items-center -space-x-3">
                     <Avatar Src="https://i.pravatar.cc/150?img=1" />
                     <Avatar Src="https://i.pravatar.cc/150?img=2" />
                     <Avatar Src="https://i.pravatar.cc/150?img=3" />
                     <Avatar Src="https://i.pravatar.cc/150?img=4" />
                     <Avatar Src="https://i.pravatar.cc/150?img=5" />
-                </AvatarGroup>
+                </div>
             </div>
             <CodeBlock Code="@GroupCode" Language="razor" />
         </div>
@@ -249,11 +249,11 @@
     <span class=""icon"">👤</span>
 </Avatar>";
 
-    private string GroupCode => @"<AvatarGroup Max=""3"">
+    private string GroupCode => @"<div class=""flex items-center -space-x-3"">
     <Avatar Src=""https://i.pravatar.cc/150?img=1"" />
     <Avatar Src=""https://i.pravatar.cc/150?img=2"" />
     <Avatar Src=""https://i.pravatar.cc/150?img=3"" />
     <Avatar Src=""https://i.pravatar.cc/150?img=4"" />
     <Avatar Src=""https://i.pravatar.cc/150?img=5"" />
-</AvatarGroup>";
+</div>";
 }

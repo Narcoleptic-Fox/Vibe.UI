@@ -63,6 +63,7 @@ namespace Vibe.UI.Services.Toast
         /// </summary>
         public Task ShowCustomAsync(string title, string? message, string variant, string? icon = null, int duration = 5000)
         {
+            var safeDuration = Math.Max(0, duration);
             var toastId = Guid.NewGuid().ToString();
             var args = new ToastEventArgs
             {
@@ -71,18 +72,35 @@ namespace Vibe.UI.Services.Toast
                 Description = message ?? string.Empty,
                 Variant = variant,
                 Icon = icon,
-                Duration = duration
+                Duration = safeDuration
             };
 
             OnToastAdded?.Invoke(this, args);
 
             // Schedule removal of the toast after the duration
-            Task.Delay(duration).ContinueWith(_ =>
-            {
-                OnToastRemoved?.Invoke(this, args);
-            });
+            _ = RemoveAfterDelayAsync(args, safeDuration);
 
             return Task.CompletedTask;
+        }
+
+        private async Task RemoveAfterDelayAsync(ToastEventArgs args, int duration)
+        {
+            try
+            {
+                await Task.Delay(duration).ConfigureAwait(false);
+                try
+                {
+                    OnToastRemoved?.Invoke(this, args);
+                }
+                catch
+                {
+                    // Swallow event handler exceptions to avoid unobserved task exceptions.
+                }
+            }
+            catch
+            {
+                // Ignore: Task.Delay can throw for cancellation, etc. (none expected here).
+            }
         }
     }
 }

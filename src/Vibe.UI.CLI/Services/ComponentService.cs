@@ -24,7 +24,7 @@ public class ComponentService
 
     public List<string> GetInstalledComponents(string projectPath, string componentsDir)
     {
-        var installedPath = Path.Combine(projectPath, componentsDir);
+        var installedPath = GetProjectRelativePath(projectPath, componentsDir, "componentsDir");
 
         if (!Directory.Exists(installedPath))
             return new List<string>();
@@ -96,8 +96,8 @@ public class ComponentService
         // easier to discover. Users can override this with customOutputDir to maintain their own
         // organizational structure (e.g., category subdirectories).
         var targetDir = string.IsNullOrEmpty(customOutputDir)
-            ? Path.Combine(projectPath, componentsDir)
-            : Path.Combine(projectPath, customOutputDir);
+            ? GetProjectRelativePath(projectPath, componentsDir, "componentsDir")
+            : GetProjectRelativePath(projectPath, customOutputDir, "customOutputDir");
 
         Directory.CreateDirectory(targetDir);
 
@@ -242,6 +242,7 @@ public class ComponentService
             ["table"] = new ComponentInfo { Name = "Table", Category = "DataDisplay", Description = "A responsive table component", HasCss = false },
             ["chart"] = new ComponentInfo { Name = "Chart", Category = "DataDisplay", Description = "Data visualization charts", HasCss = false, HasJavaScript = true },
             ["timeline"] = new ComponentInfo { Name = "Timeline", Category = "DataDisplay", Description = "Event timeline with status indicators and timestamps" },
+            ["tag"] = new ComponentInfo { Name = "Tag", Category = "DataDisplay", Description = "Compact label/pill component with variants and optional remove action" },
 
             // Layout (12 components)
             ["aspectratio"] = new ComponentInfo { Name = "AspectRatio", Category = "Layout", Description = "Displays content within a desired aspect ratio" },
@@ -395,12 +396,19 @@ public class ComponentService
     /// </summary>
     private string RenameComponentInContent(string content, string originalName, string newName)
     {
-        // Replace class name references
-        // This handles cases like: public class Button, partial class Button, etc.
+        // Avoid broad replacements (can unintentionally rewrite labels/text).
+        // Only rename explicit class declarations if present.
+        // Note: Most Razor components do not declare a class here; the component name is the file name.
         content = System.Text.RegularExpressions.Regex.Replace(
             content,
-            $@"\b{originalName}\b",
-            newName,
+            $@"(\bpartial\s+class\s+){System.Text.RegularExpressions.Regex.Escape(originalName)}\b",
+            $"$1{newName}",
+            System.Text.RegularExpressions.RegexOptions.None);
+
+        content = System.Text.RegularExpressions.Regex.Replace(
+            content,
+            $@"(\bclass\s+){System.Text.RegularExpressions.Regex.Escape(originalName)}\b",
+            $"$1{newName}",
             System.Text.RegularExpressions.RegexOptions.None);
 
         return content;
@@ -472,5 +480,36 @@ public class ComponentService
             "([a-z])([A-Z])",
             "$1-$2"
         ).ToLowerInvariant();
+    }
+
+    private static string GetProjectRelativePath(string projectPath, string relativePath, string parameterName)
+    {
+        if (string.IsNullOrWhiteSpace(projectPath))
+        {
+            throw new ArgumentException("Project path cannot be empty.", nameof(projectPath));
+        }
+
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            throw new ArgumentException($"{parameterName} cannot be empty.", parameterName);
+        }
+
+        if (Path.IsPathRooted(relativePath))
+        {
+            throw new InvalidOperationException($"{parameterName} must be a relative path.");
+        }
+
+        var projectFullPath = Path.GetFullPath(projectPath);
+        var candidateFullPath = Path.GetFullPath(Path.Combine(projectFullPath, relativePath));
+
+        var projectPrefix = projectFullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            + Path.DirectorySeparatorChar;
+
+        if (!candidateFullPath.StartsWith(projectPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException($"{parameterName} must be within the project directory.");
+        }
+
+        return candidateFullPath;
     }
 }

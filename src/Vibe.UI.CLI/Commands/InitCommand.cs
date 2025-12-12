@@ -60,6 +60,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         {
             componentDir = AnsiConsole.Ask("Where should components be installed?", "Components/vibe");
         }
+        ValidateProjectRelativePath(settings.ProjectPath, componentDir, "components directory");
 
         // Select base color (shadcn-style)
         var baseColor = "Slate";
@@ -401,5 +402,34 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
   --vibe-input: {darkColors.Item4};
   --vibe-ring: {darkColors.Item3};
 }}";
+    }
+
+    private static void ValidateProjectRelativePath(string projectPath, string relativePath, string description)
+    {
+        if (string.IsNullOrWhiteSpace(projectPath))
+        {
+            throw new ArgumentException("Project path cannot be empty.", nameof(projectPath));
+        }
+
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            throw new ArgumentException($"{description} cannot be empty.", nameof(relativePath));
+        }
+
+        if (Path.IsPathRooted(relativePath))
+        {
+            throw new InvalidOperationException($"{description} must be a relative path.");
+        }
+
+        var projectFullPath = Path.GetFullPath(projectPath);
+        var candidateFullPath = Path.GetFullPath(Path.Combine(projectFullPath, relativePath));
+
+        var projectPrefix = projectFullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            + Path.DirectorySeparatorChar;
+
+        if (!candidateFullPath.StartsWith(projectPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException($"{description} must be within the project directory.");
+        }
     }
 }

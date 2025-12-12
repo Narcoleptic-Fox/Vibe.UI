@@ -9,6 +9,7 @@ namespace Vibe.UI.Services.Dialog
     /// </summary>
     public class DialogService : IDialogService
     {
+        private readonly object _sync = new();
         private TaskCompletionSource<object?>? _dialogResult;
         private string? _currentDialogId;
 
@@ -158,9 +159,10 @@ namespace Vibe.UI.Services.Dialog
                 
                 if (parameters != null)
                 {
+                    var seq = 1;
                     foreach (var param in parameters.GetAll())
                     {
-                        builder.AddAttribute(1, param.Key, param.Value);
+                        builder.AddAttribute(seq++, param.Key, param.Value);
                     }
                 }
                 
@@ -175,21 +177,34 @@ namespace Vibe.UI.Services.Dialog
         /// </summary>
         public Task<object?> ShowCustomAsync(string title, RenderFragment content)
         {
-            _dialogResult = new TaskCompletionSource<object?>();
-            
-            var dialogId = Guid.NewGuid().ToString();
-            _currentDialogId = dialogId;
-            
-            var args = new DialogOpenedEventArgs
+            DialogOpenedEventArgs args;
+            Task<object?> task;
+
+            lock (_sync)
             {
-                Id = dialogId,
-                Title = title,
-                Content = content
-            };
+                if (_dialogResult != null)
+                {
+                    throw new InvalidOperationException("A dialog is already open. Close it before opening another.");
+                }
+
+                _dialogResult = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+                var dialogId = Guid.NewGuid().ToString();
+                _currentDialogId = dialogId;
+
+                args = new DialogOpenedEventArgs
+                {
+                    Id = dialogId,
+                    Title = title,
+                    Content = content
+                };
+
+                task = _dialogResult.Task;
+            }
 
             OnDialogOpened?.Invoke(this, args);
-            
-            return _dialogResult.Task;
+
+            return task;
         }
 
         /// <summary>
@@ -197,19 +212,29 @@ namespace Vibe.UI.Services.Dialog
         /// </summary>
         public void Close(object? result = null)
         {
-            if (_dialogResult == null || _currentDialogId == null) return;
+            DialogClosedEventArgs? args = null;
+            TaskCompletionSource<object?>? tcs = null;
 
-            var args = new DialogClosedEventArgs
+            lock (_sync)
             {
-                Id = _currentDialogId,
-                Result = result
-            };
+                if (_dialogResult == null || _currentDialogId == null)
+                {
+                    return;
+                }
+
+                args = new DialogClosedEventArgs
+                {
+                    Id = _currentDialogId,
+                    Result = result
+                };
+
+                tcs = _dialogResult;
+                _dialogResult = null;
+                _currentDialogId = null;
+            }
 
             OnDialogClosed?.Invoke(this, args);
-
-            _dialogResult.SetResult(result);
-            _dialogResult = null;
-            _currentDialogId = null;
+            tcs.TrySetResult(result);
         }
     }
 }
