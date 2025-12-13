@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using FluentAssertions;
 using Spectre.Console.Cli;
 using Vibe.UI.CLI.Commands;
@@ -231,6 +232,216 @@ public class InitCommandTests : IDisposable
         config.ComponentsDirectory.Should().Contain("Components"); // Could be "Components/vibe"
         config.CssVariables.Should().BeTrue();
     }
+
+    #region Vibe.CSS Integration Tests
+
+    [Fact]
+    public async Task ExecuteAsync_WithCss_AddsVibeCssPackageReference()
+    {
+        // Arrange
+        var csprojPath = Path.Combine(_testProjectPath, "Test.csproj");
+        await File.WriteAllTextAsync(csprojPath, @"<Project Sdk=""Microsoft.NET.Sdk.Web"">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include=""Microsoft.AspNetCore.Components.Web"" Version=""9.0.0"" />
+  </ItemGroup>
+</Project>");
+
+        var settings = new InitCommand.Settings
+        {
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath,
+            WithCss = true  // Explicitly enable Vibe.CSS
+        };
+
+        var context = new CommandContext(
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
+
+        // Act
+        await _command.ExecuteAsync(context, settings);
+
+        // Assert
+        var updatedCsproj = await File.ReadAllTextAsync(csprojPath);
+        var doc = XDocument.Parse(updatedCsproj);
+        var ns = doc.Root!.GetDefaultNamespace();
+
+        var vibeCssRef = doc.Descendants(ns + "PackageReference")
+            .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
+
+        vibeCssRef.Should().NotBeNull("Vibe.CSS package reference should be added with --with-css");
+        vibeCssRef!.Attribute("Version")?.Value.Should().Be("1.0.0");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_WithCss_AddsVibeCssConfiguration()
+    {
+        // Arrange
+        var csprojPath = Path.Combine(_testProjectPath, "Test.csproj");
+        await File.WriteAllTextAsync(csprojPath, @"<Project Sdk=""Microsoft.NET.Sdk.Web"">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+</Project>");
+
+        var settings = new InitCommand.Settings
+        {
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath,
+            WithCss = true  // Explicitly enable Vibe.CSS
+        };
+
+        var context = new CommandContext(
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
+
+        // Act
+        await _command.ExecuteAsync(context, settings);
+
+        // Assert
+        var updatedCsproj = await File.ReadAllTextAsync(csprojPath);
+        var doc = XDocument.Parse(updatedCsproj);
+        var ns = doc.Root!.GetDefaultNamespace();
+
+        var vibeCssEnabled = doc.Descendants(ns + "VibeCssEnabled").FirstOrDefault();
+        var vibeCssOutput = doc.Descendants(ns + "VibeCssOutput").FirstOrDefault();
+        var vibeCssIncludeBase = doc.Descendants(ns + "VibeCssIncludeBase").FirstOrDefault();
+
+        vibeCssEnabled.Should().NotBeNull("VibeCssEnabled should be added with --with-css");
+        vibeCssEnabled!.Value.Should().Be("true");
+
+        vibeCssOutput.Should().NotBeNull("VibeCssOutput should be added with --with-css");
+        vibeCssOutput!.Value.Should().Be("wwwroot/css/vibe.css");
+
+        vibeCssIncludeBase.Should().NotBeNull("VibeCssIncludeBase should be added with --with-css");
+        vibeCssIncludeBase!.Value.Should().Be("true");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_Default_SkipsVibeCssPackageReference()
+    {
+        // Arrange
+        var csprojPath = Path.Combine(_testProjectPath, "Test.csproj");
+        await File.WriteAllTextAsync(csprojPath, @"<Project Sdk=""Microsoft.NET.Sdk.Web"">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include=""Microsoft.AspNetCore.Components.Web"" Version=""9.0.0"" />
+  </ItemGroup>
+</Project>");
+
+        var settings = new InitCommand.Settings
+        {
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath
+            // WithCss defaults to false
+        };
+
+        var context = new CommandContext(
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
+
+        // Act
+        await _command.ExecuteAsync(context, settings);
+
+        // Assert
+        var updatedCsproj = await File.ReadAllTextAsync(csprojPath);
+        var doc = XDocument.Parse(updatedCsproj);
+        var ns = doc.Root!.GetDefaultNamespace();
+
+        var vibeCssRef = doc.Descendants(ns + "PackageReference")
+            .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
+
+        vibeCssRef.Should().BeNull("Vibe.CSS package reference should NOT be added by default");
+
+        var vibeCssEnabled = doc.Descendants(ns + "VibeCssEnabled").FirstOrDefault();
+        vibeCssEnabled.Should().BeNull("VibeCssEnabled should NOT be added by default");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_WithCss_ExistingVibeCssReference_DoesNotDuplicate()
+    {
+        // Arrange
+        var csprojPath = Path.Combine(_testProjectPath, "Test.csproj");
+        await File.WriteAllTextAsync(csprojPath, @"<Project Sdk=""Microsoft.NET.Sdk.Web"">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VibeCssEnabled>true</VibeCssEnabled>
+    <VibeCssOutput>wwwroot/css/vibe.css</VibeCssOutput>
+    <VibeCssIncludeBase>true</VibeCssIncludeBase>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include=""Vibe.CSS"" Version=""1.0.0"" />
+  </ItemGroup>
+</Project>");
+
+        var settings = new InitCommand.Settings
+        {
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath,
+            WithCss = true  // Explicitly enable Vibe.CSS
+        };
+
+        var context = new CommandContext(
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
+
+        // Act
+        await _command.ExecuteAsync(context, settings);
+
+        // Assert
+        var updatedCsproj = await File.ReadAllTextAsync(csprojPath);
+        var doc = XDocument.Parse(updatedCsproj);
+        var ns = doc.Root!.GetDefaultNamespace();
+
+        var vibeCssRefs = doc.Descendants(ns + "PackageReference")
+            .Where(pr => pr.Attribute("Include")?.Value == "Vibe.CSS")
+            .ToList();
+
+        vibeCssRefs.Should().HaveCount(1, "Should not duplicate Vibe.CSS reference");
+
+        var vibeCssEnabledElements = doc.Descendants(ns + "VibeCssEnabled").ToList();
+        vibeCssEnabledElements.Should().HaveCount(1, "Should not duplicate VibeCssEnabled");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_NoCsprojFile_DoesNotThrow()
+    {
+        // Arrange - No csproj file created
+        var settings = new InitCommand.Settings
+        {
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath
+        };
+
+        var context = new CommandContext(
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
+
+        // Act
+        var result = await _command.ExecuteAsync(context, settings);
+
+        // Assert - Should complete without throwing
+        result.Should().Be(0);
+        File.Exists(Path.Combine(_testProjectPath, "vibe.json")).Should().BeTrue();
+    }
+
+    #endregion
 
     public void Dispose()
     {

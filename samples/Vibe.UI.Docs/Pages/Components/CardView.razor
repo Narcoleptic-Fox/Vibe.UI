@@ -25,7 +25,9 @@
             <Card>
                 <CardTitle>Card Title</CardTitle>
                 <CardDescription>Card description goes here.</CardDescription>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400">This is the main content area of the card.</p>
+                <ChildContent>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">This is the main content area of the card.</p>
+                </ChildContent>
                 <Footer>
                     <Button Variant="ButtonVariant.Primary" Size="ComponentSize.Small">Action</Button>
                 </Footer>
@@ -34,20 +36,22 @@
             <Card>
                 <CardTitle>Notifications</CardTitle>
                 <CardDescription>You have 3 unread messages.</CardDescription>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                        <span class="text-sm">New comment on your post</span>
+                <ChildContent>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                            <span class="text-sm">New comment on your post</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                            <span class="text-sm">Someone liked your photo</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                            <span class="text-sm">New follower</span>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                        <span class="text-sm">Someone liked your photo</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                        <span class="text-sm">New follower</span>
-                    </div>
-                </div>
+                </ChildContent>
             </Card>
         </div>
     </section>
@@ -75,16 +79,18 @@
                 <Card>
                     <CardTitle>Create project</CardTitle>
                     <CardDescription>Deploy your new project in one-click.</CardDescription>
-                    <div class="space-y-4">
-                        <div class="space-y-2">
-                            <label class="text-sm font-medium">Name</label>
-                            <Input Placeholder="Name of your project" />
+                    <ChildContent>
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Name</label>
+                                <Input Placeholder="Name of your project" />
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Framework</label>
+                                <Input Placeholder="Select framework" />
+                            </div>
                         </div>
-                        <div class="space-y-2">
-                            <label class="text-sm font-medium">Framework</label>
-                            <Input Placeholder="Select framework" />
-                        </div>
-                    </div>
+                    </ChildContent>
                     <Footer>
                         <div class="flex justify-between">
                             <Button Variant="ButtonVariant.Outline">Cancel</Button>

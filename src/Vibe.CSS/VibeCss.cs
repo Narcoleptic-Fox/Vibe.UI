@@ -1,0 +1,179 @@
+using Vibe.CSS.Emitter;
+using Vibe.CSS.Generator;
+using Vibe.CSS.Scanner;
+
+namespace Vibe.CSS;
+
+/// <summary>
+/// Main entry point for Vibe.CSS functionality.
+/// </summary>
+public static class VibeCss
+{
+    /// <summary>
+    /// Generate CSS for a project by scanning its source files.
+    /// </summary>
+    /// <param name="projectDirectory">Root directory of the project</param>
+    /// <param name="outputPath">Path to write the generated CSS</param>
+    /// <param name="options">Generation options</param>
+    public static GenerationResult Generate(string projectDirectory, string outputPath, GenerationOptions? options = null)
+    {
+        options ??= new GenerationOptions();
+        return Generate(projectDirectory, outputPath, options.ScanPatterns, options.Prefix, options.IncludeBase);
+    }
+
+    /// <summary>
+    /// Generate CSS for a project by scanning its source files.
+    /// </summary>
+    /// <param name="projectDirectory">Root directory of the project</param>
+    /// <param name="outputPath">Path to write the generated CSS</param>
+    /// <param name="patterns">File patterns to scan</param>
+    /// <param name="prefix">CSS class prefix</param>
+    /// <param name="includeBase">Whether to include base CSS variables</param>
+    public static GenerationResult Generate(string projectDirectory, string outputPath, string[]? patterns, string prefix = "vibe", bool includeBase = true)
+    {
+        patterns ??= ["*.razor", "*.cshtml", "*.html"];
+
+        try
+        {
+            var config = new VibeConfig
+            {
+                Prefix = prefix
+            };
+
+            var emitter = new CssEmitter(config);
+            var scanner = new ClassScanner(prefix);
+
+            // Scan for classes
+            var classes = scanner.ScanDirectory(projectDirectory, patterns);
+
+            // Get stats before generating
+            var stats = emitter.GetStats(classes);
+
+            // Generate CSS
+            var baseCssPath = Path.Combine(projectDirectory, "wwwroot", "css", "vibe-base.css");
+            var css = emitter.GenerateCss(classes, includeBase, baseCssPath);
+
+            // Write output
+            var outputDir = Path.GetDirectoryName(outputPath);
+            if (!string.IsNullOrEmpty(outputDir) && !Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+
+            File.WriteAllText(outputPath, css);
+
+            return new GenerationResult
+            {
+                Success = true,
+                OutputPath = outputPath,
+                TotalClassesFound = stats.TotalClasses,
+                ClassesGenerated = stats.GeneratedClasses,
+                UnknownClasses = stats.UnknownClasses,
+                CssSize = css.Length
+            };
+        }
+        catch (Exception ex)
+        {
+            return new GenerationResult
+            {
+                Success = false,
+                Error = ex.Message
+            };
+        }
+    }
+
+    /// <summary>
+    /// Generate CSS from a string of content.
+    /// </summary>
+    public static string GenerateFromContent(string content, GenerationOptions? options = null)
+    {
+        options ??= new GenerationOptions();
+
+        var config = new VibeConfig
+        {
+            Prefix = options.Prefix
+        };
+
+        var emitter = new CssEmitter(config);
+        return emitter.GenerateForContent(content, options.IncludeBase);
+    }
+
+    /// <summary>
+    /// Scan a project for CSS classes without generating.
+    /// </summary>
+    public static ScanResult Scan(string projectDirectory, string[]? patterns = null, string prefix = "vibe")
+    {
+        var scanner = new ClassScanner(prefix);
+        var classes = scanner.ScanDirectory(projectDirectory, patterns);
+
+        var config = new VibeConfig { Prefix = prefix };
+        var generator = new UtilityGenerator(config);
+
+        var recognized = new List<string>();
+        var unknown = new List<string>();
+
+        foreach (var cls in classes)
+        {
+            if (generator.Generate(cls) != null)
+            {
+                recognized.Add(cls);
+            }
+            else
+            {
+                unknown.Add(cls);
+            }
+        }
+
+        return new ScanResult
+        {
+            TotalClasses = classes.Count,
+            RecognizedClasses = recognized,
+            UnknownClasses = unknown
+        };
+    }
+}
+
+/// <summary>
+/// Options for CSS generation.
+/// </summary>
+public class GenerationOptions
+{
+    /// <summary>
+    /// CSS class prefix (default: "vibe")
+    /// </summary>
+    public string Prefix { get; set; } = "vibe";
+
+    /// <summary>
+    /// Whether to include vibe-base.css content
+    /// </summary>
+    public bool IncludeBase { get; set; } = true;
+
+    /// <summary>
+    /// File patterns to scan (default: *.razor, *.cshtml, *.html)
+    /// </summary>
+    public string[] ScanPatterns { get; set; } = ["*.razor", "*.cshtml", "*.html"];
+}
+
+/// <summary>
+/// Result of CSS generation.
+/// </summary>
+public class GenerationResult
+{
+    public bool Success { get; init; }
+    public string OutputPath { get; init; } = string.Empty;
+    public int TotalClassesFound { get; init; }
+    public int ClassesGenerated { get; init; }
+    public List<string> UnknownClasses { get; init; } = [];
+    public int CssSize { get; init; }
+    public string? Error { get; init; }
+}
+
+/// <summary>
+/// Result of scanning for CSS classes.
+/// </summary>
+public class ScanResult
+{
+    public int TotalClasses { get; init; }
+    public List<string> RecognizedClasses { get; init; } = [];
+    public List<string> UnknownClasses { get; init; } = [];
+}

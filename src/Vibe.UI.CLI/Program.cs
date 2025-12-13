@@ -24,6 +24,13 @@ app.Configure(config =>
     config.AddCommand<UpdateCommand>("update")
         .WithDescription("Update Vibe.UI components")
         .WithExample(new[] { "update" });
+
+    config.AddCommand<CssCommand>("css")
+        .WithDescription("Generate CSS using Vibe.CSS JIT engine")
+        .WithExample(new[] { "css" })
+        .WithExample(new[] { "css", ".", "-o", "wwwroot/css/vibe.css" })
+        .WithExample(new[] { "css", "--watch" })
+        .WithExample(new[] { "css", "--scan-only" });
 });
 
 // Display banner

@@ -30,6 +30,10 @@
       </ItemGroup>
 
       <ItemGroup>
+            <ProjectReference Include="..\Vibe.CSS\Vibe.CSS.csproj" />
+      </ItemGroup>
+
+      <ItemGroup>
             <!-- Components from Vibe.UI (packed into Templates/Components/) -->
             <None Include="../Vibe.UI/Components/Inputs/*.razor"
                   Pack="true"

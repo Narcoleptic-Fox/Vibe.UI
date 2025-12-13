@@ -1,6 +1,7 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
+using System.Xml.Linq;
 using Vibe.UI.CLI.Services;
 
 namespace Vibe.UI.CLI.Commands;
@@ -33,6 +34,11 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         [CommandOption("--with-charts")]
         [DefaultValue(false)]
         public bool WithCharts { get; init; }
+
+        [Description("Add Vibe.CSS package reference for build-time CSS generation")]
+        [CommandOption("--with-css")]
+        [DefaultValue(false)]
+        public bool WithCss { get; init; }
     }
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
@@ -82,6 +88,9 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             CssVariables = true
         };
 
+        string? csprojPath = null;
+        var vibeCssAdded = false;
+
         await AnsiConsole.Status()
             .StartAsync("Setting up Vibe.UI infrastructure...", async ctx =>
             {
@@ -102,17 +111,50 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
                 // Update vibe-base.css with selected color scheme
                 await ApplyColorSchemeAsync(settings.ProjectPath, baseColor);
+
+                // Add Vibe.CSS package reference (only if --with-css is specified)
+                // This is opt-in because the Vibe.CSS package may not be published to NuGet yet
+                if (settings.WithCss)
+                {
+                    ctx.Status("Adding Vibe.CSS package reference...");
+                    csprojPath = FindCsprojFile(settings.ProjectPath);
+                    if (csprojPath != null)
+                    {
+                        vibeCssAdded = await AddVibeCssToProjectAsync(csprojPath);
+                    }
+                }
             });
 
         AnsiConsole.MarkupLine("\n[green]✓[/] Vibe.UI initialized successfully!");
         AnsiConsole.MarkupLine($"[grey]Infrastructure copied to Vibe/ folder[/]");
         AnsiConsole.MarkupLine($"[grey]CSS foundation files copied to wwwroot/css/[/]");
         AnsiConsole.MarkupLine($"[grey]Color scheme: {baseColor}[/]");
+
+        if (vibeCssAdded)
+        {
+            AnsiConsole.MarkupLine($"[grey]Vibe.CSS package added to {Path.GetFileName(csprojPath)}[/]");
+        }
+        else if (settings.WithCss && csprojPath == null)
+        {
+            AnsiConsole.MarkupLine($"[yellow]Warning:[/] No .csproj file found. Run [yellow]dotnet add package Vibe.CSS[/] manually.");
+        }
+
         AnsiConsole.MarkupLine($"\n[blue]Next steps:[/]");
-        AnsiConsole.MarkupLine($"  1. Add [yellow]@import 'css/vibe-base.css';[/] to your app.css or index.html");
-        AnsiConsole.MarkupLine($"  2. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
-        AnsiConsole.MarkupLine($"  3. Run [yellow]vibe add button[/] to add your first component");
-        AnsiConsole.MarkupLine($"  4. Run [yellow]vibe list[/] to see all available components");
+        if (settings.WithCss)
+        {
+            AnsiConsole.MarkupLine($"  1. Add [yellow]<link href=\"css/vibe.css\" rel=\"stylesheet\" />[/] to your index.html");
+            AnsiConsole.MarkupLine($"  2. Run [yellow]vibe css --watch[/] during development (or rely on build-time generation)");
+            AnsiConsole.MarkupLine($"  3. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
+            AnsiConsole.MarkupLine($"  4. Run [yellow]vibe add button[/] to add your first component");
+            AnsiConsole.MarkupLine($"  5. Run [yellow]vibe list[/] to see all available components");
+        }
+        else
+        {
+            AnsiConsole.MarkupLine($"  1. Add [yellow]@import 'css/vibe-base.css';[/] to your app.css or index.html");
+            AnsiConsole.MarkupLine($"  2. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
+            AnsiConsole.MarkupLine($"  3. Run [yellow]vibe add button[/] to add your first component");
+            AnsiConsole.MarkupLine($"  4. Run [yellow]vibe list[/] to see all available components");
+        }
 
         return 0;
     }
@@ -430,6 +472,114 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         if (!candidateFullPath.StartsWith(projectPrefix, StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException($"{description} must be within the project directory.");
+        }
+    }
+
+    /// <summary>
+    /// Finds the .csproj file in the project directory.
+    /// </summary>
+    private static string? FindCsprojFile(string projectPath)
+    {
+        var csprojFiles = Directory.GetFiles(projectPath, "*.csproj", SearchOption.TopDirectoryOnly);
+
+        if (csprojFiles.Length == 0)
+        {
+            // Try one level up (in case user is in a subdirectory)
+            var parentDir = Directory.GetParent(projectPath)?.FullName;
+            if (parentDir != null)
+            {
+                csprojFiles = Directory.GetFiles(parentDir, "*.csproj", SearchOption.TopDirectoryOnly);
+            }
+        }
+
+        return csprojFiles.Length switch
+        {
+            0 => null,
+            1 => csprojFiles[0],
+            _ => csprojFiles.FirstOrDefault(f =>
+                !Path.GetFileName(f).Contains("Test", StringComparison.OrdinalIgnoreCase)) ?? csprojFiles[0]
+        };
+    }
+
+    /// <summary>
+    /// Adds Vibe.CSS package reference and MSBuild targets to the project file.
+    /// </summary>
+    private static async Task<bool> AddVibeCssToProjectAsync(string csprojPath)
+    {
+        try
+        {
+            var doc = XDocument.Load(csprojPath);
+            var root = doc.Root;
+
+            if (root == null)
+                return false;
+
+            var ns = root.GetDefaultNamespace();
+            var modified = false;
+
+            // Check if Vibe.CSS is already referenced
+            var existingReference = root.Descendants(ns + "PackageReference")
+                .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
+
+            if (existingReference == null)
+            {
+                // Find or create ItemGroup for PackageReferences
+                var packageItemGroup = root.Descendants(ns + "ItemGroup")
+                    .FirstOrDefault(ig => ig.Elements(ns + "PackageReference").Any());
+
+                if (packageItemGroup == null)
+                {
+                    packageItemGroup = new XElement(ns + "ItemGroup");
+                    root.Add(packageItemGroup);
+                }
+
+                // Add Vibe.CSS package reference
+                var vibeCssReference = new XElement(ns + "PackageReference",
+                    new XAttribute("Include", "Vibe.CSS"),
+                    new XAttribute("Version", "1.0.0"));
+
+                packageItemGroup.Add(vibeCssReference);
+                modified = true;
+            }
+
+            // Check if VibeCss properties are already configured
+            var existingVibeCssProps = root.Descendants(ns + "VibeCssEnabled").Any();
+
+            if (!existingVibeCssProps)
+            {
+                // Add VibeCss configuration PropertyGroup
+                var vibeCssPropertyGroup = new XElement(ns + "PropertyGroup",
+                    new XComment(" Vibe.CSS JIT Configuration "),
+                    new XElement(ns + "VibeCssEnabled", "true"),
+                    new XElement(ns + "VibeCssOutput", "wwwroot/css/vibe.css"),
+                    new XElement(ns + "VibeCssIncludeBase", "true"));
+
+                // Insert after the first PropertyGroup
+                var firstPropertyGroup = root.Element(ns + "PropertyGroup");
+                if (firstPropertyGroup != null)
+                {
+                    firstPropertyGroup.AddAfterSelf(vibeCssPropertyGroup);
+                }
+                else
+                {
+                    root.AddFirst(vibeCssPropertyGroup);
+                }
+
+                modified = true;
+            }
+
+            if (modified)
+            {
+                await using var stream = File.Create(csprojPath);
+                await doc.SaveAsync(stream, SaveOptions.None, CancellationToken.None);
+            }
+
+            return modified;
+        }
+        catch
+        {
+            // If we can't modify the csproj, just return false
+            return false;
         }
     }
 }
