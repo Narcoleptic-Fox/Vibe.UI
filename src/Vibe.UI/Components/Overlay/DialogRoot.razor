@@ -1,0 +1,123 @@
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
+
+@if (IsOpen)
+{
+    <CascadingValue Value="_context">
+        <div class="vibe-dialog-overlay" @onclick="OnOutsideClick" @onkeydown="HandleKeyDown" tabindex="-1">
+            <div class="@CombinedClass" role="dialog" aria-modal="true" @onclick:stopPropagation="true"
+                @attributes="AdditionalAttributes">
+                @ChildContent
+            </div>
+        </div>
+    </CascadingValue>
+}
+else if (ChildContent != null)
+{
+    <CascadingValue Value="_context">
+        @ChildContent
+    </CascadingValue>
+}
+
+@code {
+    private DialogContext? _context;
+
+    /// <summary>
+    /// Gets or sets the content of the dialog, including trigger and content components.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the dialog is open.
+    /// </summary>
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback for when the dialog state changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether clicking outside the dialog should close it.
+    /// </summary>
+    [Parameter]
+    public bool CloseOnOutsideClick { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether pressing Escape should close the dialog.
+    /// </summary>
+    [Parameter]
+    public bool CloseOnEscape { get; set; } = true;
+
+    /// <inheritdoc/>
+    protected override string ComponentClass => "vibe-dialog";
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        _context = new DialogContext(OpenDialog, CloseDialog);
+        base.OnInitialized();
+    }
+
+    /// <summary>
+    /// Handles key down events to close the dialog when Escape is pressed.
+    /// </summary>
+    /// <param name="e">Keyboard event args</param>
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape" && CloseOnEscape)
+        {
+            await CloseDialog();
+        }
+    }
+
+    /// <summary>
+    /// Handles click events outside the dialog to close it when configured.
+    /// </summary>
+    private async Task OnOutsideClick()
+    {
+        if (CloseOnOutsideClick)
+        {
+            await CloseDialog();
+        }
+    }
+
+    /// <summary>
+    /// Closes the dialog.
+    /// </summary>
+    private async Task CloseDialog()
+    {
+        if (IsOpen)
+        {
+            IsOpen = false;
+
+            if (IsOpenChanged.HasDelegate)
+            {
+                await IsOpenChanged.InvokeAsync(false);
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Opens the dialog.
+    /// </summary>
+    private async Task OpenDialog()
+    {
+        if (!IsOpen)
+        {
+            IsOpen = true;
+
+            if (IsOpenChanged.HasDelegate)
+            {
+                await IsOpenChanged.InvokeAsync(true);
+            }
+
+            StateHasChanged();
+        }
+    }
+}

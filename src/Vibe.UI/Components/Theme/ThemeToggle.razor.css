@@ -1,0 +1,36 @@
+/* ThemeToggle baseline styles */
+
+:global(.vibe-theme-toggle) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius-sm);
+  color: var(--vibe-foreground);
+  cursor: pointer;
+  transition: var(--vibe-transition);
+}
+
+:global(.vibe-theme-toggle:hover) {
+  background-color: var(--vibe-muted);
+}
+
+:global(.vibe-theme-toggle:focus-visible) {
+  outline: 2px solid var(--vibe-ring);
+  outline-offset: 2px;
+}
+
+:global(.vibe-theme-toggle-icon) {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+:global(.vibe-theme-toggle-label) {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+

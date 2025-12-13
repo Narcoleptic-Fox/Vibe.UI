@@ -1,0 +1,45 @@
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
+
+<span class="@CombinedClass" @onclick="OnTriggerClick" @attributes="AdditionalAttributes">
+    @ChildContent
+</span>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content that will trigger the dialog when clicked.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets an optional callback that is invoked when the trigger is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    /// <summary>
+    /// Gets the cascading DialogContext from a parent component.
+    /// </summary>
+    [CascadingParameter]
+    private DialogContext? Context { get; set; }
+
+    /// <inheritdoc/>
+    protected override string ComponentClass => "vibe-dialog-trigger";
+
+    /// <summary>
+    /// Handles the trigger click event, opening the dialog through the cascading context.
+    /// </summary>
+    private async Task OnTriggerClick()
+    {
+        if (Context != null)
+        {
+            await Context.Open();
+        }
+
+        if (OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync();
+        }
+    }
+}

@@ -1,10 +1,11 @@
 @namespace Vibe.UI.Components
 @implements IDisposable
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 @inject IJSRuntime JSRuntime
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
-    <div class="carousel-viewport" @ref="ViewportRef" @onmousedown="OnMouseDown" @onmousemove="OnMouseMove" @onmouseup="OnMouseUp" @onmouseleave="OnMouseLeave">
+    <div class="carousel-viewport" @ref="ViewportRef" @onmousedown="OnMouseDown" @onmousemove="OnMouseMove"
+        @onmouseup="OnMouseUp" @onmouseleave="OnMouseLeave">
         <div class="carousel-container" style="@ContainerStyle">
             <CascadingValue Value="this" IsFixed="true">
                 @ChildContent
@@ -14,11 +15,19 @@
         @if (ShowNavigation)
         {
             <div class="carousel-navigation">
-                <button class="carousel-button carousel-prev-button" @onclick="PrevSlide" disabled="@(Items.Count <= 1 || ActiveIndex <= 0)">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="carousel-button-icon"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <button class="carousel-button carousel-prev-button" @onclick="PrevSlide"
+                    disabled="@(Items.Count <= 1 || ActiveIndex <= 0)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="carousel-button-icon">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
                 </button>
-                <button class="carousel-button carousel-next-button" @onclick="NextSlide" disabled="@(Items.Count <= 1 || ActiveIndex >= Items.Count - 1)">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="carousel-button-icon"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <button class="carousel-button carousel-next-button" @onclick="NextSlide"
+                    disabled="@(Items.Count <= 1 || ActiveIndex >= Items.Count - 1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="carousel-button-icon">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </button>
             </div>
         }
@@ -29,7 +38,8 @@
                 @for (int i = 0; i < Items.Count; i++)
                 {
                     var index = i;
-                    <button class="carousel-indicator @(i == ActiveIndex ? "active" : "")" @onclick="() => GoToSlide(index)"></button>
+                    <button class="carousel-indicator @(i == ActiveIndex ? "active" : "")"
+                        @onclick="() => GoToSlide(index)"></button>
                 }
             </div>
         }
@@ -164,10 +174,10 @@
                 if ((DateTime.Now - _lastAutoAdvance).TotalMilliseconds >= AutoPlayInterval && !_isDragging)
                 {
                     InvokeAsync(() =>
-                    {
-                        NextSlide();
-                        StateHasChanged();
-                    });
+        {
+                NextSlide();
+                StateHasChanged();
+            });
                     _lastAutoAdvance = DateTime.Now;
                 }
             };
@@ -284,7 +294,7 @@
         if (!_isDragging) return;
 
         _isDragging = false;
-        
+
         if (_isSwiping)
         {
             double diffX = args.ClientX - _dragStartX;

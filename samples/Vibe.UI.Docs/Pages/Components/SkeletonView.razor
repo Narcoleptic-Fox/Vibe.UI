@@ -2,126 +2,274 @@
 
 <PageTitle>Skeleton - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Skeleton"
-               Category="Feedback"
-               Description="A placeholder component that displays a loading state while content is being fetched."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo">
-            <p>Component preview will be shown here when installed.</p>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Skeleton</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Skeleton</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A placeholder component that displays a loading state while content is being fetched.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Skeleton</h3>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="flex flex-col gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-zinc-200 dark:bg-zinc-700 rounded-full animate-pulse"></div>
+                <div class="flex-1 space-y-2">
+                    <div class="h-4 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse w-3/4"></div>
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse w-1/2"></div>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <div class="h-4 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse"></div>
+                <div class="h-4 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse"></div>
+                <div class="h-4 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse w-5/6"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Skeleton -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Skeleton</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple skeleton loaders for different content types.
+            </p>
+            <div class="flex flex-col gap-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Skeleton Width="200px" Height="20px" />
+                <Skeleton Width="100%" Height="40px" />
+                <Skeleton Width="300px" Height="16px" />
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Skeleton Variants</h3>
+        <!-- Skeleton Variants -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Skeleton Variants</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Different animation styles for skeleton loaders.
+            </p>
+            <div class="flex flex-col gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Pulse (Default)</div>
+                    <Skeleton Variant="SkeletonVariant.Pulse" Width="200px" />
+                </div>
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Wave</div>
+                    <Skeleton Variant="SkeletonVariant.Wave" Width="200px" />
+                </div>
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">None</div>
+                    <Skeleton Variant="SkeletonVariant.None" Width="200px" />
+                </div>
+            </div>
             <CodeBlock Code="@VariantsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Skeleton Shapes</h3>
+        <!-- Skeleton Shapes -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Skeleton Shapes</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Different shapes for avatars, images, and other content.
+            </p>
+            <div class="flex items-center gap-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="text-center">
+                    <Skeleton Shape="SkeletonShape.Circle" Width="60px" Height="60px" />
+                    <div class="mt-2 text-xs text-zinc-500">Circle</div>
+                </div>
+                <div class="text-center">
+                    <Skeleton Shape="SkeletonShape.Rounded" Width="100px" Height="100px" />
+                    <div class="mt-2 text-xs text-zinc-500">Rounded</div>
+                </div>
+                <div class="text-center">
+                    <Skeleton Shape="SkeletonShape.Rectangle" Width="200px" Height="50px" />
+                    <div class="mt-2 text-xs text-zinc-500">Rectangle</div>
+                </div>
+            </div>
             <CodeBlock Code="@ShapesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Card Skeleton</h3>
+        <!-- Card Skeleton -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Card Skeleton</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Compose skeleton components to create card loaders.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="bg-white dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+                    <Skeleton Shape="SkeletonShape.Rectangle" Width="100%" Height="200px" />
+                    <div class="p-4 space-y-3">
+                        <Skeleton Width="60%" Height="24px" />
+                        <Skeleton Width="100%" Height="16px" Count="3" />
+                    </div>
+                </div>
+            </div>
             <CodeBlock Code="@CardCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>List Skeleton</h3>
+        <!-- List Skeleton -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">List Skeleton</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Create list item placeholders for loading states.
+            </p>
+            <div class="flex flex-col gap-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                @foreach (var item in Enumerable.Range(1, 5))
+                {
+                    <div class="flex items-center gap-3">
+                        <Skeleton Shape="SkeletonShape.Circle" Width="40px" Height="40px" />
+                        <div class="flex-1 space-y-2">
+                            <Skeleton Width="70%" Height="20px" />
+                            <Skeleton Width="90%" Height="14px" />
+                        </div>
+                    </div>
+                }
+            </div>
             <CodeBlock Code="@ListCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Width</code></td>
-                    <td>string</td>
-                    <td>"100%"</td>
-                    <td>Width of the skeleton (CSS value)</td>
-                </tr>
-                <tr>
-                    <td><code>Height</code></td>
-                    <td>string</td>
-                    <td>"20px"</td>
-                    <td>Height of the skeleton (CSS value)</td>
-                </tr>
-                <tr>
-                    <td><code>Shape</code></td>
-                    <td>SkeletonShape</td>
-                    <td>Rectangle</td>
-                    <td>Shape of the skeleton (Rectangle, Circle, Rounded)</td>
-                </tr>
-                <tr>
-                    <td><code>Variant</code></td>
-                    <td>SkeletonVariant</td>
-                    <td>Pulse</td>
-                    <td>Animation variant (Pulse, Wave, None)</td>
-                </tr>
-                <tr>
-                    <td><code>Count</code></td>
-                    <td>int</td>
-                    <td>1</td>
-                    <td>Number of skeleton lines to render</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Optional custom skeleton content</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="3">No events available for this component</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Width</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"100%"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Width of the skeleton (CSS value)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Height</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"20px"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Height of the skeleton (CSS value)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Shape</td>
+                            <td class="py-3 px-4"><TypeBadge Type="SkeletonShape" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Rectangle</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Shape of the skeleton (Rectangle, Circle, Rounded)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Variant</td>
+                            <td class="py-3 px-4"><TypeBadge Type="SkeletonVariant" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Pulse</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Animation variant (Pulse, Wave, None)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Count</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">1</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Number of skeleton lines to render</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Optional custom skeleton content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses <code>aria-busy="true"</code> to indicate loading state</li>
-            <li>Includes <code>aria-label</code> to describe loading content</li>
-            <li>Does not receive keyboard focus</li>
-            <li>Screen readers announce loading state</li>
-            <li>Respects <code>prefers-reduced-motion</code> for animations</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Skeleton component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add skeleton" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-busy="true"</code> to indicate loading state
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Includes <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-label</code> to describe loading content
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Does not receive keyboard focus
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen readers announce loading state
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Respects <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">prefers-reduced-motion</code> for animations
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/spinner" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Spinner</h4>
+                <p class="text-sm text-zinc-500">Loading spinner indicator</p>
+            </a>
+            <a href="/components/progressbar" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">ProgressBar</h4>
+                <p class="text-sm text-zinc-500">Progress indicator</p>
+            </a>
+            <a href="/components/card" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Card</h4>
+                <p class="text-sm text-zinc-500">Content container</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Spinner", "ProgressBar" };
-
     private string BasicCode => @"<Skeleton Width=""200px"" Height=""20px"" />
 <Skeleton Width=""100%"" Height=""40px"" />
 <Skeleton Width=""300px"" Height=""16px"" />";

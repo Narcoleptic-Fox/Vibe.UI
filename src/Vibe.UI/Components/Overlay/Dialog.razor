@@ -1,10 +1,11 @@
 @namespace Vibe.UI.Components
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
 
 @if (IsOpen)
 {
     <div class="vibe-dialog-overlay" @onclick="OnOutsideClick" @onkeydown="HandleKeyDown" tabindex="-1">
-        <div class="vibe-dialog @CombinedClass" role="dialog" aria-modal="true" @onclick:stopPropagation="true" @attributes="AdditionalAttributes">
+        <div class="vibe-dialog @CombinedClass" role="dialog" aria-modal="true" @onclick:stopPropagation="true"
+            @attributes="AdditionalAttributes">
             @if (Header != null)
             {
                 <div class="vibe-dialog-header">
@@ -103,7 +104,7 @@
         if (IsOpen)
         {
             IsOpen = false;
-            
+
             if (IsOpenChanged.HasDelegate)
             {
                 await IsOpenChanged.InvokeAsync(false);
@@ -119,7 +120,7 @@
         if (!IsOpen)
         {
             IsOpen = true;
-            
+
             if (IsOpenChanged.HasDelegate)
             {
                 await IsOpenChanged.InvokeAsync(true);

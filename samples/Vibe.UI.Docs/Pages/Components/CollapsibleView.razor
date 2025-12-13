@@ -1,160 +1,271 @@
 @page "/components/collapsible"
-@using Vibe.UI.Components
 
 <PageTitle>Collapsible - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Collapsible"
-               Category="Disclosure"
-               Description="A single expandable/collapsible section that shows and hides content with smooth animations."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 600px; margin: 0 auto;">
-            <Collapsible @bind-IsOpen="isOpen">
-                <TriggerContent Context="open">
-                    <div style="padding: 1rem; background: #f3f4f6; border-radius: 0.5rem; cursor: pointer; user-select: none;">
-                        <strong>Click to @(open ? "collapse" : "expand")</strong>
-                        <span style="float: right;">@(open ? "▲" : "▼")</span>
-                    </div>
-                </TriggerContent>
-                <ChildContent>
-                    <div style="padding: 1rem; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 0.5rem 0.5rem;">
-                        This content can be shown or hidden by clicking the trigger above.
-                        It animates smoothly when opening and closing.
-                    </div>
-                </ChildContent>
-            </Collapsible>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Collapsible</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Collapsible</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A single expandable/collapsible section that shows and hides content with smooth animations.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Collapsible</h3>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <Collapsible @bind-IsOpen="isOpen">
+                    <TriggerContent Context="open">
+                        <div style="padding: 1rem; background: var(--color-zinc-100); border-radius: 0.5rem; cursor: pointer; user-select: none;" class="dark:bg-zinc-700">
+                            <strong>Click to @(open ? "collapse" : "expand")</strong>
+                            <span style="float: right;">@(open ? "▲" : "▼")</span>
+                        </div>
+                    </TriggerContent>
+                    <ChildContent>
+                        <div style="padding: 1rem; border: 1px solid var(--color-zinc-200); border-top: none; border-radius: 0 0 0.5rem 0.5rem;" class="dark:border-zinc-700">
+                            This content can be shown or hidden by clicking the trigger above.
+                            It animates smoothly when opening and closing.
+                        </div>
+                    </ChildContent>
+                </Collapsible>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Collapsible -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Collapsible</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A simple collapsible section with title and content.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Controlled State</h3>
+        <!-- Controlled State -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Controlled State</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control the expanded state from the parent component.
+            </p>
             <CodeBlock Code="@ControlledCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Trigger</h3>
+        <!-- Custom Trigger -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Trigger</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Customize the trigger appearance with your own template.
+            </p>
             <CodeBlock Code="@CustomTriggerCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Disabled State</h3>
+        <!-- Disabled State -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled State</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Disable expand/collapse interaction when needed.
+            </p>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Nested Collapsible</h3>
+        <!-- Nested Collapsible -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Nested Collapsible</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Nest collapsible sections for hierarchical content.
+            </p>
             <CodeBlock Code="@NestedCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>IsOpen</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Controls the expanded state</td>
-                </tr>
-                <tr>
-                    <td><code>DefaultOpen</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Initial expanded state (uncontrolled)</td>
-                </tr>
-                <tr>
-                    <td><code>Title</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Header title text</td>
-                </tr>
-                <tr>
-                    <td><code>TriggerTemplate</code></td>
-                    <td>RenderFragment&lt;bool&gt;</td>
-                    <td>-</td>
-                    <td>Custom trigger content (receives isOpen state)</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Collapsible content</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Disable expand/collapse interaction</td>
-                </tr>
-                <tr>
-                    <td><code>AnimationDuration</code></td>
-                    <td>int</td>
-                    <td>300</td>
-                    <td>Animation duration in milliseconds</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>IsOpenChanged</code></td>
-                    <td>EventCallback&lt;bool&gt;</td>
-                    <td>Callback when expanded state changes</td>
-                </tr>
-                <tr>
-                    <td><code>OnOpen</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when content is expanded</td>
-                </tr>
-                <tr>
-                    <td><code>OnClose</code></td>
-                    <td>EventCallback</td>
-                    <td>Callback when content is collapsed</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">IsOpen</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Controls the expanded state</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">DefaultOpen</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Initial expanded state (uncontrolled)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Title</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Header title text</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">TriggerTemplate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment<bool>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Custom trigger content (receives isOpen state)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Collapsible content</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Disable expand/collapse interaction</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">AnimationDuration</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">300</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Animation duration in milliseconds</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses <code>button</code> element for trigger</li>
-            <li>Includes <code>aria-expanded</code> attribute</li>
-            <li>Content has <code>aria-labelledby</code> referencing trigger</li>
-            <li>Keyboard accessible (Enter/Space to toggle)</li>
-            <li>Focus management during state changes</li>
-            <li>Respects <code>prefers-reduced-motion</code></li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">IsOpenChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<bool>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when expanded state changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnOpen</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when content is expanded</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnClose</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when content is collapsed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Collapsible component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add collapsible" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;button&gt;</code> element for trigger
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Includes <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-expanded</code> attribute
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Content has <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-labelledby</code> referencing trigger
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard accessible (Enter/Space to toggle)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus management during state changes
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Respects <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">prefers-reduced-motion</code>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/accordion" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Accordion</h4>
+                <p class="text-sm text-zinc-500">Multiple collapsible sections</p>
+            </a>
+            <a href="/components/drawer" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Drawer</h4>
+                <p class="text-sm text-zinc-500">Slide-in panel component</p>
+            </a>
+            <a href="/components/modal" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Modal</h4>
+                <p class="text-sm text-zinc-500">Overlay dialog component</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private bool isOpen = true;
-    private List<string> relatedComponents = new() { "Accordion", "Drawer", "Modal" };
 
     private string BasicCode => @"<Collapsible Title=""Click to expand"">
     <ChildContent>

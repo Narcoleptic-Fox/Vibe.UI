@@ -1,0 +1,7 @@
+/* MasonryGrid baseline styles */
+
+:global(.vibe-masonry-grid) {
+  display: grid;
+  gap: 1rem;
+}
+

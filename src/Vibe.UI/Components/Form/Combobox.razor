@@ -1,19 +1,14 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
 <div class="@CombinedClass">
     <div class="combobox-trigger" @onclick="ToggleDropdown">
-        <input type="text" 
-               class="combobox-input" 
-               placeholder="@Placeholder" 
-               @bind-value="InputValue" 
-               @bind-value:event="oninput"
-               @onfocus="OnInputFocus"
-               @onkeydown="OnKeyDown"
-               autocomplete="off" />
+        <input type="text" class="combobox-input" placeholder="@Placeholder" @bind-value="InputValue"
+            @bind-value:event="oninput" @onfocus="OnInputFocus" @onkeydown="OnKeyDown" autocomplete="off" />
         <div class="combobox-chevron">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m6 9 6 6 6-6"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
             </svg>
         </div>
     </div>
@@ -25,9 +20,8 @@
             {
                 @foreach (var option in FilteredOptions)
                 {
-                    <div class="combobox-option @(IsSelectedOption(option) ? "selected" : "")" 
-                         @onclick="() => SelectOption(option)"
-                         @onmouseenter="() => HighlightOption(option)">
+                    <div class="combobox-option @(IsSelectedOption(option) ? "selected" : "")" @onclick="() => SelectOption(option)"
+                        @onmouseenter="() => HighlightOption(option)">
                         @option.Label
                     </div>
                 }
@@ -172,11 +166,11 @@
     private void FilterOptions()
     {
         FilteredOptions = string.IsNullOrWhiteSpace(InputValue)
-            ? Options.Where(o => !o.Disabled).ToList()
-            : Options.Where(o => !o.Disabled && 
-                               o.Label.Contains(InputValue, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-        
+        ? Options.Where(o => !o.Disabled).ToList()
+        : Options.Where(o => !o.Disabled &&
+        o.Label.Contains(InputValue, StringComparison.OrdinalIgnoreCase))
+        .ToList();
+
         HighlightedOption = FilteredOptions.FirstOrDefault();
     }
 
@@ -228,14 +222,14 @@
                     MoveHighlight(1);
                 }
                 break;
-                
+
             case "ArrowUp":
                 if (IsOpen)
                 {
                     MoveHighlight(-1);
                 }
                 break;
-                
+
             case "Enter":
                 if (IsOpen && HighlightedOption != null)
                 {
@@ -247,7 +241,7 @@
                     CloseDropdown();
                 }
                 break;
-                
+
             case "Escape":
                 CloseDropdown();
                 break;
@@ -262,7 +256,7 @@
     {
         if (!FilteredOptions.Any())
             return;
-            
+
         var currentIndex = FilteredOptions.IndexOf(HighlightedOption);
         if (currentIndex == -1)
         {
@@ -301,7 +295,7 @@
     {
         if (option == null || option.Disabled)
             return;
-            
+
         InputValue = option.Label;
         await ValueChanged.InvokeAsync(option.Value);
         CloseDropdown();

@@ -10,27 +10,27 @@ namespace Vibe.UI.Services.Toast
         /// <summary>
         /// Gets or sets the unique identifier of the toast.
         /// </summary>
-        public string Id { get; set; }
+        public required string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the toast.
         /// </summary>
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the description/message of the toast.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the variant/type of the toast.
         /// </summary>
-        public string Variant { get; set; }
+        public string Variant { get; set; } = "default";
 
         /// <summary>
         /// Gets or sets the icon of the toast.
         /// </summary>
-        public string Icon { get; set; }
+        public string? Icon { get; set; }
 
         /// <summary>
         /// Gets or sets the duration of the toast in milliseconds.

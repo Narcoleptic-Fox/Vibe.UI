@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     @if (Items != null)
@@ -62,9 +62,9 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-timeline",
-        $"timeline-{Position.ToString().ToLower()}",
-        CssClass
+    "vibe-timeline",
+    $"timeline-{Position.ToString().ToLower()}",
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

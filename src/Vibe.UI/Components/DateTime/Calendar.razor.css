@@ -1,0 +1,231 @@
+/* ========================================
+   CALENDAR COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ========================================
+   BASE CALENDAR CONTAINER
+   ======================================== */
+
+.vibe-calendar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 20rem;
+    padding: var(--vibe-spacing-4);
+    border-radius: var(--vibe-radius-lg);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-card);
+    box-shadow: var(--vibe-shadow-sm);
+    font-family: var(--vibe-font);
+    color: var(--vibe-card-foreground);
+}
+
+/* ========================================
+   CALENDAR HEADER (Month/Year Navigation)
+   ======================================== */
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--vibe-spacing-4);
+    gap: var(--vibe-spacing-2);
+}
+
+/* ========================================
+   NAVIGATION BUTTONS (Prev/Next)
+   ======================================== */
+
+.calendar-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--vibe-radius-sm);
+    background-color: transparent;
+    color: var(--vibe-foreground);
+    cursor: pointer;
+    transition: var(--vibe-transition);
+    user-select: none;
+    outline: none;
+}
+
+.calendar-nav-button:hover:not(:disabled) {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.calendar-nav-button:active:not(:disabled) {
+    background-color: var(--vibe-muted);
+    color: var(--vibe-muted-foreground);
+}
+
+.calendar-nav-button:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+.calendar-nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.calendar-nav-button svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ========================================
+   MONTH/YEAR TITLE DISPLAY
+   ======================================== */
+
+.calendar-month-year {
+    flex: 1;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--vibe-foreground);
+    line-height: 1.5;
+}
+
+/* ========================================
+   WEEKDAY HEADERS (Su, Mo, Tu...)
+   ======================================== */
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--vibe-spacing-1);
+    margin-bottom: var(--vibe-spacing-2);
+}
+
+.calendar-weekday {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--vibe-muted-foreground);
+    text-transform: uppercase;
+}
+
+/* ========================================
+   CALENDAR DAYS GRID
+   ======================================== */
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--vibe-spacing-1);
+}
+
+/* ========================================
+   INDIVIDUAL DAY CELLS
+   ======================================== */
+
+.calendar-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 100%;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--vibe-radius-sm);
+    background-color: transparent;
+    color: var(--vibe-foreground);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--vibe-transition);
+    user-select: none;
+    outline: none;
+}
+
+/* Empty cells for alignment */
+.calendar-day.empty {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ========================================
+   DAY STATES - HOVER & FOCUS
+   ======================================== */
+
+.calendar-day:hover:not(:disabled):not(.disabled):not(.selected) {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.calendar-day:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+.calendar-day:active:not(:disabled):not(.disabled) {
+    background-color: var(--vibe-muted);
+    color: var(--vibe-muted-foreground);
+}
+
+/* ========================================
+   TODAY HIGHLIGHT
+   ======================================== */
+
+.calendar-day.today:not(.selected) {
+    border-color: var(--vibe-primary);
+    font-weight: 600;
+}
+
+.calendar-day.today:not(.selected):hover:not(:disabled):not(.disabled) {
+    background-color: var(--vibe-accent);
+    border-color: var(--vibe-primary);
+}
+
+/* ========================================
+   SELECTED STATE
+   ======================================== */
+
+.calendar-day.selected {
+    background-color: var(--vibe-primary);
+    color: var(--vibe-primary-foreground);
+    font-weight: 600;
+}
+
+.calendar-day.selected:hover:not(:disabled):not(.disabled) {
+    background-color: color-mix(in srgb, var(--vibe-primary) 90%, black);
+}
+
+.calendar-day.selected:active:not(:disabled):not(.disabled) {
+    background-color: color-mix(in srgb, var(--vibe-primary) 80%, black);
+}
+
+/* ========================================
+   DISABLED STATE
+   ======================================== */
+
+.calendar-day.disabled,
+.calendar-day:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    color: var(--vibe-muted-foreground);
+}
+
+/* ========================================
+   OUTSIDE CURRENT MONTH
+   ======================================== */
+
+.calendar-day-outside {
+    opacity: 0.3;
+    color: var(--vibe-muted-foreground);
+}
+
+.calendar-day-outside:hover:not(:disabled):not(.disabled) {
+    opacity: 0.5;
+    background-color: var(--vibe-muted);
+}

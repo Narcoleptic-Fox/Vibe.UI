@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <label @attributes="AdditionalAttributes" class="@CombinedCssClass" for="@For">
     @ChildContent
@@ -37,10 +37,10 @@
     public bool Disabled { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-label",
-        Required ? "vibe-label-required" : null,
-        Disabled ? "vibe-label-disabled" : null,
-        CssClass
+    "vibe-label",
+    Required ? "vibe-label-required" : null,
+    Disabled ? "vibe-label-disabled" : null,
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

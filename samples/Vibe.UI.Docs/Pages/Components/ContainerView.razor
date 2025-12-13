@@ -2,127 +2,319 @@
 
 <PageTitle>Container - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Container"
-               Category="Layout"
-               Description="A layout component that centers content and applies consistent horizontal padding."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo">
-            <div style="padding: 1.5rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; margin-bottom: 1rem;">
-                <h4 style="margin: 0 0 0.5rem 0; color: #856404;">Component Not Yet Implemented</h4>
-                <p style="margin: 0; color: #856404;">
-                    The Container component has not been implemented yet. The API documentation below represents the planned interface.
-                </p>
-            </div>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Container</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Container</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A layout component that centers content and applies consistent horizontal padding with configurable max-width.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <Container MaxWidth="Container.ContainerSize.Medium">
+                <Card>
+                    <div style="padding: 2rem; text-align: center;">
+                        <h3 style="margin: 0 0 1rem 0; font-size: 1.25rem; font-weight: 600;">Centered Container</h3>
+                        <p style="margin: 0; color: var(--vibe-muted-foreground);">
+                            This content is centered with a maximum width of 768px
+                        </p>
+                    </div>
+                </Card>
+            </Container>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Create a centered container with default large size.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Container>
+                    <div style="padding: 1rem; background: var(--vibe-background); border-radius: var(--vibe-radius); text-align: center;">
+                        Centered content with 1024px max-width
+                    </div>
+                </Container>
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Max Width Sizes</h3>
+        <!-- Container Sizes -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Container Sizes</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Different max-width sizes for various layouts.
+            </p>
+            <div class="space-y-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div style="background: var(--vibe-muted); padding: 0.5rem; border-radius: var(--vibe-radius);">
+                    <Container MaxWidth="Container.ContainerSize.Small">
+                        <div style="padding: 1rem; background: var(--vibe-background); border-radius: var(--vibe-radius); text-align: center;">
+                            Small (640px)
+                        </div>
+                    </Container>
+                </div>
+                <div style="background: var(--vibe-muted); padding: 0.5rem; border-radius: var(--vibe-radius);">
+                    <Container MaxWidth="Container.ContainerSize.Medium">
+                        <div style="padding: 1rem; background: var(--vibe-background); border-radius: var(--vibe-radius); text-align: center;">
+                            Medium (768px)
+                        </div>
+                    </Container>
+                </div>
+                <div style="background: var(--vibe-muted); padding: 0.5rem; border-radius: var(--vibe-radius);">
+                    <Container MaxWidth="Container.ContainerSize.Large">
+                        <div style="padding: 1rem; background: var(--vibe-background); border-radius: var(--vibe-radius); text-align: center;">
+                            Large (1024px)
+                        </div>
+                    </Container>
+                </div>
+            </div>
             <CodeBlock Code="@SizesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Fluid Container</h3>
+        <!-- Fluid Container -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Fluid Container</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Full-width container without max-width constraint.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Container Fluid="true">
+                    <div style="padding: 1rem; background: var(--vibe-primary); color: var(--vibe-primary-foreground); border-radius: var(--vibe-radius); text-align: center;">
+                        This spans the full width
+                    </div>
+                </Container>
+            </div>
             <CodeBlock Code="@FluidCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Padding</h3>
+        <!-- Custom Padding -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Padding</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Override the default padding.
+            </p>
             <CodeBlock Code="@PaddingCode" Language="razor" />
         </div>
-    </Examples>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>MaxWidth</code></td>
-                    <td>ContainerSize</td>
-                    <td>Large</td>
-                    <td>Maximum width (Small, Medium, Large, XLarge, Full)</td>
-                </tr>
-                <tr>
-                    <td><code>Fluid</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether to fill full width</td>
-                </tr>
-                <tr>
-                    <td><code>Padding</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Custom padding value</td>
-                </tr>
-                <tr>
-                    <td><code>Centered</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Whether to center the container</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Container content</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+        <!-- Non-Centered Container -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Non-Centered Container</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Disable auto-centering for left-aligned layouts.
+            </p>
+            <CodeBlock Code="@NonCenteredCode" Language="razor" />
+        </div>
+    </section>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>No impact on semantic structure</li>
-            <li>Maintains accessibility of child content</li>
-            <li>Responsive design supports readability</li>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxWidth</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ContainerSize" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Large</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum width preset</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Fluid</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether to fill full width (ignores MaxWidth)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Padding</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Custom padding value (overrides default)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Centered</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether to center the container horizontally</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Container content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ContainerSize Values -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">ContainerSize Values</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Value</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Max Width</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Small</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">640px</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Narrow content, forms, mobile-first layouts</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Medium</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">768px</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Articles, blog posts, readable text content</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Large</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">1024px</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Default - most page layouts</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">XLarge</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">1280px</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Wide layouts, dashboards</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">XXLarge</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">1536px</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Very wide layouts, large screens</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Full</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">none</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Full width (same as Fluid=true)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Container component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add container" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                No impact on semantic structure - purely presentational
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Maintains accessibility of child content
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Responsive design improves readability on all screen sizes
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Proper padding prevents content from touching edges
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/grid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Grid</h4>
+                <p class="text-sm text-zinc-500">Responsive grid layout system</p>
+            </a>
+            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
+                <p class="text-sm text-zinc-500">Flexbox-based stacking layout</p>
+            </a>
+            <a href="/components/card" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Card</h4>
+                <p class="text-sm text-zinc-500">Content container with border</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Grid", "Stack", "Box" };
-
     private string BasicCode => @"<Container>
     <h1>Page Title</h1>
-    <p>This content is centered and has consistent padding.</p>
+    <p>This content is centered with consistent padding.</p>
 </Container>";
 
-    private string SizesCode => @"<Container MaxWidth=""ContainerSize.Small"">
+    private string SizesCode => @"<Container MaxWidth=""Container.ContainerSize.Small"">
     Small container (640px max)
 </Container>
 
-<Container MaxWidth=""ContainerSize.Medium"">
+<Container MaxWidth=""Container.ContainerSize.Medium"">
     Medium container (768px max)
 </Container>
 
-<Container MaxWidth=""ContainerSize.Large"">
+<Container MaxWidth=""Container.ContainerSize.Large"">
     Large container (1024px max)
 </Container>
 
-<Container MaxWidth=""ContainerSize.XLarge"">
+<Container MaxWidth=""Container.ContainerSize.XLarge"">
     Extra large container (1280px max)
 </Container>";
 
     private string FluidCode => @"<Container Fluid=""true"">
-    <p>This container spans the full width of the viewport.</p>
+    <p>This container spans the full viewport width.</p>
 </Container>";
 
-    private string PaddingCode => @"<Container Padding=""2rem"">
-    <p>Container with custom padding.</p>
+    private string PaddingCode => @"<Container Padding=""3rem"">
+    <p>Container with custom 3rem padding.</p>
+</Container>";
+
+    private string NonCenteredCode => @"<Container MaxWidth=""Container.ContainerSize.Medium"" Centered=""false"">
+    <p>This container is left-aligned instead of centered.</p>
 </Container>";
 }

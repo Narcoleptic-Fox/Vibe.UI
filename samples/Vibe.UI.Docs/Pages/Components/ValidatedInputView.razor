@@ -3,171 +3,279 @@
 
 <PageTitle>ValidatedInput - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="ValidatedInput"
-               Category="Form"
-               Description="An input component with built-in validation display and error handling."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">ValidatedInput</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">ValidatedInput</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            An input component with built-in validation display and error handling.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">With Custom Validation</h4>
-                <ValidatedInput @bind-Value="@username"
-                                Label="Username"
-                                Placeholder="Enter username (min 3 chars)"
-                                Validator="@ValidateUsername"
-                                HelperText="Only letters, numbers, and underscores allowed"
-                                ValidateOnInput="true" />
-            </div>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-8 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
+                <div>
+                    <h4 class="text-base font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Custom Validation</h4>
+                    <ValidatedInput @bind-Value="@username"
+                                    Label="Username"
+                                    Placeholder="Enter username (min 3 chars)"
+                                    Validator="@ValidateUsername"
+                                    HelperText="Only letters, numbers, and underscores allowed"
+                                    ValidateOnInput="true" />
+                </div>
 
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Email Validation</h4>
-                <ValidatedInput @bind-Value="@email"
-                                InputType="email"
-                                Label="Email"
-                                Placeholder="you@example.com"
-                                Validator="@ValidateEmail"
-                                ValidateOnBlur="true" />
-            </div>
+                <div>
+                    <h4 class="text-base font-medium text-zinc-800 dark:text-zinc-200 mb-3">Email Validation</h4>
+                    <ValidatedInput @bind-Value="@email"
+                                    InputType="email"
+                                    Label="Email"
+                                    Placeholder="you@example.com"
+                                    Validator="@ValidateEmail"
+                                    ValidateOnBlur="true" />
+                </div>
 
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Password Strength</h4>
-                <ValidatedInput @bind-Value="@password"
-                                InputType="password"
-                                Label="Password"
-                                Placeholder="Enter password"
-                                Validator="@ValidatePassword"
-                                HelperText="At least 8 characters required"
-                                ValidateOnInput="true" />
-                @if (!string.IsNullOrEmpty(password))
-                {
-                    <p style="margin-top: 0.5rem; color: var(--brand-teal);">Strength: @passwordStrength</p>
-                }
-            </div>
+                <div>
+                    <h4 class="text-base font-medium text-zinc-800 dark:text-zinc-200 mb-3">Password Strength</h4>
+                    <ValidatedInput @bind-Value="@password"
+                                    InputType="password"
+                                    Label="Password"
+                                    Placeholder="Enter password"
+                                    Validator="@ValidatePassword"
+                                    HelperText="At least 8 characters required"
+                                    ValidateOnInput="true" />
+                    @if (!string.IsNullOrEmpty(password))
+                    {
+                        <p class="text-sm mt-2 text-brand-teal">Strength: @passwordStrength</p>
+                    }
+                </div>
 
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Required Field</h4>
-                <ValidatedInput @bind-Value="@fullName"
-                                Label="Full Name"
-                                Placeholder="Enter your full name"
-                                Required="true"
-                                ValidateOnBlur="true" />
+                <div>
+                    <h4 class="text-base font-medium text-zinc-800 dark:text-zinc-200 mb-3">Required Field</h4>
+                    <ValidatedInput @bind-Value="@fullName"
+                                    Label="Full Name"
+                                    Placeholder="Enter your full name"
+                                    Required="true"
+                                    ValidateOnBlur="true" />
+                </div>
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use with EditForm and DataAnnotationsValidator for automatic validation.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Data Annotations</h3>
+        <!-- With Data Annotations -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Data Annotations</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Leverage .NET data annotations for model validation.
+            </p>
             <CodeBlock Code="@DataAnnotationsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Validation</h3>
+        <!-- Custom Validation -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Validation</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Implement custom validation logic with validator functions.
+            </p>
             <CodeBlock Code="@CustomValidationCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Real-time Validation</h3>
+        <!-- Real-time Validation -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Real-time Validation</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Validate input as the user types for immediate feedback.
+            </p>
             <CodeBlock Code="@RealtimeCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Multiple Validators</h3>
+        <!-- Multiple Validators -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Multiple Validators</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Combine data annotations with custom validators.
+            </p>
             <CodeBlock Code="@MultipleValidatorsCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Value</code></td>
-                    <td>TValue</td>
-                    <td>default</td>
-                    <td>The input value</td>
-                </tr>
-                <tr>
-                    <td><code>For</code></td>
-                    <td>Expression&lt;Func&lt;T&gt;&gt;</td>
-                    <td>null</td>
-                    <td>Expression identifying the bound field</td>
-                </tr>
-                <tr>
-                    <td><code>ValidationMode</code></td>
-                    <td>ValidationMode</td>
-                    <td>OnSubmit</td>
-                    <td>When to trigger validation (OnChange, OnBlur, OnSubmit)</td>
-                </tr>
-                <tr>
-                    <td><code>CustomValidator</code></td>
-                    <td>Func&lt;TValue, string&gt;</td>
-                    <td>null</td>
-                    <td>Custom validation function</td>
-                </tr>
-                <tr>
-                    <td><code>ShowValidationIcon</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Whether to show validation status icon</td>
-                </tr>
-                <tr>
-                    <td><code>Label</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Label text</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>ValueChanged</code></td>
-                    <td>EventCallback&lt;TValue&gt;</td>
-                    <td>Callback when value changes</td>
-                </tr>
-                <tr>
-                    <td><code>OnValidationChanged</code></td>
-                    <td>EventCallback&lt;bool&gt;</td>
-                    <td>Callback when validation state changes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
+                            <td class="py-3 px-4"><TypeBadge Type="TValue" /></td>
+                            <td class="py-3 px-4 text-zinc-500">default</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">The input value</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">For</td>
+                            <td class="py-3 px-4"><TypeBadge Type="Expression<Func<T>>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Expression identifying the bound field</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValidationMode</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ValidationMode" /></td>
+                            <td class="py-3 px-4 text-zinc-500">OnSubmit</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">When to trigger validation (OnChange, OnBlur, OnSubmit)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CustomValidator</td>
+                            <td class="py-3 px-4"><TypeBadge Type="Func<TValue, string>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Custom validation function</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowValidationIcon</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether to show validation status icon</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Label text</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>ARIA attributes for validation states</li>
-            <li>Error messages announced to screen readers</li>
-            <li>aria-invalid set when validation fails</li>
-            <li>aria-describedby links to error messages</li>
-            <li>Focus management for validation errors</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<TValue>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when value changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnValidationChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<bool>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when validation state changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the ValidatedInput component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add validatedinput" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    ARIA attributes for validation states
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Error messages announced to screen readers
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-invalid</code> set when validation fails
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-describedby</code> links to error messages
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus management for validation errors
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/form" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Form</h4>
+                <p class="text-sm text-zinc-500">Form container with validation</p>
+            </a>
+            <a href="/components/formfield" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">FormField</h4>
+                <p class="text-sm text-zinc-500">Form field wrapper</p>
+            </a>
+            <a href="/components/input" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Input</h4>
+                <p class="text-sm text-zinc-500">Basic text input</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private string username = "";
@@ -175,7 +283,6 @@
     private string password = "";
     private string fullName = "";
     private string passwordStrength = "None";
-    private List<string> relatedComponents = new() { "Form", "FormField", "Input" };
 
     private string ValidateUsername(string value)
     {

@@ -1,0 +1,13 @@
+/* Spinner baseline styles */
+
+:global(.vibe-spinner) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.vibe-spinner svg),
+:global(.vibe-spinner .spinner) {
+  animation: vibe-spin 1s linear infinite;
+}
+

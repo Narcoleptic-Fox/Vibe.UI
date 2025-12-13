@@ -1,0 +1,20 @@
+/* Table baseline styles */
+
+:global(.vibe-table) {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+:global(.vibe-table th),
+:global(.vibe-table td) {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--vibe-border);
+  text-align: left;
+}
+
+:global(.vibe-table th) {
+  font-size: 0.8rem;
+  color: var(--vibe-muted-foreground);
+  font-weight: 600;
+}
+

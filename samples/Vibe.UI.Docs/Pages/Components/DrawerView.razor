@@ -1,16 +1,27 @@
 @page "/components/drawer"
-@using Vibe.UI
-@using Vibe.UI.Components
 
 <PageTitle>Drawer - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Drawer"
-               Category="Overlay"
-               Description="A panel that slides in from the edge of the screen, typically used for navigation or forms."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Drawer</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Drawer</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A panel that slides in from the edge of the screen, typically used for navigation or forms.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="flex flex-wrap gap-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
             <Button OnClick="@(() => leftDrawer = true)">Open Left</Button>
             <Button OnClick="@(() => rightDrawer = true)">Open Right</Button>
             <Button OnClick="@(() => topDrawer = true)">Open Top</Button>
@@ -44,111 +55,193 @@
                 </div>
             </Drawer>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A simple drawer with header and body content.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Placement Options</h3>
+        <!-- Placement Options -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Placement Options</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Drawers can slide in from any edge of the screen.
+            </p>
             <CodeBlock Code="@PlacementCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Header and Footer</h3>
+        <!-- With Header and Footer -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Header and Footer</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use header and footer sections for structured content like forms.
+            </p>
             <CodeBlock Code="@HeaderFooterCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Width</h3>
+        <!-- Custom Width -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Width</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Customize drawer dimensions with fixed or percentage-based values.
+            </p>
             <CodeBlock Code="@WidthCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Open</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the drawer is open</td>
-                </tr>
-                <tr>
-                    <td><code>Placement</code></td>
-                    <td>DrawerPlacement</td>
-                    <td>Right</td>
-                    <td>Drawer placement (Left, Right, Top, Bottom)</td>
-                </tr>
-                <tr>
-                    <td><code>Width</code></td>
-                    <td>string</td>
-                    <td>"320px"</td>
-                    <td>Drawer width (for left/right placement)</td>
-                </tr>
-                <tr>
-                    <td><code>Height</code></td>
-                    <td>string</td>
-                    <td>"400px"</td>
-                    <td>Drawer height (for top/bottom placement)</td>
-                </tr>
-                <tr>
-                    <td><code>CloseOnOverlayClick</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Close when clicking overlay</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OpenChanged</code></td>
-                    <td>EventCallback&lt;bool&gt;</td>
-                    <td>Callback when open state changes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Open</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the drawer is open</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placement</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DrawerPlacement" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Right</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Drawer placement (Left, Right, Top, Bottom)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Width</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"320px"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Drawer width (for left/right placement)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Height</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"400px"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Drawer height (for top/bottom placement)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CloseOnOverlayClick</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Close when clicking overlay</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>ARIA role="dialog" with proper labels</li>
-            <li>Focus trapped within drawer when open</li>
-            <li>Escape key to close</li>
-            <li>Screen reader announcements</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OpenChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<bool>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when open state changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Drawer component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add drawer" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    ARIA <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="dialog"</code> with proper labels
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus trapped within drawer when open
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Escape key to close
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announcements
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/dialog" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Dialog</h4>
+                <p class="text-sm text-zinc-500">Modal dialog component</p>
+            </a>
+            <a href="/components/modal" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Modal</h4>
+                <p class="text-sm text-zinc-500">Overlay dialog component</p>
+            </a>
+            <a href="/components/sheet" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Sheet</h4>
+                <p class="text-sm text-zinc-500">Lightweight drawer variant</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private bool leftDrawer = false;
     private bool rightDrawer = false;
     private bool topDrawer = false;
     private bool bottomDrawer = false;
-
-    private List<string> relatedComponents = new() { "Dialog", "Modal", "Sheet" };
 
     private string BasicCode => @"<Button OnClick=""@(() => isOpen = true)"">Open Drawer</Button>
 

@@ -60,6 +60,18 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         {
             componentDir = AnsiConsole.Ask("Where should components be installed?", "Components/vibe");
         }
+        ValidateProjectRelativePath(settings.ProjectPath, componentDir, "components directory");
+
+        // Select base color (shadcn-style)
+        var baseColor = "Slate";
+        if (!settings.SkipPrompts)
+        {
+            baseColor = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Which [green]base color[/] would you like to use?")
+                    .AddChoices(new[] { "Slate", "Gray", "Zinc", "Neutral", "Stone", "Blue" })
+            );
+        }
 
         // Create configuration
         var config = new Models.VibeConfig
@@ -78,21 +90,29 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
                 ctx.Status("Copying infrastructure files...");
 
-                // Copy infrastructure files
+                // Copy infrastructure files (includes CSS foundation files)
                 await CopyInfrastructureAsync(settings.ProjectPath, settings.Minimal, settings.NoTheme, settings.WithCharts);
 
                 ctx.Status("Creating component directory...");
 
                 // Create components directory
                 Directory.CreateDirectory(Path.Combine(settings.ProjectPath, componentDir));
+
+                ctx.Status("Applying color scheme to CSS...");
+
+                // Update vibe-base.css with selected color scheme
+                await ApplyColorSchemeAsync(settings.ProjectPath, baseColor);
             });
 
         AnsiConsole.MarkupLine("\n[green]✓[/] Vibe.UI initialized successfully!");
         AnsiConsole.MarkupLine($"[grey]Infrastructure copied to Vibe/ folder[/]");
+        AnsiConsole.MarkupLine($"[grey]CSS foundation files copied to wwwroot/css/[/]");
+        AnsiConsole.MarkupLine($"[grey]Color scheme: {baseColor}[/]");
         AnsiConsole.MarkupLine($"\n[blue]Next steps:[/]");
-        AnsiConsole.MarkupLine($"  1. Add to Program.cs: [yellow]builder.Services.AddVibeUI();[/]");
-        AnsiConsole.MarkupLine($"  2. Run [yellow]vibe add button[/] to add your first component");
-        AnsiConsole.MarkupLine($"  3. Run [yellow]vibe list[/] to see all available components");
+        AnsiConsole.MarkupLine($"  1. Add [yellow]@import 'css/vibe-base.css';[/] to your app.css or index.html");
+        AnsiConsole.MarkupLine($"  2. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
+        AnsiConsole.MarkupLine($"  3. Run [yellow]vibe add button[/] to add your first component");
+        AnsiConsole.MarkupLine($"  4. Run [yellow]vibe list[/] to see all available components");
 
         return 0;
     }
@@ -110,7 +130,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
         var targetVibeDir = Path.Combine(projectPath, "Vibe");
 
-        // Copy Base/ folder (always required)
+        // Copy Base/ folder (always required - includes ClassBuilder)
         await CopyDirectoryAsync(
             Path.Combine(infrastructurePath, "Base"),
             Path.Combine(targetVibeDir, "Base"));
@@ -119,6 +139,11 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         await CopyDirectoryAsync(
             Path.Combine(infrastructurePath, "Services"),
             Path.Combine(targetVibeDir, "Services"));
+
+        // Copy Enums/ folder (always required)
+        await CopyDirectoryAsync(
+            Path.Combine(infrastructurePath, "Enums"),
+            Path.Combine(targetVibeDir, "Enums"));
 
         // Copy Themes/ folder (unless --no-theme)
         if (!noTheme)
@@ -144,20 +169,51 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             await File.WriteAllTextAsync(importsTarget, await File.ReadAllTextAsync(importsSource));
         }
 
+        // Copy CSS foundation files to wwwroot/css/
+        var cssTemplatePath = Path.Combine(templatePath, "wwwroot", "css");
+        var cssTargetPath = Path.Combine(projectPath, "wwwroot", "css");
+        Directory.CreateDirectory(cssTargetPath);
+
+        var cssFiles = new[] { "vibe-base.css", "vibe-utilities.css" };
+        foreach (var cssFile in cssFiles)
+        {
+            var cssSource = Path.Combine(cssTemplatePath, cssFile);
+            var cssTarget = Path.Combine(cssTargetPath, cssFile);
+            if (File.Exists(cssSource))
+            {
+                await File.WriteAllTextAsync(cssTarget, await File.ReadAllTextAsync(cssSource));
+            }
+        }
+
         // Copy JavaScript files
         var jsTemplatePath = Path.Combine(templatePath, "wwwroot", "js");
         var jsTargetPath = Path.Combine(projectPath, "wwwroot", "js");
         Directory.CreateDirectory(jsTargetPath);
 
-        // Always copy themeInterop.js
-        var themeInteropSource = Path.Combine(jsTemplatePath, "themeInterop.js");
-        var themeInteropTarget = Path.Combine(jsTargetPath, "themeInterop.js");
-        if (File.Exists(themeInteropSource))
+        // Copy core JS modules used by some components.
+        // ThemeToggle requires vibe-theme.js (unless --no-theme).
+        if (!noTheme)
         {
-            await File.WriteAllTextAsync(themeInteropTarget, await File.ReadAllTextAsync(themeInteropSource));
+            await CopyFileIfExistsAsync(
+                Path.Combine(jsTemplatePath, "vibe-theme.js"),
+                Path.Combine(jsTargetPath, "vibe-theme.js"));
         }
 
-        // Copy vibe-chart.js if --with-charts
+        // NavigationMenuItem uses vibe-dom.js; Resizable uses vibe-resizable.js.
+        await CopyFileIfExistsAsync(
+            Path.Combine(jsTemplatePath, "vibe-dom.js"),
+            Path.Combine(jsTargetPath, "vibe-dom.js"));
+
+        await CopyFileIfExistsAsync(
+            Path.Combine(jsTemplatePath, "vibe-resizable.js"),
+            Path.Combine(jsTargetPath, "vibe-resizable.js"));
+
+        // Optional helper (safe to include).
+        await CopyFileIfExistsAsync(
+            Path.Combine(jsTemplatePath, "vibe-click-outside.js"),
+            Path.Combine(jsTargetPath, "vibe-click-outside.js"));
+
+        // Copy vibe-chart.js if charts are requested
         if (withCharts)
         {
             var chartSource = Path.Combine(jsTemplatePath, "vibe-chart.js");
@@ -166,6 +222,14 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             {
                 await File.WriteAllTextAsync(chartTarget, await File.ReadAllTextAsync(chartSource));
             }
+        }
+    }
+
+    private static async Task CopyFileIfExistsAsync(string source, string target)
+    {
+        if (File.Exists(source))
+        {
+            await File.WriteAllTextAsync(target, await File.ReadAllTextAsync(source));
         }
     }
 
@@ -224,5 +288,148 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         throw new DirectoryNotFoundException(
             $"Could not find Templates directory. Please ensure Vibe.UI.CLI is installed correctly. " +
             $"Searched locations: {string.Join(", ", possiblePaths)}");
+    }
+
+    /// <summary>
+    /// Applies the selected color scheme by appending color-specific CSS variables
+    /// to the end of vibe-base.css. This allows the color scheme to override defaults.
+    /// </summary>
+    private async Task ApplyColorSchemeAsync(string projectPath, string baseColor)
+    {
+        var vibeBaseCssPath = Path.Combine(projectPath, "wwwroot", "css", "vibe-base.css");
+
+        if (!File.Exists(vibeBaseCssPath))
+        {
+            // If vibe-base.css doesn't exist, nothing to modify
+            return;
+        }
+
+        // Slate is the default, no need to append overrides
+        if (baseColor == "Slate")
+        {
+            return;
+        }
+
+        var colorOverrides = GetColorSchemeOverrides(baseColor);
+
+        // Append color scheme overrides to vibe-base.css
+        var existingContent = await File.ReadAllTextAsync(vibeBaseCssPath);
+
+        // Check if overrides are already present
+        if (existingContent.Contains($"/* Color scheme: {baseColor} */"))
+        {
+            return;
+        }
+
+        await File.AppendAllTextAsync(vibeBaseCssPath, $"\n\n{colorOverrides}");
+    }
+
+    /// <summary>
+    /// Gets color scheme override CSS for the selected base color.
+    /// These variables override the defaults in vibe-base.css.
+    /// </summary>
+    private string GetColorSchemeOverrides(string baseColor)
+    {
+        var (lightColors, darkColors) = baseColor switch
+        {
+            "Gray" => (
+                light: ("hsl(0 0% 100%)", "hsl(0 0% 3.9%)", "hsl(0 0% 14.9%)", "hsl(0 0% 96.1%)", "hsl(0 0% 89.8%)"),
+                dark: ("hsl(0 0% 3.9%)", "hsl(0 0% 98%)", "hsl(0 0% 14.9%)", "hsl(0 0% 14.9%)", "hsl(0 0% 63.9%)")
+            ),
+            "Zinc" => (
+                light: ("hsl(0 0% 100%)", "hsl(240 10% 3.9%)", "hsl(240 5.9% 10%)", "hsl(240 4.8% 95.9%)", "hsl(240 5.9% 90%)"),
+                dark: ("hsl(240 10% 3.9%)", "hsl(0 0% 98%)", "hsl(240 3.7% 15.9%)", "hsl(240 3.7% 15.9%)", "hsl(240 5% 64.9%)")
+            ),
+            "Neutral" => (
+                light: ("hsl(0 0% 100%)", "hsl(0 0% 3.9%)", "hsl(0 0% 14.9%)", "hsl(0 0% 96.1%)", "hsl(0 0% 89.8%)"),
+                dark: ("hsl(0 0% 3.9%)", "hsl(0 0% 98%)", "hsl(0 0% 14.9%)", "hsl(0 0% 14.9%)", "hsl(0 0% 63.9%)")
+            ),
+            "Stone" => (
+                light: ("hsl(0 0% 100%)", "hsl(20 14.3% 4.1%)", "hsl(24 9.8% 10%)", "hsl(60 9.1% 97.8%)", "hsl(24 5.7% 82.9%)"),
+                dark: ("hsl(20 14.3% 4.1%)", "hsl(60 9.1% 97.8%)", "hsl(24 9.8% 10%)", "hsl(24 9.8% 10%)", "hsl(24 5.4% 63.9%)")
+            ),
+            "Blue" => (
+                light: ("hsl(0 0% 100%)", "hsl(222.2 84% 4.9%)", "hsl(221.2 83.2% 53.3%)", "hsl(210 40% 96.1%)", "hsl(214.3 31.8% 91.4%)"),
+                dark: ("hsl(222.2 84% 4.9%)", "hsl(210 40% 98%)", "hsl(217.2 91.2% 59.8%)", "hsl(217.2 32.6% 17.5%)", "hsl(215 20.2% 65.1%)")
+            ),
+            _ => (
+                light: ("hsl(0 0% 100%)", "hsl(222.2 84% 4.9%)", "hsl(222.2 47.4% 11.2%)", "hsl(210 40% 96.1%)", "hsl(214.3 31.8% 91.4%)"),
+                dark: ("hsl(222.2 84% 4.9%)", "hsl(210 40% 98%)", "hsl(217.2 32.6% 17.5%)", "hsl(217.2 32.6% 17.5%)", "hsl(215 20.2% 65.1%)")
+            )
+        };
+
+        return $@"/* ============================================
+   Color scheme: {baseColor}
+   Generated by Vibe.UI CLI
+   ============================================ */
+
+:root {{
+  --vibe-background: {lightColors.Item1};
+  --vibe-foreground: {lightColors.Item2};
+  --vibe-card: {lightColors.Item1};
+  --vibe-card-foreground: {lightColors.Item2};
+  --vibe-popover: {lightColors.Item1};
+  --vibe-popover-foreground: {lightColors.Item2};
+  --vibe-primary: {lightColors.Item3};
+  --vibe-primary-foreground: hsl(0 0% 100%);
+  --vibe-secondary: {lightColors.Item4};
+  --vibe-secondary-foreground: {lightColors.Item2};
+  --vibe-muted: {lightColors.Item5};
+  --vibe-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --vibe-accent: {lightColors.Item4};
+  --vibe-accent-foreground: {lightColors.Item2};
+  --vibe-border: {lightColors.Item5};
+  --vibe-input: {lightColors.Item5};
+  --vibe-ring: {lightColors.Item3};
+}}
+
+.dark {{
+  --vibe-background: {darkColors.Item1};
+  --vibe-foreground: {darkColors.Item2};
+  --vibe-card: {darkColors.Item3};
+  --vibe-card-foreground: {darkColors.Item2};
+  --vibe-popover: {darkColors.Item3};
+  --vibe-popover-foreground: {darkColors.Item2};
+  --vibe-primary: {darkColors.Item3};
+  --vibe-primary-foreground: {darkColors.Item2};
+  --vibe-secondary: {darkColors.Item4};
+  --vibe-secondary-foreground: {darkColors.Item2};
+  --vibe-muted: {darkColors.Item4};
+  --vibe-muted-foreground: {darkColors.Item5};
+  --vibe-accent: {darkColors.Item4};
+  --vibe-accent-foreground: {darkColors.Item2};
+  --vibe-border: {darkColors.Item4};
+  --vibe-input: {darkColors.Item4};
+  --vibe-ring: {darkColors.Item3};
+}}";
+    }
+
+    private static void ValidateProjectRelativePath(string projectPath, string relativePath, string description)
+    {
+        if (string.IsNullOrWhiteSpace(projectPath))
+        {
+            throw new ArgumentException("Project path cannot be empty.", nameof(projectPath));
+        }
+
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            throw new ArgumentException($"{description} cannot be empty.", nameof(relativePath));
+        }
+
+        if (Path.IsPathRooted(relativePath))
+        {
+            throw new InvalidOperationException($"{description} must be a relative path.");
+        }
+
+        var projectFullPath = Path.GetFullPath(projectPath);
+        var candidateFullPath = Path.GetFullPath(Path.Combine(projectFullPath, relativePath));
+
+        var projectPrefix = projectFullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            + Path.DirectorySeparatorChar;
+
+        if (!candidateFullPath.StartsWith(projectPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException($"{description} must be within the project directory.");
+        }
     }
 }

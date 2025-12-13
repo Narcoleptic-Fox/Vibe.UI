@@ -2,165 +2,277 @@
 
 <PageTitle>DateRangePicker - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="DateRangePicker"
-               Category="DateTime"
-               Description="An input component for selecting a start and end date range with a calendar popup interface."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 600px; margin: 0 auto;">
-            <DateRangePicker @bind-StartDate="@startDate"
-                            @bind-EndDate="@endDate"
-                            MinDate="@DateTime.Today.AddMonths(-1)"
-                            MaxDate="@DateTime.Today.AddMonths(3)"
-                            StartDatePlaceholder="Start date"
-                            EndDatePlaceholder="End date" />
-
-            @if (startDate.HasValue && endDate.HasValue)
-            {
-                <Alert Variant="Alert.AlertVariant.Info">
-                    <strong>Selected Range:</strong><br />
-                    From: @startDate.Value.ToString("MMMM dd, yyyy")<br />
-                    To: @endDate.Value.ToString("MMMM dd, yyyy")<br />
-                    Duration: @((endDate.Value - startDate.Value).Days + 1) days
-                </Alert>
-            }
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">DateRangePicker</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">DateRangePicker</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            An input component for selecting a start and end date range with a calendar popup interface.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Range Picker</h3>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <div class="flex flex-col gap-6 max-w-2xl mx-auto">
+                <DateRangePicker @bind-StartDate="@startDate"
+                                @bind-EndDate="@endDate"
+                                MinDate="@DateTime.Today.AddMonths(-1)"
+                                MaxDate="@DateTime.Today.AddMonths(3)"
+                                StartDatePlaceholder="Start date"
+                                EndDatePlaceholder="End date" />
+
+                @if (startDate.HasValue && endDate.HasValue)
+                {
+                    <Alert Variant="AlertVariant.Info">
+                        <strong>Selected Range:</strong><br />
+                        From: @startDate.Value.ToString("MMMM dd, yyyy")<br />
+                        To: @endDate.Value.ToString("MMMM dd, yyyy")<br />
+                        Duration: @((endDate.Value - startDate.Value).Days + 1) days
+                    </Alert>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Range Picker</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A simple date range picker with two-way binding for start and end dates.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Preset Ranges</h3>
+        <!-- Preset Ranges -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Preset Ranges</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Add quick preset options for common date ranges.
+            </p>
             <CodeBlock Code="@PresetsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Min/Max Range Duration</h3>
+        <!-- Duration Limits -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Min/Max Range Duration</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Restrict the minimum and maximum number of days in a range.
+            </p>
             <CodeBlock Code="@DurationCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Two Calendar View</h3>
+        <!-- Two Calendars -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Two Calendar View</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display two months side-by-side for easier range selection.
+            </p>
             <CodeBlock Code="@TwoCalendarsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>In Analytics Dashboard</h3>
+        <!-- Analytics Example -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">In Analytics Dashboard</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Example usage in an analytics dashboard with preset ranges and data loading.
+            </p>
             <CodeBlock Code="@AnalyticsCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>StartDate</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>Start date of the range</td>
-                </tr>
-                <tr>
-                    <td><code>EndDate</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>End date of the range</td>
-                </tr>
-                <tr>
-                    <td><code>Placeholder</code></td>
-                    <td>string</td>
-                    <td>"Select date range"</td>
-                    <td>Placeholder text when empty</td>
-                </tr>
-                <tr>
-                    <td><code>MinDate</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>Minimum selectable date</td>
-                </tr>
-                <tr>
-                    <td><code>MaxDate</code></td>
-                    <td>DateTime?</td>
-                    <td>null</td>
-                    <td>Maximum selectable date</td>
-                </tr>
-                <tr>
-                    <td><code>MinDays</code></td>
-                    <td>int?</td>
-                    <td>null</td>
-                    <td>Minimum number of days in range</td>
-                </tr>
-                <tr>
-                    <td><code>MaxDays</code></td>
-                    <td>int?</td>
-                    <td>null</td>
-                    <td>Maximum number of days in range</td>
-                </tr>
-                <tr>
-                    <td><code>ShowPresets</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Show preset date range options</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>StartDateChanged</code></td>
-                    <td>EventCallback&lt;DateTime?&gt;</td>
-                    <td>Callback when start date changes</td>
-                </tr>
-                <tr>
-                    <td><code>EndDateChanged</code></td>
-                    <td>EventCallback&lt;DateTime?&gt;</td>
-                    <td>Callback when end date changes</td>
-                </tr>
-                <tr>
-                    <td><code>OnRangeSelected</code></td>
-                    <td>EventCallback&lt;DateRange&gt;</td>
-                    <td>Callback when both dates are selected</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">StartDate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Start date of the range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">EndDate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">End date of the range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placeholder</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"Select date range"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Placeholder text when empty</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MinDate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minimum selectable date</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxDate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="DateTime?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum selectable date</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MinDays</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minimum number of days in range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxDays</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum number of days in range</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowPresets</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show preset date range options</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Two input fields for start and end dates</li>
-            <li>Keyboard accessible with Tab navigation</li>
-            <li>Arrow keys navigate calendar dates</li>
-            <li>Screen reader announces selected range</li>
-            <li>Clear visual indication of range selection</li>
-            <li>Escape key closes popup</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">StartDateChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DateTime?>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when start date changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">EndDateChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DateTime?>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when end date changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnRangeSelected</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DateRange>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when both dates are selected</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the DateRangePicker component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add daterangepicker" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Two input fields for start and end dates
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard accessible with Tab navigation
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Arrow keys navigate calendar dates
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announces selected range
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Clear visual indication of range selection
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Escape key closes popup
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/datepicker" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DatePicker</h4>
+                <p class="text-sm text-zinc-500">Single date selection</p>
+            </a>
+            <a href="/components/calendar" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Calendar</h4>
+                <p class="text-sm text-zinc-500">Calendar view component</p>
+            </a>
+            <a href="/components/timepicker" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">TimePicker</h4>
+                <p class="text-sm text-zinc-500">Time selection input</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "DatePicker", "Calendar", "TimePicker" };
     private DateTime? startDate;
     private DateTime? endDate;
 

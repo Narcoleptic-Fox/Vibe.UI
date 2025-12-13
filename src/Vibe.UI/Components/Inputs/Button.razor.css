@@ -1,0 +1,225 @@
+/* ========================================
+   BUTTON COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE BUTTON STYLES
+   ---------------------------------------- */
+
+.vibe-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vibe-spacing-2);
+    border-radius: var(--vibe-radius-sm);
+    font-family: var(--vibe-font);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: var(--vibe-transition);
+    border: 1px solid transparent;
+    user-select: none;
+    outline: none;
+    text-decoration: none;
+}
+
+/* Focus States */
+.vibe-button:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+.vibe-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
+}
+
+/* Disabled State */
+.vibe-button:disabled,
+.vibe-button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ----------------------------------------
+   SIZE VARIANTS
+   ---------------------------------------- */
+
+.vibe-button-small {
+    height: 2rem;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+}
+
+.vibe-button-medium {
+    height: 2.5rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+}
+
+.vibe-button-large {
+    height: 3rem;
+    padding: 0 2rem;
+    font-size: 0.875rem;
+}
+
+/* ----------------------------------------
+   STYLE VARIANTS
+   ---------------------------------------- */
+
+/* Primary Button */
+.vibe-button-primary {
+    background-color: var(--vibe-primary);
+    color: var(--vibe-primary-foreground);
+}
+
+.vibe-button-primary:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-primary) 90%, black);
+}
+
+.vibe-button-primary:active:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-primary) 80%, black);
+}
+
+/* Secondary Button */
+.vibe-button-secondary {
+    background-color: var(--vibe-secondary);
+    color: var(--vibe-secondary-foreground);
+}
+
+.vibe-button-secondary:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-secondary) 90%, black);
+}
+
+.vibe-button-secondary:active:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-secondary) 80%, black);
+}
+
+/* Destructive Button */
+.vibe-button-destructive {
+    background-color: var(--vibe-destructive);
+    color: var(--vibe-destructive-foreground);
+}
+
+.vibe-button-destructive:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-destructive) 90%, black);
+}
+
+.vibe-button-destructive:active:not(:disabled) {
+    background-color: color-mix(in srgb, var(--vibe-destructive) 80%, black);
+}
+
+/* Outline Button */
+.vibe-button-outline {
+    background-color: transparent;
+    border-color: var(--vibe-border);
+    color: var(--vibe-foreground);
+}
+
+.vibe-button-outline:hover:not(:disabled) {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.vibe-button-outline:active:not(:disabled) {
+    background-color: var(--vibe-muted);
+    color: var(--vibe-muted-foreground);
+}
+
+/* Ghost Button */
+.vibe-button-ghost {
+    background-color: transparent;
+    color: var(--vibe-foreground);
+}
+
+.vibe-button-ghost:hover:not(:disabled) {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.vibe-button-ghost:active:not(:disabled) {
+    background-color: var(--vibe-muted);
+    color: var(--vibe-muted-foreground);
+}
+
+/* Link Button */
+.vibe-button-link {
+    background-color: transparent;
+    color: var(--vibe-primary);
+    height: auto;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.vibe-button-link:hover:not(:disabled) {
+    color: color-mix(in srgb, var(--vibe-primary) 80%, black);
+}
+
+/* ----------------------------------------
+   STATE MODIFIERS
+   ---------------------------------------- */
+
+/* Loading State */
+.vibe-button-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+/* Full Width */
+.vibe-button-full-width {
+    width: 100%;
+}
+
+/* Icon Only */
+.vibe-button-icon-only {
+    padding: 0;
+    aspect-ratio: 1/1;
+}
+
+.vibe-button-small.vibe-button-icon-only {
+    width: 2rem;
+}
+
+.vibe-button-medium.vibe-button-icon-only {
+    width: 2.5rem;
+}
+
+.vibe-button-large.vibe-button-icon-only {
+    width: 3rem;
+}
+
+/* ----------------------------------------
+   SUB-ELEMENTS
+   ---------------------------------------- */
+
+/* Loading Spinner */
+::deep .vibe-button-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-right-color: transparent;
+    animation: vibe-spin 0.75s linear infinite;
+}
+
+@keyframes vibe-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Button Icon */
+::deep .vibe-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button Content */
+::deep .vibe-button-content {
+    display: inline-flex;
+    align-items: center;
+}

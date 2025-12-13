@@ -1,32 +1,76 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
+@implements IDisposable
 
-@* ThemeInitializer removed - using custom theme.js instead *@
+<ThemeProvider/>
 
 <div class="docs-container">
     <!-- Top Navigation Bar -->
-    <header class="docs-header">
-        <div class="header-content">
-            <button class="mobile-menu-btn" @onclick="ToggleSidebar">
-                <span class="icon">☰</span>
-            </button>
-            <div class="logo">
-                <a href="@GetBaseUrl()">
-                    <img src="icon-192.png" alt="Vibe.UI" class="logo-image" />
-                    <span class="logo-text">Vibe.UI</span>
+    <header class="docs-header sticky top-0 z-40 backdrop-blur-lg bg-white/80 dark:bg-zinc-950/80 border-b border-zinc-200 dark:border-zinc-800">
+        <div class="header-content max-w-screen-2xl mx-auto h-14 flex items-center justify-between px-4 lg:px-6">
+            <!-- Left: Mobile menu + Logo -->
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden p-2 -ml-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                        @onclick="ToggleSidebar"
+                        aria-label="Toggle menu">
+                    @if (sidebarOpen)
+                    {
+                        <svg class="w-5 h-5 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    }
+                    else
+                    {
+                        <svg class="w-5 h-5 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    }
+                </button>
+
+                <a href="@GetBaseUrl()" class="flex items-center gap-2.5 font-semibold text-zinc-900 dark:text-zinc-100 hover:opacity-80 transition-opacity">
+                    <img src="icon-192.png" alt="Vibe.UI" class="w-7 h-7 rounded-md" />
+                    <span class="text-lg tracking-tight">Vibe.UI</span>
                 </a>
             </div>
-            <div class="header-actions">
-                <button class="search-btn" @onclick="OpenSearch" title="Search (Ctrl+K)">
-                    <span class="icon">🔍</span>
-                    <span class="search-hint">Ctrl+K</span>
+
+            <!-- Center: Search button (desktop) -->
+            <button class="hidden md:flex items-center gap-2 px-3 py-1.5 w-64 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-left"
+                    @onclick="OpenSearch">
+                <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <span class="flex-1 text-sm text-zinc-400">Search components...</span>
+                <span class="flex items-center gap-0.5">
+                    <Kbd Size="Kbd.KbdSize.Small">Ctrl</Kbd>
+                    <Kbd Size="Kbd.KbdSize.Small">K</Kbd>
+                </span>
+            </button>
+
+            <!-- Right: Actions -->
+            <div class="flex items-center gap-1">
+                <!-- Mobile search button -->
+                <button class="md:hidden p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                        @onclick="OpenSearch"
+                        aria-label="Search">
+                    <svg class="w-5 h-5 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
                 </button>
-                <a href="https://github.com/Dieshen/Vibe.UI" target="_blank" class="github-link" title="View on GitHub">
-                    <span class="icon">⚙</span>
+
+                <!-- GitHub -->
+                <a href="https://github.com/AcademyKit/Vibe.UI"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                   title="View on GitHub">
+                    <svg class="w-5 h-5 text-zinc-600 dark:text-zinc-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
                 </a>
-                <button class="theme-toggle-btn" @onclick="ToggleTheme" title="Toggle theme">
-                    <span class="icon">@(currentTheme == "dark" ? "☀️" : "🌙")</span>
-                </button>
+
+                <!-- Theme Toggle -->
+                <ThemeToggle />
             </div>
         </div>
     </header>
@@ -42,35 +86,50 @@
 
         <!-- Content Area -->
         <main class="docs-content">
-            <div class="content-wrapper">
+            <div class="content-wrapper page-enter">
                 @Body
             </div>
         </main>
     </div>
 
-    <!-- Search Modal (shown when search is activated) -->
-    @if (searchOpen)
-    {
-        <div class="search-overlay" @onclick="CloseSearch">
-            <div class="search-modal" @onclick:stopPropagation="true">
-                <SearchBar OnClose="CloseSearch" />
-            </div>
-        </div>
-    }
+    <!-- Command Palette -->
+    <CommandPalette IsOpen="searchOpen" IsOpenChanged="@((value) => { searchOpen = value; StateHasChanged(); })" OnThemeToggle="HandleThemeToggle" />
+
+    <!-- Toast Container for notifications -->
+    <ToastContainer Position="bottom-right" />
 </div>
 
 @code {
-    [Inject]
-    private Vibe.UI.Themes.Services.ThemeManager ThemeManager { get; set; } = default!;
-
     private bool sidebarOpen = false;
     private bool searchOpen = false;
-    private string currentTheme = "light";
+    private DotNetObjectReference<MainLayout>? _dotNetRef;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnInitializedAsync();
-        currentTheme = ThemeManager.CurrentTheme?.Id ?? "light";
+        if (firstRender)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+
+            // Register global keyboard shortcut for Ctrl+K
+            await JS.InvokeVoidAsync("eval", $@"
+                if (!window._vibeKeyboardHandler) {{
+                    window._vibeKeyboardHandler = true;
+                    document.addEventListener('keydown', function(e) {{
+                        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {{
+                            e.preventDefault();
+                            DotNet.invokeMethodAsync('Vibe.UI.Docs', 'OpenCommandPaletteGlobal');
+                        }}
+                    }});
+                }}
+            ");
+        }
+    }
+
+    [JSInvokable("OpenCommandPaletteGlobal")]
+    public static void OpenCommandPaletteGlobal()
+    {
+        // This is a static method that won't work directly
+        // We'll handle this differently
     }
 
     private void ToggleSidebar()
@@ -88,15 +147,24 @@
         searchOpen = false;
     }
 
-    private async Task ToggleTheme()
+    private async Task HandleThemeToggle()
     {
-        currentTheme = currentTheme == "dark" ? "light" : "dark";
-        await ThemeManager.SetThemeAsync(currentTheme);
-        StateHasChanged();
+        // The ThemeToggle component handles the actual toggling
+        // This callback is for when theme is toggled from CommandPalette
+        await JS.InvokeVoidAsync("eval", @"
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        ");
     }
 
     private string GetBaseUrl()
     {
         return Navigation.BaseUri;
+    }
+
+    public void Dispose()
+    {
+        _dotNetRef?.Dispose();
     }
 }

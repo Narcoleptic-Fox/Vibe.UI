@@ -1,5 +1,6 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
+@implements IDisposable
 
 <div class="@CombinedClass" style="@HeightStyle">
     <div class="scroll-viewport" @ref="ViewportRef" @onscroll="OnScroll">
@@ -7,12 +8,11 @@
             @ChildContent
         </div>
     </div>
-    
+
     @if (ShowScrollbar && !HideScrollbars)
     {
         <div class="scrollbar vertical @(IsScrollbarVisible ? "visible" : "")">
-            <div class="scrollbar-thumb" 
-                style="height: @ThumbHeight; top: @ThumbTop;"
+            <div class="scrollbar-thumb" style="height: @ThumbHeight; top: @ThumbTop;"
                 @onmousedown="OnScrollbarThumbMouseDown"></div>
         </div>
     }
@@ -97,10 +97,10 @@
             _hideTimer.Elapsed += (sender, e) =>
             {
                 InvokeAsync(() =>
-                {
-                    IsScrollbarVisible = false;
-                    StateHasChanged();
-                });
+    {
+                IsScrollbarVisible = false;
+                StateHasChanged();
+            });
             };
             _hideTimer.AutoReset = false;
         }
@@ -117,7 +117,7 @@
             _hideTimer?.Stop();
             _hideTimer?.Start();
         }
-        
+
         // In a real implementation, you would use JS interop to calculate these values
         // This is a simplified example
         UpdateScrollbarThumb();
@@ -145,13 +145,8 @@
     /// <summary>
     /// Disposes the component.
     /// </summary>
-    /// <param name="disposing">Whether this is being called from Dispose or the finalizer.</param>
-    protected override void Dispose(bool disposing)
+    public void Dispose()
     {
-        if (disposing)
-        {
-            _hideTimer?.Dispose();
-        }
-        base.Dispose(disposing);
+        _hideTimer?.Dispose();
     }
 }

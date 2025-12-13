@@ -1,96 +1,225 @@
 @page "/components/separator"
-@using Vibe.UI.Components
 
 <PageTitle>Separator - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Separator"
-               Category="Layout"
-               Description="Visually or semantically separates content."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Separator</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Separator</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            Visually or semantically separates content with proper accessibility attributes.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo">
-            <h4>Horizontal Separator</h4>
-            <div style="padding: 1rem; background: var(--surface-1, #f8f9fa); border-radius: 8px;">
-                <p style="margin: 0;">Content above the separator</p>
-                <Separator />
-                <p style="margin: 0;">Content below the separator</p>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 space-y-6">
+            <div>
+                <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">Horizontal Separator</h4>
+                <div class="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg">
+                    <p class="m-0 text-zinc-700 dark:text-zinc-300">Content above the separator</p>
+                    <Separator />
+                    <p class="m-0 text-zinc-700 dark:text-zinc-300">Content below the separator</p>
+                </div>
             </div>
 
-            <h4 style="margin-top: 1.5rem;">Vertical Separator</h4>
-            <div style="display: flex; height: 60px; align-items: center; gap: 1rem; padding: 1rem; background: var(--surface-1, #f8f9fa); border-radius: 8px;">
-                <span style="font-weight: 500;">Left Side</span>
-                <Separator Orientation="vertical" />
-                <span style="font-weight: 500;">Middle</span>
-                <Separator Orientation="vertical" />
-                <span style="font-weight: 500;">Right Side</span>
-            </div>
-
-            <h4 style="margin-top: 1.5rem;">Decorative Separator</h4>
-            <div style="padding: 1rem; background: var(--surface-1, #f8f9fa); border-radius: 8px;">
-                <p style="margin: 0;">This separator is decorative only</p>
-                <Separator Decorative="true" />
-                <p style="margin: 0;">Hidden from screen readers</p>
+            <div>
+                <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">Vertical Separator</h4>
+                <div class="flex h-20 items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg">
+                    <span class="font-medium text-zinc-700 dark:text-zinc-300">Left Side</span>
+                    <Separator Orientation="vertical" />
+                    <span class="font-medium text-zinc-700 dark:text-zinc-300">Middle</span>
+                    <Separator Orientation="vertical" />
+                    <span class="font-medium text-zinc-700 dark:text-zinc-300">Right Side</span>
+                </div>
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A semantic separator between content sections.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <p class="m-0">Content above</p>
+                <Separator />
+                <p class="m-0">Content below</p>
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Vertical Separator</h3>
+        <!-- Vertical Separator -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Vertical Separator</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use vertical orientation to separate inline content.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div style="display: flex; height: 40px; align-items: center; gap: 1rem;">
+                    <span>Left</span>
+                    <Separator Orientation="Orientation.Vertical" />
+                    <span>Right</span>
+                </div>
+            </div>
             <CodeBlock Code="@VerticalCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Decorative vs Semantic</h3>
+        <!-- Decorative vs Semantic -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Decorative vs Semantic</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Control whether the separator is announced to screen readers.
+            </p>
+            <div class="space-y-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Semantic (announced to screen readers):</p>
+                    <p class="m-0">This separator is semantic</p>
+                    <Separator Decorative="false" />
+                    <p class="m-0">Screen readers will announce it</p>
+                </div>
+                <div>
+                    <p class="mb-2 font-medium text-sm text-zinc-700 dark:text-zinc-300">Decorative (hidden from screen readers):</p>
+                    <p class="m-0">This separator is purely decorative</p>
+                    <Separator Decorative="true" />
+                    <p class="m-0">Screen readers will skip it</p>
+                </div>
+            </div>
             <CodeBlock Code="@DecorativeCode" Language="razor" />
         </div>
-    </Examples>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Orientation</code></td>
-                    <td>Orientation</td>
-                    <td>Horizontal</td>
-                    <td>Separator orientation</td>
-                </tr>
-                <tr>
-                    <td><code>Decorative</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether separator is purely decorative</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+        <!-- In Lists -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">In Lists</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Separate list items with visual dividers.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="space-y-0">
+                    <div class="py-3">
+                        <div class="font-medium text-zinc-900 dark:text-zinc-100">Item 1</div>
+                        <div class="text-sm text-zinc-600 dark:text-zinc-400">Description for first item</div>
+                    </div>
+                    <Separator />
+                    <div class="py-3">
+                        <div class="font-medium text-zinc-900 dark:text-zinc-100">Item 2</div>
+                        <div class="text-sm text-zinc-600 dark:text-zinc-400">Description for second item</div>
+                    </div>
+                    <Separator />
+                    <div class="py-3">
+                        <div class="font-medium text-zinc-900 dark:text-zinc-100">Item 3</div>
+                        <div class="text-sm text-zinc-600 dark:text-zinc-400">Description for third item</div>
+                    </div>
+                </div>
+            </div>
+            <CodeBlock Code="@ListCode" Language="razor" />
+        </div>
+    </section>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Semantic separators use <code>&lt;hr&gt;</code> or role="separator"</li>
-            <li>Decorative separators use aria-hidden="true"</li>
-            <li>Proper ARIA orientation attributes</li>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Orientation</td>
+                            <td class="py-3 px-4"><TypeBadge Type="Orientation" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Horizontal</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Separator orientation</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Decorative</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether separator is purely decorative (hidden from screen readers)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Separator component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add separator" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Semantic separators use <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;hr&gt;</code> or <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="separator"</code>
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Decorative separators use <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-hidden="true"</code>
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Proper ARIA orientation attributes for vertical separators
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/divider" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Divider</h4>
+                <p class="text-sm text-zinc-500">Visual divider with labels</p>
+            </a>
+            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
+                <p class="text-sm text-zinc-500">Layout stacking component</p>
+            </a>
+            <a href="/components/grid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Grid</h4>
+                <p class="text-sm text-zinc-500">Grid layout system</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Divider", "Stack", "Grid" };
-
     private string BasicCode => @"<p>Content above</p>
 <Separator />
 <p>Content below</p>";
@@ -106,4 +235,21 @@
 
 <!-- Decorative separator (hidden from screen readers) -->
 <Separator Decorative=""true"" />";
+
+    private string ListCode => @"<div class=""space-y-0"">
+    <div class=""py-3"">
+        <div class=""font-medium"">Item 1</div>
+        <div class=""text-sm text-muted"">Description</div>
+    </div>
+    <Separator />
+    <div class=""py-3"">
+        <div class=""font-medium"">Item 2</div>
+        <div class=""text-sm text-muted"">Description</div>
+    </div>
+    <Separator />
+    <div class=""py-3"">
+        <div class=""font-medium"">Item 3</div>
+        <div class=""text-sm text-muted"">Description</div>
+    </div>
+</div>";
 }

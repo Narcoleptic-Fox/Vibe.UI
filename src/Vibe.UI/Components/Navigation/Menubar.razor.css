@@ -1,0 +1,173 @@
+/* ========================================
+   MENUBAR COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Menubar Container (Horizontal Layout)
+   ---------------------------------------- */
+
+.vibe-menubar {
+    display: flex;
+    align-items: center;
+    gap: var(--vibe-spacing-1, 0.25rem);
+    height: 2.5rem;
+    border-radius: var(--vibe-radius-md, 0.5rem);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-background);
+    padding: var(--vibe-spacing-1, 0.25rem);
+}
+
+/* ----------------------------------------
+   Menubar Menu Item Container
+   ---------------------------------------- */
+
+::deep .menubar-menu {
+    position: relative;
+}
+
+/* ----------------------------------------
+   Menubar Trigger Button
+   ---------------------------------------- */
+
+::deep .menubar-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vibe-spacing-1, 0.25rem);
+    border-radius: var(--vibe-radius-sm, 0.3rem);
+    padding: var(--vibe-spacing-2, 0.5rem) var(--vibe-spacing-3, 0.75rem);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: var(--vibe-transition-fast, all 0.15s ease);
+    color: var(--vibe-foreground);
+    background-color: transparent;
+    border: none;
+    white-space: nowrap;
+}
+
+/* ----------------------------------------
+   Menubar Trigger Hover State
+   ---------------------------------------- */
+
+::deep .menubar-trigger:hover {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+/* ----------------------------------------
+   Menubar Trigger Focus State
+   ---------------------------------------- */
+
+::deep .menubar-trigger:focus-visible {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: -2px;
+}
+
+/* ----------------------------------------
+   Menubar Trigger Active State
+   ---------------------------------------- */
+
+::deep .menubar-trigger.active {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+/* ----------------------------------------
+   Menubar Content (Dropdown)
+   ---------------------------------------- */
+
+::deep .menubar-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 50;
+    min-width: 12rem;
+    margin-top: var(--vibe-spacing-1, 0.25rem);
+    overflow: hidden;
+    border-radius: var(--vibe-radius-md, 0.5rem);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    box-shadow: var(--vibe-shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1));
+    animation: menubarIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: var(--vibe-spacing-1, 0.25rem);
+}
+
+/* ----------------------------------------
+   Menubar Backdrop
+   ---------------------------------------- */
+
+::deep .menubar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background-color: transparent;
+}
+
+/* ----------------------------------------
+   Animations
+   ---------------------------------------- */
+
+@keyframes menubarIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes menubarOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+/* ----------------------------------------
+   Dark Mode Support
+   ---------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    .vibe-menubar {
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+
+    ::deep .menubar-content {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    .vibe-menubar {
+        height: auto;
+        min-height: 2.5rem;
+        flex-wrap: wrap;
+    }
+
+    ::deep .menubar-trigger {
+        padding: var(--vibe-spacing-2, 0.5rem) var(--vibe-spacing-3, 0.75rem);
+    }
+
+    ::deep .menubar-content {
+        max-width: calc(100vw - 2rem);
+    }
+}

@@ -1,0 +1,10 @@
+/* Grid Component Styles */
+
+.vibe-grid {
+    display: grid;
+    width: 100%;
+}
+
+.vibe-grid-item {
+    min-width: 0;
+}

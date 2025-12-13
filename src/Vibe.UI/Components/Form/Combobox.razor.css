@@ -1,0 +1,351 @@
+/* ========================================
+   COMBOBOX COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE CONTAINER
+   ---------------------------------------- */
+
+.vibe-combobox {
+    position: relative;
+    width: 100%;
+    font-family: var(--vibe-font);
+}
+
+/* ----------------------------------------
+   TRIGGER CONTAINER
+   ---------------------------------------- */
+
+.combobox-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid var(--vibe-border);
+    border-radius: var(--vibe-radius-sm);
+    background-color: var(--vibe-background);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    cursor: text;
+}
+
+.combobox-trigger:hover {
+    border-color: color-mix(in srgb, var(--vibe-border) 70%, var(--vibe-foreground));
+}
+
+.combobox-trigger:focus-within {
+    border-color: var(--vibe-ring);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
+}
+
+/* ----------------------------------------
+   SEARCH INPUT
+   ---------------------------------------- */
+
+.combobox-input {
+    flex: 1;
+    width: 100%;
+    padding: 0.75rem;
+    padding-right: 2.5rem;
+    border: none;
+    background: transparent;
+    color: var(--vibe-foreground);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.combobox-input::placeholder {
+    color: var(--vibe-muted-foreground);
+}
+
+.combobox-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ----------------------------------------
+   DROPDOWN BUTTON (CHEVRON)
+   ---------------------------------------- */
+
+.combobox-chevron {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--vibe-muted-foreground);
+    pointer-events: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.combobox-trigger:hover .combobox-chevron {
+    color: var(--vibe-foreground);
+}
+
+/* ----------------------------------------
+   DROPDOWN PANEL
+   ---------------------------------------- */
+
+.combobox-content {
+    position: absolute;
+    z-index: 50;
+    width: 100%;
+    margin-top: 0.25rem;
+    max-height: 15rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--vibe-border);
+    border-radius: var(--vibe-radius-sm);
+    background-color: var(--vibe-background);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    animation: vibe-combobox-slideIn 0.15s ease-out;
+}
+
+/* Custom scrollbar for dropdown */
+.combobox-content::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.combobox-content::-webkit-scrollbar-track {
+    background: var(--vibe-muted);
+    border-radius: var(--vibe-radius-sm);
+}
+
+.combobox-content::-webkit-scrollbar-thumb {
+    background: var(--vibe-muted-foreground);
+    border-radius: var(--vibe-radius-sm);
+}
+
+.combobox-content::-webkit-scrollbar-thumb:hover {
+    background: var(--vibe-foreground);
+}
+
+/* ----------------------------------------
+   OPTION ITEMS
+   ---------------------------------------- */
+
+.combobox-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--vibe-foreground);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    outline: none;
+}
+
+.combobox-option:hover {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.combobox-option:active {
+    background-color: var(--vibe-muted);
+}
+
+/* ----------------------------------------
+   SELECTED/HIGHLIGHTED OPTION
+   ---------------------------------------- */
+
+.combobox-option.selected {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+    font-weight: 500;
+}
+
+.combobox-option.selected::after {
+    content: '';
+    position: absolute;
+    right: 0.75rem;
+    width: 0.875rem;
+    height: 0.875rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Keyboard navigation focus state */
+.combobox-option:focus-visible {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: -2px;
+}
+
+/* ----------------------------------------
+   EMPTY STATE
+   ---------------------------------------- */
+
+.combobox-empty {
+    padding: 1.5rem 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--vibe-muted-foreground);
+    font-style: italic;
+}
+
+/* ----------------------------------------
+   GROUPED OPTIONS
+   ---------------------------------------- */
+
+.combobox-group {
+    padding: 0.5rem 0;
+}
+
+.combobox-group-label {
+    padding: 0.5rem 0.75rem 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--vibe-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+}
+
+.combobox-group .combobox-option {
+    padding-left: 1.5rem;
+}
+
+/* ----------------------------------------
+   BACKDROP
+   ---------------------------------------- */
+
+.combobox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: transparent;
+}
+
+/* ----------------------------------------
+   DISABLED STATE
+   ---------------------------------------- */
+
+.vibe-combobox.disabled .combobox-trigger {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.vibe-combobox.disabled .combobox-input {
+    cursor: not-allowed;
+}
+
+/* ----------------------------------------
+   ANIMATIONS
+   ---------------------------------------- */
+
+@keyframes vibe-combobox-slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade out animation for closing */
+@keyframes vibe-combobox-fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+}
+
+/* ----------------------------------------
+   DARK MODE SUPPORT
+   ---------------------------------------- */
+
+:global(.dark) .combobox-trigger {
+    background-color: var(--vibe-background);
+    border-color: var(--vibe-border);
+}
+
+:global(.dark) .combobox-input {
+    color: var(--vibe-foreground);
+}
+
+:global(.dark) .combobox-content {
+    background-color: var(--vibe-background);
+    border-color: var(--vibe-border);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .combobox-option {
+    color: var(--vibe-foreground);
+}
+
+:global(.dark) .combobox-option:hover,
+:global(.dark) .combobox-option.selected {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+:global(.dark) .combobox-empty {
+    color: var(--vibe-muted-foreground);
+}
+
+:global(.dark) .combobox-group-label {
+    color: var(--vibe-muted-foreground);
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY IMPROVEMENTS
+   ---------------------------------------- */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .combobox-trigger {
+        border-width: 2px;
+    }
+
+    .combobox-option.selected {
+        outline: 2px solid currentColor;
+        outline-offset: -2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .combobox-content {
+        animation: none;
+    }
+
+    .combobox-trigger,
+    .combobox-chevron,
+    .combobox-option {
+        transition: none;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.combobox-input:focus-visible {
+    outline: none;
+}
+
+/* Ensure proper touch targets for mobile */
+@media (pointer: coarse) {
+    .combobox-option {
+        padding: 0.875rem 0.75rem;
+        min-height: 2.75rem;
+    }
+}

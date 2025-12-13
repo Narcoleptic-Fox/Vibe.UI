@@ -1,238 +1,350 @@
 @page "/components/input"
-@using Vibe.UI.Components
 
 <PageTitle>Input - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Input"
-               Category="Input"
-               Description="A text input field for user text entry."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Input</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Input</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A text input field for user text entry with multiple variants and features.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
-            <div>
-                <h4 style="margin-bottom: 1rem; color: var(--vibe-foreground);">Text Variant (Underline Only)</h4>
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <Input Label="Username" Placeholder="Enter your username" Variant="text" />
-                    <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="text" HelperText="We'll never share your email" />
-                    <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Size="small" Variant="text" />
-                </div>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 1rem; color: var(--vibe-foreground);">Filled Variant (Muted Background)</h4>
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <Input Label="Username" Placeholder="Enter your username" Variant="filled" />
-                    <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="filled" HelperText="We'll never share your email" />
-                    <Input Label="Password" Type="password" Placeholder="Enter password" LeadingIcon="🔒" Variant="filled" />
-                </div>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 1rem; color: var(--vibe-foreground);">Outlined Variant (Full Border)</h4>
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <Input Label="Username" Placeholder="Enter your username" Variant="outlined" />
-                    <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="outlined" HelperText="We'll never share your email" />
-                    <Input Label="Error Example" Placeholder="Invalid input" ErrorMessage="This field is required" Variant="outlined" />
-                    <Input Label="Disabled" Placeholder="Disabled input" Disabled="true" Variant="outlined" />
-                </div>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 space-y-6">
+            <div class="space-y-3">
+                <Input Label="Username" Placeholder="Enter your username" Variant="InputVariant.Outlined" />
+                <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="InputVariant.Outlined" HelperText="We'll never share your email" />
+                <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Size="ComponentSize.Small" Variant="InputVariant.Outlined" />
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Variants</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Variants -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Variants</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Choose from three visual styles: text (underline only), filled (muted background), or outlined (full border).
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Input Label="Text Variant" Placeholder="Underline only" Variant="InputVariant.Text" />
+                <Input Label="Filled Variant" Placeholder="Muted background" Variant="InputVariant.Filled" />
+                <Input Label="Outlined Variant" Placeholder="Full border" Variant="InputVariant.Outlined" />
+            </div>
             <CodeBlock Code="@VariantsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Floating Labels</h3>
-            <CodeBlock Code="@FloatingLabelCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>Input Types</h3>
+        <!-- Input Types -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Input Types</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Support for all standard HTML input types for different data formats.
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Input Label="Text" Type="text" Placeholder="Text input" Variant="InputVariant.Outlined" />
+                <Input Label="Email" Type="email" Placeholder="Email input" Variant="InputVariant.Outlined" />
+                <Input Label="Password" Type="password" Placeholder="Password" Variant="InputVariant.Outlined" />
+                <Input Label="Number" Type="number" Placeholder="Number input" Variant="InputVariant.Outlined" />
+            </div>
             <CodeBlock Code="@TypesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Sizes</h3>
+        <!-- Sizes -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sizes</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Available in three sizes to fit different layouts and use cases.
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Input Label="Small" Size="ComponentSize.Small" Placeholder="Small input" Variant="InputVariant.Outlined" />
+                <Input Label="Medium" Size="ComponentSize.Medium" Placeholder="Medium input" Variant="InputVariant.Outlined" />
+                <Input Label="Large" Size="ComponentSize.Large" Placeholder="Large input" Variant="InputVariant.Outlined" />
+            </div>
             <CodeBlock Code="@SizesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Icons</h3>
+        <!-- With Icons -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Icons</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Add leading or trailing icons to provide visual context for the input field.
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Variant="InputVariant.Outlined" />
+                <Input Label="Password" Type="password" Placeholder="Password" LeadingIcon="🔒" Variant="InputVariant.Filled" />
+                <Input Label="Email" Placeholder="you@example.com" TrailingIcon="✉️" Variant="InputVariant.Text" />
+            </div>
             <CodeBlock Code="@IconsCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Validation States</h3>
+        <!-- Validation States -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Validation States</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display helper text or error messages to guide user input.
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Input Label="Email" Type="email" Variant="InputVariant.Outlined" HelperText="Enter a valid email address" />
+                <Input Label="Username" ErrorMessage="Username is required" Variant="InputVariant.Outlined" />
+            </div>
             <CodeBlock Code="@ValidationCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Disabled and ReadOnly</h3>
+        <!-- Disabled and ReadOnly -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled and ReadOnly</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Prevent user interaction with disabled state or allow reading with readonly state.
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Input Label="Disabled" Placeholder="Disabled input" Disabled="true" Variant="InputVariant.Outlined" />
+                <Input Label="Read-only" Value="Read-only value" ReadOnly="true" Variant="InputVariant.Filled" />
+            </div>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Value</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>The input value</td>
-                </tr>
-                <tr>
-                    <td><code>Type</code></td>
-                    <td>string</td>
-                    <td>"text"</td>
-                    <td>HTML input type (text, email, password, number, etc.)</td>
-                </tr>
-                <tr>
-                    <td><code>Placeholder</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Placeholder text</td>
-                </tr>
-                <tr>
-                    <td><code>Label</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Label text</td>
-                </tr>
-                <tr>
-                    <td><code>Variant</code></td>
-                    <td>string</td>
-                    <td>"outlined"</td>
-                    <td>Visual style variant: "text", "filled", or "outlined"</td>
-                </tr>
-                <tr>
-                    <td><code>Size</code></td>
-                    <td>string</td>
-                    <td>"medium"</td>
-                    <td>Size of the input: "small", "medium", or "large"</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the input is disabled</td>
-                </tr>
-                <tr>
-                    <td><code>ReadOnly</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the input is read-only</td>
-                </tr>
-                <tr>
-                    <td><code>Required</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the input is required</td>
-                </tr>
-                <tr>
-                    <td><code>Error</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Error message to display</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>ValueChanged</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when value changes</td>
-                </tr>
-                <tr>
-                    <td><code>OnInput</code></td>
-                    <td>EventCallback&lt;ChangeEventArgs&gt;</td>
-                    <td>Native input event callback</td>
-                </tr>
-                <tr>
-                    <td><code>OnFocus</code></td>
-                    <td>EventCallback&lt;FocusEventArgs&gt;</td>
-                    <td>Callback when input receives focus</td>
-                </tr>
-                <tr>
-                    <td><code>OnBlur</code></td>
-                    <td>EventCallback&lt;FocusEventArgs&gt;</td>
-                    <td>Callback when input loses focus</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">The input value</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Type</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"text"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">HTML input type (text, email, password, number, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placeholder</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Label text</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Variant</td>
+                            <td class="py-3 px-4"><TypeBadge Type="InputVariant" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Outlined</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Visual style variant</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Size</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ComponentSize" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Medium</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Size of the input</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the input is disabled</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ReadOnly</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the input is read-only</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Required</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the input is required</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ErrorMessage</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Error message to display</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">HelperText</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Helper text to guide the user</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">LeadingIcon</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Icon displayed at the start</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">TrailingIcon</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Icon displayed at the end</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic <code>&lt;input&gt;</code> element</li>
-            <li>Label properly associated with input</li>
-            <li>ARIA attributes for error states</li>
-            <li>Keyboard accessible</li>
-            <li>Focus visible styles</li>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when value changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnInput</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<ChangeEventArgs>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Native input event callback</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnFocus</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<FocusEventArgs>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when input receives focus</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnBlur</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<FocusEventArgs>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when input loses focus</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Input component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add input" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;input&gt;</code> element
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Label properly associated with input for screen readers
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                ARIA attributes for error states and validation
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Keyboard accessible with focus visible styles
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/textarea" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Textarea</h4>
+                <p class="text-sm text-zinc-500">Multi-line text input</p>
+            </a>
+            <a href="/components/select" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Select</h4>
+                <p class="text-sm text-zinc-500">Dropdown selection</p>
+            </a>
+            <a href="/components/form" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Form</h4>
+                <p class="text-sm text-zinc-500">Form validation and submission</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Textarea", "Select", "Form", "ValidatedInput" };
-
     private string VariantsCode => @"<!-- Text variant: Bottom border only -->
-<Input Label=""Username"" Placeholder=""Enter your username"" Variant=""text"" />
+<Input Label=""Username"" Placeholder=""Enter your username"" Variant=""InputVariant.Text"" />
 
 <!-- Filled variant: Muted background with rounded top corners -->
-<Input Label=""Email"" Placeholder=""you@example.com"" Variant=""filled"" />
+<Input Label=""Email"" Placeholder=""you@example.com"" Variant=""InputVariant.Filled"" />
 
 <!-- Outlined variant: Full border (default) -->
-<Input Label=""Password"" Placeholder=""Enter password"" Variant=""outlined"" />";
+<Input Label=""Password"" Placeholder=""Enter password"" Variant=""InputVariant.Outlined"" />";
 
-    private string FloatingLabelCode => @"<!-- Label floats up and shrinks when input is focused or has a value -->
-<Input Label=""Username"" Placeholder=""Enter your username"" Variant=""filled"" />
+    private string TypesCode => @"<Input Label=""Text"" Type=""text"" Placeholder=""Text input"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Email"" Type=""email"" Placeholder=""Email input"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Password"" Type=""password"" Placeholder=""Password"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Number"" Type=""number"" Placeholder=""Number input"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Search"" Type=""search"" Placeholder=""Search..."" Variant=""InputVariant.Outlined"" />";
 
-<!-- Label stays inside when empty and not focused -->
-<Input Label=""Email"" Type=""email"" Placeholder=""you@example.com"" Variant=""outlined"" />";
+    private string SizesCode => @"<Input Label=""Small"" Size=""ComponentSize.Small"" Placeholder=""Small input"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Medium"" Size=""ComponentSize.Medium"" Placeholder=""Medium input"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Large"" Size=""ComponentSize.Large"" Placeholder=""Large input"" Variant=""InputVariant.Outlined"" />";
 
-    private string TypesCode => @"<Input Label=""Text"" Type=""text"" Placeholder=""Text input"" Variant=""outlined"" />
-<Input Label=""Email"" Type=""email"" Placeholder=""Email input"" Variant=""outlined"" />
-<Input Label=""Password"" Type=""password"" Placeholder=""Password"" Variant=""outlined"" />
-<Input Label=""Number"" Type=""number"" Placeholder=""Number input"" Variant=""outlined"" />
-<Input Label=""Search"" Type=""search"" Placeholder=""Search..."" Variant=""outlined"" />";
+    private string IconsCode => @"<Input Label=""Search"" Placeholder=""Search..."" LeadingIcon=""🔍"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Password"" Type=""password"" Placeholder=""Password"" LeadingIcon=""🔒"" Variant=""InputVariant.Filled"" />
+<Input Label=""Email"" Placeholder=""you@example.com"" TrailingIcon=""✉️"" Variant=""InputVariant.Text"" />";
 
-    private string SizesCode => @"<Input Label=""Small"" Size=""small"" Placeholder=""Small input"" Variant=""outlined"" />
-<Input Label=""Medium"" Size=""medium"" Placeholder=""Medium input"" Variant=""outlined"" />
-<Input Label=""Large"" Size=""large"" Placeholder=""Large input"" Variant=""outlined"" />";
+    private string ValidationCode => @"<Input Label=""Email"" Type=""email"" Variant=""InputVariant.Outlined"" HelperText=""Enter a valid email address"" />
+<Input Label=""Username"" ErrorMessage=""Username is required"" Variant=""InputVariant.Outlined"" />";
 
-    private string IconsCode => @"<Input Label=""Search"" Placeholder=""Search..."" LeadingIcon=""🔍"" Variant=""outlined"" />
-<Input Label=""Password"" Type=""password"" Placeholder=""Password"" LeadingIcon=""🔒"" Variant=""filled"" />
-<Input Label=""Email"" Placeholder=""you@example.com"" TrailingIcon=""✉️"" Variant=""text"" />";
-
-    private string ValidationCode => @"<Input Label=""Email"" Type=""email"" Variant=""outlined"" HelperText=""Enter a valid email address"" />
-<Input Label=""Username"" ErrorMessage=""Username is required"" Variant=""outlined"" />
-<Input Label=""Required Field"" Placeholder=""This field is required"" Variant=""filled"" />";
-
-    private string DisabledCode => @"<Input Label=""Disabled"" Placeholder=""Disabled input"" Disabled=""true"" Variant=""outlined"" />
-<Input Label=""Read-only"" Value=""Read-only value"" ReadOnly=""true"" Variant=""filled"" />";
+    private string DisabledCode => @"<Input Label=""Disabled"" Placeholder=""Disabled input"" Disabled=""true"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Read-only"" Value=""Read-only value"" ReadOnly=""true"" Variant=""InputVariant.Filled"" />";
 }

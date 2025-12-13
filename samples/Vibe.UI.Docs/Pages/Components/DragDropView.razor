@@ -2,147 +2,258 @@
 
 <PageTitle>DragDrop - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="DragDrop"
-               Category="Advanced"
-               Description="A container component that enables drag and drop functionality for reordering items or moving content between containers."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo">
-            <p class="info-message">
-                <strong>Note:</strong> DragDrop component not found in Advanced folder.
-                This component may need to be implemented or is located elsewhere in the codebase.
-            </p>
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">DragDrop</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">DragDrop</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A container component that enables drag and drop functionality for reordering items or moving content between containers.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Drag and Drop</h3>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-8 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <p class="text-sm text-blue-800 dark:text-blue-200">
+                    <strong>Note:</strong> DragDrop component not found in Advanced folder.
+                    This component may need to be implemented or is located elsewhere in the codebase.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Drag and Drop -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Drag and Drop</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple drag and drop functionality for reordering items in a list.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Sortable List</h3>
+        <!-- Sortable List -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sortable List</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Create a sortable list with rich content cards.
+            </p>
             <CodeBlock Code="@SortableCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Multiple Containers</h3>
+        <!-- Multiple Containers -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Multiple Containers</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Drag items between different containers (like a Kanban board).
+            </p>
             <CodeBlock Code="@MultiContainerCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Handles</h3>
+        <!-- With Handles -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Handles</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use drag handles to restrict which part of an item can be dragged.
+            </p>
             <CodeBlock Code="@HandleCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Disabled Items</h3>
+        <!-- Disabled Items -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled Items</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Prevent certain items from being dragged.
+            </p>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Items</code></td>
-                    <td>IEnumerable&lt;TItem&gt;</td>
-                    <td>-</td>
-                    <td>Collection of items to display</td>
-                </tr>
-                <tr>
-                    <td><code>ItemTemplate</code></td>
-                    <td>RenderFragment&lt;TItem&gt;</td>
-                    <td>-</td>
-                    <td>Template for rendering each item</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Disable drag and drop functionality</td>
-                </tr>
-                <tr>
-                    <td><code>Group</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Group name for multi-container drag/drop</td>
-                </tr>
-                <tr>
-                    <td><code>Handle</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>CSS selector for drag handle</td>
-                </tr>
-                <tr>
-                    <td><code>Animation</code></td>
-                    <td>int</td>
-                    <td>150</td>
-                    <td>Animation duration in milliseconds</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnItemsChanged</code></td>
-                    <td>EventCallback&lt;IEnumerable&lt;TItem&gt;&gt;</td>
-                    <td>Callback when items are reordered</td>
-                </tr>
-                <tr>
-                    <td><code>OnDragStart</code></td>
-                    <td>EventCallback&lt;DragEventArgs&lt;TItem&gt;&gt;</td>
-                    <td>Callback when drag starts</td>
-                </tr>
-                <tr>
-                    <td><code>OnDragEnd</code></td>
-                    <td>EventCallback&lt;DragEventArgs&lt;TItem&gt;&gt;</td>
-                    <td>Callback when drag ends</td>
-                </tr>
-                <tr>
-                    <td><code>OnDrop</code></td>
-                    <td>EventCallback&lt;DropEventArgs&lt;TItem&gt;&gt;</td>
-                    <td>Callback when item is dropped</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Items</td>
+                            <td class="py-3 px-4"><TypeBadge Type="IEnumerable<TItem>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Collection of items to display</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ItemTemplate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment<TItem>" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Template for rendering each item</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Disable drag and drop functionality</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Group</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Group name for multi-container drag/drop</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Handle</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">CSS selector for drag handle</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Animation</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">150</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Animation duration in milliseconds</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Draggable items have <code>draggable="true"</code> attribute</li>
-            <li>Uses <code>aria-grabbed</code> to indicate drag state</li>
-            <li>Drop zones have <code>aria-dropeffect</code> attribute</li>
-            <li>Keyboard support for reordering (Alt+Arrow keys)</li>
-            <li>Screen reader announcements for drag/drop actions</li>
-            <li>Focus management during drag operations</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnItemsChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<IEnumerable<TItem>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when items are reordered</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnDragStart</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DragEventArgs<TItem>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when drag starts</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnDragEnd</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DragEventArgs<TItem>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when drag ends</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnDrop</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<DropEventArgs<TItem>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when item is dropped</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the DragDrop component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add dragdrop" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Draggable items have <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">draggable="true"</code> attribute
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-grabbed</code> to indicate drag state
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Drop zones have <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-dropeffect</code> attribute
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard support for reordering (Alt+Arrow keys)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announcements for drag/drop actions
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus management during drag operations
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/kanbanboard" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">KanbanBoard</h4>
+                <p class="text-sm text-zinc-500">Task board with columns</p>
+            </a>
+            <a href="/components/treeview" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">TreeView</h4>
+                <p class="text-sm text-zinc-500">Hierarchical tree structure</p>
+            </a>
+            <a href="/components/list" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">List</h4>
+                <p class="text-sm text-zinc-500">Simple list component</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "KanbanBoard", "TreeView" };
-
     private string BasicCode => @"<DragDrop Items=""@items"" OnItemsChanged=""@HandleReorder"">
     <ItemTemplate Context=""item"">
         <div class=""drag-item"">@item.Name</div>

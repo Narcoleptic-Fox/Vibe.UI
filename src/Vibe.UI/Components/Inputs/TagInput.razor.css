@@ -1,0 +1,149 @@
+/* ========================================
+   TAGINPUT COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   TAG INPUT CONTAINER
+   ---------------------------------------- */
+
+::deep .tag-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--vibe-input);
+    border: 1px solid var(--vibe-border);
+    border-radius: var(--vibe-radius);
+    transition: all 0.2s ease;
+}
+
+/* ----------------------------------------
+   FOCUS STATE
+   ---------------------------------------- */
+
+::deep .tag-input-container:focus-within {
+    border-color: var(--vibe-ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--vibe-ring) 10%, transparent);
+}
+
+/* ----------------------------------------
+   TAG ITEM
+   ---------------------------------------- */
+
+::deep .tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--vibe-primary);
+    color: var(--vibe-primary-foreground);
+    border-radius: calc(var(--vibe-radius) - 0.125rem);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* ----------------------------------------
+   TAG TEXT
+   ---------------------------------------- */
+
+::deep .tag-text {
+    line-height: 1.25;
+}
+
+/* ----------------------------------------
+   TAG REMOVE BUTTON
+   ---------------------------------------- */
+
+::deep .tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background-color 0.2s ease;
+}
+
+::deep .tag-remove:hover {
+    background-color: color-mix(in srgb, black 10%, transparent);
+}
+
+/* ----------------------------------------
+   TAG INPUT FIELD
+   ---------------------------------------- */
+
+::deep .tag-input {
+    flex: 1;
+    min-width: 8rem;
+    padding: 0;
+    color: var(--vibe-foreground);
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 0.875rem;
+}
+
+/* ----------------------------------------
+   PLACEHOLDER
+   ---------------------------------------- */
+
+::deep .tag-input::placeholder {
+    color: var(--vibe-muted-foreground);
+}
+
+/* ----------------------------------------
+   TAG SUGGESTIONS CONTAINER
+   ---------------------------------------- */
+
+::deep .tag-suggestions {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--vibe-card, var(--vibe-background));
+    border: 1px solid var(--vibe-border);
+    border-radius: var(--vibe-radius);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------------------------------------
+   TAG SUGGESTION ITEM
+   ---------------------------------------- */
+
+::deep .tag-suggestion {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    color: var(--vibe-foreground);
+    background-color: var(--vibe-muted);
+    border: 1px solid var(--vibe-border);
+    border-radius: calc(var(--vibe-radius) - 0.125rem);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+::deep .tag-suggestion:hover {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+/* ----------------------------------------
+   DISABLED STATE
+   ---------------------------------------- */
+
+.tag-input-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}

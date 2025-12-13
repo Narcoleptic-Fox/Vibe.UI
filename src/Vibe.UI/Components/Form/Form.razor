@@ -1,12 +1,13 @@
 @namespace Vibe.UI.Components
 @using Microsoft.AspNetCore.Components.Forms
 @typeparam TForm where TForm : class, new()
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
-<EditForm Model="@Model" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" FormName="@FormName" class="@CombinedClass">
+<EditForm Model="@Model" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" FormName="@FormName"
+    class="@CombinedClass">
     <DataAnnotationsValidator />
     <ValidationSummary class="validation-summary" />
-    
+
     <CascadingValue Value="this" IsFixed="true">
         @ChildContent
     </CascadingValue>
@@ -40,7 +41,7 @@
     /// <summary>
     /// Gets or sets the callback when the form submission fails validation.
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public EventCallback<EditContext> OnInvalidSubmit { get; set; }
 
     /// <summary>

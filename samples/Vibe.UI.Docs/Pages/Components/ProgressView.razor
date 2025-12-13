@@ -3,108 +3,238 @@
 
 <PageTitle>Progress - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Progress"
-               Category="Feedback"
-               Description="Displays the progress of an operation or task."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Progress</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Progress</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            Displays the progress of an operation or task.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="flex flex-col gap-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
             <div>
-                <div style="margin-bottom: 0.5rem; font-size: 0.875rem; color: #64748b;">25% Complete</div>
+                <div class="mb-2 text-sm text-zinc-600 dark:text-zinc-400">25% Complete</div>
                 <Progress Value="25" />
             </div>
             <div>
-                <div style="margin-bottom: 0.5rem; font-size: 0.875rem; color: #64748b;">50% Complete</div>
+                <div class="mb-2 text-sm text-zinc-600 dark:text-zinc-400">50% Complete</div>
                 <Progress Value="50" Variant="primary" />
             </div>
             <div>
-                <div style="margin-bottom: 0.5rem; font-size: 0.875rem; color: #64748b;">75% Complete</div>
+                <div class="mb-2 text-sm text-zinc-600 dark:text-zinc-400">75% Complete</div>
                 <Progress Value="75" Variant="success" />
             </div>
             <div>
-                <div style="margin-bottom: 0.5rem; font-size: 0.875rem; color: #64748b;">100% Complete</div>
+                <div class="mb-2 text-sm text-zinc-600 dark:text-zinc-400">100% Complete</div>
                 <Progress Value="100" Variant="success" />
             </div>
             <div>
-                <div style="margin-bottom: 0.5rem; font-size: 0.875rem; color: #64748b;">Loading...</div>
+                <div class="mb-2 text-sm text-zinc-600 dark:text-zinc-400">Loading...</div>
                 <Progress IndeterminateAnimation="true" />
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A simple progress bar showing task completion.
+            </p>
+            <div class="flex flex-col gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Progress Value="50" />
+                <Progress Value="75" />
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Label</h3>
+        <!-- With Label -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Label</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Display the current progress percentage as a label.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Progress Value="@progress" ShowLabel="true" />
+            </div>
             <CodeBlock Code="@LabelCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Indeterminate</h3>
+        <!-- Indeterminate -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Indeterminate</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Use indeterminate state when progress cannot be determined.
+            </p>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Progress Indeterminate="true" />
+            </div>
             <CodeBlock Code="@IndeterminateCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Sizes and Colors</h3>
+        <!-- Sizes and Colors -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sizes and Colors</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Different sizes and color variants to match your design.
+            </p>
+            <div class="flex flex-col gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Small</div>
+                    <Progress Value="60" Size="ProgressSize.Small" />
+                </div>
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Medium</div>
+                    <Progress Value="60" Size="ProgressSize.Medium" />
+                </div>
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Large</div>
+                    <Progress Value="60" Size="ProgressSize.Large" />
+                </div>
+                <div class="pt-4 border-t border-zinc-200 dark:border-zinc-700">
+                    <div class="mb-2 text-xs text-zinc-500">Success</div>
+                    <Progress Value="60" Variant="ProgressVariant.Success" />
+                </div>
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Warning</div>
+                    <Progress Value="60" Variant="ProgressVariant.Warning" />
+                </div>
+                <div>
+                    <div class="mb-2 text-xs text-zinc-500">Danger</div>
+                    <Progress Value="60" Variant="ProgressVariant.Danger" />
+                </div>
+            </div>
             <CodeBlock Code="@StylesCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Value</code></td>
-                    <td>double</td>
-                    <td>0</td>
-                    <td>Progress value (0-100)</td>
-                </tr>
-                <tr>
-                    <td><code>Indeterminate</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Indeterminate loading state</td>
-                </tr>
-                <tr>
-                    <td><code>ShowLabel</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Show percentage label</td>
-                </tr>
-                <tr>
-                    <td><code>Size</code></td>
-                    <td>ProgressSize</td>
-                    <td>Medium</td>
-                    <td>Progress bar size</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses ARIA role="progressbar"</li>
-            <li>aria-valuenow, aria-valuemin, aria-valuemax</li>
-            <li>Screen reader announces progress</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
+                            <td class="py-3 px-4"><TypeBadge Type="double" /></td>
+                            <td class="py-3 px-4 text-zinc-500">0</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Progress value (0-100)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Indeterminate</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Indeterminate loading state</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowLabel</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show percentage label</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Size</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ProgressSize" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Medium</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Progress bar size</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Variant</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ProgressVariant" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Default</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Color variant of the progress bar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Progress component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add progress" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="progressbar"</code>
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Includes aria-valuenow, aria-valuemin, and aria-valuemax attributes
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announces progress updates
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/spinner" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Spinner</h4>
+                <p class="text-sm text-zinc-500">Loading spinner indicator</p>
+            </a>
+            <a href="/components/skeleton" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Skeleton</h4>
+                <p class="text-sm text-zinc-500">Loading placeholder</p>
+            </a>
+            <a href="/components/loader" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Loader</h4>
+                <p class="text-sm text-zinc-500">Generic loader component</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Spinner", "Skeleton", "Loader" };
+    private int progress = 65;
 
     private string BasicCode => @"<Progress Value=""50"" />
 <Progress Value=""75"" />";

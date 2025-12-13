@@ -1,8 +1,9 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
 <li class="@CombinedClass @(IsLast ? "breadcrumb-last" : "")" @attributes="AdditionalAttributes">
-    <a href="@Href" class="breadcrumb-link" @onclick="OnClickHandler" @onclick:preventDefault="@(!string.IsNullOrEmpty(Href))">
+    <a href="@Href" class="breadcrumb-link" @onclick="OnClickHandler"
+        @onclick:preventDefault="@(!string.IsNullOrEmpty(Href))">
         @ChildContent
     </a>
     @if (!IsLast && (!string.IsNullOrEmpty(Separator) || SeparatorContent != null))

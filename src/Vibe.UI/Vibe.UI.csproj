@@ -24,6 +24,8 @@
     <PackageProjectUrl>https://github.com/Dieshen/Vibe.UI</PackageProjectUrl>
     <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Enable scoped CSS bundling (default true, explicit for clarity) -->
+    <ScopedCssEnabled>true</ScopedCssEnabled>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,11 +38,6 @@
       Version="9.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\themeInterop.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="../../icon.png" Pack="true" PackagePath="" Condition="Exists('../../icon.png')" />

@@ -1,0 +1,78 @@
+/* ========================================
+   SWITCH COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* Container - label wrapper for switch + optional text */
+.vibe-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 42px;
+    height: 24px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Disabled state - reduced opacity and no pointer cursor */
+.vibe-switch.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Hidden checkbox input - positioned over track for accessibility */
+.switch-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Disabled input cursor override */
+.vibe-switch.disabled .switch-input {
+    cursor: not-allowed;
+}
+
+/* Switch track - background container for the thumb */
+.switch-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--vibe-muted);
+    border: 2px solid var(--vibe-border);
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+/* Switch thumb indicator - circular sliding element */
+.switch-thumb::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--vibe-background);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Checked state - primary colored track */
+.switch-input:checked + .switch-thumb {
+    background-color: var(--vibe-primary);
+}
+
+/* Checked state - thumb slides to right */
+.switch-input:checked + .switch-thumb::before {
+    transform: translateX(18px);
+}
+
+/* Focus state - accessible outline ring */
+.switch-input:focus-visible + .switch-thumb {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}

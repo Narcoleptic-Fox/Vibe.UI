@@ -1,5 +1,16 @@
-// Vibe.UI Chart.js Integration
-// This file provides JavaScript interop for Chart.js rendering in Blazor
+/**
+ * Vibe.UI Chart.js Integration
+ *
+ * REQUIRES: Chart.js must be loaded BEFORE this script
+ *
+ * Setup in your HTML:
+ *   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+ *   <script src="_content/Vibe.UI/js/vibe-chart.js"></script>
+ *
+ * Or with npm:
+ *   npm install chart.js
+ *   import Chart from 'chart.js/auto';
+ */
 
 window.vibeChart = {
     charts: {},

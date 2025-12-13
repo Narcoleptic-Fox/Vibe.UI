@@ -1,0 +1,11 @@
+/* Link baseline styles */
+
+:global(.vibe-link) {
+  color: var(--vibe-primary);
+  text-decoration: none;
+}
+
+:global(.vibe-link:hover) {
+  text-decoration: underline;
+}
+

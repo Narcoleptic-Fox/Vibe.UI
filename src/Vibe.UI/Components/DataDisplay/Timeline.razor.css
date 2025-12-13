@@ -1,0 +1,374 @@
+/* ========================================
+   TIMELINE COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   BASE TIMELINE CONTAINER
+   ---------------------------------------- */
+
+.vibe-timeline {
+    position: relative;
+    padding: 1rem 0;
+}
+
+/* ----------------------------------------
+   TIMELINE ITEM
+   ---------------------------------------- */
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+/* ----------------------------------------
+   TIMELINE MARKER CONTAINER
+   ---------------------------------------- */
+
+.timeline-marker-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ----------------------------------------
+   TIMELINE DOT (MARKER)
+   ---------------------------------------- */
+
+.timeline-marker {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--vibe-background);
+    border: 2px solid var(--vibe-border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+/* ----------------------------------------
+   TIMELINE CONNECTOR (VERTICAL LINE)
+   ---------------------------------------- */
+
+.timeline-connector {
+    flex: 1;
+    width: 2px;
+    margin-top: 0.5rem;
+    background-color: var(--vibe-border);
+}
+
+/* ----------------------------------------
+   TIMELINE CONTENT
+   ---------------------------------------- */
+
+.timeline-content {
+    flex: 1;
+    padding-top: 0.125rem;
+}
+
+.timeline-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--vibe-foreground);
+    line-height: 1.5;
+}
+
+.timeline-description {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.875rem;
+    color: var(--vibe-foreground);
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.timeline-body {
+    margin-bottom: 0.75rem;
+    color: var(--vibe-foreground);
+}
+
+.timeline-time {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--vibe-muted-foreground);
+    font-weight: 500;
+}
+
+/* ----------------------------------------
+   STATUS VARIANTS (DOT COLORS)
+   ---------------------------------------- */
+
+/* Default Status */
+.timeline-marker.marker-default {
+    border-color: var(--vibe-border);
+    color: var(--vibe-foreground);
+}
+
+/* Success Status */
+.timeline-marker.marker-success {
+    border-color: var(--vibe-success);
+    color: var(--vibe-success);
+    background-color: var(--vibe-background);
+}
+
+/* Error Status */
+.timeline-marker.marker-error {
+    border-color: var(--vibe-destructive);
+    color: var(--vibe-destructive);
+    background-color: var(--vibe-background);
+}
+
+/* Warning Status */
+.timeline-marker.marker-warning {
+    border-color: var(--vibe-warning);
+    color: var(--vibe-warning);
+    background-color: var(--vibe-background);
+}
+
+/* Info Status */
+.timeline-marker.marker-info {
+    border-color: var(--vibe-info);
+    color: var(--vibe-info);
+    background-color: var(--vibe-background);
+}
+
+/* ----------------------------------------
+   POSITION: ALTERNATE (LEFT/RIGHT SIDES)
+   ---------------------------------------- */
+
+/* Alternate Layout - Even items on the right */
+.vibe-timeline.timeline-alternate .timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.vibe-timeline.timeline-alternate .timeline-item:nth-child(even) .timeline-content {
+    text-align: right;
+}
+
+/* ----------------------------------------
+   POSITION: RIGHT
+   ---------------------------------------- */
+
+.vibe-timeline.timeline-right {
+    direction: rtl;
+}
+
+.vibe-timeline.timeline-right .timeline-content {
+    direction: ltr;
+    text-align: right;
+}
+
+.vibe-timeline.timeline-right .timeline-marker-container {
+    direction: ltr;
+}
+
+/* ----------------------------------------
+   POSITION: LEFT (DEFAULT)
+   ---------------------------------------- */
+
+.vibe-timeline.timeline-left {
+    direction: ltr;
+}
+
+.vibe-timeline.timeline-left .timeline-content {
+    text-align: left;
+}
+
+/* ----------------------------------------
+   HORIZONTAL ORIENTATION VARIANT
+   ---------------------------------------- */
+
+/* Horizontal Layout */
+.vibe-timeline.timeline-horizontal {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    overflow-x: auto;
+    gap: 0;
+}
+
+.vibe-timeline.timeline-horizontal .timeline-item {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0;
+    padding-right: 2rem;
+    min-width: 200px;
+    gap: 1rem;
+}
+
+.vibe-timeline.timeline-horizontal .timeline-item:last-child {
+    padding-right: 0;
+}
+
+.vibe-timeline.timeline-horizontal .timeline-marker-container {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.vibe-timeline.timeline-horizontal .timeline-connector {
+    flex: 1;
+    width: auto;
+    height: 2px;
+    margin-top: 0;
+    margin-left: 0.5rem;
+}
+
+.vibe-timeline.timeline-horizontal .timeline-content {
+    text-align: center;
+    padding-top: 0;
+    width: 100%;
+}
+
+/* Hide connector on last item in horizontal mode */
+.vibe-timeline.timeline-horizontal .timeline-item:last-child .timeline-connector {
+    display: none;
+}
+
+/* ----------------------------------------
+   INTERACTIVE STATES
+   ---------------------------------------- */
+
+/* Hover effect for clickable timeline items */
+.timeline-item.clickable {
+    cursor: pointer;
+}
+
+.timeline-item.clickable:hover .timeline-marker {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-item.clickable:hover .timeline-content {
+    opacity: 0.8;
+}
+
+.timeline-item.clickable:active .timeline-marker {
+    transform: scale(1.05);
+}
+
+/* ----------------------------------------
+   ANIMATIONS
+   ---------------------------------------- */
+
+/* Fade in animation for timeline items */
+.timeline-item.animate-in {
+    animation: timeline-fade-in 0.4s ease-out;
+}
+
+@keyframes timeline-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse animation for active/current marker */
+.timeline-marker.pulse {
+    animation: timeline-pulse 2s ease-in-out infinite;
+}
+
+@keyframes timeline-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 currentColor;
+        opacity: 1;
+    }
+    50% {
+        box-shadow: 0 0 0 8px transparent;
+        opacity: 0.8;
+    }
+}
+
+/* ----------------------------------------
+   RESPONSIVE DESIGN
+   ---------------------------------------- */
+
+/* Mobile: Stack horizontally oriented timelines vertically */
+@media (max-width: 640px) {
+    .vibe-timeline.timeline-horizontal {
+        flex-direction: column;
+    }
+
+    .vibe-timeline.timeline-horizontal .timeline-item {
+        flex-direction: row;
+        padding-right: 0;
+        padding-bottom: 2rem;
+        min-width: auto;
+        width: 100%;
+    }
+
+    .vibe-timeline.timeline-horizontal .timeline-marker-container {
+        flex-direction: column;
+        width: auto;
+    }
+
+    .vibe-timeline.timeline-horizontal .timeline-connector {
+        width: 2px;
+        height: auto;
+        flex: 1;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .vibe-timeline.timeline-horizontal .timeline-content {
+        text-align: left;
+    }
+
+    .vibe-timeline.timeline-horizontal .timeline-item:last-child .timeline-connector {
+        display: block;
+    }
+
+    .vibe-timeline.timeline-horizontal .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+}
+
+/* Reduce spacing on smaller screens */
+@media (max-width: 640px) {
+    .timeline-item {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .timeline-marker {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .timeline-title {
+        font-size: 0.9375rem;
+    }
+
+    .timeline-description {
+        font-size: 0.8125rem;
+    }
+}
+
+/* ----------------------------------------
+   DARK MODE SUPPORT
+   ---------------------------------------- */
+
+/* Dark mode styles are handled through CSS variables:
+   - var(--vibe-background)
+   - var(--vibe-foreground)
+   - var(--vibe-border)
+   - var(--vibe-muted-foreground)
+   - var(--vibe-success)
+   - var(--vibe-destructive)
+   - var(--vibe-warning)
+   - var(--vibe-info)
+
+   These variables should be defined in the root theme
+   and updated for dark mode automatically via vibe-base.css.
+   No !important rules are needed - the cascade handles theme switching.
+*/

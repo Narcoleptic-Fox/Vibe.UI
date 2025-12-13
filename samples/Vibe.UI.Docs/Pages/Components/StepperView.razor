@@ -2,182 +2,259 @@
 
 <PageTitle>Stepper - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Stepper"
-               Category="Navigation"
-               Description="Displays progress through numbered steps in a multi-step process."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Stepper</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Stepper</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A step-by-step progress indicator for guiding users through multi-step processes with support for horizontal and vertical layouts.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo">
-            <div style="padding: 1.5rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; margin-bottom: 1rem;">
-                <h4 style="margin: 0 0 0.5rem 0; color: #856404;">Component Not Yet Implemented</h4>
-                <p style="margin: 0; color: #856404;">
-                    The Stepper component has not been implemented yet. The API documentation below represents the planned interface.
-                </p>
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <Stepper CurrentStep="previewCurrentStep" Steps="previewSteps" />
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Horizontal Stepper -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Horizontal Stepper</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Default horizontal layout for multi-step processes.
+            </p>
+            <CodeBlock Code="@HorizontalCode" Language="razor" />
+            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+                <Stepper CurrentStep="horizontalCurrentStep" Steps="horizontalSteps" />
+                <div class="mt-6 flex gap-3">
+                    <Button OnClick="@(() => horizontalCurrentStep = Math.Max(0, horizontalCurrentStep - 1))"
+                            Disabled="@(horizontalCurrentStep == 0)"
+                            Variant="ButtonVariant.Outline">
+                        Previous
+                    </Button>
+                    <Button OnClick="@(() => horizontalCurrentStep = Math.Min(horizontalSteps.Count - 1, horizontalCurrentStep + 1))"
+                            Disabled="@(horizontalCurrentStep == horizontalSteps.Count - 1)">
+                        Next
+                    </Button>
+                </div>
             </div>
         </div>
-    </PreviewContent>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
-            <CodeBlock Code="@BasicCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>Vertical Orientation</h3>
+        <!-- Vertical Stepper -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Vertical Stepper</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Vertical layout for more detailed step descriptions.
+            </p>
             <CodeBlock Code="@VerticalCode" Language="razor" />
+            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+                <Stepper CurrentStep="verticalCurrentStep"
+                         Steps="verticalSteps"
+                         Orientation="Stepper.StepperOrientation.Vertical" />
+            </div>
         </div>
 
-        <div class="example-item">
-            <h3>With Descriptions</h3>
-            <CodeBlock Code="@DescriptionsCode" Language="razor" />
+        <!-- Clickable Steps -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Clickable Steps</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Allow users to navigate by clicking steps directly.
+            </p>
+            <CodeBlock Code="@ClickableCode" Language="razor" />
+            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+                <Stepper @bind-CurrentStep="clickableCurrentStep"
+                         Steps="clickableSteps"
+                         Clickable="true" />
+            </div>
         </div>
+    </section>
 
-        <div class="example-item">
-            <h3>With Icons</h3>
-            <CodeBlock Code="@IconsCode" Language="razor" />
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CurrentStep</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
+                            <td class="py-3 px-4 text-zinc-500">0</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Currently active step (0-indexed)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Steps</td>
+                            <td class="py-3 px-4"><TypeBadge Type="List&lt;StepItem&gt;" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">List of step items</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Orientation</td>
+                            <td class="py-3 px-4"><TypeBadge Type="StepperOrientation" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Horizontal</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Stepper orientation (Horizontal or Vertical)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Clickable</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether steps can be clicked to navigate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </section>
 
-        <div class="example-item">
-            <h3>Error State</h3>
-            <CodeBlock Code="@ErrorCode" Language="razor" />
-        </div>
-    </Examples>
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Stepper component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add stepper" Language="bash" />
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>CurrentStep</code></td>
-                    <td>int</td>
-                    <td>0</td>
-                    <td>Current active step (0-indexed)</td>
-                </tr>
-                <tr>
-                    <td><code>Steps</code></td>
-                    <td>List&lt;StepItem&gt;</td>
-                    <td>null</td>
-                    <td>List of step configurations</td>
-                </tr>
-                <tr>
-                    <td><code>Orientation</code></td>
-                    <td>Orientation</td>
-                    <td>Horizontal</td>
-                    <td>Stepper orientation</td>
-                </tr>
-                <tr>
-                    <td><code>Clickable</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether steps are clickable</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
-
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnStepClick</code></td>
-                    <td>EventCallback&lt;int&gt;</td>
-                    <td>Callback when step is clicked</td>
-                </tr>
-                <tr>
-                    <td><code>CurrentStepChanged</code></td>
-                    <td>EventCallback&lt;int&gt;</td>
-                    <td>Callback when current step changes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
-
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic <code>&lt;nav&gt;</code> with proper labels</li>
-            <li>ARIA attributes for current and completed steps</li>
-            <li>Keyboard navigation between steps</li>
-            <li>Screen reader announces progress</li>
-            <li>Focus management for step navigation</li>
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;nav&gt;</code> element with aria-label
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Steps use <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;button&gt;</code> elements for keyboard accessibility
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Clear visual indicators for different step states
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/breadcrumb" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Breadcrumb</h4>
+                <p class="text-sm text-zinc-500">Navigation hierarchy</p>
+            </a>
+            <a href="/components/tabs" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Tabs</h4>
+                <p class="text-sm text-zinc-500">Tabbed navigation</p>
+            </a>
+            <a href="/components/progress" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Progress</h4>
+                <p class="text-sm text-zinc-500">Progress indicators</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private List<string> relatedComponents = new() { "Tabs", "Wizard", "ProgressBar" };
+    private int previewCurrentStep = 1;
+    private List<Stepper.StepItem> previewSteps = new()
+    {
+        new() { Label = "Account" },
+        new() { Label = "Profile" },
+        new() { Label = "Preferences" }
+    };
 
-    private string BasicCode => @"<Stepper CurrentStep=""@currentStep"" Steps=""@steps"" />
+    private int horizontalCurrentStep = 0;
+    private List<Stepper.StepItem> horizontalSteps = new()
+    {
+        new() { Label = "Step 1", Description = "First step" },
+        new() { Label = "Step 2", Description = "Second step" },
+        new() { Label = "Step 3", Description = "Third step" },
+        new() { Label = "Step 4", Description = "Final step" }
+    };
 
-<Button OnClick=""@(() => currentStep = Math.Max(0, currentStep - 1))"">
-    Previous
-</Button>
-<Button OnClick=""@(() => currentStep = Math.Min(steps.Count - 1, currentStep + 1))"">
-    Next
-</Button>
+    private int verticalCurrentStep = 1;
+    private List<Stepper.StepItem> verticalSteps = new()
+    {
+        new() { Label = "Create Account", Description = "Enter your email and password" },
+        new() { Label = "Verify Email", Description = "Check your inbox for verification link" },
+        new() { Label = "Complete Profile", Description = "Add your personal information" }
+    };
+
+    private int clickableCurrentStep = 0;
+    private List<Stepper.StepItem> clickableSteps = new()
+    {
+        new() { Label = "Select Plan" },
+        new() { Label = "Payment" },
+        new() { Label = "Confirmation" }
+    };
+
+    private string HorizontalCode => @"<Stepper CurrentStep=""currentStep"" Steps=""steps"" />
 
 @code {
     private int currentStep = 0;
-    private List<StepItem> steps = new()
+    private List<Stepper.StepItem> steps = new()
     {
-        new() { Label = ""Select Campaign"" },
-        new() { Label = ""Create Ad"" },
-        new() { Label = ""Review & Launch"" }
+        new() { Label = ""Step 1"", Description = ""First step"" },
+        new() { Label = ""Step 2"", Description = ""Second step"" },
+        new() { Label = ""Step 3"", Description = ""Third step"" }
     };
 }";
 
-    private string VerticalCode => @"<Stepper CurrentStep=""@currentStep""
-         Steps=""@steps""
-         Orientation=""Orientation.Vertical"" />";
-
-    private string DescriptionsCode => @"<Stepper CurrentStep=""@currentStep"" Steps=""@stepsWithDesc"" />
-
-@code {
-    private List<StepItem> stepsWithDesc = new()
-    {
-        new() { Label = ""Account Setup"", Description = ""Create your account"" },
-        new() { Label = ""Profile Info"", Description = ""Add your details"" },
-        new() { Label = ""Preferences"", Description = ""Set your preferences"" },
-        new() { Label = ""Complete"", Description = ""Review and finish"" }
-    };
-}";
-
-    private string IconsCode => @"<Stepper CurrentStep=""@currentStep"" Steps=""@stepsWithIcons"" />
-
-@code {
-    private List<StepItem> stepsWithIcons = new()
-    {
-        new() { Label = ""Cart"", Icon = ""🛒"" },
-        new() { Label = ""Shipping"", Icon = ""📦"" },
-        new() { Label = ""Payment"", Icon = ""💳"" },
-        new() { Label = ""Confirmation"", Icon = ""✅"" }
-    };
-}";
-
-    private string ErrorCode => @"<Stepper CurrentStep=""@currentStep"" Steps=""@stepsWithError"" />
+    private string VerticalCode => @"<Stepper CurrentStep=""currentStep""
+         Steps=""steps""
+         Orientation=""Stepper.StepperOrientation.Vertical"" />
 
 @code {
     private int currentStep = 1;
-    private List<StepItem> stepsWithError = new()
+    private List<Stepper.StepItem> steps = new()
     {
-        new() { Label = ""Personal Info"", Status = StepStatus.Complete },
-        new() { Label = ""Payment"", Status = StepStatus.Error },
-        new() { Label = ""Confirmation"", Status = StepStatus.Pending }
+        new() { Label = ""Create Account"", Description = ""Enter your details"" },
+        new() { Label = ""Verify Email"", Description = ""Check your inbox"" },
+        new() { Label = ""Complete Profile"", Description = ""Add information"" }
+    };
+}";
+
+    private string ClickableCode => @"<Stepper @bind-CurrentStep=""currentStep""
+         Steps=""steps""
+         Clickable=""true"" />
+
+@code {
+    private int currentStep = 0;
+    private List<Stepper.StepItem> steps = new()
+    {
+        new() { Label = ""Select Plan"" },
+        new() { Label = ""Payment"" },
+        new() { Label = ""Confirmation"" }
     };
 }";
 }

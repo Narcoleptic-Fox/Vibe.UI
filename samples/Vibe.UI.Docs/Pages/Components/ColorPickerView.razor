@@ -3,167 +3,251 @@
 
 <PageTitle>ColorPicker - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="ColorPicker"
-               Category="Input"
-               Description="Allows users to select a color from a palette or enter a custom color value."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">ColorPicker</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">ColorPicker</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            Allows users to select a color from a palette or enter a custom color value.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Basic Color Picker</h4>
-                <ColorPicker Value="@primaryColor" ValueChanged="@((string val) => primaryColor = val)" />
-                <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
-                    <div style="width: 80px; height: 80px; border-radius: 8px; background-color: @primaryColor; border: 2px solid var(--brand-silver);"></div>
-                    <p>Selected: <strong>@primaryColor</strong></p>
-                </div>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">With Alpha Channel</h4>
-                <ColorPicker Value="@accentColor" ValueChanged="@((string val) => accentColor = val)" ShowAlpha="true" />
-                <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
-                    <div style="width: 80px; height: 80px; border-radius: 8px; background-color: @accentColor; border: 2px solid var(--brand-silver);"></div>
-                    <p>Selected: <strong>@accentColor</strong></p>
-                </div>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 0.75rem;">Brand Colors</h4>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <div style="text-align: center;">
-                        <div style="width: 60px; height: 60px; border-radius: 8px; background-color: var(--brand-teal); border: 2px solid var(--brand-silver);"></div>
-                        <small>Teal</small>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="width: 60px; height: 60px; border-radius: 8px; background-color: var(--brand-silver); border: 2px solid var(--brand-teal);"></div>
-                        <small>Silver</small>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="width: 60px; height: 60px; border-radius: 8px; background-color: var(--brand-lilac); border: 2px solid var(--brand-silver);"></div>
-                        <small>Lilac</small>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-8 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px;">
+                <div>
+                    <h4 class="text-base font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Color Picker</h4>
+                    <ColorPicker Value="@primaryColor" ValueChanged="@((string val) => primaryColor = val)" />
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
+                        <div style="width: 80px; height: 80px; border-radius: 8px; background-color: @primaryColor; border: 2px solid var(--brand-silver);"></div>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400">Selected: <strong class="text-zinc-900 dark:text-zinc-100">@primaryColor</strong></p>
                     </div>
                 </div>
-            </div>
 
-            <div style="opacity: 0.5;">
-                <h4 style="margin-bottom: 0.75rem;">Disabled</h4>
-                <ColorPicker Value="#9333ea" Disabled="true" />
+                <div>
+                    <h4 class="text-base font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Alpha Channel</h4>
+                    <ColorPicker Value="@accentColor" ValueChanged="@((string val) => accentColor = val)" ShowAlpha="true" />
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
+                        <div style="width: 80px; height: 80px; border-radius: 8px; background-color: @accentColor; border: 2px solid var(--brand-silver);"></div>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400">Selected: <strong class="text-zinc-900 dark:text-zinc-100">@accentColor</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple color picker with default settings.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Default Color</h3>
+        <!-- With Default Color -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Default Color</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Set an initial color value for the picker.
+            </p>
             <CodeBlock Code="@DefaultColorCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Preset Colors</h3>
+        <!-- Preset Colors -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Preset Colors</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Provide a list of preset colors for quick selection.
+            </p>
             <CodeBlock Code="@PresetCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Alpha Channel</h3>
+        <!-- With Alpha Channel -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Alpha Channel</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Enable alpha transparency control.
+            </p>
             <CodeBlock Code="@AlphaCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Color Change Handler</h3>
+        <!-- Color Change Handler -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Color Change Handler</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                React to color changes with event handlers.
+            </p>
             <CodeBlock Code="@ChangeHandlerCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Value</code></td>
-                    <td>string</td>
-                    <td>"#000000"</td>
-                    <td>Current color value in hex format</td>
-                </tr>
-                <tr>
-                    <td><code>ShowAlpha</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether to show alpha channel control</td>
-                </tr>
-                <tr>
-                    <td><code>PresetColors</code></td>
-                    <td>List&lt;string&gt;</td>
-                    <td>null</td>
-                    <td>List of preset color values to display</td>
-                </tr>
-                <tr>
-                    <td><code>Format</code></td>
-                    <td>ColorFormat</td>
-                    <td>Hex</td>
-                    <td>Color format (Hex, RGB, HSL)</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the color picker is disabled</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>ValueChanged</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when color value changes</td>
-                </tr>
-                <tr>
-                    <td><code>OnColorSelected</code></td>
-                    <td>EventCallback&lt;string&gt;</td>
-                    <td>Callback when user confirms color selection</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"#000000"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Current color value in hex format</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowAlpha</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether to show alpha channel control</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">PresetColors</td>
+                            <td class="py-3 px-4"><TypeBadge Type="List<string>?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">List of preset color values to display</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Format</td>
+                            <td class="py-3 px-4"><TypeBadge Type="ColorFormat" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Hex</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Color format (Hex, RGB, HSL)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the color picker is disabled</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Keyboard navigation for color selection</li>
-            <li>ARIA labels for color values and controls</li>
-            <li>Screen reader announcements for color changes</li>
-            <li>Focus management within picker popover</li>
-            <li>High contrast mode support</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when color value changes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnColorSelected</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when user confirms color selection</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the ColorPicker component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add colorpicker" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard navigation for color selection
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    ARIA labels for color values and controls
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announcements for color changes
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Focus management within picker popover
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    High contrast mode support
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/input" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Input</h4>
+                <p class="text-sm text-zinc-500">Text input component</p>
+            </a>
+            <a href="/components/slider" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Slider</h4>
+                <p class="text-sm text-zinc-500">Value selection slider</p>
+            </a>
+            <a href="/components/select" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Select</h4>
+                <p class="text-sm text-zinc-500">Dropdown selection</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private string primaryColor = "#14b8a6";
     private string accentColor = "#a855f780";
-    private List<string> relatedComponents = new() { "Input", "Slider", "Select" };
 
     private string BasicCode => @"<ColorPicker />";
 

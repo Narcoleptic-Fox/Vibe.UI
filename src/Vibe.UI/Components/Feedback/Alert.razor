@@ -1,5 +1,7 @@
 @namespace Vibe.UI.Components
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
+@using Vibe.UI.Base
+@using Vibe.UI.Enums
 
 <div class="@CombinedClass" role="alert" @attributes="AdditionalAttributes">
     @if (Icon != null)
@@ -19,10 +21,7 @@
     </div>
     @if (Dismissible)
     {
-        <button type="button" 
-                class="vibe-alert-close" 
-                aria-label="Close" 
-                @onclick="OnDismissClick">
+        <button type="button" class="vibe-alert-close" aria-label="Close" @onclick="OnDismissClick">
             <span class="vibe-alert-close-icon"></span>
         </button>
     }
@@ -66,7 +65,11 @@
     public EventCallback OnDismiss { get; set; }
 
     /// <inheritdoc/>
-    protected override string ComponentClass => $"vibe-alert vibe-alert-{Variant.ToString().ToLowerInvariant()}";
+    protected override string ComponentClass => new ClassBuilder()
+        .Add("vibe-alert")
+        .AddVariant("vibe-alert", Variant)
+        .AddIf("vibe-alert-dismissible", Dismissible)
+        .Build();
 
     /// <summary>
     /// Handles the dismiss button click
@@ -77,36 +80,5 @@
         {
             await OnDismiss.InvokeAsync();
         }
-    }
-
-    /// <summary>
-    /// Alert variant options
-    /// </summary>
-    public enum AlertVariant
-    {
-        /// <summary>
-        /// Default alert style
-        /// </summary>
-        Default,
-
-        /// <summary>
-        /// Destructive alert style
-        /// </summary>
-        Destructive,
-
-        /// <summary>
-        /// Success alert style
-        /// </summary>
-        Success,
-
-        /// <summary>
-        /// Info alert style
-        /// </summary>
-        Info,
-
-        /// <summary>
-        /// Warning alert style
-        /// </summary>
-        Warning
     }
 }

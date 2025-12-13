@@ -2,7 +2,7 @@
 @using System.Linq.Expressions
 @using Microsoft.AspNetCore.Components.Forms
 @typeparam TValue
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
 <div class="@CombinedClass">
     <div class="form-field-container @ValidationClass">
@@ -10,11 +10,11 @@
         {
             <label class="form-field-label" for="@Id">@Label</label>
         }
-        
+
         <div class="form-field-input">
             @ChildContent
         </div>
-        
+
         @if (!string.IsNullOrEmpty(Description))
         {
             <div class="form-field-description">@Description</div>
@@ -80,7 +80,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Id))
         {
             Id = "form-field-" + Guid.NewGuid().ToString("N");

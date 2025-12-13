@@ -1,0 +1,200 @@
+/* ========================================
+   TOOLTIP COMPONENT SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Tooltip Container (Wrapper)
+   ---------------------------------------- */
+
+.vibe-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* ----------------------------------------
+   Trigger Element
+   ---------------------------------------- */
+
+.trigger {
+    display: inline-flex;
+    align-items: center;
+    cursor: help;
+}
+
+/* ----------------------------------------
+   Tooltip Content
+   ---------------------------------------- */
+
+.tooltip-content {
+    position: absolute;
+    z-index: 50;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--vibe-foreground);
+    color: var(--vibe-background);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    border-radius: var(--vibe-radius-sm);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transform: scale(0.95);
+}
+
+/* Visible State */
+.tooltip-content.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ----------------------------------------
+   Position Variants - Top
+   ---------------------------------------- */
+
+.vibe-tooltip-top .tooltip-content {
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+}
+
+.vibe-tooltip-top .tooltip-content.visible {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Arrow for Top */
+.vibe-tooltip-top .tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.375rem 0.375rem 0 0.375rem;
+    border-color: var(--vibe-foreground) transparent transparent transparent;
+}
+
+/* ----------------------------------------
+   Position Variants - Bottom
+   ---------------------------------------- */
+
+.vibe-tooltip-bottom .tooltip-content {
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+}
+
+.vibe-tooltip-bottom .tooltip-content.visible {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Arrow for Bottom */
+.vibe-tooltip-bottom .tooltip-content::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0.375rem 0.375rem 0.375rem;
+    border-color: transparent transparent var(--vibe-foreground) transparent;
+}
+
+/* ----------------------------------------
+   Position Variants - Left
+   ---------------------------------------- */
+
+.vibe-tooltip-left .tooltip-content {
+    right: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%) scale(0.95);
+}
+
+.vibe-tooltip-left .tooltip-content.visible {
+    transform: translateY(-50%) scale(1);
+}
+
+/* Arrow for Left */
+.vibe-tooltip-left .tooltip-content::after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.375rem 0 0.375rem 0.375rem;
+    border-color: transparent transparent transparent var(--vibe-foreground);
+}
+
+/* ----------------------------------------
+   Position Variants - Right
+   ---------------------------------------- */
+
+.vibe-tooltip-right .tooltip-content {
+    left: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%) scale(0.95);
+}
+
+.vibe-tooltip-right .tooltip-content.visible {
+    transform: translateY(-50%) scale(1);
+}
+
+/* Arrow for Right */
+.vibe-tooltip-right .tooltip-content::after {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.375rem 0.375rem 0.375rem 0;
+    border-color: transparent var(--vibe-foreground) transparent transparent;
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    .tooltip-content {
+        max-width: calc(100vw - 2rem);
+        white-space: normal;
+    }
+}
+
+/* ----------------------------------------
+   Animation Keyframes
+   ---------------------------------------- */
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tooltipFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}

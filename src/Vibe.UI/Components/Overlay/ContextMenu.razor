@@ -1,8 +1,9 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 @inject IJSRuntime JSRuntime
 
-<div class="@CombinedClass" @oncontextmenu="OnContextMenu" @oncontextmenu:preventDefault @onmousedown="OnTriggerMouseDown">
+<div class="@CombinedClass" @oncontextmenu="OnContextMenu" @oncontextmenu:preventDefault
+    @onmousedown="OnTriggerMouseDown">
     <div class="context-trigger">
         @TriggerContent
     </div>
@@ -12,7 +13,7 @@
         <div class="context-content" style="left: @PositionX; top: @PositionY;">
             @Content
         </div>
-        
+
         <div class="context-backdrop" @onclick="CloseMenu"></div>
     }
 </div>
@@ -118,7 +119,7 @@
 
         if (firstRender)
         {
-            // In a real implementation, you would set up a JS interop to handle 
+            // In a real implementation, you would set up a JS interop to handle
             // clicks outside the context menu to close it and to handle viewport boundaries
         }
     }

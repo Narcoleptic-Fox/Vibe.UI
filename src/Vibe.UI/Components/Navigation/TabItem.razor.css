@@ -1,0 +1,6 @@
+/* TabItem baseline styles */
+
+:global(.vibe-tab-item) {
+  display: contents;
+}
+

@@ -1,0 +1,10 @@
+/* NotificationCenter baseline styles */
+
+:global(.vibe-notification-center) {
+  display: block;
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  background: var(--vibe-card);
+  color: var(--vibe-card-foreground);
+}
+

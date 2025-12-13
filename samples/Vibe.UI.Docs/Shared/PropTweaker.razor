@@ -1,0 +1,240 @@
+@using Vibe.UI.Docs.Models
+
+@*
+    PropTweaker - Interactive property controls for component demos
+    Allows users to tweak Variant, Size, Disabled, and other props in real-time
+*@
+
+<div class="prop-tweaker @(IsOpen ? "open" : "")">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-4 py-3 border-b border-zinc-200 dark:border-zinc-800">
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Properties</h3>
+        <button class="p-1 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                @onclick="Reset"
+                title="Reset to defaults">
+            <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Props List -->
+    <div class="p-4 space-y-4 overflow-y-auto max-h-[400px]">
+        @foreach (var prop in Props)
+        {
+            <div class="space-y-1.5">
+                <!-- Label -->
+                <label class="flex items-center justify-between text-sm">
+                    <span class="font-medium text-zinc-700 dark:text-zinc-300">@prop.Name</span>
+                    @if (prop.Type == PropType.Boolean)
+                    {
+                        <!-- Boolean Toggle -->
+                        <button class="relative w-10 h-5 rounded-full transition-colors @(IsTrue(prop.Value) ? "bg-brand-teal" : "bg-zinc-300 dark:bg-zinc-600")"
+                                @onclick="() => ToggleBool(prop)">
+                            <span class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform @(IsTrue(prop.Value) ? "translate-x-5" : "")"></span>
+                        </button>
+                    }
+                </label>
+
+                @if (prop.Description != null)
+                {
+                    <p class="text-xs text-zinc-500">@prop.Description</p>
+                }
+
+                @switch (prop.Type)
+                {
+                    case PropType.Enum:
+                        <!-- Enum Selector (Button Group) -->
+                        <div class="flex flex-wrap gap-1">
+                            @foreach (var option in prop.Options)
+                            {
+                                var isSelected = prop.Value?.ToString() == option;
+                                <button class="px-2.5 py-1 text-xs font-medium rounded-md transition-colors @(isSelected ? "bg-brand-teal text-white" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700")"
+                                        @onclick="() => SelectOption(prop, option)">
+                                    @option
+                                </button>
+                            }
+                        </div>
+                        break;
+
+                    case PropType.String:
+                        <!-- String Input -->
+                        <input type="text"
+                               value="@prop.Value?.ToString()"
+                               @onchange="e => SetValue(prop, e.Value)"
+                               class="w-full px-3 py-1.5 text-sm rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-brand-teal/50" />
+                        break;
+
+                    case PropType.Number:
+                        <!-- Number Input -->
+                        <div class="flex items-center gap-2">
+                            <input type="range"
+                                   min="@(prop.Min ?? 0)"
+                                   max="@(prop.Max ?? 100)"
+                                   step="@(prop.Step ?? 1)"
+                                   value="@prop.Value"
+                                   @onchange="e => HandleNumberChange(prop, e)"
+                                   class="flex-1 h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer" />
+                            <span class="w-10 text-xs text-zinc-500 text-right">@prop.Value</span>
+                        </div>
+                        break;
+
+                    case PropType.Color:
+                        <!-- Color Picker -->
+                        <div class="flex items-center gap-2">
+                            <input type="color"
+                                   value="@prop.Value?.ToString()"
+                                   @onchange="e => SetValue(prop, e.Value)"
+                                   class="w-8 h-8 rounded border border-zinc-200 dark:border-zinc-700 cursor-pointer" />
+                            <span class="text-xs text-zinc-500 font-mono">@prop.Value</span>
+                        </div>
+                        break;
+
+                    case PropType.Boolean:
+                        <!-- Already handled above as toggle -->
+                        break;
+                }
+            </div>
+        }
+
+        @if (!Props.Any())
+        {
+            <p class="text-sm text-zinc-500 text-center py-4">No properties to configure</p>
+        }
+    </div>
+
+    <!-- Generated Code Preview -->
+    @if (ShowCodePreview && Props.Any())
+    {
+        <div class="border-t border-zinc-200 dark:border-zinc-800 p-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Generated Props</span>
+                <CopyButton Text="@GeneratedCode" Variant="CopyButton.CopyButtonVariant.Ghost" />
+            </div>
+            <pre class="text-xs font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/50 rounded-md p-2 overflow-x-auto"><code>@GeneratedCode</code></pre>
+        </div>
+    }
+</div>
+
+<style>
+    .prop-tweaker {
+        background: white;
+        border-radius: 0.75rem;
+        border: 1px solid rgb(228 228 231);
+        overflow: hidden;
+    }
+
+    :global(.dark) .prop-tweaker {
+        background: rgb(24 24 27);
+        border-color: rgb(39 39 42);
+    }
+
+    /* Custom range input styling */
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        background: #065465;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        background: #065465;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+</style>
+
+@code {
+    /// <summary>
+    /// The list of property definitions to display.
+    /// </summary>
+    [Parameter]
+    public List<PropDefinition> Props { get; set; } = new();
+
+    /// <summary>
+    /// Whether the tweaker panel is open/visible.
+    /// </summary>
+    [Parameter]
+    public bool IsOpen { get; set; } = true;
+
+    /// <summary>
+    /// Whether to show the generated code preview.
+    /// </summary>
+    [Parameter]
+    public bool ShowCodePreview { get; set; } = true;
+
+    /// <summary>
+    /// Callback when any property value changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<PropDefinition> OnPropChanged { get; set; }
+
+    /// <summary>
+    /// Callback when props are reset to defaults.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnReset { get; set; }
+
+    private bool IsTrue(object? value) => value is true || value?.ToString()?.ToLower() == "true";
+
+    private async Task ToggleBool(PropDefinition prop)
+    {
+        prop.Value = !IsTrue(prop.Value);
+        await OnPropChanged.InvokeAsync(prop);
+    }
+
+    private async Task SelectOption(PropDefinition prop, string option)
+    {
+        prop.Value = option;
+        await OnPropChanged.InvokeAsync(prop);
+    }
+
+    private async Task SetValue(PropDefinition prop, object? value)
+    {
+        prop.Value = value;
+        await OnPropChanged.InvokeAsync(prop);
+    }
+
+    private async Task HandleNumberChange(PropDefinition prop, ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), out var value))
+        {
+            await SetValue(prop, value);
+        }
+    }
+
+    private async Task Reset()
+    {
+        foreach (var prop in Props)
+        {
+            prop.Value = prop.DefaultValue;
+        }
+        await OnReset.InvokeAsync();
+    }
+
+    private string GeneratedCode
+    {
+        get
+        {
+            var nonDefaultProps = Props
+                .Where(p => !Equals(p.Value, p.DefaultValue))
+                .Select(p => p.Type switch
+                {
+                    PropType.Boolean => $"{p.Name}=\"{p.Value.ToString()?.ToLower()}\"",
+                    PropType.String => $"{p.Name}=\"{p.Value}\"",
+                    PropType.Number => $"{p.Name}=\"{p.Value}\"",
+                    PropType.Enum => $"{p.Name}=\"{p.Name}.{p.Value}\"",
+                    PropType.Color => $"{p.Name}=\"{p.Value}\"",
+                    _ => $"{p.Name}=\"{p.Value}\""
+                });
+
+            return string.Join(" ", nonDefaultProps);
+        }
+    }
+}

@@ -1,17 +1,17 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
 <div class="@CombinedClass" @ref="PopoverRef">
     <div class="popover-trigger" @onclick="TogglePopover">
         @TriggerContent
     </div>
-    
+
     @if (IsOpen)
     {
         <div class="popover-content @PositionClass">
             @Content
         </div>
-        
+
         <div class="popover-backdrop" @onclick="ClosePopover"></div>
     }
 </div>

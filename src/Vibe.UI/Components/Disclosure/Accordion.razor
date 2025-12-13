@@ -1,4 +1,5 @@
-@inherits Vibe.UI.Base.ThemedComponentBase
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     <CascadingValue Value="this">
@@ -73,7 +74,7 @@
     {
         return _expandedItems.Contains(itemId);
     }
-    
+
     /// <summary>
     /// Accordion types
     /// </summary>
@@ -83,13 +84,13 @@
         /// Only one item can be expanded at a time
         /// </summary>
         Single,
-        
+
         /// <summary>
         /// Multiple items can be expanded at once
         /// </summary>
         Multiple
     }
-    
+
     /// <summary>
     /// Accordion item event arguments
     /// </summary>
@@ -99,12 +100,12 @@
         /// Gets the ID of the item
         /// </summary>
         public string ItemId { get; }
-        
+
         /// <summary>
         /// Gets whether the item is expanded
         /// </summary>
         public bool IsExpanded { get; }
-        
+
         /// <summary>
         /// Creates a new instance of <see cref="AccordionItemEventArgs"/>
         /// </summary>

@@ -1,0 +1,201 @@
+/* ========================================
+   COMMAND COMPONENT - SCOPED STYLES
+   Command Palette / Search Component
+   ======================================== */
+
+/* ----------------------------------------
+   BASE COMMAND STYLES
+   ---------------------------------------- */
+
+.vibe-command {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 640px;
+    overflow: hidden;
+    border-radius: var(--vibe-radius-lg);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    border: 1px solid var(--vibe-border);
+}
+
+/* ----------------------------------------
+   COMMAND INPUT WRAPPER
+   ---------------------------------------- */
+
+.command-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--vibe-spacing-2);
+    padding: var(--vibe-spacing-3) var(--vibe-spacing-4);
+    border-bottom: 1px solid var(--vibe-border);
+}
+
+.command-input-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.5;
+    color: var(--vibe-foreground);
+}
+
+.command-input-icon svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ----------------------------------------
+   COMMAND INPUT
+   ---------------------------------------- */
+
+.command-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.875rem;
+    font-family: var(--vibe-font);
+    color: var(--vibe-foreground);
+}
+
+.command-input::placeholder {
+    color: var(--vibe-muted-foreground);
+}
+
+.command-input:focus {
+    outline: none;
+}
+
+/* ----------------------------------------
+   COMMAND SEPARATOR
+   ---------------------------------------- */
+
+.command-separator {
+    height: 1px;
+    margin: 0 -1px;
+    background-color: var(--vibe-border);
+}
+
+/* ----------------------------------------
+   COMMAND LIST
+   ---------------------------------------- */
+
+.command-list {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: var(--vibe-spacing-2);
+}
+
+/* Custom scrollbar */
+.command-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.command-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.command-list::-webkit-scrollbar-thumb {
+    background-color: var(--vibe-border);
+    border-radius: var(--vibe-radius);
+}
+
+.command-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--vibe-muted);
+}
+
+/* ----------------------------------------
+   COMMAND ITEM
+   ---------------------------------------- */
+
+.command-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--vibe-spacing-2);
+    padding: var(--vibe-spacing-2) var(--vibe-spacing-3);
+    border-radius: var(--vibe-radius-sm);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--vibe-transition-fast);
+    user-select: none;
+}
+
+.command-item:hover {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.command-item.selected {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+.command-item:active {
+    background-color: var(--vibe-muted);
+}
+
+/* ----------------------------------------
+   COMMAND ITEM LABEL
+   ---------------------------------------- */
+
+.command-item-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ----------------------------------------
+   COMMAND ITEM SHORTCUT
+   ---------------------------------------- */
+
+.command-item-shortcut {
+    display: flex;
+    align-items: center;
+    gap: var(--vibe-spacing-1);
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-family: var(--vibe-font-mono);
+    color: var(--vibe-muted-foreground);
+    opacity: 0.6;
+}
+
+/* ----------------------------------------
+   COMMAND EMPTY STATE
+   ---------------------------------------- */
+
+.command-empty {
+    padding: var(--vibe-spacing-6) var(--vibe-spacing-4);
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--vibe-muted-foreground);
+}
+
+/* ----------------------------------------
+   COMMAND GROUP (for future enhancement)
+   ---------------------------------------- */
+
+.command-group {
+    padding: var(--vibe-spacing-2) 0;
+}
+
+.command-group-heading {
+    padding: var(--vibe-spacing-2) var(--vibe-spacing-3);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--vibe-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ----------------------------------------
+   ACCESSIBILITY
+   ---------------------------------------- */
+
+.command-item:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: -2px;
+}

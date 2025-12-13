@@ -1,0 +1,6 @@
+/* TreeView baseline styles */
+
+:global(.vibe-tree-view) {
+  display: block;
+}
+

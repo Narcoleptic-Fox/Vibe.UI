@@ -1,0 +1,147 @@
+/* ========================================
+   MENU ITEM COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Menu Item Base
+   ---------------------------------------- */
+
+.vibe-menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--vibe-spacing-2, 0.5rem);
+    border-radius: var(--vibe-radius-sm, 0.3rem);
+    padding: var(--vibe-spacing-2, 0.5rem) var(--vibe-spacing-3, 0.75rem);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: var(--vibe-transition-fast, all 0.15s ease);
+    color: var(--vibe-popover-foreground);
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+/* ----------------------------------------
+   Hover State
+   ---------------------------------------- */
+
+.vibe-menu-item:hover {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+}
+
+/* ----------------------------------------
+   Focus State (for keyboard navigation)
+   ---------------------------------------- */
+
+.vibe-menu-item:focus-visible {
+    background-color: var(--vibe-accent);
+    color: var(--vibe-accent-foreground);
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: -2px;
+}
+
+/* ----------------------------------------
+   Active State
+   ---------------------------------------- */
+
+.vibe-menu-item:active {
+    background-color: var(--vibe-accent);
+    opacity: 0.9;
+}
+
+/* ----------------------------------------
+   Disabled State
+   ---------------------------------------- */
+
+.vibe-menu-item-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+    color: var(--vibe-muted-foreground);
+}
+
+/* ----------------------------------------
+   Danger State
+   ---------------------------------------- */
+
+.vibe-menu-item-danger {
+    color: var(--vibe-destructive);
+}
+
+.vibe-menu-item-danger:hover {
+    background-color: var(--vibe-destructive);
+    color: var(--vibe-destructive-foreground);
+}
+
+.vibe-menu-item-danger:focus-visible {
+    background-color: var(--vibe-destructive);
+    color: var(--vibe-destructive-foreground);
+    outline: 2px solid var(--vibe-destructive);
+    outline-offset: -2px;
+}
+
+/* ----------------------------------------
+   Icon Styling
+   ---------------------------------------- */
+
+::deep .menu-item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+}
+
+::deep .menu-item-icon > * {
+    width: 100%;
+    height: 100%;
+}
+
+/* ----------------------------------------
+   Submenu Indicator (for nested menus)
+   ---------------------------------------- */
+
+.vibe-menu-item.has-submenu::after {
+    content: "›";
+    margin-left: auto;
+    font-size: 1rem;
+    opacity: 0.6;
+}
+
+/* ----------------------------------------
+   Dark Mode Adjustments
+   ---------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    .vibe-menu-item:hover {
+        background-color: var(--vibe-accent);
+    }
+
+    .vibe-menu-item-danger:hover {
+        background-color: var(--vibe-destructive);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    .vibe-menu-item {
+        padding: var(--vibe-spacing-3, 0.75rem) var(--vibe-spacing-4, 1rem);
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    ::deep .menu-item-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}

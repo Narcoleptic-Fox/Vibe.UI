@@ -1,106 +1,40 @@
 using Microsoft.Extensions.DependencyInjection;
+using Vibe.UI.Configuration;
 using Vibe.UI.Services.Dialog;
+using Vibe.UI.Services.Theme;
 using Vibe.UI.Services.Toast;
-using Vibe.UI.Themes.Models;
-using Vibe.UI.Themes.Services;
 
 namespace Vibe.UI
 {
     /// <summary>
     /// Extension methods for registering Vibe.UI services with dependency injection.
-    /// OPTIONAL: Components work without service registration. Only needed for advanced theming features.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Adds Vibe.UI services to the service collection.
-        /// OPTIONAL: Only required for advanced theming (runtime switching, persistence, external themes).
-        /// Components work standalone using CSS variables without this registration.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <returns>The service collection.</returns>
-        public static IServiceCollection AddVibeUI(this IServiceCollection services)
-        {
-            return AddVibeUI(services, options => { });
-        }
+
 
         /// <summary>
-        /// Adds Vibe.UI services to the service collection with customized theme options.
-        /// OPTIONAL: Only required for advanced theming (runtime switching, persistence, external themes).
-        /// Components work standalone using CSS variables without this registration.
+        /// Adds Vibe.UI services with theme configuration to the service collection.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="configureOptions">The action to configure theme options.</param>
+        /// <param name="configureTheme">Action to configure theme options.</param>
         /// <returns>The service collection.</returns>
-        public static IServiceCollection AddVibeUI(this IServiceCollection services, Action<ThemeOptions> configureOptions)
+        public static IServiceCollection AddVibeUI(this IServiceCollection services, Action<VibeThemeOptions>? configureTheme = null)
         {
             // Configure theme options
-            var options = new ThemeOptions();
-            configureOptions(options);
-            services.AddSingleton(options);
+            VibeThemeOptions themeOptions = new();
+            if (configureTheme is not null)
+                configureTheme(themeOptions);
 
-            // Register the theme manager
-            services.AddScoped<ThemeManager>();
-            
-            // Register toast and dialog services
-            services.AddScoped<IToastService, ToastService>();
-            services.AddScoped<IDialogService, DialogService>();
+            // Register theme options and service
+            services.AddSingleton(themeOptions);
+            services.AddSingleton<IThemeService, ThemeService>();
+
+            // Register toast and dialog services as singletons for event broadcasting
+            services.AddSingleton<IToastService, ToastService>();
+            services.AddSingleton<IDialogService, DialogService>();
 
             return services;
-        }
-
-        /// <summary>
-        /// Adds support for Material Design themes.
-        /// </summary>
-        /// <param name="options">The theme options.</param>
-        /// <returns>The theme options for chaining.</returns>
-        public static ThemeOptions AddMaterialTheme(this ThemeOptions options)
-        {
-            options.EnabledExternalProviders.Add(new ExternalThemeProvider
-            {
-                Name = "Default",
-                Type = ThemeType.Material,
-                CdnUrl = "https://cdn.jsdelivr.net/npm/@material/material-components-web@14.0.0/dist/material-components-web.min.css",
-                CssClassPrefix = "mdc"
-            });
-            
-            return options;
-        }
-
-        /// <summary>
-        /// Adds support for Bootstrap themes.
-        /// </summary>
-        /// <param name="options">The theme options.</param>
-        /// <returns>The theme options for chaining.</returns>
-        public static ThemeOptions AddBootstrapTheme(this ThemeOptions options)
-        {
-            options.EnabledExternalProviders.Add(new ExternalThemeProvider
-            {
-                Name = "Default",
-                Type = ThemeType.Bootstrap,
-                CdnUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css",
-                CssClassPrefix = "bootstrap"
-            });
-            
-            return options;
-        }
-
-        /// <summary>
-        /// Adds support for Tailwind CSS themes.
-        /// </summary>
-        /// <param name="options">The theme options.</param>
-        /// <returns>The theme options for chaining.</returns>
-        public static ThemeOptions AddTailwindTheme(this ThemeOptions options)
-        {
-            options.EnabledExternalProviders.Add(new ExternalThemeProvider
-            {
-                Name = "Default",
-                Type = ThemeType.Tailwind,
-                CdnUrl = "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css",
-                CssClassPrefix = "tailwind"
-            });
-            
-            return options;
         }
     }
 }

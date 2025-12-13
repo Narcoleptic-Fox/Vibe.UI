@@ -75,7 +75,7 @@ dotnet add package Vibe.UI
 
 ## Quick Start
 
-### Minimal Setup (No Service Registration Required)
+### Step 1: Add Components
 
 Components work standalone using CSS variables - perfect for getting started:
 
@@ -92,73 +92,36 @@ Components work standalone using CSS variables - perfect for getting started:
 
 **That's it!** Components render with sensible defaults using CSS variables.
 
-### Advanced Setup (Optional - For Theme Switching)
+### Step 2: Add Theme Toggle (Optional)
 
-Want runtime theme switching, theme persistence, or external CSS framework integration? Add service registration:
+Want light/dark mode? Just add the ThemeToggle component anywhere:
+
+```razor
+<!-- Simple icon toggle -->
+<ThemeToggle />
+
+<!-- Toggle with label -->
+<ThemeToggle ShowLabel="true" />
+```
+
+The ThemeToggle component:
+- ✅ Automatically detects system preference
+- ✅ Persists user choice to localStorage
+- ✅ Works without any service registration
+- ✅ Pure CSS - no JavaScript dependencies
+
+### Step 3: Service Registration (Optional)
+
+Only needed for Toast and Dialog services:
 
 ```csharp
 using Vibe.UI;
 
-// OPTIONAL: Only needed for advanced theming features
-// Components work without this registration!
-
-// Basic setup with default options
+// Optional - only for Toast/Dialog services
 builder.Services.AddVibeUI();
-
-// OR with customized options for theme switching, persistence, etc.
-builder.Services.AddVibeUI(options => {
-    options.DefaultThemeId = "dark";
-    options.PersistTheme = true;
-
-    // Add external theme providers if needed
-    options.AddMaterialTheme()
-           .AddBootstrapTheme()
-           .AddTailwindTheme();
-});
 ```
 
-**When do you need service registration?**
-- ✅ Runtime theme switching (change themes programmatically)
-- ✅ Theme persistence (save user preferences)
-- ✅ External CSS frameworks (Material, Bootstrap, Tailwind)
-- ✅ ThemeManager API access
-
-**When can you skip it?**
-- ❌ Just using components with default styling
-- ❌ Simple light/dark mode via CSS class
-- ❌ Minimal setup projects
-- ❌ Static site generation
-
-### Add Theme Root Component
-
-In your `App.razor` file, wrap your application with the `ThemeRoot` component:
-
-```razor
-@using Vibe.UI.Components
-
-<ThemeRoot>
-    <Router AppAssembly="@typeof(App).Assembly">
-        <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-        </Found>
-        <NotFound>
-            <PageTitle>Not found</PageTitle>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </NotFound>
-    </Router>
-</ThemeRoot>
-```
-
-### Add JavaScript Import
-
-In your `index.html` (for Blazor WebAssembly) or `_Host.cshtml` (for Blazor Server) file, make sure to add the Vibe.UI JavaScript:
-
-```html
-<script src="_content/Vibe.UI/themeInterop.js"></script>
-```
+**Note:** Theming is handled via pure CSS - no service registration required!
 
 ## Using Vibe.UI Components
 
@@ -268,32 +231,41 @@ Built-in validation with real-time feedback:
 }
 ```
 
-### Theme Components
+### Theme Toggle
 
-Choose from several theme-related components to enhance your user experience:
+Simple theme toggle component for switching between light and dark modes:
 
 ```razor
-<!-- Simple theme toggle between light and dark -->
+<!-- Simple icon toggle -->
 <ThemeToggle />
 
-<!-- Complete dropdown theme selector -->
-<ThemeSelector Label="Choose theme:" />
+<!-- Toggle with label text -->
+<ThemeToggle ShowLabel="true" />
 
-<!-- Full theme customization panel -->
-<ThemePanel
-    Title="Theme Settings"
-    CollapsiblePanel="true"
-    InitiallyExpanded="false"
-    AllowCustomization="true"
-    AllowCreateTheme="true" />
+<!-- Custom icons -->
+<ThemeToggle>
+    <DarkIcon>🌙</DarkIcon>
+    <LightIcon>☀️</LightIcon>
+</ThemeToggle>
+
+<!-- Customize tooltips -->
+<ThemeToggle
+    DarkModeTooltip="Enable dark mode"
+    LightModeTooltip="Enable light mode" />
 ```
+
+The ThemeToggle component automatically:
+- Detects system color scheme preference on first load
+- Persists user selection to localStorage
+- Applies the `.dark` class to `<html>` element
+- Works without any service registration
 
 ## Creating Custom Themed Components
 
-Extend the `ThemedComponentBase` class to create your own themed components:
+Extend the `VibeComponent` class to create your own themed components:
 
 ```razor
-@inherits Vibe.UI.Base.ThemedComponentBase
+@inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass">
     <!-- Your component's HTML -->
@@ -312,76 +284,66 @@ Extend the `ThemedComponentBase` class to create your own themed components:
 
 ## Theme Customization
 
-### Creating Custom Themes
+Vibe.UI uses **pure CSS theming** following shadcn/ui patterns - no complex service layer required!
 
-You can create custom themes programmatically:
+### How Theming Works
 
-```csharp
-@inject ThemeManager ThemeManager
+Theming is controlled via CSS variables and the `.dark` class on the document root:
 
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        // Create a custom theme based on the light theme
-        var customTheme = ThemeManager.CreateCustomTheme(
-            "My Custom Theme",
-            "light",
-            new Dictionary<string, string>
-            {
-                ["--vibe-primary"] = "#ff5722",
-                ["--vibe-accent"] = "#2196f3"
-            });
-            
-        // Apply the custom theme
-        await ThemeManager.SetThemeAsync(customTheme.Id);
-    }
+- **Light mode**: CSS variables defined in `:root`
+- **Dark mode**: CSS variables defined in `.dark` selector
+- **Switching**: Simply toggle the `.dark` class on `<html>`
+
+### Customizing Colors
+
+Edit your CSS to customize the theme colors:
+
+```css
+:root {
+  /* Light mode colors */
+  --vibe-background: #ffffff;
+  --vibe-foreground: #111111;
+  --vibe-primary: #0066cc;
+  --vibe-primary-foreground: #ffffff;
+  /* ... more variables */
+}
+
+.dark {
+  /* Dark mode colors */
+  --vibe-background: #0f172a;
+  --vibe-foreground: #f8fafc;
+  --vibe-primary: #3b82f6;
+  --vibe-primary-foreground: #ffffff;
+  /* ... more variables */
 }
 ```
 
-### Accessing the Current Theme
+### Using the CLI for Theme Setup
 
-You can access the current theme in any component:
+The `vibe init` command will help you set up theming with base color selection (similar to shadcn/ui):
 
-```razor
-@inject ThemeManager ThemeManager
+```bash
+vibe init
 
-<p>Current theme: @ThemeManager.CurrentTheme?.Name</p>
+# Follow the prompts:
+# ✔ Would you like to use TypeScript? no
+# ✔ Which base color would you like to use? Slate
+# ✔ Where is your global CSS file? wwwroot/css/app.css
 ```
 
-### Using System Theme Detection
+This will generate the appropriate CSS variables for your chosen base color.
 
-Enable automatic system theme detection in your `ThemeRoot` component:
+### Manual Theme Toggle
 
-```razor
-<ThemeRoot AutoDetectSystemTheme="true">
-    <!-- App content -->
-</ThemeRoot>
-```
+You can also toggle themes manually via JavaScript:
 
-### Adding External CSS Framework Themes
+```javascript
+// Toggle dark mode
+document.documentElement.classList.toggle('dark');
 
-You can integrate external CSS frameworks:
-
-```csharp
-builder.Services.AddVibe.UI(options => {
-    // Configure Material Design themes
-    options.AddMaterialTheme(provider => {
-        provider.Name = "Light";
-        provider.CdnUrl = "https://cdn.jsdelivr.net/npm/@material/material-components-web@14.0.0/dist/material-components-web.min.css";
-    });
-    
-    // Configure Bootstrap themes
-    options.AddBootstrapTheme(provider => {
-        provider.Name = "Default";
-        provider.CdnUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css";
-    });
-    
-    // Configure Tailwind themes
-    options.AddTailwindTheme(provider => {
-        provider.Name = "Default";
-        provider.CdnUrl = "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
-    });
-});
+// Or set explicitly
+document.documentElement.classList.add('dark');    // Dark mode
+document.documentElement.classList.remove('dark'); // Light mode
 ```
 
 ## CSS Variables
@@ -499,10 +461,7 @@ Vibe.UI includes a comprehensive set of **90+ production-ready components**:
 - **FormValidators** - Built-in validators (Email, Phone, URL, Password, CreditCard, etc.)
 
 ### Theme Components
-- **ThemeRoot** - Root theme provider component
-- **ThemeSelector** - UI for selecting themes
-- **ThemeToggle** - Light/dark mode toggle
-- **ThemePanel** - Complete theme customization panel
+- **ThemeToggle** - Simple light/dark mode toggle with system preference detection
 
 ### Layout Components
 - **AspectRatio** - Container maintaining a specific aspect ratio

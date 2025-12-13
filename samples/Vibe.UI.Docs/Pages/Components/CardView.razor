@@ -1,228 +1,308 @@
 @page "/components/card"
-@using Vibe.UI.Components
-@using static Vibe.UI.Components.Button
 
 <PageTitle>Card - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Card"
-               Category="Layout"
-               Description="A versatile container for grouping and displaying content in a structured format."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Card</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Card</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A versatile container for grouping and displaying content in a structured format.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="grid gap-6 md:grid-cols-2 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
             <Card>
-                <h3>Simple Card</h3>
-                <p>A card is a flexible container for grouping related content.</p>
+                <CardTitle>Card Title</CardTitle>
+                <CardDescription>Card description goes here.</CardDescription>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400">This is the main content area of the card.</p>
+                <Footer>
+                    <Button Variant="ButtonVariant.Primary" Size="ComponentSize.Small">Action</Button>
+                </Footer>
             </Card>
 
             <Card>
-                <Header>
-                    <h3 style="margin: 0;">Card with Header</h3>
-                    <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem; opacity: 0.7;">Optional subtitle</p>
-                </Header>
-                <ChildContent>
-                    <p>Main content goes here with header and footer sections.</p>
-                </ChildContent>
-                <Footer>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <Button Size="ButtonSize.Small">Action</Button>
-                        <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Small">Cancel</Button>
+                <CardTitle>Notifications</CardTitle>
+                <CardDescription>You have 3 unread messages.</CardDescription>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                        <span class="text-sm">New comment on your post</span>
                     </div>
-                </Footer>
-            </Card>
-
-            <Card>
-                <Header>
-                    <h3 style="margin: 0;">Product Example</h3>
-                </Header>
-                <ChildContent>
-                    <p style="font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0;">$99.99</p>
-                    <p>High-quality product with amazing features and benefits.</p>
-                </ChildContent>
-                <Footer>
-                    <Button Variant="ButtonVariant.Primary" Size="ButtonSize.Small">Add to Cart</Button>
-                </Footer>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                        <span class="text-sm">Someone liked your photo</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
+                        <span class="text-sm">New follower</span>
+                    </div>
+                </div>
             </Card>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Card</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Card -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Card</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                A simple card with header, content, and footer sections.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Card with Header and Footer</h3>
-            <CodeBlock Code="@StructuredCode" Language="razor" />
+        <!-- Card with Form -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Card with Form</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Cards are perfect containers for forms and input groups.
+            </p>
+            <div class="max-w-sm p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Card>
+                    <CardTitle>Create project</CardTitle>
+                    <CardDescription>Deploy your new project in one-click.</CardDescription>
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Name</label>
+                            <Input Placeholder="Name of your project" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Framework</label>
+                            <Input Placeholder="Select framework" />
+                        </div>
+                    </div>
+                    <Footer>
+                        <div class="flex justify-between">
+                            <Button Variant="ButtonVariant.Outline">Cancel</Button>
+                            <Button Variant="ButtonVariant.Primary">Deploy</Button>
+                        </div>
+                    </Footer>
+                </Card>
+            </div>
+            <CodeBlock Code="@FormCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Clickable Card</h3>
+        <!-- Clickable Card -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Clickable Card</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Make the entire card interactive for navigation or selection.
+            </p>
             <CodeBlock Code="@ClickableCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Card Variants</h3>
-            <CodeBlock Code="@VariantsCode" Language="razor" />
+        <!-- Card Grid -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Card Grid</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Combine cards in a grid layout for dashboards or listings.
+            </p>
+            <CodeBlock Code="@GridCode" Language="razor" />
+        </div>
+    </section>
+
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+
+        <!-- Card -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Card</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Card content (Header, Content, Footer)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Class</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Additional CSS classes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="example-item">
-            <h3>Card with Image</h3>
-            <CodeBlock Code="@ImageCode" Language="razor" />
+        <!-- Sub-components -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Sub-components</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Component</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardHeader</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Container for title and description</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardTitle</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Card heading text</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardDescription</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Secondary text below title</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardContent</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Main content area</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardFooter</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Actions and buttons area</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </section>
 
-        <div class="example-item">
-            <h3>Product Card Example</h3>
-            <CodeBlock Code="@ProductCode" Language="razor" />
-        </div>
-    </Examples>
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Card component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add card" Language="bash" />
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Variant</code></td>
-                    <td>CardVariant</td>
-                    <td>Default</td>
-                    <td>Visual style variant (Default, Outlined, Elevated)</td>
-                </tr>
-                <tr>
-                    <td><code>Clickable</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Makes the entire card clickable</td>
-                </tr>
-                <tr>
-                    <td><code>Padding</code></td>
-                    <td>string</td>
-                    <td>"1rem"</td>
-                    <td>Internal padding of the card</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Content to display inside the card</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
-
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnClick</code></td>
-                    <td>EventCallback&lt;MouseEventArgs&gt;</td>
-                    <td>Callback when card is clicked (requires Clickable=true)</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
-
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic HTML structure</li>
-            <li>Clickable cards have proper cursor styling</li>
-            <li>When clickable, includes keyboard navigation support</li>
-            <li>Proper heading hierarchy for screen readers</li>
-            <li>ARIA labels can be added via standard HTML attributes</li>
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Uses semantic HTML structure with proper heading hierarchy
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Clickable cards include keyboard navigation support
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                ARIA labels can be added via standard HTML attributes
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Focus states visible for interactive elements
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/container" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Container</h4>
+                <p class="text-sm text-zinc-500">Layout wrapper component</p>
+            </a>
+            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
+                <p class="text-sm text-zinc-500">Vertical/horizontal layouts</p>
+            </a>
+            <a href="/components/grid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Grid</h4>
+                <p class="text-sm text-zinc-500">Grid layout system</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
-    private string cardClickMessage = "";
-    private List<string> relatedComponents = new() { "Container", "Grid", "Stack" };
-
-    private void HandleCardClick()
-    {
-        cardClickMessage = $"Card clicked at {DateTime.Now:HH:mm:ss}";
-    }
-
     private string BasicCode => @"<Card>
-    <h3>Simple Card</h3>
-    <p>A card is a flexible container for grouping related content.</p>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card description goes here.</CardDescription>
+    <p>This is the main content area of the card.</p>
+    <Footer>
+        <Button>Action</Button>
+    </Footer>
 </Card>";
 
-    private string StructuredCode => @"<Card>
-    <CardHeader>
-        <h3>Card Header</h3>
-        <p class=""subtitle"">Optional subtitle</p>
-    </CardHeader>
-    <CardBody>
-        <p>Main content goes here.</p>
-    </CardBody>
-    <CardFooter>
-        <Button Size=""ButtonSize.Small"">Action</Button>
-        <Button Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Small"">Cancel</Button>
-    </CardFooter>
+    private string FormCode => @"<Card>
+    <CardTitle>Create project</CardTitle>
+    <CardDescription>Deploy your new project in one-click.</CardDescription>
+    <div class=""space-y-4"">
+        <div class=""space-y-2"">
+            <label>Name</label>
+            <Input Placeholder=""Name of your project"" />
+        </div>
+        <div class=""space-y-2"">
+            <label>Framework</label>
+            <Input Placeholder=""Select framework"" />
+        </div>
+    </div>
+    <Footer>
+        <div class=""flex justify-between"">
+            <Button Variant=""ButtonVariant.Outline"">Cancel</Button>
+            <Button Variant=""ButtonVariant.Primary"">Deploy</Button>
+        </div>
+    </Footer>
 </Card>";
 
-    private string ClickableCode => @"<Card Clickable=""true"" OnClick=""@HandleCardClick"">
-    <h3>Clickable Card</h3>
-    <p>Click anywhere on this card.</p>
+    private string ClickableCode => @"<Card class=""cursor-pointer hover:border-brand-teal transition-colors"" @onclick=""HandleClick"">
+    <CardTitle>Clickable Card</CardTitle>
+    <CardDescription>Click anywhere on this card.</CardDescription>
 </Card>
 
 @code {
-    private void HandleCardClick()
+    private void HandleClick()
     {
-        Console.WriteLine(""Card clicked!"");
+        // Handle card click
     }
 }";
 
-    private string VariantsCode => @"<Card Variant=""CardVariant.Default"">
-    <h4>Default Card</h4>
-</Card>
-
-<Card Variant=""CardVariant.Outlined"">
-    <h4>Outlined Card</h4>
-</Card>
-
-<Card Variant=""CardVariant.Elevated"">
-    <h4>Elevated Card</h4>
-</Card>";
-
-    private string ImageCode => @"<Card>
-    <CardImage Src=""/images/placeholder.jpg"" Alt=""Card image"" />
-    <CardBody>
-        <h3>Card with Image</h3>
-        <p>Description goes here.</p>
-        <Button Size=""ButtonSize.Small"">Learn More</Button>
-    </CardBody>
-</Card>";
-
-    private string ProductCode => @"<Card Variant=""CardVariant.Elevated"">
-    <CardImage Src=""/images/product.jpg"" Alt=""Product"" />
-    <CardBody>
-        <div class=""product-header"">
-            <h3>Product Name</h3>
-            <Badge>New</Badge>
-        </div>
-        <p class=""price"">$99.99</p>
-        <p>High-quality product description.</p>
-    </CardBody>
-    <CardFooter>
-        <Button Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Small"">
-            Add to Cart
-        </Button>
-    </CardFooter>
-</Card>";
+    private string GridCode => @"<div class=""grid gap-4 md:grid-cols-2 lg:grid-cols-3"">
+    <Card>
+        <CardTitle>Card 1</CardTitle>
+        Content here
+    </Card>
+    <Card>
+        <CardTitle>Card 2</CardTitle>
+        Content here
+    </Card>
+    <Card>
+        <CardTitle>Card 3</CardTitle>
+        Content here
+    </Card>
+</div>";
 }

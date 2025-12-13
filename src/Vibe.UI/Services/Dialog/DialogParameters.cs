@@ -28,7 +28,7 @@ namespace Vibe.UI.Services.Dialog
         /// <typeparam name="T">The type of the parameter value.</typeparam>
         /// <param name="name">The parameter name.</param>
         /// <returns>The parameter value.</returns>
-        public T Get<T>(string name)
+        public T? Get<T>(string name)
         {
             if (_parameters.TryGetValue(name, out var value))
             {
@@ -45,7 +45,7 @@ namespace Vibe.UI.Services.Dialog
         /// <param name="name">The parameter name.</param>
         /// <param name="value">The parameter value.</param>
         /// <returns>True if the parameter exists; otherwise, false.</returns>
-        public bool TryGet<T>(string name, out T value)
+        public bool TryGet<T>(string name, out T? value)
         {
             value = default;
             if (_parameters.TryGetValue(name, out var obj))

@@ -1,11 +1,8 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
-    <button type="button"
-            class="notification-trigger"
-            @onclick="TogglePanel"
-            aria-label="Notifications">
+    <button type="button" class="notification-trigger" @onclick="TogglePanel" aria-label="Notifications">
         <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -23,9 +20,7 @@
                 <h3 class="panel-title">Notifications</h3>
                 @if (UnreadCount > 0)
                 {
-                    <button type="button"
-                            class="panel-action"
-                            @onclick="MarkAllAsRead">
+                    <button type="button" class="panel-action" @onclick="MarkAllAsRead">
                         Mark all read
                     </button>
                 }
@@ -36,9 +31,8 @@
                 <div class="panel-filters">
                     @foreach (var filter in Filters)
                     {
-                        <button type="button"
-                                class="filter-btn @(_activeFilter == filter ? "active" : "")"
-                                @onclick="() => SetFilter(filter)">
+                        <button type="button" class="filter-btn @(_activeFilter == filter ? "active" : "")"
+                            @onclick="() => SetFilter(filter)">
                             @filter
                         </button>
                     }
@@ -51,8 +45,7 @@
                     @foreach (var notification in FilteredNotifications.Take(MaxDisplayCount))
                     {
                         <div class="notification-item @(notification.IsRead ? "read" : "unread") @($"type-{notification.Type.ToString().ToLower()}")"
-                             @key="notification.Id"
-                             @onclick="() => HandleNotificationClick(notification)">
+                            @key="notification.Id" @onclick="() => HandleNotificationClick(notification)">
                             <div class="notification-icon">
                                 @if (notification.Icon != null)
                                 {
@@ -84,11 +77,8 @@
                                 {
                                     <span class="unread-indicator"></span>
                                 }
-                                <button type="button"
-                                        class="action-btn"
-                                        @onclick:stopPropagation
-                                        @onclick="() => RemoveNotification(notification.Id)"
-                                        title="Remove">
+                                <button type="button" class="action-btn" @onclick:stopPropagation
+                                    @onclick="() => RemoveNotification(notification.Id)" title="Remove">
                                     ×
                                 </button>
                             </div>
@@ -113,9 +103,7 @@
             @if (Notifications.Count > MaxDisplayCount)
             {
                 <div class="panel-footer">
-                    <button type="button"
-                            class="view-all-btn"
-                            @onclick="@(() => OnViewAll.InvokeAsync())">
+                    <button type="button" class="view-all-btn" @onclick="@(() => OnViewAll.InvokeAsync())">
                         View all (@Notifications.Count)
                     </button>
                 </div>
@@ -124,9 +112,7 @@
             @if (AllowClearAll && Notifications.Any())
             {
                 <div class="panel-footer">
-                    <button type="button"
-                            class="clear-all-btn"
-                            @onclick="ClearAll">
+                    <button type="button" class="clear-all-btn" @onclick="ClearAll">
                         Clear all
                     </button>
                 </div>
@@ -170,9 +156,9 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-notification-center",
-        _isOpen ? "open" : null,
-        CssClass
+    "vibe-notification-center",
+    _isOpen ? "open" : null,
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

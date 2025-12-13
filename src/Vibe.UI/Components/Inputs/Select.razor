@@ -1,0 +1,119 @@
+@namespace Vibe.UI.Components
+@inherits Vibe.UI.Base.VibeComponent
+
+<div class="@GetContainerClass()">
+    <div class="vibe-select-wrapper">
+        <select id="@ElementId" class="vibe-select-input" disabled="@Disabled" @attributes="AdditionalAttributes"
+            @onchange="OnChangeHandler" @onfocus="OnFocus" @onblur="OnBlur" @onclick:stopPropagation>
+            @if (!string.IsNullOrEmpty(Placeholder))
+            {
+                <option value="" disabled selected>@Placeholder</option>
+            }
+
+            @ChildContent
+        </select>
+
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label class="@GetLabelClass()" for="@ElementId">@Label</label>
+        }
+
+        <div class="vibe-select-icon"></div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="vibe-select-helper-text">@HelperText</div>
+    }
+</div>
+
+@code {
+    private string _id = Guid.NewGuid().ToString();
+    private bool isFocused = false;
+
+    /// <summary>
+    /// Gets or sets the select ID
+    /// </summary>
+    [Parameter]
+    public string Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the label text
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; }
+
+    /// <summary>
+    /// Gets or sets the placeholder text
+    /// </summary>
+    [Parameter]
+    public string Placeholder { get; set; }
+
+    /// <summary>
+    /// Gets or sets the helper text
+    /// </summary>
+    [Parameter]
+    public string HelperText { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the select is disabled
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets the select options
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback for when the value changes
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    /// <inheritdoc/>
+    protected override string ComponentClass => GetContainerClass();
+
+    /// <summary>
+    /// Gets the ID of the select element
+    /// </summary>
+    private string ElementId => string.IsNullOrEmpty(Id) ? _id : Id;
+
+    private string GetContainerClass()
+    {
+        var classes = new List<string> { "vibe-select" };
+        if (Disabled) classes.Add("vibe-select-disabled");
+        return string.Join(" ", classes);
+    }
+
+    private string GetLabelClass()
+    {
+        var classes = new List<string> { "vibe-select-label" };
+
+        // Label should float when focused or when there's a selected value (not placeholder)
+        if (isFocused)
+            classes.Add("vibe-select-label-floating");
+
+        return string.Join(" ", classes);
+    }
+
+    private void OnFocus(FocusEventArgs e)
+    {
+        isFocused = true;
+    }
+
+    private void OnBlur(FocusEventArgs e)
+    {
+        isFocused = false;
+    }
+
+    private async Task OnChangeHandler(ChangeEventArgs args)
+    {
+        if (OnChange.HasDelegate)
+        {
+            await OnChange.InvokeAsync(args);
+        }
+    }
+}

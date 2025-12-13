@@ -1,14 +1,12 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     <div class="splitter-pane splitter-pane-first" style="@FirstPaneStyle">
         @FirstPane
     </div>
 
-    <div class="splitter-divider"
-         @onmousedown="HandleMouseDown"
-         @ontouchstart="HandleTouchStart">
+    <div class="splitter-divider" @onmousedown="HandleMouseDown" @ontouchstart="HandleTouchStart">
         <div class="divider-handle">
             @if (Orientation == SplitterOrientation.Horizontal)
             {
@@ -58,10 +56,10 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-splitter",
-        $"splitter-{Orientation.ToString().ToLower()}",
-        _isDragging ? "dragging" : null,
-        CssClass
+    "vibe-splitter",
+    $"splitter-{Orientation.ToString().ToLower()}",
+    _isDragging ? "dragging" : null,
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

@@ -1,0 +1,33 @@
+/* Container Component Styles */
+
+.vibe-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--vibe-spacing-4);
+    padding-right: var(--vibe-spacing-4);
+}
+
+.vibe-container-sm {
+    max-width: 640px;
+}
+
+.vibe-container-md {
+    max-width: 768px;
+}
+
+.vibe-container-lg {
+    max-width: 1024px;
+}
+
+.vibe-container-xl {
+    max-width: 1280px;
+}
+
+.vibe-container-2xl {
+    max-width: 1536px;
+}
+
+.vibe-container-full {
+    max-width: none;
+}

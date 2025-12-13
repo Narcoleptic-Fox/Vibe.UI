@@ -1,0 +1,125 @@
+/* ========================================
+   TABS COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   TABS CONTAINER
+   ---------------------------------------- */
+
+.vibe-tabs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: var(--vibe-font);
+}
+
+/* ----------------------------------------
+   TAB LIST
+   ---------------------------------------- */
+
+.vibe-tabs-list {
+    display: flex;
+    border-bottom: 1px solid var(--vibe-border);
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.vibe-tabs-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* ----------------------------------------
+   TAB TRIGGERS
+   ---------------------------------------- */
+
+.vibe-tabs-trigger {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--vibe-spacing-3) var(--vibe-spacing-4);
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--vibe-muted-foreground);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    user-select: none;
+    outline: none;
+    white-space: nowrap;
+}
+
+/* Hover State */
+.vibe-tabs-trigger:hover:not(:disabled) {
+    color: var(--vibe-foreground);
+}
+
+/* Focus State */
+.vibe-tabs-trigger:focus {
+    color: var(--vibe-foreground);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--vibe-ring) 25%, transparent);
+}
+
+/* Focus Visible State (for keyboard navigation) */
+.vibe-tabs-trigger:focus-visible {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+    border-radius: var(--vibe-radius-sm);
+}
+
+/* Active State */
+.vibe-tabs-trigger-active {
+    color: var(--vibe-primary);
+    border-bottom-color: var(--vibe-primary);
+}
+
+/* Disabled State */
+.vibe-tabs-trigger:disabled,
+.vibe-tabs-trigger[disabled] {
+    color: var(--vibe-muted-foreground);
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ----------------------------------------
+   TAB CONTENT
+   ---------------------------------------- */
+
+.vibe-tabs-content {
+    padding: var(--vibe-spacing-5) 0;
+}
+
+/* ----------------------------------------
+   TAB PANELS
+   ---------------------------------------- */
+
+.vibe-tabs-panel {
+    display: none;
+}
+
+/* Active Panel */
+.vibe-tabs-panel-active {
+    display: block;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+/* ----------------------------------------
+   ANIMATIONS
+   ---------------------------------------- */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -23,8 +23,8 @@ public class DatePickerTests : TestBase
         var cut = RenderComponent<DatePicker>(parameters => parameters
             .Add(p => p.Placeholder, placeholder));
 
-        // Assert
-        var input = cut.Find(".date-input");
+        // Assert - Find the actual input element within the Input component
+        var input = cut.Find(".date-input-wrapper input");
         input.GetAttribute("placeholder").ShouldBe(placeholder);
     }
 
@@ -39,8 +39,8 @@ public class DatePickerTests : TestBase
             .Add(p => p.Date, date)
             .Add(p => p.Format, "MM/dd/yyyy"));
 
-        // Assert
-        var input = cut.Find(".date-input");
+        // Assert - Find the actual input element within the Input component
+        var input = cut.Find(".date-input-wrapper input");
         input.GetAttribute("value").ShouldBe("06/15/2024");
     }
 
@@ -49,8 +49,9 @@ public class DatePickerTests : TestBase
     {
         // Act
         var cut = RenderComponent<DatePicker>();
-        var input = cut.Find(".date-input");
-        input.Click();
+        // Click on the date-icon which has a proper click handler
+        var icon = cut.Find(".date-icon");
+        icon.Click();
 
         // Assert
         var popup = cut.Find(".date-popup");
@@ -75,8 +76,8 @@ public class DatePickerTests : TestBase
     {
         // Act
         var cut = RenderComponent<DatePicker>();
-        var input = cut.Find(".date-input");
-        input.Click();
+        var icon = cut.Find(".date-icon");
+        icon.Click();
 
         var backdrop = cut.Find(".date-backdrop");
         backdrop.Click();
@@ -93,9 +94,9 @@ public class DatePickerTests : TestBase
         var cut = RenderComponent<DatePicker>(parameters => parameters
             .Add(p => p.OnChange, date => selectedDate = date));
 
-        // Act
-        var input = cut.Find(".date-input");
-        input.Click();
+        // Act - Use date-icon to open calendar
+        var icon = cut.Find(".date-icon");
+        icon.Click();
 
         var days = cut.FindAll(".date-day:not(.outside-month):not([disabled])");
         days.First().Click();
@@ -112,9 +113,9 @@ public class DatePickerTests : TestBase
         var cut = RenderComponent<DatePicker>(parameters => parameters
             .Add(p => p.OnChange, date => selectedDate = date));
 
-        // Act
-        var input = cut.Find(".date-input");
-        input.Click();
+        // Act - Use date-icon to open calendar
+        var icon = cut.Find(".date-icon");
+        icon.Click();
 
         var todayButton = cut.Find(".date-today-btn");
         todayButton.Click();
@@ -131,8 +132,8 @@ public class DatePickerTests : TestBase
         var cut = RenderComponent<DatePicker>(parameters => parameters
             .Add(p => p.Disabled, true));
 
-        // Assert
-        var input = cut.Find(".date-input");
+        // Assert - Find the actual input element within the Input component
+        var input = cut.Find(".date-input-wrapper input");
         input.HasAttribute("disabled").ShouldBeTrue();
     }
 
@@ -141,8 +142,8 @@ public class DatePickerTests : TestBase
     {
         // Act
         var cut = RenderComponent<DatePicker>();
-        var input = cut.Find(".date-input");
-        input.Click();
+        var icon = cut.Find(".date-icon");
+        icon.Click();
 
         var nextButton = cut.FindAll(".date-nav-btn")[1];
         nextButton.Click();

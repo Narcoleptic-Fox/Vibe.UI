@@ -1,0 +1,789 @@
+/* ========================================
+   VIBE.UI UTILITY CLASSES
+   Small, reusable utility classes
+   ======================================== */
+
+/* ========================================
+   SPACING SCALE
+   Define spacing variables used by utilities and components
+   ======================================== */
+
+:root {
+    --vibe-spacing-0: 0;
+    --vibe-spacing-1: 0.25rem;    /* 4px */
+    --vibe-spacing-2: 0.5rem;     /* 8px */
+    --vibe-spacing-3: 0.75rem;    /* 12px */
+    --vibe-spacing-4: 1rem;       /* 16px */
+    --vibe-spacing-5: 1.25rem;    /* 20px */
+    --vibe-spacing-6: 1.5rem;     /* 24px */
+    --vibe-spacing-7: 1.75rem;    /* 28px */
+    --vibe-spacing-8: 2rem;       /* 32px */
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.vibe-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.vibe-not-sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* ========================================
+   DISPLAY
+   ======================================== */
+
+.vibe-hidden {
+    display: none;
+}
+
+.vibe-block {
+    display: block;
+}
+
+.vibe-inline {
+    display: inline;
+}
+
+.vibe-inline-block {
+    display: inline-block;
+}
+
+.vibe-flex {
+    display: flex;
+}
+
+.vibe-inline-flex {
+    display: inline-flex;
+}
+
+.vibe-grid {
+    display: grid;
+}
+
+/* ========================================
+   FLEXBOX - DIRECTION
+   ======================================== */
+
+.vibe-flex-row {
+    flex-direction: row;
+}
+
+.vibe-flex-col {
+    flex-direction: column;
+}
+
+.vibe-flex-row-reverse {
+    flex-direction: row-reverse;
+}
+
+.vibe-flex-col-reverse {
+    flex-direction: column-reverse;
+}
+
+/* ========================================
+   FLEXBOX - ALIGN ITEMS
+   ======================================== */
+
+.vibe-items-start {
+    align-items: flex-start;
+}
+
+.vibe-items-center {
+    align-items: center;
+}
+
+.vibe-items-end {
+    align-items: flex-end;
+}
+
+.vibe-items-baseline {
+    align-items: baseline;
+}
+
+.vibe-items-stretch {
+    align-items: stretch;
+}
+
+/* ========================================
+   FLEXBOX - JUSTIFY CONTENT
+   ======================================== */
+
+.vibe-justify-start {
+    justify-content: flex-start;
+}
+
+.vibe-justify-center {
+    justify-content: center;
+}
+
+.vibe-justify-end {
+    justify-content: flex-end;
+}
+
+.vibe-justify-between {
+    justify-content: space-between;
+}
+
+.vibe-justify-around {
+    justify-content: space-around;
+}
+
+.vibe-justify-evenly {
+    justify-content: space-evenly;
+}
+
+/* ========================================
+   FLEXBOX - WRAP
+   ======================================== */
+
+.vibe-flex-wrap {
+    flex-wrap: wrap;
+}
+
+.vibe-flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+.vibe-flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
+}
+
+/* ========================================
+   FLEXBOX - FLEX
+   ======================================== */
+
+.vibe-flex-1 {
+    flex: 1 1 0%;
+}
+
+.vibe-flex-auto {
+    flex: 1 1 auto;
+}
+
+.vibe-flex-initial {
+    flex: 0 1 auto;
+}
+
+.vibe-flex-none {
+    flex: none;
+}
+
+/* ========================================
+   SPACING - GAP
+   Uses the spacing scale defined above
+   ======================================== */
+
+.vibe-gap-0 {
+    gap: var(--vibe-spacing-0);
+}
+
+.vibe-gap-1 {
+    gap: var(--vibe-spacing-1);
+}
+
+.vibe-gap-2 {
+    gap: var(--vibe-spacing-2);
+}
+
+.vibe-gap-3 {
+    gap: var(--vibe-spacing-3);
+}
+
+.vibe-gap-4 {
+    gap: var(--vibe-spacing-4);
+}
+
+.vibe-gap-5 {
+    gap: var(--vibe-spacing-5);
+}
+
+.vibe-gap-6 {
+    gap: var(--vibe-spacing-6);
+}
+
+.vibe-gap-7 {
+    gap: var(--vibe-spacing-7);
+}
+
+.vibe-gap-8 {
+    gap: var(--vibe-spacing-8);
+}
+
+/* ========================================
+   TYPOGRAPHY - SIZE
+   ======================================== */
+
+.vibe-text-xs {
+    font-size: 0.75rem;      /* 12px */
+    line-height: 1rem;       /* 16px */
+}
+
+.vibe-text-sm {
+    font-size: 0.875rem;     /* 14px */
+    line-height: 1.25rem;    /* 20px */
+}
+
+.vibe-text-base {
+    font-size: 1rem;         /* 16px */
+    line-height: 1.5rem;     /* 24px */
+}
+
+.vibe-text-lg {
+    font-size: 1.125rem;     /* 18px */
+    line-height: 1.75rem;    /* 28px */
+}
+
+.vibe-text-xl {
+    font-size: 1.25rem;      /* 20px */
+    line-height: 1.75rem;    /* 28px */
+}
+
+.vibe-text-2xl {
+    font-size: 1.5rem;       /* 24px */
+    line-height: 2rem;       /* 32px */
+}
+
+.vibe-text-3xl {
+    font-size: 1.875rem;     /* 30px */
+    line-height: 2.25rem;    /* 36px */
+}
+
+/* ========================================
+   TYPOGRAPHY - WEIGHT
+   ======================================== */
+
+.vibe-font-normal {
+    font-weight: 400;
+}
+
+.vibe-font-medium {
+    font-weight: 500;
+}
+
+.vibe-font-semibold {
+    font-weight: 600;
+}
+
+.vibe-font-bold {
+    font-weight: 700;
+}
+
+/* ========================================
+   TYPOGRAPHY - ALIGNMENT
+   ======================================== */
+
+.vibe-text-left {
+    text-align: left;
+}
+
+.vibe-text-center {
+    text-align: center;
+}
+
+.vibe-text-right {
+    text-align: right;
+}
+
+.vibe-text-justify {
+    text-align: justify;
+}
+
+/* ========================================
+   TYPOGRAPHY - OVERFLOW
+   ======================================== */
+
+.vibe-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vibe-text-ellipsis {
+    text-overflow: ellipsis;
+}
+
+.vibe-text-clip {
+    text-overflow: clip;
+}
+
+/* ========================================
+   COLORS - TEXT
+   Uses CSS variables for automatic dark mode support
+   ======================================== */
+
+.vibe-text-primary {
+    color: var(--vibe-primary);
+}
+
+.vibe-text-secondary {
+    color: var(--vibe-secondary-foreground);
+}
+
+.vibe-text-muted {
+    color: var(--vibe-muted-foreground);
+}
+
+.vibe-text-accent {
+    color: var(--vibe-accent-foreground);
+}
+
+.vibe-text-destructive {
+    color: var(--vibe-destructive);
+}
+
+.vibe-text-foreground {
+    color: var(--vibe-foreground);
+}
+
+/* ========================================
+   COLORS - BACKGROUND
+   ======================================== */
+
+.vibe-bg-background {
+    background-color: var(--vibe-background);
+}
+
+.vibe-bg-card {
+    background-color: var(--vibe-card);
+}
+
+.vibe-bg-muted {
+    background-color: var(--vibe-muted);
+}
+
+.vibe-bg-accent {
+    background-color: var(--vibe-accent);
+}
+
+.vibe-bg-destructive {
+    background-color: var(--vibe-destructive);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes vibe-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes vibe-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes vibe-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes vibe-fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes vibe-slide-in-from-top {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes vibe-slide-in-from-bottom {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.vibe-animate-spin {
+    animation: vibe-spin 1s linear infinite;
+}
+
+.vibe-animate-pulse {
+    animation: vibe-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.vibe-animate-fade-in {
+    animation: vibe-fade-in 0.2s ease-in;
+}
+
+.vibe-animate-fade-out {
+    animation: vibe-fade-out 0.2s ease-out;
+}
+
+.vibe-animate-slide-in-top {
+    animation: vibe-slide-in-from-top 0.3s ease-out;
+}
+
+.vibe-animate-slide-in-bottom {
+    animation: vibe-slide-in-from-bottom 0.3s ease-out;
+}
+
+/* ========================================
+   INTERACTIVITY
+   ======================================== */
+
+.vibe-pointer-events-none {
+    pointer-events: none;
+}
+
+.vibe-pointer-events-auto {
+    pointer-events: auto;
+}
+
+.vibe-select-none {
+    user-select: none;
+}
+
+.vibe-select-text {
+    user-select: text;
+}
+
+.vibe-select-all {
+    user-select: all;
+}
+
+.vibe-cursor-auto {
+    cursor: auto;
+}
+
+.vibe-cursor-default {
+    cursor: default;
+}
+
+.vibe-cursor-pointer {
+    cursor: pointer;
+}
+
+.vibe-cursor-wait {
+    cursor: wait;
+}
+
+.vibe-cursor-text {
+    cursor: text;
+}
+
+.vibe-cursor-move {
+    cursor: move;
+}
+
+.vibe-cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+/* ========================================
+   POSITION
+   ======================================== */
+
+.vibe-static {
+    position: static;
+}
+
+.vibe-relative {
+    position: relative;
+}
+
+.vibe-absolute {
+    position: absolute;
+}
+
+.vibe-fixed {
+    position: fixed;
+}
+
+.vibe-sticky {
+    position: sticky;
+}
+
+/* ========================================
+   OVERFLOW
+   ======================================== */
+
+.vibe-overflow-auto {
+    overflow: auto;
+}
+
+.vibe-overflow-hidden {
+    overflow: hidden;
+}
+
+.vibe-overflow-visible {
+    overflow: visible;
+}
+
+.vibe-overflow-scroll {
+    overflow: scroll;
+}
+
+.vibe-overflow-x-auto {
+    overflow-x: auto;
+}
+
+.vibe-overflow-y-auto {
+    overflow-y: auto;
+}
+
+.vibe-overflow-x-hidden {
+    overflow-x: hidden;
+}
+
+.vibe-overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+/* ========================================
+   WIDTH & HEIGHT
+   ======================================== */
+
+.vibe-w-full {
+    width: 100%;
+}
+
+.vibe-w-auto {
+    width: auto;
+}
+
+.vibe-h-full {
+    height: 100%;
+}
+
+.vibe-h-auto {
+    height: auto;
+}
+
+.vibe-min-w-0 {
+    min-width: 0;
+}
+
+.vibe-min-h-0 {
+    min-height: 0;
+}
+
+.vibe-max-w-full {
+    max-width: 100%;
+}
+
+.vibe-max-h-full {
+    max-height: 100%;
+}
+
+/* ========================================
+   BORDERS
+   ======================================== */
+
+.vibe-border {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--vibe-border);
+}
+
+.vibe-border-0 {
+    border-width: 0;
+}
+
+.vibe-border-t {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: var(--vibe-border);
+}
+
+.vibe-border-b {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--vibe-border);
+}
+
+.vibe-border-l {
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: var(--vibe-border);
+}
+
+.vibe-border-r {
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: var(--vibe-border);
+}
+
+/* ========================================
+   BORDER RADIUS
+   ======================================== */
+
+.vibe-rounded-none {
+    border-radius: 0;
+}
+
+.vibe-rounded-sm {
+    border-radius: var(--vibe-radius-sm);
+}
+
+.vibe-rounded {
+    border-radius: var(--vibe-radius);
+}
+
+.vibe-rounded-md {
+    border-radius: var(--vibe-radius-md);
+}
+
+.vibe-rounded-lg {
+    border-radius: var(--vibe-radius-lg);
+}
+
+.vibe-rounded-xl {
+    border-radius: var(--vibe-radius-xl);
+}
+
+.vibe-rounded-full {
+    border-radius: 9999px;
+}
+
+/* ========================================
+   OPACITY
+   ======================================== */
+
+.vibe-opacity-0 {
+    opacity: 0;
+}
+
+.vibe-opacity-25 {
+    opacity: 0.25;
+}
+
+.vibe-opacity-50 {
+    opacity: 0.5;
+}
+
+.vibe-opacity-75 {
+    opacity: 0.75;
+}
+
+.vibe-opacity-100 {
+    opacity: 1;
+}
+
+/* ========================================
+   SHADOWS
+   ======================================== */
+
+.vibe-shadow-sm {
+    box-shadow: var(--vibe-shadow-sm);
+}
+
+.vibe-shadow {
+    box-shadow: var(--vibe-shadow-md);
+}
+
+.vibe-shadow-md {
+    box-shadow: var(--vibe-shadow-md);
+}
+
+.vibe-shadow-lg {
+    box-shadow: var(--vibe-shadow-lg);
+}
+
+.vibe-shadow-none {
+    box-shadow: none;
+}
+
+/* ========================================
+   TRANSITIONS
+   ======================================== */
+
+.vibe-transition {
+    transition: var(--vibe-transition);
+}
+
+.vibe-transition-none {
+    transition: none;
+}
+
+.vibe-transition-colors {
+    transition-property: color, background-color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.vibe-transition-opacity {
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.vibe-transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* ========================================
+   Z-INDEX
+   ======================================== */
+
+.vibe-z-0 {
+    z-index: 0;
+}
+
+.vibe-z-10 {
+    z-index: 10;
+}
+
+.vibe-z-20 {
+    z-index: 20;
+}
+
+.vibe-z-30 {
+    z-index: 30;
+}
+
+.vibe-z-40 {
+    z-index: 40;
+}
+
+.vibe-z-50 {
+    z-index: 50;
+}
+
+.vibe-z-auto {
+    z-index: auto;
+}

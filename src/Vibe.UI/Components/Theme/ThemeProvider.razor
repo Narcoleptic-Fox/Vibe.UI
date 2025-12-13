@@ -1,0 +1,29 @@
+@namespace Vibe.UI.Components
+@using Vibe.UI.Services.Theme
+@inject IThemeService ThemeService
+
+@*
+    ThemeProvider - OPTIONAL Dynamic Theme Generation
+
+    USE THIS WHEN:
+    - You need to configure themes programmatically (multi-tenant apps)
+    - You want to change color palettes via appsettings.json
+    - You need runtime theme customization
+
+    DON'T USE THIS WHEN:
+    - You're happy with the default theme in vibe-base.css
+    - You just want light/dark mode (use ThemeToggle + .dark class)
+    - You want to customize via CSS variables directly
+
+    If using ThemeProvider, it OVERRIDES vibe-base.css variables.
+    You still need vibe-base.css for reset, animations, and utilities.
+*@
+
+<style>
+    @((MarkupString)ThemeService.GenerateThemeCss())
+</style>
+
+@code {
+    // This component generates CSS variables based on VibeThemeOptions.
+    // Configure via: builder.Services.AddVibeUI(options => options.BaseColor = "Blue");
+}

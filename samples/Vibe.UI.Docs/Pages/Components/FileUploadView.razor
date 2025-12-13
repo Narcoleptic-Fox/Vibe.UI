@@ -4,153 +4,265 @@
 
 <PageTitle>FileUpload - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="FileUpload"
-               Category="Advanced"
-               Description="A file upload component with drag-and-drop support, file validation, and preview capabilities."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 500px; margin: 0 auto;">
-            <FileUpload @bind-Files="uploadedFiles"
-                        Multiple="true"
-                        DropText="Drop files here or click to browse"
-                        HintText="Upload documents, images, or PDFs" />
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">FileUpload</span>
         </div>
-    </PreviewContent>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">FileUpload</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A file upload component with drag-and-drop support, file validation, and preview capabilities.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Upload</h3>
+    <!-- Preview Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-8 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div style="max-width: 500px; margin: 0 auto;">
+                <FileUpload @bind-Files="uploadedFiles"
+                            Multiple="true"
+                            DropText="Drop files here or click to browse"
+                            HintText="Upload documents, images, or PDFs" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Upload -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Upload</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple file upload with a single file selection.
+            </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Image Upload with Preview</h3>
+        <!-- Image Upload with Preview -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Image Upload with Preview</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Upload images with preview thumbnails and custom upload area.
+            </p>
             <CodeBlock Code="@ImageCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Multiple Files</h3>
+        <!-- Multiple Files -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Multiple Files</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Allow multiple file selection with a maximum limit.
+            </p>
             <CodeBlock Code="@MultipleCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>File Validation</h3>
+        <!-- File Validation -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">File Validation</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Validate file types and sizes before upload.
+            </p>
             <CodeBlock Code="@ValidationCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Custom Upload Area</h3>
+        <!-- Custom Upload Area -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Upload Area</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Customize the upload area with your own content.
+            </p>
             <CodeBlock Code="@CustomCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Accept</code></td>
-                    <td>string</td>
-                    <td>"*"</td>
-                    <td>Accepted file types (MIME types or extensions)</td>
-                </tr>
-                <tr>
-                    <td><code>Multiple</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Allow multiple file selection</td>
-                </tr>
-                <tr>
-                    <td><code>MaxSize</code></td>
-                    <td>long</td>
-                    <td>10485760</td>
-                    <td>Maximum file size in bytes (default 10MB)</td>
-                </tr>
-                <tr>
-                    <td><code>MaxFiles</code></td>
-                    <td>int</td>
-                    <td>null</td>
-                    <td>Maximum number of files allowed</td>
-                </tr>
-                <tr>
-                    <td><code>ShowPreview</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Show file preview thumbnails</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Disable file upload</td>
-                </tr>
-                <tr>
-                    <td><code>ChildContent</code></td>
-                    <td>RenderFragment</td>
-                    <td>-</td>
-                    <td>Custom content for upload area</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnFilesSelected</code></td>
-                    <td>EventCallback&lt;IEnumerable&lt;IBrowserFile&gt;&gt;</td>
-                    <td>Callback when files are selected</td>
-                </tr>
-                <tr>
-                    <td><code>OnFileRemoved</code></td>
-                    <td>EventCallback&lt;IBrowserFile&gt;</td>
-                    <td>Callback when file is removed</td>
-                </tr>
-                <tr>
-                    <td><code>OnUploadProgress</code></td>
-                    <td>EventCallback&lt;UploadProgressArgs&gt;</td>
-                    <td>Callback for upload progress updates</td>
-                </tr>
-                <tr>
-                    <td><code>OnUploadComplete</code></td>
-                    <td>EventCallback&lt;IEnumerable&lt;UploadResult&gt;&gt;</td>
-                    <td>Callback when upload completes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Accept</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">"*"</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Accepted file types (MIME types or extensions)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Multiple</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Allow multiple file selection</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxSize</td>
+                            <td class="py-3 px-4"><TypeBadge Type="long" /></td>
+                            <td class="py-3 px-4 text-zinc-500">10485760</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum file size in bytes (default 10MB)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxFiles</td>
+                            <td class="py-3 px-4"><TypeBadge Type="int?" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum number of files allowed</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowPreview</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">true</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show file preview thumbnails</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Disable file upload</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
+                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="py-3 px-4 text-zinc-500">—</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Custom content for upload area</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses native <code>&lt;input type="file"&gt;</code> element</li>
-            <li>Keyboard accessible (Enter/Space to open file dialog)</li>
-            <li>Clear focus indicators for keyboard navigation</li>
-            <li>Screen reader announces file selection and removal</li>
-            <li>Progress updates announced to screen readers</li>
-            <li>Error messages properly associated with input</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnFilesSelected</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<IEnumerable<IBrowserFile>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when files are selected</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnFileRemoved</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<IBrowserFile>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when file is removed</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnUploadProgress</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<UploadProgressArgs>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback for upload progress updates</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnUploadComplete</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<IEnumerable<UploadResult>>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when upload completes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the FileUpload component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add fileupload" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Uses native <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;input type="file"&gt;</code> element
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Keyboard accessible (Enter/Space to open file dialog)
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Clear focus indicators for keyboard navigation
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Screen reader announces file selection and removal
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Progress updates announced to screen readers
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Error messages properly associated with input
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/avatar" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Avatar</h4>
+                <p class="text-sm text-zinc-500">Display user profile images</p>
+            </a>
+            <a href="/components/image" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Image</h4>
+                <p class="text-sm text-zinc-500">Optimized image component</p>
+            </a>
+            <a href="/components/dragdrop" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DragDrop</h4>
+                <p class="text-sm text-zinc-500">Drag and drop functionality</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private List<UploadedFile> uploadedFiles = new();
-    private List<string> relatedComponents = new() { "Avatar", "Image", "DragDrop" };
 
     private string BasicCode => @"<FileUpload OnFilesSelected=""@HandleFileSelected"" />
 

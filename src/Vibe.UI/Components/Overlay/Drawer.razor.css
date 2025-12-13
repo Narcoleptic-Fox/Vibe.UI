@@ -1,0 +1,297 @@
+/* ========================================
+   DRAWER COMPONENT SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Base Container
+   ---------------------------------------- */
+
+.vibe-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+}
+
+/* ----------------------------------------
+   Overlay
+   ---------------------------------------- */
+
+.drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: drawerOverlayFadeIn 0.3s ease-in-out;
+}
+
+.vibe-drawer.closing .drawer-overlay {
+    animation: drawerOverlayFadeOut 0.3s ease-in-out;
+}
+
+/* ----------------------------------------
+   Drawer Content
+   ---------------------------------------- */
+
+.drawer-content {
+    position: fixed;
+    background-color: var(--vibe-background);
+    box-shadow: var(--vibe-shadow-lg);
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+}
+
+/* ----------------------------------------
+   Close Button
+   ---------------------------------------- */
+
+.drawer-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--vibe-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--vibe-foreground);
+    border: none;
+    cursor: pointer;
+    transition: var(--vibe-transition-fast);
+}
+
+.drawer-close:hover {
+    background-color: var(--vibe-muted);
+}
+
+.drawer-close:focus {
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+}
+
+/* ----------------------------------------
+   Body/Content Section
+   ---------------------------------------- */
+
+.drawer-body {
+    padding: var(--vibe-spacing-6);
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* ----------------------------------------
+   Position Variants - Right
+   ---------------------------------------- */
+
+.vibe-drawer.drawer-right .drawer-content {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 24rem;
+    max-width: 100%;
+    animation: drawerSlideInRight 0.3s ease-in-out;
+}
+
+.vibe-drawer.drawer-right.closing .drawer-content {
+    animation: drawerSlideOutRight 0.3s ease-in-out;
+}
+
+/* ----------------------------------------
+   Position Variants - Left
+   ---------------------------------------- */
+
+.vibe-drawer.drawer-left .drawer-content {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 24rem;
+    max-width: 100%;
+    animation: drawerSlideInLeft 0.3s ease-in-out;
+}
+
+.vibe-drawer.drawer-left.closing .drawer-content {
+    animation: drawerSlideOutLeft 0.3s ease-in-out;
+}
+
+/* ----------------------------------------
+   Position Variants - Top
+   ---------------------------------------- */
+
+.vibe-drawer.drawer-top .drawer-content {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24rem;
+    max-height: 100%;
+    animation: drawerSlideInTop 0.3s ease-in-out;
+}
+
+.vibe-drawer.drawer-top.closing .drawer-content {
+    animation: drawerSlideOutTop 0.3s ease-in-out;
+}
+
+/* ----------------------------------------
+   Position Variants - Bottom
+   ---------------------------------------- */
+
+.vibe-drawer.drawer-bottom .drawer-content {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24rem;
+    max-height: 100%;
+    animation: drawerSlideInBottom 0.3s ease-in-out;
+}
+
+.vibe-drawer.drawer-bottom.closing .drawer-content {
+    animation: drawerSlideOutBottom 0.3s ease-in-out;
+}
+
+/* ----------------------------------------
+   Animations - Overlay
+   ---------------------------------------- */
+
+@keyframes drawerOverlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes drawerOverlayFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* ----------------------------------------
+   Animations - Slide Right
+   ---------------------------------------- */
+
+@keyframes drawerSlideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes drawerSlideOutRight {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* ----------------------------------------
+   Animations - Slide Left
+   ---------------------------------------- */
+
+@keyframes drawerSlideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes drawerSlideOutLeft {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* ----------------------------------------
+   Animations - Slide Top
+   ---------------------------------------- */
+
+@keyframes drawerSlideInTop {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes drawerSlideOutTop {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+/* ----------------------------------------
+   Animations - Slide Bottom
+   ---------------------------------------- */
+
+@keyframes drawerSlideInBottom {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes drawerSlideOutBottom {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    .vibe-drawer.drawer-right .drawer-content,
+    .vibe-drawer.drawer-left .drawer-content {
+        width: calc(100vw - 2rem);
+        max-width: calc(100vw - 2rem);
+    }
+
+    .vibe-drawer.drawer-top .drawer-content,
+    .vibe-drawer.drawer-bottom .drawer-content {
+        height: calc(100vh - 4rem);
+        max-height: calc(100vh - 4rem);
+    }
+
+    .drawer-body {
+        padding: var(--vibe-spacing-4);
+    }
+
+    .drawer-close {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+}

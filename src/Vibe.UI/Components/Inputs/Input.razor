@@ -1,0 +1,136 @@
+@namespace Vibe.UI.Components
+@using Microsoft.AspNetCore.Components.Forms
+@using Vibe.UI.Base
+@inherits VibeComponent
+
+<div class="@CombinedClass">
+    <div class="@GetInputWrapperClass()">
+        @if (!string.IsNullOrEmpty(LeadingIcon))
+        {
+            <span class="vibe-input-icon vibe-input-icon-leading">@((MarkupString)LeadingIcon)</span>
+        }
+        <input type="@Type" class="@GetInputClass()" id="@Id" placeholder="@GetPlaceholder()" value="@Value"
+            @onchange="OnValueChanged" @oninput="OnInput" @onfocus="OnFocus" @onblur="OnBlur" disabled="@Disabled"
+            readonly="@ReadOnly" @attributes="GetInputAttributes()" />
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label class="@GetLabelClass()" for="@Id">@Label</label>
+        }
+        @if (!string.IsNullOrEmpty(TrailingIcon))
+        {
+            <span class="vibe-input-icon vibe-input-icon-trailing">@((MarkupString)TrailingIcon)</span>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="vibe-input-error">@ErrorMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="vibe-input-helper">@HelperText</div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+    [Parameter] public string Label { get; set; } = string.Empty;
+    [Parameter] public string Type { get; set; } = "text";
+    [Parameter] public string Placeholder { get; set; } = string.Empty;
+    [Parameter] public string Value { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public bool ReadOnly { get; set; } = false;
+    [Parameter] public string LeadingIcon { get; set; } = string.Empty;
+    [Parameter] public string TrailingIcon { get; set; } = string.Empty;
+    [Parameter] public string ErrorMessage { get; set; } = string.Empty;
+    [Parameter] public string HelperText { get; set; } = string.Empty;
+    [Parameter] public ComponentSize Size { get; set; } = ComponentSize.Medium;
+    [Parameter] public InputVariant Variant { get; set; } = InputVariant.Outlined;
+
+    private bool isFocused = false;
+    private bool hasValue => !string.IsNullOrEmpty(Value);
+
+    private async Task OnValueChanged(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? string.Empty;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task OnInput(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? string.Empty;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private void OnFocus(FocusEventArgs e)
+    {
+        isFocused = true;
+    }
+
+    private void OnBlur(FocusEventArgs e)
+    {
+        isFocused = false;
+    }
+
+    protected override string ComponentClass => GetContainerClass();
+
+    private string GetContainerClass() => new ClassBuilder()
+        .Add("vibe-input-container")
+        .AddIf("vibe-input-disabled", Disabled)
+        .AddIf("vibe-input-has-error", !string.IsNullOrEmpty(ErrorMessage))
+        .Build();
+
+    private string GetInputWrapperClass() => new ClassBuilder()
+        .Add("vibe-input-wrapper")
+        .AddVariant("vibe-input-wrapper", Variant)
+        .AddVariant("vibe-input-wrapper", Size)
+        .AddIf("vibe-input-focused", isFocused)
+        .AddIf("vibe-input-has-value", hasValue)
+        .AddIf("vibe-input-has-error", !string.IsNullOrEmpty(ErrorMessage))
+        .Build();
+
+    private string GetLabelClass() => new ClassBuilder()
+        .Add("vibe-input-label")
+        .AddVariant("vibe-input-label", Variant)
+        .AddIf("vibe-input-label-floating", isFocused || hasValue)
+        .Build();
+
+    private string GetInputClass() => new ClassBuilder()
+        .Add("vibe-input")
+        .AddVariant("vibe-input", Size)
+        .AddVariant("vibe-input", Variant)
+        .AddIf("vibe-input-with-leading-icon", !string.IsNullOrEmpty(LeadingIcon))
+        .AddIf("vibe-input-with-trailing-icon", !string.IsNullOrEmpty(TrailingIcon))
+        .AddIf("vibe-input-error-state", !string.IsNullOrEmpty(ErrorMessage))
+        .Build();
+
+    private string GetPlaceholder()
+    {
+        // Only show placeholder when focused or if no label
+        if (string.IsNullOrEmpty(Label) || isFocused)
+            return Placeholder;
+
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// Gets the attributes to forward to the input element, filtering out container-level attributes.
+    /// </summary>
+    private Dictionary<string, object>? GetInputAttributes()
+    {
+        if (AdditionalAttributes == null || AdditionalAttributes.Count == 0)
+            return null;
+
+        // Filter out class attribute (handled separately) but forward everything else to input
+        var inputAttrs = new Dictionary<string, object>();
+        foreach (var attr in AdditionalAttributes)
+        {
+            // Skip class as it's already handled by CombinedClass on container
+            if (!attr.Key.Equals("class", StringComparison.OrdinalIgnoreCase))
+            {
+                inputAttrs[attr.Key] = attr.Value;
+            }
+        }
+        return inputAttrs.Count > 0 ? inputAttrs : null;
+    }
+}

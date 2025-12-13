@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
     @if (_isActive)
@@ -8,9 +8,7 @@
             @for (int i = 0; i < ParticleCount; i++)
             {
                 var particle = _particles[i];
-                <div class="confetti-particle"
-                     style="@particle.Style"
-                     @key="i">
+                <div class="confetti-particle" style="@particle.Style" @key="i">
                 </div>
             }
         </div>
@@ -33,10 +31,10 @@
 
     [Parameter]
     public List<string> Colors { get; set; } = new()
-    {
-        "#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A",
-        "#98D8C8", "#F7DC6F", "#BB8FCE", "#85C1E2"
-    };
+{
+"#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A",
+"#98D8C8", "#F7DC6F", "#BB8FCE", "#85C1E2"
+};
 
     [Parameter]
     public ConfettiOrigin Origin { get; set; } = ConfettiOrigin.Center;
@@ -51,9 +49,9 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-confetti",
-        _isActive ? "active" : null,
-        CssClass
+    "vibe-confetti",
+    _isActive ? "active" : null,
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;
@@ -115,16 +113,16 @@
         var duration = Duration;
 
         var style = $@"
-            --confetti-color: {color};
-            --confetti-size: {size}px;
-            --confetti-rotation: {rotation}deg;
-            --start-x: {startX}%;
-            --start-y: {startY}%;
-            --end-x: {endX}%;
-            --end-y: {endY}%;
-            --duration: {duration}ms;
-            --delay: {delay}ms;
-        ";
+--confetti-color: {color};
+--confetti-size: {size}px;
+--confetti-rotation: {rotation}deg;
+--start-x: {startX}%;
+--start-y: {startY}%;
+--end-x: {endX}%;
+--end-y: {endY}%;
+--duration: {duration}ms;
+--delay: {delay}ms;
+";
 
         return style;
     }

@@ -1,0 +1,99 @@
+/* ========================================
+   MENU COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Menu Container
+   ---------------------------------------- */
+
+.vibe-menu {
+    position: relative;
+    display: inline-block;
+}
+
+/* ----------------------------------------
+   Trigger Area
+   ---------------------------------------- */
+
+::deep .vibe-menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--vibe-spacing-2, 0.5rem);
+}
+
+/* ----------------------------------------
+   Menu Content (Dropdown)
+   ---------------------------------------- */
+
+::deep .vibe-menu-content {
+    position: absolute;
+    z-index: 50;
+    min-width: 12rem;
+    overflow: hidden;
+    border-radius: var(--vibe-radius-md, 0.5rem);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    box-shadow: var(--vibe-shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1));
+    animation: menuIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: var(--vibe-spacing-1, 0.25rem);
+}
+
+/* ----------------------------------------
+   Backdrop (Invisible click catcher)
+   ---------------------------------------- */
+
+::deep .menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background-color: transparent;
+}
+
+/* ----------------------------------------
+   Animations
+   ---------------------------------------- */
+
+@keyframes menuIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes menuOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* ----------------------------------------
+   Dark Mode Support
+   ---------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    ::deep .vibe-menu-content {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    ::deep .vibe-menu-content {
+        max-width: calc(100vw - 2rem);
+    }
+}

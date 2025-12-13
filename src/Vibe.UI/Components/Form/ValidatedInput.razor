@@ -1,5 +1,5 @@
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 @typeparam TValue
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass">
@@ -15,26 +15,29 @@
     }
 
     <div class="validated-input-wrapper">
-        <input id="@_inputId"
-               type="@InputType"
-               class="validated-input-field @GetValidationClass()"
-               placeholder="@Placeholder"
-               value="@Value"
-               disabled="@Disabled"
-               readonly="@ReadOnly"
-               @oninput="HandleInput"
-               @onblur="HandleBlur" />
+        <input id="@_inputId" type="@InputType" class="validated-input-field @GetValidationClass()"
+            placeholder="@Placeholder" value="@Value" disabled="@Disabled" readonly="@ReadOnly" @oninput="HandleInput"
+            @onblur="HandleBlur" />
 
         @if (ShowValidationIcon && IsValid.HasValue)
         {
             <span class="validation-icon">
                 @if (IsValid.Value)
                 {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <path d="m9 11 3 3L22 4"></path>
+                    </svg>
                 }
                 else
                 {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m15 9-6 6"></path>
+                        <path d="m9 9 6 6"></path>
+                    </svg>
                 }
             </span>
         }
@@ -101,11 +104,11 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-validated-input",
-        IsValid.HasValue ? (IsValid.Value ? "valid" : "invalid") : null,
-        _touched ? "touched" : null,
-        Disabled ? "disabled" : null,
-        CssClass
+    "vibe-validated-input",
+    IsValid.HasValue ? (IsValid.Value ? "valid" : "invalid") : null,
+    _touched ? "touched" : null,
+    Disabled ? "disabled" : null,
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

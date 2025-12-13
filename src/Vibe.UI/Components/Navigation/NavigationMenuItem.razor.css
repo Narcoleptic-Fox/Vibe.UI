@@ -1,0 +1,33 @@
+/* NavigationMenuItem baseline styles */
+
+:global(.vibe-navigation-menu-item) {
+  position: relative;
+}
+
+:global(.vibe-navigation-menu-item .navigation-menu-item-trigger) {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--vibe-foreground);
+  border-radius: var(--vibe-radius-sm);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+}
+
+:global(.vibe-navigation-menu-item .navigation-menu-item-trigger:hover) {
+  background: var(--vibe-muted);
+}
+
+:global(.vibe-navigation-menu-item .navigation-menu-item-content) {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  margin-top: 0.5rem;
+  background: var(--vibe-popover);
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius);
+  box-shadow: var(--vibe-shadow-md);
+  padding: 0.75rem;
+  min-width: 16rem;
+}
+

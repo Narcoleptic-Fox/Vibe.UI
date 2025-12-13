@@ -1,17 +1,17 @@
 @namespace Vibe.UI.Components
-@inherits Base.ThemedComponentBase
+@inherits Base.VibeComponent
 
-<div class="@CombinedClass" @ref="DropdownRef">
+<div class="@CombinedClass" @ref="DropdownRef" @attributes="AdditionalAttributes">
     <div class="dropdown-trigger" @onclick="ToggleDropdown">
         @TriggerContent
     </div>
-    
+
     @if (IsOpen)
     {
         <div class="dropdown-content @PositionClass" style="@PositionStyle">
             @Content
         </div>
-        
+        @* Backdrop handles click-outside without JS *@
         <div class="dropdown-backdrop" @onclick="CloseDropdown"></div>
     }
 </div>
@@ -82,14 +82,4 @@
         IsOpen = false;
     }
 
-    /// <summary>
-    /// Sets up event listeners when the component is initialized.
-    /// </summary>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        
-        // In a real implementation, you would use JS interop to handle click outside
-        // and other advanced positioning features
-    }
 }

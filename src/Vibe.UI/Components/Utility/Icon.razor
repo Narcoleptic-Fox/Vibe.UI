@@ -1,20 +1,12 @@
 @using Vibe.UI.Services
 @namespace Vibe.UI.Components
-@inherits ThemedComponentBase
+@inherits VibeComponent
 
 @if (!string.IsNullOrEmpty(Name))
 {
-    <svg @attributes="AdditionalAttributes"
-         class="@CombinedCssClass"
-         style="@IconStyle"
-         width="@ActualWidth"
-         height="@ActualHeight"
-         viewBox="0 0 24 24"
-         fill="@Fill"
-         stroke="@Stroke"
-         stroke-width="@StrokeWidth"
-         stroke-linecap="@StrokeLinecap"
-         stroke-linejoin="@StrokeLinejoin">
+    <svg @attributes="AdditionalAttributes" class="@CombinedCssClass" style="@IconStyle" width="@ActualWidth"
+        height="@ActualHeight" viewBox="0 0 24 24" fill="@Fill" stroke="@Stroke" stroke-width="@StrokeWidth"
+        stroke-linecap="@StrokeLinecap" stroke-linejoin="@StrokeLinejoin">
         @if (IconContent != null)
         {
             @IconContent
@@ -110,8 +102,8 @@ else if (CustomSvg != null)
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-        "vibe-icon",
-        CssClass
+    "vibe-icon",
+    CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;

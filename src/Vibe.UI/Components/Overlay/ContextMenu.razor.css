@@ -1,0 +1,98 @@
+/* ========================================
+   CONTEXT MENU COMPONENT - SCOPED STYLES
+   ======================================== */
+
+/* ----------------------------------------
+   Context Menu Container
+   ---------------------------------------- */
+
+.vibe-context-menu {
+    position: relative;
+    display: inline-block;
+}
+
+/* ----------------------------------------
+   Trigger Area
+   ---------------------------------------- */
+
+::deep .context-trigger {
+    display: inline-flex;
+    user-select: none;
+}
+
+/* ----------------------------------------
+   Context Menu Content (Dropdown)
+   ---------------------------------------- */
+
+::deep .context-content {
+    position: fixed;
+    z-index: 50;
+    min-width: 12rem;
+    overflow: hidden;
+    border-radius: var(--vibe-radius-md, 0.5rem);
+    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    box-shadow: var(--vibe-shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1));
+    animation: contextMenuIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: var(--vibe-spacing-1, 0.25rem);
+}
+
+/* ----------------------------------------
+   Backdrop (Invisible click catcher)
+   ---------------------------------------- */
+
+::deep .context-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background-color: transparent;
+}
+
+/* ----------------------------------------
+   Animations
+   ---------------------------------------- */
+
+@keyframes contextMenuIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes contextMenuOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* ----------------------------------------
+   Dark Mode Support
+   ---------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    ::deep .context-content {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    }
+}
+
+/* ----------------------------------------
+   Responsive Design
+   ---------------------------------------- */
+
+@media (max-width: 640px) {
+    ::deep .context-content {
+        max-width: calc(100vw - 2rem);
+    }
+}

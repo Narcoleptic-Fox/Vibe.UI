@@ -1,157 +1,288 @@
 @page "/components/switch"
-@using Vibe.UI.Components
 
 <PageTitle>Switch - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="Switch"
-               Category="Input"
-               Description="A toggle switch control for on/off or true/false values."
-               RelatedComponents="@relatedComponents">
+<div class="max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="text-zinc-900 dark:text-zinc-100">Switch</span>
+        </div>
+        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Switch</h1>
+        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+            A toggle switch control for on/off or true/false values with smooth animations.
+        </p>
+    </header>
 
-    <PreviewContent>
-        <div class="preview-demo" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 400px;">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span>Default (off)</span>
-                <Switch />
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span>Default (on)</span>
-                <Switch Checked="true" />
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span>Enable notifications</span>
-                <Switch Checked="@notificationsEnabled" CheckedChanged="@OnNotificationsChanged" />
-            </div>
-            @if (notificationsEnabled)
-            {
-                <p style="margin-left: 1.5rem; color: var(--brand-teal);">✓ Notifications enabled</p>
-            }
-
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span>Dark mode</span>
-                <Switch Checked="@darkModeEnabled" CheckedChanged="@((bool val) => darkModeEnabled = val)" />
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; opacity: 0.5;">
-                <span>Disabled (off)</span>
-                <Switch Disabled="true" />
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; opacity: 0.5;">
-                <span>Disabled (on)</span>
-                <Switch Checked="true" Disabled="true" />
+    <!-- Preview -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <div class="space-y-4 max-w-md">
+                <div class="flex items-center justify-between">
+                    <span class="text-zinc-900 dark:text-zinc-100">Default (off)</span>
+                    <Switch />
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-zinc-900 dark:text-zinc-100">Default (on)</span>
+                    <Switch Checked="true" />
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-zinc-900 dark:text-zinc-100">Enable notifications</span>
+                    <Switch Checked="@notificationsEnabled" CheckedChanged="@OnNotificationsChanged" />
+                </div>
+                @if (notificationsEnabled)
+                {
+                    <p class="ml-6 text-brand-teal">✓ Notifications enabled</p>
+                }
+                <div class="flex items-center justify-between">
+                    <span class="text-zinc-900 dark:text-zinc-100">Dark mode</span>
+                    <Switch Checked="@darkModeEnabled" CheckedChanged="@((bool val) => darkModeEnabled = val)" />
+                </div>
+                <div class="flex items-center justify-between opacity-50">
+                    <span class="text-zinc-900 dark:text-zinc-100">Disabled (off)</span>
+                    <Switch Disabled="true" />
+                </div>
+                <div class="flex items-center justify-between opacity-50">
+                    <span class="text-zinc-900 dark:text-zinc-100">Disabled (on)</span>
+                    <Switch Checked="true" Disabled="true" />
+                </div>
             </div>
         </div>
-    </PreviewContent>
+    </section>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic Usage</h3>
+    <!-- Examples Section -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+
+        <!-- Basic Usage -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Simple toggle switch with on and off states.
+            </p>
+            <div class="flex items-center gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Switch />
+                <Switch Checked="true" />
+            </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Label</h3>
+        <!-- With Label -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Label</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Add a label to provide context for the switch control.
+            </p>
+            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="flex items-center justify-between max-w-md">
+                    <span class="text-zinc-900 dark:text-zinc-100">Enable notifications</span>
+                    <Switch Label="Enable notifications" />
+                </div>
+                <div class="flex items-center justify-between max-w-md">
+                    <span class="text-zinc-900 dark:text-zinc-100">Dark mode</span>
+                    <Switch Label="Dark mode" Checked="true" />
+                </div>
+            </div>
             <CodeBlock Code="@LabelCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Sizes</h3>
+        <!-- Sizes -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sizes</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Available in three sizes to fit different layouts and use cases.
+            </p>
+            <div class="flex items-center gap-6 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <div class="flex flex-col items-center gap-2">
+                    <Switch Size="SwitchSize.Small" Checked="true" />
+                    <span class="text-xs text-zinc-500">Small</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <Switch Size="SwitchSize.Medium" Checked="true" />
+                    <span class="text-xs text-zinc-500">Medium</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <Switch Size="SwitchSize.Large" Checked="true" />
+                    <span class="text-xs text-zinc-500">Large</span>
+                </div>
+            </div>
             <CodeBlock Code="@SizesCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>Disabled State</h3>
+        <!-- Disabled State -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled State</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Prevent user interaction with the disabled state.
+            </p>
+            <div class="flex items-center gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+                <Switch Label="Disabled off" Disabled="true" />
+                <Switch Label="Disabled on" Checked="true" Disabled="true" />
+            </div>
             <CodeBlock Code="@DisabledCode" Language="razor" />
         </div>
 
-        <div class="example-item">
-            <h3>With Change Handler</h3>
+        <!-- With Change Handler -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Change Handler</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+                Handle switch state changes with event callbacks to implement custom logic.
+            </p>
             <CodeBlock Code="@ChangeHandlerCode" Language="razor" />
         </div>
-    </Examples>
+    </section>
 
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Checked</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the switch is checked</td>
-                </tr>
-                <tr>
-                    <td><code>Disabled</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Whether the switch is disabled</td>
-                </tr>
-                <tr>
-                    <td><code>Label</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Label text for the switch</td>
-                </tr>
-                <tr>
-                    <td><code>Size</code></td>
-                    <td>SwitchSize</td>
-                    <td>Medium</td>
-                    <td>Size of the switch</td>
-                </tr>
-                <tr>
-                    <td><code>Name</code></td>
-                    <td>string</td>
-                    <td>null</td>
-                    <td>Name attribute of the input</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
 
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>CheckedChanged</code></td>
-                    <td>EventCallback&lt;bool&gt;</td>
-                    <td>Callback when checked state changes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
+        <!-- Properties -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Checked</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the switch is checked</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
+                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
+                            <td class="py-3 px-4 text-zinc-500">false</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the switch is disabled</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Label text for the switch</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Size</td>
+                            <td class="py-3 px-4"><TypeBadge Type="SwitchSize" /></td>
+                            <td class="py-3 px-4 text-zinc-500">Medium</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Size of the switch</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Name</td>
+                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
+                            <td class="py-3 px-4 text-zinc-500">null</td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Name attribute of the input</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses semantic switch role with proper ARIA attributes</li>
-            <li>Keyboard accessible (Space to toggle)</li>
-            <li>Label associated with switch for clickable area</li>
-            <li>Focus visible styles for keyboard navigation</li>
-            <li>Screen reader announces state changes</li>
+        <!-- Events -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
+                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tr>
+                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CheckedChanged</td>
+                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<bool>" /></td>
+                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when checked state changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+            Install the Switch component using the Vibe.UI CLI:
+        </p>
+        <CodeBlock Code="vibe add switch" Language="bash" />
+    </section>
+
+    <!-- Accessibility -->
+    <section class="mb-12">
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
+        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Uses semantic switch role with proper ARIA attributes
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Keyboard accessible (Space to toggle)
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Label associated with switch for clickable area
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Focus visible styles for keyboard navigation
+            </li>
+            <li class="flex items-start gap-2">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Screen reader announces state changes
+            </li>
         </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+
+    <!-- Related Components -->
+    <section>
+        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/components/checkbox" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Checkbox</h4>
+                <p class="text-sm text-zinc-500">Multiple selection control</p>
+            </a>
+            <a href="/components/radio-group" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Radio Group</h4>
+                <p class="text-sm text-zinc-500">Single selection from options</p>
+            </a>
+            <a href="/components/toggle" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
+                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Toggle</h4>
+                <p class="text-sm text-zinc-500">Alternative toggle control</p>
+            </a>
+        </div>
+    </section>
+</div>
 
 @code {
     private bool notificationsEnabled = false;
     private bool darkModeEnabled = false;
-    private List<string> relatedComponents = new() { "Checkbox", "RadioGroup", "Toggle" };
 
     private void OnNotificationsChanged(bool value)
     {
