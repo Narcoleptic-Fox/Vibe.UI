@@ -9,29 +9,17 @@
     <!-- Top Navigation Bar -->
     <header class="vibe-sticky vibe-top-0 vibe-z-40 vibe-backdrop-blur-lg vibe-bg-white/80 dark:vibe-bg-zinc-950/80 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
         <div class="vibe-max-w-screen-2xl vibe-mx-auto vibe-h-14 vibe-flex vibe-items-center vibe-justify-between vibe-px-4 lg:vibe-px-6">
-            <!-- Left: Mobile menu + Logo -->
+            <!-- Left: Logo + Primary nav -->
             <div class="vibe-flex vibe-items-center vibe-gap-4">
-                <button class="lg:vibe-hidden vibe-p-2 vibe--ml-2 vibe-rounded-md hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors"
-                        @onclick="ToggleSidebar"
-                        aria-label="Toggle menu">
-                    @if (sidebarOpen)
-                    {
-                        <svg class="vibe-w-5 vibe-h-5 vibe-text-zinc-600 dark:vibe-text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    }
-                    else
-                    {
-                        <svg class="vibe-w-5 vibe-h-5 vibe-text-zinc-600 dark:vibe-text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    }
-                </button>
-
                 <a href="@GetBaseUrl()" class="vibe-flex vibe-items-center vibe-gap-2.5 vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 hover:vibe-opacity-80 vibe-transition-opacity">
                     <img src="icon-192.png" alt="Vibe.UI" class="vibe-w-7 vibe-h-7 vibe-rounded-md" />
                     <span class="vibe-text-lg vibe-tracking-tight">Vibe.UI</span>
                 </a>
+
+                <nav class="vibe-hidden md:vibe-flex vibe-items-center vibe-gap-1">
+                    <a href="/" class="vibe-px-3 vibe-py-2 vibe-rounded-md vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 hover:vibe-text-zinc-900 dark:hover:vibe-text-zinc-100 hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors">Docs</a>
+                    <a href="/components" class="vibe-px-3 vibe-py-2 vibe-rounded-md vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 hover:vibe-text-zinc-900 dark:hover:vibe-text-zinc-100 hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors">Components</a>
+                </nav>
             </div>
 
             <!-- Center: Search button (desktop) -->
@@ -76,36 +64,11 @@
     </header>
 
     <!-- Main Container -->
-    <div class="vibe-flex vibe-flex-1">
-        <!-- Mobile Sidebar Backdrop -->
-        @if (sidebarOpen)
-        {
-            <div class="lg:vibe-hidden vibe-fixed vibe-inset-0 vibe-z-40 vibe-bg-black/50"
-                 @onclick="ToggleSidebar"
-                 aria-hidden="true"></div>
-        }
-
-        <!-- Sidebar Navigation (mobile) -->
-        <aside class="lg:vibe-hidden vibe-fixed vibe-inset-y-0 @(sidebarOpen ? "vibe-left-0" : "vibe-left-[-18rem]") vibe-z-50 vibe-w-72 vibe-overflow-y-auto vibe-bg-white dark:vibe-bg-zinc-950 vibe-border-r vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-transition-all vibe-duration-200">
-            <nav class="vibe-p-4">
-                <NavSidebar />
-            </nav>
-        </aside>
-
-        <!-- Sidebar Navigation (desktop) -->
-        <aside class="vibe-hidden lg:vibe-block vibe-border-r vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-w-72 vibe-sticky vibe-top-[3.5rem] vibe-h-[calc(100vh-3.5rem)] vibe-overflow-y-auto vibe-bg-white dark:vibe-bg-zinc-950">
-            <nav class="vibe-p-4">
-                <NavSidebar />
-            </nav>
-        </aside>
-
-        <!-- Content Area -->
-        <main class="vibe-flex-1 vibe-min-w-0">
-            <div class="vibe-p-6 page-enter">
-                @Body
-            </div>
-        </main>
-    </div>
+    <main class="vibe-flex-1 vibe-min-w-0">
+        <div class="vibe-px-4 lg:vibe-px-6 vibe-py-6 page-enter">
+            @Body
+        </div>
+    </main>
 
     <!-- Command Palette -->
     <CommandPalette IsOpen="searchOpen" IsOpenChanged="@((value) => { searchOpen = value; StateHasChanged(); })" OnThemeToggle="HandleThemeToggle" />
@@ -115,7 +78,6 @@
 </div>
 
 @code {
-    private bool sidebarOpen = false;
     private bool searchOpen = false;
     private DotNetObjectReference<MainLayout>? _dotNetRef;
 
@@ -134,11 +96,6 @@
     {
         searchOpen = true;
         StateHasChanged();
-    }
-
-    private void ToggleSidebar()
-    {
-        sidebarOpen = !sidebarOpen;
     }
 
     private void OpenSearch()

@@ -32,6 +32,16 @@ A comprehensive, production-ready Blazor component library inspired by Shadcn UI
 - **Comprehensive Testing** - Unit and integration tests with bUnit and xUnit
 - **Demo Application** - Interactive showcase of all components
 
+## Vibe.CSS
+
+Vibe.CSS is the utility-first companion (Tailwind-style) for Vibe.UI.
+
+- Tailwind parity roadmap: `docs/Vibe.CSS.TailwindParity.md`
+
+## shadcn/ui Parity
+
+- Vibe.UI parity roadmap: `docs/Vibe.UI.ShadcnParity.md`
+
 ## Installation
 
 ### Option 1: CLI (Recommended - Full Control)

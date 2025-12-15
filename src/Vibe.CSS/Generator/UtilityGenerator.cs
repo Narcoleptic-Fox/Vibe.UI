@@ -24,6 +24,12 @@ public partial class UtilityGenerator
     /// </summary>
     public CssRule? Generate(string className)
     {
+        var rules = GenerateAll(className);
+        return rules.Count > 0 ? rules[0] : null;
+    }
+
+    public List<CssRule> GenerateAll(string className)
+    {
         // Check for variants FIRST (they come before the prefix)
         // e.g., "hover:vibe-bg-primary" or "sm:vibe-flex"
         var (variants, afterVariants) = ExtractVariants(className);
@@ -39,24 +45,29 @@ public partial class UtilityGenerator
         else if (!string.IsNullOrEmpty(_prefix) && !_allowUnprefixed)
         {
             // Class doesn't match our prefix
-            return null;
+            return new List<CssRule>();
         }
 
-        // Try to generate the base rule
-        if (GenerateBaseRule(name, className) is not { } rule)
-            return null;
+        // Try to generate the base rules
+        var rules = GenerateBaseRules(name, className);
+        if (rules.Count == 0)
+            return rules;
 
-        // Apply variant if present
+        // Apply variant if present (to every rule)
         if (variants.Count > 0)
         {
             // Apply right-to-left so the leftmost variant acts as the outermost wrapper.
             for (var i = variants.Count - 1; i >= 0; i--)
             {
-                rule = ApplyVariant(rule, variants[i]);
+                var variant = variants[i];
+                for (var r = 0; r < rules.Count; r++)
+                {
+                    rules[r] = ApplyVariant(rules[r], variant);
+                }
             }
         }
 
-        return rule;
+        return rules;
     }
 
     private (List<string> Variants, string BaseName) ExtractVariants(string name)
@@ -222,10 +233,16 @@ public partial class UtilityGenerator
 
     private CssRule? GenerateBaseRule(string name, string fullClassName)
     {
+        return GenerateBaseRules(name, fullClassName).FirstOrDefault();
+    }
+
+    private List<CssRule> GenerateBaseRules(string name, string fullClassName)
+    {
         var selector = $".{EscapeSelector(fullClassName)}";
 
         // Try each generator in order
-        return TryGenerateDisplay(name, selector)
+        var single =
+            TryGenerateDisplay(name, selector)
             ?? TryGenerateFlexbox(name, selector)
             ?? TryGenerateGrid(name, selector)
             ?? TryGenerateSpacing(name, selector)
@@ -237,6 +254,140 @@ public partial class UtilityGenerator
             ?? TryGenerateLayout(name, selector)
             ?? TryGenerateInteractivity(name, selector)
             ?? TryGenerateArbitrary(name, selector);
+
+        if (single != null)
+            return new List<CssRule> { single };
+
+        // Multi-rule utilities
+        var multi = TryGenerateProse(name, selector);
+        return multi ?? new List<CssRule>();
+    }
+
+    private List<CssRule>? TryGenerateProse(string name, string selector)
+    {
+        if (name is "prose")
+        {
+            return new List<CssRule>
+            {
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "line-height: 1.75;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} > :first-child",
+                    Declarations = "margin-top: 0;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} > :last-child",
+                    Declarations = "margin-bottom: 0;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} p",
+                    Declarations = "margin: 1rem 0;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} h2",
+                    Declarations = "margin: 2.25rem 0 1rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} h3",
+                    Declarations = "margin: 1.75rem 0 0.75rem; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} ul, {selector} ol",
+                    Declarations = "margin: 1rem 0; padding-left: 1.25rem;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} li",
+                    Declarations = "margin: 0.5rem 0;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} a",
+                    Declarations = "text-decoration: underline; text-underline-offset: 3px;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} code",
+                    Declarations = "padding: 0.15rem 0.35rem; border-radius: 0.375rem; background: rgb(244 244 245);",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} blockquote",
+                    Declarations = "margin: 1rem 0; padding-left: 1rem; border-left: 3px solid rgb(161 161 170);",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} table",
+                    Declarations = "width: 100%; border-collapse: collapse;",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} thead th",
+                    Declarations = "text-align: left; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 0.75rem; border-bottom: 1px solid rgb(228 228 231);",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} tbody td",
+                    Declarations = "padding: 0.5rem 0.75rem; border-bottom: 1px solid rgb(244 244 245); vertical-align: top;",
+                    Order = CssOrder.Typography
+                }
+            };
+        }
+
+        if (name is "prose-invert")
+        {
+            return new List<CssRule>
+            {
+                new()
+                {
+                    Selector = $"{selector} code",
+                    Declarations = "background: rgb(39 39 42);",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} blockquote",
+                    Declarations = "border-left-color: rgb(82 82 91);",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} thead th",
+                    Declarations = "border-bottom-color: rgb(63 63 70);",
+                    Order = CssOrder.Typography
+                },
+                new()
+                {
+                    Selector = $"{selector} tbody td",
+                    Declarations = "border-bottom-color: rgb(39 39 42);",
+                    Order = CssOrder.Typography
+                }
+            };
+        }
+
+        return null;
     }
 
     #region Display Utilities

@@ -86,10 +86,10 @@ public class CssEmitter
             if (generatedClasses.Contains(className))
                 continue;
 
-            var rule = _generator.Generate(className);
-            if (rule != null)
+            var classRules = _generator.GenerateAll(className);
+            if (classRules.Count > 0)
             {
-                rules.Add(rule);
+                rules.AddRange(classRules);
                 generatedClasses.Add(className);
             }
         }
