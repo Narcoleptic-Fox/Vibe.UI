@@ -2,31 +2,31 @@
 
 <PageTitle>TimePicker - Vibe.UI</PageTitle>
 
-<div class="max-w-4xl">
+<div class="vibe-max-w-4xl">
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
-            <span class="text-zinc-900 dark:text-zinc-100">TimePicker</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">TimePicker</span>
         </div>
-        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">TimePicker</h1>
-        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">TimePicker</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
             An input component for selecting time values with a dropdown interface and keyboard support.
         </p>
     </header>
 
     <!-- Preview -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
-        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-            <div class="flex flex-col gap-6 max-w-md mx-auto">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900">
+            <div class="vibe-flex vibe-flex-col vibe-gap-6 vibe-max-w-md vibe-mx-auto">
                 <Alert Variant="AlertVariant.Warning">
                     <strong>Note:</strong> The TimePicker component is not yet implemented. This is a placeholder for future development.
                 </Alert>
-                <p class="text-center text-zinc-500 dark:text-zinc-400">
+                <p class="vibe-text-center vibe-text-zinc-500 dark:vibe-text-zinc-400">
                     Component preview will be available once the TimePicker component is implemented.
                 </p>
             </div>
@@ -34,49 +34,49 @@
     </section>
 
     <!-- Examples -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
 
         <!-- Basic -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic TimePicker</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic TimePicker</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 A simple time picker with two-way binding.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
         <!-- 12-Hour Format -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">12-Hour Format</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">12-Hour Format</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Display time in 12-hour format with AM/PM.
             </p>
             <CodeBlock Code="@TwelveHourCode" Language="razor" />
         </div>
 
         <!-- Time Range Limits -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Time Range Limits</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Time Range Limits</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Restrict selectable times to business hours.
             </p>
             <CodeBlock Code="@LimitsCode" Language="razor" />
         </div>
 
         <!-- Custom Step Intervals -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Step Intervals</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Custom Step Intervals</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Configure minute intervals for time options.
             </p>
             <CodeBlock Code="@StepCode" Language="razor" />
         </div>
 
         <!-- Appointment Scheduler -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Appointment Scheduler</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Appointment Scheduler</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Complete appointment scheduling form with date and time.
             </p>
             <CodeBlock Code="@SchedulerCode" Language="razor" />
@@ -84,64 +84,64 @@
     </section>
 
     <!-- API Reference -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
-                            <td class="py-3 px-4"><TypeBadge Type="TimeSpan?" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Selected time value</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Value</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TimeSpan?" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Selected time value</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Format</td>
-                            <td class="py-3 px-4"><TypeBadge Type="TimeFormat" /></td>
-                            <td class="py-3 px-4 text-zinc-500">TwentyFourHour</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Time format (12-hour or 24-hour)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Format</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TimeFormat" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">TwentyFourHour</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Time format (12-hour or 24-hour)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MinTime</td>
-                            <td class="py-3 px-4"><TypeBadge Type="TimeSpan?" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minimum selectable time</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">MinTime</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TimeSpan?" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Minimum selectable time</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">MaxTime</td>
-                            <td class="py-3 px-4"><TypeBadge Type="TimeSpan?" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Maximum selectable time</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">MaxTime</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TimeSpan?" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Maximum selectable time</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">StepMinutes</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">15</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Minute interval for time options</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">StepMinutes</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">15</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Minute interval for time options</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placeholder</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">"Select time"</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Placeholder text when empty</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Placeholder</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"Select time"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Placeholder text when empty</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Disable the input</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Disable the input</td>
                         </tr>
                     </tbody>
                 </table>
@@ -149,32 +149,32 @@
         </div>
 
         <!-- Events -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<TimeSpan?>" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when time is selected</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ValueChanged</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<TimeSpan?>" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when time is selected</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnOpen</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when dropdown opens</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnOpen</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when dropdown opens</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnClose</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when dropdown closes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnClose</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when dropdown closes</td>
                         </tr>
                     </tbody>
                 </table>
@@ -183,51 +183,51 @@
     </section>
 
     <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
-        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
             Install the TimePicker component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add timepicker" Language="bash" />
     </section>
 
     <!-- Accessibility -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
-        <div class="prose prose-zinc dark:prose-invert max-w-none">
-            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <div class="docs-prose vibe-max-w-none">
+            <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="combobox"</code> pattern
+                    Uses <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="combobox"</code> pattern
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Keyboard accessible with Tab and Arrow keys
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Supports text input with validation
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Screen reader announces selected time
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Clear focus indicators
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Escape key closes dropdown
@@ -238,19 +238,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="/components/datepicker" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DatePicker</h4>
-                <p class="text-sm text-zinc-500">Date selection input</p>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
+            <a href="/components/datepicker" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">DatePicker</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Date selection input</p>
             </a>
-            <a href="/components/daterangepicker" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DateRangePicker</h4>
-                <p class="text-sm text-zinc-500">Select date ranges</p>
+            <a href="/components/daterangepicker" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">DateRangePicker</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Select date ranges</p>
             </a>
-            <a href="/components/input" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Input</h4>
-                <p class="text-sm text-zinc-500">Text input component</p>
+            <a href="/components/input" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Input</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Text input component</p>
             </a>
         </div>
     </section>

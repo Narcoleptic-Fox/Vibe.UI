@@ -2,99 +2,99 @@
 
 <PageTitle>Pagination - Vibe.UI</PageTitle>
 
-<div class="max-w-4xl">
+<div class="vibe-max-w-4xl">
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
-            <span class="text-zinc-900 dark:text-zinc-100">Pagination</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Pagination</span>
         </div>
-        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Pagination</h1>
-        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Pagination</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
             Navigation component for paginated content with page numbers, controls, and customizable options.
         </p>
     </header>
 
     <!-- Preview -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
-        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 space-y-8">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 vibe-space-y-8">
             <div>
-                <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">Basic Pagination</h4>
+                <h4 class="vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-3">Basic Pagination</h4>
                 <Pagination CurrentPage="@currentPage1"
                            TotalPages="10"
                            PageChanged="@((page) => currentPage1 = page)" />
-                <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400 text-center">Current Page: @currentPage1</p>
+                <p class="vibe-mt-3 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-text-center">Current Page: @currentPage1</p>
             </div>
 
             <div>
-                <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">With First/Last Buttons</h4>
+                <h4 class="vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-3">With First/Last Buttons</h4>
                 <Pagination CurrentPage="@currentPage2"
                            TotalPages="15"
                            ShowFirstLast="true"
                            PageChanged="@((page) => currentPage2 = page)" />
-                <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400 text-center">Current Page: @currentPage2</p>
+                <p class="vibe-mt-3 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-text-center">Current Page: @currentPage2</p>
             </div>
 
             <div>
-                <h4 class="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">Many Pages (with ellipsis)</h4>
+                <h4 class="vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-3">Many Pages (with ellipsis)</h4>
                 <Pagination CurrentPage="@currentPage3"
                            TotalPages="50"
                            MaxVisiblePages="7"
                            ShowFirstLast="true"
                            PageChanged="@((page) => currentPage3 = page)" />
-                <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400 text-center">Current Page: @currentPage3 of 50</p>
+                <p class="vibe-mt-3 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-text-center">Current Page: @currentPage3 of 50</p>
             </div>
         </div>
     </section>
 
     <!-- Examples Section -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
 
         <!-- Basic Usage -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Usage</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Simple pagination with page numbers and navigation buttons.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
         <!-- With Page Size Options -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Page Size Options</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Page Size Options</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Allow users to change the number of items per page.
             </p>
             <CodeBlock Code="@PageSizeCode" Language="razor" />
         </div>
 
         <!-- Compact Mode -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Compact Mode</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Compact Mode</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Minimal pagination for space-constrained layouts.
             </p>
             <CodeBlock Code="@CompactCode" Language="razor" />
         </div>
 
         <!-- With Jump to Page -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Jump to Page</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Jump to Page</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Quick navigation to specific page numbers.
             </p>
             <CodeBlock Code="@JumpCode" Language="razor" />
         </div>
 
         <!-- Custom Boundaries -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Custom Boundaries</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Custom Boundaries</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Control the number of pages shown around current page.
             </p>
             <CodeBlock Code="@BoundariesCode" Language="razor" />
@@ -102,64 +102,64 @@
     </section>
 
     <!-- API Reference -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CurrentPage</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">1</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Current page number</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CurrentPage</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">1</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Current page number</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">TotalPages</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">1</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Total number of pages</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">TotalPages</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">1</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Total number of pages</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">TotalItems</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">0</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Total number of items</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">TotalItems</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">0</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Total number of items</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">PageSize</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">10</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Items per page</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">PageSize</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">10</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Items per page</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowPageSizeOptions</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show page size selector</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ShowPageSizeOptions</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show page size selector</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowJumpToPage</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show jump to page input</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ShowJumpToPage</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show jump to page input</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">SiblingCount</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">1</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Number of pages to show on each side</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">SiblingCount</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">1</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Number of pages to show on each side</td>
                         </tr>
                     </tbody>
                 </table>
@@ -167,27 +167,27 @@
         </div>
 
         <!-- Events -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnPageChanged</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback&lt;int&gt;" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when page changes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnPageChanged</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;int&gt;" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when page changes</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnPageSizeChanged</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback&lt;int&gt;" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when page size changes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnPageSizeChanged</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;int&gt;" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when page size changes</td>
                         </tr>
                     </tbody>
                 </table>
@@ -196,44 +196,44 @@
     </section>
 
     <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
-        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
             Install the Pagination component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add pagination" Language="bash" />
     </section>
 
     <!-- Accessibility -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
-        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;nav&gt;</code> with aria-label
+                Uses semantic <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;nav&gt;</code> with aria-label
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Current page marked with aria-current="page"
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Keyboard navigation support
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Disabled buttons properly indicated
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Screen reader friendly labels
@@ -243,19 +243,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="/components/table" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Table</h4>
-                <p class="text-sm text-zinc-500">Data tables</p>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
+            <a href="/components/table" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Table</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Data tables</p>
             </a>
-            <a href="/components/datagrid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">DataGrid</h4>
-                <p class="text-sm text-zinc-500">Advanced data grids</p>
+            <a href="/components/datagrid" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">DataGrid</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Advanced data grids</p>
             </a>
-            <a href="/components/button" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Button</h4>
-                <p class="text-sm text-zinc-500">Interactive buttons</p>
+            <a href="/components/button" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Button</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Interactive buttons</p>
             </a>
         </div>
     </section>

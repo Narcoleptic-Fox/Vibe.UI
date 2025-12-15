@@ -78,6 +78,10 @@ public partial class ClassScanner
         {
             var classValue = match.Groups[1].Value;
             ExtractClasses(classValue, classes);
+            if (classValue.Contains("@("))
+            {
+                ExtractFromCSharpExpression(classValue, classes);
+            }
         }
 
         // Pattern 2: @class="..." (Blazor)
@@ -85,6 +89,10 @@ public partial class ClassScanner
         {
             var classValue = match.Groups[1].Value;
             ExtractClasses(classValue, classes);
+            if (classValue.Contains("@("))
+            {
+                ExtractFromCSharpExpression(classValue, classes);
+            }
         }
 
         // Pattern 3: class=@"..." (Blazor interpolated)
@@ -92,6 +100,10 @@ public partial class ClassScanner
         {
             var classValue = match.Groups[1].Value;
             ExtractClasses(classValue, classes);
+            if (classValue.Contains("@("))
+            {
+                ExtractFromCSharpExpression(classValue, classes);
+            }
         }
 
         // Pattern 4: class="@(...)" (Blazor expression - extract string literals)
@@ -106,6 +118,10 @@ public partial class ClassScanner
         {
             var classValue = match.Groups[1].Value;
             ExtractClasses(classValue, classes);
+            if (classValue.Contains("@("))
+            {
+                ExtractFromCSharpExpression(classValue, classes);
+            }
         }
 
         // Pattern 6: AdditionalClasses="..." or similar custom attributes
@@ -113,6 +129,10 @@ public partial class ClassScanner
         {
             var classValue = match.Groups[1].Value;
             ExtractClasses(classValue, classes);
+            if (classValue.Contains("@("))
+            {
+                ExtractFromCSharpExpression(classValue, classes);
+            }
         }
     }
 
@@ -158,6 +178,11 @@ public partial class ClassScanner
         foreach (var token in tokens)
         {
             var trimmed = token.Trim();
+
+            // Common cleanups for tokens coming from Razor expressions, e.g. "foo-bar") or 'foo'
+            trimmed = trimmed.Trim('"', '\'');
+            trimmed = trimmed.TrimEnd(')', ',', ';');
+            trimmed = trimmed.TrimStart('(');
 
             // Skip empty, ignored, or obviously non-class values
             if (string.IsNullOrEmpty(trimmed) ||

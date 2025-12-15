@@ -2,26 +2,26 @@
 
 <PageTitle>Link - Vibe.UI</PageTitle>
 
-<div class="max-w-4xl">
+<div class="vibe-max-w-4xl">
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
-            <span class="text-zinc-900 dark:text-zinc-100">Link</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Link</span>
         </div>
-        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Link</h1>
-        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Link</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
             A navigational link component with support for external URLs, internal routing, styling variants, and proper accessibility.
         </p>
     </header>
 
     <!-- Preview -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
-        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex justify-center gap-4 flex-wrap">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 vibe-flex vibe-justify-center vibe-gap-4 vibe-flex-wrap">
             <Link Href="/getting-started">Internal Link</Link>
             <Link Href="https://github.com" Target="_blank">External Link</Link>
             <Link Variant="Link.LinkVariant.Muted">Muted Link</Link>
@@ -29,17 +29,17 @@
     </section>
 
     <!-- Examples Section -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
 
         <!-- Basic Usage -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Usage</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Usage</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Simple navigation links.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 space-y-3">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
                 <Link Href="/getting-started">Go to Getting Started</Link>
                 <Link Href="/installation">Installation Guide</Link>
                 <Link Href="/theming">Theming Documentation</Link>
@@ -47,13 +47,13 @@
         </div>
 
         <!-- External Links -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">External Links</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">External Links</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Links to external websites automatically get proper security attributes.
             </p>
             <CodeBlock Code="@ExternalCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 space-y-3">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
                 <Link Href="https://github.com" Target="_blank">
                     GitHub (opens in new tab)
                 </Link>
@@ -61,21 +61,21 @@
                     npm Registry
                 </Link>
             </div>
-            <div class="mt-3">
+            <div class="vibe-mt-3">
                 <Alert Variant="AlertVariant.Info">
-                    External links with <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">Target="_blank"</code> automatically include <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">rel="noopener noreferrer"</code> for security.
+                    External links with <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">Target="_blank"</code> automatically include <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">rel="noopener noreferrer"</code> for security.
                 </Alert>
             </div>
         </div>
 
         <!-- Link Variants -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Link Variants</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Link Variants</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Different visual styles for different contexts.
             </p>
             <CodeBlock Code="@VariantsCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 space-y-3">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
                 <div>
                     <Link Variant="Link.LinkVariant.Default">Default Link (Primary color)</Link>
                 </div>
@@ -92,13 +92,13 @@
         </div>
 
         <!-- Underline Styles -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Underline Styles</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Underline Styles</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Control when the underline appears.
             </p>
             <CodeBlock Code="@UnderlineCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 space-y-3">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
                 <div>
                     <Link Underline="Link.LinkUnderline.Always">Always Underlined</Link>
                 </div>
@@ -112,13 +112,13 @@
         </div>
 
         <!-- Links with Icons -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Links with Icons</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Links with Icons</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Enhance links with icons or indicators.
             </p>
             <CodeBlock Code="@IconsCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 space-y-3">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
                 <Link Href="/home">
                     <span>🏠</span>
                     <span>Home</span>
@@ -135,45 +135,45 @@
         </div>
 
         <!-- Disabled State -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled State</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Disabled State</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Disable links when actions are unavailable.
             </p>
             <CodeBlock Code="@DisabledCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 flex gap-4">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-flex vibe-gap-4">
                 <Link Href="/page">Active Link</Link>
                 <Link Href="/page" Disabled="true">Disabled Link</Link>
             </div>
         </div>
 
         <!-- Click Events -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Click Events</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Click Events</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Handle click events for custom behavior.
             </p>
             <CodeBlock Code="@EventsCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
                 <Link OnClick="@HandleLinkClick">
                     Click Me (no href - acts as button)
                 </Link>
                 @if (!string.IsNullOrEmpty(clickMessage))
                 {
-                    <p class="mt-3 text-brand-teal">@clickMessage</p>
+                    <p class="vibe-mt-3 vibe-text-brand-teal">@clickMessage</p>
                 }
             </div>
         </div>
 
         <!-- Inline with Text -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Inline with Text</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Inline with Text</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Links work seamlessly within paragraphs.
             </p>
             <CodeBlock Code="@InlineCode" Language="razor" />
-            <div class="mt-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
-                <p class="text-zinc-700 dark:text-zinc-300">
+            <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                <p class="vibe-text-zinc-700 dark:vibe-text-zinc-300">
                     Check out the <Link Href="/getting-started">Getting Started guide</Link> to learn more about
                     Vibe.UI. You can also explore the <Link Href="/components/button">Button component</Link> or
                     read our <Link Href="/theming">theming documentation</Link>.
@@ -183,58 +183,58 @@
     </section>
 
     <!-- API Reference -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Href</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">URL to navigate to. If null, renders as button</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Href</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">URL to navigate to. If null, renders as button</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Target</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Target attribute (_blank, _self, etc.)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Target</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Target attribute (_blank, _self, etc.)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Variant</td>
-                            <td class="py-3 px-4"><TypeBadge Type="LinkVariant" /></td>
-                            <td class="py-3 px-4 text-zinc-500">Default</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Visual style variant</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Variant</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="LinkVariant" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Visual style variant</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Underline</td>
-                            <td class="py-3 px-4"><TypeBadge Type="LinkUnderline" /></td>
-                            <td class="py-3 px-4 text-zinc-500">Hover</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Underline behavior (Always, Hover, None)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Underline</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="LinkUnderline" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Hover</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Underline behavior (Always, Hover, None)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the link is disabled</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the link is disabled</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
-                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
-                            <td class="py-3 px-4 text-zinc-500">—</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Link content</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ChildContent</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Link content</td>
                         </tr>
                     </tbody>
                 </table>
@@ -242,22 +242,22 @@
         </div>
 
         <!-- Events -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnClick</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback&lt;MouseEventArgs&gt;" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when link is clicked</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnClick</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;MouseEventArgs&gt;" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when link is clicked</td>
                         </tr>
                     </tbody>
                 </table>
@@ -266,50 +266,50 @@
     </section>
 
     <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
-        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
             Install the Link component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add link" Language="bash" />
     </section>
 
     <!-- Accessibility -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
-        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;a&gt;</code> element for links
+                Uses semantic <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;a&gt;</code> element for links
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                External links with <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">Target="_blank"</code> include <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">rel="noopener noreferrer"</code>
+                External links with <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">Target="_blank"</code> include <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">rel="noopener noreferrer"</code>
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Disabled links use <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-disabled</code> attribute
+                Disabled links use <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-disabled</code> attribute
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Focus visible styles for keyboard users
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Screen readers announce link purpose correctly
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Links without href render as buttons with proper semantics
@@ -319,19 +319,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="/components/button" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Button</h4>
-                <p class="text-sm text-zinc-500">Interactive button elements</p>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
+            <a href="/components/button" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Button</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Interactive button elements</p>
             </a>
-            <a href="/components/breadcrumb" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Breadcrumb</h4>
-                <p class="text-sm text-zinc-500">Navigation hierarchy</p>
+            <a href="/components/breadcrumb" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Breadcrumb</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Navigation hierarchy</p>
             </a>
-            <a href="/components/menu" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Menu</h4>
-                <p class="text-sm text-zinc-500">Dropdown action menus</p>
+            <a href="/components/menu" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Menu</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Dropdown action menus</p>
             </a>
         </div>
     </section>

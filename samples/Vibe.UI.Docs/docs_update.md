@@ -1,14 +1,16 @@
 # Vibe.UI.Docs Redesign Progress
 
-> **Goal**: Transform docs into a modern, React-like experience (shadcn + Vercel + Tailwind aesthetic)
+> **Goal**: Transform docs into a modern, React-like experience powered by Vibe.UI + Vibe.CSS utilities (no Tailwind dependency).
+
+> **Note**: Older checklist items below mention Tailwind/docs.css; those are now historical after the switch to Vibe.CSS + generated `wwwroot/css/vibe.css`.
 
 ## Status: 🟢 Phase 1-6 Substantially Complete
 
 **Started**: 2025-11-25
-**Last Updated**: 2025-11-25
+**Last Updated**: 2025-12-15
 
 ### Session Progress Summary
-- [x] Added Tailwind CSS with custom config (brand colors, animations)
+- [x] Switched docs styling to Vibe.CSS utilities (prefixed `vibe-*`)
 - [x] Added JetBrains Mono font for code
 - [x] Created `_animations.css` with stagger, page transitions, micro-interactions
 - [x] Created `CopyButton.razor` with bounce animation

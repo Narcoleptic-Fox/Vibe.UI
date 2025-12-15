@@ -2,31 +2,31 @@
 
 <PageTitle>Card - Vibe.UI</PageTitle>
 
-<div class="max-w-4xl">
+<div class="vibe-max-w-4xl">
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
-            <span class="text-zinc-900 dark:text-zinc-100">Card</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Card</span>
         </div>
-        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Card</h1>
-        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Card</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
             A versatile container for grouping and displaying content in a structured format.
         </p>
     </header>
 
     <!-- Preview -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
-        <div class="grid gap-6 md:grid-cols-2 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <div class="vibe-grid vibe-gap-6 md:vibe-grid-cols-2 vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-zinc-50 dark:vibe-bg-zinc-900/50">
             <Card>
                 <CardTitle>Card Title</CardTitle>
                 <CardDescription>Card description goes here.</CardDescription>
                 <ChildContent>
-                    <p class="text-sm text-zinc-600 dark:text-zinc-400">This is the main content area of the card.</p>
+                    <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">This is the main content area of the card.</p>
                 </ChildContent>
                 <Footer>
                     <Button Variant="ButtonVariant.Primary" Size="ComponentSize.Small">Action</Button>
@@ -37,18 +37,18 @@
                 <CardTitle>Notifications</CardTitle>
                 <CardDescription>You have 3 unread messages.</CardDescription>
                 <ChildContent>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                            <span class="text-sm">New comment on your post</span>
+                    <div class="vibe-space-y-2">
+                        <div class="vibe-flex vibe-items-center vibe-gap-2">
+                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-brand-teal"></div>
+                            <span class="vibe-text-sm">New comment on your post</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                            <span class="text-sm">Someone liked your photo</span>
+                        <div class="vibe-flex vibe-items-center vibe-gap-2">
+                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-brand-teal"></div>
+                            <span class="vibe-text-sm">Someone liked your photo</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-teal"></div>
-                            <span class="text-sm">New follower</span>
+                        <div class="vibe-flex vibe-items-center vibe-gap-2">
+                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-brand-teal"></div>
+                            <span class="vibe-text-sm">New follower</span>
                         </div>
                     </div>
                 </ChildContent>
@@ -57,42 +57,42 @@
     </section>
 
     <!-- Examples Section -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
 
         <!-- Basic Card -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Card</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Card</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 A simple card with header, content, and footer sections.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
         <!-- Card with Form -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Card with Form</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Card with Form</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Cards are perfect containers for forms and input groups.
             </p>
-            <div class="max-w-sm p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-max-w-sm vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Card>
                     <CardTitle>Create project</CardTitle>
                     <CardDescription>Deploy your new project in one-click.</CardDescription>
                     <ChildContent>
-                        <div class="space-y-4">
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium">Name</label>
+                        <div class="vibe-space-y-4">
+                            <div class="vibe-space-y-2">
+                                <label class="vibe-text-sm vibe-font-medium">Name</label>
                                 <Input Placeholder="Name of your project" />
                             </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium">Framework</label>
+                            <div class="vibe-space-y-2">
+                                <label class="vibe-text-sm vibe-font-medium">Framework</label>
                                 <Input Placeholder="Select framework" />
                             </div>
                         </div>
                     </ChildContent>
                     <Footer>
-                        <div class="flex justify-between">
+                        <div class="vibe-flex vibe-justify-between">
                             <Button Variant="ButtonVariant.Outline">Cancel</Button>
                             <Button Variant="ButtonVariant.Primary">Deploy</Button>
                         </div>
@@ -103,18 +103,18 @@
         </div>
 
         <!-- Clickable Card -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Clickable Card</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Clickable Card</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Make the entire card interactive for navigation or selection.
             </p>
             <CodeBlock Code="@ClickableCode" Language="razor" />
         </div>
 
         <!-- Card Grid -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Card Grid</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Card Grid</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Combine cards in a grid layout for dashboards or listings.
             </p>
             <CodeBlock Code="@GridCode" Language="razor" />
@@ -122,34 +122,34 @@
     </section>
 
     <!-- API Reference -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
 
         <!-- Card -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Card</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Card</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ChildContent</td>
-                            <td class="py-3 px-4"><TypeBadge Type="RenderFragment" /></td>
-                            <td class="py-3 px-4 text-zinc-500">—</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Card content (Header, Content, Footer)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ChildContent</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Card content (Header, Content, Footer)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Class</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Additional CSS classes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Class</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Additional CSS classes</td>
                         </tr>
                     </tbody>
                 </table>
@@ -157,36 +157,36 @@
         </div>
 
         <!-- Sub-components -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Sub-components</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Sub-components</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Component</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Component</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardHeader</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Container for title and description</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CardHeader</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Container for title and description</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardTitle</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Card heading text</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CardTitle</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Card heading text</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardDescription</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Secondary text below title</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CardDescription</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Secondary text below title</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardContent</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Main content area</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CardContent</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Main content area</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">CardFooter</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Actions and buttons area</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CardFooter</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Actions and buttons area</td>
                         </tr>
                     </tbody>
                 </table>
@@ -195,38 +195,38 @@
     </section>
 
     <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
-        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
             Install the Card component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add card" Language="bash" />
     </section>
 
     <!-- Accessibility -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
-        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Uses semantic HTML structure with proper heading hierarchy
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Clickable cards include keyboard navigation support
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 ARIA labels can be added via standard HTML attributes
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Focus states visible for interactive elements
@@ -236,19 +236,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="/components/container" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Container</h4>
-                <p class="text-sm text-zinc-500">Layout wrapper component</p>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
+            <a href="/components/container" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Container</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Layout wrapper component</p>
             </a>
-            <a href="/components/stack" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Stack</h4>
-                <p class="text-sm text-zinc-500">Vertical/horizontal layouts</p>
+            <a href="/components/stack" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Stack</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Vertical/horizontal layouts</p>
             </a>
-            <a href="/components/grid" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Grid</h4>
-                <p class="text-sm text-zinc-500">Grid layout system</p>
+            <a href="/components/grid" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Grid</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Grid layout system</p>
             </a>
         </div>
     </section>
@@ -267,25 +267,25 @@
     private string FormCode => @"<Card>
     <CardTitle>Create project</CardTitle>
     <CardDescription>Deploy your new project in one-click.</CardDescription>
-    <div class=""space-y-4"">
-        <div class=""space-y-2"">
+    <div class=""vibe-space-y-4"">
+        <div class=""vibe-space-y-2"">
             <label>Name</label>
             <Input Placeholder=""Name of your project"" />
         </div>
-        <div class=""space-y-2"">
+        <div class=""vibe-space-y-2"">
             <label>Framework</label>
             <Input Placeholder=""Select framework"" />
         </div>
     </div>
     <Footer>
-        <div class=""flex justify-between"">
+        <div class=""vibe-flex vibe-justify-between"">
             <Button Variant=""ButtonVariant.Outline"">Cancel</Button>
             <Button Variant=""ButtonVariant.Primary"">Deploy</Button>
         </div>
     </Footer>
 </Card>";
 
-    private string ClickableCode => @"<Card class=""cursor-pointer hover:border-brand-teal transition-colors"" @onclick=""HandleClick"">
+    private string ClickableCode => @"<Card class=""vibe-cursor-pointer hover:vibe-border-brand-teal vibe-transition-colors"" @onclick=""HandleClick"">
     <CardTitle>Clickable Card</CardTitle>
     <CardDescription>Click anywhere on this card.</CardDescription>
 </Card>
@@ -297,7 +297,7 @@
     }
 }";
 
-    private string GridCode => @"<div class=""grid gap-4 md:grid-cols-2 lg:grid-cols-3"">
+    private string GridCode => @"<div class=""vibe-grid vibe-gap-4 md:vibe-grid-cols-2 lg:vibe-grid-cols-3"">
     <Card>
         <CardTitle>Card 1</CardTitle>
         Content here

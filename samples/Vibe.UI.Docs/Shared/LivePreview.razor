@@ -6,44 +6,44 @@
     Combines preview, code, and property controls in a tabbed interface
 *@
 
-<div class="live-preview rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-white dark:bg-zinc-900">
+<div class="live-preview vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-overflow-hidden vibe-bg-white dark:vibe-bg-zinc-900">
     <!-- Header Tabs -->
-    <div class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
+    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50">
         <!-- Tab Buttons -->
-        <div class="flex">
-            <button class="px-4 py-2.5 text-sm font-medium transition-colors relative @(activeTab == "preview" ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300")"
+        <div class="vibe-flex">
+            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "preview" ? "vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
                     @onclick="SetPreviewTab">
                 Preview
                 @if (activeTab == "preview")
                 {
-                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-teal"></span>
+                    <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-brand-teal"></span>
                 }
             </button>
-            <button class="px-4 py-2.5 text-sm font-medium transition-colors relative @(activeTab == "code" ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300")"
+            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "code" ? "vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
                     @onclick="SetCodeTab">
                 Code
                 @if (activeTab == "code")
                 {
-                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-teal"></span>
+                    <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-brand-teal"></span>
                 }
             </button>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex items-center gap-1 px-2">
+        <div class="vibe-flex vibe-items-center vibe-gap-1 vibe-px-2">
             <!-- Theme Toggle -->
-            <button class="p-2 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            <button class="vibe-p-2 vibe-rounded-md hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-transition-colors"
                     @onclick="TogglePreviewTheme"
                     title="Toggle preview theme">
                 @if (previewDark)
                 {
-                    <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="vibe-w-4 vibe-h-4 vibe-text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
                 }
                 else
                 {
-                    <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="vibe-w-4 vibe-h-4 vibe-text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
                     </svg>
                 }
@@ -52,10 +52,10 @@
             <!-- Props Toggle -->
             @if (Props.Any())
             {
-                <button class="p-2 rounded-md transition-colors @(showProps ? "bg-brand-teal/10 text-brand-teal" : "hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500")"
+                <button class="vibe-p-2 vibe-rounded-md vibe-transition-colors @(showProps ? "vibe-bg-brand-teal/10 vibe-text-brand-teal" : "hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-text-zinc-500")"
                         @onclick="() => showProps = !showProps"
                         title="Toggle properties panel">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
                     </svg>
                 </button>
@@ -67,13 +67,13 @@
     </div>
 
     <!-- Content -->
-    <div class="flex">
+    <div class="vibe-flex">
         <!-- Main Content Area -->
-        <div class="flex-1 min-w-0">
+        <div class="vibe-flex-1 vibe-min-w-0">
             @if (activeTab == "preview")
             {
                 <!-- Preview Panel -->
-                <div class="preview-panel p-6 min-h-[200px] flex items-center justify-center @(previewDark ? "dark bg-zinc-900" : "bg-white")">
+                <div class="preview-panel vibe-p-6 vibe-min-h-[200px] vibe-flex vibe-items-center vibe-justify-center @(previewDark ? "dark vibe-bg-zinc-900" : "vibe-bg-white")">
                     <div class="preview-checkerboard @(previewDark ? "dark" : "")">
                         @PreviewContent
                     </div>
@@ -82,14 +82,14 @@
             else
             {
                 <!-- Code Panel - Temporary notice about known issue -->
-                <div class="code-panel min-h-[100px] bg-zinc-950 overflow-x-auto">
-                    <div class="p-4 flex items-start gap-3 bg-amber-500/10 border-b border-amber-500/20">
-                        <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="code-panel vibe-min-h-[100px] vibe-bg-zinc-950 vibe-overflow-x-auto">
+                    <div class="vibe-p-4 vibe-flex vibe-items-start vibe-gap-3 vibe-bg-amber-500/10 vibe-border-b vibe-border-amber-500/20">
+                        <svg class="vibe-w-5 vibe-h-5 vibe-text-amber-500 vibe-vibe-shrink-0 vibe-mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                         </svg>
-                        <div class="text-sm">
-                            <p class="text-amber-200 font-medium">Code preview temporarily unavailable</p>
-                            <p class="text-amber-200/70 mt-1">See the Examples section below for code snippets. This will be fixed in a future update.</p>
+                        <div class="vibe-text-sm">
+                            <p class="vibe-text-amber-200 vibe-font-medium">Code preview temporarily unavailable</p>
+                            <p class="vibe-text-amber-200/70 vibe-mt-1">See the Examples section below for code snippets. This will be fixed in a future update.</p>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
         <!-- Props Panel (slide-in) -->
         @if (showProps && Props.Any())
         {
-            <div class="w-72 border-l border-zinc-200 dark:border-zinc-800 props-slide-in">
+            <div class="vibe-w-72 vibe-border-l vibe-border-zinc-200 dark:vibe-border-zinc-800 props-slide-in">
                 <PropTweaker Props="Props"
                              ShowCodePreview="false"
                              OnPropChanged="HandlePropChanged"

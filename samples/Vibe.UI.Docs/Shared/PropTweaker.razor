@@ -7,49 +7,49 @@
 
 <div class="prop-tweaker @(IsOpen ? "open" : "")">
     <!-- Header -->
-    <div class="flex items-center justify-between px-4 py-3 border-b border-zinc-200 dark:border-zinc-800">
-        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Properties</h3>
-        <button class="p-1 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-3 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
+        <h3 class="vibe-text-sm vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100">Properties</h3>
+        <button class="vibe-p-1 vibe-rounded hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors"
                 @onclick="Reset"
                 title="Reset to defaults">
-            <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="vibe-w-4 vibe-h-4 vibe-text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
             </svg>
         </button>
     </div>
 
     <!-- Props List -->
-    <div class="p-4 space-y-4 overflow-y-auto max-h-[400px]">
+    <div class="vibe-p-4 vibe-space-y-4 vibe-overflow-y-auto vibe-max-h-[400px]">
         @foreach (var prop in Props)
         {
-            <div class="space-y-1.5">
+            <div class="vibe-space-y-1.5">
                 <!-- Label -->
-                <label class="flex items-center justify-between text-sm">
-                    <span class="font-medium text-zinc-700 dark:text-zinc-300">@prop.Name</span>
+                <label class="vibe-flex vibe-items-center vibe-justify-between vibe-text-sm">
+                    <span class="vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300">@prop.Name</span>
                     @if (prop.Type == PropType.Boolean)
                     {
                         <!-- Boolean Toggle -->
-                        <button class="relative w-10 h-5 rounded-full transition-colors @(IsTrue(prop.Value) ? "bg-brand-teal" : "bg-zinc-300 dark:bg-zinc-600")"
+                        <button class="vibe-relative vibe-w-10 vibe-h-5 vibe-rounded-full vibe-transition-colors @(IsTrue(prop.Value) ? "vibe-bg-brand-teal" : "vibe-bg-zinc-300 dark:vibe-bg-zinc-600")"
                                 @onclick="() => ToggleBool(prop)">
-                            <span class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform @(IsTrue(prop.Value) ? "translate-x-5" : "")"></span>
+                            <span class="vibe-absolute vibe-top-0.5 vibe-left-0.5 vibe-w-4 vibe-h-4 vibe-bg-white vibe-rounded-full vibe-shadow vibe-transition-transform @(IsTrue(prop.Value) ? "vibe-translate-x-5" : "")"></span>
                         </button>
                     }
                 </label>
 
                 @if (prop.Description != null)
                 {
-                    <p class="text-xs text-zinc-500">@prop.Description</p>
+                    <p class="vibe-text-xs vibe-text-zinc-500">@prop.Description</p>
                 }
 
                 @switch (prop.Type)
                 {
                     case PropType.Enum:
                         <!-- Enum Selector (Button Group) -->
-                        <div class="flex flex-wrap gap-1">
+                        <div class="vibe-flex vibe-flex-wrap vibe-gap-1">
                             @foreach (var option in prop.Options)
                             {
                                 var isSelected = prop.Value?.ToString() == option;
-                                <button class="px-2.5 py-1 text-xs font-medium rounded-md transition-colors @(isSelected ? "bg-brand-teal text-white" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700")"
+                                <button class="vibe-px-2.5 vibe-py-1 vibe-text-xs vibe-font-medium vibe-rounded-md vibe-transition-colors @(isSelected ? "vibe-bg-brand-teal vibe-text-white" : "vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-text-zinc-600 dark:vibe-text-zinc-400 hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700")"
                                         @onclick="() => SelectOption(prop, option)">
                                     @option
                                 </button>
@@ -62,31 +62,31 @@
                         <input type="text"
                                value="@prop.Value?.ToString()"
                                @onchange="e => SetValue(prop, e.Value)"
-                               class="w-full px-3 py-1.5 text-sm rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-brand-teal/50" />
+                               class="vibe-w-full vibe-px-3 vibe-py-1.5 vibe-text-sm vibe-rounded-md vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-bg-white dark:vibe-bg-zinc-800 vibe-text-zinc-900 dark:vibe-text-zinc-100 focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-brand-teal/50" />
                         break;
 
                     case PropType.Number:
                         <!-- Number Input -->
-                        <div class="flex items-center gap-2">
+                        <div class="vibe-flex vibe-items-center vibe-gap-2">
                             <input type="range"
                                    min="@(prop.Min ?? 0)"
                                    max="@(prop.Max ?? 100)"
                                    step="@(prop.Step ?? 1)"
                                    value="@prop.Value"
                                    @onchange="e => HandleNumberChange(prop, e)"
-                                   class="flex-1 h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer" />
-                            <span class="w-10 text-xs text-zinc-500 text-right">@prop.Value</span>
+                                   class="vibe-flex-1 vibe-h-1.5 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded-full vibe-appearance-none vibe-cursor-pointer" />
+                            <span class="vibe-w-10 vibe-text-xs vibe-text-zinc-500 vibe-text-right">@prop.Value</span>
                         </div>
                         break;
 
                     case PropType.Color:
                         <!-- Color Picker -->
-                        <div class="flex items-center gap-2">
+                        <div class="vibe-flex vibe-items-center vibe-gap-2">
                             <input type="color"
                                    value="@prop.Value?.ToString()"
                                    @onchange="e => SetValue(prop, e.Value)"
-                                   class="w-8 h-8 rounded border border-zinc-200 dark:border-zinc-700 cursor-pointer" />
-                            <span class="text-xs text-zinc-500 font-mono">@prop.Value</span>
+                                   class="vibe-w-8 vibe-h-8 vibe-rounded vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-cursor-pointer" />
+                            <span class="vibe-text-xs vibe-text-zinc-500 vibe-font-mono">@prop.Value</span>
                         </div>
                         break;
 
@@ -99,19 +99,19 @@
 
         @if (!Props.Any())
         {
-            <p class="text-sm text-zinc-500 text-center py-4">No properties to configure</p>
+            <p class="vibe-text-sm vibe-text-zinc-500 vibe-text-center vibe-py-4">No properties to configure</p>
         }
     </div>
 
     <!-- Generated Code Preview -->
     @if (ShowCodePreview && Props.Any())
     {
-        <div class="border-t border-zinc-200 dark:border-zinc-800 p-4">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Generated Props</span>
+        <div class="vibe-border-t vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-p-4">
+            <div class="vibe-flex vibe-items-center vibe-justify-between vibe-mb-2">
+                <span class="vibe-text-xs vibe-font-medium vibe-text-zinc-500 vibe-uppercase vibe-tracking-wider">Generated Props</span>
                 <CopyButton Text="@GeneratedCode" Variant="CopyButton.CopyButtonVariant.Ghost" />
             </div>
-            <pre class="text-xs font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/50 rounded-md p-2 overflow-x-auto"><code>@GeneratedCode</code></pre>
+            <pre class="vibe-text-xs vibe-font-mono vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-md vibe-p-2 vibe-overflow-x-auto"><code>@GeneratedCode</code></pre>
         </div>
     }
 </div>

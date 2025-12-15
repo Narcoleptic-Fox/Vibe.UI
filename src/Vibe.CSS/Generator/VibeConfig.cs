@@ -12,6 +12,12 @@ public class VibeConfig
     public string Prefix { get; set; } = "vibe";
 
     /// <summary>
+    /// When true, utilities can be generated without the configured <see cref="Prefix"/>.
+    /// This is useful for migration scenarios (e.g., adopting a prefix over time).
+    /// </summary>
+    public bool AllowUnprefixedUtilities { get; set; } = false;
+
+    /// <summary>
     /// Spacing scale values (used for margin, padding, gap)
     /// Maps to CSS variables: --vibe-spacing-{key}
     /// </summary>

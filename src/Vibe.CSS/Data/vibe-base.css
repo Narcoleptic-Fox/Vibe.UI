@@ -190,6 +190,7 @@
 
 /* Font smoothing for better text rendering */
 html {
+    color-scheme: light dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -198,6 +199,8 @@ html {
 body {
     font-family: var(--vibe-font);
     line-height: 1.5;
+    background-color: var(--vibe-background);
+    color: var(--vibe-foreground);
 }
 
 /* ========================================

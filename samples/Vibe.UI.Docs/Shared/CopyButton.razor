@@ -4,18 +4,18 @@
     @if (Copied)
     {
         <!-- Check icon with bounce animation -->
-        <svg class="w-4 h-4 text-green-500 copy-success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="vibe-w-4 vibe-h-4 vibe-text-green-500 copy-success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
         @if (ShowText)
         {
-            <span class="text-green-500">Copied!</span>
+            <span class="vibe-text-green-500">Copied!</span>
         }
     }
     else
     {
         <!-- Copy icon -->
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
         </svg>
         @if (ShowText)
@@ -67,13 +67,13 @@
     {
         get
         {
-            var baseClasses = "inline-flex items-center gap-1.5 transition-all duration-200 focus-ring";
+            var baseClasses = "vibe-inline-flex vibe-items-center vibe-gap-1.5 vibe-transition-all vibe-duration-200 focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-brand-teal";
 
             var variantClasses = Variant switch
             {
-                CopyButtonVariant.Ghost => "p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300",
-                CopyButtonVariant.Outline => "px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm",
-                _ => "px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300 text-sm font-medium"
+                CopyButtonVariant.Ghost => "vibe-p-1.5 vibe-rounded-md hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300",
+                CopyButtonVariant.Outline => "vibe-px-3 vibe-py-1.5 vibe-rounded-md vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-800 vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-text-sm",
+                _ => "vibe-px-3 vibe-py-1.5 vibe-rounded-md vibe-bg-zinc-100 dark:vibe-bg-zinc-800 hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-text-zinc-600 dark:vibe-text-zinc-300 vibe-text-sm vibe-font-medium"
             };
 
             return $"{baseClasses} {variantClasses} {Class}".Trim();

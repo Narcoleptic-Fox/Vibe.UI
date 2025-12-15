@@ -18,7 +18,7 @@ public static class VibeCss
     public static GenerationResult Generate(string projectDirectory, string outputPath, GenerationOptions? options = null)
     {
         options ??= new GenerationOptions();
-        return Generate(projectDirectory, outputPath, options.ScanPatterns, options.Prefix, options.IncludeBase);
+        return Generate(projectDirectory, outputPath, options.ScanPatterns, options.Prefix, options.IncludeBase, options.AllowUnprefixedUtilities);
     }
 
     /// <summary>
@@ -29,7 +29,8 @@ public static class VibeCss
     /// <param name="patterns">File patterns to scan</param>
     /// <param name="prefix">CSS class prefix</param>
     /// <param name="includeBase">Whether to include base CSS variables</param>
-    public static GenerationResult Generate(string projectDirectory, string outputPath, string[]? patterns, string prefix = "vibe", bool includeBase = true)
+    /// <param name="allowUnprefixedUtilities">When true, generate utilities without the prefix</param>
+    public static GenerationResult Generate(string projectDirectory, string outputPath, string[]? patterns, string prefix = "vibe", bool includeBase = true, bool allowUnprefixedUtilities = false)
     {
         patterns ??= ["*.razor", "*.cshtml", "*.html"];
 
@@ -37,7 +38,8 @@ public static class VibeCss
         {
             var config = new VibeConfig
             {
-                Prefix = prefix
+                Prefix = prefix,
+                AllowUnprefixedUtilities = allowUnprefixedUtilities
             };
 
             var emitter = new CssEmitter(config);
@@ -91,7 +93,8 @@ public static class VibeCss
 
         var config = new VibeConfig
         {
-            Prefix = options.Prefix
+            Prefix = options.Prefix,
+            AllowUnprefixedUtilities = options.AllowUnprefixedUtilities
         };
 
         var emitter = new CssEmitter(config);
@@ -142,6 +145,11 @@ public class GenerationOptions
     /// CSS class prefix (default: "vibe")
     /// </summary>
     public string Prefix { get; set; } = "vibe";
+
+    /// <summary>
+    /// When true, generate utilities for unprefixed class names too.
+    /// </summary>
+    public bool AllowUnprefixedUtilities { get; set; } = false;
 
     /// <summary>
     /// Whether to include vibe-base.css content

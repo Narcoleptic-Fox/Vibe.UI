@@ -3,34 +3,34 @@
 
 <PageTitle>Spinner - Vibe.UI</PageTitle>
 
-<div class="max-w-4xl">
+<div class="vibe-max-w-4xl">
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
-            <span class="text-zinc-900 dark:text-zinc-100">Spinner</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Spinner</span>
         </div>
-        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Spinner</h1>
-        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Spinner</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
             A loading indicator that displays a spinning animation to indicate processing or loading states.
         </p>
     </header>
 
     <!-- Preview -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
-        <div class="flex flex-col gap-8 items-center p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
-            <div class="flex gap-8 items-center">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <div class="vibe-flex vibe-flex-col vibe-gap-8 vibe-items-center vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+            <div class="vibe-flex vibe-gap-8 vibe-items-center">
                 <Spinner Size="Spinner.SpinnerSize.Small" />
                 <Spinner Size="Spinner.SpinnerSize.Default" />
                 <Spinner Size="Spinner.SpinnerSize.Medium" />
                 <Spinner Size="Spinner.SpinnerSize.Large" />
             </div>
 
-            <div class="flex flex-col gap-4 items-center">
+            <div class="vibe-flex vibe-flex-col vibe-gap-4 vibe-items-center">
                 <Spinner Label="Loading..." ShowLabel="true" />
                 <Spinner Label="Processing data..." ShowLabel="true" Size="Spinner.SpinnerSize.Large" />
             </div>
@@ -38,28 +38,28 @@
     </section>
 
     <!-- Examples Section -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
 
         <!-- Basic Spinner -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Basic Spinner</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Spinner</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 A simple loading spinner without any labels.
             </p>
-            <div class="flex items-center justify-center p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-flex vibe-items-center vibe-justify-center vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Spinner />
             </div>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
         <!-- Sizes -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sizes</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Sizes</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Spinners come in multiple sizes for different contexts.
             </p>
-            <div class="flex items-center justify-center gap-8 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-flex vibe-items-center vibe-justify-center vibe-gap-8 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Spinner Size="Spinner.SpinnerSize.Small" />
                 <Spinner Size="Spinner.SpinnerSize.Medium" />
                 <Spinner Size="Spinner.SpinnerSize.Large" />
@@ -68,12 +68,12 @@
         </div>
 
         <!-- Colors -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Colors</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Colors</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Use different color themes to match your design.
             </p>
-            <div class="flex items-center justify-center gap-8 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-flex vibe-items-center vibe-justify-center vibe-gap-8 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Spinner Color="primary" />
                 <Spinner Color="secondary" />
                 <Spinner Color="success" />
@@ -84,12 +84,12 @@
         </div>
 
         <!-- With Label -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Label</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Label</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Add a descriptive label to provide context for the loading state.
             </p>
-            <div class="flex flex-col items-center justify-center gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-flex vibe-flex-col vibe-items-center vibe-justify-center vibe-gap-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Spinner Label="Loading..." />
                 <Spinner Label="Processing" Size="Spinner.SpinnerSize.Large" />
                 <Spinner Label="Please wait" Color="primary" />
@@ -98,13 +98,13 @@
         </div>
 
         <!-- Page Overlay -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Page Overlay</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Page Overlay</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Display a full-page overlay spinner for blocking operations.
             </p>
-            <div class="p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
-                <div class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+            <div class="vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+                <div class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                     Note: This example shows the pattern. The overlay would cover the entire page in actual use.
                 </div>
             </div>
@@ -113,58 +113,58 @@
     </section>
 
     <!-- API Reference -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Size</td>
-                            <td class="py-3 px-4"><TypeBadge Type="SpinnerSize" /></td>
-                            <td class="py-3 px-4 text-zinc-500">Medium</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Size of the spinner (Small, Medium, Large)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Size</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="SpinnerSize" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Medium</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Size of the spinner (Small, Medium, Large)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Color</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">"primary"</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Color theme of the spinner</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Color</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"primary"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Color theme of the spinner</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Optional text label to display</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Label</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Optional text label to display</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Thickness</td>
-                            <td class="py-3 px-4"><TypeBadge Type="int" /></td>
-                            <td class="py-3 px-4 text-zinc-500">4</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Border thickness in pixels</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Thickness</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">4</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Border thickness in pixels</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Speed</td>
-                            <td class="py-3 px-4"><TypeBadge Type="SpinnerSpeed" /></td>
-                            <td class="py-3 px-4 text-zinc-500">Normal</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Rotation speed (Slow, Normal, Fast)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Speed</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="SpinnerSpeed" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Normal</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Rotation speed (Slow, Normal, Fast)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ShowOverlay</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Show backdrop overlay</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ShowOverlay</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show backdrop overlay</td>
                         </tr>
                     </tbody>
                 </table>
@@ -173,48 +173,48 @@
     </section>
 
     <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
-        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
             Install the Spinner component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add spinner" Language="bash" />
     </section>
 
     <!-- Accessibility -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
-        <div class="prose prose-zinc dark:prose-invert max-w-none">
-            <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <div class="docs-prose vibe-max-w-none">
+            <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">role="status"</code> for screen reader announcements
+                    Uses <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="status"</code> for screen reader announcements
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Includes <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-label</code> or <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-labelledby</code>
+                    Includes <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-label</code> or <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-labelledby</code>
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Uses <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">aria-live="polite"</code> for dynamic updates
+                    Uses <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-live="polite"</code> for dynamic updates
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Does not receive keyboard focus
                 </li>
-                <li class="flex items-start gap-2">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Respects <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">prefers-reduced-motion</code> for animations
+                    Respects <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">prefers-reduced-motion</code> for animations
                 </li>
             </ul>
         </div>
@@ -222,19 +222,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="/components/skeleton" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Skeleton</h4>
-                <p class="text-sm text-zinc-500">Loading placeholder component</p>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
+            <a href="/components/skeleton" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Skeleton</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Loading placeholder component</p>
             </a>
-            <a href="/components/progressbar" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">ProgressBar</h4>
-                <p class="text-sm text-zinc-500">Determinate progress indicator</p>
+            <a href="/components/progressbar" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">ProgressBar</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Determinate progress indicator</p>
             </a>
-            <a href="/components/button" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Button</h4>
-                <p class="text-sm text-zinc-500">Buttons with loading states</p>
+            <a href="/components/button" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Button</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Buttons with loading states</p>
             </a>
         </div>
     </section>

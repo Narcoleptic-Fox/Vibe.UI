@@ -4,6 +4,16 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Vibe.CSS (JIT utility CSS) for docs site styling -->
+    <VibeCssEnabled Condition="'$(VibeCssEnabled)' == ''">true</VibeCssEnabled>
+    <VibeCssPrefix Condition="'$(VibeCssPrefix)' == ''">vibe</VibeCssPrefix>
+    <VibeCssAllowUnprefixed Condition="'$(VibeCssAllowUnprefixed)' == ''">true</VibeCssAllowUnprefixed>
+    <VibeCssScanRoot Condition="'$(VibeCssScanRoot)' == ''">$(MSBuildProjectDirectory)</VibeCssScanRoot>
+    <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\vibe.css</VibeCssOutput>
+
+    <!-- MSBuild doesn't always populate $(DotNetExe) depending on invocation context -->
+    <DotNetExe Condition="'$(DotNetExe)' == ''">dotnet</DotNetExe>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +25,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Vibe.UI\Vibe.UI.csproj" />
   </ItemGroup>
+
+  <Target Name="GenerateVibeCss"
+          BeforeTargets="BeforeBuild"
+          Condition="'$(VibeCssEnabled)' == 'true'">
+    <Message Importance="high" Text="Vibe.CSS: Generating docs CSS -> $(VibeCssOutput)" />
+    <Exec UseCommandProcessor="false"
+          Command="$(DotNetExe) run --project &quot;$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj&quot; -- generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base true --patterns &quot;*.razor,*.cshtml,*.html,*.cs&quot;" />
+  </Target>
 
 </Project>

@@ -41,6 +41,7 @@ static int PrintUsage()
     Console.WriteLine("Generate Options:");
     Console.WriteLine("  -o, --output <file>     Output CSS file path (default: vibe.css)");
     Console.WriteLine("  --prefix <prefix>       CSS class prefix (default: vibe)");
+    Console.WriteLine("  --allow-unprefixed [true|false] Generate unprefixed utilities too (default: false)");
     Console.WriteLine("  --with-base [true|false] Include base CSS variables (default: true)");
     Console.WriteLine("  --patterns <patterns>   Comma-separated file patterns to scan");
     Console.WriteLine("                          (default: *.razor,*.cshtml,*.html)");
@@ -136,6 +137,7 @@ static int RunGenerate(string[] args)
     var directory = Directory.GetCurrentDirectory();
     var output = "vibe.css";
     var prefix = "vibe";
+    var allowUnprefixed = false;
     var includeBase = true;
     var patterns = new[] { "*.razor", "*.cshtml", "*.html" };
 
@@ -162,6 +164,17 @@ static int RunGenerate(string[] args)
                 if (i + 1 < args.Length)
                     prefix = args[++i];
                 break;
+            case "--allow-unprefixed":
+                if (i + 1 < args.Length)
+                {
+                    var value = args[++i].ToLowerInvariant();
+                    allowUnprefixed = value == "true" || value == "1" || value == "yes";
+                }
+                else
+                {
+                    allowUnprefixed = true;
+                }
+                break;
             case "--with-base":
                 if (i + 1 < args.Length)
                 {
@@ -185,10 +198,19 @@ static int RunGenerate(string[] args)
     Console.WriteLine($"Vibe.CSS: Generating CSS for: {directory}");
     Console.WriteLine($"  Output: {output}");
     Console.WriteLine($"  Prefix: {prefix}");
+    Console.WriteLine($"  Allow unprefixed: {allowUnprefixed}");
     Console.WriteLine($"  Include base: {includeBase}");
     Console.WriteLine($"  Patterns: {string.Join(", ", patterns)}");
 
-    var result = VibeCss.Generate(directory, output, patterns, prefix, includeBase);
+    var options = new GenerationOptions
+    {
+        Prefix = prefix,
+        IncludeBase = includeBase,
+        ScanPatterns = patterns,
+        AllowUnprefixedUtilities = allowUnprefixed
+    };
+
+    var result = VibeCss.Generate(directory, output, options);
 
     if (!result.Success)
     {

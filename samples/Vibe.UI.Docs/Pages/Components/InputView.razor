@@ -2,27 +2,27 @@
 
 <PageTitle>Input - Vibe.UI</PageTitle>
 
-<div class="max-w-4xl">
+<div class="vibe-max-w-4xl">
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-            <a href="/" class="hover:text-zinc-700 dark:hover:text-zinc-300">Docs</a>
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:text-zinc-700 dark:hover:text-zinc-300">Components</a>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
-            <span class="text-zinc-900 dark:text-zinc-100">Input</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Input</span>
         </div>
-        <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Input</h1>
-        <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Input</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
             A text input field for user text entry with multiple variants and features.
         </p>
     </header>
 
     <!-- Preview -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Preview</h2>
-        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 space-y-6">
-            <div class="space-y-3">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 vibe-space-y-6">
+            <div class="vibe-space-y-3">
                 <Input Label="Username" Placeholder="Enter your username" Variant="InputVariant.Outlined" />
                 <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="InputVariant.Outlined" HelperText="We'll never share your email" />
                 <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Size="ComponentSize.Small" Variant="InputVariant.Outlined" />
@@ -31,30 +31,30 @@
     </section>
 
     <!-- Examples Section -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Examples</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
 
         <!-- Variants -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Variants</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Variants</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Choose from three visual styles: text (underline only), filled (muted background), or outlined (full border).
             </p>
-            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Input Label="Text Variant" Placeholder="Underline only" Variant="InputVariant.Text" />
                 <Input Label="Filled Variant" Placeholder="Muted background" Variant="InputVariant.Filled" />
-                <Input Label="Outlined Variant" Placeholder="Full border" Variant="InputVariant.Outlined" />
+                <Input Label="Outlined Variant" Placeholder="Full vibe-border" Variant="InputVariant.Outlined" />
             </div>
             <CodeBlock Code="@VariantsCode" Language="razor" />
         </div>
 
         <!-- Input Types -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Input Types</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Input Types</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Support for all standard HTML input types for different data formats.
             </p>
-            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Input Label="Text" Type="text" Placeholder="Text input" Variant="InputVariant.Outlined" />
                 <Input Label="Email" Type="email" Placeholder="Email input" Variant="InputVariant.Outlined" />
                 <Input Label="Password" Type="password" Placeholder="Password" Variant="InputVariant.Outlined" />
@@ -64,12 +64,12 @@
         </div>
 
         <!-- Sizes -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Sizes</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Sizes</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Available in three sizes to fit different layouts and use cases.
             </p>
-            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Input Label="Small" Size="ComponentSize.Small" Placeholder="Small input" Variant="InputVariant.Outlined" />
                 <Input Label="Medium" Size="ComponentSize.Medium" Placeholder="Medium input" Variant="InputVariant.Outlined" />
                 <Input Label="Large" Size="ComponentSize.Large" Placeholder="Large input" Variant="InputVariant.Outlined" />
@@ -78,12 +78,12 @@
         </div>
 
         <!-- With Icons -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">With Icons</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Icons</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Add leading or trailing icons to provide visual context for the input field.
             </p>
-            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Variant="InputVariant.Outlined" />
                 <Input Label="Password" Type="password" Placeholder="Password" LeadingIcon="🔒" Variant="InputVariant.Filled" />
                 <Input Label="Email" Placeholder="you@example.com" TrailingIcon="✉️" Variant="InputVariant.Text" />
@@ -92,12 +92,12 @@
         </div>
 
         <!-- Validation States -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Validation States</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Validation States</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Display helper text or error messages to guide user input.
             </p>
-            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Input Label="Email" Type="email" Variant="InputVariant.Outlined" HelperText="Enter a valid email address" />
                 <Input Label="Username" ErrorMessage="Username is required" Variant="InputVariant.Outlined" />
             </div>
@@ -105,12 +105,12 @@
         </div>
 
         <!-- Disabled and ReadOnly -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-3">Disabled and ReadOnly</h3>
-            <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Disabled and ReadOnly</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
                 Prevent user interaction with disabled state or allow reading with readonly state.
             </p>
-            <div class="space-y-3 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700 mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
                 <Input Label="Disabled" Placeholder="Disabled input" Disabled="true" Variant="InputVariant.Outlined" />
                 <Input Label="Read-only" Value="Read-only value" ReadOnly="true" Variant="InputVariant.Filled" />
             </div>
@@ -119,100 +119,100 @@
     </section>
 
     <!-- API Reference -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">API Reference</h2>
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Properties</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Default</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Value</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">The input value</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Value</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">The input value</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Type</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">"text"</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">HTML input type (text, email, password, number, etc.)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"text"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">HTML input type (text, email, password, number, etc.)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Placeholder</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Placeholder text</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Placeholder</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Placeholder text</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Label</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Label text</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Label</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Label text</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Variant</td>
-                            <td class="py-3 px-4"><TypeBadge Type="InputVariant" /></td>
-                            <td class="py-3 px-4 text-zinc-500">Outlined</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Visual style variant</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Variant</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="InputVariant" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Outlined</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Visual style variant</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Size</td>
-                            <td class="py-3 px-4"><TypeBadge Type="ComponentSize" /></td>
-                            <td class="py-3 px-4 text-zinc-500">Medium</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Size of the input</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Size</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="ComponentSize" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Medium</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Size of the input</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Disabled</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the input is disabled</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the input is disabled</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ReadOnly</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the input is read-only</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ReadOnly</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the input is read-only</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">Required</td>
-                            <td class="py-3 px-4"><TypeBadge Type="bool" /></td>
-                            <td class="py-3 px-4 text-zinc-500">false</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Whether the input is required</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Required</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the input is required</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ErrorMessage</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Error message to display</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ErrorMessage</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Error message to display</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">HelperText</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Helper text to guide the user</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">HelperText</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Helper text to guide the user</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">LeadingIcon</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Icon displayed at the start</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">LeadingIcon</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Icon displayed at the start</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">TrailingIcon</td>
-                            <td class="py-3 px-4"><TypeBadge Type="string" /></td>
-                            <td class="py-3 px-4 text-zinc-500">null</td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Icon displayed at the end</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">TrailingIcon</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Icon displayed at the end</td>
                         </tr>
                     </tbody>
                 </table>
@@ -220,37 +220,37 @@
         </div>
 
         <!-- Events -->
-        <div class="mb-8">
-            <h3 class="text-lg font-medium text-zinc-800 dark:text-zinc-200 mb-4">Events</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="border-b border-zinc-200 dark:border-zinc-700">
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Name</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Type</th>
-                            <th class="text-left py-3 px-4 font-medium text-zinc-900 dark:text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">ValueChanged</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<string>" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when value changes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ValueChanged</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when value changes</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnInput</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<ChangeEventArgs>" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Native input event callback</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnInput</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<ChangeEventArgs>" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Native input event callback</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnFocus</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<FocusEventArgs>" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when input receives focus</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnFocus</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<FocusEventArgs>" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when input receives focus</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-mono text-sm text-zinc-900 dark:text-zinc-100">OnBlur</td>
-                            <td class="py-3 px-4"><TypeBadge Type="EventCallback<FocusEventArgs>" /></td>
-                            <td class="py-3 px-4 text-zinc-600 dark:text-zinc-400">Callback when input loses focus</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnBlur</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<FocusEventArgs>" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when input loses focus</td>
                         </tr>
                     </tbody>
                 </table>
@@ -259,38 +259,38 @@
     </section>
 
     <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
-        <p class="text-zinc-600 dark:text-zinc-400 mb-4">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
             Install the Input component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add input" Language="bash" />
     </section>
 
     <!-- Accessibility -->
-    <section class="mb-12">
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Accessibility</h2>
-        <ul class="space-y-2 text-zinc-600 dark:text-zinc-400">
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Uses semantic <code class="text-sm bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">&lt;input&gt;</code> element
+                Uses semantic <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;input&gt;</code> element
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Label properly associated with input for screen readers
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 ARIA attributes for error states and validation
             </li>
-            <li class="flex items-start gap-2">
-                <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <li class="vibe-flex vibe-items-start vibe-gap-2">
+                <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
                 Keyboard accessible with focus visible styles
@@ -300,33 +300,26 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Related</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="/components/textarea" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Textarea</h4>
-                <p class="text-sm text-zinc-500">Multi-line text input</p>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
+            <a href="/components/textarea" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Textarea</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Multi-line text input</p>
             </a>
-            <a href="/components/select" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Select</h4>
-                <p class="text-sm text-zinc-500">Dropdown selection</p>
+            <a href="/components/select" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Select</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Dropdown selection</p>
             </a>
-            <a href="/components/form" class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal transition-colors">
-                <h4 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal">Form</h4>
-                <p class="text-sm text-zinc-500">Form validation and submission</p>
+            <a href="/components/form" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Form</h4>
+                <p class="vibe-text-sm vibe-text-zinc-500">Form validation and submission</p>
             </a>
         </div>
     </section>
 </div>
 
 @code {
-    private string VariantsCode => @"<!-- Text variant: Bottom border only -->
-<Input Label=""Username"" Placeholder=""Enter your username"" Variant=""InputVariant.Text"" />
-
-<!-- Filled variant: Muted background with rounded top corners -->
-<Input Label=""Email"" Placeholder=""you@example.com"" Variant=""InputVariant.Filled"" />
-
-<!-- Outlined variant: Full border (default) -->
-<Input Label=""Password"" Placeholder=""Enter password"" Variant=""InputVariant.Outlined"" />";
+    private string VariantsCode => @"<!-- Text variant: Bottom vibe-border only --> <Input Label=""Username"" Placeholder=""Enter your username"" Variant=""InputVariant.Text""/> <!-- Filled variant: Muted background with vibe-rounded top corners --> <Input Label=""Email"" Placeholder=""you@example.com"" Variant=""InputVariant.Filled""/> <!-- Outlined variant: Full vibe-border (default) --> <Input Label=""Password"" Placeholder=""Enter password"" Variant=""InputVariant.Outlined"" />";
 
     private string TypesCode => @"<Input Label=""Text"" Type=""text"" Placeholder=""Text input"" Variant=""InputVariant.Outlined"" />
 <Input Label=""Email"" Type=""email"" Placeholder=""Email input"" Variant=""InputVariant.Outlined"" />

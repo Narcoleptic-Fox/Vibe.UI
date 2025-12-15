@@ -9,11 +9,13 @@ public partial class UtilityGenerator
 {
     private readonly VibeConfig _config;
     private readonly string _prefix;
+    private readonly bool _allowUnprefixed;
 
     public UtilityGenerator(VibeConfig? config = null)
     {
         _config = config ?? new VibeConfig();
         _prefix = _config.Prefix;
+        _allowUnprefixed = _config.AllowUnprefixedUtilities;
     }
 
     /// <summary>
@@ -24,77 +26,107 @@ public partial class UtilityGenerator
     {
         // Check for variants FIRST (they come before the prefix)
         // e.g., "hover:vibe-bg-primary" or "sm:vibe-flex"
-        var (variant, afterVariant) = ExtractVariant(className);
+        var (variants, afterVariants) = ExtractVariants(className);
 
         // Now work with the part after the variant
-        var name = afterVariant;
+        var name = afterVariants;
 
         // Strip prefix if present
         if (name.StartsWith($"{_prefix}-"))
         {
             name = name[(_prefix.Length + 1)..];
         }
-        else if (!string.IsNullOrEmpty(_prefix))
+        else if (!string.IsNullOrEmpty(_prefix) && !_allowUnprefixed)
         {
             // Class doesn't match our prefix
             return null;
         }
 
         // Try to generate the base rule
-        var rule = GenerateBaseRule(name, className);
-
-        if (rule == null)
+        if (GenerateBaseRule(name, className) is not { } rule)
             return null;
 
         // Apply variant if present
-        if (variant != null)
+        if (variants.Count > 0)
         {
-            rule = ApplyVariant(rule, variant, className);
+            // Apply right-to-left so the leftmost variant acts as the outermost wrapper.
+            for (var i = variants.Count - 1; i >= 0; i--)
+            {
+                rule = ApplyVariant(rule, variants[i]);
+            }
         }
 
         return rule;
     }
 
-    private (string? Variant, string BaseName) ExtractVariant(string name)
+    private (List<string> Variants, string BaseName) ExtractVariants(string name)
     {
-        // Check for state variants: hover:, focus:, active:, etc.
-        var stateVariants = new[] { "hover", "focus", "active", "disabled", "visited", "focus-visible", "focus-within", "first", "last", "odd", "even" };
-        foreach (var v in stateVariants)
+        var variants = new List<string>();
+
+        while (true)
         {
-            if (name.StartsWith($"{v}:"))
+            var idx = name.IndexOf(':');
+            if (idx <= 0)
+                break;
+
+            var candidate = name[..idx];
+
+            // Check for dark mode
+            if (candidate == "dark")
             {
-                return (v, name[(v.Length + 1)..]);
+                variants.Add(candidate);
+                name = name[(idx + 1)..];
+                continue;
             }
-        }
 
-        // Check for responsive variants: sm:, md:, lg:, xl:, 2xl:
-        foreach (var bp in _config.Breakpoints.Keys)
-        {
-            if (name.StartsWith($"{bp}:"))
+            // Check for responsive variants: sm:, md:, lg:, xl:, 2xl:
+            if (_config.Breakpoints.ContainsKey(candidate))
             {
-                return ($"@{bp}", name[(bp.Length + 1)..]);
+                variants.Add(candidate);
+                name = name[(idx + 1)..];
+                continue;
             }
+
+            // Check for state/structural/group variants: hover:, focus:, active:, etc.
+            var stateVariants = new[]
+            {
+                "hover", "focus", "active", "disabled", "visited", "focus-visible", "focus-within",
+                "first", "last", "odd", "even",
+                "group-hover", "group-focus", "group-focus-within",
+                "placeholder"
+            };
+
+            if (stateVariants.Contains(candidate))
+            {
+                variants.Add(candidate);
+                name = name[(idx + 1)..];
+                continue;
+            }
+
+            break;
         }
 
-        // Check for dark mode
-        if (name.StartsWith("dark:"))
-        {
-            return ("dark", name[5..]);
-        }
-
-        return (null, name);
+        return (variants, name);
     }
 
-    private CssRule? ApplyVariant(CssRule rule, string variant, string fullClassName)
+    private CssRule ApplyVariant(CssRule rule, string variant)
     {
-        var selector = $".{EscapeSelector(fullClassName)}";
+        // Placeholder pseudo-element
+        if (variant is "placeholder")
+        {
+            return rule with
+            {
+                Selector = $"{rule.Selector}::placeholder",
+                Order = rule.Order + CssOrder.StateVariants
+            };
+        }
 
         // State variants (pseudo-classes)
         if (variant is "hover" or "focus" or "active" or "disabled" or "visited" or "focus-visible" or "focus-within")
         {
             return rule with
             {
-                Selector = $"{selector}:{variant}",
+                Selector = $"{rule.Selector}:{variant}",
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -104,7 +136,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{selector}:first-child",
+                Selector = $"{rule.Selector}:first-child",
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -113,7 +145,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{selector}:last-child",
+                Selector = $"{rule.Selector}:last-child",
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -122,7 +154,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{selector}:nth-child(odd)",
+                Selector = $"{rule.Selector}:nth-child(odd)",
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -131,7 +163,35 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{selector}:nth-child(even)",
+                Selector = $"{rule.Selector}:nth-child(even)",
+                Order = rule.Order + CssOrder.StateVariants
+            };
+        }
+
+        // Group variants
+        if (variant is "group-hover")
+        {
+            return rule with
+            {
+                Selector = $".group:hover {rule.Selector}",
+                Order = rule.Order + CssOrder.StateVariants
+            };
+        }
+
+        if (variant is "group-focus")
+        {
+            return rule with
+            {
+                Selector = $".group:focus {rule.Selector}",
+                Order = rule.Order + CssOrder.StateVariants
+            };
+        }
+
+        if (variant is "group-focus-within")
+        {
+            return rule with
+            {
+                Selector = $".group:focus-within {rule.Selector}",
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -141,17 +201,17 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $".dark {selector}",
+                Selector = $".dark {rule.Selector}",
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
 
         // Responsive variants
-        if (variant.StartsWith("@") && _config.Breakpoints.TryGetValue(variant[1..], out var minWidth))
+        if (_config.Breakpoints.TryGetValue(variant, out var minWidth))
         {
             return rule with
             {
-                Selector = selector,
+                Selector = rule.Selector,
                 MediaQuery = $"@media (min-width: {minWidth})",
                 Order = rule.Order + CssOrder.ResponsiveVariants
             };
@@ -1133,6 +1193,21 @@ public partial class UtilityGenerator
             };
         }
 
+        // Line clamp (e.g., line-clamp-2)
+        if (name.StartsWith("line-clamp-"))
+        {
+            var value = name[11..];
+            if (int.TryParse(value, out var lines) && lines > 0)
+            {
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: {lines}; overflow: hidden;",
+                    Order = CssOrder.Typography
+                };
+            }
+        }
+
         // Whitespace
         if (name.StartsWith("whitespace-"))
         {
@@ -1314,9 +1389,17 @@ public partial class UtilityGenerator
             }
         }
 
-        // Check special colors first
+        // Check special colors first (inherit/current/transparent/black/white)
         if (VibeColors.TryGetSpecial(colorPart, out var special))
         {
+            // Apply opacity only when the special resolves to a hex color (e.g., white/black).
+            // For keywords like "transparent" / "inherit" / "currentColor", keep the keyword.
+            if (opacity != "1" && special.StartsWith('#'))
+            {
+                value = HexToRgba(special, opacity);
+                return true;
+            }
+
             value = special;
             return true;
         }
@@ -1387,6 +1470,16 @@ public partial class UtilityGenerator
             {
                 Selector = selector,
                 Declarations = "border-width: 1px;",
+                Order = CssOrder.Border
+            };
+        }
+
+        if (name == "border-none")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = "border-style: none;",
                 Order = CssOrder.Border
             };
         }
@@ -1565,25 +1658,71 @@ public partial class UtilityGenerator
 
     private CssRule? TryGenerateDivide(string name, string selector)
     {
-        // divide-x, divide-y
-        if (name == "divide-x")
+        // divide-x, divide-x-2, divide-x-0, etc.
+        if (name == "divide-x" || name.StartsWith("divide-x-"))
         {
+            var width = "1px";
+            if (name.StartsWith("divide-x-"))
+            {
+                var val = name["divide-x-".Length..];
+                width = val switch
+                {
+                    "0" => "0px",
+                    "2" => "2px",
+                    "4" => "4px",
+                    "8" => "8px",
+                    _ => width
+                };
+            }
+
             return new CssRule
             {
                 Selector = $"{selector} > :not([hidden]) ~ :not([hidden])",
-                Declarations = "border-right-width: 0px; border-left-width: 1px;",
+                Declarations =
+                    $"border-left-width: {width}; border-right-width: 0px; border-style: solid; border-color: var(--vibe-divide-color, currentColor);",
                 Order = CssOrder.Border
             };
         }
 
-        if (name == "divide-y")
+        // divide-y, divide-y-2, divide-y-0, etc.
+        if (name == "divide-y" || name.StartsWith("divide-y-"))
         {
+            var width = "1px";
+            if (name.StartsWith("divide-y-"))
+            {
+                var val = name["divide-y-".Length..];
+                width = val switch
+                {
+                    "0" => "0px",
+                    "2" => "2px",
+                    "4" => "4px",
+                    "8" => "8px",
+                    _ => width
+                };
+            }
+
             return new CssRule
             {
                 Selector = $"{selector} > :not([hidden]) ~ :not([hidden])",
-                Declarations = "border-top-width: 1px; border-bottom-width: 0px;",
+                Declarations =
+                    $"border-top-width: {width}; border-bottom-width: 0px; border-style: solid; border-color: var(--vibe-divide-color, currentColor);",
                 Order = CssOrder.Border
             };
+        }
+
+        // divide-{color}
+        if (name.StartsWith("divide-"))
+        {
+            var colorKey = name["divide-".Length..];
+            if (TryParseColor(colorKey, out var color))
+            {
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"--vibe-divide-color: {color};",
+                    Order = CssOrder.Border
+                };
+            }
         }
 
         return null;
@@ -1642,6 +1781,53 @@ public partial class UtilityGenerator
 
     private CssRule? TryGenerateEffects(string name, string selector)
     {
+        // Background clip
+        if (name == "bg-clip-text")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = "-webkit-background-clip: text; background-clip: text;",
+                Order = CssOrder.Background
+            };
+        }
+
+        // Transforms: translate / rotate / scale
+        // Uses Tailwind-style CSS variables so multiple transform utilities can compose.
+        if (TryGenerateTransform(name, selector) is { } transformRule)
+        {
+            return transformRule;
+        }
+
+        // Gradients: bg-gradient-to-*, from-*, via-*, to-*
+        if (TryGenerateGradient(name, selector) is { } gradientRule)
+        {
+            return gradientRule;
+        }
+
+        // Backdrop blur (backdrop-filter)
+        var backdropBlurs = new Dictionary<string, string>
+        {
+            ["backdrop-blur-none"] = "0",
+            ["backdrop-blur-sm"] = "4px",
+            ["backdrop-blur"] = "8px",
+            ["backdrop-blur-md"] = "12px",
+            ["backdrop-blur-lg"] = "16px",
+            ["backdrop-blur-xl"] = "24px",
+            ["backdrop-blur-2xl"] = "40px",
+            ["backdrop-blur-3xl"] = "64px"
+        };
+
+        if (backdropBlurs.TryGetValue(name, out var blurPx))
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = $"-webkit-backdrop-filter: blur({blurPx}); backdrop-filter: blur({blurPx});",
+                Order = CssOrder.Effects
+            };
+        }
+
         // Box shadow
         var shadows = new Dictionary<string, string>
         {
@@ -1759,6 +1945,181 @@ public partial class UtilityGenerator
         return null;
     }
 
+    private CssRule? TryGenerateTransform(string name, string selector)
+    {
+        // translate-x-{value}, translate-y-{value}, -translate-x-{value}, -translate-y-{value}
+        if (name.StartsWith("translate-") || name.StartsWith("-translate-"))
+        {
+            var isNegative = name.StartsWith("-");
+            var baseName = isNegative ? name[1..] : name;
+
+            var axis = baseName.StartsWith("translate-x-") ? "x"
+                : baseName.StartsWith("translate-y-") ? "y"
+                : null;
+
+            if (axis != null)
+            {
+                var valueKey = baseName[(axis == "x" ? "translate-x-".Length : "translate-y-".Length)..];
+                if (TryGetTranslateValue(valueKey, out var translateValue))
+                {
+                    if (isNegative)
+                    {
+                        translateValue = translateValue.StartsWith('-') ? translateValue[1..] : $"-{translateValue}";
+                    }
+
+                    var varName = axis == "x" ? "--tw-translate-x" : "--tw-translate-y";
+                    return new CssRule
+                    {
+                        Selector = selector,
+                        Declarations = $"{varName}: {translateValue}; {TransformComposeDeclaration()}",
+                        Order = CssOrder.Effects
+                    };
+                }
+            }
+        }
+
+        // rotate-{deg}, -rotate-{deg}
+        if (name.StartsWith("rotate-") || name.StartsWith("-rotate-"))
+        {
+            var isNegative = name.StartsWith("-");
+            var baseName = isNegative ? name[1..] : name;
+            var degKey = baseName[7..];
+
+            if (int.TryParse(degKey, out var deg))
+            {
+                var value = $"{(isNegative ? "-" : "")}{deg}deg";
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"--tw-rotate: {value}; {TransformComposeDeclaration()}",
+                    Order = CssOrder.Effects
+                };
+            }
+        }
+
+        // scale-{percent} (e.g., scale-110 => 1.1)
+        if (name.StartsWith("scale-"))
+        {
+            var scaleKey = name[6..];
+            if (int.TryParse(scaleKey, out var pct))
+            {
+                var value = (pct / 100.0).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"--tw-scale-x: {value}; --tw-scale-y: {value}; {TransformComposeDeclaration()}",
+                    Order = CssOrder.Effects
+                };
+            }
+        }
+
+        return null;
+    }
+
+    private bool TryGetTranslateValue(string key, out string value)
+    {
+        value = string.Empty;
+
+        if (key == "full")
+        {
+            value = "100%";
+            return true;
+        }
+
+        if (_config.SizingScale.TryGetValue(key, out var sizing) && sizing.EndsWith('%'))
+        {
+            value = sizing;
+            return true;
+        }
+
+        if (_config.SpacingScale.TryGetValue(key, out var spacing))
+        {
+            value = spacing;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static string TransformComposeDeclaration()
+    {
+        // Compose with fallbacks so independent utilities can be combined.
+        return "transform: translate(var(--tw-translate-x, 0), var(--tw-translate-y, 0)) rotate(var(--tw-rotate, 0)) scaleX(var(--tw-scale-x, 1)) scaleY(var(--tw-scale-y, 1));";
+    }
+
+    private CssRule? TryGenerateGradient(string name, string selector)
+    {
+        // Directional gradient class
+        if (name.StartsWith("bg-gradient-to-"))
+        {
+            var dir = name[15..];
+            var direction = dir switch
+            {
+                "t" => "top",
+                "tr" => "top right",
+                "r" => "right",
+                "br" => "bottom right",
+                "b" => "bottom",
+                "bl" => "bottom left",
+                "l" => "left",
+                "tl" => "top left",
+                _ => string.Empty
+            };
+
+            if (!string.IsNullOrEmpty(direction))
+            {
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"background-image: linear-gradient(to {direction}, var(--tw-gradient-stops));",
+                    Order = CssOrder.Background
+                };
+            }
+        }
+
+        // Gradient stops
+        if (name.StartsWith("from-"))
+        {
+            if (TryParseColor(name[5..], out var color))
+            {
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"--tw-gradient-from: {color}; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0));",
+                    Order = CssOrder.Background
+                };
+            }
+        }
+
+        if (name.StartsWith("via-"))
+        {
+            if (TryParseColor(name[4..], out var color))
+            {
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"--tw-gradient-stops: var(--tw-gradient-from), {color}, var(--tw-gradient-to, rgb(255 255 255 / 0));",
+                    Order = CssOrder.Background
+                };
+            }
+        }
+
+        if (name.StartsWith("to-"))
+        {
+            if (TryParseColor(name[3..], out var color))
+            {
+                return new CssRule
+                {
+                    Selector = selector,
+                    Declarations = $"--tw-gradient-to: {color};",
+                    Order = CssOrder.Background
+                };
+            }
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region Layout Utilities
@@ -1786,6 +2147,9 @@ public partial class UtilityGenerator
         }
 
         // Inset utilities (top, right, bottom, left)
+        var isNegativeInset = name.StartsWith("-");
+        var insetName = isNegativeInset ? name[1..] : name;
+
         var insetPrefixes = new Dictionary<string, string>
         {
             ["inset-"] = "inset",
@@ -1799,11 +2163,16 @@ public partial class UtilityGenerator
 
         foreach (var (prefix, props) in insetPrefixes)
         {
-            if (name.StartsWith(prefix))
+            if (insetName.StartsWith(prefix))
             {
-                var value = name[prefix.Length..];
+                var value = insetName[prefix.Length..];
                 if (TryGetInsetValue(value, out var insetValue))
                 {
+                    if (isNegativeInset && insetValue != "auto" && !insetValue.StartsWith('-'))
+                    {
+                        insetValue = $"-{insetValue}";
+                    }
+
                     var declarations = string.Join(" ", props.Split('|').Select(p => $"{p}: {insetValue};"));
                     return new CssRule
                     {
@@ -1965,6 +2334,38 @@ public partial class UtilityGenerator
 
     private CssRule? TryGenerateInteractivity(string name, string selector)
     {
+        // Outline
+        if (name == "outline-none")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = "outline: none;",
+                Order = CssOrder.Interactivity
+            };
+        }
+
+        // Appearance
+        if (name == "appearance-none")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = "-webkit-appearance: none; appearance: none;",
+                Order = CssOrder.Interactivity
+            };
+        }
+
+        if (name == "appearance-auto")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = "-webkit-appearance: auto; appearance: auto;",
+                Order = CssOrder.Interactivity
+            };
+        }
+
         // Cursor
         var cursors = new Dictionary<string, string>
         {

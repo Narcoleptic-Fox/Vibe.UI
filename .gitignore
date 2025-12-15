@@ -118,6 +118,9 @@ ipch/
 *.VC.db
 *.VC.VC.opendb
 
+# Vibe.CSS generated output (docs site)
+samples/Vibe.UI.Docs/wwwroot/css/vibe.css
+
 # Visual Studio profiler
 *.psess
 *.vsp

@@ -330,7 +330,12 @@ public static class VibeColors
         ["current"] = "currentColor",
         ["transparent"] = "transparent",
         ["black"] = "#000000",
-        ["white"] = "#ffffff"
+        ["white"] = "#ffffff",
+
+        // Vibe.UI brand colors (used by docs / templates)
+        ["brand-teal"] = "#065465",
+        ["brand-lilac"] = "#AA98A9",
+        ["brand-silver"] = "#838996"
     };
 
     /// <summary>

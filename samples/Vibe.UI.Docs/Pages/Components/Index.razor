@@ -2,52 +2,52 @@
 
 <PageTitle>Components - Vibe.UI</PageTitle>
 
-<div class="max-w-6xl">
+<div class="vibe-max-w-6xl">
     <!-- Header -->
-    <header class="mb-12">
-        <h1 class="text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Components</h1>
-        <p class="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl">
-            Beautifully designed components built with Blazor and Tailwind CSS.
+    <header class="vibe-mb-12">
+        <h1 class="vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Components</h1>
+        <p class="vibe-text-xl vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-max-w-3xl">
+            Beautifully designed components built with Blazor and Vibe.CSS utilities.
             Copy and paste into your apps. Open source.
         </p>
     </header>
 
     <!-- Search -->
-    <div class="mb-8">
-        <div class="relative max-w-md">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="vibe-mb-8">
+        <div class="vibe-relative vibe-max-w-md">
+            <svg class="vibe-absolute vibe-left-3 vibe-top-1/2 vibe--translate-y-1/2 vibe-w-5 vibe-h-5 vibe-text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
             <input type="text"
                    placeholder="Search components..."
                    @bind="searchQuery"
                    @bind:event="oninput"
-                   class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-teal focus:border-transparent" />
+                   class="vibe-w-full vibe-pl-10 vibe-pr-4 vibe-py-2.5 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-bg-white dark:vibe-bg-zinc-800 vibe-text-zinc-900 dark:vibe-text-zinc-100 placeholder:vibe-text-zinc-400 focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-brand-teal focus:vibe-border-transparent" />
         </div>
     </div>
 
     <!-- Component Categories -->
     @foreach (var category in FilteredCategories)
     {
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-2">@category.Name</h2>
-            <p class="text-zinc-500 mb-6">@category.Description</p>
+        <section class="vibe-mb-12">
+            <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-2">@category.Name</h2>
+            <p class="vibe-text-zinc-500 vibe-mb-6">@category.Description</p>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-2 lg:vibe-grid-cols-3 vibe-gap-4">
                 @foreach (var component in category.Components.Where(c => MatchesSearch(c)))
                 {
                     <a href="/components/@component.Slug"
-                       class="group p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-brand-teal dark:hover:border-brand-teal bg-white dark:bg-zinc-800/50 transition-all hover:shadow-md">
-                        <div class="flex items-start justify-between mb-2">
-                            <h3 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-brand-teal transition-colors">
+                       class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-bg-zinc-50 hover:vibe-bg-white dark:vibe-bg-zinc-800/50 dark:hover:vibe-bg-zinc-800/70 vibe-transition-all hover:vibe-shadow-md">
+                        <div class="vibe-flex vibe-items-start vibe-justify-between vibe-mb-2">
+                            <h3 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal vibe-transition-colors">
                                 @component.Name
                             </h3>
                             @if (component.IsNew)
                             {
-                                <Badge Variant="default" class="text-xs">New</Badge>
+                                <Badge Variant="default" class="vibe-text-xs">New</Badge>
                             }
                         </div>
-                        <p class="text-sm text-zinc-500 line-clamp-2">@component.Description</p>
+                        <p class="vibe-text-sm vibe-text-zinc-500 vibe-line-clamp-2">@component.Description</p>
                     </a>
                 }
             </div>
@@ -56,12 +56,12 @@
 
     @if (!FilteredCategories.Any())
     {
-        <div class="text-center py-12">
-            <svg class="w-16 h-16 mx-auto text-zinc-300 dark:text-zinc-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="vibe-text-center vibe-py-12">
+            <svg class="vibe-w-16 vibe-h-16 vibe-mx-auto vibe-text-zinc-300 dark:vibe-text-zinc-600 vibe-mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100 mb-2">No components found</h3>
-            <p class="text-zinc-500">Try adjusting your search query</p>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-2">No components found</h3>
+            <p class="vibe-text-zinc-500">Try adjusting your search query</p>
         </div>
     }
 </div>
@@ -91,7 +91,7 @@
                 new("Card", "card", "Container for grouping related content"),
                 new("Container", "container", "Responsive layout wrapper"),
                 new("Stack", "stack", "Vertical and horizontal layouts"),
-                new("Grid", "grid", "Responsive grid system"),
+                new("vibe-Grid", "vibe-grid", "Responsive vibe-grid system"),
                 new("Divider", "divider", "Visual separator between content"),
                 new("AspectRatio", "aspectratio", "Maintain aspect ratio for media"),
             }
@@ -128,7 +128,7 @@
                 new("Tag", "tag", "Removable label"),
                 new("DataGrid", "datagrid", "Tabular data display"),
                 new("Table", "table", "Simple table layout"),
-                new("Calendar", "calendar", "Date display grid"),
+                new("Calendar", "calendar", "Date display vibe-grid"),
                 new("Skeleton", "skeleton", "Loading placeholder"),
                 new("Progress", "progress", "Progress indicator"),
                 new("Spinner", "spinner", "Loading spinner"),

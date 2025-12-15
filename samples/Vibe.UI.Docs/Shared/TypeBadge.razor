@@ -24,14 +24,14 @@
         {
             var baseClasses = Size switch
             {
-                TypeBadgeSize.Small => "px-1.5 py-0.5 text-[10px]",
-                TypeBadgeSize.Large => "px-2.5 py-1 text-sm",
-                _ => "px-2 py-0.5 text-xs"
+                TypeBadgeSize.Small => "vibe-px-1.5 vibe-py-0.5 vibe-text-[10px]",
+                TypeBadgeSize.Large => "vibe-px-2.5 vibe-py-1 vibe-text-sm",
+                _ => "vibe-px-2 vibe-py-0.5 vibe-text-xs"
             };
 
             var colorClasses = GetColorClasses(Type);
 
-            return $"inline-flex items-center font-mono font-medium rounded-md {baseClasses} {colorClasses}";
+            return $"vibe-inline-flex vibe-items-center vibe-font-mono vibe-font-medium vibe-rounded-md {baseClasses} {colorClasses}";
         }
     }
 
@@ -41,30 +41,30 @@
 
         // Boolean types
         if (normalizedType is "bool" or "boolean")
-            return "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400";
+            return "vibe-bg-purple-100 vibe-text-purple-700 dark:vibe-bg-purple-900/30 dark:vibe-text-purple-400";
 
         // String types
         if (normalizedType is "string" or "string?" or "markupstring")
-            return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
+            return "vibe-bg-emerald-100 vibe-text-emerald-700 dark:vibe-bg-emerald-900/30 dark:vibe-text-emerald-400";
 
         // Number types
         if (normalizedType is "int" or "int?" or "double" or "double?" or "float" or "decimal" or "number")
-            return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
+            return "vibe-bg-blue-100 vibe-text-blue-700 dark:vibe-bg-blue-900/30 dark:vibe-text-blue-400";
 
         // Event callbacks
         if (normalizedType.StartsWith("eventcallback") || normalizedType.Contains("action") || normalizedType.Contains("func"))
-            return "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400";
+            return "vibe-bg-amber-100 vibe-text-amber-700 dark:vibe-bg-amber-900/30 dark:vibe-text-amber-400";
 
         // Render fragments
         if (normalizedType.Contains("renderfragment"))
-            return "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400";
+            return "vibe-bg-pink-100 vibe-text-pink-700 dark:vibe-bg-pink-900/30 dark:vibe-text-pink-400";
 
         // Enums (usually contain "variant", "size", "type", etc.)
         if (normalizedType.Contains("variant") || normalizedType.Contains("size") || normalizedType.Contains("position") || normalizedType.Contains("orientation"))
-            return "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400";
+            return "vibe-bg-orange-100 vibe-text-orange-700 dark:vibe-bg-orange-900/30 dark:vibe-text-orange-400";
 
         // Default for other types
-        return "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-400";
+        return "vibe-bg-zinc-100 vibe-text-zinc-700 dark:vibe-bg-zinc-800 dark:vibe-text-zinc-400";
     }
 
     public enum TypeBadgeSize

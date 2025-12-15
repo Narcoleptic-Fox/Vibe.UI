@@ -9,15 +9,15 @@
     - Dark/light theme support
 *@
 
-<div class="code-block rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-white dark:bg-zinc-900">
+<div class="code-block vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-overflow-hidden vibe-bg-white dark:vibe-bg-zinc-900">
     <!-- Header -->
-    <div class="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-800">
-        <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">@DisplayLanguage</span>
+    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-2 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
+        <span class="vibe-text-xs vibe-font-medium vibe-text-zinc-500 dark:vibe-text-zinc-400 vibe-uppercase vibe-tracking-wider">@DisplayLanguage</span>
         <CopyButton Text="@Code" Variant="CopyButton.CopyButtonVariant.Ghost" ShowText="false" />
     </div>
 
     <!-- Code Content -->
-    <div class="code-content overflow-x-auto">
+    <div class="code-content vibe-overflow-x-auto">
         @if (!string.IsNullOrEmpty(highlightedHtml))
         {
             @((MarkupString)highlightedHtml)
@@ -25,7 +25,7 @@
         else
         {
             <!-- Fallback while loading -->
-            <pre class="p-4 text-sm leading-relaxed"><code class="font-mono text-zinc-700 dark:text-zinc-300">@Code</code></pre>
+            <pre class="vibe-p-4 vibe-text-sm vibe-leading-relaxed"><code class="vibe-font-mono vibe-text-zinc-700 dark:vibe-text-zinc-300">@Code</code></pre>
         }
     </div>
 </div>
