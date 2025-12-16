@@ -74,9 +74,7 @@
             {
                 <!-- Preview Panel -->
                 <div class="preview-panel vibe-p-6 vibe-min-h-[200px] vibe-flex vibe-items-center vibe-justify-center @(previewDark ? "dark vibe-bg-zinc-900" : "vibe-bg-white")">
-                    <div class="preview-checkerboard @(previewDark ? "dark" : "")">
-                        @PreviewContent
-                    </div>
+                    @PreviewContent
                 </div>
             }
             else
@@ -84,7 +82,7 @@
                 <!-- Code Panel - Temporary notice about known issue -->
                 <div class="code-panel vibe-min-h-[100px] vibe-bg-zinc-950 vibe-overflow-x-auto">
                     <div class="vibe-p-4 vibe-flex vibe-items-start vibe-gap-3 vibe-bg-amber-500/10 vibe-border-b vibe-border-amber-500/20">
-                        <svg class="vibe-w-5 vibe-h-5 vibe-text-amber-500 vibe-vibe-shrink-0 vibe-mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="vibe-w-5 vibe-h-5 vibe-text-amber-500 vibe-shrink-0 vibe-mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                         </svg>
                         <div class="vibe-text-sm">

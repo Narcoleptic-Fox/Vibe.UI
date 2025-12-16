@@ -27,16 +27,14 @@
 .vibe-button:focus-visible {
     outline: 2px solid var(--vibe-ring);
     outline-offset: 2px;
-}
-
-.vibe-button:focus {
-    outline: none;
     box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* Disabled State */
 .vibe-button:disabled,
-.vibe-button[disabled] {
+.vibe-button[disabled],
+.vibe-button[aria-disabled="true"],
+.vibe-button.vibe-button-disabled {
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;

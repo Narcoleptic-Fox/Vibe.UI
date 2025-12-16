@@ -20,6 +20,7 @@ public static class BlazorWaitHelpers
                 return window._vibeKeyboardHandler !== undefined ||
                        document.querySelector('.docs-container') !== null;
             }",
+            null,
             new PageWaitForFunctionOptions { Timeout = timeout }
         );
 
@@ -35,6 +36,7 @@ public static class BlazorWaitHelpers
     {
         await page.WaitForFunctionAsync(
             "() => window.isHighlighterReady === true",
+            null,
             new PageWaitForFunctionOptions { Timeout = timeout }
         );
     }

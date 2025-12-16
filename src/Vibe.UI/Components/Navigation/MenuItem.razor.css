@@ -119,14 +119,12 @@
    Dark Mode Adjustments
    ---------------------------------------- */
 
-@media (prefers-color-scheme: dark) {
-    .vibe-menu-item:hover {
-        background-color: var(--vibe-accent);
-    }
+.dark .vibe-menu-item:hover {
+    background-color: var(--vibe-accent);
+}
 
-    .vibe-menu-item-danger:hover {
-        background-color: var(--vibe-destructive);
-    }
+.dark .vibe-menu-item-danger:hover {
+    background-color: var(--vibe-destructive);
 }
 
 /* ----------------------------------------

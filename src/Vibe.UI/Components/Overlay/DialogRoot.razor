@@ -1,11 +1,19 @@
 @namespace Vibe.UI.Components
 @inherits Vibe.UI.Base.VibeComponent
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
 
 @if (IsOpen)
 {
     <CascadingValue Value="_context">
         <div class="vibe-dialog-overlay" @onclick="OnOutsideClick" @onkeydown="HandleKeyDown" tabindex="-1">
-            <div class="@CombinedClass" role="dialog" aria-modal="true" @onclick:stopPropagation="true"
+            <div class="@CombinedClass"
+                @ref="_dialogRef"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="@_context?.TitleId"
+                aria-describedby="@_context?.DescriptionId"
+                @onclick:stopPropagation="true"
                 @attributes="AdditionalAttributes">
                 @ChildContent
             </div>
@@ -21,6 +29,10 @@ else if (ChildContent != null)
 
 @code {
     private DialogContext? _context;
+    private IJSObjectReference? _dialogModule;
+    private bool _focusTrapActive;
+    private ElementReference _dialogRef;
+    private readonly string _dialogKey = $"vibe-dialog-{Guid.NewGuid():N}";
 
     /// <summary>
     /// Gets or sets the content of the dialog, including trigger and content components.
@@ -58,8 +70,29 @@ else if (ChildContent != null)
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        _context = new DialogContext(OpenDialog, CloseDialog);
+        _context = new DialogContext(OpenDialog, CloseDialog, () => _ = InvokeAsync(StateHasChanged));
         base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpen && !_focusTrapActive)
+        {
+            _dialogModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-dialog.js");
+
+            await _dialogModule.InvokeVoidAsync("activate", _dialogKey, _dialogRef);
+            _focusTrapActive = true;
+        }
+        else if (!IsOpen && _focusTrapActive)
+        {
+            if (_dialogModule != null)
+            {
+                await _dialogModule.InvokeVoidAsync("deactivate", _dialogKey);
+            }
+
+            _focusTrapActive = false;
+        }
     }
 
     /// <summary>
@@ -118,6 +151,20 @@ else if (ChildContent != null)
             }
 
             StateHasChanged();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_focusTrapActive && _dialogModule != null)
+        {
+            await _dialogModule.InvokeVoidAsync("deactivate", _dialogKey);
+            _focusTrapActive = false;
+        }
+
+        if (_dialogModule != null)
+        {
+            await _dialogModule.DisposeAsync();
         }
     }
 }

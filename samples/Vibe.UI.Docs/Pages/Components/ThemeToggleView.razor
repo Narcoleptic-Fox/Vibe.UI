@@ -236,17 +236,15 @@
 <ThemeToggle />
 ";
 
-    private string NavBarCode => @"<nav class=""navbar"">
-    <div class=""navbar-brand"">
-        <a href=""/"">My App</a>
-    </div>
+    private string NavBarCode => @"<header class=""vibe-flex vibe-items-center vibe-justify-between vibe-h-14 vibe-px-4 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800"">
+    <a href=""/"" class=""vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100"">My App</a>
 
-    <div class=""navbar-actions"">
-        <button class=""notifications-btn"">🔔</button>
+    <div class=""vibe-flex vibe-items-center vibe-gap-2"">
+        <Button Variant=""ButtonVariant.Ghost"">🔔</Button>
         <ThemeToggle />
-        <button class=""profile-btn"">👤</button>
+        <Button Variant=""ButtonVariant.Ghost"">👤</Button>
     </div>
-</nav>
+</header>
 ";
 
     private string CustomStorageCode => @"<!-- Use a custom localStorage key -->

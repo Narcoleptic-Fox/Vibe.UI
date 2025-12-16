@@ -1,6 +1,7 @@
 @namespace Vibe.UI.Components
 @inherits Base.VibeComponent
 @inject IJSRuntime JS
+@implements IAsyncDisposable
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     <div class="command-input-wrapper">
@@ -8,13 +9,18 @@
         {
             <div class="command-input-icon">@((MarkupString)Icon)</div>
         }
-        <input 
+        <input
             @ref="InputRef"
             type="text"
             class="command-input"
             placeholder="@Placeholder"
-            @bind-value="InputValue" 
-            @bind-value:event="oninput"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-controls="@_listboxId"
+            aria-expanded="@(FilteredItems.Any() ? "true" : "false")"
+            aria-activedescendant="@ActiveDescendantId"
+            value="@InputValue"
+            @oninput="OnInputChanged"
             @onkeydown="OnKeyDown" 
             @onfocus="OnFocus"
             @onblur="OnBlur"
@@ -25,15 +31,22 @@
 
     <div class="command-separator"></div>
 
-    <div class="command-list">
+    <div class="command-list" role="listbox" id="@_listboxId">
         @if (FilteredItems.Any())
         {
-            @foreach (var item in FilteredItems)
+            @for (var i = 0; i < FilteredItems.Count; i++)
             {
+                var item = FilteredItems[i];
+                var isSelected = SelectedIndex == i;
+                var optionId = GetOptionId(i);
                 <div 
-                    class="command-item @(IsSelectedItem(item) ? "selected" : "")"
+                    id="@optionId"
+                    role="option"
+                    aria-selected="@(isSelected ? "true" : "false")"
+                    aria-disabled="@(item.Disabled ? "true" : "false")"
+                    class="command-item @(isSelected ? "selected" : "") @(item.Disabled ? "disabled" : "")"
                     @onclick="() => OnItemSelected(item)"
-                    @onmouseenter="() => SelectedIndex = FilteredItems.IndexOf(item)">
+                    @onmouseenter="() => OnHoverIndexChanged(i)">
                     <span class="command-item-label">@item.Label</span>
                     @if (!string.IsNullOrEmpty(item.Shortcut))
                     {
@@ -113,21 +126,24 @@
     /// <summary>
     /// The current input value.
     /// </summary>
-    private string InputValue = string.Empty;
+    private string _inputValue = string.Empty;
+    private IJSObjectReference? _domModule;
+    private readonly string _instanceId = Guid.NewGuid().ToString("N");
+    private string _listboxId => $"vibe-command-listbox-{_instanceId}";
 
     /// <summary>
     /// The index of the currently selected item.
     /// </summary>
-    private int SelectedIndex = 0;
+    private int SelectedIndex = -1;
 
     /// <summary>
     /// Gets the filtered items based on the input value.
     /// </summary>
-    private List<CommandItem> FilteredItems => 
-        string.IsNullOrWhiteSpace(InputValue) 
-            ? Items.Where(i => !i.Disabled).ToList() 
-            : Items.Where(i => !i.Disabled && (i.Label.Contains(InputValue, StringComparison.OrdinalIgnoreCase) || 
-                              i.Value?.Contains(InputValue, StringComparison.OrdinalIgnoreCase) == true))
+    private List<CommandItem> FilteredItems =>
+        string.IsNullOrWhiteSpace(InputValue)
+            ? Items.ToList()
+            : Items.Where(i => i.Label.Contains(InputValue, StringComparison.OrdinalIgnoreCase) ||
+                              i.Value?.Contains(InputValue, StringComparison.OrdinalIgnoreCase) == true)
                   .ToList();
 
     /// <summary>
@@ -135,8 +151,21 @@
     /// </summary>
     /// <param name="item">The item to check.</param>
     /// <returns>True if the item is selected, false otherwise.</returns>
-    private bool IsSelectedItem(CommandItem item) => 
-        FilteredItems.IndexOf(item) == SelectedIndex;
+    private string InputValue
+    {
+        get => _inputValue;
+        set
+        {
+            if (_inputValue == value)
+                return;
+
+            _inputValue = value;
+            SelectedIndex = FindFirstEnabledIndex();
+        }
+    }
+
+    private string? ActiveDescendantId =>
+        SelectedIndex >= 0 && SelectedIndex < FilteredItems.Count ? GetOptionId(SelectedIndex) : null;
 
     /// <summary>
     /// Handles keyboard navigation.
@@ -144,21 +173,40 @@
     /// <param name="e">The keyboard event args.</param>
     private async Task OnKeyDown(KeyboardEventArgs e)
     {
+        if (!FilteredItems.Any())
+            return;
+
         switch (e.Key)
         {
             case "ArrowDown":
-                SelectedIndex = (SelectedIndex + 1) % FilteredItems.Count;
+                MoveSelection(forward: true);
+                await ScrollSelectedIntoViewAsync();
                 break;
                 
             case "ArrowUp":
-                SelectedIndex = (SelectedIndex - 1 + FilteredItems.Count) % FilteredItems.Count;
+                MoveSelection(forward: false);
+                await ScrollSelectedIntoViewAsync();
+                break;
+
+            case "Home":
+                SelectedIndex = FindFirstEnabledIndex();
+                await ScrollSelectedIntoViewAsync();
+                break;
+
+            case "End":
+                SelectedIndex = FindLastEnabledIndex();
+                await ScrollSelectedIntoViewAsync();
                 break;
                 
             case "Enter":
-                if (FilteredItems.Count > 0 && SelectedIndex >= 0 && SelectedIndex < FilteredItems.Count)
+                if (SelectedIndex >= 0 && SelectedIndex < FilteredItems.Count)
                 {
                     await OnItemSelected(FilteredItems[SelectedIndex]);
                 }
+                break;
+
+            case "Escape":
+                InputValue = string.Empty;
                 break;
         }
     }
@@ -176,16 +224,30 @@
         }
     }
 
+    private void OnHoverIndexChanged(int index)
+    {
+        if (index < 0 || index >= FilteredItems.Count)
+            return;
+
+        if (FilteredItems[index].Disabled)
+            return;
+
+        SelectedIndex = index;
+    }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        InputValue = e.Value?.ToString() ?? string.Empty;
+        await InvokeAsync(StateHasChanged);
+    }
+
     /// <summary>
     /// Handles when the input is focused.
     /// </summary>
     private void OnFocus()
     {
         // Reset selection on focus
-        if (FilteredItems.Count > 0)
-        {
-            SelectedIndex = 0;
-        }
+        SelectedIndex = FindFirstEnabledIndex();
     }
 
     /// <summary>
@@ -202,5 +264,86 @@
     public async Task FocusAsync()
     {
         await InputRef.FocusAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _domModule = await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-dom.js");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_domModule != null)
+        {
+            await _domModule.DisposeAsync();
+        }
+    }
+
+    private string GetOptionId(int index) => $"vibe-command-option-{_instanceId}-{index}";
+
+    private int FindFirstEnabledIndex()
+    {
+        for (var i = 0; i < FilteredItems.Count; i++)
+        {
+            if (!FilteredItems[i].Disabled)
+                return i;
+        }
+
+        return -1;
+    }
+
+    private int FindLastEnabledIndex()
+    {
+        for (var i = FilteredItems.Count - 1; i >= 0; i--)
+        {
+            if (!FilteredItems[i].Disabled)
+                return i;
+        }
+
+        return -1;
+    }
+
+    private void MoveSelection(bool forward)
+    {
+        if (FilteredItems.Count == 0)
+        {
+            SelectedIndex = -1;
+            return;
+        }
+
+        var start = SelectedIndex;
+        if (start < 0 || start >= FilteredItems.Count)
+        {
+            SelectedIndex = FindFirstEnabledIndex();
+            return;
+        }
+
+        var index = start;
+        for (var i = 0; i < FilteredItems.Count; i++)
+        {
+            index = forward ? (index + 1) % FilteredItems.Count : (index - 1 + FilteredItems.Count) % FilteredItems.Count;
+            if (!FilteredItems[index].Disabled)
+            {
+                SelectedIndex = index;
+                return;
+            }
+        }
+
+        SelectedIndex = -1;
+    }
+
+    private async Task ScrollSelectedIntoViewAsync()
+    {
+        if (_domModule == null)
+            return;
+
+        if (SelectedIndex < 0 || SelectedIndex >= FilteredItems.Count)
+            return;
+
+        await _domModule.InvokeVoidAsync("scrollIntoView", GetOptionId(SelectedIndex), new { behavior = "auto", block = "nearest" });
     }
 }

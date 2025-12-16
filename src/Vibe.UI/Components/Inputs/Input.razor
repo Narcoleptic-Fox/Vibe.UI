@@ -23,11 +23,11 @@
     </div>
     @if (!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="vibe-input-error">@ErrorMessage</div>
+        <div class="vibe-input-error" id="@ErrorId">@ErrorMessage</div>
     }
     @if (!string.IsNullOrEmpty(HelperText))
     {
-        <div class="vibe-input-helper">@HelperText</div>
+        <div class="vibe-input-helper" id="@HelperId">@HelperText</div>
     }
 </div>
 
@@ -49,6 +49,12 @@
 
     private bool isFocused = false;
     private bool hasValue => !string.IsNullOrEmpty(Value);
+    private bool HasError => !string.IsNullOrEmpty(ErrorMessage);
+    private bool HasHelper => !string.IsNullOrEmpty(HelperText);
+
+    private string ErrorId => $"{Id}-error";
+    private string HelperId => $"{Id}-helper";
+    private string? DescribedBy => BuildDescribedBy();
 
     private async Task OnValueChanged(ChangeEventArgs e)
     {
@@ -77,16 +83,17 @@
     private string GetContainerClass() => new ClassBuilder()
         .Add("vibe-input-container")
         .AddIf("vibe-input-disabled", Disabled)
-        .AddIf("vibe-input-has-error", !string.IsNullOrEmpty(ErrorMessage))
+        .AddIf("vibe-input-has-error", HasError)
         .Build();
 
     private string GetInputWrapperClass() => new ClassBuilder()
         .Add("vibe-input-wrapper")
         .AddVariant("vibe-input-wrapper", Variant)
         .AddVariant("vibe-input-wrapper", Size)
+        .AddIf("vibe-input-disabled", Disabled)
         .AddIf("vibe-input-focused", isFocused)
         .AddIf("vibe-input-has-value", hasValue)
-        .AddIf("vibe-input-has-error", !string.IsNullOrEmpty(ErrorMessage))
+        .AddIf("vibe-input-has-error", HasError)
         .Build();
 
     private string GetLabelClass() => new ClassBuilder()
@@ -101,7 +108,7 @@
         .AddVariant("vibe-input", Variant)
         .AddIf("vibe-input-with-leading-icon", !string.IsNullOrEmpty(LeadingIcon))
         .AddIf("vibe-input-with-trailing-icon", !string.IsNullOrEmpty(TrailingIcon))
-        .AddIf("vibe-input-error-state", !string.IsNullOrEmpty(ErrorMessage))
+        .AddIf("vibe-input-error-state", HasError)
         .Build();
 
     private string GetPlaceholder()
@@ -119,7 +126,7 @@
     private Dictionary<string, object>? GetInputAttributes()
     {
         if (AdditionalAttributes == null || AdditionalAttributes.Count == 0)
-            return null;
+            return GetComputedA11yAttributes();
 
         // Filter out class attribute (handled separately) but forward everything else to input
         var inputAttrs = new Dictionary<string, object>();
@@ -131,6 +138,49 @@
                 inputAttrs[attr.Key] = attr.Value;
             }
         }
+
+        MergeComputedA11yAttributes(inputAttrs);
         return inputAttrs.Count > 0 ? inputAttrs : null;
+    }
+
+    private Dictionary<string, object>? GetComputedA11yAttributes()
+    {
+        if (!HasError && !HasHelper)
+            return null;
+
+        var attrs = new Dictionary<string, object>();
+        MergeComputedA11yAttributes(attrs);
+        return attrs.Count > 0 ? attrs : null;
+    }
+
+    private void MergeComputedA11yAttributes(Dictionary<string, object> target)
+    {
+        if (HasError && !target.ContainsKey("aria-invalid"))
+        {
+            target["aria-invalid"] = "true";
+        }
+
+        if (HasError && !target.ContainsKey("aria-errormessage"))
+        {
+            target["aria-errormessage"] = ErrorId;
+        }
+
+        if (!string.IsNullOrEmpty(DescribedBy) && !target.ContainsKey("aria-describedby"))
+        {
+            target["aria-describedby"] = DescribedBy;
+        }
+    }
+
+    private string? BuildDescribedBy()
+    {
+        string? describedBy = null;
+
+        if (HasError)
+            describedBy = ErrorId;
+
+        if (HasHelper)
+            describedBy = describedBy == null ? HelperId : $"{describedBy} {HelperId}";
+
+        return describedBy;
     }
 }

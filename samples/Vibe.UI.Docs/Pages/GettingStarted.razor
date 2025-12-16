@@ -2,13 +2,13 @@
 
 <PageTitle>Getting Started - Vibe.UI</PageTitle>
 
-<div class="docs-page">
-    <header class="page-header">
-        <h1>Getting Started</h1>
-        <p class="lead">Learn how to get started with Vibe.UI in your Blazor project</p>
+<div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
+    <header class="vibe-space-y-2">
+        <h1 class="vibe-m-0">Getting Started</h1>
+        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Learn how to get started with Vibe.UI in your Blazor project.</p>
     </header>
 
-    <section class="content-section">
+    <section>
         <h2>Prerequisites</h2>
         <ul>
             <li>.NET 9.0 SDK or later</li>
@@ -17,118 +17,105 @@
         </ul>
     </section>
 
-    <section class="content-section">
-        <h2>Installation Methods</h2>
+    <section>
+        <h2>Installation methods</h2>
         <p>Vibe.UI offers two installation approaches to fit your workflow:</p>
 
-        <div class="method-comparison">
-            <div class="method-card">
-                <h3>🛠️ CLI Approach (Recommended)</h3>
+        <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-6">
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6 vibe-space-y-4">
+                <h3 class="vibe-m-0">CLI approach (recommended)</h3>
                 <p>Copy component source code directly to your project for full control and customization.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <strong>Pros:</strong>
-                        <ul>
-                            <li>Full source code ownership</li>
-                            <li>Customize any component</li>
-                            <li>No package dependencies</li>
-                            <li>shadcn/ui style workflow</li>
-                        </ul>
-                    </div>
+                <div>
+                    <strong>Pros:</strong>
+                    <ul>
+                        <li>Full source code ownership</li>
+                        <li>Customize any component</li>
+                        <li>No package dependencies</li>
+                        <li>shadcn/ui style workflow</li>
+                    </ul>
                 </div>
-                <p><strong>Best for:</strong> Projects that need component customization or want to avoid package dependencies</p>
-                <a href="@GetUrl("installation")" class="btn btn-primary">View CLI Installation →</a>
+                <p><strong>Best for:</strong> Projects that need component customization or want to avoid package dependencies.</p>
+                <Button Variant="ButtonVariant.Primary" Href="@GetUrl("installation")">View installation</Button>
             </div>
 
-            <div class="method-card">
-                <h3>📦 NuGet Package</h3>
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6 vibe-space-y-4">
+                <h3 class="vibe-m-0">NuGet package</h3>
                 <p>Traditional package reference for quick setup and automatic updates.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <strong>Pros:</strong>
-                        <ul>
-                            <li>Quick installation</li>
-                            <li>Automatic updates</li>
-                            <li>Smaller project files</li>
-                            <li>Standard .NET workflow</li>
-                        </ul>
-                    </div>
+                <div>
+                    <strong>Pros:</strong>
+                    <ul>
+                        <li>Quick installation</li>
+                        <li>Automatic updates</li>
+                        <li>Smaller project files</li>
+                        <li>Standard .NET workflow</li>
+                    </ul>
                 </div>
-                <p><strong>Best for:</strong> Projects that prefer package management or need rapid prototyping</p>
-                <a href="@GetUrl("installation")" class="btn btn-secondary">View Package Installation →</a>
+                <p><strong>Best for:</strong> Projects that prefer package management or need rapid prototyping.</p>
+                <Button Variant="ButtonVariant.Outline" Href="@GetUrl("installation")">View installation</Button>
             </div>
         </div>
     </section>
 
-    <section class="content-section">
-        <h2>Quick Start (CLI)</h2>
+    <section>
+        <h2>Quick start (CLI)</h2>
         <p>Get started in 3 simple steps:</p>
 
-        <div class="step-list">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>Install the CLI Tool</h3>
-                    <CodeBlock Code="@InstallCliCode" Language="bash" />
-                </div>
+        <div class="vibe-space-y-6">
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+                <h3 class="vibe-mb-3">1) Install the CLI tool</h3>
+                <CodeBlock Code="@InstallCliCode" Language="bash" />
             </div>
 
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>Initialize in Your Project</h3>
-                    <CodeBlock Code="@InitProjectCode" Language="bash" />
-                    <p>This copies the required infrastructure files to your project.</p>
-                </div>
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+                <h3 class="vibe-mb-3">2) Initialize in your project</h3>
+                <CodeBlock Code="@InitProjectCode" Language="bash" />
+                <p class="vibe-mt-3 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">This copies the required infrastructure files to your project.</p>
             </div>
 
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>Add Components</h3>
-                    <CodeBlock Code="@AddComponentsCode" Language="bash" />
-                    <p>Components are copied to <code>Components/vibe/</code> directory.</p>
-                </div>
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+                <h3 class="vibe-mb-3">3) Add components</h3>
+                <CodeBlock Code="@AddComponentsCode" Language="bash" />
+                <p class="vibe-mt-3 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Components are copied to <code>Components/vibe/</code>.</p>
             </div>
         </div>
     </section>
 
-    <section class="content-section">
-        <h2>Project Structure</h2>
+    <section>
+        <h2>Project structure</h2>
         <p>After running <code>vibe init</code> and adding components, your project will look like:</p>
         <CodeBlock Code="@ProjectStructureCode" Language="plaintext" />
     </section>
 
-    <section class="content-section">
-        <h2>Your First Component</h2>
+    <section>
+        <h2>Your first component</h2>
         <p>Once you've added a component, use it in your Razor pages:</p>
         <CodeBlock Code="@FirstComponentCode" Language="razor" />
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>Theming</h2>
         <p>Vibe.UI includes a built-in theming system with dark mode support. Components automatically adapt to the active theme.</p>
-        <p>Learn more about customizing themes in the <a href="@GetUrl("theming")">Theming documentation</a>.</p>
+        <p>Learn more about customizing themes in the <a href="@GetUrl("theming")">Theming docs</a>.</p>
     </section>
 
-    <section class="content-section">
-        <h2>Next Steps</h2>
-        <div class="next-steps-grid">
-            <a href="@GetUrl("installation")" class="next-step-card">
-                <h3>📦 Installation Guide</h3>
-                <p>Detailed installation instructions for both CLI and Package approaches</p>
+    <section>
+        <h2>Next steps</h2>
+        <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-4">
+            <a href="@GetUrl("installation")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Installation</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">CLI and NuGet setup.</p>
             </a>
-            <a href="@GetUrl("cli")" class="next-step-card">
-                <h3>🛠️ CLI Reference</h3>
-                <p>Complete CLI command reference and usage examples</p>
+            <a href="@GetUrl("cli")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">CLI reference</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Commands, options, workflows.</p>
             </a>
-            <a href="@GetUrl("components/button")" class="next-step-card">
-                <h3>🎨 Browse Components</h3>
-                <p>Explore all 93+ available components with live examples</p>
+            <a href="@GetUrl("components")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Browse components</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Explore available components.</p>
             </a>
-            <a href="@GetUrl("theming")" class="next-step-card">
-                <h3>🎭 Theming</h3>
-                <p>Customize colors, fonts, and create custom themes</p>
+            <a href="@GetUrl("theming")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Theming</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Tokens, dark mode, customization.</p>
             </a>
         </div>
     </section>

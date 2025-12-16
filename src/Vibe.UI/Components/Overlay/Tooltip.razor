@@ -3,11 +3,14 @@
 @inject IJSRuntime JSRuntime
 @implements IDisposable
 
-<div class="@CombinedClass" @onmouseenter="OnMouseEnter" @onmouseleave="OnMouseLeave">
+<div class="@CombinedClass"
+    @onmouseenter="OnMouseEnter" @onmouseleave="OnMouseLeave"
+    @onfocusin="OnFocusIn" @onfocusout="OnFocusOut"
+    @onkeydown="OnKeyDown">
     <div class="trigger">
         @TriggerContent
     </div>
-    <div class="tooltip-content @(IsVisible ? "visible" : "")" style="@ContentStyle">
+    <div class="tooltip-content @(IsVisible ? "visible" : "")" id="@TooltipId" role="tooltip">
         @Content
     </div>
 </div>
@@ -48,32 +51,23 @@
     private bool IsVisible = false;
 
     /// <summary>
-    /// Gets the style for the tooltip content.
-    /// </summary>
-    private string ContentStyle => IsVisible ? "opacity: 1;" : "opacity: 0;";
-
-    /// <summary>
     /// Timer for delayed showing of the tooltip.
     /// </summary>
     private System.Timers.Timer? _showTimer;
+
+    private readonly string TooltipId = $"vibe-tooltip-{Guid.NewGuid():N}";
 
     /// <summary>
     /// Handles when the mouse enters the tooltip trigger.
     /// </summary>
     private void OnMouseEnter()
     {
-        _showTimer?.Dispose();
-        _showTimer = new System.Timers.Timer(DelayMS);
-        _showTimer.Elapsed += (sender, e) =>
-        {
-            InvokeAsync(() =>
+        StartShowTimer();
+    }
+
+    private void OnFocusIn(FocusEventArgs e)
     {
-            IsVisible = true;
-            StateHasChanged();
-        });
-        };
-        _showTimer.AutoReset = false;
-        _showTimer.Start();
+        StartShowTimer();
     }
 
     /// <summary>
@@ -81,7 +75,42 @@
     /// </summary>
     private void OnMouseLeave()
     {
+        HideTooltip();
+    }
+
+    private void OnFocusOut(FocusEventArgs e)
+    {
+        HideTooltip();
+    }
+
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            HideTooltip();
+        }
+    }
+
+    private void StartShowTimer()
+    {
         _showTimer?.Dispose();
+        _showTimer = new System.Timers.Timer(DelayMS);
+        _showTimer.Elapsed += (_, _) =>
+        {
+            _ = InvokeAsync(() =>
+            {
+                IsVisible = true;
+                StateHasChanged();
+            });
+        };
+        _showTimer.AutoReset = false;
+        _showTimer.Start();
+    }
+
+    private void HideTooltip()
+    {
+        _showTimer?.Dispose();
+        _showTimer = null;
         IsVisible = false;
         StateHasChanged();
     }

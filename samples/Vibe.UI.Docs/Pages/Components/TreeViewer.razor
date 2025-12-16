@@ -4,288 +4,264 @@
 
 <PageTitle>TreeView - Vibe.UI</PageTitle>
 
-<ComponentPage ComponentName="TreeView"
-               Category="Advanced"
-               Description="A hierarchical tree structure component for displaying nested data with expandable/collapsible nodes."
-               RelatedComponents="@relatedComponents">
-
-    <PreviewContent>
-        <div class="preview-demo" style="max-width: 400px; margin: 0 auto;">
-            <TreeView Items="treeNodes" />
+<div class="vibe-max-w-4xl vibe-mx-auto">
+    <!-- Header -->
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+            <span>/</span>
+            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <span>/</span>
+            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">TreeView</span>
         </div>
-    </PreviewContent>
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">TreeView</h1>
+        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            A hierarchical tree component for displaying nested data with expandable/collapsible nodes.
+        </p>
+    </header>
 
-    <Examples>
-        <div class="example-item">
-            <h3>Basic TreeView</h3>
-            <CodeBlock Code="@BasicCode" Language="razor" />
+    <!-- Interactive Preview -->
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Interactive Preview</h2>
+        <LivePreview Code="@PreviewCode">
+            <PreviewContent>
+                <div class="vibe-max-w-sm vibe-mx-auto">
+                    <TreeView Items="treeNodes" />
+                </div>
+            </PreviewContent>
+        </LivePreview>
+    </section>
+
+    <!-- Examples -->
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+
+        <div class="vibe-space-y-8">
+            <div>
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic</h3>
+                <CodeBlock Code="@BasicCode" Language="razor" />
+            </div>
+
+            <div>
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Icons</h3>
+                <CodeBlock Code="@IconsCode" Language="razor" />
+            </div>
+
+            <div>
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Selection</h3>
+                <CodeBlock Code="@SelectableCode" Language="razor" />
+            </div>
+
+            <div>
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Checkboxes + Multi-select</h3>
+                <CodeBlock Code="@CheckableCode" Language="razor" />
+            </div>
+
+            <div>
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Lazy Loading</h3>
+                <CodeBlock Code="@LazyLoadCode" Language="razor" />
+            </div>
+        </div>
+    </section>
+
+    <!-- API Reference -->
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
+                    <thead>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="vibe-border-b vibe-border-zinc-100 dark:vibe-border-zinc-800">
+                            <td class="vibe-py-3 vibe-px-4"><code>Items</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>List&lt;TreeNode&gt;?</code></td>
+                            <td class="vibe-py-3 vibe-px-4">null</td>
+                            <td class="vibe-py-3 vibe-px-4">Root nodes to render.</td>
+                        </tr>
+                        <tr class="vibe-border-b vibe-border-zinc-100 dark:vibe-border-zinc-800">
+                            <td class="vibe-py-3 vibe-px-4"><code>SelectedValue</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>string?</code></td>
+                            <td class="vibe-py-3 vibe-px-4">null</td>
+                            <td class="vibe-py-3 vibe-px-4">Selected node id (single-select).</td>
+                        </tr>
+                        <tr class="vibe-border-b vibe-border-zinc-100 dark:vibe-border-zinc-800">
+                            <td class="vibe-py-3 vibe-px-4"><code>ShowCheckboxes</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>bool</code></td>
+                            <td class="vibe-py-3 vibe-px-4">false</td>
+                            <td class="vibe-py-3 vibe-px-4">Show checkboxes for nodes.</td>
+                        </tr>
+                        <tr class="vibe-border-b vibe-border-zinc-100 dark:vibe-border-zinc-800">
+                            <td class="vibe-py-3 vibe-px-4"><code>MultiSelect</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>bool</code></td>
+                            <td class="vibe-py-3 vibe-px-4">false</td>
+                            <td class="vibe-py-3 vibe-px-4">Enable multi-select mode.</td>
+                        </tr>
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4"><code>CssClass</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>string?</code></td>
+                            <td class="vibe-py-3 vibe-px-4">null</td>
+                            <td class="vibe-py-3 vibe-px-4">Additional CSS classes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="example-item">
-            <h3>With Icons</h3>
-            <CodeBlock Code="@IconsCode" Language="razor" />
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <div class="vibe-overflow-x-auto">
+                <table class="vibe-w-full vibe-text-sm">
+                    <thead>
+                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="vibe-border-b vibe-border-zinc-100 dark:vibe-border-zinc-800">
+                            <td class="vibe-py-3 vibe-px-4"><code>SelectedValueChanged</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>EventCallback&lt;string?&gt;</code></td>
+                            <td class="vibe-py-3 vibe-px-4">Raised when selection changes (single-select).</td>
+                        </tr>
+                        <tr class="vibe-border-b vibe-border-zinc-100 dark:vibe-border-zinc-800">
+                            <td class="vibe-py-3 vibe-px-4"><code>OnNodeClick</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>EventCallback&lt;TreeNode&gt;</code></td>
+                            <td class="vibe-py-3 vibe-px-4">Raised when a node is clicked.</td>
+                        </tr>
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4"><code>OnNodeExpand</code></td>
+                            <td class="vibe-py-3 vibe-px-4"><code>EventCallback&lt;TreeNode&gt;</code></td>
+                            <td class="vibe-py-3 vibe-px-4">Raised when a node expands/collapses.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </section>
 
-        <div class="example-item">
-            <h3>Selectable Nodes</h3>
-            <CodeBlock Code="@SelectableCode" Language="razor" />
+    <!-- Installation -->
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400">Install this component using the Vibe.UI CLI:</p>
+        <CodeBlock Code="@InstallCode" Language="bash" />
+    </section>
+
+    <!-- Related -->
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related Components</h2>
+        <div class="vibe-flex vibe-gap-2">
+            @foreach (var related in relatedComponents)
+            {
+                <a href="@($"/components/{related.ToLower()}")"
+                   class="vibe-px-4 vibe-py-2 vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-rounded-lg hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-transition-colors vibe-text-zinc-900 dark:vibe-text-zinc-100">
+                    @related
+                </a>
+            }
         </div>
-
-        <div class="example-item">
-            <h3>Checkable Nodes</h3>
-            <CodeBlock Code="@CheckableCode" Language="razor" />
-        </div>
-
-        <div class="example-item">
-            <h3>Lazy Loading</h3>
-            <CodeBlock Code="@LazyLoadCode" Language="razor" />
-        </div>
-    </Examples>
-
-    <Props>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Nodes</code></td>
-                    <td>IEnumerable&lt;TreeNode&gt;</td>
-                    <td>-</td>
-                    <td>Root nodes of the tree</td>
-                </tr>
-                <tr>
-                    <td><code>NodeTemplate</code></td>
-                    <td>RenderFragment&lt;TreeNode&gt;</td>
-                    <td>-</td>
-                    <td>Custom template for rendering nodes</td>
-                </tr>
-                <tr>
-                    <td><code>Selectable</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Allow node selection</td>
-                </tr>
-                <tr>
-                    <td><code>Checkable</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Show checkboxes for nodes</td>
-                </tr>
-                <tr>
-                    <td><code>DefaultExpanded</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Expand all nodes by default</td>
-                </tr>
-                <tr>
-                    <td><code>ShowLines</code></td>
-                    <td>bool</td>
-                    <td>false</td>
-                    <td>Show connecting lines between nodes</td>
-                </tr>
-                <tr>
-                    <td><code>ShowIcons</code></td>
-                    <td>bool</td>
-                    <td>true</td>
-                    <td>Show expand/collapse icons</td>
-                </tr>
-            </tbody>
-        </table>
-    </Props>
-
-    <Events>
-        <table class="api-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>OnNodeSelected</code></td>
-                    <td>EventCallback&lt;TreeNode&gt;</td>
-                    <td>Callback when node is selected</td>
-                </tr>
-                <tr>
-                    <td><code>OnNodeExpanded</code></td>
-                    <td>EventCallback&lt;TreeNode&gt;</td>
-                    <td>Callback when node is expanded</td>
-                </tr>
-                <tr>
-                    <td><code>OnNodeCollapsed</code></td>
-                    <td>EventCallback&lt;TreeNode&gt;</td>
-                    <td>Callback when node is collapsed</td>
-                </tr>
-                <tr>
-                    <td><code>OnNodeChecked</code></td>
-                    <td>EventCallback&lt;TreeNodeCheckedEventArgs&gt;</td>
-                    <td>Callback when node checkbox state changes</td>
-                </tr>
-            </tbody>
-        </table>
-    </Events>
-
-    <AccessibilityNotes>
-        <ul>
-            <li>Uses <code>role="tree"</code> for the container</li>
-            <li>Nodes have <code>role="treeitem"</code></li>
-            <li>Uses <code>aria-expanded</code> to indicate node state</li>
-            <li>Keyboard navigation (Arrow keys, Enter, Space)</li>
-            <li>Type-ahead search for quick navigation</li>
-            <li>Focus visible indicators for keyboard users</li>
-        </ul>
-    </AccessibilityNotes>
-</ComponentPage>
+    </section>
+</div>
 
 @code {
     private List<TreeNode> treeNodes = new()
     {
-        new() { Label = "Documents", Children = new() { new() { Label = "Work" }, new() { Label = "Personal" }, new() { Label = "Projects" } } },
-        new() { Label = "Pictures", Children = new() { new() { Label = "Vacation 2024" }, new() { Label = "Family" } } },
-        new() { Label = "Downloads" },
-        new() { Label = "Music" }
+        new() { Label = "Documents", Icon = @<span>📁</span>, Children = new() { new() { Label = "Work", Icon = @<span>📄</span> }, new() { Label = "Personal", Icon = @<span>📄</span> } } },
+        new() { Label = "Pictures", Icon = @<span>🖼️</span>, Children = new() { new() { Label = "Vacation 2024", Icon = @<span>🧳</span> }, new() { Label = "Family", Icon = @<span>👪</span> } } },
+        new() { Label = "Downloads", Icon = @<span>⬇️</span> },
+        new() { Label = "Music", Icon = @<span>🎵</span> }
     };
-    private List<string> relatedComponents = new() { "Accordion", "Menu", "Collapsible" };
 
-    private string BasicCode => @"<TreeView Nodes=""@rootNodes"" />
+    private List<string> relatedComponents = new() { "Accordion", "Collapsible" };
+
+    private string PreviewCode => @"<TreeView Items=""@treeNodes"" />";
+
+    private string InstallCode => "vibe add treeview";
+
+    private string BasicCode => @"<TreeView Items=""@items"" />
 
 @code {
-    private List<TreeNode> rootNodes = new()
+    private List<TreeNode> items = new()
     {
-        new TreeNode
-        {
-            Label = ""Documents"",
-            Children = new List<TreeNode>
-            {
-                new TreeNode { Label = ""Work"" },
-                new TreeNode { Label = ""Personal"" }
-            }
-        },
-        new TreeNode
-        {
-            Label = ""Pictures"",
-            Children = new List<TreeNode>
-            {
-                new TreeNode { Label = ""Vacation"" },
-                new TreeNode { Label = ""Family"" }
-            }
-        }
+        new() { Label = ""Documents"", Children = new() { new() { Label = ""Work"" }, new() { Label = ""Personal"" } } },
+        new() { Label = ""Pictures"" },
+        new() { Label = ""Downloads"" }
     };
 }";
 
-    private string IconsCode => @"<TreeView Nodes=""@nodes"" ShowIcons=""true"">
-    <NodeTemplate Context=""node"">
-        <span class=""node-icon"">@GetNodeIcon(node)</span>
-        <span>@node.Label</span>
-    </NodeTemplate>
-</TreeView>
+    private string IconsCode => @"<TreeView Items=""@items"" />
 
 @code {
-    private string GetNodeIcon(TreeNode node)
+    private List<TreeNode> items = new()
     {
-        return node.Type switch
-        {
-            ""folder"" => ""📁"",
-            ""file"" => ""📄"",
-            ""image"" => ""🖼️"",
-            _ => ""📋""
-        };
-    }
+        new() { Label = ""Documents"", Icon = @<span>📁</span> },
+        new() { Label = ""Pictures"", Icon = @<span>🖼️</span> },
+        new() { Label = ""Downloads"", Icon = @<span>⬇️</span> }
+    };
 }";
 
-    private string SelectableCode => @"<TreeView Nodes=""@nodes""
-          Selectable=""true""
-          OnNodeSelected=""@HandleNodeSelected"" />
+    private string SelectableCode => @"<TreeView Items=""@items""
+          SelectedValue=""@selected""
+          SelectedValueChanged=""@((value) => selected = value)"" />
 
-@if (selectedNode != null)
+@if (!string.IsNullOrEmpty(selected))
 {
-    <Alert>
-        Selected: @selectedNode.Label
-    </Alert>
+    <p>Selected: <code>@selected</code></p>
 }
 
 @code {
-    private TreeNode selectedNode;
+    private string? selected;
 
-    private void HandleNodeSelected(TreeNode node)
+    private List<TreeNode> items = new()
     {
-        selectedNode = node;
-        Console.WriteLine($""Selected: {node.Label}"");
-    }
+        new() { Label = ""Documents"" },
+        new() { Label = ""Pictures"" },
+        new() { Label = ""Downloads"" }
+    };
 }";
 
-    private string CheckableCode => @"<TreeView Nodes=""@nodes""
-          Checkable=""true""
-          OnNodeChecked=""@HandleNodeChecked"" />
-
-<div class=""checked-items"">
-    <h4>Checked Items:</h4>
-    <ul>
-        @foreach (var item in checkedNodes)
-        {
-            <li>@item.Label</li>
-        }
-    </ul>
-</div>
+    private string CheckableCode => @"<TreeView Items=""@items""
+          ShowCheckboxes=""true""
+          MultiSelect=""true"" />
 
 @code {
-    private List<TreeNode> checkedNodes = new();
-
-    private void HandleNodeChecked(TreeNodeCheckedEventArgs args)
+    private List<TreeNode> items = new()
     {
-        if (args.Checked)
-        {
-            checkedNodes.Add(args.Node);
-        }
-        else
-        {
-            checkedNodes.Remove(args.Node);
-        }
-    }
+        new() { Label = ""Documents"", Children = new() { new() { Label = ""Work"" }, new() { Label = ""Personal"" } } },
+        new() { Label = ""Pictures"" },
+        new() { Label = ""Downloads"" }
+    };
 }";
 
-    private string LazyLoadCode => @"<TreeView Nodes=""@rootNodes""
-          OnNodeExpanded=""@LoadChildrenAsync"">
-    <NodeTemplate Context=""node"">
-        @node.Label
-        @if (node.IsLoading)
-        {
-            <Spinner Size=""SpinnerSize.Small"" />
-        }
-    </NodeTemplate>
-</TreeView>
+    private string LazyLoadCode => @"<TreeView Items=""@items"" OnNodeExpand=""LoadChildrenAsync"" />
 
 @code {
-    private List<TreeNode> rootNodes = GetRootNodes();
+    private List<TreeNode> items = new()
+    {
+        new() { Label = ""Documents"" },
+        new() { Label = ""Pictures"" }
+    };
 
     private async Task LoadChildrenAsync(TreeNode node)
     {
-        if (node.Children.Any() || node.IsLeaf)
+        if (node.Children is { Count: > 0 })
             return;
 
-        node.IsLoading = true;
-        StateHasChanged();
+        await Task.Delay(250); // simulate async work
 
-        // Simulate API call
-        await Task.Delay(1000);
-        node.Children = await FetchChildNodesAsync(node.Id);
-
-        node.IsLoading = false;
-        StateHasChanged();
-    }
-
-    private async Task<List<TreeNode>> FetchChildNodesAsync(string parentId)
-    {
-        // Load children from API
-        return await ApiService.GetChildNodesAsync(parentId);
+        node.Children = new()
+        {
+            new() { Label = $""Loaded child for {node.Label}"" }
+        };
     }
 }";
 }
+

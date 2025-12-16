@@ -2,13 +2,13 @@
 
 <PageTitle>CLI Reference - Vibe.UI</PageTitle>
 
-<div class="docs-page">
-    <header class="page-header">
-        <h1>CLI Reference</h1>
-        <p class="lead">Complete command reference for the Vibe.UI CLI tool</p>
+<div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
+    <header class="vibe-space-y-2">
+        <h1 class="vibe-m-0">CLI Reference</h1>
+        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Complete command reference for the Vibe.UI CLI tool.</p>
     </header>
 
-    <section class="content-section">
+    <section>
         <h2>Installation</h2>
         <CodeBlock Code="@InstallCode" Language="bash" />
 
@@ -19,10 +19,10 @@
         <CodeBlock Code="@UninstallCode" Language="bash" />
     </section>
 
-    <section class="content-section">
+    <section class="vibe-space-y-6">
         <h2>Commands</h2>
 
-        <div class="command-section">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3><code>vibe init</code></h3>
             <p>Initialize Vibe.UI in your project by copying infrastructure files.</p>
 
@@ -42,11 +42,11 @@
                 <li>Creates <code>Vibe/</code> directory with base classes and services</li>
                 <li>Copies theme management files</li>
                 <li>Adds required JavaScript files to <code>wwwroot/js/</code></li>
-                <li>Creates <code>vibeconfig.json</code> configuration file</li>
+                <li>Creates <code>vibe.json</code> configuration file</li>
             </ul>
         </div>
 
-        <div class="command-section">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3><code>vibe add</code></h3>
             <p>Add a component to your project.</p>
 
@@ -65,7 +65,7 @@
             <CodeBlock Code="@AddExamplesCode" Language="bash" />
         </div>
 
-        <div class="command-section">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3><code>vibe list</code></h3>
             <p>List all available components grouped by category.</p>
 
@@ -82,7 +82,7 @@
             <CodeBlock Code="@ListExamplesCode" Language="bash" />
         </div>
 
-        <div class="command-section">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3><code>vibe update</code></h3>
             <p>Update components to the latest version.</p>
 
@@ -95,15 +95,15 @@
                 <li><code>--force</code> - Force update even if customized</li>
             </ul>
 
-            <div class="warning-box">
-                <strong>⚠️ Warning:</strong> Updating will overwrite any customizations you've made to the component.
-            </div>
+            <Alert Variant="AlertVariant.Warning">
+                <strong>Warning:</strong> Updating overwrites any customizations you’ve made to the component.
+            </Alert>
         </div>
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>Configuration</h2>
-        <p>The CLI uses <code>vibeconfig.json</code> to store project settings:</p>
+        <p>The CLI uses <code>vibe.json</code> to store project settings:</p>
         <CodeBlock Code="@ConfigCode" Language="json" />
 
         <h3>Configuration Options</h3>
@@ -114,36 +114,36 @@
         </ul>
     </section>
 
-    <section class="content-section">
+    <section class="vibe-space-y-4">
         <h2>Workflows</h2>
 
-        <div class="workflow">
-            <h3>Starting a New Project</h3>
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+            <h3 class="vibe-mt-0">Starting a new project</h3>
             <CodeBlock Code="@NewProjectWorkflow" Language="bash" />
         </div>
 
-        <div class="workflow">
-            <h3>Adding Components to Existing Project</h3>
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+            <h3 class="vibe-mt-0">Adding components to an existing project</h3>
             <CodeBlock Code="@ExistingProjectWorkflow" Language="bash" />
         </div>
 
-        <div class="workflow">
-            <h3>Updating Components</h3>
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+            <h3 class="vibe-mt-0">Updating components</h3>
             <CodeBlock Code="@UpdateWorkflow" Language="bash" />
         </div>
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>Available Components</h2>
         <p>The CLI provides access to 93+ components across 11 categories:</p>
 
-        <div class="component-categories">
+        <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-6">
             @foreach (var category in ComponentCategories)
             {
-                <div class="category-card">
-                    <h4>@category.Key</h4>
-                    <p class="component-count">@category.Value.Count components</p>
-                    <ul class="component-list">
+                <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+                    <h4 class="vibe-mt-0">@category.Key</h4>
+                    <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">@category.Value.Count components</p>
+                    <ul>
                         @foreach (var component in category.Value)
                         {
                             <li>@component</li>
@@ -154,28 +154,28 @@
         </div>
     </section>
 
-    <section class="content-section">
+    <section class="vibe-space-y-4">
         <h2>Tips & Best Practices</h2>
 
-        <div class="tip-box">
-            <h3>💡 Organize Components</h3>
+        <Alert Variant="AlertVariant.Info">
+            <h3 class="vibe-mt-0">Organize components</h3>
             <p>Keep all Vibe.UI components in the default <code>Components/vibe/</code> directory for easy identification and updates.</p>
-        </div>
+        </Alert>
 
-        <div class="tip-box">
-            <h3>💡 Version Control</h3>
-            <p>Commit the <code>vibeconfig.json</code> file to version control to track which components are installed.</p>
-        </div>
+        <Alert Variant="AlertVariant.Info">
+            <h3 class="vibe-mt-0">Version control</h3>
+            <p>Commit <code>vibe.json</code> to version control to track which components are installed.</p>
+        </Alert>
 
-        <div class="tip-box">
-            <h3>💡 Customization</h3>
+        <Alert Variant="AlertVariant.Info">
+            <h3 class="vibe-mt-0">Customization</h3>
             <p>Before customizing a component, consider copying it with a new name using <code>--name</code> to preserve the original.</p>
-        </div>
+        </Alert>
 
-        <div class="tip-box">
-            <h3>💡 Updates</h3>
+        <Alert Variant="AlertVariant.Info">
+            <h3 class="vibe-mt-0">Updates</h3>
             <p>Run <code>vibe list --installed</code> periodically to check which components you have and consider updating them.</p>
-        </div>
+        </Alert>
     </section>
 </div>
 
@@ -243,7 +243,7 @@ vibe update button --force   # Force update (ignore customizations)";
     private string ConfigCode => @"{
   ""componentsDirectory"": ""Components/vibe"",
   ""infrastructure"": true,
-  ""version"": ""1.0.0""
+  ""version"": ""0.1.0""
 }";
 
     private string NewProjectWorkflow => @"# 1. Create new Blazor project

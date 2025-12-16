@@ -43,7 +43,7 @@ public static class VibeCss
             };
 
             var emitter = new CssEmitter(config);
-            var scanner = new ClassScanner(prefix);
+            var scanner = new ClassScanner(prefix, allowUnprefixedUtilities);
 
             // Scan for classes
             var classes = scanner.ScanDirectory(projectDirectory, patterns);
@@ -104,12 +104,12 @@ public static class VibeCss
     /// <summary>
     /// Scan a project for CSS classes without generating.
     /// </summary>
-    public static ScanResult Scan(string projectDirectory, string[]? patterns = null, string prefix = "vibe")
+    public static ScanResult Scan(string projectDirectory, string[]? patterns = null, string prefix = "vibe", bool allowUnprefixedUtilities = false)
     {
-        var scanner = new ClassScanner(prefix);
+        var scanner = new ClassScanner(prefix, allowUnprefixedUtilities);
         var classes = scanner.ScanDirectory(projectDirectory, patterns);
 
-        var config = new VibeConfig { Prefix = prefix };
+        var config = new VibeConfig { Prefix = prefix, AllowUnprefixedUtilities = allowUnprefixedUtilities };
         var generator = new UtilityGenerator(config);
 
         var recognized = new List<string>();

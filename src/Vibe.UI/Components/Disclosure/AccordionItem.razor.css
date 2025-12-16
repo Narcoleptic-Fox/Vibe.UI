@@ -48,9 +48,11 @@
     background-color: var(--vibe-muted);
 }
 
-.vibe-accordion-item-trigger:focus {
+.vibe-accordion-item-trigger:focus-visible {
     background-color: var(--vibe-muted);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--vibe-ring) 25%, transparent);
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* ========================================

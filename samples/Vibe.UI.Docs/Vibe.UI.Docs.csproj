@@ -8,9 +8,13 @@
     <!-- Vibe.CSS (JIT utility CSS) for docs site styling -->
     <VibeCssEnabled Condition="'$(VibeCssEnabled)' == ''">true</VibeCssEnabled>
     <VibeCssPrefix Condition="'$(VibeCssPrefix)' == ''">vibe</VibeCssPrefix>
-    <VibeCssAllowUnprefixed Condition="'$(VibeCssAllowUnprefixed)' == ''">true</VibeCssAllowUnprefixed>
+    <VibeCssAllowUnprefixed Condition="'$(VibeCssAllowUnprefixed)' == ''">false</VibeCssAllowUnprefixed>
     <VibeCssScanRoot Condition="'$(VibeCssScanRoot)' == ''">$(MSBuildProjectDirectory)</VibeCssScanRoot>
     <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\vibe.css</VibeCssOutput>
+    <VibeCssIncludeBase Condition="'$(VibeCssIncludeBase)' == ''">true</VibeCssIncludeBase>
+    <VibeCssScanPatterns Condition="'$(VibeCssScanPatterns)' == ''">*.razor,*.cshtml,*.html,*.cs</VibeCssScanPatterns>
+
+    <_VibeCssProjectPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj</_VibeCssProjectPath>
 
     <!-- MSBuild doesn't always populate $(DotNetExe) depending on invocation context -->
     <DotNetExe Condition="'$(DotNetExe)' == ''">dotnet</DotNetExe>
@@ -30,8 +34,11 @@
           BeforeTargets="BeforeBuild"
           Condition="'$(VibeCssEnabled)' == 'true'">
     <Message Importance="high" Text="Vibe.CSS: Generating docs CSS -> $(VibeCssOutput)" />
-    <Exec UseCommandProcessor="false"
-          Command="$(DotNetExe) run --project &quot;$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj&quot; -- generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base true --patterns &quot;*.razor,*.cshtml,*.html,*.cs&quot;" />
+    <MSBuild Projects="$(_VibeCssProjectPath)"
+             Targets="Build"
+             Properties="Configuration=$(Configuration);UseSharedCompilation=false"
+             BuildInParallel="true" />
+    <Exec Command="$(DotNetExe) run --project &quot;$(_VibeCssProjectPath)&quot; -c $(Configuration) --no-build -- generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base &quot;$(VibeCssIncludeBase)&quot; --patterns &quot;$(VibeCssScanPatterns)&quot;" />
   </Target>
 
 </Project>

@@ -25,9 +25,11 @@
    ---------------------------------------- */
 
 .vibe-dialog {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    border: 1px solid var(--vibe-border);
     border-radius: var(--vibe-radius);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--vibe-shadow-lg);
     width: 100%;
     max-width: 32rem;
     max-height: calc(100vh - 2rem);

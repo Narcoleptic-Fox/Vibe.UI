@@ -18,7 +18,7 @@ public class CssEmitter
     {
         _config = config ?? new VibeConfig();
         _generator = new UtilityGenerator(_config);
-        _scanner = new ClassScanner(_config.Prefix);
+        _scanner = new ClassScanner(_config.Prefix, _config.AllowUnprefixedUtilities);
     }
 
     /// <summary>
@@ -79,6 +79,7 @@ public class CssEmitter
         // Generate rules for each class
         var rules = new List<CssRule>();
         var generatedClasses = new HashSet<string>();
+        var emittedRuleKeys = new HashSet<string>(StringComparer.Ordinal);
 
         foreach (var className in classNames)
         {
@@ -89,7 +90,14 @@ public class CssEmitter
             var classRules = _generator.GenerateAll(className);
             if (classRules.Count > 0)
             {
-                rules.AddRange(classRules);
+                foreach (var r in classRules)
+                {
+                    var key = $"{r.MediaQuery}|{r.Selector}|{r.Declarations}";
+                    if (emittedRuleKeys.Add(key))
+                    {
+                        rules.Add(r);
+                    }
+                }
                 generatedClasses.Add(className);
             }
         }
@@ -112,6 +120,8 @@ public class CssEmitter
 
         foreach (var rule in noMediaRules)
         {
+            if (string.IsNullOrWhiteSpace(rule.Declarations))
+                continue;
             sb.AppendLine(rule.ToCss());
         }
 
@@ -124,6 +134,8 @@ public class CssEmitter
 
             foreach (var rule in group.OrderBy(r => r.Order))
             {
+                if (string.IsNullOrWhiteSpace(rule.Declarations))
+                    continue;
                 sb.AppendLine($"  {rule.Selector} {{ {rule.Declarations} }}");
             }
 
@@ -203,8 +215,8 @@ public class CssEmitter
 
         foreach (var className in classNames)
         {
-            var rule = _generator.Generate(className);
-            if (rule != null)
+            var rules = _generator.GenerateAll(className);
+            if (rules.Count > 0)
             {
                 generated++;
             }

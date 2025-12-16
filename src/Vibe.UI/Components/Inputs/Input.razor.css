@@ -128,7 +128,7 @@
 
 .vibe-input-wrapper.vibe-input-wrapper-outlined.vibe-input-focused {
     border-color: var(--vibe-ring);
-    border-width: 2px;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 .vibe-input-wrapper.vibe-input-wrapper-outlined.vibe-input-has-error {

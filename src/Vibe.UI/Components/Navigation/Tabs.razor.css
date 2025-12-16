@@ -60,16 +60,12 @@
 }
 
 /* Focus State */
-.vibe-tabs-trigger:focus {
-    color: var(--vibe-foreground);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--vibe-ring) 25%, transparent);
-}
-
 /* Focus Visible State (for keyboard navigation) */
 .vibe-tabs-trigger:focus-visible {
     outline: 2px solid var(--vibe-ring);
     outline-offset: 2px;
     border-radius: var(--vibe-radius-sm);
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* Active State */

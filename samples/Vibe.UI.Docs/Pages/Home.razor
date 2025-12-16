@@ -3,28 +3,28 @@
 
 <PageTitle>Vibe.UI - Modern Blazor Component Library</PageTitle>
 
-<div class="vibe-landing-page">
+<div>
     <!-- Hero Section -->
     <section class="vibe-relative vibe-min-h-[90vh] vibe-flex vibe-items-center vibe-justify-center vibe-overflow-hidden">
         <!-- Animated Background -->
         <div class="vibe-absolute vibe-inset-0">
             <!-- Gradient Orbs -->
-            <div class="gradient-orb gradient-orb-teal vibe-w-[600px] vibe-h-[600px] vibe-absolute vibe--top-40 vibe--left-40 animate-float vibe-opacity-40"></div>
-            <div class="gradient-orb gradient-orb-lilac vibe-w-[500px] vibe-h-[500px] vibe-absolute vibe--bottom-20 vibe--right-20 animate-float-delayed vibe-opacity-40"></div>
-            <div class="gradient-orb gradient-orb-teal vibe-w-[300px] vibe-h-[300px] vibe-absolute vibe-top-1/2 vibe-left-1/2 vibe--translate-x-1/2 vibe--translate-y-1/2 animate-float vibe-opacity-20"></div>
+            <div class="vibe-gradient-orb vibe-gradient-orb-teal vibe-w-[600px] vibe-h-[600px] vibe-absolute vibe--top-40 vibe--left-40 vibe-animate-float vibe-opacity-40"></div>
+            <div class="vibe-gradient-orb vibe-gradient-orb-lilac vibe-w-[500px] vibe-h-[500px] vibe-absolute vibe--bottom-20 vibe--right-20 vibe-animate-float-delayed vibe-opacity-40"></div>
+            <div class="vibe-gradient-orb vibe-gradient-orb-teal vibe-w-[300px] vibe-h-[300px] vibe-absolute vibe-top-1/2 vibe-left-1/2 vibe--translate-x-1/2 vibe--translate-y-1/2 vibe-animate-float vibe-opacity-20"></div>
 
             <!-- Grid Pattern -->
-            <div class="vibe-absolute vibe-inset-0 bg-grid-pattern"></div>
+            <div class="vibe-absolute vibe-inset-0 vibe-bg-grid-pattern"></div>
 
             <!-- Radial gradient overlay -->
             <div class="vibe-absolute vibe-inset-0 vibe-bg-gradient-to-b vibe-from-transparent vibe-via-white/50 vibe-to-white dark:vibe-via-zinc-950/50 dark:vibe-to-zinc-950"></div>
         </div>
 
         <!-- Hero Content -->
-        <div class="vibe-relative vibe-z-10 vibe-max-w-4xl vibe-mx-auto vibe-text-center vibe-px-4 vibe-py-20 stagger-children">
+        <div class="vibe-relative vibe-z-10 vibe-max-w-4xl vibe-mx-auto vibe-text-center vibe-px-4 vibe-py-20 vibe-stagger-children">
             <!-- Badge -->
             <div class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-1.5 vibe-rounded-full vibe-bg-zinc-100 dark:vibe-bg-zinc-800/80 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-8 vibe-backdrop-blur-sm" style="--stagger-index: 0">
-                <span class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-green-500 pulse-dot"></span>
+                <span class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-green-500 vibe-pulse-dot"></span>
                 <span>shadcn/ui for Blazor</span>
             </div>
 
@@ -43,7 +43,7 @@
             <!-- CTA Buttons -->
             <div class="vibe-flex vibe-flex-col sm:vibe-flex-row vibe-items-center vibe-justify-center vibe-gap-4 vibe-mb-12" style="--stagger-index: 3">
                 <a href="@GetUrl("getting-started")"
-                   class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-zinc-900 dark:vibe-bg-zinc-100 vibe-text-white dark:vibe-text-zinc-900 vibe-font-medium hover:vibe-bg-zinc-800 dark:hover:vibe-bg-zinc-200 vibe-transition-colors press-effect">
+                   class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-zinc-900 dark:vibe-bg-zinc-100 vibe-text-white dark:vibe-text-zinc-900 vibe-font-medium hover:vibe-bg-zinc-800 dark:hover:vibe-bg-zinc-200 vibe-transition-colors vibe-press-effect">
                     Get Started
                     <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -218,7 +218,7 @@
                 @foreach (var component in PopularComponents)
                 {
                     <a href="@GetUrl($"components/{component.ToLower()}")"
-                       class="group vibe-p-4 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal hover:vibe-shadow-lg vibe-transition-all vibe-duration-200">
+                       class="vibe-group vibe-p-4 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal hover:vibe-shadow-lg vibe-transition-all vibe-duration-200">
                         <div class="vibe-w-10 vibe-h-10 vibe-rounded-lg vibe-bg-gradient-to-br vibe-from-brand-teal/10 vibe-to-brand-lilac/10 vibe-flex vibe-items-center vibe-justify-center vibe-mb-3 group-hover:vibe-scale-110 vibe-transition-transform">
                             <span class="vibe-text-sm vibe-font-bold vibe-text-brand-teal">@component[0]</span>
                         </div>
@@ -253,7 +253,7 @@
 
                     <div class="vibe-flex vibe-flex-col sm:vibe-flex-row vibe-items-center vibe-justify-center vibe-gap-4">
                         <a href="@GetUrl("getting-started")"
-                           class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-zinc-900 dark:vibe-bg-zinc-100 vibe-text-white dark:vibe-text-zinc-900 vibe-font-medium hover:vibe-bg-zinc-800 dark:hover:vibe-bg-zinc-200 vibe-transition-colors press-effect">
+                           class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-zinc-900 dark:vibe-bg-zinc-100 vibe-text-white dark:vibe-text-zinc-900 vibe-font-medium hover:vibe-bg-zinc-800 dark:hover:vibe-bg-zinc-200 vibe-transition-colors vibe-press-effect">
                             Get Started
                             <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>

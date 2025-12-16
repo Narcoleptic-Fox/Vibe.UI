@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UseSharedCompilation>false</UseSharedCompilation>
     <PackageId>Vibe.CSS</PackageId>
     <Version>1.0.0</Version>
     <Title>Vibe.CSS - .NET-Native CSS Framework</Title>

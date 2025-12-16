@@ -34,7 +34,9 @@
 
 .drawer-content {
     position: fixed;
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
+    border: 1px solid var(--vibe-border);
     box-shadow: var(--vibe-shadow-lg);
     display: flex;
     flex-direction: column;
@@ -66,9 +68,10 @@
     background-color: var(--vibe-muted);
 }
 
-.drawer-close:focus {
+.drawer-close:focus-visible {
     outline: 2px solid var(--vibe-ring);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* ----------------------------------------

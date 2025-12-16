@@ -17,10 +17,8 @@
    Dark Mode Support
    ---------------------------------------- */
 
-@media (prefers-color-scheme: dark) {
-    .vibe-menu-separator {
-        background-color: var(--vibe-border);
-    }
+.dark .vibe-menu-separator {
+    background-color: var(--vibe-border);
 }
 
 /* ----------------------------------------
