@@ -36,7 +36,7 @@ In this context:
   - Source: `src/Vibe.CSS/Data/vibe-base.css` (tokens + reset) and component styles using `var(--vibe-*)`.
   - Runtime toggling: `src/Vibe.UI/wwwroot/js/vibe-theme.js` + `ThemeToggle`/`ThemeProvider` components.
 - Styling approach: components ship with `.razor.css` and are designed to work with tokens out of the box.
-- Component class/attrs model: common `Class` + `AdditionalAttributes` pattern via `src/Vibe.UI/Base/ThemedComponentBase.cs` (`VibeComponent`).
+- Component class/attrs model: common `Class` + `AdditionalAttributes` pattern via `src/Vibe.UI/Base/VibeComponent.cs` (`VibeComponent`).
 - Copy/paste workflow (“shadcn for Blazor”):
   - `vibe init` copies infrastructure to `Vibe/` and CSS foundation files to `wwwroot/css/`.
   - `vibe add <component>` installs components (flat by default) and installs dependencies first.

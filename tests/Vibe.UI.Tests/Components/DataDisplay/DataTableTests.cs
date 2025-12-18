@@ -56,7 +56,7 @@ public class DataTableTests : TestBase
 
         // Assert
         var searchInput = cut.Find(".search-input");
-        searchInput.GetAttribute("placeholder").ShouldBe("Search...");
+        searchInput.GetAttribute("placeholder")!.ShouldBe("Search...");
     }
 
     [Fact]

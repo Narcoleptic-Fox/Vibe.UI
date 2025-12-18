@@ -43,7 +43,7 @@ public class RichTextEditorTests : TestBase
         // Assert
         var editor = cut.Find(".richtext-editor");
         editor.ShouldNotBeNull();
-        editor.GetAttribute("contenteditable").ShouldBe("true");
+        editor.GetAttribute("contenteditable")!.ShouldBe("true");
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class RichTextEditorTests : TestBase
 
         // Assert
         var editor = cut.Find(".richtext-editor");
-        editor.GetAttribute("contenteditable").ShouldBe("false");
+        editor.GetAttribute("contenteditable")!.ShouldBe("false");
         cut.Find(".vibe-richtext").ClassList.ShouldContain("richtext-readonly");
     }
 
@@ -123,7 +123,7 @@ public class RichTextEditorTests : TestBase
 
         // Assert
         var editor = cut.Find(".richtext-editor");
-        editor.GetAttribute("aria-label").ShouldBe("Document editor");
+        editor.GetAttribute("aria-label")!.ShouldBe("Document editor");
     }
 
     [Fact]

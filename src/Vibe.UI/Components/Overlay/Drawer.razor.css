@@ -74,6 +74,14 @@
     box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
+.drawer-close:disabled,
+.drawer-close[disabled],
+.drawer-close[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* ----------------------------------------
    Body/Content Section
    ---------------------------------------- */

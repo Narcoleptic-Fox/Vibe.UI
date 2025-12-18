@@ -21,7 +21,7 @@ public class AvatarTests : TestBase
 
         // Assert
         var img = cut.Find(".avatar-image");
-        img.GetAttribute("src").ShouldBe("test.jpg");
+        img.GetAttribute("src")!.ShouldBe("test.jpg");
     }
 
     [Fact]
@@ -77,8 +77,8 @@ public class AvatarTests : TestBase
 
         // Assert
         var avatar = cut.Find(".vibe-avatar");
-        avatar.GetAttribute("style").ShouldContain("width: 80px");
-        avatar.GetAttribute("style").ShouldContain("height: 80px");
+        avatar.GetAttribute("style")!.ShouldContain("width: 80px");
+        avatar.GetAttribute("style")!.ShouldContain("height: 80px");
     }
 
     [Fact]

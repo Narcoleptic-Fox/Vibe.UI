@@ -284,7 +284,7 @@
     private string fullName = "";
     private string passwordStrength = "None";
 
-    private string ValidateUsername(string value)
+    private string? ValidateUsername(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return "Username is required";
@@ -295,7 +295,7 @@
         return null;
     }
 
-    private string ValidateEmail(string value)
+    private string? ValidateEmail(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return "Email is required";
@@ -304,7 +304,7 @@
         return null;
     }
 
-    private string ValidatePassword(string value)
+    private string? ValidatePassword(string value)
     {
         if (string.IsNullOrEmpty(value))
         {

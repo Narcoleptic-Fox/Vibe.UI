@@ -11,6 +11,11 @@ public partial class ClassScanner
     private readonly bool _allowUnprefixed;
     private readonly HashSet<string> _ignoredClasses = [];
 
+    /// <summary>
+    /// Initializes a new instance of the ClassScanner.
+    /// </summary>
+    /// <param name="prefix">The CSS class prefix to scan for (default: "vibe")</param>
+    /// <param name="allowUnprefixed">Whether to allow scanning unprefixed utility classes</param>
     public ClassScanner(string prefix = "vibe", bool allowUnprefixed = false)
     {
         _prefix = prefix;

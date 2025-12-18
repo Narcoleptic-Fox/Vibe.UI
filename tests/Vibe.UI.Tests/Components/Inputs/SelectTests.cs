@@ -86,7 +86,7 @@ public class SelectTests : TestBase
     public void Select_InvokesOnChange_WhenSelectionChanges()
     {
         // Arrange
-        ChangeEventArgs capturedArgs = null;
+        ChangeEventArgs? capturedArgs = null;
         var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.OnChange, args => capturedArgs = args)
             .AddChildContent(@"
@@ -112,7 +112,7 @@ public class SelectTests : TestBase
 
         // Assert
         var select = cut.Find("select");
-        select.GetAttribute("id").ShouldBe("my-select");
+        select.GetAttribute("id")!.ShouldBe("my-select");
     }
 
     // === Edge Cases ===
@@ -122,7 +122,7 @@ public class SelectTests : TestBase
     {
         // Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.ChildContent, (RenderFragment)null));
+            .Add(p => p.ChildContent, (RenderFragment?)null));
 
         // Assert
         var select = cut.Find("select");
@@ -218,7 +218,7 @@ public class SelectTests : TestBase
         // Assert
         var placeholder = cut.Find("option[disabled][selected]");
         placeholder.ShouldNotBeNull();
-        placeholder.GetAttribute("value").ShouldBe(string.Empty);
+        placeholder.GetAttribute("value")!.ShouldBe(string.Empty);
     }
 
     // === Helper Text ===
@@ -353,8 +353,8 @@ public class SelectTests : TestBase
 
         // Assert
         var select = cut.Find("select");
-        select.GetAttribute("data-testid").ShouldBe("my-select");
-        select.GetAttribute("aria-label").ShouldBe("Custom Select");
+        select.GetAttribute("data-testid")!.ShouldBe("my-select");
+        select.GetAttribute("aria-label")!.ShouldBe("Custom Select");
     }
 
     // === Complex Scenarios ===

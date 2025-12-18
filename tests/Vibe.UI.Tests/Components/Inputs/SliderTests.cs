@@ -11,8 +11,8 @@ public class SliderTests : TestBase
         // Assert
         var slider = cut.Find("input[type='range']");
         slider.ShouldNotBeNull();
-        slider.GetAttribute("min").ShouldBe("0");
-        slider.GetAttribute("max").ShouldBe("100");
+        slider.GetAttribute("min")!.ShouldBe("0");
+        slider.GetAttribute("max")!.ShouldBe("100");
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class SliderTests : TestBase
 
         // Assert
         var slider = cut.Find("input[type='range']");
-        slider.GetAttribute("value").ShouldBe("50");
+        slider.GetAttribute("value")!.ShouldBe("50");
     }
 
     [Fact]
@@ -38,9 +38,9 @@ public class SliderTests : TestBase
 
         // Assert
         var slider = cut.Find("input[type='range']");
-        slider.GetAttribute("min").ShouldBe("10");
-        slider.GetAttribute("max").ShouldBe("200");
-        slider.GetAttribute("step").ShouldBe("5");
+        slider.GetAttribute("min")!.ShouldBe("10");
+        slider.GetAttribute("max")!.ShouldBe("200");
+        slider.GetAttribute("step")!.ShouldBe("5");
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class SliderTests : TestBase
         // Assert - Component uses calc() formula with the percentage value
         var range = cut.Find(".vibe-slider-range");
         var style = range.GetAttribute("style");
-        style.ShouldContain("50%");
+        style!.ShouldContain("50%");
     }
 
     // === Edge Cases ===
@@ -108,7 +108,7 @@ public class SliderTests : TestBase
         // Assert - When min equals max, GetPercentage returns "0"
         var range = cut.Find(".vibe-slider-range");
         var style = range.GetAttribute("style");
-        style.ShouldContain("0%");
+        style!.ShouldContain("0%");
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public class SliderTests : TestBase
         // Assert - When min >= max, GetPercentage returns "0"
         var range = cut.Find(".vibe-slider-range");
         var style = range.GetAttribute("style");
-        style.ShouldContain("0%");
+        style!.ShouldContain("0%");
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class SliderTests : TestBase
         // Assert - Component uses calc() formula with the percentage value
         var range = cut.Find(".vibe-slider-range");
         var style = range.GetAttribute("style");
-        style.ShouldContain("50%");
+        style!.ShouldContain("50%");
     }
 
     [Fact]
@@ -153,10 +153,10 @@ public class SliderTests : TestBase
 
         // Assert
         var slider = cut.Find("input[type='range']");
-        slider.GetAttribute("min").ShouldBe("0");
-        slider.GetAttribute("max").ShouldBe("1");
-        slider.GetAttribute("step").ShouldBe("0.1");
-        slider.GetAttribute("value").ShouldBe("0.5");
+        slider.GetAttribute("min")!.ShouldBe("0");
+        slider.GetAttribute("max")!.ShouldBe("1");
+        slider.GetAttribute("step")!.ShouldBe("0.1");
+        slider.GetAttribute("value")!.ShouldBe("0.5");
     }
 
     // === Value Display ===
@@ -249,7 +249,7 @@ public class SliderTests : TestBase
         var range = cut.Find(".vibe-slider-range");
         var style = range.GetAttribute("style");
         // Value below min should result in 0% or negative percentage clamped to 0
-        style.ShouldContain("width:");
+        style!.ShouldContain("width:");
     }
 
     [Fact]
@@ -264,7 +264,7 @@ public class SliderTests : TestBase
         // Assert - Should clamp to 100% (component uses calc() formula)
         var range = cut.Find(".vibe-slider-range");
         var style = range.GetAttribute("style");
-        style.ShouldContain("100%");
+        style!.ShouldContain("100%");
     }
 
     // === Additional Attributes ===
@@ -282,7 +282,7 @@ public class SliderTests : TestBase
 
         // Assert
         var slider = cut.Find(".vibe-slider");
-        slider.GetAttribute("data-testid").ShouldBe("my-slider");
-        slider.GetAttribute("aria-label").ShouldBe("Custom Slider");
+        slider.GetAttribute("data-testid")!.ShouldBe("my-slider");
+        slider.GetAttribute("aria-label")!.ShouldBe("Custom Slider");
     }
 }

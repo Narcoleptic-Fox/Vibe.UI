@@ -11,7 +11,7 @@ public class ProgressTests : TestBase
         // Assert
         var progress = cut.Find(".vibe-progress");
         progress.ShouldNotBeNull();
-        progress.GetAttribute("role").ShouldBe("progressbar");
+        progress.GetAttribute("role")!.ShouldBe("progressbar");
     }
 
     [Fact]
@@ -23,9 +23,9 @@ public class ProgressTests : TestBase
 
         // Assert
         var progress = cut.Find(".vibe-progress");
-        progress.GetAttribute("aria-valuenow").ShouldBe("50");
+        progress.GetAttribute("aria-valuenow")!.ShouldBe("50");
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 50%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 50%");
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 100%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 100%");
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 0%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 0%");
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class ProgressTests : TestBase
         // Assert
         cut.Find(".vibe-progress").ClassList.ShouldContain("animate");
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 100%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 100%");
     }
 
     [Fact]
@@ -86,9 +86,9 @@ public class ProgressTests : TestBase
 
         // Assert
         var progress = cut.Find(".vibe-progress");
-        progress.GetAttribute("aria-valuemin").ShouldBe("0");
-        progress.GetAttribute("aria-valuemax").ShouldBe("100");
-        progress.GetAttribute("aria-valuenow").ShouldBe("30");
+        progress.GetAttribute("aria-valuemin")!.ShouldBe("0");
+        progress.GetAttribute("aria-valuemax")!.ShouldBe("100");
+        progress.GetAttribute("aria-valuenow")!.ShouldBe("30");
     }
 
     // === Boundary Value Tests ===
@@ -102,8 +102,8 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 0%");
-        cut.Find(".vibe-progress").GetAttribute("aria-valuenow").ShouldBe("0");
+        indicator.GetAttribute("style")!.ShouldContain("width: 0%");
+        cut.Find(".vibe-progress").GetAttribute("aria-valuenow")!.ShouldBe("0");
     }
 
     [Fact]
@@ -115,8 +115,8 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 100%");
-        cut.Find(".vibe-progress").GetAttribute("aria-valuenow").ShouldBe("100");
+        indicator.GetAttribute("style")!.ShouldContain("width: 100%");
+        cut.Find(".vibe-progress").GetAttribute("aria-valuenow")!.ShouldBe("100");
     }
 
     [Fact]
@@ -128,8 +128,8 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 1%");
-        cut.Find(".vibe-progress").GetAttribute("aria-valuenow").ShouldBe("1");
+        indicator.GetAttribute("style")!.ShouldContain("width: 1%");
+        cut.Find(".vibe-progress").GetAttribute("aria-valuenow")!.ShouldBe("1");
     }
 
     [Fact]
@@ -141,8 +141,8 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 99%");
-        cut.Find(".vibe-progress").GetAttribute("aria-valuenow").ShouldBe("99");
+        indicator.GetAttribute("style")!.ShouldContain("width: 99%");
+        cut.Find(".vibe-progress").GetAttribute("aria-valuenow")!.ShouldBe("99");
     }
 
     [Fact]
@@ -154,8 +154,8 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 0%");
-        cut.Find(".vibe-progress").GetAttribute("aria-valuenow").ShouldBe("-100");
+        indicator.GetAttribute("style")!.ShouldContain("width: 0%");
+        cut.Find(".vibe-progress").GetAttribute("aria-valuenow")!.ShouldBe("-100");
     }
 
     [Fact]
@@ -167,8 +167,8 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 100%");
-        cut.Find(".vibe-progress").GetAttribute("aria-valuenow").ShouldBe("500");
+        indicator.GetAttribute("style")!.ShouldContain("width: 100%");
+        cut.Find(".vibe-progress").GetAttribute("aria-valuenow")!.ShouldBe("500");
     }
 
     // === Variant Tests ===
@@ -255,7 +255,7 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 100%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 100%");
     }
 
     [Fact]
@@ -268,7 +268,7 @@ public class ProgressTests : TestBase
 
         // Assert
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 100%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 100%");
     }
 
     [Fact]
@@ -294,10 +294,10 @@ public class ProgressTests : TestBase
 
         // Assert
         var progress = cut.Find(".vibe-progress");
-        progress.GetAttribute("role").ShouldBe("progressbar");
-        progress.GetAttribute("aria-valuemin").ShouldBe("0");
-        progress.GetAttribute("aria-valuemax").ShouldBe("100");
-        progress.GetAttribute("aria-valuenow").ShouldBe("45");
+        progress.GetAttribute("role")!.ShouldBe("progressbar");
+        progress.GetAttribute("aria-valuemin")!.ShouldBe("0");
+        progress.GetAttribute("aria-valuemax")!.ShouldBe("100");
+        progress.GetAttribute("aria-valuenow")!.ShouldBe("45");
     }
 
     [Fact]
@@ -313,9 +313,9 @@ public class ProgressTests : TestBase
 
         // Assert
         var progress = cut.Find(".vibe-progress");
-        progress.GetAttribute("aria-valuenow").ShouldBe("75");
+        progress.GetAttribute("aria-valuenow")!.ShouldBe("75");
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 75%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 75%");
     }
 
     [Fact]
@@ -327,9 +327,9 @@ public class ProgressTests : TestBase
 
         // Assert
         var progress = cut.Find(".vibe-progress");
-        progress.GetAttribute("role").ShouldBe("progressbar");
-        progress.GetAttribute("aria-valuemin").ShouldBe("0");
-        progress.GetAttribute("aria-valuemax").ShouldBe("100");
+        progress.GetAttribute("role")!.ShouldBe("progressbar");
+        progress.GetAttribute("aria-valuemin")!.ShouldBe("0");
+        progress.GetAttribute("aria-valuemax")!.ShouldBe("100");
     }
 
     // === State Update Tests ===
@@ -342,7 +342,7 @@ public class ProgressTests : TestBase
             .Add(p => p.Value, 10));
 
         var indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 10%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 10%");
 
         // Act
         cut.SetParametersAndRender(parameters => parameters
@@ -350,7 +350,7 @@ public class ProgressTests : TestBase
 
         // Assert
         indicator = cut.Find(".progress-indicator");
-        indicator.GetAttribute("style").ShouldContain("width: 90%");
+        indicator.GetAttribute("style")!.ShouldContain("width: 90%");
     }
 
     [Fact]

@@ -11,7 +11,7 @@ public class RatingTests : TestBase
         // Assert
         var rating = cut.Find(".vibe-rating");
         rating.ShouldNotBeNull();
-        rating.GetAttribute("role").ShouldBe("radiogroup");
+        rating.GetAttribute("role")!.ShouldBe("radiogroup");
     }
 
     [Fact]
@@ -159,7 +159,7 @@ public class RatingTests : TestBase
 
         // Assert
         var rating = cut.Find(".vibe-rating");
-        rating.GetAttribute("aria-label").ShouldBe("Product Rating");
+        rating.GetAttribute("aria-label")!.ShouldBe("Product Rating");
     }
 
     [Fact]
@@ -373,7 +373,7 @@ public class RatingTests : TestBase
 
         // Assert
         var rating = cut.Find(".vibe-rating");
-        rating.GetAttribute("aria-label").ShouldBe("Rating");
+        rating.GetAttribute("aria-label")!.ShouldBe("Rating");
     }
 
     [Fact]
@@ -385,9 +385,9 @@ public class RatingTests : TestBase
 
         // Assert
         var stars = cut.FindAll(".rating-star");
-        stars[0].GetAttribute("aria-label").ShouldBe("1 star");
-        stars[1].GetAttribute("aria-label").ShouldBe("2 stars");
-        stars[2].GetAttribute("aria-label").ShouldBe("3 stars");
+        stars[0].GetAttribute("aria-label")!.ShouldBe("1 star");
+        stars[1].GetAttribute("aria-label")!.ShouldBe("2 stars");
+        stars[2].GetAttribute("aria-label")!.ShouldBe("3 stars");
     }
 
     [Fact]
@@ -450,7 +450,7 @@ public class RatingTests : TestBase
         var stars = cut.FindAll(".rating-star");
         foreach (var star in stars)
         {
-            star.GetAttribute("type").ShouldBe("button");
+            star.GetAttribute("type")!.ShouldBe("button");
         }
     }
 }

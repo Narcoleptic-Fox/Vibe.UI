@@ -22,7 +22,7 @@ public class ColorPickerTests : TestBase
 
         // Assert
         var swatch = cut.Find(".vibe-color-picker-swatch");
-        swatch.GetAttribute("style").ShouldContain("#FF0000");
+        swatch.GetAttribute("style")!.ShouldContain("#FF0000");
     }
 
     [Fact]

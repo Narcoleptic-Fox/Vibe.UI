@@ -94,7 +94,7 @@
         // Handle only if it's not a right click to prevent duplicate openings
         if (e.Button != 2 && IsOpen)
         {
-            CloseMenu();
+            _ = CloseMenu(); // Fire-and-forget: sync event handler
         }
     }
 

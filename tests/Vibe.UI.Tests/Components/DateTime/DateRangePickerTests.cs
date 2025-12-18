@@ -38,8 +38,8 @@ public class DateRangePickerTests : TestBase
 
         // Assert - Find the actual input elements within the Input component wrappers
         var inputs = cut.FindAll(".daterange-inputs input");
-        inputs[0].GetAttribute("placeholder").ShouldBe(startPlaceholder);
-        inputs[1].GetAttribute("placeholder").ShouldBe(endPlaceholder);
+        inputs[0].GetAttribute("placeholder")!.ShouldBe(startPlaceholder);
+        inputs[1].GetAttribute("placeholder")!.ShouldBe(endPlaceholder);
     }
 
     [Fact]
@@ -57,8 +57,8 @@ public class DateRangePickerTests : TestBase
 
         // Assert - Find the actual input elements within the Input component wrappers
         var inputs = cut.FindAll(".daterange-inputs input");
-        inputs[0].GetAttribute("value").ShouldBe("06/01/2024");
-        inputs[1].GetAttribute("value").ShouldBe("06/30/2024");
+        inputs[0].GetAttribute("value")!.ShouldBe("06/01/2024");
+        inputs[1].GetAttribute("value")!.ShouldBe("06/30/2024");
     }
 
     [Fact]

@@ -12,7 +12,7 @@ public class ToastTests : TestBase
         // Assert
         var toast = cut.Find(".vibe-toast");
         toast.ShouldNotBeNull();
-        toast.GetAttribute("role").ShouldBe("alert");
+        toast.GetAttribute("role")!.ShouldBe("alert");
     }
 
     [Fact]

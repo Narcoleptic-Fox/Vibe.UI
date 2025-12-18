@@ -158,7 +158,7 @@ public class KanbanBoardTests : TestBase
     public void KanbanBoard_InvokesCardClicked_WhenCardIsClicked()
     {
         // Arrange
-        KanbanBoard.KanbanCard clickedCard = null;
+        KanbanBoard.KanbanCard? clickedCard = null;
         var card = new KanbanBoard.KanbanCard { Id = "card1", Title = "Task 1" };
         var columns = new List<KanbanBoard.KanbanColumn>
         {

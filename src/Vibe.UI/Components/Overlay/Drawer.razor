@@ -35,7 +35,7 @@
     /// Gets or sets the content of the drawer.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets whether the drawer is open.
@@ -113,7 +113,7 @@
     {
         if (CloseOnOverlayClick)
         {
-            Close();
+            _ = Close(); // Fire-and-forget: sync event handler
         }
     }
 

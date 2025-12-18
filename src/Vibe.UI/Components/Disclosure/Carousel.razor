@@ -51,7 +51,7 @@
     /// Gets or sets the content of the carousel.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to show navigation arrows.
@@ -173,11 +173,11 @@
             {
                 if ((DateTime.Now - _lastAutoAdvance).TotalMilliseconds >= AutoPlayInterval && !_isDragging)
                 {
-                    InvokeAsync(() =>
-        {
-                NextSlide();
-                StateHasChanged();
-            });
+                    _ = InvokeAsync(() => // Fire-and-forget: timer callback cannot await
+                    {
+                        NextSlide();
+                        StateHasChanged();
+                    });
                     _lastAutoAdvance = DateTime.Now;
                 }
             };

@@ -30,7 +30,7 @@ public class MentionsTests : TestBase
 
         // Assert
         var input = cut.Find(".mentions-input");
-        input.GetAttribute("placeholder").ShouldBe("Type @ to mention...");
+        input.GetAttribute("placeholder")!.ShouldBe("Type @ to mention...");
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class MentionsTests : TestBase
 
         // Assert
         var input = cut.Find(".mentions-input");
-        input.GetAttribute("placeholder").ShouldBe("Custom placeholder");
+        input.GetAttribute("placeholder")!.ShouldBe("Custom placeholder");
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class MentionsTests : TestBase
 
         // Assert
         var input = cut.Find(".mentions-input");
-        input.GetAttribute("aria-label").ShouldBe("Mention users");
+        input.GetAttribute("aria-label")!.ShouldBe("Mention users");
     }
 
     [Fact]

@@ -39,19 +39,19 @@
     /// Gets or sets the title of the toast.
     /// </summary>
     [Parameter]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// Gets or sets the description of the toast.
     /// </summary>
     [Parameter]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Gets or sets the icon for the toast.
     /// </summary>
     [Parameter]
-    public string Icon { get; set; }
+    public string? Icon { get; set; }
 
     /// <summary>
     /// Gets or sets the variant of the toast.
@@ -101,7 +101,7 @@
     /// <summary>
     /// Timer for auto-dismissing the toast.
     /// </summary>
-    private System.Timers.Timer _dismissTimer;
+    private System.Timers.Timer? _dismissTimer;
 
     /// <summary>
     /// Initializes the component.

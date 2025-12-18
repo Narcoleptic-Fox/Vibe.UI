@@ -12,7 +12,7 @@ public class TextAreaTests : TestBase
         var textarea = cut.Find("textarea");
         textarea.ShouldNotBeNull();
         textarea.ClassList.ShouldContain("vibe-textarea");
-        textarea.GetAttribute("rows").ShouldBe("4");
+        textarea.GetAttribute("rows")!.ShouldBe("4");
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class TextAreaTests : TestBase
 
         // Assert
         var textarea = cut.Find("textarea");
-        textarea.GetAttribute("placeholder").ShouldBe("Enter text...");
+        textarea.GetAttribute("placeholder")!.ShouldBe("Enter text...");
     }
 
     [Fact]
@@ -72,14 +72,14 @@ public class TextAreaTests : TestBase
 
         // Assert
         var textarea = cut.Find("textarea");
-        textarea.GetAttribute("rows").ShouldBe("10");
+        textarea.GetAttribute("rows")!.ShouldBe("10");
     }
 
     [Fact]
     public void TextArea_InvokesValueChanged_OnInput()
     {
         // Arrange
-        string newValue = null;
+        string? newValue = null;
         var cut = RenderComponent<TextArea>(parameters => parameters
             .Add(p => p.ValueChanged, value => newValue = value));
 
@@ -94,7 +94,7 @@ public class TextAreaTests : TestBase
     public void TextArea_InvokesOnInput_Callback()
     {
         // Arrange
-        ChangeEventArgs capturedArgs = null;
+        ChangeEventArgs? capturedArgs = null;
         var cut = RenderComponent<TextArea>(parameters => parameters
             .Add(p => p.OnInput, args => capturedArgs = args));
 
@@ -110,7 +110,7 @@ public class TextAreaTests : TestBase
     public void TextArea_InvokesOnChange_Callback()
     {
         // Arrange
-        ChangeEventArgs capturedArgs = null;
+        ChangeEventArgs? capturedArgs = null;
         var cut = RenderComponent<TextArea>(parameters => parameters
             .Add(p => p.OnChange, args => capturedArgs = args));
 
@@ -212,7 +212,7 @@ public class TextAreaTests : TestBase
             .Add(p => p.Rows, 0));
 
         // Assert
-        cut.Find("textarea").GetAttribute("rows").ShouldBe("0");
+        cut.Find("textarea").GetAttribute("rows")!.ShouldBe("0");
     }
 
     [Fact]
@@ -223,7 +223,7 @@ public class TextAreaTests : TestBase
             .Add(p => p.Rows, 50));
 
         // Assert
-        cut.Find("textarea").GetAttribute("rows").ShouldBe("50");
+        cut.Find("textarea").GetAttribute("rows")!.ShouldBe("50");
     }
 
     // === Placeholder ===
@@ -236,7 +236,7 @@ public class TextAreaTests : TestBase
             .Add(p => p.Placeholder, null));
 
         // Assert
-        cut.Find("textarea").GetAttribute("placeholder").ShouldBeNull();
+        cut.Find("textarea").GetAttribute("placeholder")!.ShouldBeNull();
     }
 
     [Fact]
@@ -247,7 +247,7 @@ public class TextAreaTests : TestBase
             .Add(p => p.Placeholder, string.Empty));
 
         // Assert
-        cut.Find("textarea").GetAttribute("placeholder").ShouldBe(string.Empty);
+        cut.Find("textarea").GetAttribute("placeholder")!.ShouldBe(string.Empty);
     }
 
     // === Event Handling ===
@@ -302,7 +302,7 @@ public class TextAreaTests : TestBase
     public void TextArea_OnInput_UpdatesValueAndInvokesCallback()
     {
         // Arrange
-        string capturedValue = null;
+        string? capturedValue = null;
         var cut = RenderComponent<TextArea>(parameters => parameters
             .Add(p => p.ValueChanged, value => capturedValue = value));
 
@@ -379,9 +379,9 @@ public class TextAreaTests : TestBase
 
         // Assert
         var textarea = cut.Find("textarea");
-        textarea.GetAttribute("data-testid").ShouldBe("my-textarea");
-        textarea.GetAttribute("aria-label").ShouldBe("Custom TextArea");
-        textarea.GetAttribute("maxlength").ShouldBe("500");
+        textarea.GetAttribute("data-testid")!.ShouldBe("my-textarea");
+        textarea.GetAttribute("aria-label")!.ShouldBe("Custom TextArea");
+        textarea.GetAttribute("maxlength")!.ShouldBe("500");
     }
 
     // === Complex Scenarios ===
@@ -400,8 +400,8 @@ public class TextAreaTests : TestBase
         // Assert
         var textarea = cut.Find("textarea");
         textarea.TextContent.ShouldBe("Initial text");
-        textarea.GetAttribute("placeholder").ShouldBe("Enter text...");
-        textarea.GetAttribute("rows").ShouldBe("8");
+        textarea.GetAttribute("placeholder")!.ShouldBe("Enter text...");
+        textarea.GetAttribute("rows")!.ShouldBe("8");
         textarea.HasAttribute("disabled").ShouldBeFalse();
         textarea.HasAttribute("readonly").ShouldBeFalse();
     }

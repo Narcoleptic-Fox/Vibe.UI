@@ -11,7 +11,7 @@ public class PaginationTests : TestBase
         // Assert
         var pagination = cut.Find(".vibe-pagination");
         pagination.ShouldNotBeNull();
-        pagination.GetAttribute("role").ShouldBe("navigation");
+        pagination.GetAttribute("role")!.ShouldBe("navigation");
     }
 
     [Fact]
@@ -413,7 +413,7 @@ public class PaginationTests : TestBase
 
         // Assert
         var nav = cut.Find("nav");
-        nav.GetAttribute("aria-label").ShouldBe("pagination");
+        nav.GetAttribute("aria-label")!.ShouldBe("pagination");
     }
 
     [Fact]
@@ -426,7 +426,7 @@ public class PaginationTests : TestBase
 
         // Assert
         var nav = cut.Find("nav");
-        nav.GetAttribute("role").ShouldBe("navigation");
+        nav.GetAttribute("role")!.ShouldBe("navigation");
     }
 
     [Fact]

@@ -36,8 +36,8 @@ public class DialogTests : TestBase
 
         // Assert
         var dialog = cut.Find(".vibe-dialog");
-        dialog.GetAttribute("role").ShouldBe("dialog");
-        dialog.GetAttribute("aria-modal").ShouldBe("true");
+        dialog.GetAttribute("role")!.ShouldBe("dialog");
+        dialog.GetAttribute("aria-modal")!.ShouldBe("true");
     }
 
     [Fact]

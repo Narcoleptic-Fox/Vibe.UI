@@ -101,7 +101,7 @@ public class CarouselTests : TestBase
         // Assert
         var container = cut.Find(".carousel-container");
         var style = container.GetAttribute("style");
-        style.ShouldContain("translateX");
+        style!.ShouldContain("translateX");
     }
 
     [Fact]
@@ -114,6 +114,6 @@ public class CarouselTests : TestBase
         // Assert
         var container = cut.Find(".carousel-container");
         var style = container.GetAttribute("style");
-        style.ShouldContain("translateY");
+        style!.ShouldContain("translateY");
     }
 }

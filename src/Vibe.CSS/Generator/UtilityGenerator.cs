@@ -11,6 +11,10 @@ public partial class UtilityGenerator
     private readonly string _prefix;
     private readonly bool _allowUnprefixed;
 
+    /// <summary>
+    /// Initializes a new instance of the UtilityGenerator.
+    /// </summary>
+    /// <param name="config">Configuration for CSS generation (default: new VibeConfig)</param>
     public UtilityGenerator(VibeConfig? config = null)
     {
         _config = config ?? new VibeConfig();
@@ -28,6 +32,11 @@ public partial class UtilityGenerator
         return rules.Count > 0 ? rules[0] : null;
     }
 
+    /// <summary>
+    /// Generate all CSS rules for the given class name, including variant rules.
+    /// </summary>
+    /// <param name="className">The class name to generate CSS for</param>
+    /// <returns>List of CSS rules (empty if class name is not recognized)</returns>
     public List<CssRule> GenerateAll(string className)
     {
         // Check for variants FIRST (they come before the prefix)

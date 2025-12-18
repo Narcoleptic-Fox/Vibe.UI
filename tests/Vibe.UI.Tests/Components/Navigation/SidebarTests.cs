@@ -148,7 +148,7 @@ public class SidebarTests : TestBase
 
         // Assert
         var sidebar = cut.Find(".vibe-sidebar");
-        sidebar.GetAttribute("data-state").ShouldBe("open");
+        sidebar.GetAttribute("data-state")!.ShouldBe("open");
     }
 
     [Fact]

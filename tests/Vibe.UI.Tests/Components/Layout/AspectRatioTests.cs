@@ -25,7 +25,7 @@ public class AspectRatioTests : TestBase
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
         // 100 / (16/9) ≈ 56.25%
-        style.ShouldContain("padding-bottom: 56.");
+        style!.ShouldContain("padding-bottom: 56.");
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class AspectRatioTests : TestBase
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
         // 100 / (4/3) = 75%
-        style.ShouldContain("padding-bottom: 75%");
+        style!.ShouldContain("padding-bottom: 75%");
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class AspectRatioTests : TestBase
         // Assert
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
-        style.ShouldContain("padding-bottom: 100%");
+        style!.ShouldContain("padding-bottom: 100%");
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class AspectRatioTests : TestBase
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
         // 100 / (21/9) ≈ 42.86%
-        style.ShouldContain("padding-bottom: 42.");
+        style!.ShouldContain("padding-bottom: 42.");
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class AspectRatioTests : TestBase
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
         // 100 / (9/16) ≈ 177.78%
-        style.ShouldContain("padding-bottom: 177.");
+        style!.ShouldContain("padding-bottom: 177.");
     }
 
     [Fact]
@@ -137,7 +137,7 @@ public class AspectRatioTests : TestBase
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
         // 100 / 2.39 ≈ 41.84%
-        style.ShouldContain("padding-bottom: 41.");
+        style!.ShouldContain("padding-bottom: 41.");
     }
 
     [Fact]
@@ -210,7 +210,7 @@ public class AspectRatioTests : TestBase
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
         // 100 / (4/3) = 75%
-        style.ShouldContain("padding-bottom: 75%");
+        style!.ShouldContain("padding-bottom: 75%");
     }
 
     [Fact]
@@ -232,7 +232,7 @@ public class AspectRatioTests : TestBase
         // Assert
         var container = cut.Find(".vibe-aspect-ratio");
         var style = container.GetAttribute("style");
-        style.ShouldContain("padding-bottom: 100%"); // Square ratio
+        style!.ShouldContain("padding-bottom: 100%"); // Square ratio
 
         var content = cut.Find(".aspect-ratio-content");
         content.InnerHtml.ShouldContain("nested");

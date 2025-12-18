@@ -14,6 +14,10 @@ public class CssEmitter
     private readonly ClassScanner _scanner;
     private readonly VibeConfig _config;
 
+    /// <summary>
+    /// Initializes a new instance of the CssEmitter.
+    /// </summary>
+    /// <param name="config">Configuration for CSS generation (default: new VibeConfig)</param>
     public CssEmitter(VibeConfig? config = null)
     {
         _config = config ?? new VibeConfig();
@@ -240,8 +244,23 @@ public class CssEmitter
 /// </summary>
 public class CssStats
 {
+    /// <summary>
+    /// Gets the total number of class names found during scanning.
+    /// </summary>
     public int TotalClasses { get; init; }
+
+    /// <summary>
+    /// Gets the number of classes that were successfully generated.
+    /// </summary>
     public int GeneratedClasses { get; init; }
+
+    /// <summary>
+    /// Gets the list of class names that could not be generated.
+    /// </summary>
     public List<string> UnknownClasses { get; init; } = [];
+
+    /// <summary>
+    /// Gets the count of unknown classes.
+    /// </summary>
     public int UnknownCount => UnknownClasses.Count;
 }

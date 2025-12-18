@@ -70,7 +70,7 @@ public class ResizableTests : TestBase
 
         // Assert
         var resizable = cut.Find(".vibe-resizable");
-        resizable.GetAttribute("style").ShouldContain("width: 400px");
+        resizable.GetAttribute("style")!.ShouldContain("width: 400px");
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class ResizableTests : TestBase
 
         // Assert
         var resizable = cut.Find(".vibe-resizable");
-        resizable.GetAttribute("style").ShouldContain("height: 300px");
+        resizable.GetAttribute("style")!.ShouldContain("height: 300px");
     }
 
     [Fact]

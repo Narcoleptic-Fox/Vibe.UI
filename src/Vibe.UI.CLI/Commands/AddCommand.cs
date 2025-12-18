@@ -47,7 +47,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         var requiredInfrastructureFiles = new[]
         {
             Path.Combine(vibeBaseDir, "ClassBuilder.cs"),
-            Path.Combine(vibeBaseDir, "ThemedComponentBase.cs")
+            Path.Combine(vibeBaseDir, "VibeComponent.cs")
         };
 
         if (requiredInfrastructureFiles.Any(path => !File.Exists(path)))

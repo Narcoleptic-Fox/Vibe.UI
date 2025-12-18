@@ -25,8 +25,8 @@ public class RadioGroupItemTests : TestBase
 
         // Assert
         var input = cut.Find(".vibe-radio-group-item-input");
-        input.GetAttribute("type").ShouldBe("radio");
-        input.GetAttribute("value").ShouldBe("option1");
+        input.GetAttribute("type")!.ShouldBe("radio");
+        input.GetAttribute("value")!.ShouldBe("option1");
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class RadioGroupItemTests : TestBase
 
         // Assert
         var input = cut.Find("input[type='radio']");
-        input.GetAttribute("name").ShouldBe("parent-group");
+        input.GetAttribute("name")!.ShouldBe("parent-group");
     }
 
     [Fact]
@@ -209,7 +209,7 @@ public class RadioGroupItemTests : TestBase
 
         // Assert
         var input = cut.Find("input[type='radio']");
-        input.GetAttribute("name").ShouldBe(string.Empty);
+        input.GetAttribute("name")!.ShouldBe(string.Empty);
     }
 
     [Fact]

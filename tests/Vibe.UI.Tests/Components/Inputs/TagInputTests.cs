@@ -33,7 +33,7 @@ public class TagInputTests : TestBase
 
         // Assert
         var input = cut.Find(".tag-input");
-        input.GetAttribute("placeholder").ShouldBe("Enter tags...");
+        input.GetAttribute("placeholder")!.ShouldBe("Enter tags...");
     }
 
     [Fact]
@@ -125,7 +125,7 @@ public class TagInputTests : TestBase
 
         // Assert
         var input = cut.Find(".tag-input");
-        input.GetAttribute("aria-label").ShouldBe("Add keywords");
+        input.GetAttribute("aria-label")!.ShouldBe("Add keywords");
     }
 
     [Fact]
@@ -232,7 +232,7 @@ public class TagInputTests : TestBase
 
         // Assert
         var removeButton = cut.Find(".tag-remove");
-        removeButton.GetAttribute("aria-label").ShouldBe("Remove React");
+        removeButton.GetAttribute("aria-label")!.ShouldBe("Remove React");
     }
 
     [Fact]
@@ -243,7 +243,7 @@ public class TagInputTests : TestBase
 
         // Assert
         var input = cut.Find(".tag-input");
-        input.GetAttribute("aria-label").ShouldBe("Tag input");
+        input.GetAttribute("aria-label")!.ShouldBe("Tag input");
     }
 
     [Fact]
@@ -256,7 +256,7 @@ public class TagInputTests : TestBase
 
         // Assert
         var input = cut.Find(".tag-input");
-        input.GetAttribute("placeholder").ShouldBe("Add tags...");
+        input.GetAttribute("placeholder")!.ShouldBe("Add tags...");
     }
 
     [Fact]
@@ -269,7 +269,7 @@ public class TagInputTests : TestBase
 
         // Assert
         var input = cut.Find(".tag-input");
-        input.GetAttribute("placeholder").ShouldBe("");
+        input.GetAttribute("placeholder")!.ShouldBe("");
     }
 
     [Fact]
@@ -342,6 +342,6 @@ public class TagInputTests : TestBase
 
         // Assert
         var input = cut.Find(".tag-input");
-        input.GetAttribute("type").ShouldBe("text");
+        input.GetAttribute("type")!.ShouldBe("text");
     }
 }

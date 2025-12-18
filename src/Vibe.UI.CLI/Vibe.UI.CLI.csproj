@@ -8,7 +8,7 @@
             <PackAsTool>true</PackAsTool>
             <ToolCommandName>vibe</ToolCommandName>
             <PackageId>Vibe.UI.CLI</PackageId>
-            <Version>1.0.0</Version>
+            <Version>1.0.0-alpha</Version>
             <Authors>Narcoleptic Fox</Authors>
             <Description>CLI tool for adding Vibe.UI components to Blazor projects. Copies component
                   source code into your project (shadcn/ui style) - no package dependencies

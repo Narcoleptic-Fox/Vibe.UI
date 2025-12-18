@@ -45,7 +45,7 @@ public class ButtonTests : TestBase
 
         // Assert
         var link = cut.Find("a");
-        link.GetAttribute("href").ShouldBe("https://example.com");
+        link.GetAttribute("href")!.ShouldBe("https://example.com");
         link.TextContent.ShouldBe("Link");
     }
 
@@ -89,7 +89,7 @@ public class ButtonTests : TestBase
     {
         // Act
         var cut = RenderComponent<Button>(parameters => parameters
-            .Add(p => p.ChildContent, (RenderFragment)null));
+            .Add(p => p.ChildContent, (RenderFragment?)null));
 
         // Assert
         var button = cut.Find("button");
@@ -196,7 +196,7 @@ public class ButtonTests : TestBase
             .Add(p => p.Type, "submit"));
 
         // Assert
-        cut.Find("button").GetAttribute("type").ShouldBe("submit");
+        cut.Find("button").GetAttribute("type")!.ShouldBe("submit");
     }
 
     [Fact]
@@ -207,7 +207,7 @@ public class ButtonTests : TestBase
             .Add(p => p.Type, "reset"));
 
         // Assert
-        cut.Find("button").GetAttribute("type").ShouldBe("reset");
+        cut.Find("button").GetAttribute("type")!.ShouldBe("reset");
     }
 
     // === Loading State ===
@@ -294,7 +294,7 @@ public class ButtonTests : TestBase
 
         // Assert
         var link = cut.Find("a");
-        link.GetAttribute("target").ShouldBe("_blank");
+        link.GetAttribute("target")!.ShouldBe("_blank");
     }
 
     [Fact]
@@ -307,7 +307,7 @@ public class ButtonTests : TestBase
             .AddChildContent("Link"));
 
         // Assert
-        cut.Find("a").GetAttribute("rel").ShouldBe("noopener noreferrer");
+        cut.Find("a").GetAttribute("rel")!.ShouldBe("noopener noreferrer");
     }
 
     [Fact]
@@ -320,7 +320,7 @@ public class ButtonTests : TestBase
             .AddChildContent("Link"));
 
         // Assert
-        cut.Find("a").GetAttribute("rel").ShouldBe("custom");
+        cut.Find("a").GetAttribute("rel")!.ShouldBe("custom");
     }
 
     [Fact]
@@ -334,10 +334,10 @@ public class ButtonTests : TestBase
 
         // Assert - anchors don't support disabled, so we use aria-disabled for accessibility
         var anchor = cut.Find("a");
-        anchor.GetAttribute("aria-disabled").ShouldBe("true");
-        anchor.GetAttribute("tabindex").ShouldBe("-1");
+        anchor.GetAttribute("aria-disabled")!.ShouldBe("true");
+        anchor.GetAttribute("tabindex")!.ShouldBe("-1");
         // href should be null when disabled to prevent navigation
-        anchor.GetAttribute("href").ShouldBeNull();
+        anchor.GetAttribute("href")!.ShouldBeNull();
         anchor.ClassList.ShouldContain("vibe-button-disabled");
     }
 
@@ -390,7 +390,7 @@ public class ButtonTests : TestBase
 
         // Assert
         var button = cut.Find("button");
-        button.GetAttribute("data-testid").ShouldBe("my-button");
-        button.GetAttribute("aria-label").ShouldBe("Custom Button");
+        button.GetAttribute("data-testid")!.ShouldBe("my-button");
+        button.GetAttribute("aria-label")!.ShouldBe("Custom Button");
     }
 }

@@ -11,7 +11,7 @@ public class CheckboxTests : TestBase
         // Assert
         var checkbox = cut.Find("input[type='checkbox']");
         checkbox.ShouldNotBeNull();
-        checkbox.GetAttribute("checked").ShouldBeNull();
+        checkbox.GetAttribute("checked")!.ShouldBeNull();
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class CheckboxTests : TestBase
     {
         // Act
         var cut = RenderComponent<Checkbox>(parameters => parameters
-            .Add(p => p.ChildContent, (RenderFragment)null));
+            .Add(p => p.ChildContent, (RenderFragment?)null));
 
         // Assert
         cut.FindAll(".vibe-checkbox-label").ShouldBeEmpty();
@@ -268,7 +268,7 @@ public class CheckboxTests : TestBase
 
         // Assert
         var label = cut.Find("label");
-        label.GetAttribute("data-testid").ShouldBe("my-checkbox");
-        label.GetAttribute("aria-label").ShouldBe("Custom Checkbox");
+        label.GetAttribute("data-testid")!.ShouldBe("my-checkbox");
+        label.GetAttribute("aria-label")!.ShouldBe("Custom Checkbox");
     }
 }

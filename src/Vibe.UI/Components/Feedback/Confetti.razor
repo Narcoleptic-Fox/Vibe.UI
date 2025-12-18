@@ -60,7 +60,7 @@
     {
         if (Active && !_isActive)
         {
-            Trigger();
+            _ = Trigger(); // Fire-and-forget: animation runs independently
         }
         else if (!Active && _isActive)
         {

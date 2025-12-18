@@ -11,7 +11,7 @@ public class SpinnerTests : TestBase
         // Assert
         var spinner = cut.Find(".vibe-spinner");
         spinner.ShouldNotBeNull();
-        spinner.GetAttribute("role").ShouldBe("status");
+        spinner.GetAttribute("role")!.ShouldBe("status");
     }
 
     [Fact]
@@ -207,7 +207,7 @@ public class SpinnerTests : TestBase
 
         // Assert
         var spinner = cut.Find(".vibe-spinner");
-        spinner.GetAttribute("aria-label").ShouldBe("Custom loading message");
+        spinner.GetAttribute("aria-label")!.ShouldBe("Custom loading message");
     }
 
     [Fact]
@@ -218,7 +218,7 @@ public class SpinnerTests : TestBase
 
         // Assert
         var spinner = cut.Find(".vibe-spinner");
-        spinner.GetAttribute("role").ShouldBe("status");
+        spinner.GetAttribute("role")!.ShouldBe("status");
     }
 
     [Fact]
@@ -281,7 +281,7 @@ public class SpinnerTests : TestBase
         var spinner = cut.Find(".vibe-spinner");
         spinner.ClassList.ShouldContain("spinner-large");
         spinner.ClassList.ShouldContain("custom-spinner");
-        spinner.GetAttribute("aria-label").ShouldBe("Loading user data");
+        spinner.GetAttribute("aria-label")!.ShouldBe("Loading user data");
 
         var visibleLabel = cut.Find(".spinner-label");
         visibleLabel.TextContent.ShouldBe("Loading user data");

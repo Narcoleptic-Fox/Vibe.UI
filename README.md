@@ -5,7 +5,9 @@
 [![codecov](https://codecov.io/gh/Dieshen/Vibe.UI/branch/main/graph/badge.svg)](https://codecov.io/gh/Dieshen/Vibe.UI)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-A comprehensive, production-ready Blazor component library inspired by Shadcn UI, built with Razor components and C#. Complete with **90+ components**, comprehensive theming, Chart.js integration, form validation, icon library, testing infrastructure, CLI tooling, and IDE extensions.
+> **Alpha Release (1.0.0-alpha)** - This library is in active development. APIs may change between releases. We welcome feedback and contributions as we work toward a stable 1.0 release. See [Known Limitations](#known-limitations) below.
+
+A comprehensive Blazor component library inspired by Shadcn UI, built with Razor components and C#. Complete with **90+ components**, comprehensive theming, Chart.js integration, form validation, icon library, testing infrastructure, CLI tooling, and IDE extensions.
 
 > **Built for developers who want full control.** Copy components into your project and customize them, or use our NuGet package for quick integration.
 
@@ -591,6 +593,27 @@ Vibe.UI is inspired by [shadcn/ui](https://ui.shadcn.com/) and built for the Bla
 ## Security
 
 Found a security vulnerability? Please review our [Security Policy](.github/SECURITY.md) for responsible disclosure guidelines.
+
+## Known Limitations
+
+As an alpha release, Vibe.UI has some known limitations we're actively working on:
+
+### Components
+- **Error states**: Not all form components fully support `[aria-invalid]` styling yet
+- **Dark mode**: Some components rely on CSS variable inheritance rather than explicit dark mode rules
+- **Accessibility**: Continuous improvements to ARIA attributes and keyboard navigation
+
+### Vibe.CSS
+- **Utility coverage**: Not all Tailwind utilities are implemented yet (see `docs/Vibe.CSS.TailwindParity.md`)
+- **Responsive variants**: Some responsive breakpoint variants are still in progress
+
+### CLI
+- **Template packaging**: CLI templates are bundled in the NuGet package; local development requires packaging first
+
+For detailed roadmaps, see:
+- `docs/Vibe.UI.ShadcnParity.md` - Component parity with shadcn/ui
+- `docs/Vibe.CSS.TailwindParity.md` - Utility parity with Tailwind CSS
+- `docs/Alpha-0.1.0-Checklist.md` - Alpha release checklist
 
 ## Sponsorship
 

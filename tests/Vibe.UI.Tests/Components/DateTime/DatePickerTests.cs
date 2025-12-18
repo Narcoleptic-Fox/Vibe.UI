@@ -25,7 +25,7 @@ public class DatePickerTests : TestBase
 
         // Assert - Find the actual input element within the Input component
         var input = cut.Find(".date-input-wrapper input");
-        input.GetAttribute("placeholder").ShouldBe(placeholder);
+        input.GetAttribute("placeholder")!.ShouldBe(placeholder);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class DatePickerTests : TestBase
 
         // Assert - Find the actual input element within the Input component
         var input = cut.Find(".date-input-wrapper input");
-        input.GetAttribute("value").ShouldBe("06/15/2024");
+        input.GetAttribute("value")!.ShouldBe("06/15/2024");
     }
 
     [Fact]

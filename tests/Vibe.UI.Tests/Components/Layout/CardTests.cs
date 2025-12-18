@@ -116,8 +116,8 @@ public class CardTests : TestBase
 
         // Assert
         var card = cut.Find(".vibe-card");
-        card.GetAttribute("data-testid").ShouldBe("test-card");
-        card.GetAttribute("aria-label").ShouldBe("Test Card");
+        card.GetAttribute("data-testid")!.ShouldBe("test-card");
+        card.GetAttribute("aria-label")!.ShouldBe("Test Card");
     }
 
     [Fact]

@@ -24,8 +24,8 @@ public class TagTests : TestContext
             .Add(x => x.Variant, TagVariant.Primary)
             .Add(x => x.Size, TagSize.Large));
 
-        cut.Find("span").GetAttribute("class").ShouldContain("vibe-tag-primary");
-        cut.Find("span").GetAttribute("class").ShouldContain("vibe-tag-large");
+        cut.Find("span").GetAttribute("class")!.ShouldContain("vibe-tag-primary");
+        cut.Find("span").GetAttribute("class")!.ShouldContain("vibe-tag-large");
     }
 
     [Fact]

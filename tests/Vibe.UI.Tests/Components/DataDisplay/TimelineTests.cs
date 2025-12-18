@@ -38,7 +38,7 @@ public class TimelineTests : TestBase
     {
         // Act
         var cut = RenderComponent<Timeline>(parameters => parameters
-            .Add(p => p.Items, (List<Timeline.TimelineItem>)null));
+            .Add(p => p.Items, (List<Timeline.TimelineItem>?)null));
 
         // Assert
         cut.FindAll(".timeline-item").ShouldBeEmpty();

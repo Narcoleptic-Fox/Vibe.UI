@@ -89,7 +89,7 @@ public class SplitterTests : TestBase
 
         // Assert
         var firstPane = cut.Find(".splitter-pane-first");
-        firstPane.GetAttribute("style").ShouldContain("60");
+        firstPane.GetAttribute("style")!.ShouldContain("60");
     }
 
     [Fact]

@@ -11,7 +11,7 @@ public class SeparatorTests : TestBase
         // Assert
         var separator = cut.Find(".vibe-separator");
         separator.ShouldNotBeNull();
-        separator.GetAttribute("role").ShouldBe("separator");
+        separator.GetAttribute("role")!.ShouldBe("separator");
         separator.ClassList.ShouldContain("separator-horizontal");
     }
 
@@ -76,7 +76,7 @@ public class SeparatorTests : TestBase
         var separator = cut.Find(".vibe-separator");
         separator.ShouldNotBeNull();
         // Decorative separator should still have separator role
-        separator.GetAttribute("role").ShouldBe("separator");
+        separator.GetAttribute("role")!.ShouldBe("separator");
     }
 
     [Fact]

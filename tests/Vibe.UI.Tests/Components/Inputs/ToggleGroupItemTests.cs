@@ -24,7 +24,7 @@ public class ToggleGroupItemTests : TestBase
 
         // Assert
         var button = cut.Find("button");
-        button.GetAttribute("type").ShouldBe("button");
+        button.GetAttribute("type")!.ShouldBe("button");
     }
 
     [Fact]

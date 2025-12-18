@@ -167,12 +167,39 @@ public class GenerationOptions
 /// </summary>
 public class GenerationResult
 {
+    /// <summary>
+    /// Gets whether the CSS generation was successful.
+    /// </summary>
     public bool Success { get; init; }
+
+    /// <summary>
+    /// Gets the path where the generated CSS was written.
+    /// </summary>
     public string OutputPath { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Gets the total number of class names found during scanning.
+    /// </summary>
     public int TotalClassesFound { get; init; }
+
+    /// <summary>
+    /// Gets the number of classes that were successfully generated.
+    /// </summary>
     public int ClassesGenerated { get; init; }
+
+    /// <summary>
+    /// Gets the list of class names that could not be generated.
+    /// </summary>
     public List<string> UnknownClasses { get; init; } = [];
+
+    /// <summary>
+    /// Gets the size of the generated CSS in bytes.
+    /// </summary>
     public int CssSize { get; init; }
+
+    /// <summary>
+    /// Gets the error message if generation failed.
+    /// </summary>
     public string? Error { get; init; }
 }
 
@@ -181,7 +208,18 @@ public class GenerationResult
 /// </summary>
 public class ScanResult
 {
+    /// <summary>
+    /// Gets the total number of class names found during scanning.
+    /// </summary>
     public int TotalClasses { get; init; }
+
+    /// <summary>
+    /// Gets the list of class names that were recognized by the generator.
+    /// </summary>
     public List<string> RecognizedClasses { get; init; } = [];
+
+    /// <summary>
+    /// Gets the list of class names that were not recognized by the generator.
+    /// </summary>
     public List<string> UnknownClasses { get; init; } = [];
 }

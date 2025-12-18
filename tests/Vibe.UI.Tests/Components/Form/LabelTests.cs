@@ -25,7 +25,7 @@ public class LabelTests : TestBase
 
         // Assert
         var label = cut.Find("label");
-        label.GetAttribute("for").ShouldBe("username-input");
+        label.GetAttribute("for")!.ShouldBe("username-input");
     }
 
     [Fact]
@@ -113,7 +113,7 @@ public class LabelTests : TestBase
         label.ClassList.ShouldContain("vibe-label-required");
         label.ClassList.ShouldContain("vibe-label-disabled");
         label.ClassList.ShouldContain("custom");
-        label.GetAttribute("for").ShouldBe("my-input");
+        label.GetAttribute("for")!.ShouldBe("my-input");
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class LabelTests : TestBase
 
         // Assert
         var label = cut.Find("label");
-        label.GetAttribute("for").ShouldBe("");
+        label.GetAttribute("for")!.ShouldBe("");
     }
 
     [Fact]
@@ -301,7 +301,7 @@ public class LabelTests : TestBase
 
         // Assert
         var label = cut.Find("label");
-        label.GetAttribute("for").ShouldBe("input-123");
+        label.GetAttribute("for")!.ShouldBe("input-123");
     }
 
     #endregion
