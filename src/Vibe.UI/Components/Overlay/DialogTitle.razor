@@ -1,7 +1,7 @@
 @namespace Vibe.UI.Components
 @inherits Vibe.UI.Base.VibeComponent
 
-<h2 class="@CombinedClass" @attributes="AdditionalAttributes">
+<h2 class="@CombinedClass" id="@Id" @attributes="AdditionalAttributes">
     @ChildContent
 </h2>
 
@@ -13,6 +13,23 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter]
+    public string? Id { get; set; }
+
+    [CascadingParameter]
+    private DialogContext? Context { get; set; }
+
     /// <inheritdoc/>
     protected override string ComponentClass => "vibe-dialog-title";
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrWhiteSpace(Id))
+        {
+            Id = $"vibe-dialog-title-{Guid.NewGuid():N}";
+        }
+
+        Context?.SetTitleId(Id);
+        base.OnInitialized();
+    }
 }

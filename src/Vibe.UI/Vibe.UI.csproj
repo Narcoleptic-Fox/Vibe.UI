@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>Vibe.UI</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-alpha</Version>
     <Title>Vibe.UI - Modern Blazor Component Library</Title>
     <Authors>Narcoleptic Fox</Authors>
     <Description>Pre-built Blazor component library with 93+ components (theming, forms, charts, and

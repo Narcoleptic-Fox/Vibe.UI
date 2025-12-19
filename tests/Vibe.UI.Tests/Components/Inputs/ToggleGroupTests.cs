@@ -22,7 +22,7 @@ public class ToggleGroupTests : TestBase
 
         // Assert
         var group = cut.Find(".vibe-toggle-group");
-        group.GetAttribute("role").ShouldBe("group");
+        group.GetAttribute("role")!.ShouldBe("group");
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class ToggleGroupTests : TestBase
 
         // Assert
         var group = cut.Find(".vibe-toggle-group");
-        group.GetAttribute("aria-label").ShouldBe("Toggle options");
+        group.GetAttribute("aria-label")!.ShouldBe("Toggle options");
     }
 
     [Fact]

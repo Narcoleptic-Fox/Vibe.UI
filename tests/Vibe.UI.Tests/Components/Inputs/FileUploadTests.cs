@@ -56,7 +56,7 @@ public class FileUploadTests : TestBase
 
         // Assert
         var input = cut.Find("input[type='file']");
-        input.GetAttribute("style").ShouldContain("display: none");
+        input.GetAttribute("style")!.ShouldContain("display: none");
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class FileUploadTests : TestBase
 
         // Assert
         var input = cut.Find("input[type='file']");
-        input.GetAttribute("accept").ShouldBe("image/*,.pdf");
+        input.GetAttribute("accept")!.ShouldBe("image/*,.pdf");
     }
 
     [Fact]

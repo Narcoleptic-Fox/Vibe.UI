@@ -36,8 +36,8 @@ public class QRCodeTests : TestBase
 
         // Assert
         var container = cut.Find(".qr-container");
-        container.GetAttribute("style").ShouldContain("width: 300px");
-        container.GetAttribute("style").ShouldContain("height: 300px");
+        container.GetAttribute("style")!.ShouldContain("width: 300px");
+        container.GetAttribute("style")!.ShouldContain("height: 300px");
     }
 
     [Fact]

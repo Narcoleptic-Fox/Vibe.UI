@@ -72,6 +72,7 @@ static int RunScan(string[] args)
     var directory = Directory.GetCurrentDirectory();
     var patterns = new[] { "*.razor", "*.cshtml", "*.html" };
     var prefix = "vibe";
+    var allowUnprefixed = false;
 
     // Parse arguments
     for (int i = 0; i < args.Length; i++)
@@ -95,6 +96,17 @@ static int RunScan(string[] args)
                 if (i + 1 < args.Length)
                     prefix = args[++i];
                 break;
+            case "--allow-unprefixed":
+                if (i + 1 < args.Length)
+                {
+                    var value = args[++i].ToLowerInvariant();
+                    allowUnprefixed = value == "true" || value == "1" || value == "yes";
+                }
+                else
+                {
+                    allowUnprefixed = true;
+                }
+                break;
         }
     }
 
@@ -107,9 +119,10 @@ static int RunScan(string[] args)
     Console.WriteLine($"Scanning: {directory}");
     Console.WriteLine($"Patterns: {string.Join(", ", patterns)}");
     Console.WriteLine($"Prefix: {prefix}");
+    Console.WriteLine($"Allow unprefixed: {allowUnprefixed}");
     Console.WriteLine();
 
-    var result = VibeCss.Scan(directory, patterns, prefix);
+    var result = VibeCss.Scan(directory, patterns, prefix, allowUnprefixed);
 
     Console.WriteLine($"Total classes found: {result.TotalClasses}");
     Console.WriteLine($"Recognized: {result.RecognizedClasses.Count}");

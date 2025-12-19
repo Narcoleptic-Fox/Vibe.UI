@@ -59,7 +59,7 @@ public class RadioTests : TestBase
 
         // Assert
         var radio = cut.Find("input[type='radio']");
-        radio.GetAttribute("name").ShouldBe("option-group");
+        radio.GetAttribute("name")!.ShouldBe("option-group");
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class RadioTests : TestBase
 
         // Assert
         var radio = cut.Find("input[type='radio']");
-        radio.GetAttribute("value").ShouldBe("option1");
+        radio.GetAttribute("value")!.ShouldBe("option1");
     }
 
     [Fact]
@@ -149,8 +149,8 @@ public class RadioTests : TestBase
             .Add(p => p.Checked, false));
 
         // Assert - Both should have the same name attribute
-        cut1.Find("input[type='radio']").GetAttribute("name").ShouldBe("same-group");
-        cut2.Find("input[type='radio']").GetAttribute("name").ShouldBe("same-group");
+        cut1.Find("input[type='radio']").GetAttribute("name")!.ShouldBe("same-group");
+        cut2.Find("input[type='radio']").GetAttribute("name")!.ShouldBe("same-group");
     }
 
     [Fact]
@@ -215,6 +215,6 @@ public class RadioTests : TestBase
             .Add(p => p.Value, ""));
 
         // Assert
-        cut.Find("input[type='radio']").GetAttribute("value").ShouldBe("");
+        cut.Find("input[type='radio']").GetAttribute("value")!.ShouldBe("");
     }
 }

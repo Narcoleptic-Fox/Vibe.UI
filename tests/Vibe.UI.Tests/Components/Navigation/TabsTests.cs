@@ -23,14 +23,14 @@ public class TabsTests : TestBase
 
         // Assert
         var tabList = cut.Find(".vibe-tabs-list");
-        tabList.GetAttribute("role").ShouldBe("tablist");
+        tabList.GetAttribute("role")!.ShouldBe("tablist");
     }
 
     [Fact]
     public void Tabs_Invokes_ActiveTabIdChanged_WhenTabActivated()
     {
         // Arrange
-        string activatedTabId = null;
+        string? activatedTabId = null;
         var cut = RenderComponent<Tabs>(parameters => parameters
             .Add(p => p.ActiveTabId, "tab1")
             .Add(p => p.ActiveTabIdChanged, EventCallback.Factory.Create<string>(this, id => activatedTabId = id)));
@@ -43,7 +43,7 @@ public class TabsTests : TestBase
     public void Tabs_Invokes_OnTabActivated_Callback()
     {
         // Arrange
-        Tabs.TabActivatedEventArgs eventArgs = null;
+        Tabs.TabActivatedEventArgs? eventArgs = null;
         var cut = RenderComponent<Tabs>(parameters => parameters
             .Add(p => p.OnTabActivated, EventCallback.Factory.Create<Tabs.TabActivatedEventArgs>(this, args => eventArgs = args)));
 

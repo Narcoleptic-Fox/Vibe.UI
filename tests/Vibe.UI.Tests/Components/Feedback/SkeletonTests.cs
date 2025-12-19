@@ -25,7 +25,7 @@ public class SkeletonTests : TestBase
 
         // Assert
         var skeleton = cut.Find(".vibe-skeleton");
-        skeleton.GetAttribute("style").ShouldContain($"width: {width}");
+        skeleton.GetAttribute("style")!.ShouldContain($"width: {width}");
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class SkeletonTests : TestBase
 
         // Assert
         var skeleton = cut.Find(".vibe-skeleton");
-        skeleton.GetAttribute("style").ShouldContain($"height: {height}");
+        skeleton.GetAttribute("style")!.ShouldContain($"height: {height}");
     }
 
     [Fact]
@@ -88,8 +88,8 @@ public class SkeletonTests : TestBase
         // Assert
         var skeleton = cut.Find(".vibe-skeleton");
         var style = skeleton.GetAttribute("style");
-        style.ShouldContain("width: 100%");
-        style.ShouldContain("height: 1rem");
+        style!.ShouldContain("width: 100%");
+        style!.ShouldContain("height: 1rem");
     }
 
     [Fact]

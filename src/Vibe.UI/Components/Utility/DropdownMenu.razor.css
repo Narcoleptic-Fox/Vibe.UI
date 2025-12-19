@@ -133,9 +133,11 @@
     color: var(--vibe-accent-foreground);
 }
 
-::deep .dropdown-item:focus {
+::deep .dropdown-item:focus-visible {
     background-color: var(--vibe-accent);
     color: var(--vibe-accent-foreground);
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: -2px;
 }
 
 ::deep .dropdown-item:active {

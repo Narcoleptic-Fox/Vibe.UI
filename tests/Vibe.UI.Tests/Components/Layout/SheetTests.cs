@@ -134,6 +134,6 @@ public class SheetTests : TestBase
 
         // Assert
         var content = cut.Find(".sheet-content");
-        content.GetAttribute("style").ShouldContain("--sheet-size");
+        content.GetAttribute("style")!.ShouldContain("--sheet-size");
     }
 }

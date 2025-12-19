@@ -41,11 +41,17 @@ jobs:
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Publishing version: $VERSION"
 
+    - name: Restore Vibe.CSS
+      run: dotnet restore src/Vibe.CSS/Vibe.CSS.csproj
+
     - name: Restore Vibe.UI
       run: dotnet restore src/Vibe.UI/Vibe.UI.csproj
 
     - name: Restore Vibe.UI.CLI
       run: dotnet restore src/Vibe.UI.CLI/Vibe.UI.CLI.csproj
+
+    - name: Build Vibe.CSS
+      run: dotnet build src/Vibe.CSS/Vibe.CSS.csproj --configuration Release --no-restore
 
     - name: Build Vibe.UI
       run: dotnet build src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-restore
@@ -55,8 +61,18 @@ jobs:
 
     - name: Run tests
       run: |
+        dotnet test tests/Vibe.CSS.Tests/Vibe.CSS.Tests.csproj --configuration Release --verbosity normal || echo "No tests or tests failed"
         dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj --configuration Release --verbosity normal || echo "No tests or tests failed"
         dotnet test tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --verbosity normal || echo "No tests or tests failed"
+
+    - name: Pack Vibe.CSS
+      run: |
+        dotnet pack src/Vibe.CSS/Vibe.CSS.csproj \
+          --configuration Release \
+          --no-build \
+          --output ./packages \
+          /p:Version=${{ steps.version.outputs.version }} \
+          /p:PackageVersion=${{ steps.version.outputs.version }}
 
     - name: Pack Vibe.UI
       run: |
@@ -81,6 +97,9 @@ jobs:
 
     - name: Verify package contents
       run: |
+        echo "=== Vibe.CSS Package Contents ==="
+        unzip -l ./packages/Vibe.CSS.${{ steps.version.outputs.version }}.nupkg
+        echo ""
         echo "=== Vibe.UI Package Contents ==="
         unzip -l ./packages/Vibe.UI.${{ steps.version.outputs.version }}.nupkg | grep -E "icon|README"
         echo ""
@@ -89,6 +108,11 @@ jobs:
 
     - name: Push to NuGet.org
       run: |
+        dotnet nuget push ./packages/Vibe.CSS.${{ steps.version.outputs.version }}.nupkg \
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --source https://api.nuget.org/v3/index.json \
+          --skip-duplicate
+
         dotnet nuget push ./packages/Vibe.UI.${{ steps.version.outputs.version }}.nupkg \
           --api-key ${{ secrets.NUGET_API_KEY }} \
           --source https://api.nuget.org/v3/index.json \

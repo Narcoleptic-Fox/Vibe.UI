@@ -1,11 +1,13 @@
 @namespace Vibe.UI.Components
 @inherits Base.VibeComponent
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
 
 @if (IsOpen || IsClosing)
 {
-    <div class="@CombinedClass @(IsClosing ? "closing" : "") @SideClass">
+    <div class="@CombinedClass @(IsClosing ? "closing" : "") @SideClass" @onkeydown="HandleKeyDown" tabindex="-1">
         <div class="drawer-overlay" @onclick="OnOverlayClick"></div>
-        <div class="drawer-content">
+        <div class="drawer-content" @ref="_drawerRef" role="dialog" aria-modal="true">
             @if (ShowCloseButton)
             {
                 <button type="button" class="drawer-close" @onclick="Close" aria-label="Close">
@@ -24,11 +26,16 @@
 }
 
 @code {
+    private IJSObjectReference? _dialogModule;
+    private bool _focusTrapActive;
+    private ElementReference _drawerRef;
+    private readonly string _drawerKey = $"vibe-drawer-{Guid.NewGuid():N}";
+
     /// <summary>
     /// Gets or sets the content of the drawer.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets whether the drawer is open.
@@ -59,6 +66,12 @@
     /// </summary>
     [Parameter]
     public bool CloseOnOverlayClick { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether pressing Escape should close the drawer.
+    /// </summary>
+    [Parameter]
+    public bool CloseOnEscape { get; set; } = true;
 
     /// <summary>
     /// Gets the component CSS class name.
@@ -100,7 +113,7 @@
     {
         if (CloseOnOverlayClick)
         {
-            Close();
+            _ = Close(); // Fire-and-forget: sync event handler
         }
     }
 
@@ -114,5 +127,47 @@
         IsClosing = false;
         IsOpen = false;
         await IsOpenChanged.InvokeAsync(false);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if ((IsOpen || IsClosing) && !_focusTrapActive)
+        {
+            _dialogModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-dialog.js");
+
+            await _dialogModule.InvokeVoidAsync("activate", _drawerKey, _drawerRef);
+            _focusTrapActive = true;
+        }
+        else if (!IsOpen && !IsClosing && _focusTrapActive)
+        {
+            if (_dialogModule != null)
+            {
+                await _dialogModule.InvokeVoidAsync("deactivate", _drawerKey);
+            }
+            _focusTrapActive = false;
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape" && CloseOnEscape)
+        {
+            await Close();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_focusTrapActive && _dialogModule != null)
+        {
+            await _dialogModule.InvokeVoidAsync("deactivate", _drawerKey);
+            _focusTrapActive = false;
+        }
+
+        if (_dialogModule != null)
+        {
+            await _dialogModule.DisposeAsync();
+        }
     }
 }

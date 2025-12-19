@@ -34,7 +34,7 @@ public class InputTests : TestBase
 
         // Assert
         AngleSharp.Dom.IElement input = cut.Find("input");
-        input.GetAttribute("placeholder").ShouldBe("Enter username");
+        input.GetAttribute("placeholder")!.ShouldBe("Enter username");
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class InputTests : TestBase
 
         // Assert
         AngleSharp.Dom.IElement input = cut.Find("input");
-        input.GetAttribute("value").ShouldBe("John Doe");
+        input.GetAttribute("value")!.ShouldBe("John Doe");
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class InputTests : TestBase
 
         // Assert
         AngleSharp.Dom.IElement input = cut.Find("input");
-        input.GetAttribute("type").ShouldBe("email");
+        input.GetAttribute("type")!.ShouldBe("email");
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class InputTests : TestBase
     public void Input_InvokesValueChanged_OnChange()
     {
         // Arrange
-        string newValue = null;
+        string? newValue = null;
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
             .Add(p => p.ValueChanged, value => newValue = value));
 
@@ -173,7 +173,7 @@ public class InputTests : TestBase
 
         // Assert
         AngleSharp.Dom.IElement input = cut.Find("input");
-        input.GetAttribute("value").ShouldBe(string.Empty);
+        input.GetAttribute("value")!.ShouldBe(string.Empty);
     }
 
     [Fact]
@@ -187,7 +187,7 @@ public class InputTests : TestBase
             .Add(p => p.Value, longValue));
 
         // Assert
-        cut.Find("input").GetAttribute("value").ShouldBe(longValue);
+        cut.Find("input").GetAttribute("value")!.ShouldBe(longValue);
     }
 
     [Fact]
@@ -201,7 +201,7 @@ public class InputTests : TestBase
             .Add(p => p.Value, specialChars));
 
         // Assert
-        cut.Find("input").GetAttribute("value").ShouldBe(specialChars);
+        cut.Find("input").GetAttribute("value")!.ShouldBe(specialChars);
     }
 
     [Fact]
@@ -215,7 +215,7 @@ public class InputTests : TestBase
             .Add(p => p.Value, unicode));
 
         // Assert
-        cut.Find("input").GetAttribute("value").ShouldBe(unicode);
+        cut.Find("input").GetAttribute("value")!.ShouldBe(unicode);
     }
 
     // === Input Types ===
@@ -236,7 +236,7 @@ public class InputTests : TestBase
             .Add(p => p.Type, inputType));
 
         // Assert
-        cut.Find("input").GetAttribute("type").ShouldBe(inputType);
+        cut.Find("input").GetAttribute("type")!.ShouldBe(inputType);
     }
 
     // === Leading and Trailing Icons ===
@@ -350,7 +350,7 @@ public class InputTests : TestBase
     public void Input_InvokesValueChanged_OnInput()
     {
         // Arrange
-        string newValue = null;
+        string? newValue = null;
         IRenderedComponent<Input> cut = RenderComponent<Input>(parameters => parameters
             .Add(p => p.ValueChanged, value => newValue = value));
 
@@ -486,7 +486,7 @@ public class InputTests : TestBase
             .Add(p => p.Id, "custom-input-id"));
 
         // Assert
-        cut.Find("input").GetAttribute("id").ShouldBe("custom-input-id");
+        cut.Find("input").GetAttribute("id")!.ShouldBe("custom-input-id");
     }
 
     // === Placeholder ===
@@ -499,7 +499,7 @@ public class InputTests : TestBase
             .Add(p => p.Placeholder, string.Empty));
 
         // Assert
-        cut.Find("input").GetAttribute("placeholder").ShouldBe(string.Empty);
+        cut.Find("input").GetAttribute("placeholder")!.ShouldBe(string.Empty);
     }
 
     [Fact]

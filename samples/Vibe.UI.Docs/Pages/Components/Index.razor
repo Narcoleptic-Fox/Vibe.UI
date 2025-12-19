@@ -37,7 +37,7 @@
                 @foreach (var component in category.Components.Where(c => MatchesSearch(c)))
                 {
                     <a href="/components/@component.Slug"
-                       class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-bg-zinc-50 hover:vibe-bg-white dark:vibe-bg-zinc-800/50 dark:hover:vibe-bg-zinc-800/70 vibe-transition-all hover:vibe-shadow-md">
+                       class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-bg-zinc-50 hover:vibe-bg-white dark:vibe-bg-zinc-800/50 dark:hover:vibe-bg-zinc-800/70 vibe-transition-all hover:vibe-shadow-md">
                         <div class="vibe-flex vibe-items-start vibe-justify-between vibe-mb-2">
                             <h3 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal vibe-transition-colors">
                                 @component.Name

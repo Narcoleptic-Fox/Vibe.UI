@@ -2,13 +2,13 @@
 
 <PageTitle>Theming - Vibe.UI</PageTitle>
 
-<div class="docs-page">
-    <div class="page-header">
-        <h1>Theming</h1>
-        <p class="lead">Customize your application with Vibe.UI's shadcn-inspired theming system using pure CSS variables.</p>
-    </div>
+<div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
+    <header class="vibe-space-y-2">
+        <h1 class="vibe-m-0">Theming</h1>
+        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Customize your application with Vibe.UI’s shadcn-inspired theming system using pure CSS variables.</p>
+    </header>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Overview</h2>
         <p>
             Vibe.UI follows the <strong>shadcn/ui theming approach</strong> - a simple, pure CSS theming system that
@@ -22,30 +22,30 @@
         </Alert>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>How It Works</h2>
         <p>Vibe.UI uses CSS custom properties (variables) for theming. The theme toggle simply adds or removes a <code>.dark</code> class on the <code>&lt;html&gt;</code> element:</p>
 
-        <div class="theme-flow">
-            <div class="flow-item">
+        <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-2 vibe-text-sm">
+            <div class="vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-px-3 vibe-py-2">
                 <code>:root</code> defines light theme colors
             </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-item">
+            <div class="vibe-text-zinc-500 dark:vibe-text-zinc-400">→</div>
+            <div class="vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-px-3 vibe-py-2">
                 <code>.dark</code> overrides with dark colors
             </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-item">
+            <div class="vibe-text-zinc-500 dark:vibe-text-zinc-400">→</div>
+            <div class="vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-px-3 vibe-py-2">
                 Components use <code>--vibe-*</code> variables
             </div>
         </div>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Theme Variables</h2>
         <p>All Vibe.UI components use the following CSS custom properties:</p>
 
-        <div class="theme-variables">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3>Color Palette</h3>
             <ul>
                 <li><code>--vibe-background</code> - Main background color</li>
@@ -76,7 +76,7 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>CLI Setup</h2>
         <p>When you run <code>vibe init</code>, the CLI will prompt you to select a base color scheme:</p>
 
@@ -87,7 +87,7 @@
         <CodeBlock Code="@GeneratedCssCode" Language="css" />
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Using the ThemeToggle Component</h2>
         <p>The simplest way to add theme switching is with the <code>&lt;ThemeToggle /&gt;</code> component:</p>
 
@@ -101,27 +101,27 @@
             <li>✅ Pure CSS and inline JavaScript - zero dependencies</li>
         </ul>
 
-        <div style="margin-top: 1rem;">
+        <div class="vibe-flex vibe-items-center vibe-gap-2">
             <ThemeToggle />
-            <span style="margin-left: 0.5rem;">Try it out!</span>
+            <span class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Try it out!</span>
         </div>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Customizing Colors</h2>
         <p>You can override theme colors directly in your <code>app.css</code> file:</p>
 
         <CodeBlock Code="@CustomColorsCode" Language="css" />
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Creating a Custom Theme</h2>
         <p>To create a completely custom theme, define new CSS variables:</p>
 
         <CodeBlock Code="@CustomThemeCode" Language="css" />
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Using HSL Colors</h2>
         <p>Vibe.UI uses HSL (Hue, Saturation, Lightness) color format for better manipulation and consistency:</p>
 
@@ -135,7 +135,7 @@
         </Alert>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Best Practices</h2>
         <ul>
             <li>Use <code>@("@")layer vibe</code> to organize theme styles in the cascade</li>
@@ -147,7 +147,7 @@
         </ul>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Migration from Old System</h2>
         <p>If you're migrating from the old ThemeManager system:</p>
 
@@ -178,7 +178,7 @@
         </ol>
     </section>
 
-    <section class="section">
+    <section class="vibe-space-y-4">
         <h2>Related Components</h2>
         <ul>
             <li><a href="/components/themetoggle">ThemeToggle</a> - Simple theme switching component</li>

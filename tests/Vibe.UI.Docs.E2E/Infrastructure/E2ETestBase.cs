@@ -43,6 +43,10 @@ public abstract class E2ETestBase : IAsyncLifetime
         // Ensure browsers are installed (thread-safe, runs once per test run)
         EnsureBrowsersInstalled();
 
+        // Ensure the docs site is reachable when using the default base URL.
+        // If DOCS_BASE_URL points elsewhere, assume the caller/CI starts the server externally.
+        await DocsServerManager.AcquireAsync(BaseUrl, CancellationToken.None);
+
         // Create Playwright instance
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
@@ -109,6 +113,8 @@ public abstract class E2ETestBase : IAsyncLifetime
         await Context?.CloseAsync()!;
         await Browser?.CloseAsync()!;
         Playwright?.Dispose();
+
+        DocsServerManager.Release(BaseUrl);
     }
 
     /// <summary>
@@ -118,7 +124,10 @@ public abstract class E2ETestBase : IAsyncLifetime
     protected async Task NavigateAndWaitForBlazorAsync(string path = "/")
     {
         var url = $"{BaseUrl.TrimEnd('/')}{path}";
-        await Page.GotoAsync(url);
+        await Page.GotoAsync(url, new()
+        {
+            WaitUntil = WaitUntilState.DOMContentLoaded
+        });
         await Page.WaitForBlazorReadyAsync();
     }
 

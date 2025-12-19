@@ -51,7 +51,7 @@ public class MasonryGridTests : TestBase
 
         // Assert
         var grid = cut.Find(".vibe-masonry");
-        grid.GetAttribute("style").ShouldContain($"gap: {gap}px");
+        grid.GetAttribute("style")!.ShouldContain($"gap: {gap}px");
     }
 
     [Fact]

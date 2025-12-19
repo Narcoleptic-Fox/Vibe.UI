@@ -2,13 +2,13 @@
 
 <PageTitle>Installation - Vibe.UI</PageTitle>
 
-<div class="docs-page">
-    <header class="page-header">
-        <h1>Installation</h1>
-        <p class="lead">Choose your preferred installation method</p>
+<div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
+    <header class="vibe-space-y-2">
+        <h1 class="vibe-m-0">Installation</h1>
+        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Choose your preferred installation method.</p>
     </header>
 
-    <section class="content-section">
+    <section>
         <h2>Option 1: CLI Tool (Recommended)</h2>
         <p>Install components as source code for full customization and control.</p>
 
@@ -23,7 +23,7 @@
         <ul>
             <li>Copy infrastructure files to <code>Vibe/</code> directory</li>
             <li>Copy required JavaScript files to <code>wwwroot/js/</code></li>
-            <li>Create a <code>vibeconfig.json</code> configuration file</li>
+            <li>Create a <code>vibe.json</code> configuration file</li>
         </ul>
 
         <h3>Step 3: Configure Program.cs</h3>
@@ -34,12 +34,12 @@
         <p>Add individual components as needed:</p>
         <CodeBlock Code="@AddComponentCode" Language="bash" />
 
-        <div class="info-box">
-            <strong>💡 Tip:</strong> Use <code>vibe list</code> to see all available components.
-        </div>
+        <Alert Variant="AlertVariant.Info">
+            <strong>Tip:</strong> Use <code>vibe list</code> to see all available components.
+        </Alert>
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>Option 2: NuGet Package</h2>
         <p>Install Vibe.UI as a traditional NuGet package.</p>
 
@@ -59,119 +59,117 @@
         <CodeBlock Code="@UseComponentCode" Language="razor" />
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>CLI Options and Flags</h2>
         <p>The CLI tool supports various options for customization:</p>
 
-        <div class="cli-options">
-            <div class="cli-option">
+        <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-6">
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
                 <code>--name &lt;custom-name&gt;</code>
-                <p>Rename component when copying</p>
+                <p>Rename a component when copying.</p>
                 <CodeBlock Code="@CustomNameCode" Language="bash" />
             </div>
 
-            <div class="cli-option">
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
                 <code>--output &lt;path&gt;</code>
-                <p>Specify custom output directory</p>
+                <p>Specify a custom output directory.</p>
                 <CodeBlock Code="@CustomOutputCode" Language="bash" />
             </div>
 
-            <div class="cli-option">
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
                 <code>--overwrite</code>
-                <p>Overwrite existing files without prompting</p>
+                <p>Overwrite existing files.</p>
                 <CodeBlock Code="@OverwriteCode" Language="bash" />
             </div>
 
-            <div class="cli-option">
+            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
                 <code>-y</code>
-                <p>Skip all prompts (use defaults)</p>
+                <p>Skip prompts (use defaults).</p>
                 <CodeBlock Code="@SkipPromptsCode" Language="bash" />
             </div>
         </div>
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>Comparison: CLI vs Package</h2>
-        <div class="comparison-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>CLI</th>
-                        <th>Package</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Source Code Access</td>
-                        <td class="check">✓ Full</td>
-                        <td class="cross">✗ Limited</td>
-                    </tr>
-                    <tr>
-                        <td>Customization</td>
-                        <td class="check">✓ Unlimited</td>
-                        <td class="cross">✗ Style only</td>
-                    </tr>
-                    <tr>
-                        <td>Setup Time</td>
-                        <td>~2 minutes</td>
-                        <td>~30 seconds</td>
-                    </tr>
-                    <tr>
-                        <td>Updates</td>
-                        <td>Manual (vibe update)</td>
-                        <td>Automatic</td>
-                    </tr>
-                    <tr>
-                        <td>Bundle Size</td>
-                        <td>Smaller (tree-shakeable)</td>
-                        <td>Larger (full library)</td>
-                    </tr>
-                    <tr>
-                        <td>Dependencies</td>
-                        <td class="check">✓ Zero</td>
-                        <td>Package reference</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="vibe-w-full">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>CLI</th>
+                    <th>Package</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Source code access</td>
+                    <td>✓ Full</td>
+                    <td>✗ Limited</td>
+                </tr>
+                <tr>
+                    <td>Customization</td>
+                    <td>✓ Unlimited</td>
+                    <td>✗ Style only</td>
+                </tr>
+                <tr>
+                    <td>Setup time</td>
+                    <td>~2 minutes</td>
+                    <td>~30 seconds</td>
+                </tr>
+                <tr>
+                    <td>Updates</td>
+                    <td>Manual (<code>vibe update</code>)</td>
+                    <td>Automatic</td>
+                </tr>
+                <tr>
+                    <td>Bundle size</td>
+                    <td>Smaller (tree-shakeable)</td>
+                    <td>Larger (full library)</td>
+                </tr>
+                <tr>
+                    <td>Dependencies</td>
+                    <td>✓ Zero</td>
+                    <td>Package reference</td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 
-    <section class="content-section">
+    <section class="vibe-space-y-4">
         <h2>Troubleshooting</h2>
 
-        <div class="troubleshooting-item">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3>CLI tool not found after installation</h3>
             <p>Make sure your PATH includes the .NET tools directory:</p>
             <CodeBlock Code="@PathCheckCode" Language="bash" />
         </div>
 
-        <div class="troubleshooting-item">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3>Build errors after adding components</h3>
             <p>Ensure you've run <code>vibe init</code> before adding components. The infrastructure files are required.</p>
         </div>
 
-        <div class="troubleshooting-item">
+        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
             <h3>Components not rendering</h3>
             <p>Check that Vibe.UI services are registered in Program.cs:</p>
             <CodeBlock Code="@ServicesCheckCode" Language="csharp" />
         </div>
     </section>
 
-    <section class="content-section">
+    <section>
         <h2>Next Steps</h2>
-        <div class="next-steps-grid">
-            <a href="@GetUrl("cli")" class="next-step-card">
-                <h3>🛠️ CLI Reference</h3>
-                <p>Complete CLI command documentation</p>
+        <div class="vibe-grid md:vibe-grid-cols-3 vibe-gap-4">
+            <a href="@GetUrl("cli")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">CLI reference</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Commands and usage examples.</p>
             </a>
-            <a href="@GetUrl("components/button")" class="next-step-card">
-                <h3>🎨 Browse Components</h3>
-                <p>Explore available components</p>
+            <a href="@GetUrl("components/button")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Browse components</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Live examples and API reference.</p>
             </a>
-            <a href="@GetUrl("theming")" class="next-step-card">
-                <h3>🎭 Customize Theme</h3>
-                <p>Learn about theming options</p>
+            <a href="@GetUrl("theming")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+                <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Theming</h3>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Tokens, dark mode, customization.</p>
             </a>
         </div>
     </section>

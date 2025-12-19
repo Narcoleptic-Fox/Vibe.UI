@@ -8,11 +8,18 @@ namespace Vibe.CSS.Scanner;
 public partial class ClassScanner
 {
     private readonly string _prefix;
+    private readonly bool _allowUnprefixed;
     private readonly HashSet<string> _ignoredClasses = [];
 
-    public ClassScanner(string prefix = "vibe")
+    /// <summary>
+    /// Initializes a new instance of the ClassScanner.
+    /// </summary>
+    /// <param name="prefix">The CSS class prefix to scan for (default: "vibe")</param>
+    /// <param name="allowUnprefixed">Whether to allow scanning unprefixed utility classes</param>
+    public ClassScanner(string prefix = "vibe", bool allowUnprefixed = false)
     {
         _prefix = prefix;
+        _allowUnprefixed = allowUnprefixed;
     }
 
     /// <summary>
@@ -195,8 +202,24 @@ public partial class ClassScanner
                 continue;
             }
 
-            // Handle both prefixed and non-prefixed classes
-            // The generator will decide if it can handle them
+            // Filter out common C# operators that appear in Razor class expressions
+            if (trimmed is "==" or "!=" or "&&" or "||" or "?" or ":" or "=>" or "=")
+            {
+                continue;
+            }
+
+            // Require tokens to look like CSS class names (letters/digits plus common utility punctuation)
+            if (!CssClassTokenRegex().IsMatch(trimmed))
+            {
+                continue;
+            }
+
+            // In strict-prefix mode, only keep utility-like tokens; ignore component-specific class names.
+            if (!_allowUnprefixed && !LooksLikeUtilityToken(trimmed))
+            {
+                continue;
+            }
+
             classes.Add(trimmed);
         }
     }
@@ -207,13 +230,34 @@ public partial class ClassScanner
         if (string.IsNullOrWhiteSpace(value))
             return false;
 
-        // Check if it starts with our prefix or common CSS patterns
-        if (value.StartsWith(_prefix + "-"))
+        if (_allowUnprefixed)
             return true;
 
-        // Check for common utility patterns
-        var patterns = new[] { "flex", "grid", "hidden", "block", "p-", "m-", "w-", "h-", "bg-", "text-", "border-", "rounded" };
-        return patterns.Any(p => value.Contains(p));
+        return LooksLikeUtilityToken(value);
+    }
+
+    private bool LooksLikeUtilityToken(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        if (string.IsNullOrEmpty(_prefix))
+            return true;
+
+        // Plain utility token: vibe-...
+        if (value.StartsWith(_prefix + "-", StringComparison.Ordinal))
+            return true;
+
+        // Variant utility token(s): hover:vibe-..., dark:sm:hover:vibe-...
+        var lastColon = value.LastIndexOf(':');
+        if (lastColon > 0)
+        {
+            var tail = value[(lastColon + 1)..];
+            if (tail.StartsWith(_prefix + "-", StringComparison.Ordinal))
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -260,6 +304,10 @@ public partial class ClassScanner
     // CssClass = "...", Class = "...", etc.
     [GeneratedRegex(@"(?:CssClass|Class|ClassName|Classes)\s*=\s*""([^""]*)""", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
     private static partial Regex CssClassAssignmentRegex();
+
+    // Rough validation for class tokens (supports variants + arbitrary values)
+    [GeneratedRegex(@"^[A-Za-z0-9_:\[\]\-./%]+$", RegexOptions.Compiled)]
+    private static partial Regex CssClassTokenRegex();
 
     #endregion
 }

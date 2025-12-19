@@ -226,7 +226,7 @@ public class AlertTests : TestBase
 
         // Assert
         var closeButton = cut.Find("button");
-        closeButton.GetAttribute("aria-label").ShouldBe("Close");
+        closeButton.GetAttribute("aria-label")!.ShouldBe("Close");
     }
 
     // ===== Accessibility Tests =====
@@ -240,7 +240,7 @@ public class AlertTests : TestBase
 
         // Assert
         var alert = cut.Find(".vibe-alert");
-        alert.GetAttribute("role").ShouldBe("alert");
+        alert.GetAttribute("role")!.ShouldBe("alert");
     }
 
     // ===== Edge Case Tests =====

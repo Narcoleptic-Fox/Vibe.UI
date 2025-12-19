@@ -35,9 +35,11 @@
    FOCUS STATE
    ---------------------------------------- */
 
-.vibe-textarea:focus:not(:disabled):not(:read-only) {
+.vibe-textarea:focus-visible:not(:disabled):not(:read-only) {
     border-color: var(--vibe-ring);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--vibe-ring) 25%, transparent);
+    outline: 2px solid var(--vibe-ring);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* ----------------------------------------
@@ -56,4 +58,20 @@
 
 .vibe-textarea::placeholder {
     color: var(--vibe-muted-foreground);
+}
+
+/* ----------------------------------------
+   ERROR/INVALID STATE
+   ---------------------------------------- */
+
+.vibe-textarea[aria-invalid="true"],
+.vibe-textarea.vibe-textarea-error {
+    border-color: var(--vibe-destructive);
+}
+
+.vibe-textarea[aria-invalid="true"]:focus-visible,
+.vibe-textarea.vibe-textarea-error:focus-visible {
+    border-color: var(--vibe-destructive);
+    outline-color: var(--vibe-destructive);
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-destructive);
 }

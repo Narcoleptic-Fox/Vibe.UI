@@ -71,16 +71,11 @@
     border-color: var(--vibe-border);
 }
 
-/* Focus State */
-.pagination-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
-}
-
 /* Focus Visible State (for keyboard navigation) */
 .pagination-button:focus-visible {
     outline: 2px solid var(--vibe-ring);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* Active State (Current Page) */

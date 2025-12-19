@@ -16,19 +16,57 @@ Examples present already:
 
 ## Phase 0 — Define “Parity” and Guardrails
 
-- [ ] Decide what “parity” means for Vibe.UI:
-  - API feel (props, variants, naming)
-  - Visual defaults (spacing, radii, shadows, typography)
-  - Composition model (Root/Trigger/Content patterns)
-- [ ] Document a component template:
-  - required accessibility attributes/roles
-  - keyboard interactions
-  - theming approach (CSS variables) and class composition rules
-- [ ] Lock down default tokens and visual language:
-  - border radius scale
-  - shadows
-  - typography scale
-  - neutral palette behavior in light/dark
+This repo already made several “shadcn-style” decisions. Phase 0 is about documenting them explicitly (and closing the few remaining gaps), so new components and CLI installs stay consistent.
+
+In this context:
+- “Parity” means we deliver the same *developer experience* as shadcn/ui, not necessarily a 1:1 clone:
+  - API feel: naming, variants/sizes, slot/composition patterns, defaults
+  - UX/a11y: keyboard behavior, focus management, aria labeling, escape handling
+  - Visual language: radii, spacing, shadows, typography, light/dark behavior
+  - Workflow: the CLI-based “copy into your app” path stays the primary, ergonomic path
+- “Guardrails” are the non-negotiable conventions that keep the above consistent:
+  - theming contract (tokens + `.dark`)
+  - component parameter patterns and class composition rules
+  - JS usage policy
+  - CLI install/update behavior and file layout conventions
+
+### What we already have (today)
+
+- Theming model: CSS variables (`--vibe-*`) + `.dark` class toggling (shadcn-like).
+  - Source: `src/Vibe.CSS/Data/vibe-base.css` (tokens + reset) and component styles using `var(--vibe-*)`.
+  - Runtime toggling: `src/Vibe.UI/wwwroot/js/vibe-theme.js` + `ThemeToggle`/`ThemeProvider` components.
+- Styling approach: components ship with `.razor.css` and are designed to work with tokens out of the box.
+- Component class/attrs model: common `Class` + `AdditionalAttributes` pattern via `src/Vibe.UI/Base/VibeComponent.cs` (`VibeComponent`).
+- Copy/paste workflow (“shadcn for Blazor”):
+  - `vibe init` copies infrastructure to `Vibe/` and CSS foundation files to `wwwroot/css/`.
+  - `vibe add <component>` installs components (flat by default) and installs dependencies first.
+  - Config stored in `vibe.json` (`ComponentsDirectory`, theme, etc.).
+  - Source: `src/Vibe.UI.CLI/Commands/InitCommand.cs`, `src/Vibe.UI.CLI/Commands/AddCommand.cs`, `src/Vibe.UI.CLI/Services/ComponentService.cs`.
+
+### Guardrails to document (so it stays consistent)
+
+- Class handling: every component should expose `Class` and `AdditionalAttributes` and use `VibeComponent.CombineClasses(...)` or `CombinedClass` consistently.
+- Naming conventions:
+  - parameters: `Variant`, `Size`, `Disabled`, `Class`, `ChildContent` (where applicable)
+  - enums: `XxxVariant`, `XxxSize` (or a shared pattern)
+  - files: `Component.razor` + optional `Component.razor.css`
+- Composition patterns:
+  - overlays/menus: Root/Trigger/Content (you already have `DialogRoot`, `DialogTrigger`, etc.)
+  - table/menu item composition: consistent slot patterns vs monolithic components
+- JS policy:
+  - minimal JS, only where needed (positioning, measuring, drag/resize); ship JS via CLI templates when required.
+- CLI install contract:
+  - “flat install by default” is the baseline; docs and examples should assume this.
+  - dependency metadata must be accurate (CLI currently hardcodes component list + deps in `ComponentService`).
+
+### Remaining decisions (worth making explicit)
+
+- Are components primarily “styled components” (CSS in `.razor.css`) or should more move toward composition with `vibe-*` utilities?
+- How strict should CLI updates be:
+  - overwrite-only (current)
+  - diff/patch workflow (future)
+- What is the canonical “import story”:
+  - `@using MyApp.Components.vibe` (current default) vs a different namespace/layout.
 
 ## Phase 1 — Core shadcn/ui Primitives (Highest adoption)
 
@@ -99,4 +137,3 @@ shadcn/ui parity is as much workflow as it is visuals.
 1) Pick 10 “flagship” components to perfect first (the ones used on the docs landing + component pages).
 2) Add visual regression screenshots to CI for those pages (home/components/button/input + overlays).
 3) Iterate tokens + focus/disabled states until the suite looks consistently “shadcn”.
-

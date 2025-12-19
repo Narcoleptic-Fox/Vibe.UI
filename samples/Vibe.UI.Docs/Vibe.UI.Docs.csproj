@@ -8,9 +8,14 @@
     <!-- Vibe.CSS (JIT utility CSS) for docs site styling -->
     <VibeCssEnabled Condition="'$(VibeCssEnabled)' == ''">true</VibeCssEnabled>
     <VibeCssPrefix Condition="'$(VibeCssPrefix)' == ''">vibe</VibeCssPrefix>
-    <VibeCssAllowUnprefixed Condition="'$(VibeCssAllowUnprefixed)' == ''">true</VibeCssAllowUnprefixed>
+    <VibeCssAllowUnprefixed Condition="'$(VibeCssAllowUnprefixed)' == ''">false</VibeCssAllowUnprefixed>
     <VibeCssScanRoot Condition="'$(VibeCssScanRoot)' == ''">$(MSBuildProjectDirectory)</VibeCssScanRoot>
     <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\vibe.css</VibeCssOutput>
+    <VibeCssIncludeBase Condition="'$(VibeCssIncludeBase)' == ''">true</VibeCssIncludeBase>
+    <VibeCssScanPatterns Condition="'$(VibeCssScanPatterns)' == ''">*.razor,*.cshtml,*.html,*.cs</VibeCssScanPatterns>
+
+    <_VibeCssProjectPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj</_VibeCssProjectPath>
+    <_VibeCssAssemblyPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\bin\$(Configuration)\net9.0\Vibe.CSS.dll</_VibeCssAssemblyPath>
 
     <!-- MSBuild doesn't always populate $(DotNetExe) depending on invocation context -->
     <DotNetExe Condition="'$(DotNetExe)' == ''">dotnet</DotNetExe>
@@ -27,11 +32,16 @@
   </ItemGroup>
 
   <Target Name="GenerateVibeCss"
-          BeforeTargets="BeforeBuild"
+          AfterTargets="Build"
           Condition="'$(VibeCssEnabled)' == 'true'">
     <Message Importance="high" Text="Vibe.CSS: Generating docs CSS -> $(VibeCssOutput)" />
-    <Exec UseCommandProcessor="false"
-          Command="$(DotNetExe) run --project &quot;$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj&quot; -- generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base true --patterns &quot;*.razor,*.cshtml,*.html,*.cs&quot;" />
+    <!-- Build Vibe.CSS if needed, then run the built assembly to avoid `dotnet run` locking issues during parallel builds. -->
+    <MSBuild Projects="$(_VibeCssProjectPath)"
+             Targets="Build"
+             Properties="Configuration=$(Configuration);UseSharedCompilation=false"
+             BuildInParallel="false"
+             Condition="!Exists('$(_VibeCssAssemblyPath)')" />
+    <Exec Command="$(DotNetExe) exec &quot;$(_VibeCssAssemblyPath)&quot; generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base &quot;$(VibeCssIncludeBase)&quot; --patterns=&quot;$(VibeCssScanPatterns)&quot;" />
   </Target>
 
 </Project>

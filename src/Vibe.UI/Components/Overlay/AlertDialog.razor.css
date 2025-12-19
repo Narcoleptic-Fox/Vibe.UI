@@ -18,10 +18,6 @@
     align-items: center;
     justify-content: center;
     z-index: 50;
-    pointer-events: none;
-}
-
-.vibe-alert-dialog[aria-hidden="false"] {
     pointer-events: auto;
 }
 
@@ -48,8 +44,8 @@
 
 .vibe-alert-dialog-content {
     position: relative;
-    background-color: var(--vibe-background);
-    color: var(--vibe-foreground);
+    background-color: var(--vibe-popover);
+    color: var(--vibe-popover-foreground);
     border: 1px solid var(--vibe-border);
     border-radius: var(--vibe-radius-lg);
     padding: var(--vibe-spacing-6);
@@ -133,11 +129,6 @@
 .vibe-alert-dialog-close:hover {
     background-color: var(--vibe-muted);
     color: var(--vibe-foreground);
-}
-
-.vibe-alert-dialog-close:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--vibe-ring);
 }
 
 /* ----------------------------------------
@@ -262,6 +253,7 @@
 .vibe-alert-dialog-close:focus-visible {
     outline: 2px solid var(--vibe-ring);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
 }
 
 /* ----------------------------------------

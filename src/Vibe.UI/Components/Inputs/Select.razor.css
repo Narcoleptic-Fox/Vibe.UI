@@ -131,6 +131,23 @@
     cursor: not-allowed;
 }
 
+/* ==================== Error/Invalid State ==================== */
+.vibe-select-wrapper.vibe-select-error,
+.vibe-select-wrapper:has(.vibe-select-input[aria-invalid="true"]) {
+    border-color: var(--vibe-destructive);
+}
+
+.vibe-select-wrapper.vibe-select-error:focus-within,
+.vibe-select-wrapper:has(.vibe-select-input[aria-invalid="true"]):focus-within {
+    border-color: var(--vibe-destructive);
+    box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-destructive);
+}
+
+.vibe-select-wrapper.vibe-select-error .vibe-select-label,
+.vibe-select-wrapper:has(.vibe-select-input[aria-invalid="true"]) .vibe-select-label {
+    color: var(--vibe-destructive);
+}
+
 /* ==================== Dark Mode Support ==================== */
 :global(.dark) .vibe-select-input {
     background-color: var(--vibe-background);

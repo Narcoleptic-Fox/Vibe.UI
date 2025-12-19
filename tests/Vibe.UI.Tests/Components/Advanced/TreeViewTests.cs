@@ -11,7 +11,7 @@ public class TreeViewTests : TestBase
         // Assert
         var tree = cut.Find(".vibe-tree-view");
         tree.ShouldNotBeNull();
-        tree.GetAttribute("role").ShouldBe("tree");
+        tree.GetAttribute("role")!.ShouldBe("tree");
     }
 
     [Fact]

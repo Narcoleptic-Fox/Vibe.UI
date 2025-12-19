@@ -226,7 +226,7 @@
                 .Where(p => !Equals(p.Value, p.DefaultValue))
                 .Select(p => p.Type switch
                 {
-                    PropType.Boolean => $"{p.Name}=\"{p.Value.ToString()?.ToLower()}\"",
+                    PropType.Boolean => $"{p.Name}=\"{p.Value?.ToString()?.ToLower()}\"",
                     PropType.String => $"{p.Name}=\"{p.Value}\"",
                     PropType.Number => $"{p.Name}=\"{p.Value}\"",
                     PropType.Enum => $"{p.Name}=\"{p.Name}.{p.Value}\"",

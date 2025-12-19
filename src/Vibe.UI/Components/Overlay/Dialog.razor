@@ -1,19 +1,27 @@
 @namespace Vibe.UI.Components
 @inherits Vibe.UI.Base.VibeComponent
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
 
 @if (IsOpen)
 {
     <div class="vibe-dialog-overlay" @onclick="OnOutsideClick" @onkeydown="HandleKeyDown" tabindex="-1">
-        <div class="vibe-dialog @CombinedClass" role="dialog" aria-modal="true" @onclick:stopPropagation="true"
+        <div class="vibe-dialog @CombinedClass"
+            @ref="_dialogRef"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="@(Header != null ? _titleId : null)"
+            aria-describedby="@_bodyId"
+            @onclick:stopPropagation="true"
             @attributes="AdditionalAttributes">
             @if (Header != null)
             {
-                <div class="vibe-dialog-header">
+                <div class="vibe-dialog-header" id="@_titleId">
                     @Header
                 </div>
             }
 
-            <div class="vibe-dialog-body">
+            <div class="vibe-dialog-body" id="@_bodyId">
                 @ChildContent
             </div>
 
@@ -28,11 +36,18 @@
 }
 
 @code {
+    private IJSObjectReference? _dialogModule;
+    private bool _focusTrapActive;
+    private ElementReference _dialogRef;
+    private readonly string _dialogKey = $"vibe-dialog-{Guid.NewGuid():N}";
+    private readonly string _titleId = $"vibe-dialog-title-{Guid.NewGuid():N}";
+    private readonly string _bodyId = $"vibe-dialog-body-{Guid.NewGuid():N}";
+
     /// <summary>
     /// Gets or sets the dialog content
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets the dialog header
@@ -72,6 +87,27 @@
 
     /// <inheritdoc/>
     protected override string ComponentClass => "vibe-dialog";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpen && !_focusTrapActive)
+        {
+            _dialogModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-dialog.js");
+
+            await _dialogModule.InvokeVoidAsync("activate", _dialogKey, _dialogRef);
+            _focusTrapActive = true;
+        }
+        else if (!IsOpen && _focusTrapActive)
+        {
+            if (_dialogModule != null)
+            {
+                await _dialogModule.InvokeVoidAsync("deactivate", _dialogKey);
+            }
+
+            _focusTrapActive = false;
+        }
+    }
 
     /// <summary>
     /// Handles key down events to close the dialog when Escape is pressed
@@ -125,6 +161,20 @@
             {
                 await IsOpenChanged.InvokeAsync(true);
             }
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_focusTrapActive && _dialogModule != null)
+        {
+            await _dialogModule.InvokeVoidAsync("deactivate", _dialogKey);
+            _focusTrapActive = false;
+        }
+
+        if (_dialogModule != null)
+        {
+            await _dialogModule.DisposeAsync();
         }
     }
 }

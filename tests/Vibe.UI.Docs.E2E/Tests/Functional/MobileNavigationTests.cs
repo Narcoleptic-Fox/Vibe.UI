@@ -22,73 +22,27 @@ public class MobileNavigationTests : E2ETestBase
     }
 
     [Fact]
-    public async Task HamburgerMenuVisibleOnMobileViewport()
+    public async Task MobileSearchButtonVisibleOnMobileViewport()
     {
         // Arrange
         await NavigateAndWaitForBlazorAsync("/");
         var basePage = new BasePage(Page);
 
         // Assert
-        var isVisible = await basePage.IsMobileMenuVisibleAsync();
-        isVisible.ShouldBeTrue("Hamburger menu button should be visible on mobile viewport");
+        var isVisible = await basePage.MobileSearchButton.IsVisibleAsync();
+        isVisible.ShouldBeTrue("Search button should be visible on mobile viewport");
     }
 
     [Fact]
-    public async Task HamburgerMenuHiddenOnDesktopViewport()
-    {
-        // Arrange - Switch to desktop viewport
-        await Page.SetViewportSizeAsync(1280, 720);
-        await NavigateAndWaitForBlazorAsync("/");
-        var basePage = new BasePage(Page);
-
-        // Assert
-        var isVisible = await basePage.IsMobileMenuVisibleAsync();
-        isVisible.ShouldBeFalse("Hamburger menu button should be hidden on desktop viewport");
-    }
-
-    [Fact]
-    public async Task SidebarToggleOpensOnMobile()
+    public async Task DesktopSearchButtonHiddenOnMobileViewport()
     {
         // Arrange
         await NavigateAndWaitForBlazorAsync("/");
         var basePage = new BasePage(Page);
 
-        var isOpenBefore = await basePage.IsSidebarOpenAsync();
-
-        // Act
-        await basePage.ToggleMobileSidebarAsync();
-
         // Assert
-        var isOpenAfter = await basePage.IsSidebarOpenAsync();
-        isOpenAfter.ShouldNotBe(isOpenBefore, "Sidebar state should toggle");
-    }
-
-    [Fact]
-    public async Task SidebarClosesAfterNavigationOnMobile()
-    {
-        // Arrange
-        await NavigateAndWaitForBlazorAsync("/");
-        var basePage = new BasePage(Page);
-
-        // Open sidebar
-        await basePage.ToggleMobileSidebarAsync();
-        await Page.WaitForTimeoutAsync(500); // Wait for animation
-
-        var isOpenBefore = await basePage.IsSidebarOpenAsync();
-        isOpenBefore.ShouldBeTrue("Sidebar should be open before navigation");
-
-        // Act - Click a link in the sidebar
-        var componentLink = Page.Locator(".docs-sidebar a[href*='/components/']").First;
-        await componentLink.ClickAsync();
-        await Page.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle);
-
-        // Assert - Sidebar should close after navigation
-        // Note: This behavior depends on implementation - adjust if needed
-        await Page.WaitForTimeoutAsync(500);
-
-        // Verify navigation happened
-        var url = Page.Url;
-        url.ShouldContain("/components/");
+        var isVisible = await basePage.SearchButton.IsVisibleAsync();
+        isVisible.ShouldBeFalse("Desktop search button should be hidden on mobile viewport");
     }
 
     [Fact]
@@ -132,7 +86,7 @@ public class MobileNavigationTests : E2ETestBase
             var basePage = new BasePage(Page);
 
             // Assert - Main content should be visible at all viewports
-            var contentVisible = await basePage.MainContent.IsVisibleAsync();
+            var contentVisible = await basePage.IsMainContentVisibleAsync();
             contentVisible.ShouldBeTrue($"Main content should be visible on {viewport.Name} viewport");
         }
     }

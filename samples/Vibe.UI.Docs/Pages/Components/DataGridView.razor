@@ -234,15 +234,15 @@
     <section>
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="/components/table" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="/components/table" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Table</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Simple table component</p>
             </a>
-            <a href="/components/pagination" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="/components/pagination" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Pagination</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Page navigation component</p>
             </a>
-            <a href="/components/virtualscroll" class="group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="/components/virtualscroll" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">VirtualScroll</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Efficient large list rendering</p>
             </a>
@@ -253,10 +253,10 @@
 @code {
     private class ProductData
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public string Category { get; set; }
+        public string Category { get; set; } = string.Empty;
     }
 
     private List<ProductData> sampleProducts = new()

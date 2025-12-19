@@ -14,11 +14,15 @@ public class CssEmitter
     private readonly ClassScanner _scanner;
     private readonly VibeConfig _config;
 
+    /// <summary>
+    /// Initializes a new instance of the CssEmitter.
+    /// </summary>
+    /// <param name="config">Configuration for CSS generation (default: new VibeConfig)</param>
     public CssEmitter(VibeConfig? config = null)
     {
         _config = config ?? new VibeConfig();
         _generator = new UtilityGenerator(_config);
-        _scanner = new ClassScanner(_config.Prefix);
+        _scanner = new ClassScanner(_config.Prefix, _config.AllowUnprefixedUtilities);
     }
 
     /// <summary>
@@ -79,6 +83,7 @@ public class CssEmitter
         // Generate rules for each class
         var rules = new List<CssRule>();
         var generatedClasses = new HashSet<string>();
+        var emittedRuleKeys = new HashSet<string>(StringComparer.Ordinal);
 
         foreach (var className in classNames)
         {
@@ -89,7 +94,14 @@ public class CssEmitter
             var classRules = _generator.GenerateAll(className);
             if (classRules.Count > 0)
             {
-                rules.AddRange(classRules);
+                foreach (var r in classRules)
+                {
+                    var key = $"{r.MediaQuery}|{r.Selector}|{r.Declarations}";
+                    if (emittedRuleKeys.Add(key))
+                    {
+                        rules.Add(r);
+                    }
+                }
                 generatedClasses.Add(className);
             }
         }
@@ -112,6 +124,8 @@ public class CssEmitter
 
         foreach (var rule in noMediaRules)
         {
+            if (string.IsNullOrWhiteSpace(rule.Declarations))
+                continue;
             sb.AppendLine(rule.ToCss());
         }
 
@@ -124,6 +138,8 @@ public class CssEmitter
 
             foreach (var rule in group.OrderBy(r => r.Order))
             {
+                if (string.IsNullOrWhiteSpace(rule.Declarations))
+                    continue;
                 sb.AppendLine($"  {rule.Selector} {{ {rule.Declarations} }}");
             }
 
@@ -203,8 +219,8 @@ public class CssEmitter
 
         foreach (var className in classNames)
         {
-            var rule = _generator.Generate(className);
-            if (rule != null)
+            var rules = _generator.GenerateAll(className);
+            if (rules.Count > 0)
             {
                 generated++;
             }
@@ -228,8 +244,23 @@ public class CssEmitter
 /// </summary>
 public class CssStats
 {
+    /// <summary>
+    /// Gets the total number of class names found during scanning.
+    /// </summary>
     public int TotalClasses { get; init; }
+
+    /// <summary>
+    /// Gets the number of classes that were successfully generated.
+    /// </summary>
     public int GeneratedClasses { get; init; }
+
+    /// <summary>
+    /// Gets the list of class names that could not be generated.
+    /// </summary>
     public List<string> UnknownClasses { get; init; } = [];
+
+    /// <summary>
+    /// Gets the count of unknown classes.
+    /// </summary>
     public int UnknownCount => UnknownClasses.Count;
 }

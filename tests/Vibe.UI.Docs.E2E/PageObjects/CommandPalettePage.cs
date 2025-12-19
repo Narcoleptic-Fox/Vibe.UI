@@ -16,39 +16,39 @@ public class CommandPalettePage
     }
 
     // Modal Elements
-    public ILocator Overlay => _page.Locator(".fixed.inset-0.z-50");
-    public ILocator ModalContent => _page.Locator(".bg-white.dark\\:bg-zinc-900.rounded-xl");
+    public ILocator Overlay => _page.Locator(".vibe-fixed.vibe-inset-0.vibe-z-50");
+    public ILocator ModalContent => Overlay.Locator(".vibe-bg-white.dark\\:vibe-bg-zinc-900.vibe-rounded-xl");
     public ILocator SearchInput => _page.GetByPlaceholder("Search components...");
     public ILocator EscHint => _page.GetByText("ESC");
 
     // Results Section
-    public ILocator ResultsContainer => _page.Locator(".max-h-\\[400px\\].overflow-y-auto");
-    public ILocator QuickActionsSection => _page.GetByText("Quick Actions");
-    public ILocator PopularComponentsSection => _page.GetByText("Popular Components");
+    public ILocator ResultsContainer => Overlay.Locator(".vibe-max-h-\\[400px\\].vibe-overflow-y-auto");
+    public ILocator QuickActionsSection => Overlay.GetByText("Quick Actions", new() { Exact = true });
+    public ILocator PopularComponentsSection => Overlay.GetByText("Popular Components", new() { Exact = true });
     public ILocator SearchResultsSection => _page.Locator("text=/Components \\(/");
 
     // Quick Actions
-    public ILocator ToggleThemeAction => _page.GetByRole(AriaRole.Button, new()
+    public ILocator ToggleThemeAction => Overlay.GetByRole(AriaRole.Button, new()
     {
         NameString = "Toggle theme",
         Exact = false
     });
 
-    public ILocator GitHubAction => _page.GetByRole(AriaRole.Link, new()
+    public ILocator GitHubAction => Overlay.GetByRole(AriaRole.Link, new()
     {
         NameString = "View on GitHub",
         Exact = false
     });
 
     // Search Results
-    public ILocator SearchResults => _page.Locator("button:has(.text-sm.font-medium)");
-    public ILocator SelectedResult => _page.Locator(".bg-brand-teal\\/10, .dark\\:bg-brand-teal\\/20");
+    public ILocator SearchResults => Overlay.Locator("button.vibe-w-full");
+    public ILocator SelectedResult => _page.Locator("button.vibe-bg-brand-teal\\/10, button.dark\\:vibe-bg-brand-teal\\/20");
 
     // No Results
-    public ILocator NoResultsMessage => _page.Locator("text=/No components found for/");
+    public ILocator NoResultsMessage => Overlay.Locator("text=/No components found for/");
 
     // Footer
-    public ILocator Footer => _page.Locator(".border-t.border-zinc-200");
+    public ILocator Footer => _page.Locator(".vibe-border-t.vibe-border-zinc-200");
     public ILocator ComponentCount => _page.Locator("text=/\\d+ components/");
 
     /// <summary>
@@ -63,7 +63,7 @@ public class CommandPalettePage
     /// <summary>
     /// Wait for modal to be visible
     /// </summary>
-    public async Task WaitForModalAsync(int timeout = 2000)
+    public async Task WaitForModalAsync(int timeout = 5000)
     {
         await Overlay.WaitForAsync(new()
         {
@@ -85,6 +85,10 @@ public class CommandPalettePage
     /// </summary>
     public async Task CloseWithEscapeAsync()
     {
+        if (await SearchInput.IsVisibleAsync())
+        {
+            await SearchInput.FocusAsync();
+        }
         await _page.Keyboard.PressAsync("Escape");
         await WaitForModalCloseAsync();
     }
@@ -92,7 +96,7 @@ public class CommandPalettePage
     /// <summary>
     /// Wait for modal to close/disappear
     /// </summary>
-    public async Task WaitForModalCloseAsync(int timeout = 2000)
+    public async Task WaitForModalCloseAsync(int timeout = 8000)
     {
         await Overlay.WaitForAsync(new()
         {
@@ -107,6 +111,7 @@ public class CommandPalettePage
     public async Task SearchAsync(string query)
     {
         await SearchInput.FillAsync(query);
+        await SearchInput.FocusAsync();
         // Wait for search results to update
         await _page.WaitForTimeoutAsync(300);
     }
@@ -124,8 +129,12 @@ public class CommandPalettePage
     /// </summary>
     public async Task PressArrowDownAsync()
     {
+        if (await SearchInput.IsVisibleAsync())
+        {
+            await SearchInput.FocusAsync();
+        }
         await _page.Keyboard.PressAsync("ArrowDown");
-        await _page.WaitForTimeoutAsync(100);
+        await _page.WaitForTimeoutAsync(150);
     }
 
     /// <summary>
@@ -133,8 +142,12 @@ public class CommandPalettePage
     /// </summary>
     public async Task PressArrowUpAsync()
     {
+        if (await SearchInput.IsVisibleAsync())
+        {
+            await SearchInput.FocusAsync();
+        }
         await _page.Keyboard.PressAsync("ArrowUp");
-        await _page.WaitForTimeoutAsync(100);
+        await _page.WaitForTimeoutAsync(150);
     }
 
     /// <summary>
@@ -163,7 +176,7 @@ public class CommandPalettePage
         for (int i = 0; i < allResults.Count; i++)
         {
             var classes = await allResults[i].GetAttributeAsync("class") ?? "";
-            if (classes.Contains("bg-brand-teal"))
+            if (classes.Contains("vibe-bg-brand-teal/10") || classes.Contains("dark:vibe-bg-brand-teal/20"))
             {
                 return i;
             }

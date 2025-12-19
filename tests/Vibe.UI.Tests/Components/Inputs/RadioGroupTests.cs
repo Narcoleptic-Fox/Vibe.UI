@@ -12,7 +12,7 @@ public class RadioGroupTests : TestBase
         // Assert
         var group = cut.Find(".vibe-radio-group");
         group.ShouldNotBeNull();
-        group.GetAttribute("role").ShouldBe("radiogroup");
+        group.GetAttribute("role")!.ShouldBe("radiogroup");
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class RadioGroupTests : TestBase
             .AddChildContent("<div>Items</div>"));
 
         // Assert
-        cut.Find(".vibe-radio-group").GetAttribute("aria-label").ShouldBe("Select an option");
+        cut.Find(".vibe-radio-group").GetAttribute("aria-label")!.ShouldBe("Select an option");
     }
 
     [Fact]
@@ -300,9 +300,9 @@ public class RadioGroupTests : TestBase
         // Assert
         var radioInputs = cut.FindAll("input[type='radio']");
         radioInputs.Count.ShouldBe(3);
-        radioInputs[0].GetAttribute("name").ShouldBe("test-group");
-        radioInputs[1].GetAttribute("name").ShouldBe("test-group");
-        radioInputs[2].GetAttribute("name").ShouldBe("test-group");
+        radioInputs[0].GetAttribute("name")!.ShouldBe("test-group");
+        radioInputs[1].GetAttribute("name")!.ShouldBe("test-group");
+        radioInputs[2].GetAttribute("name")!.ShouldBe("test-group");
     }
 
     [Fact]

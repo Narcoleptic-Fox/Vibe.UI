@@ -133,6 +133,16 @@
     color: var(--vibe-accent-foreground);
 }
 
+.command-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.command-item.disabled:hover {
+    background-color: transparent;
+    color: inherit;
+}
+
 .command-item:active {
     background-color: var(--vibe-muted);
 }

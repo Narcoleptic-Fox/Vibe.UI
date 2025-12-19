@@ -34,7 +34,7 @@ public class ImageCropperTests : TestBase
 
         // Assert
         var img = cut.Find(".cropper-image");
-        img.GetAttribute("src").ShouldBe("test.jpg");
+        img.GetAttribute("src")!.ShouldBe("test.jpg");
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class ImageCropperTests : TestBase
     public void ImageCropper_Invokes_OnCropped_Callback()
     {
         // Arrange
-        ImageCropper.CroppedImageData croppedData = null;
+        ImageCropper.CroppedImageData? croppedData = null;
         var cut = RenderComponent<ImageCropper>(parameters => parameters
             .Add(p => p.ImageSource, "test.jpg")
             .Add(p => p.OnCropped, EventCallback.Factory.Create<ImageCropper.CroppedImageData>(this, data => croppedData = data)));

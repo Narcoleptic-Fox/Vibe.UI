@@ -20,7 +20,7 @@ public class ComponentPage : BasePage
     public ILocator PreviewContent => LivePreview.Locator("> *").First;
 
     // Code Block Section
-    public ILocator CodeBlocks => Page.Locator("pre code");
+    public ILocator CodeBlocks => Page.Locator(".code-block");
     public ILocator FirstCodeBlock => CodeBlocks.First;
 
     // Prop Tweaker (interactive property controls)
@@ -62,8 +62,8 @@ public class ComponentPage : BasePage
             return false;
         }
 
-        // Check if code block has child spans (syntax highlighting adds spans)
-        var spanCount = await firstBlock.Locator("span").CountAsync();
+        // Check if code block has Shiki child spans (syntax highlighting adds spans)
+        var spanCount = await firstBlock.Locator(".shiki span").CountAsync();
         return spanCount > 0;
     }
 

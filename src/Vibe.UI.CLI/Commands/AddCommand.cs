@@ -47,7 +47,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         var requiredInfrastructureFiles = new[]
         {
             Path.Combine(vibeBaseDir, "ClassBuilder.cs"),
-            Path.Combine(vibeBaseDir, "ThemedComponentBase.cs")
+            Path.Combine(vibeBaseDir, "VibeComponent.cs")
         };
 
         if (requiredInfrastructureFiles.Any(path => !File.Exists(path)))
@@ -168,7 +168,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
 
         // Next Steps section - closes the loop for the developer
         AnsiConsole.MarkupLine("\n[yellow]Next Steps:[/]");
-        AnsiConsole.MarkupLine($"  1. Import the component: [dim]@using YourProject.{config.ComponentsDirectory}[/]");
+        AnsiConsole.MarkupLine("  1. Import the component: [dim]@using Vibe.UI.Components[/]");
         AnsiConsole.MarkupLine($"  2. Use in your Razor files: [dim]<{displayName} />[/]");
 
         if (component.Dependencies?.Any() == true)

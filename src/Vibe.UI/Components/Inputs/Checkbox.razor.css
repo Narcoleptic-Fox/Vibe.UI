@@ -92,3 +92,20 @@
     border-width: 0 0.125rem 0.125rem 0;
     transform: rotate(45deg) translate(-1px, -1px);
 }
+
+/* Error/Invalid state - destructive border */
+.vibe-checkbox-input[aria-invalid="true"] + .vibe-checkbox-control,
+.vibe-checkbox-error .vibe-checkbox-control {
+    border-color: var(--vibe-destructive);
+}
+
+.vibe-checkbox-input[aria-invalid="true"]:focus-visible + .vibe-checkbox-control,
+.vibe-checkbox-error .vibe-checkbox-input:focus-visible + .vibe-checkbox-control {
+    outline-color: var(--vibe-destructive);
+}
+
+.vibe-checkbox-input[aria-invalid="true"]:checked + .vibe-checkbox-control,
+.vibe-checkbox-error .vibe-checkbox-input:checked + .vibe-checkbox-control {
+    background-color: var(--vibe-destructive);
+    border-color: var(--vibe-destructive);
+}

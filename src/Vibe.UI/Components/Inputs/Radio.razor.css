@@ -86,3 +86,24 @@
 .vibe-radio-text {
     line-height: 1.25rem;
 }
+
+/* Error/Invalid state - destructive border */
+.vibe-radio-input[aria-invalid="true"] + .vibe-radio-control,
+.vibe-radio-error .vibe-radio-control {
+    border-color: var(--vibe-destructive);
+}
+
+.vibe-radio-input[aria-invalid="true"]:focus-visible + .vibe-radio-control,
+.vibe-radio-error .vibe-radio-input:focus-visible + .vibe-radio-control {
+    outline-color: var(--vibe-destructive);
+}
+
+.vibe-radio-input[aria-invalid="true"]:checked + .vibe-radio-control,
+.vibe-radio-error .vibe-radio-input:checked + .vibe-radio-control {
+    border-color: var(--vibe-destructive);
+}
+
+.vibe-radio-input[aria-invalid="true"]:checked + .vibe-radio-control::after,
+.vibe-radio-error .vibe-radio-input:checked + .vibe-radio-control::after {
+    background-color: var(--vibe-destructive);
+}

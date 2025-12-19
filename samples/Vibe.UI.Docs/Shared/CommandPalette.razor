@@ -1,6 +1,4 @@
 @inject NavigationManager Navigation
-@inject IJSRuntime JS
-@implements IDisposable
 
 @*
     CommandPalette - Vercel-style Ctrl+K search modal
@@ -15,13 +13,13 @@
 @if (IsOpen)
 {
     <!-- Overlay -->
-    <div class="vibe-fixed vibe-inset-0 vibe-z-50 overlay-enter" @onclick="Close">
+    <div class="vibe-fixed vibe-inset-0 vibe-z-50 vibe-overlay-enter" @onclick="Close">
         <!-- Backdrop -->
         <div class="vibe-absolute vibe-inset-0 vibe-bg-black/50 vibe-backdrop-blur-sm"></div>
 
         <!-- Modal -->
         <div class="vibe-relative vibe-flex vibe-items-start vibe-justify-center vibe-pt-[15vh]">
-            <div class="vibe-w-full vibe-max-w-xl vibe-mx-4 modal-enter" @onclick:stopPropagation>
+            <div class="vibe-w-full vibe-max-w-xl vibe-mx-4 vibe-modal-enter" @onclick:stopPropagation>
                 <div class="vibe-bg-white dark:vibe-bg-zinc-900 vibe-rounded-xl vibe-shadow-2xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-overflow-hidden">
                     <!-- Search Header -->
                     <div class="vibe-flex vibe-items-center vibe-gap-3 vibe-px-4 vibe-py-3 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
@@ -179,7 +177,6 @@
     private ElementReference _searchInput;
     private string _searchQuery = string.Empty;
     private int _selectedIndex = 0;
-    private DotNetObjectReference<CommandPalette>? _dotNetRef;
 
     private string SearchQuery
     {
@@ -288,19 +285,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            _dotNetRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("eval", @"
-                document.addEventListener('keydown', function(e) {
-                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                        e.preventDefault();
-                        DotNet.invokeMethodAsync('Vibe.UI.Docs', 'OpenCommandPalette');
-                    }
-                });
-            ");
-        }
-
         if (IsOpen)
         {
             await Task.Delay(50); // Wait for render
@@ -375,12 +359,7 @@
         var match = text.Substring(index, query.Length);
         var after = text[(index + query.Length)..];
 
-        return new MarkupString($"{before}<span class=\"text-brand-teal font-semibold\">{match}</span>{after}");
-    }
-
-    public void Dispose()
-    {
-        _dotNetRef?.Dispose();
+        return new MarkupString($"{before}<span class=\"vibe-text-brand-teal vibe-font-semibold\">{match}</span>{after}");
     }
 
     private record ComponentInfo(string Name, string Category, string Description);

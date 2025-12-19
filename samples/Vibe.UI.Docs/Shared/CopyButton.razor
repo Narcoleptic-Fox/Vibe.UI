@@ -1,10 +1,13 @@
-@inject IJSRuntime JS
+@implements IDisposable
 
-<button class="@ButtonClasses" @onclick="CopyToClipboard" title="@(Copied ? "Copied!" : "Copy to clipboard")">
+<button class="@ButtonClasses"
+        data-copy-text-b64="@CopyTextB64"
+        @onclick="CopyToClipboard"
+        title="@(Copied ? "Copy to clipboard (Copied!)" : "Copy to clipboard")">
     @if (Copied)
     {
         <!-- Check icon with bounce animation -->
-        <svg class="vibe-w-4 vibe-h-4 vibe-text-green-500 copy-success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="vibe-w-4 vibe-h-4 vibe-text-green-500 vibe-copy-success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
         @if (ShowText)
@@ -84,34 +87,28 @@
     {
         if (string.IsNullOrEmpty(Code)) return;
 
+        // Cancel any previous reset timer
+        _cts?.Cancel();
+        _cts = new System.Threading.CancellationTokenSource();
+
+        Copied = true;
+        StateHasChanged();
+
+        // Reset after 2 seconds
         try
         {
-            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Code);
-
-            // Cancel any previous reset timer
-            _cts?.Cancel();
-            _cts = new System.Threading.CancellationTokenSource();
-
-            Copied = true;
+            await Task.Delay(2000, _cts.Token);
+            Copied = false;
             StateHasChanged();
-
-            // Reset after 2 seconds
-            try
-            {
-                await Task.Delay(2000, _cts.Token);
-                Copied = false;
-                StateHasChanged();
-            }
-            catch (TaskCanceledException)
-            {
-                // Ignore - timer was cancelled
-            }
         }
-        catch
+        catch (TaskCanceledException)
         {
-            // Clipboard API might fail in some contexts
+            // Ignore - timer was cancelled
         }
     }
+
+    private string CopyTextB64 =>
+        Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Code ?? string.Empty));
 
     public void Dispose()
     {

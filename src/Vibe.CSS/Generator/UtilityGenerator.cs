@@ -11,6 +11,10 @@ public partial class UtilityGenerator
     private readonly string _prefix;
     private readonly bool _allowUnprefixed;
 
+    /// <summary>
+    /// Initializes a new instance of the UtilityGenerator.
+    /// </summary>
+    /// <param name="config">Configuration for CSS generation (default: new VibeConfig)</param>
     public UtilityGenerator(VibeConfig? config = null)
     {
         _config = config ?? new VibeConfig();
@@ -28,6 +32,11 @@ public partial class UtilityGenerator
         return rules.Count > 0 ? rules[0] : null;
     }
 
+    /// <summary>
+    /// Generate all CSS rules for the given class name, including variant rules.
+    /// </summary>
+    /// <param name="className">The class name to generate CSS for</param>
+    /// <returns>List of CSS rules (empty if class name is not recognized)</returns>
     public List<CssRule> GenerateAll(string className)
     {
         // Check for variants FIRST (they come before the prefix)
@@ -122,12 +131,21 @@ public partial class UtilityGenerator
 
     private CssRule ApplyVariant(CssRule rule, string variant)
     {
+        static string MapSelectors(string selector, Func<string, string> map)
+        {
+            var parts = selector.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Trim())
+                .Where(p => p.Length > 0)
+                .Select(map);
+            return string.Join(", ", parts);
+        }
+
         // Placeholder pseudo-element
         if (variant is "placeholder")
         {
             return rule with
             {
-                Selector = $"{rule.Selector}::placeholder",
+                Selector = MapSelectors(rule.Selector, s => $"{s}::placeholder"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -137,7 +155,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{rule.Selector}:{variant}",
+                Selector = MapSelectors(rule.Selector, s => $"{s}:{variant}"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -147,7 +165,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{rule.Selector}:first-child",
+                Selector = MapSelectors(rule.Selector, s => $"{s}:first-child"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -156,7 +174,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{rule.Selector}:last-child",
+                Selector = MapSelectors(rule.Selector, s => $"{s}:last-child"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -165,7 +183,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{rule.Selector}:nth-child(odd)",
+                Selector = MapSelectors(rule.Selector, s => $"{s}:nth-child(odd)"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -174,7 +192,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $"{rule.Selector}:nth-child(even)",
+                Selector = MapSelectors(rule.Selector, s => $"{s}:nth-child(even)"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -182,27 +200,39 @@ public partial class UtilityGenerator
         // Group variants
         if (variant is "group-hover")
         {
+            var groupSelector = string.IsNullOrEmpty(_prefix) ? ".group" : $".{_prefix}-group";
+            var groupHover = MapSelectors(rule.Selector, s => $".group:hover {s}");
+            var prefixedHover = groupSelector == ".group" ? string.Empty : MapSelectors(rule.Selector, s => $"{groupSelector}:hover {s}");
+            var selectors = string.IsNullOrEmpty(prefixedHover) ? groupHover : $"{groupHover}, {prefixedHover}";
             return rule with
             {
-                Selector = $".group:hover {rule.Selector}",
+                Selector = selectors,
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
 
         if (variant is "group-focus")
         {
+            var groupSelector = string.IsNullOrEmpty(_prefix) ? ".group" : $".{_prefix}-group";
+            var groupFocus = MapSelectors(rule.Selector, s => $".group:focus {s}");
+            var prefixedFocus = groupSelector == ".group" ? string.Empty : MapSelectors(rule.Selector, s => $"{groupSelector}:focus {s}");
+            var selectors = string.IsNullOrEmpty(prefixedFocus) ? groupFocus : $"{groupFocus}, {prefixedFocus}";
             return rule with
             {
-                Selector = $".group:focus {rule.Selector}",
+                Selector = selectors,
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
 
         if (variant is "group-focus-within")
         {
+            var groupSelector = string.IsNullOrEmpty(_prefix) ? ".group" : $".{_prefix}-group";
+            var groupFocusWithin = MapSelectors(rule.Selector, s => $".group:focus-within {s}");
+            var prefixedFocusWithin = groupSelector == ".group" ? string.Empty : MapSelectors(rule.Selector, s => $"{groupSelector}:focus-within {s}");
+            var selectors = string.IsNullOrEmpty(prefixedFocusWithin) ? groupFocusWithin : $"{groupFocusWithin}, {prefixedFocusWithin}";
             return rule with
             {
-                Selector = $".group:focus-within {rule.Selector}",
+                Selector = selectors,
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -212,7 +242,7 @@ public partial class UtilityGenerator
         {
             return rule with
             {
-                Selector = $".dark {rule.Selector}",
+                Selector = MapSelectors(rule.Selector, s => $".dark {s}"),
                 Order = rule.Order + CssOrder.StateVariants
             };
         }
@@ -259,8 +289,245 @@ public partial class UtilityGenerator
             return new List<CssRule> { single };
 
         // Multi-rule utilities
-        var multi = TryGenerateProse(name, selector);
+        var multi =
+            TryGenerateDocsSiteUtilities(name, selector)
+            ?? TryGenerateProse(name, selector);
         return multi ?? new List<CssRule>();
+    }
+
+    private List<CssRule>? TryGenerateDocsSiteUtilities(string name, string selector)
+    {
+        // These utilities exist to support the Docs site "shadcn-like" feel without shipping docs-only CSS files.
+        // They are intentionally generic enough to be useful in any app.
+
+        static CssRule Keyframes(string animationName, string declarations, int order = CssOrder.Base) =>
+            new()
+            {
+                Selector = $"@keyframes {animationName}",
+                Declarations = declarations,
+                Order = order
+            };
+
+        // Staggered children animation (relies on --stagger-index style var per child)
+        if (name is "stagger-children")
+        {
+            return
+            [
+                Keyframes(
+                    "vibe-staggerFadeUp",
+                    "from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }",
+                    CssOrder.Base),
+                new()
+                {
+                    Selector = $"{selector} > *",
+                    Declarations = "opacity: 0; animation: vibe-staggerFadeUp 0.6s ease-out forwards; animation-delay: calc(var(--stagger-index, 0) * 80ms);",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        // Page transition
+        if (name is "page-enter")
+        {
+            return
+            [
+                Keyframes(
+                    "vibe-pageEnter",
+                    "from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); }",
+                    CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-pageEnter 0.4s ease-out forwards;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        // Overlay + modal animations (command palette)
+        if (name is "overlay-enter")
+        {
+            return
+            [
+                Keyframes("vibe-overlayEnter", "from { opacity: 0; } to { opacity: 1; }", CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-overlayEnter 0.2s ease-out forwards;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        if (name is "modal-enter")
+        {
+            return
+            [
+                Keyframes(
+                    "vibe-modalEnter",
+                    "from { opacity: 0; transform: scale(0.95) translateY(-10px); } to { opacity: 1; transform: scale(1) translateY(0); }",
+                    CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-modalEnter 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        // Button press micro-interaction
+        if (name is "press-effect")
+        {
+            return
+            [
+                new()
+                {
+                    Selector = $"{selector}:active",
+                    Declarations = "transform: scale(0.98); transition: transform 0.1s ease;",
+                    Order = CssOrder.Interactivity
+                }
+            ];
+        }
+
+        // Floating decorative animation
+        if (name is "animate-float")
+        {
+            return
+            [
+                Keyframes("vibe-float", "0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); }", CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-float 6s ease-in-out infinite;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        if (name is "animate-float-delayed")
+        {
+            return
+            [
+                Keyframes("vibe-float", "0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); }", CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-float 6s ease-in-out 3s infinite;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        // Small pulse dot
+        if (name is "pulse-dot")
+        {
+            return
+            [
+                Keyframes("vibe-pulseDot", "0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.25); }", CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-pulseDot 1.5s ease-in-out infinite;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        // Copy success icon animation
+        if (name is "copy-success-icon")
+        {
+            return
+            [
+                Keyframes(
+                    "vibe-checkBounceIn",
+                    "0% { opacity: 0; transform: scale(0); } 50% { transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); }",
+                    CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "animation: vibe-checkBounceIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        // Grid pattern background (auto-inverts when html.dark is present)
+        if (name is "bg-grid-pattern")
+        {
+            return
+            [
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "background-image: linear-gradient(to right, rgb(228 228 231 / 0.6) 1px, transparent 1px), linear-gradient(to bottom, rgb(228 228 231 / 0.6) 1px, transparent 1px); background-size: 64px 64px;",
+                    Order = CssOrder.Background
+                },
+                new()
+                {
+                    Selector = $".dark {selector}",
+                    Declarations = "background-image: linear-gradient(to right, rgb(63 63 70 / 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgb(63 63 70 / 0.35) 1px, transparent 1px);",
+                    Order = CssOrder.Background
+                }
+            ];
+        }
+
+        // Gradient background orbs (decorative)
+        if (name is "gradient-orb")
+        {
+            return
+            [
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "border-radius: 9999px; filter: blur(80px); pointer-events: none;",
+                    Order = CssOrder.Effects
+                }
+            ];
+        }
+
+        if (name is "gradient-orb-teal")
+        {
+            return
+            [
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "background: radial-gradient(circle at 30% 30%, rgb(6 84 101 / 0.9), rgb(6 84 101 / 0));",
+                    Order = CssOrder.Background
+                }
+            ];
+        }
+
+        if (name is "gradient-orb-lilac")
+        {
+            return
+            [
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "background: radial-gradient(circle at 30% 30%, rgb(170 152 169 / 0.9), rgb(170 152 169 / 0));",
+                    Order = CssOrder.Background
+                }
+            ];
+        }
+
+        // Animated gradient shift (used with bg-clip-text + text-transparent)
+        if (name is "text-gradient-animated")
+        {
+            return
+            [
+                Keyframes("vibe-gradientShift", "0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; }", CssOrder.Base),
+                new()
+                {
+                    Selector = selector,
+                    Declarations = "background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: vibe-gradientShift 3s ease infinite;",
+                    Order = CssOrder.Typography
+                }
+            ];
+        }
+
+        return null;
     }
 
     private List<CssRule>? TryGenerateProse(string name, string selector)
@@ -1097,6 +1364,54 @@ public partial class UtilityGenerator
 
     private CssRule? TryGenerateTypography(string name, string selector)
     {
+        if (name == "text-transparent")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = "color: transparent; -webkit-text-fill-color: transparent;",
+                Order = CssOrder.Typography
+            };
+        }
+
+        // Standalone text-transform utilities (Tailwind-style)
+        var standaloneTransforms = new Dictionary<string, string>
+        {
+            ["uppercase"] = "uppercase",
+            ["lowercase"] = "lowercase",
+            ["capitalize"] = "capitalize",
+            ["normal-case"] = "none"
+        };
+
+        if (standaloneTransforms.TryGetValue(name, out var standaloneTransform))
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = $"text-transform: {standaloneTransform};",
+                Order = CssOrder.Typography
+            };
+        }
+
+        // Standalone text-decoration utilities (Tailwind-style)
+        var standaloneDecorations = new Dictionary<string, string>
+        {
+            ["underline"] = "underline",
+            ["overline"] = "overline",
+            ["line-through"] = "line-through",
+            ["no-underline"] = "none"
+        };
+
+        if (standaloneDecorations.TryGetValue(name, out var standaloneDecoration))
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = $"text-decoration-line: {standaloneDecoration};",
+                Order = CssOrder.Typography
+            };
+        }
+
         // Font size
         if (name.StartsWith("text-"))
         {
@@ -2277,6 +2592,17 @@ public partial class UtilityGenerator
 
     private CssRule? TryGenerateLayout(string name, string selector)
     {
+        // Structural class for group-* variants (no declarations, but should be recognized)
+        if (name is "group")
+        {
+            return new CssRule
+            {
+                Selector = selector,
+                Declarations = string.Empty,
+                Order = CssOrder.Layout
+            };
+        }
+
         // Position
         var positions = new Dictionary<string, string>
         {

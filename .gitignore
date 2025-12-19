@@ -489,3 +489,5 @@ $RECYCLE.BIN/
 *.swp
 
 **/**settings.local.json
+
+**/**.tmp*

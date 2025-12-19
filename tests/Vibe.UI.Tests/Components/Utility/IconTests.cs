@@ -24,8 +24,8 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("width").ShouldBe("24");
-        icon.GetAttribute("height").ShouldBe("24");
+        icon.GetAttribute("width")!.ShouldBe("24");
+        icon.GetAttribute("height")!.ShouldBe("24");
     }
 
     [Fact]
@@ -38,8 +38,8 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("width").ShouldBe("32");
-        icon.GetAttribute("height").ShouldBe("32");
+        icon.GetAttribute("width")!.ShouldBe("32");
+        icon.GetAttribute("height")!.ShouldBe("32");
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("width").ShouldBe("48");
+        icon.GetAttribute("width")!.ShouldBe("48");
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("height").ShouldBe("64");
+        icon.GetAttribute("height")!.ShouldBe("64");
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("style").ShouldContain("color: #ff0000");
+        icon.GetAttribute("style")!.ShouldContain("color: #ff0000");
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("fill").ShouldBe("red");
+        icon.GetAttribute("fill")!.ShouldBe("red");
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("stroke").ShouldBe("blue");
+        icon.GetAttribute("stroke")!.ShouldBe("blue");
     }
 
     [Fact]
@@ -117,7 +117,7 @@ public class IconTests : TestBase
 
         // Assert
         var icon = cut.Find("svg");
-        icon.GetAttribute("stroke-width").ShouldBe("3");
+        icon.GetAttribute("stroke-width")!.ShouldBe("3");
     }
 
     [Fact]

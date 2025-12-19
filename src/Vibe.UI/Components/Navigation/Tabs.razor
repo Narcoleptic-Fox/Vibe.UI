@@ -1,13 +1,22 @@
 @namespace Vibe.UI.Components
 @inherits Vibe.UI.Base.VibeComponent
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
-    <div class="vibe-tabs-list" role="tablist">
+    <div class="vibe-tabs-list" role="tablist" aria-orientation="horizontal">
         @foreach (var tab in _tabs)
         {
+            var isActive = tab.Id == ActiveTabId;
             <button type="button" class="vibe-tabs-trigger @(tab.Id == ActiveTabId ? "vibe-tabs-trigger-active" : "")"
-                role="tab" aria-selected="@(tab.Id == ActiveTabId)" disabled="@(tab.Disabled)"
-                @onclick="() => ActivateTab(tab.Id)">
+                id="@GetTabTriggerId(tab.Id)"
+                role="tab"
+                aria-selected="@(isActive ? "true" : "false")"
+                aria-controls="@GetTabPanelId(tab.Id)"
+                tabindex="@(isActive ? 0 : -1)"
+                disabled="@(tab.Disabled)"
+                @onclick="() => ActivateTab(tab.Id)"
+                @onkeydown="(e) => OnTriggerKeyDown(e, tab.Id)">
                 @tab.Title
             </button>
         }
@@ -15,8 +24,13 @@
     <div class="vibe-tabs-content">
         @foreach (var tab in _tabs)
         {
-            <div class="vibe-tabs-panel @(tab.Id == ActiveTabId ? "vibe-tabs-panel-active" : "")" role="tabpanel"
-                id="@tab.Id-panel">
+            var isActive = tab.Id == ActiveTabId;
+            <div class="vibe-tabs-panel @(isActive ? "vibe-tabs-panel-active" : "")"
+                role="tabpanel"
+                id="@GetTabPanelId(tab.Id)"
+                aria-labelledby="@GetTabTriggerId(tab.Id)"
+                hidden="@(!isActive)"
+                tabindex="0">
                 @tab.Content
             </div>
         }
@@ -25,6 +39,7 @@
 
 @code {
     private List<TabItem> _tabs = new();
+    private IJSObjectReference? _domModule;
 
     /// <summary>
     /// Gets or sets the active tab ID
@@ -48,10 +63,19 @@
     /// Gets or sets the tab items
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
     protected override string ComponentClass => "vibe-tabs";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _domModule = await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-dom.js");
+        }
+    }
 
     /// <summary>
     /// Initializes the component
@@ -125,6 +149,66 @@
             {
                 await OnTabActivated.InvokeAsync(new TabActivatedEventArgs(tabId, tab.Title));
             }
+        }
+    }
+
+    private async Task OnTriggerKeyDown(KeyboardEventArgs e, string currentTabId)
+    {
+        if (_tabs.Count == 0)
+            return;
+
+        var currentIndex = _tabs.FindIndex(t => t.Id == currentTabId);
+        if (currentIndex < 0)
+            return;
+
+        string? nextId = e.Key switch
+        {
+            "ArrowRight" => FindNextEnabledTabId(currentIndex, forward: true),
+            "ArrowLeft" => FindNextEnabledTabId(currentIndex, forward: false),
+            "Home" => FindNextEnabledTabId(startIndex: -1, forward: true),
+            "End" => FindNextEnabledTabId(startIndex: _tabs.Count, forward: false),
+            _ => null
+        };
+
+        if (nextId == null)
+            return;
+
+        await ActivateTab(nextId);
+        await FocusTriggerAsync(nextId);
+    }
+
+    private string? FindNextEnabledTabId(int startIndex, bool forward)
+    {
+        if (_tabs.Count == 0)
+            return null;
+
+        var index = startIndex;
+        for (var i = 0; i < _tabs.Count; i++)
+        {
+            index = forward ? (index + 1) % _tabs.Count : (index - 1 + _tabs.Count) % _tabs.Count;
+            if (!_tabs[index].Disabled)
+                return _tabs[index].Id;
+        }
+
+        return null;
+    }
+
+    private async Task FocusTriggerAsync(string tabId)
+    {
+        if (_domModule == null)
+            return;
+
+        await _domModule.InvokeVoidAsync("focusElement", GetTabTriggerId(tabId));
+    }
+
+    private static string GetTabPanelId(string tabId) => $"vibe-tabpanel-{tabId}";
+    private static string GetTabTriggerId(string tabId) => $"vibe-tab-{tabId}";
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_domModule != null)
+        {
+            await _domModule.DisposeAsync();
         }
     }
 

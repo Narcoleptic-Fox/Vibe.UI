@@ -1,6 +1,7 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Vibe.UI.CLI.Commands;
+using Vibe.UI.CLI.Infrastructure;
 
 var app = new CommandApp();
 
@@ -39,6 +40,6 @@ AnsiConsole.Write(
         .Centered()
         .Color(Color.Blue));
 
-AnsiConsole.MarkupLine($"[grey]v1.0.0[/]\n");
+AnsiConsole.MarkupLine($"[grey]v{CliVersion.Current}[/]\n");
 
 return await app.RunAsync(args);

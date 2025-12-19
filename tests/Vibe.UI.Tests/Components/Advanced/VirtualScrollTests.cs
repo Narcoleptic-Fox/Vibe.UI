@@ -71,7 +71,7 @@ public class VirtualScrollTests : TestBase
 
         // Assert
         var scroll = cut.Find(".vibe-virtual-scroll");
-        scroll.GetAttribute("style").ShouldContain("height: 600px");
+        scroll.GetAttribute("style")!.ShouldContain("height: 600px");
     }
 
     [Fact]
@@ -141,6 +141,6 @@ public class VirtualScrollTests : TestBase
     private class TestItem
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

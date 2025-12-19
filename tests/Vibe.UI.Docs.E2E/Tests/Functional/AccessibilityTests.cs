@@ -410,19 +410,14 @@ public class AccessibilityTests : E2ETestBase
 
         if (await mainContent.IsVisibleAsync())
         {
-            var styles = await mainContent.EvaluateAsync<Dictionary<string, string>>(@"
-                (el) => {
-                    const style = window.getComputedStyle(el);
-                    return {
-                        color: style.color,
-                        backgroundColor: style.backgroundColor
-                    };
-                }
-            ");
+            var color = await mainContent.EvaluateAsync<string>(
+                "el => window.getComputedStyle(el).color");
+            var backgroundColor = await mainContent.EvaluateAsync<string>(
+                "el => window.getComputedStyle(el).backgroundColor");
 
-            // Assert - Just verify we can get styles (actual contrast calculation would require parsing)
-            styles.ShouldContainKey("color");
-            styles["color"].ShouldNotBeNullOrWhiteSpace();
+            // Assert - Just verify we can read computed styles (actual contrast calculation would require parsing)
+            color.ShouldNotBeNullOrWhiteSpace();
+            backgroundColor.ShouldNotBeNullOrWhiteSpace();
         }
     }
 

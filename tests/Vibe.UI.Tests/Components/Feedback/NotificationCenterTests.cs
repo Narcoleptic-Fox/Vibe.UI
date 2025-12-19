@@ -22,7 +22,7 @@ public class NotificationCenterTests : TestBase
         // Assert
         var trigger = cut.Find(".notification-trigger");
         trigger.ShouldNotBeNull();
-        trigger.GetAttribute("aria-label").ShouldBe("Notifications");
+        trigger.GetAttribute("aria-label")!.ShouldBe("Notifications");
     }
 
     [Fact]

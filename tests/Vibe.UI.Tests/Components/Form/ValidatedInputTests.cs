@@ -47,7 +47,7 @@ public class ValidatedInputTests : TestBase
 
         // Assert
         var input = cut.Find(".validated-input-field");
-        input.GetAttribute("placeholder").ShouldBe("Enter your email");
+        input.GetAttribute("placeholder")!.ShouldBe("Enter your email");
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class ValidatedInputTests : TestBase
 
         // Assert
         var input = cut.Find(".validated-input-field");
-        input.GetAttribute("type").ShouldBe("email");
+        input.GetAttribute("type")!.ShouldBe("email");
     }
 
     [Fact]
