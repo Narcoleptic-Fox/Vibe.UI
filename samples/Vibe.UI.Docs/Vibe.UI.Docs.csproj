@@ -16,6 +16,7 @@
 
     <_VibeCssProjectPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj</_VibeCssProjectPath>
     <_VibeCssAssemblyPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\bin\$(Configuration)\net9.0\Vibe.CSS.dll</_VibeCssAssemblyPath>
+    <_VibeCssAssetsPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\obj\project.assets.json</_VibeCssAssetsPath>
 
     <!-- MSBuild doesn't always populate $(DotNetExe) depending on invocation context -->
     <DotNetExe Condition="'$(DotNetExe)' == ''">dotnet</DotNetExe>
@@ -35,12 +36,12 @@
           AfterTargets="Build"
           Condition="'$(VibeCssEnabled)' == 'true'">
     <Message Importance="high" Text="Vibe.CSS: Generating docs CSS -> $(VibeCssOutput)" />
-    <!-- Build Vibe.CSS if needed, then run the built assembly to avoid `dotnet run` locking issues during parallel builds. -->
+    <!-- Restore/build Vibe.CSS if needed, then run the built assembly to avoid `dotnet run` locking issues during parallel builds. -->
     <MSBuild Projects="$(_VibeCssProjectPath)"
-             Targets="Build"
+             Targets="Restore;Build"
              Properties="Configuration=$(Configuration);UseSharedCompilation=false"
              BuildInParallel="false"
-             Condition="!Exists('$(_VibeCssAssemblyPath)')" />
+             Condition="!Exists('$(_VibeCssAssemblyPath)') Or !Exists('$(_VibeCssAssetsPath)')" />
     <Exec Command="$(DotNetExe) exec &quot;$(_VibeCssAssemblyPath)&quot; generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base &quot;$(VibeCssIncludeBase)&quot; --patterns=&quot;$(VibeCssScanPatterns)&quot;" />
   </Target>
 
