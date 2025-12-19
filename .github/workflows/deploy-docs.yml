@@ -39,6 +39,19 @@ jobs:
       - name: Publish
         run: dotnet publish samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj -c Release -o release --nologo
 
+      - name: Add scoped CSS shim for static hosting
+        run: |
+          set -euo pipefail
+          bundle_dir="release/wwwroot/_content/Vibe.UI"
+          bundle_file="$(ls "${bundle_dir}/Vibe.UI."*.bundle.scp.css | head -n 1)"
+          cp "${bundle_file}" "${bundle_dir}/Vibe.UI.bundle.scp.css"
+          if [ -f "${bundle_file}.gz" ]; then
+            cp "${bundle_file}.gz" "${bundle_dir}/Vibe.UI.bundle.scp.css.gz"
+          fi
+          if [ -f "${bundle_file}.br" ]; then
+            cp "${bundle_file}.br" "${bundle_dir}/Vibe.UI.bundle.scp.css.br"
+          fi
+
       - name: Change base-tag in index.html
         run: sed -i 's/<base href="\/" \/>/<base href="\/Vibe.UI\/" \/>/g' release/wwwroot/index.html
 

@@ -336,7 +336,7 @@
 
     private void NavigateToComponent(ComponentInfo component)
     {
-        Navigation.NavigateTo($"/components/{component.Name.ToLower()}");
+        Navigation.NavigateTo($"components/{component.Name.ToLower()}");
         _ = Close();
     }
 

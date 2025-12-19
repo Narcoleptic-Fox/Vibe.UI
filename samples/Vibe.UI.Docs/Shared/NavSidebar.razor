@@ -117,18 +117,17 @@
 
     private Dictionary<string, List<string>> categories = new()
     {
-        ["Input"] = new() { "Button", "Checkbox", "ColorPicker", "Input", "InputOTP", "Mentions", "RadioGroup", "Rating", "Select", "Slider", "Switch", "Textarea", "ToggleGroup" },
+        ["Input"] = new() { "Button", "Checkbox", "ColorPicker", "Input", "RadioGroup", "Select", "Slider", "Switch", "Textarea" },
         ["Form"] = new() { "Form", "FormField", "ValidatedInput" },
-        ["DataDisplay"] = new() { "Avatar", "Badge", "Chart", "DataGrid", "Table", "Tag", "Timeline" },
-        ["Layout"] = new() { "AspectRatio", "Card", "Container", "Divider", "Grid", "Resizable", "ScrollArea", "Separator", "Sheet", "Splitter", "Stack" },
-        ["Navigation"] = new() { "Breadcrumb", "Link", "Menu", "NavigationMenu", "Pagination", "Sidebar", "Stepper", "Tabs" },
-        ["Overlay"] = new() { "ContextMenu", "Dialog", "Drawer", "Dropdown", "HoverCard", "Popover", "Tooltip" },
-        ["Feedback"] = new() { "Alert", "Confetti", "NotificationCenter", "Progress", "Skeleton", "Sonner", "Spinner", "Toast" },
-        ["Advanced"] = new() { "DragDrop", "FileUpload", "KanbanBoard", "QRCode", "RichTextEditor", "TreeView", "VirtualScroll" },
+        ["DataDisplay"] = new() { "Avatar", "Badge", "Chart", "DataGrid", "Table", "Tag" },
+        ["Layout"] = new() { "AspectRatio", "Card", "Container", "Divider", "Grid", "Separator", "Stack" },
+        ["Navigation"] = new() { "Breadcrumb", "Link", "Menu", "Pagination", "Stepper", "Tabs" },
+        ["Overlay"] = new() { "Dialog", "Drawer", "Dropdown", "Popover", "Tooltip" },
+        ["Feedback"] = new() { "Alert", "Progress", "Skeleton", "Spinner", "Toast" },
+        ["Advanced"] = new() { "DragDrop", "FileUpload", "KanbanBoard", "RichTextEditor", "TreeView", "VirtualScroll" },
         ["Disclosure"] = new() { "Accordion", "Carousel", "Collapsible" },
         ["DateTime"] = new() { "Calendar", "DatePicker", "DateRangePicker", "TimePicker" },
-        ["Utility"] = new() { "Kbd", "Marquee" },
-        ["Theme"] = new() { "ThemeProvider", "ThemeToggle" }
+        ["Theme"] = new() { "ThemeToggle" }
     };
 
     private Dictionary<string, string> categoryIcons = new()

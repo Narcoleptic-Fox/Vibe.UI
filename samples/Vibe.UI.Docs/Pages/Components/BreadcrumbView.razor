@@ -6,9 +6,9 @@
     <!-- Header -->
     <header class="vibe-mb-8">
         <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
             <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Breadcrumb</span>
         </div>
@@ -25,9 +25,9 @@
             <div>
                 <h4 class="vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-3">Basic Breadcrumb</h4>
                 <Breadcrumb Separator="/">
-                    <BreadcrumbItem Href="/">Home</BreadcrumbItem>
-                    <BreadcrumbItem Href="/products">Products</BreadcrumbItem>
-                    <BreadcrumbItem Href="/products/electronics">Electronics</BreadcrumbItem>
+                    <BreadcrumbItem href="./">Home</BreadcrumbItem>
+                    <BreadcrumbItem href="products">Products</BreadcrumbItem>
+                    <BreadcrumbItem href="products/electronics">Electronics</BreadcrumbItem>
                     <BreadcrumbItem IsLast="true">Laptops</BreadcrumbItem>
                 </Breadcrumb>
             </div>
@@ -35,8 +35,8 @@
             <div>
                 <h4 class="vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-3">Custom Separator</h4>
                 <Breadcrumb Separator=">">
-                    <BreadcrumbItem Href="/">Home</BreadcrumbItem>
-                    <BreadcrumbItem Href="/docs">Documentation</BreadcrumbItem>
+                    <BreadcrumbItem href="./">Home</BreadcrumbItem>
+                    <BreadcrumbItem href="docs">Documentation</BreadcrumbItem>
                     <BreadcrumbItem IsLast="true">Components</BreadcrumbItem>
                 </Breadcrumb>
             </div>
@@ -44,13 +44,13 @@
             <div>
                 <h4 class="vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-3">With Custom Separator Content</h4>
                 <Breadcrumb>
-                    <BreadcrumbItem Href="/">
+                    <BreadcrumbItem href="./">
                         <ChildContent>Home</ChildContent>
                         <SeparatorContent>
                             <span class="vibe-mx-2 vibe-text-zinc-400">→</span>
                         </SeparatorContent>
                     </BreadcrumbItem>
-                    <BreadcrumbItem Href="/settings">
+                    <BreadcrumbItem href="settings">
                         <ChildContent>Settings</ChildContent>
                         <SeparatorContent>
                             <span class="vibe-mx-2 vibe-text-zinc-400">→</span>
@@ -212,15 +212,15 @@
     <section>
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="/components/link" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="components/link" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Link</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Navigation links</p>
             </a>
-            <a href="/components/menu" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="components/menu" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Menu</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Dropdown action menus</p>
             </a>
-            <a href="/components/tabs" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="components/tabs" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Tabs</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Tabbed navigation</p>
             </a>
@@ -270,3 +270,5 @@
     };
 }";
 }
+
+

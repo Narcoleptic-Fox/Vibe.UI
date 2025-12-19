@@ -6,9 +6,9 @@
     <!-- Header -->
     <header class="vibe-mb-8">
         <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="/" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
             <span>/</span>
-            <a href="/components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
             <span>/</span>
             <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Link</span>
         </div>
@@ -22,7 +22,7 @@
     <section class="vibe-mb-12">
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
         <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 vibe-flex vibe-justify-center vibe-gap-4 vibe-flex-wrap">
-            <Link Href="/getting-started">Internal Link</Link>
+            <Link href="getting-started">Internal Link</Link>
             <Link Href="https://github.com" Target="_blank">External Link</Link>
             <Link Variant="Link.LinkVariant.Muted">Muted Link</Link>
         </div>
@@ -40,9 +40,9 @@
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
             <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
-                <Link Href="/getting-started">Go to Getting Started</Link>
-                <Link Href="/installation">Installation Guide</Link>
-                <Link Href="/theming">Theming Documentation</Link>
+                <Link href="getting-started">Go to Getting Started</Link>
+                <Link href="installation">Installation Guide</Link>
+                <Link href="theming">Theming Documentation</Link>
             </div>
         </div>
 
@@ -119,11 +119,11 @@
             </p>
             <CodeBlock Code="@IconsCode" Language="razor" />
             <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-space-y-3">
-                <Link Href="/home">
+                <Link href="home">
                     <span>🏠</span>
                     <span>Home</span>
                 </Link>
-                <Link Href="/settings">
+                <Link href="settings">
                     <span>Settings</span>
                     <span>⚙️</span>
                 </Link>
@@ -142,8 +142,8 @@
             </p>
             <CodeBlock Code="@DisabledCode" Language="razor" />
             <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-flex vibe-gap-4">
-                <Link Href="/page">Active Link</Link>
-                <Link Href="/page" Disabled="true">Disabled Link</Link>
+                <Link href="page">Active Link</Link>
+                <Link href="page" Disabled="true">Disabled Link</Link>
             </div>
         </div>
 
@@ -174,9 +174,9 @@
             <CodeBlock Code="@InlineCode" Language="razor" />
             <div class="vibe-mt-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
                 <p class="vibe-text-zinc-700 dark:vibe-text-zinc-300">
-                    Check out the <Link Href="/getting-started">Getting Started guide</Link> to learn more about
-                    Vibe.UI. You can also explore the <Link Href="/components/button">Button component</Link> or
-                    read our <Link Href="/theming">theming documentation</Link>.
+                    Check out the <Link href="getting-started">Getting Started guide</Link> to learn more about
+                    Vibe.UI. You can also explore the <Link href="components/button">Button component</Link> or
+                    read our <Link href="theming">theming documentation</Link>.
                 </p>
             </div>
         </div>
@@ -321,15 +321,15 @@
     <section>
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="/components/button" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="components/button" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Button</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Interactive button elements</p>
             </a>
-            <a href="/components/breadcrumb" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="components/breadcrumb" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Breadcrumb</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Navigation hierarchy</p>
             </a>
-            <a href="/components/menu" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+            <a href="components/menu" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Menu</h4>
                 <p class="vibe-text-sm vibe-text-zinc-500">Dropdown action menus</p>
             </a>
@@ -393,3 +393,5 @@
     Check out the <Link Href=""/getting-started"">Getting Started guide</Link> to learn more.
 </p>";
 }
+
+
