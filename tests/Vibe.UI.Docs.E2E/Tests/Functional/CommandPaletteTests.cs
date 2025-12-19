@@ -44,7 +44,7 @@ public class CommandPaletteTests : E2ETestBase
 
         // Act
         await commandPalette.OpenWithKeyboardAsync();
-        await commandPalette.SearchAsync("card");
+        await commandPalette.SearchAsync("to");
 
         var initialIndex = await commandPalette.GetSelectedIndexAsync();
 

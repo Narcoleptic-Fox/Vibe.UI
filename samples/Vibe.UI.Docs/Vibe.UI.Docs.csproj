@@ -41,7 +41,7 @@
              Properties="Configuration=$(Configuration);UseSharedCompilation=false"
              BuildInParallel="false"
              Condition="!Exists('$(_VibeCssAssemblyPath)')" />
-    <Exec Command="$(DotNetExe) exec &quot;$(_VibeCssAssemblyPath)&quot; generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base &quot;$(VibeCssIncludeBase)&quot; --patterns &quot;$(VibeCssScanPatterns)&quot;" />
+    <Exec Command="$(DotNetExe) exec &quot;$(_VibeCssAssemblyPath)&quot; generate &quot;$(VibeCssScanRoot)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix &quot;$(VibeCssPrefix)&quot; --allow-unprefixed &quot;$(VibeCssAllowUnprefixed)&quot; --with-base &quot;$(VibeCssIncludeBase)&quot; --patterns=&quot;$(VibeCssScanPatterns)&quot;" />
   </Target>
 
 </Project>

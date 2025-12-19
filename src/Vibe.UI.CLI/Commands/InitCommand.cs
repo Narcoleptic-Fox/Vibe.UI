@@ -2,6 +2,7 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 using System.Xml.Linq;
+using Vibe.UI.CLI.Infrastructure;
 using Vibe.UI.CLI.Services;
 
 namespace Vibe.UI.CLI.Commands;
@@ -102,6 +103,9 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                 // Copy infrastructure files (includes CSS foundation files)
                 await CopyInfrastructureAsync(settings.ProjectPath, settings.Minimal, settings.NoTheme, settings.WithCharts);
 
+                ctx.Status("Updating root _Imports.razor...");
+                await UpdateRootImportsAsync(settings.ProjectPath);
+
                 ctx.Status("Creating component directory...");
 
                 // Create components directory
@@ -177,10 +181,49 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             Path.Combine(infrastructurePath, "Base"),
             Path.Combine(targetVibeDir, "Base"));
 
-        // Copy Services/ folder
+        // Copy Configuration/ folder (needed for theme options)
         await CopyDirectoryAsync(
-            Path.Combine(infrastructurePath, "Services"),
-            Path.Combine(targetVibeDir, "Services"));
+            Path.Combine(infrastructurePath, "Configuration"),
+            Path.Combine(targetVibeDir, "Configuration"));
+
+        // Copy Services/
+        var servicesSourceDir = Path.Combine(infrastructurePath, "Services");
+        var servicesTargetDir = Path.Combine(targetVibeDir, "Services");
+        Directory.CreateDirectory(servicesTargetDir);
+
+        // Sub-services used by the core library.
+        await CopyDirectoryAsync(
+            Path.Combine(servicesSourceDir, "Dialog"),
+            Path.Combine(servicesTargetDir, "Dialog"));
+
+        await CopyDirectoryAsync(
+            Path.Combine(servicesSourceDir, "Theme"),
+            Path.Combine(servicesTargetDir, "Theme"));
+
+        await CopyDirectoryAsync(
+            Path.Combine(servicesSourceDir, "Toast"),
+            Path.Combine(servicesTargetDir, "Toast"));
+
+        // Helpers (only copy the ones that don't introduce extra component dependencies by default).
+        await CopyFileIfExistsAsync(
+            Path.Combine(servicesSourceDir, "LucideIcons.cs"),
+            Path.Combine(servicesTargetDir, "LucideIcons.cs"));
+
+        await CopyFileIfExistsAsync(
+            Path.Combine(servicesSourceDir, "FormValidators.cs"),
+            Path.Combine(servicesTargetDir, "FormValidators.cs"));
+
+        await CopyFileIfExistsAsync(
+            Path.Combine(servicesSourceDir, "DataTableExporter.cs"),
+            Path.Combine(servicesTargetDir, "DataTableExporter.cs"));
+
+        // Charts are optional; ChartDataBuilder depends on chart component types.
+        if (withCharts)
+        {
+            await CopyFileIfExistsAsync(
+                Path.Combine(servicesSourceDir, "ChartDataBuilder.cs"),
+                Path.Combine(servicesTargetDir, "ChartDataBuilder.cs"));
+        }
 
         // Copy Enums/ folder (always required)
         await CopyDirectoryAsync(
@@ -265,6 +308,47 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                 await File.WriteAllTextAsync(chartTarget, await File.ReadAllTextAsync(chartSource));
             }
         }
+    }
+
+    private static async Task UpdateRootImportsAsync(string projectPath)
+    {
+        var csprojPath = FindCsprojFile(projectPath);
+        var projectRoot = csprojPath != null
+            ? Path.GetDirectoryName(csprojPath) ?? projectPath
+            : projectPath;
+
+        var importsPath = Path.Combine(projectRoot, "_Imports.razor");
+
+        var requiredUsings = new[]
+        {
+            "@using global::Vibe.UI",
+            "@using global::Vibe.UI.Base",
+            "@using global::Vibe.UI.Components",
+            "@using global::Vibe.UI.Enums"
+        };
+
+        if (!File.Exists(importsPath))
+        {
+            await File.WriteAllTextAsync(importsPath, string.Join(Environment.NewLine, requiredUsings));
+            return;
+        }
+
+        var existing = await File.ReadAllTextAsync(importsPath);
+        var linesToAppend = requiredUsings
+            .Where(line => existing.IndexOf(line, StringComparison.OrdinalIgnoreCase) < 0)
+            .ToArray();
+
+        if (linesToAppend.Length == 0)
+        {
+            return;
+        }
+
+        var separator = existing.EndsWith(Environment.NewLine, StringComparison.Ordinal)
+            ? string.Empty
+            : Environment.NewLine;
+
+        var updated = existing + separator + string.Join(Environment.NewLine, linesToAppend);
+        await File.WriteAllTextAsync(importsPath, updated);
     }
 
     private static async Task CopyFileIfExistsAsync(string source, string target)
@@ -536,7 +620,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                 // Add Vibe.CSS package reference
                 var vibeCssReference = new XElement(ns + "PackageReference",
                     new XAttribute("Include", "Vibe.CSS"),
-                    new XAttribute("Version", "1.0.0"));
+                    new XAttribute("Version", CliVersion.Current));
 
                 packageItemGroup.Add(vibeCssReference);
                 modified = true;

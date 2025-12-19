@@ -58,7 +58,7 @@
                 </a>
 
                 <!-- Theme Toggle -->
-                <ThemeToggle />
+                <ThemeToggle data-theme-toggle="true" />
             </div>
         </div>
     </header>
@@ -115,7 +115,10 @@
         await JS.InvokeVoidAsync("eval", @"
             const html = document.documentElement;
             html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('vibe-theme', theme);
+            // Back-compat: keep the old key in sync for any legacy docs/tests.
+            localStorage.setItem('theme', theme);
         ");
     }
 

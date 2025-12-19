@@ -165,15 +165,19 @@ public class CopyCodeTests : E2ETestBase
             // Assert - Button should show success state
             var afterText = await copyButton.TextContentAsync();
             var afterClasses = await copyButton.GetAttributeAsync("class") ?? "";
+            var afterTitle = await copyButton.GetAttributeAsync("title") ?? "";
+            var hasSuccessIcon = await copyButton.Locator("svg.vibe-copy-success-icon").CountAsync() > 0;
 
             // Should show "Copied!" or similar, or have a success class
-            var showsSuccess = afterText?.Contains("Copied", StringComparison.OrdinalIgnoreCase) == true ||
+            var showsSuccess = afterTitle.Contains("Copied", StringComparison.OrdinalIgnoreCase) ||
+                               hasSuccessIcon ||
+                               afterText?.Contains("Copied", StringComparison.OrdinalIgnoreCase) == true ||
                                afterText?.Contains("✓") == true ||
                                afterClasses.Contains("copied") ||
                                afterClasses.Contains("success");
 
             showsSuccess.ShouldBeTrue(
-                $"Copy button should show success feedback. Text: '{afterText}', Classes: '{afterClasses}'");
+                $"Copy button should show success feedback. Title: '{afterTitle}', Text: '{afterText}', Classes: '{afterClasses}'");
         }
     }
 
@@ -241,11 +245,19 @@ public class CopyCodeTests : E2ETestBase
             // Assert - Only first button should show success
             var firstButtonClasses = await copyButtons.Nth(0).GetAttributeAsync("class") ?? "";
             var secondButtonClasses = await copyButtons.Nth(1).GetAttributeAsync("class") ?? "";
+            var firstTitle = await copyButtons.Nth(0).GetAttributeAsync("title") ?? "";
+            var secondTitle = await copyButtons.Nth(1).GetAttributeAsync("title") ?? "";
+            var firstHasSuccessIcon = await copyButtons.Nth(0).Locator("svg.vibe-copy-success-icon").CountAsync() > 0;
+            var secondHasSuccessIcon = await copyButtons.Nth(1).Locator("svg.vibe-copy-success-icon").CountAsync() > 0;
 
-            var firstShowsSuccess = firstButtonClasses.Contains("copied") ||
+            var firstShowsSuccess = firstTitle.Contains("Copied", StringComparison.OrdinalIgnoreCase) ||
+                                    firstHasSuccessIcon ||
+                                    firstButtonClasses.Contains("copied") ||
                                     (await copyButtons.Nth(0).TextContentAsync())?.Contains("Copied") == true;
 
-            var secondShowsSuccess = secondButtonClasses.Contains("copied") ||
+            var secondShowsSuccess = secondTitle.Contains("Copied", StringComparison.OrdinalIgnoreCase) ||
+                                     secondHasSuccessIcon ||
+                                     secondButtonClasses.Contains("copied") ||
                                      (await copyButtons.Nth(1).TextContentAsync())?.Contains("Copied") == true;
 
             firstShowsSuccess.ShouldBeTrue("First button should show success");
@@ -438,8 +450,12 @@ public class CopyCodeTests : E2ETestBase
             // Assert
             var afterText = await copyButton.TextContentAsync();
             var afterClasses = await copyButton.GetAttributeAsync("class") ?? "";
+            var afterTitle = await copyButton.GetAttributeAsync("title") ?? "";
+            var hasSuccessIcon = await copyButton.Locator("svg.vibe-copy-success-icon").CountAsync() > 0;
 
             var wasActivated = afterText?.Contains("Copied") == true ||
+                               afterTitle.Contains("Copied", StringComparison.OrdinalIgnoreCase) ||
+                               hasSuccessIcon ||
                                afterClasses.Contains("copied") ||
                                afterClasses.Contains("success");
 

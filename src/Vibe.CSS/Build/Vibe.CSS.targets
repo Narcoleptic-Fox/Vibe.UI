@@ -41,14 +41,14 @@
              Text="Vibe.CSS: Tool assembly not found at $(VibeCssToolPath); skipping CSS generation. Set VibeCssToolPath or set VibeCssUseDotnetToolFallback=true to try a dotnet tool." />
 
     <!-- Call Vibe.CSS via dotnet exec (preferred when referenced via PackageReference) -->
-    <Exec Command="dotnet &quot;$(VibeCssToolPath)&quot; generate &quot;$(MSBuildProjectDirectory)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix $(VibeCssPrefix) $(_VibeCssIncludeBaseArg) --patterns &quot;$(VibeCssScanPatterns)&quot;"
+    <Exec Command="dotnet &quot;$(VibeCssToolPath)&quot; generate &quot;$(MSBuildProjectDirectory)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix $(VibeCssPrefix) $(_VibeCssIncludeBaseArg) --patterns=$(VibeCssScanPatterns)"
           Condition="Exists('$(VibeCssToolPath)')"
           ConsoleToMSBuild="true"
           StandardOutputImportance="Normal"
           StandardErrorImportance="High" />
 
     <!-- Optional fallback: Use dotnet tool if package assembly isn't available -->
-    <Exec Command="dotnet vibe-css generate &quot;$(MSBuildProjectDirectory)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix $(VibeCssPrefix) $(_VibeCssIncludeBaseArg) --patterns &quot;$(VibeCssScanPatterns)&quot;"
+    <Exec Command="dotnet vibe-css generate &quot;$(MSBuildProjectDirectory)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix $(VibeCssPrefix) $(_VibeCssIncludeBaseArg) --patterns=$(VibeCssScanPatterns)"
           Condition="!Exists('$(VibeCssToolPath)') and '$(VibeCssUseDotnetToolFallback)' == 'true'"
           ConsoleToMSBuild="true"
           StandardOutputImportance="Normal"

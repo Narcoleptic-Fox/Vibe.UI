@@ -20,7 +20,7 @@ public class ThemeToggleTests : E2ETestBase
         var basePage = new BasePage(Page);
 
         // Ensure starting in light mode
-        await Page.EvaluateAsync("() => { document.documentElement.classList.remove('dark'); localStorage.setItem('theme', 'light'); }");
+        await Page.EvaluateAsync("() => { document.documentElement.classList.remove('dark'); localStorage.setItem('vibe-theme', 'light'); localStorage.setItem('theme', 'light'); }");
         await Page.WaitForTimeoutAsync(100);
 
         var initialTheme = await basePage.GetCurrentThemeAsync();
@@ -48,7 +48,7 @@ public class ThemeToggleTests : E2ETestBase
         var basePage = new BasePage(Page);
 
         // Ensure starting in dark mode
-        await Page.EvaluateAsync("() => { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark'); }");
+        await Page.EvaluateAsync("() => { document.documentElement.classList.add('dark'); localStorage.setItem('vibe-theme', 'dark'); localStorage.setItem('theme', 'dark'); }");
         await Page.WaitForTimeoutAsync(100);
 
         var initialTheme = await basePage.GetCurrentThemeAsync();
@@ -76,7 +76,7 @@ public class ThemeToggleTests : E2ETestBase
         var basePage = new BasePage(Page);
 
         // Start with light mode
-        await Page.EvaluateAsync("() => { document.documentElement.classList.remove('dark'); localStorage.setItem('theme', 'light'); }");
+        await Page.EvaluateAsync("() => { document.documentElement.classList.remove('dark'); localStorage.setItem('vibe-theme', 'light'); localStorage.setItem('theme', 'light'); }");
 
         // Act - Toggle to dark
         await basePage.ToggleThemeAsync();
@@ -100,7 +100,7 @@ public class ThemeToggleTests : E2ETestBase
         var basePage = new BasePage(Page);
 
         // Set to dark mode
-        await Page.EvaluateAsync("() => { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark'); }");
+        await Page.EvaluateAsync("() => { document.documentElement.classList.add('dark'); localStorage.setItem('vibe-theme', 'dark'); localStorage.setItem('theme', 'dark'); }");
         await Page.WaitForTimeoutAsync(100);
 
         var initialTheme = await basePage.GetCurrentThemeAsync();

@@ -74,14 +74,14 @@ internal static class DocsServerManager
             var startInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
-                Arguments = "run --project \"samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj\" -c Release --no-build",
+                // Force a stable port for tests (ignore launchSettings.json which uses a random dev port).
+                Arguments = "run --project \"samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj\" -c Release --no-build --no-launch-profile --urls \"http://localhost:5000\"",
                 WorkingDirectory = GetRepoRoot(),
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
 
-            startInfo.EnvironmentVariables["ASPNETCORE_URLS"] = DefaultBaseUrl;
             startInfo.EnvironmentVariables["DOTNET_ENVIRONMENT"] = "Development";
 
             _process = Process.Start(startInfo);
@@ -152,4 +152,3 @@ internal static class DocsServerManager
         return Directory.GetCurrentDirectory();
     }
 }
-

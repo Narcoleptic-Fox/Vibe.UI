@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using Vibe.UI.CLI.Infrastructure;
 
 namespace Vibe.UI.CLI.Services;
 
@@ -53,7 +54,7 @@ public class ProjectService
         // Add package reference
         var packageRef = new XElement("PackageReference",
             new XAttribute("Include", packageName),
-            new XAttribute("Version", "1.0.0"));
+            new XAttribute("Version", CliVersion.Current));
 
         itemGroup.Add(packageRef);
 

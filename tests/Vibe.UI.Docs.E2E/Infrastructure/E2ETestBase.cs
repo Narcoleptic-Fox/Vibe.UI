@@ -11,7 +11,6 @@ public abstract class E2ETestBase : IAsyncLifetime
 {
     private static readonly object _installLock = new();
     private static bool _browsersInstalled;
-    private static int _serverUsers;
 
     protected IPlaywright Playwright { get; private set; } = null!;
     protected IBrowser Browser { get; private set; } = null!;
@@ -44,13 +43,9 @@ public abstract class E2ETestBase : IAsyncLifetime
         // Ensure browsers are installed (thread-safe, runs once per test run)
         EnsureBrowsersInstalled();
 
-        // Ensure the docs site is reachable for tests that rely on the default base URL.
-        // If DOCS_BASE_URL is set, assume the caller/CI starts the server externally.
-        if (Environment.GetEnvironmentVariable("DOCS_BASE_URL") == null)
-        {
-            Interlocked.Increment(ref _serverUsers);
-            await DocsServerManager.AcquireAsync(BaseUrl, CancellationToken.None);
-        }
+        // Ensure the docs site is reachable when using the default base URL.
+        // If DOCS_BASE_URL points elsewhere, assume the caller/CI starts the server externally.
+        await DocsServerManager.AcquireAsync(BaseUrl, CancellationToken.None);
 
         // Create Playwright instance
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
@@ -119,13 +114,7 @@ public abstract class E2ETestBase : IAsyncLifetime
         await Browser?.CloseAsync()!;
         Playwright?.Dispose();
 
-        if (Environment.GetEnvironmentVariable("DOCS_BASE_URL") == null)
-        {
-            if (Interlocked.Decrement(ref _serverUsers) == 0)
-            {
-                DocsServerManager.Release(BaseUrl);
-            }
-        }
+        DocsServerManager.Release(BaseUrl);
     }
 
     /// <summary>
@@ -135,7 +124,10 @@ public abstract class E2ETestBase : IAsyncLifetime
     protected async Task NavigateAndWaitForBlazorAsync(string path = "/")
     {
         var url = $"{BaseUrl.TrimEnd('/')}{path}";
-        await Page.GotoAsync(url);
+        await Page.GotoAsync(url, new()
+        {
+            WaitUntil = WaitUntilState.DOMContentLoaded
+        });
         await Page.WaitForBlazorReadyAsync();
     }
 

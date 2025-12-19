@@ -18,21 +18,14 @@ public class BasePage
     // Common Header Elements
     public ILocator Logo => Page.Locator("a[href='/'] img[alt='Vibe.UI'], a[href] img[alt='Vibe.UI']").First;
     public ILocator LogoLink => Page.Locator("a").Filter(new() { Has = Page.GetByAltText("Vibe.UI") });
-    public ILocator SearchButton => Page.GetByPlaceholder("Search components...");
+    public ILocator SearchButton => Page.Locator("button:has-text('Search components')").First;
     public ILocator MobileSearchButton => Page.GetByLabel("Search");
-    public ILocator ThemeToggle => Page.Locator("button").Filter(new() { Has = Page.Locator("svg").First });
+    public ILocator ThemeToggle => Page.Locator("button.vibe-theme-toggle, button[aria-label='Toggle theme'], [data-theme-toggle]").First;
     public ILocator GitHubLink => Page.GetByRole(AriaRole.Link, new() { NameString = "View on GitHub" });
 
     // Mobile Navigation
-    public ILocator MobileMenuButton => Page.GetByLabel("Toggle menu");
-
-    // Sidebar
-    public ILocator Sidebar => Page.Locator(".docs-sidebar");
-    public ILocator SidebarNav => Page.Locator(".sidebar-nav");
-
     // Main Content
-    public ILocator MainContent => Page.Locator(".docs-content");
-    public ILocator ContentWrapper => Page.Locator(".content-wrapper");
+    public ILocator MainContent => Page.Locator("main").First;
 
     /// <summary>
     /// Click the search button to open command palette
@@ -55,9 +48,18 @@ public class BasePage
     /// </summary>
     public async Task ToggleThemeAsync()
     {
+        var before = await GetCurrentThemeAsync();
+
         await ThemeToggle.ClickAsync();
-        // Wait for theme transition
-        await Page.WaitForTimeoutAsync(300);
+
+        await Page.WaitForFunctionAsync(
+            @"(before) => {
+                const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                return current !== before;
+            }",
+            before,
+            new() { Timeout = 5000 }
+        );
     }
 
     /// <summary>
@@ -77,7 +79,7 @@ public class BasePage
     public async Task<string?> GetStoredThemeAsync()
     {
         return await Page.EvaluateAsync<string?>(
-            "() => localStorage.getItem('theme')"
+            "() => localStorage.getItem('vibe-theme') || localStorage.getItem('theme')"
         );
     }
 
@@ -95,28 +97,10 @@ public class BasePage
     }
 
     /// <summary>
-    /// Toggle mobile sidebar
+    /// Check if the main content is visible.
     /// </summary>
-    public async Task ToggleMobileSidebarAsync()
+    public async Task<bool> IsMainContentVisibleAsync()
     {
-        await MobileMenuButton.ClickAsync();
-        await Page.WaitForTimeoutAsync(300); // Wait for animation
-    }
-
-    /// <summary>
-    /// Check if mobile menu is visible
-    /// </summary>
-    public async Task<bool> IsMobileMenuVisibleAsync()
-    {
-        return await MobileMenuButton.IsVisibleAsync();
-    }
-
-    /// <summary>
-    /// Check if sidebar is open (mobile)
-    /// </summary>
-    public async Task<bool> IsSidebarOpenAsync()
-    {
-        var sidebar = await Sidebar.GetAttributeAsync("class");
-        return sidebar?.Contains("open") ?? false;
+        return await MainContent.IsVisibleAsync();
     }
 }

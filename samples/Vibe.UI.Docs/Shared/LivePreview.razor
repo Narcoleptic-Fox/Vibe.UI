@@ -10,8 +10,14 @@
     <!-- Header Tabs -->
     <div class="vibe-flex vibe-items-center vibe-justify-between vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50">
         <!-- Tab Buttons -->
-        <div class="vibe-flex">
-            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "preview" ? "vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
+        <div class="vibe-flex" role="tablist" aria-label="Live preview tabs">
+            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "preview" ? "active vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
+                    type="button"
+                    role="tab"
+                    data-tab="preview"
+                    data-state="@(activeTab == "preview" ? "active" : "inactive")"
+                    aria-selected="@(activeTab == "preview" ? "true" : "false")"
+                    aria-controls="live-preview-panel"
                     @onclick="SetPreviewTab">
                 Preview
                 @if (activeTab == "preview")
@@ -19,7 +25,13 @@
                     <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-brand-teal"></span>
                 }
             </button>
-            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "code" ? "vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
+            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "code" ? "active vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
+                    type="button"
+                    role="tab"
+                    data-tab="code"
+                    data-state="@(activeTab == "code" ? "active" : "inactive")"
+                    aria-selected="@(activeTab == "code" ? "true" : "false")"
+                    aria-controls="live-code-panel"
                     @onclick="SetCodeTab">
                 Code
                 @if (activeTab == "code")
@@ -73,23 +85,21 @@
             @if (activeTab == "preview")
             {
                 <!-- Preview Panel -->
-                <div class="preview-panel vibe-p-6 vibe-min-h-[200px] vibe-flex vibe-items-center vibe-justify-center @(previewDark ? "dark vibe-bg-zinc-900" : "vibe-bg-white")">
-                    @PreviewContent
+                <div id="live-preview-panel"
+                     class="preview-panel preview-content vibe-p-6 vibe-min-h-[200px] vibe-flex vibe-items-center vibe-justify-center @(previewDark ? "vibe-bg-zinc-900" : "vibe-bg-white dark:vibe-bg-zinc-900")"
+                     role="tabpanel"
+                     data-panel="preview">
+                    @(PreviewContent ?? ChildContent)
                 </div>
             }
             else
             {
-                <!-- Code Panel - Temporary notice about known issue -->
-                <div class="code-panel vibe-min-h-[100px] vibe-bg-zinc-950 vibe-overflow-x-auto">
-                    <div class="vibe-p-4 vibe-flex vibe-items-start vibe-gap-3 vibe-bg-amber-500/10 vibe-border-b vibe-border-amber-500/20">
-                        <svg class="vibe-w-5 vibe-h-5 vibe-text-amber-500 vibe-shrink-0 vibe-mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                        </svg>
-                        <div class="vibe-text-sm">
-                            <p class="vibe-text-amber-200 vibe-font-medium">Code preview temporarily unavailable</p>
-                            <p class="vibe-text-amber-200/70 vibe-mt-1">See the Examples section below for code snippets. This will be fixed in a future update.</p>
-                        </div>
-                    </div>
+                <!-- Code Panel -->
+                <div id="live-code-panel"
+                     class="code-panel vibe-min-h-[100px] vibe-overflow-x-auto"
+                     role="tabpanel"
+                     data-panel="code">
+                    <CodeBlock Code="@Code" Language="@Language" ShowLineNumbers="false" />
                 </div>
             }
         </div>
@@ -153,6 +163,12 @@
 </style>
 
 @code {
+    /// <summary>
+    /// Child content for the preview panel (standard Blazor pattern).
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
     /// <summary>
     /// The content to render in the preview panel.
     /// </summary>

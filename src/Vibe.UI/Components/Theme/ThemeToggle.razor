@@ -131,6 +131,19 @@
 
     private async Task ToggleTheme()
     {
+        // Keep local state in sync with the DOM/localStorage in case something else changed theme.
+        try
+        {
+            _themeModule ??= await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Vibe.UI/js/vibe-theme.js");
+
+            _isDark = await _themeModule.InvokeAsync<bool>("VibeTheme.getTheme", StorageKey);
+        }
+        catch
+        {
+            // Ignore: if JS isn't available, we just toggle local state.
+        }
+
         _isDark = !_isDark;
         await ApplyTheme(true);
     }

@@ -3,7 +3,7 @@
 > Note: This checklist targets the `1.0.0-alpha` release (the filename is historical).
 
 ### Docs site (`samples/Vibe.UI.Docs`)
-- [ ] `dotnet build samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj -c Release` succeeds and regenerates `samples/Vibe.UI.Docs/wwwroot/css/vibe.css`
+- [x] `dotnet build samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj -c Release` succeeds and regenerates `samples/Vibe.UI.Docs/wwwroot/css/vibe.css`
 - [x] No Tailwind import/usage (no CDN, no `@tailwind`, no Tailwind build pipeline)
 - [x] No legacy Bootstrap template leftovers shipped/linked (NavMenu/Bootstrap assets removed or not referenced)
 - [x] Top-nav UX feels consistent (Docs + Components + search + theme toggle); no sidebar dependency

@@ -38,12 +38,12 @@ public class NavigationSmokeTests : E2ETestBase
     {
         // Arrange
         await NavigateAndWaitForBlazorAsync("/");
-        var basePage = new BasePage(Page);
 
-        // Act - Navigate to a component page via sidebar
-        // Look for any component link in the sidebar
-        var componentLink = Page.Locator(".docs-sidebar a[href*='/components/']").First;
-        var href = await componentLink.GetAttributeAsync("href");
+        // Act - Navigate to a component page via the Components index
+        await Page.GotoAsync($"{BaseUrl}/components");
+        await Page.WaitForBlazorReadyAsync();
+
+        var componentLink = Page.Locator("a[href^='/components/']:not([href='/components'])").First;
         await componentLink.ClickAsync();
 
         // Wait for navigation
