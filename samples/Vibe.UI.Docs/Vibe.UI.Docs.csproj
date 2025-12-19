@@ -32,6 +32,11 @@
     <ProjectReference Include="..\..\src\Vibe.UI\Vibe.UI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="ts-src/**" />
+    <None Remove="ts-src/**" />
+  </ItemGroup>
+
   <Target Name="GenerateVibeCss"
           AfterTargets="Build"
           Condition="'$(VibeCssEnabled)' == 'true'">

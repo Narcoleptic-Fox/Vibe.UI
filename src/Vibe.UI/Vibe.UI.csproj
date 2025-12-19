@@ -38,6 +38,11 @@
       Version="9.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="ts-src/**" />
+    <None Remove="ts-src/**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <None Include="../../icon.png" Pack="true" PackagePath="" Condition="Exists('../../icon.png')" />
