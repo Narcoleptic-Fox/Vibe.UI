@@ -31,7 +31,7 @@
     --vibe-primary-foreground: hsl(0 0% 98%);
 
     /* Secondary - Subtle gray backgrounds */
-    --vibe-secondary: hsl(240 4.8% 95.9%);
+    --vibe-secondary: hsl(240 4.8% 92%);
     --vibe-secondary-foreground: hsl(240 5.9% 10%);
 
     /* Muted - For disabled states and subtle text */
@@ -129,7 +129,7 @@
     --vibe-primary-foreground: hsl(240 5.9% 10%);
 
     /* Secondary */
-    --vibe-secondary: hsl(240 3.7% 15.9%);
+    --vibe-secondary: hsl(240 3.7% 20%);
     --vibe-secondary-foreground: hsl(0 0% 98%);
 
     /* Muted */

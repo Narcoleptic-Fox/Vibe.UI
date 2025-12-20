@@ -28,7 +28,7 @@
     gap: var(--vibe-spacing-4);
     padding: var(--vibe-spacing-4);
     border-bottom: 1px solid var(--vibe-border);
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-card);
 }
 
 /* ========================================
@@ -118,7 +118,7 @@
    ======================================== */
 
 .datatable-table thead {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-card);
     border-bottom: 1px solid var(--vibe-border);
 }
 
@@ -132,7 +132,7 @@
     font-weight: 600;
     color: var(--vibe-foreground);
     white-space: nowrap;
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-card);
     user-select: none;
 }
 
@@ -142,7 +142,7 @@
 }
 
 .datatable-table th.sortable:hover {
-    background-color: color-mix(in srgb, var(--vibe-muted) 90%, var(--vibe-foreground));
+    background-color: color-mix(in srgb, var(--vibe-card) 92%, var(--vibe-foreground));
 }
 
 .datatable-header-cell {
@@ -150,6 +150,18 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--vibe-spacing-2);
+}
+
+:global(.dark) .datatable-toolbar {
+    background-color: var(--vibe-muted);
+}
+
+:global(.dark) .datatable-table thead {
+    background-color: var(--vibe-muted);
+}
+
+:global(.dark) .datatable-table th {
+    background-color: var(--vibe-muted);
 }
 
 .header-label {
@@ -358,6 +370,14 @@
 
 .datatable-table tbody tr.row-clickable {
     cursor: pointer;
+}
+
+:global(.dark) .datatable-table tbody tr:hover {
+    background-color: color-mix(in srgb, var(--vibe-card) 88%, var(--vibe-foreground));
+}
+
+:global(.dark) .datatable-table tbody tr:nth-child(even) {
+    background-color: color-mix(in srgb, var(--vibe-card) 94%, var(--vibe-foreground));
 }
 
 /* ========================================

@@ -270,7 +270,7 @@ vibe init
 
 # 3. Add components as needed
 vibe add datepicker
-vibe add modal";
+vibe add dialog";
 
     private string UpdateWorkflow => @"# Check installed components
 vibe list --installed
@@ -287,11 +287,11 @@ vibe update --all";
         ["Form"] = new() { "Form", "FormField", "ValidatedInput" },
         ["DataDisplay"] = new() { "Avatar", "Badge", "Chart", "DataGrid", "Table", "Tag" },
         ["Layout"] = new() { "Card", "AspectRatio", "Container", "Divider", "Grid", "Separator", "Stack" },
-        ["Navigation"] = new() { "Breadcrumb", "Link", "Menu", "Pagination", "Stepper", "Tabs" },
-        ["Overlay"] = new() { "Dialog", "Drawer", "Dropdown", "Modal", "Popover", "Tooltip" },
+        ["Navigation"] = new() { "Breadcrumb", "Link", "Menu", "Pagination", "Stepper" },
+        ["Overlay"] = new() { "Dialog", "Drawer", "Dropdown", "Popover", "Tooltip" },
         ["Feedback"] = new() { "Alert", "Notification", "Progress", "Skeleton", "Spinner", "Toast" },
         ["Advanced"] = new() { "DragDrop", "FileUpload", "KanbanBoard", "RichTextEditor", "TreeView", "VirtualScroll" },
-        ["Disclosure"] = new() { "Accordion", "Carousel", "Collapsible", "Tabs" },
+        ["Disclosure"] = new() { "Accordion", "Carousel", "Collapsible" },
         ["DateTime"] = new() { "Calendar", "DatePicker", "DateRangePicker", "TimePicker" },
         ["Theme"] = new() { "ThemeToggle", "ThemeProvider" }
     };

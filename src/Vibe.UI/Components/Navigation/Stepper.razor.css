@@ -33,6 +33,7 @@
     position: relative;
     display: flex;
     flex: 1;
+    overflow: visible;
 }
 
 /* Horizontal Items */
@@ -163,7 +164,7 @@
 .vibe-stepper-horizontal .vibe-stepper-connector {
     position: absolute;
     top: 1rem;
-    left: 0;
+    left: -50%;
     right: 50%;
     height: 2px;
     transform: translateY(-50%);

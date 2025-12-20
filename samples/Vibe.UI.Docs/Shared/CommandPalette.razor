@@ -218,7 +218,6 @@
         new("ContextMenu", "Overlay", "Right-click context menu"),
 
         // Navigation
-        new("Tabs", "Navigation", "Tabbed content navigation"),
         new("Breadcrumb", "Navigation", "Hierarchical navigation path"),
         new("Menu", "Navigation", "Dropdown menu component"),
         new("Pagination", "Navigation", "Page navigation controls"),
@@ -259,7 +258,7 @@
     };
 
     private List<ComponentInfo> PopularComponents => AllComponents
-        .Where(c => new[] { "Button", "Card", "Dialog", "Input", "Alert", "Tabs" }.Contains(c.Name))
+        .Where(c => new[] { "Button", "Card", "Dialog", "Input", "Alert", "Popover" }.Contains(c.Name))
         .Take(6)
         .ToList();
 

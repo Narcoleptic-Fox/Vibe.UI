@@ -15,11 +15,13 @@
 }
 
 :global(.vibe-kanban .kanban-column) {
-  background: var(--vibe-card);
+  background: var(--vibe-muted);
   color: var(--vibe-card-foreground);
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius);
   min-height: 8rem;
+  overflow: hidden;
+  box-shadow: var(--vibe-shadow-sm);
 }
 
 :global(.vibe-kanban .kanban-column-header) {
@@ -28,6 +30,7 @@
   gap: 0.5rem;
   padding: 0.75rem;
   border-bottom: 1px solid var(--vibe-border);
+  background: var(--vibe-card);
 }
 
 :global(.vibe-kanban .column-title) {
@@ -63,12 +66,19 @@
 }
 
 :global(.vibe-kanban .kanban-card) {
-  background: var(--vibe-popover);
-  color: var(--vibe-popover-foreground);
+  background: var(--vibe-card);
+  color: var(--vibe-card-foreground);
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius-sm);
   padding: 0.75rem;
   cursor: pointer;
+  box-shadow: var(--vibe-shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+:global(.vibe-kanban .kanban-card:hover) {
+  transform: translateY(-1px);
+  box-shadow: var(--vibe-shadow-md);
 }
 
 :global(.vibe-kanban .kanban-card:active) {

@@ -23,7 +23,21 @@
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
         <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900">
             <div class="vibe-flex vibe-justify-center">
-                <p class="vibe-text-zinc-500 dark:vibe-text-zinc-400">Component preview will be shown here when installed.</p>
+                <Popover>
+                    <TriggerContent>
+                        <Button Variant="ButtonVariant.Outline">Open popover</Button>
+                    </TriggerContent>
+                    <Content>
+                        <div class="vibe-space-y-2">
+                            <h4 class="vibe-text-sm vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100">Quick actions</h4>
+                            <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Manage settings and shortcuts.</p>
+                            <div class="vibe-flex vibe-gap-2">
+                                <Button Size="ComponentSize.Small">Save</Button>
+                                <Button Variant="ButtonVariant.Outline" Size="ComponentSize.Small">Cancel</Button>
+                            </div>
+                        </div>
+                    </Content>
+                </Popover>
             </div>
         </div>
     </section>
@@ -194,7 +208,7 @@
             </a>
             <a href="components/dialog" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
                 <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Dialog</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Modal overlay</p>
+                <p class="vibe-text-sm vibe-text-zinc-500">Dialog overlay</p>
             </a>
         </div>
     </section>

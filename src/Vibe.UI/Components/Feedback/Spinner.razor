@@ -2,6 +2,7 @@
 @inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass" role="status" aria-label="@Label">
+    <span class="spinner" aria-hidden="true"></span>
     @if (ShowLabel && !string.IsNullOrEmpty(Label))
     {
         <span class="spinner-label">@Label</span>
@@ -14,6 +15,9 @@
     public SpinnerSize Size { get; set; } = SpinnerSize.Default;
 
     [Parameter]
+    public string Color { get; set; } = "primary";
+
+    [Parameter]
     public string? Label { get; set; }
 
     [Parameter]
@@ -23,9 +27,10 @@
     public string? CssClass { get; set; }
 
     private string CombinedCssClass => CombineClasses(
-    "vibe-spinner",
-    $"spinner-{Size.ToString().ToLower()}",
-    CssClass
+        "vibe-spinner",
+        $"spinner-{Size.ToString().ToLower()}",
+        $"spinner-{Color.ToLower()}",
+        CssClass
     );
 
     protected override string ComponentClass => CombinedCssClass;
