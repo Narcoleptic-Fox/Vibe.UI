@@ -9,23 +9,30 @@
             {
                 <div class="kanban-column" @key="column.Id">
                     <div class="kanban-column-header">
-                        <h3 class="column-title">@column.Title</h3>
-                        @if (column.Badge != null)
+                        @if (ColumnHeaderTemplate != null)
                         {
-                            <span class="column-badge">@column.Badge</span>
+                            @ColumnHeaderTemplate(column)
                         }
                         else
                         {
-                            <span class="column-count">@column.Cards.Count</span>
-                        }
-                        @if (AllowAddCard)
-                        {
-                            <button type="button"
-                                    class="column-add-btn"
-                                    @onclick="() => OnAddCardRequested.InvokeAsync(column.Id)"
-                                    title="Add card">
-                                +
-                            </button>
+                            <h3 class="column-title">@column.Title</h3>
+                            @if (column.Badge != null)
+                            {
+                                <span class="column-badge">@column.Badge</span>
+                            }
+                            else
+                            {
+                                <span class="column-count">@column.Cards.Count</span>
+                            }
+                            @if (AllowAddCard)
+                            {
+                                <button type="button"
+                                        class="column-add-btn"
+                                        @onclick="() => OnAddCardRequested.InvokeAsync(column.Id)"
+                                        title="Add card">
+                                    +
+                                </button>
+                            }
                         }
                     </div>
 
@@ -94,6 +101,9 @@
 
     [Parameter]
     public RenderFragment<KanbanCard>? CardTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<KanbanColumn>? ColumnHeaderTemplate { get; set; }
 
     [Parameter]
     public RenderFragment? EmptyContent { get; set; }
