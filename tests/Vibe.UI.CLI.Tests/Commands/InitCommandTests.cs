@@ -1,6 +1,7 @@
 using System.Xml.Linq;
 using FluentAssertions;
 using Spectre.Console.Cli;
+using System.Reflection;
 using Vibe.UI.CLI.Commands;
 using Vibe.UI.CLI.Models;
 using Vibe.UI.CLI.Services;
@@ -274,7 +275,22 @@ public class InitCommandTests : IDisposable
             .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
 
         vibeCssRef.Should().NotBeNull("Vibe.CSS package reference should be added with --with-css");
-        vibeCssRef!.Attribute("Version")?.Value.Should().Be("1.0.0");
+        vibeCssRef!.Attribute("Version")?.Value.Should().Be(GetCliVersion());
+    }
+
+    private static string GetCliVersion()
+    {
+        var informational = typeof(InitCommand).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion;
+
+        if (!string.IsNullOrWhiteSpace(informational))
+        {
+            return informational.Split('+', 2)[0];
+        }
+
+        var version = typeof(InitCommand).Assembly.GetName().Version;
+        return version == null ? "0.0.0" : $"{version.Major}.{version.Minor}.{version.Build}";
     }
 
     [Fact]

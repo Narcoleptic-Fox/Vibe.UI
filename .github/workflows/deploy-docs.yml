@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'samples/Vibe.UI.Docs/**'
+      - 'src/Vibe.CSS/**'
       - 'src/Vibe.UI/**'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:

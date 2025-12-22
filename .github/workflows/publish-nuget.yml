@@ -67,30 +67,15 @@ jobs:
 
     - name: Pack Vibe.CSS
       run: |
-        dotnet pack src/Vibe.CSS/Vibe.CSS.csproj \
-          --configuration Release \
-          --no-build \
-          --output ./packages \
-          /p:Version=${{ steps.version.outputs.version }} \
-          /p:PackageVersion=${{ steps.version.outputs.version }}
+        dotnet pack src/Vibe.CSS/Vibe.CSS.csproj --configuration Release --no-build --output ./packages /p:Version=${{ steps.version.outputs.version }} /p:PackageVersion=${{ steps.version.outputs.version }}
 
     - name: Pack Vibe.UI
       run: |
-        dotnet pack src/Vibe.UI/Vibe.UI.csproj \
-          --configuration Release \
-          --no-build \
-          --output ./packages \
-          /p:Version=${{ steps.version.outputs.version }} \
-          /p:PackageVersion=${{ steps.version.outputs.version }}
+        dotnet pack src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-build --output ./packages /p:Version=${{ steps.version.outputs.version }} /p:PackageVersion=${{ steps.version.outputs.version }}
 
     - name: Pack Vibe.UI.CLI
       run: |
-        dotnet pack src/Vibe.UI.CLI/Vibe.UI.CLI.csproj \
-          --configuration Release \
-          --no-build \
-          --output ./packages \
-          /p:Version=${{ steps.version.outputs.version }} \
-          /p:PackageVersion=${{ steps.version.outputs.version }}
+        dotnet pack src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-build --output ./packages /p:Version=${{ steps.version.outputs.version }} /p:PackageVersion=${{ steps.version.outputs.version }}
 
     - name: List packages
       run: ls -lh ./packages/
@@ -108,20 +93,9 @@ jobs:
 
     - name: Push to NuGet.org
       run: |
-        dotnet nuget push ./packages/Vibe.CSS.${{ steps.version.outputs.version }}.nupkg \
-          --api-key ${{ secrets.NUGET_API_KEY }} \
-          --source https://api.nuget.org/v3/index.json \
-          --skip-duplicate
-
-        dotnet nuget push ./packages/Vibe.UI.${{ steps.version.outputs.version }}.nupkg \
-          --api-key ${{ secrets.NUGET_API_KEY }} \
-          --source https://api.nuget.org/v3/index.json \
-          --skip-duplicate
-
-        dotnet nuget push ./packages/Vibe.UI.CLI.${{ steps.version.outputs.version }}.nupkg \
-          --api-key ${{ secrets.NUGET_API_KEY }} \
-          --source https://api.nuget.org/v3/index.json \
-          --skip-duplicate
+        dotnet nuget push ./packages/Vibe.CSS.${{ steps.version.outputs.version }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        dotnet nuget push ./packages/Vibe.UI.${{ steps.version.outputs.version }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        dotnet nuget push ./packages/Vibe.UI.CLI.${{ steps.version.outputs.version }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Upload packages as artifacts
       uses: actions/upload-artifact@v4

@@ -35,21 +35,9 @@ jobs:
         dotnet build tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --no-restore
 
     - name: Run tests with coverage
-      continue-on-error: true
       run: |
-        dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj \
-          --configuration Release \
-          --no-build \
-          --verbosity normal \
-          --collect:"XPlat Code Coverage" \
-          --results-directory ./coverage
-
-        dotnet test tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj \
-          --configuration Release \
-          --no-build \
-          --verbosity normal \
-          --collect:"XPlat Code Coverage" \
-          --results-directory ./coverage
+        dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        dotnet test tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
