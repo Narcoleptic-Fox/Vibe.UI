@@ -494,13 +494,18 @@ public class ComponentService
             throw new ArgumentException($"{parameterName} cannot be empty.", parameterName);
         }
 
-        if (Path.IsPathRooted(relativePath))
+        var normalizedRelativePath = relativePath
+            .Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
+            .Replace('\\', Path.DirectorySeparatorChar)
+            .Replace('/', Path.DirectorySeparatorChar);
+
+        if (Path.IsPathRooted(normalizedRelativePath))
         {
             throw new InvalidOperationException($"{parameterName} must be a relative path.");
         }
 
         var projectFullPath = Path.GetFullPath(projectPath);
-        var candidateFullPath = Path.GetFullPath(Path.Combine(projectFullPath, relativePath));
+        var candidateFullPath = Path.GetFullPath(Path.Combine(projectFullPath, normalizedRelativePath));
 
         var projectPrefix = projectFullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
             + Path.DirectorySeparatorChar;
