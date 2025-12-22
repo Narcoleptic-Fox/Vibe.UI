@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Vibe.UI.CLI.Services;
+using System.Reflection;
 using Xunit;
 
 namespace Vibe.UI.CLI.Tests.Services;
@@ -99,7 +100,7 @@ public class ProjectServiceTests : IDisposable
         var updatedContent = await File.ReadAllTextAsync(csprojPath);
         updatedContent.Should().Contain("PackageReference");
         updatedContent.Should().Contain("Include=\"Vibe.UI\"");
-        updatedContent.Should().Contain("Version=\"1.0.0\"");
+        updatedContent.Should().Contain($"Version=\"{GetCliVersion()}\"");
     }
 
     [Fact]
@@ -107,9 +108,9 @@ public class ProjectServiceTests : IDisposable
     {
         // Arrange
         var csprojPath = Path.Combine(_testProjectPath, "Test.csproj");
-        var csprojContent = @"<Project Sdk=""Microsoft.NET.Sdk"">
+        var csprojContent = $@"<Project Sdk=""Microsoft.NET.Sdk"">
   <ItemGroup>
-    <PackageReference Include=""Vibe.UI"" Version=""1.0.0"" />
+    <PackageReference Include=""Vibe.UI"" Version=""{GetCliVersion()}"" />
   </ItemGroup>
 </Project>";
         await File.WriteAllTextAsync(csprojPath, csprojContent);
@@ -217,5 +218,20 @@ public class ProjectServiceTests : IDisposable
         {
             Directory.Delete(_testProjectPath, true);
         }
+    }
+
+    private static string GetCliVersion()
+    {
+        var informational = typeof(ProjectService).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion;
+
+        if (!string.IsNullOrWhiteSpace(informational))
+        {
+            return informational.Split('+', 2)[0];
+        }
+
+        var version = typeof(ProjectService).Assembly.GetName().Version;
+        return version == null ? "0.0.0" : $"{version.Major}.{version.Minor}.{version.Build}";
     }
 }
