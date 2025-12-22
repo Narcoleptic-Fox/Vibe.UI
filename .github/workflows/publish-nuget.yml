@@ -61,9 +61,9 @@ jobs:
 
     - name: Run tests
       run: |
-        dotnet test tests/Vibe.CSS.Tests/Vibe.CSS.Tests.csproj --configuration Release --verbosity normal || echo "No tests or tests failed"
-        dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj --configuration Release --verbosity normal || echo "No tests or tests failed"
-        dotnet test tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --verbosity normal || echo "No tests or tests failed"
+        dotnet test tests/Vibe.CSS.Tests/Vibe.CSS.Tests.csproj --configuration Release --verbosity normal
+        dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj --configuration Release --verbosity normal
+        dotnet test tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --verbosity normal
 
     - name: Pack Vibe.CSS
       run: |
