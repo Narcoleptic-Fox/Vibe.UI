@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
@@ -28,9 +28,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vibe.UI.Docs", "samples\Vib
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vibe.UI.Docs.E2E", "tests\Vibe.UI.Docs.E2E\Vibe.UI.Docs.E2E.csproj", "{92928495-8762-46A8-A5FB-03215B379996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vibe.CSS", "src\Vibe.CSS\Vibe.CSS.csproj", "{C4F74D43-119D-45F3-8546-1350E7322076}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vibe.UI.CSS", "src\Vibe.UI.CSS\Vibe.UI.CSS.csproj", "{C4F74D43-119D-45F3-8546-1350E7322076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vibe.CSS.Tests", "tests\Vibe.CSS.Tests\Vibe.CSS.Tests.csproj", "{3946B2C3-B688-4B58-9598-FDB418D6255B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vibe.UI.CSS.Tests", "tests\Vibe.UI.CSS.Tests\Vibe.UI.CSS.Tests.csproj", "{3946B2C3-B688-4B58-9598-FDB418D6255B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -156,3 +156,4 @@ Global
 		SolutionGuid = {6F06E683-1398-4C01-8096-D62276B6CD83}
 	EndGlobalSection
 EndGlobal
+

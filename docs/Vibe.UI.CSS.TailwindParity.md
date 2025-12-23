@@ -1,6 +1,6 @@
-# Vibe.CSS Tailwind Parity Roadmap
+# Vibe.UI.CSS Tailwind Parity Roadmap
 
-Goal: make `Vibe.CSS` feel like “Tailwind for Blazor/.NET” in day-to-day usage: broad utility coverage, predictable variants, excellent arbitrary-value support, and a great developer experience (DX).
+Goal: make `Vibe.UI.CSS` feel like “Tailwind for Blazor/.NET” in day-to-day usage: broad utility coverage, predictable variants, excellent arbitrary-value support, and a great developer experience (DX).
 
 This is intentionally written as a phased checklist so we can ship value early (docs + common app patterns) while steadily closing Tailwind gaps.
 
@@ -8,7 +8,7 @@ This is intentionally written as a phased checklist so we can ship value early (
 
 Command:
 
-`dotnet run --project src/Vibe.CSS/Vibe.CSS.csproj -- scan "samples/Vibe.UI.Docs" --patterns "*.razor,*.cshtml,*.html,*.cs"`
+`dotnet run --project src/Vibe.UI.CSS/Vibe.UI.CSS.csproj -- scan "samples/Vibe.UI.Docs" --patterns "*.razor,*.cshtml,*.html,*.cs"`
 
 Latest output (summary):
 - Total classes found: `513`
@@ -130,7 +130,8 @@ The first unknown classes include legacy Bootstrap/nav-template classes (e.g. `n
 
 ## Success Criteria
 
-- Docs site uses `Vibe.UI` components + `Vibe.CSS` utilities with near-zero custom CSS.
+- Docs site uses `Vibe.UI` components + `Vibe.UI.CSS` utilities with near-zero custom CSS.
 - Most developers can “translate Tailwind muscle memory” to `vibe-*` with minimal friction.
 - Unknown-class reporting is actionable (either fix the class or implement the utility).
+
 

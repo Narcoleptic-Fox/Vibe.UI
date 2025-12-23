@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Vibe.CSS.Generator;
+namespace Vibe.UI.CSS.Generator;
 
 /// <summary>
 /// JIT generator for CSS utilities. Given a class name, generates the corresponding CSS rule.
@@ -3125,3 +3125,4 @@ public partial class UtilityGenerator
 
     #endregion
 }
+

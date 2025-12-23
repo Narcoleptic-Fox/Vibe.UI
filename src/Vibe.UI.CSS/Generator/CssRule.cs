@@ -1,4 +1,4 @@
-namespace Vibe.CSS.Generator;
+namespace Vibe.UI.CSS.Generator;
 
 /// <summary>
 /// Represents a single CSS rule with selector and declarations.
@@ -111,3 +111,4 @@ public static class CssOrder
     /// </summary>
     public const int ResponsiveVariants = 3000;
 }
+

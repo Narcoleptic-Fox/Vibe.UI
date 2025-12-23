@@ -144,7 +144,7 @@ public class ProjectServiceTests : IDisposable
         await _projectService.CopyThemeFilesAsync(_testProjectPath, theme);
 
         // Assert
-        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "vibe.css");
+        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "Vibe.UI.CSS");
         File.Exists(cssPath).Should().BeTrue();
     }
 
@@ -155,7 +155,7 @@ public class ProjectServiceTests : IDisposable
         await _projectService.CopyThemeFilesAsync(_testProjectPath, "light");
 
         // Assert
-        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "vibe.css");
+        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "Vibe.UI.CSS");
         var content = await File.ReadAllTextAsync(cssPath);
         content.Should().Contain("--vibe-background: #ffffff");
         content.Should().Contain("--vibe-foreground: #111111");
@@ -168,7 +168,7 @@ public class ProjectServiceTests : IDisposable
         await _projectService.CopyThemeFilesAsync(_testProjectPath, "dark");
 
         // Assert
-        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "vibe.css");
+        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "Vibe.UI.CSS");
         var content = await File.ReadAllTextAsync(cssPath);
         content.Should().Contain("--vibe-background: #1a1a1a");
         content.Should().Contain("--vibe-foreground: #ffffff");
@@ -181,7 +181,7 @@ public class ProjectServiceTests : IDisposable
         await _projectService.CopyThemeFilesAsync(_testProjectPath, "both");
 
         // Assert
-        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "vibe.css");
+        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "Vibe.UI.CSS");
         var content = await File.ReadAllTextAsync(cssPath);
         content.Should().Contain("--vibe-background: #ffffff");
         content.Should().Contain("--vibe-background: #1a1a1a");
@@ -195,7 +195,7 @@ public class ProjectServiceTests : IDisposable
         await _projectService.CopyThemeFilesAsync(_testProjectPath, "invalid");
 
         // Assert
-        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "vibe.css");
+        var cssPath = Path.Combine(_testProjectPath, "wwwroot", "Vibe.UI.CSS");
         var content = await File.ReadAllTextAsync(cssPath);
         content.Should().Contain("--vibe-background: #ffffff");
         content.Should().NotContain(".dark");
@@ -235,3 +235,4 @@ public class ProjectServiceTests : IDisposable
         return version == null ? "0.0.0" : $"{version.Major}.{version.Minor}.{version.Build}";
     }
 }
+

@@ -68,7 +68,7 @@ public class ProjectService
         var wwwrootPath = Path.Combine(projectPath, "wwwroot");
         Directory.CreateDirectory(wwwrootPath);
 
-        var cssPath = Path.Combine(wwwrootPath, "vibe.css");
+        var cssPath = Path.Combine(wwwrootPath, "Vibe.UI.CSS");
 
         var cssContent = theme switch
         {
@@ -138,3 +138,4 @@ public class ProjectService
         return GetLightThemeCss() + "\n\n.dark {\n" + GetDarkThemeCss().Replace(":root", "  ") + "\n}";
     }
 }
+

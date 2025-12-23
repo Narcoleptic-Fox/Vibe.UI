@@ -1,11 +1,11 @@
-using Vibe.CSS.Emitter;
-using Vibe.CSS.Generator;
-using Vibe.CSS.Scanner;
+using Vibe.UI.CSS.Emitter;
+using Vibe.UI.CSS.Generator;
+using Vibe.UI.CSS.Scanner;
 
-namespace Vibe.CSS;
+namespace Vibe.UI.CSS;
 
 /// <summary>
-/// Main entry point for Vibe.CSS functionality.
+/// Main entry point for Vibe.UI.CSS functionality.
 /// </summary>
 public static class VibeCss
 {
@@ -223,3 +223,4 @@ public class ScanResult
     /// </summary>
     public List<string> UnknownClasses { get; init; } = [];
 }
+

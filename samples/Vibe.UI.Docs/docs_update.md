@@ -1,8 +1,8 @@
 # Vibe.UI.Docs Redesign Progress
 
-> **Goal**: Transform docs into a modern, React-like experience powered by Vibe.UI + Vibe.CSS utilities (no Tailwind dependency).
+> **Goal**: Transform docs into a modern, React-like experience powered by Vibe.UI + Vibe.UI.CSS utilities (no Tailwind dependency).
 
-> **Note**: Older checklist items below mention Tailwind/docs.css; those are now historical after the switch to Vibe.CSS + generated `wwwroot/css/vibe.css`.
+> **Note**: Older checklist items below mention Tailwind/docs.css; those are now historical after the switch to Vibe.UI.CSS + generated `wwwroot/css/Vibe.UI.CSS`.
 
 ## Status: 🟢 Phase 1-6 Substantially Complete
 
@@ -10,7 +10,7 @@
 **Last Updated**: 2025-12-15
 
 ### Session Progress Summary
-- [x] Switched docs styling to Vibe.CSS utilities (prefixed `vibe-*`)
+- [x] Switched docs styling to Vibe.UI.CSS utilities (prefixed `vibe-*`)
 - [x] Added JetBrains Mono font for code
 - [x] Created `_animations.css` with stagger, page transitions, micro-interactions
 - [x] Created `CopyButton.razor` with bounce animation
@@ -409,3 +409,4 @@ Build succeeded.
 ```
 
 **Application running at**: http://localhost:5200
+

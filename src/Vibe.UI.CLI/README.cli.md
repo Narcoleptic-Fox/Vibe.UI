@@ -17,7 +17,7 @@ vibe init
 
 # This creates:
 # - Vibe/ folder with base classes and services
-# - wwwroot/js/themeInterop.js
+# - wwwroot/js/vibe-theme.js
 
 # 2. Add to Program.cs:
 builder.Services.AddVibeUI();
@@ -27,7 +27,7 @@ vibe add button
 vibe add input
 vibe add card
 
-# Components are now in Components/vibe/!
+# Components are now in Components/!
 ```
 
 ## Project Structure
@@ -45,7 +45,7 @@ MyProject/
 │   └── Card.razor
 ├── wwwroot/
 │   └── js/
-│       └── themeInterop.js
+│       └── vibe-theme.js
 └── Program.cs
 ```
 
@@ -108,7 +108,7 @@ Options:
 - `--with-charts` - Include Chart.js support
 
 ### `vibe add <component>`
-Adds a component to `Components/Vibe/`.
+Adds a component to `Components/`.
 
 Options:
 - `--name <name>` - Rename component
@@ -148,7 +148,7 @@ And more! Run `vibe list` for the complete list.
 
 ## Documentation
 
-Full documentation: https://github.com/Dieshen/Vibe.UI
+Full documentation: https://narcoleptic-fox.github.io/Vibe.UI/
 
 ## Inspired by shadcn/ui
 

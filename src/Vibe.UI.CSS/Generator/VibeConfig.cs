@@ -1,7 +1,7 @@
-namespace Vibe.CSS.Generator;
+namespace Vibe.UI.CSS.Generator;
 
 /// <summary>
-/// Configuration for the Vibe.CSS generator.
+/// Configuration for the Vibe.UI.CSS generator.
 /// Defines all available utilities, spacing scales, and color palettes.
 /// </summary>
 public class VibeConfig
@@ -260,3 +260,4 @@ public class VibeConfig
     /// </summary>
     public bool EnableDarkMode { get; set; } = true;
 }
+

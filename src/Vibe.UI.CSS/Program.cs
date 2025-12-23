@@ -1,9 +1,9 @@
-// Vibe.CSS - .NET-Native CSS Framework CLI
-// Run with: dotnet run --project src/Vibe.CSS
-// Or when packaged: dotnet Vibe.CSS.dll generate <directory> -o <output.css>
+// Vibe.UI.CSS - .NET-Native CSS Framework CLI
+// Run with: dotnet run --project src/Vibe.UI.CSS
+// Or when packaged: dotnet Vibe.UI.CSS.dll generate <directory> -o <output.css>
 
-using Vibe.CSS;
-using Vibe.CSS.Generator;
+using Vibe.UI.CSS;
+using Vibe.UI.CSS.Generator;
 
 if (args.Length == 0)
 {
@@ -25,7 +25,7 @@ return command switch
 
 static int PrintUsage()
 {
-    Console.WriteLine("Vibe.CSS - .NET-Native CSS Framework");
+    Console.WriteLine("Vibe.UI.CSS - .NET-Native CSS Framework");
     Console.WriteLine("=====================================");
     Console.WriteLine();
     Console.WriteLine("Usage:");
@@ -39,7 +39,7 @@ static int PrintUsage()
     Console.WriteLine("  test       Run built-in tests");
     Console.WriteLine();
     Console.WriteLine("Generate Options:");
-    Console.WriteLine("  -o, --output <file>     Output CSS file path (default: vibe.css)");
+    Console.WriteLine("  -o, --output <file>     Output CSS file path (default: Vibe.UI.CSS)");
     Console.WriteLine("  --prefix <prefix>       CSS class prefix (default: vibe)");
     Console.WriteLine("  --allow-unprefixed [true|false] Generate unprefixed utilities too (default: false)");
     Console.WriteLine("  --with-base [true|false] Include base CSS variables (default: true)");
@@ -47,7 +47,7 @@ static int PrintUsage()
     Console.WriteLine("                          (default: *.razor,*.cshtml,*.html)");
     Console.WriteLine();
     Console.WriteLine("Examples:");
-    Console.WriteLine("  vibe-css generate . -o wwwroot/css/vibe.css");
+    Console.WriteLine("  vibe-css generate . -o wwwroot/css/Vibe.UI.CSS");
     Console.WriteLine("  vibe-css generate ./src -o output.css --prefix tw");
     Console.WriteLine("  vibe-css scan ./Components --patterns \"*.razor,*.cs\"");
     Console.WriteLine();
@@ -56,7 +56,7 @@ static int PrintUsage()
 
 static int PrintVersion()
 {
-    Console.WriteLine("Vibe.CSS version 1.0.0");
+    Console.WriteLine("Vibe.UI.CSS version 1.0.0");
     return 0;
 }
 
@@ -148,7 +148,7 @@ static int RunScan(string[] args)
 static int RunGenerate(string[] args)
 {
     var directory = Directory.GetCurrentDirectory();
-    var output = "vibe.css";
+    var output = "Vibe.UI.CSS";
     var prefix = "vibe";
     var allowUnprefixed = false;
     var includeBase = true;
@@ -208,7 +208,7 @@ static int RunGenerate(string[] args)
         return 1;
     }
 
-    Console.WriteLine($"Vibe.CSS: Generating CSS for: {directory}");
+    Console.WriteLine($"Vibe.UI.CSS: Generating CSS for: {directory}");
     Console.WriteLine($"  Output: {output}");
     Console.WriteLine($"  Prefix: {prefix}");
     Console.WriteLine($"  Allow unprefixed: {allowUnprefixed}");
@@ -245,7 +245,7 @@ static int RunGenerate(string[] args)
 
 static int RunTest()
 {
-    Console.WriteLine("Testing Vibe.CSS Generator");
+    Console.WriteLine("Testing Vibe.UI.CSS Generator");
     Console.WriteLine("==========================");
     Console.WriteLine();
 
@@ -348,3 +348,4 @@ static int RunTest()
 
     return 0;
 }
+

@@ -1,12 +1,12 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
-using Vibe.CSS;
+using Vibe.UI.CSS;
 
 namespace Vibe.UI.CLI.Commands;
 
 /// <summary>
-/// Command for generating CSS using Vibe.CSS JIT engine.
+/// Command for generating CSS using Vibe.UI.CSS JIT engine.
 /// </summary>
 public class CssCommand : AsyncCommand<CssCommand.Settings>
 {
@@ -19,8 +19,8 @@ public class CssCommand : AsyncCommand<CssCommand.Settings>
 
         [Description("Output CSS file path")]
         [CommandOption("-o|--output")]
-        [DefaultValue("wwwroot/css/vibe.css")]
-        public string OutputPath { get; init; } = "wwwroot/css/vibe.css";
+        [DefaultValue("wwwroot/css/Vibe.UI.CSS")]
+        public string OutputPath { get; init; } = "wwwroot/css/Vibe.UI.CSS";
 
         [Description("Include vibe-base.css content")]
         [CommandOption("--with-base")]
@@ -288,3 +288,4 @@ public class CssCommand : AsyncCommand<CssCommand.Settings>
         return $"{bytes / (1024.0 * 1024.0):F2} MB";
     }
 }
+

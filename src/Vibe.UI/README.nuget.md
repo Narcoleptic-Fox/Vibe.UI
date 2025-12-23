@@ -20,11 +20,11 @@ Add to your `App.razor`, `_Host.cshtml`, or `index.html`:
     <link href="_content/Vibe.UI/css/vibe-base.css" rel="stylesheet" />
 
     <!-- Scoped component styles (required) -->
-    <link href="_content/Vibe.UI/Vibe.UI.styles.css" rel="stylesheet" />
+    <link href="_content/Vibe.UI/Vibe.UI.bundle.scp.css" rel="stylesheet" />
 </head>
 ```
 
-That's it! Component styles are scoped via `.razor.css` files and bundled into `Vibe.UI.styles.css`.
+That's it! Component styles are scoped via `.razor.css` files and bundled into `Vibe.UI.bundle.scp.css`.
 
 **Optional:** Add utility classes:
 
@@ -97,4 +97,4 @@ If using the `Chart` component, add Chart.js:
 
 ## Documentation
 
-Full documentation: https://github.com/Dieshen/Vibe.UI
+Full documentation: https://narcoleptic-fox.github.io/Vibe.UI/

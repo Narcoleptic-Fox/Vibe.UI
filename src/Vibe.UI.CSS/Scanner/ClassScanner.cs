@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Vibe.CSS.Scanner;
+namespace Vibe.UI.CSS.Scanner;
 
 /// <summary>
 /// Scans source files (.razor, .cshtml, .html, .cs) for CSS class names.
@@ -311,3 +311,4 @@ public partial class ClassScanner
 
     #endregion
 }
+

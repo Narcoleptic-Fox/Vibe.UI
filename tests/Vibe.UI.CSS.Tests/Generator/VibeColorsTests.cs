@@ -1,6 +1,6 @@
-using Vibe.CSS.Generator;
+using Vibe.UI.CSS.Generator;
 
-namespace Vibe.CSS.Tests.Generator;
+namespace Vibe.UI.CSS.Tests.Generator;
 
 public class VibeColorsTests
 {
@@ -165,3 +165,4 @@ public class VibeColorsTests
 
     #endregion
 }
+

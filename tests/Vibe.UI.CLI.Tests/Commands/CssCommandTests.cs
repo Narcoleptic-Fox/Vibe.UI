@@ -7,7 +7,7 @@ using Xunit;
 namespace Vibe.UI.CLI.Tests.Commands;
 
 /// <summary>
-/// Tests for CssCommand (Vibe.CSS JIT generation via CLI).
+/// Tests for CssCommand (Vibe.UI.CSS JIT generation via CLI).
 /// Uses SpectreConsole collection to prevent parallel execution.
 /// </summary>
 [Collection("SpectreConsole")]
@@ -31,7 +31,7 @@ public class CssCommandTests : IDisposable
         var settings = new CssCommand.Settings();
 
         settings.ProjectPath.Should().Be(".");
-        settings.OutputPath.Should().Be("wwwroot/css/vibe.css");
+        settings.OutputPath.Should().Be("wwwroot/css/Vibe.UI.CSS");
         settings.IncludeBase.Should().BeTrue();
         settings.Prefix.Should().Be("vibe");
         settings.Watch.Should().BeFalse();
@@ -64,7 +64,7 @@ public class CssCommandTests : IDisposable
         // Assert
         result.Should().Be(0);
         // ScanOnly should not create output file
-        File.Exists(Path.Combine(_testProjectPath, "wwwroot", "css", "vibe.css")).Should().BeFalse();
+        File.Exists(Path.Combine(_testProjectPath, "wwwroot", "css", "Vibe.UI.CSS")).Should().BeFalse();
     }
 
     [Fact]
@@ -101,7 +101,7 @@ public class CssCommandTests : IDisposable
     {
         // Arrange
         await CreateTestRazorFileAsync("Test.razor", @"<div class=""vibe-flex vibe-p-4"">Test</div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -125,7 +125,7 @@ public class CssCommandTests : IDisposable
     {
         // Arrange
         await CreateTestRazorFileAsync("Test.razor", @"<div class=""vibe-flex vibe-p-4 vibe-bg-primary"">Test</div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -153,7 +153,7 @@ public class CssCommandTests : IDisposable
     {
         // Arrange
         await CreateTestRazorFileAsync("Test.razor", @"<div class=""vibe-flex"">Test</div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -177,7 +177,7 @@ public class CssCommandTests : IDisposable
     {
         // Arrange
         await CreateTestRazorFileAsync("Test.razor", @"<div class=""vibe-flex"">Test</div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -239,7 +239,7 @@ public class CssCommandTests : IDisposable
         await CreateTestFileAsync("Test.html", @"<div class=""vibe-hidden"">HTML</div>");
         await CreateTestFileAsync("Test.txt", @"<div class=""vibe-block"">TXT should be ignored</div>");
 
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -273,7 +273,7 @@ public class CssCommandTests : IDisposable
             <button class=""vibe-bg-primary hover:vibe-bg-secondary focus:vibe-ring-2"">
                 Button
             </button>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -302,7 +302,7 @@ public class CssCommandTests : IDisposable
             <div class=""vibe-flex sm:vibe-hidden md:vibe-block lg:vibe-grid"">
                 Content
             </div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -349,7 +349,7 @@ public class CssCommandTests : IDisposable
     public async Task ExecuteAsync_EmptyDirectory_ReturnsSuccess()
     {
         // Arrange - Empty directory with no files
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -380,7 +380,7 @@ public class CssCommandTests : IDisposable
             <div class=""vibe-bg-red-500 vibe-text-blue-600 vibe-border-emerald-300"">
                 Colored content
             </div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -409,7 +409,7 @@ public class CssCommandTests : IDisposable
             <div class=""vibe-bg-red-500/50 vibe-text-blue-600/75"">
                 Semi-transparent
             </div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -442,7 +442,7 @@ public class CssCommandTests : IDisposable
             <div class=""vibe-w-[500px] vibe-p-[1.5rem] vibe-mt-[20px]"">
                 Arbitrary values
             </div>");
-        var outputPath = Path.Combine(_testProjectPath, "output", "vibe.css");
+        var outputPath = Path.Combine(_testProjectPath, "output", "Vibe.UI.CSS");
 
         var settings = new CssCommand.Settings
         {
@@ -505,3 +505,4 @@ public class CssCommandTests : IDisposable
         }
     }
 }
+

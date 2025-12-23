@@ -1,7 +1,7 @@
-namespace Vibe.CSS.Generator;
+namespace Vibe.UI.CSS.Generator;
 
 /// <summary>
-/// Vibe.CSS color palette (Tailwind-compatible).
+/// Vibe.UI.CSS color palette (Tailwind-compatible).
 /// Used for JIT generation of color utilities.
 /// </summary>
 public static class VibeColors
@@ -383,3 +383,4 @@ public static class VibeColors
                Special.ContainsKey(colorName.ToLowerInvariant());
     }
 }
+

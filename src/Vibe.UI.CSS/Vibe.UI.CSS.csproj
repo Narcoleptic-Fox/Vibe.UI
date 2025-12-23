@@ -6,9 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UseSharedCompilation>false</UseSharedCompilation>
-    <PackageId>Vibe.CSS</PackageId>
+    <PackageId>Vibe.UI.CSS</PackageId>
     <Version>1.0.0-alpha</Version>
-    <Title>Vibe.CSS - .NET-Native CSS Framework</Title>
+    <Title>Vibe.UI.CSS - .NET-Native CSS Framework</Title>
     <Authors>Narcoleptic Fox</Authors>
     <Description>A .NET-native CSS utility framework with JIT generation. No Node.js required.
 
@@ -30,13 +30,14 @@
 
   <!-- Embed vibe-base.css as resource -->
   <ItemGroup>
-    <EmbeddedResource Include="Data\vibe-base.css" LogicalName="Vibe.CSS.vibe-base.css" />
+    <EmbeddedResource Include="Data\vibe-base.css" LogicalName="Vibe.UI.CSS.vibe-base.css" />
   </ItemGroup>
 
   <!-- Include MSBuild targets -->
   <ItemGroup>
-    <None Include="Build\Vibe.CSS.targets" Pack="true" PackagePath="build" />
-    <None Include="Build\Vibe.CSS.targets" Pack="true" PackagePath="buildTransitive" />
+    <None Include="Build\Vibe.UI.CSS.targets" Pack="true" PackagePath="build" />
+    <None Include="Build\Vibe.UI.CSS.targets" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
 
 </Project>
+

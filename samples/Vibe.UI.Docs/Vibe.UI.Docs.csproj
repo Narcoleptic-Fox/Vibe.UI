@@ -5,18 +5,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <!-- Vibe.CSS (JIT utility CSS) for docs site styling -->
+    <!-- Vibe.UI.CSS (JIT utility CSS) for docs site styling -->
     <VibeCssEnabled Condition="'$(VibeCssEnabled)' == ''">true</VibeCssEnabled>
     <VibeCssPrefix Condition="'$(VibeCssPrefix)' == ''">vibe</VibeCssPrefix>
     <VibeCssAllowUnprefixed Condition="'$(VibeCssAllowUnprefixed)' == ''">false</VibeCssAllowUnprefixed>
     <VibeCssScanRoot Condition="'$(VibeCssScanRoot)' == ''">$(MSBuildProjectDirectory)</VibeCssScanRoot>
-    <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\vibe.css</VibeCssOutput>
+    <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\Vibe.UI.CSS</VibeCssOutput>
     <VibeCssIncludeBase Condition="'$(VibeCssIncludeBase)' == ''">true</VibeCssIncludeBase>
     <VibeCssScanPatterns Condition="'$(VibeCssScanPatterns)' == ''">*.razor,*.cshtml,*.html,*.cs</VibeCssScanPatterns>
 
-    <_VibeCssProjectPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\Vibe.CSS.csproj</_VibeCssProjectPath>
-    <_VibeCssAssemblyPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\bin\$(Configuration)\net9.0\Vibe.CSS.dll</_VibeCssAssemblyPath>
-    <_VibeCssAssetsPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.CSS\obj\project.assets.json</_VibeCssAssetsPath>
+    <_VibeCssProjectPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.UI.CSS\Vibe.UI.CSS.csproj</_VibeCssProjectPath>
+    <_VibeCssAssemblyPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.UI.CSS\bin\$(Configuration)\net9.0\Vibe.UI.CSS.dll</_VibeCssAssemblyPath>
+    <_VibeCssAssetsPath>$(MSBuildProjectDirectory)\..\..\src\Vibe.UI.CSS\obj\project.assets.json</_VibeCssAssetsPath>
 
     <!-- MSBuild doesn't always populate $(DotNetExe) depending on invocation context -->
     <DotNetExe Condition="'$(DotNetExe)' == ''">dotnet</DotNetExe>
@@ -40,8 +40,8 @@
   <Target Name="GenerateVibeCss"
           AfterTargets="Build"
           Condition="'$(VibeCssEnabled)' == 'true'">
-    <Message Importance="high" Text="Vibe.CSS: Generating docs CSS -> $(VibeCssOutput)" />
-    <!-- Restore/build Vibe.CSS if needed, then run the built assembly to avoid `dotnet run` locking issues during parallel builds. -->
+    <Message Importance="high" Text="Vibe.UI.CSS: Generating docs CSS -> $(VibeCssOutput)" />
+    <!-- Restore/build Vibe.UI.CSS if needed, then run the built assembly to avoid `dotnet run` locking issues during parallel builds. -->
     <MSBuild Projects="$(_VibeCssProjectPath)"
              Targets="Restore;Build"
              Properties="Configuration=$(Configuration);UseSharedCompilation=false"
@@ -51,3 +51,4 @@
   </Target>
 
 </Project>
+

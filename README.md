@@ -34,11 +34,11 @@ A comprehensive Blazor component library inspired by Shadcn UI, built with Razor
 - **Comprehensive Testing** - Unit and integration tests with bUnit and xUnit
 - **Demo Application** - Interactive showcase of all components
 
-## Vibe.CSS
+## Vibe.UI.CSS
 
-Vibe.CSS is the utility-first companion (Tailwind-style) for Vibe.UI.
+Vibe.UI.CSS is the utility-first companion (Tailwind-style) for Vibe.UI.
 
-- Tailwind parity roadmap: `docs/Vibe.CSS.TailwindParity.md`
+- Tailwind parity roadmap: `docs/Vibe.UI.CSS.TailwindParity.md`
 
 ## shadcn/ui Parity
 
@@ -70,7 +70,7 @@ vibe add card
 - ✅ Zero package dependencies
 - ✅ shadcn/ui style workflow
 
-Infrastructure goes in `Vibe/`, components in `Components/vibe/`.
+Infrastructure goes in `Vibe/`, components in `Components/`.
 
 ### Option 2: NuGet Package
 
@@ -570,7 +570,7 @@ Please read our [Code of Conduct](.github/CODE_OF_CONDUCT.md) before contributin
 
 - **Issues**: [GitHub Issues](https://github.com/Dieshen/Vibe.UI/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Dieshen/Vibe.UI/discussions)
-- **Documentation**: [Full Documentation](https://github.com/Dieshen/Vibe.UI)
+- **Documentation**: [Full Documentation](https://narcoleptic-fox.github.io/Vibe.UI/)
 
 ## Project Structure
 
@@ -603,8 +603,8 @@ As an alpha release, Vibe.UI has some known limitations we're actively working o
 - **Dark mode**: Some components rely on CSS variable inheritance rather than explicit dark mode rules
 - **Accessibility**: Continuous improvements to ARIA attributes and keyboard navigation
 
-### Vibe.CSS
-- **Utility coverage**: Not all Tailwind utilities are implemented yet (see `docs/Vibe.CSS.TailwindParity.md`)
+### Vibe.UI.CSS
+- **Utility coverage**: Not all Tailwind utilities are implemented yet (see `docs/Vibe.UI.CSS.TailwindParity.md`)
 - **Responsive variants**: Some responsive breakpoint variants are still in progress
 
 ### CLI
@@ -612,7 +612,7 @@ As an alpha release, Vibe.UI has some known limitations we're actively working o
 
 For detailed roadmaps, see:
 - `docs/Vibe.UI.ShadcnParity.md` - Component parity with shadcn/ui
-- `docs/Vibe.CSS.TailwindParity.md` - Utility parity with Tailwind CSS
+- `docs/Vibe.UI.CSS.TailwindParity.md` - Utility parity with Tailwind CSS
 - `docs/Alpha-0.1.0-Checklist.md` - Alpha release checklist
 
 ## Sponsorship
@@ -625,3 +625,4 @@ Love Vibe.UI? Consider supporting its development:
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details
+

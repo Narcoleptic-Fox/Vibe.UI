@@ -3,7 +3,7 @@
   <!-- Default properties -->
   <PropertyGroup>
     <VibeCssEnabled Condition="'$(VibeCssEnabled)' == ''">true</VibeCssEnabled>
-    <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\vibe.css</VibeCssOutput>
+    <VibeCssOutput Condition="'$(VibeCssOutput)' == ''">$(MSBuildProjectDirectory)\wwwroot\css\Vibe.UI.CSS</VibeCssOutput>
     <VibeCssPrefix Condition="'$(VibeCssPrefix)' == ''">vibe</VibeCssPrefix>
     <VibeCssIncludeBase Condition="'$(VibeCssIncludeBase)' == ''">true</VibeCssIncludeBase>
     <VibeCssScanPatterns Condition="'$(VibeCssScanPatterns)' == ''">*.razor,*.cshtml,*.html</VibeCssScanPatterns>
@@ -11,9 +11,9 @@
     <VibeCssFailOnMissingTool Condition="'$(VibeCssFailOnMissingTool)' == ''">false</VibeCssFailOnMissingTool>
 
     <!-- Tool assembly path resolution (package-relative) -->
-    <_VibeCssToolFromTools>$(MSBuildThisFileDirectory)..\tools\net9.0\Vibe.CSS.dll</_VibeCssToolFromTools>
-    <_VibeCssToolFromToolsAny>$(MSBuildThisFileDirectory)..\tools\net9.0\any\Vibe.CSS.dll</_VibeCssToolFromToolsAny>
-    <_VibeCssToolFromLib>$(MSBuildThisFileDirectory)..\lib\net9.0\Vibe.CSS.dll</_VibeCssToolFromLib>
+    <_VibeCssToolFromTools>$(MSBuildThisFileDirectory)..\tools\net9.0\Vibe.UI.CSS.dll</_VibeCssToolFromTools>
+    <_VibeCssToolFromToolsAny>$(MSBuildThisFileDirectory)..\tools\net9.0\any\Vibe.UI.CSS.dll</_VibeCssToolFromToolsAny>
+    <_VibeCssToolFromLib>$(MSBuildThisFileDirectory)..\lib\net9.0\Vibe.UI.CSS.dll</_VibeCssToolFromLib>
 
     <VibeCssToolPath Condition="'$(VibeCssToolPath)' == '' and Exists('$(_VibeCssToolFromTools)')">$(_VibeCssToolFromTools)</VibeCssToolPath>
     <VibeCssToolPath Condition="'$(VibeCssToolPath)' == '' and Exists('$(_VibeCssToolFromToolsAny)')">$(_VibeCssToolFromToolsAny)</VibeCssToolPath>
@@ -26,7 +26,7 @@
           BeforeTargets="BeforeBuild"
           Condition="'$(VibeCssEnabled)' == 'true'">
 
-    <Message Importance="high" Text="Vibe.CSS: Generating CSS from $(MSBuildProjectDirectory)..." />
+    <Message Importance="high" Text="Vibe.UI.CSS: Generating CSS from $(MSBuildProjectDirectory)..." />
 
     <!-- Determine include-base flag -->
     <PropertyGroup>
@@ -35,12 +35,12 @@
     </PropertyGroup>
 
     <Error Condition="!Exists('$(VibeCssToolPath)') and '$(VibeCssFailOnMissingTool)' == 'true'"
-           Text="Vibe.CSS: Tool assembly not found at $(VibeCssToolPath). Set VibeCssToolPath or update your Vibe.CSS package restore." />
+           Text="Vibe.UI.CSS: Tool assembly not found at $(VibeCssToolPath). Set VibeCssToolPath or update your Vibe.UI.CSS package restore." />
 
     <Warning Condition="!Exists('$(VibeCssToolPath)') and '$(VibeCssFailOnMissingTool)' != 'true' and '$(VibeCssUseDotnetToolFallback)' != 'true'"
-             Text="Vibe.CSS: Tool assembly not found at $(VibeCssToolPath); skipping CSS generation. Set VibeCssToolPath or set VibeCssUseDotnetToolFallback=true to try a dotnet tool." />
+             Text="Vibe.UI.CSS: Tool assembly not found at $(VibeCssToolPath); skipping CSS generation. Set VibeCssToolPath or set VibeCssUseDotnetToolFallback=true to try a dotnet tool." />
 
-    <!-- Call Vibe.CSS via dotnet exec (preferred when referenced via PackageReference) -->
+    <!-- Call Vibe.UI.CSS via dotnet exec (preferred when referenced via PackageReference) -->
     <Exec Command="dotnet &quot;$(VibeCssToolPath)&quot; generate &quot;$(MSBuildProjectDirectory)&quot; -o &quot;$(VibeCssOutput)&quot; --prefix $(VibeCssPrefix) $(_VibeCssIncludeBaseArg) --patterns=$(VibeCssScanPatterns)"
           Condition="Exists('$(VibeCssToolPath)')"
           ConsoleToMSBuild="true"
@@ -54,13 +54,14 @@
           StandardOutputImportance="Normal"
           StandardErrorImportance="High" />
 
-    <Message Importance="high" Text="Vibe.CSS: Generated $(VibeCssOutput)" Condition="Exists('$(VibeCssOutput)')" />
+    <Message Importance="high" Text="Vibe.UI.CSS: Generated $(VibeCssOutput)" Condition="Exists('$(VibeCssOutput)')" />
   </Target>
 
   <!-- Clean generated CSS -->
   <Target Name="VibeCssClean" AfterTargets="Clean">
     <Delete Files="$(VibeCssOutput)" Condition="Exists('$(VibeCssOutput)')" />
-    <Message Importance="Normal" Text="Vibe.CSS: Cleaned $(VibeCssOutput)" />
+    <Message Importance="Normal" Text="Vibe.UI.CSS: Cleaned $(VibeCssOutput)" />
   </Target>
 
 </Project>
+

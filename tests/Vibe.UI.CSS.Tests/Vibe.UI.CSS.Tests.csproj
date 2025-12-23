@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Vibe.CSS\Vibe.CSS.csproj" />
+    <ProjectReference Include="..\..\src\Vibe.UI.CSS\Vibe.UI.CSS.csproj" />
   </ItemGroup>
 
 </Project>

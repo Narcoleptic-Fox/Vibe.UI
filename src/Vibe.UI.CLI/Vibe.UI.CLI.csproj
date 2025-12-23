@@ -30,7 +30,7 @@
       </ItemGroup>
 
       <ItemGroup>
-            <ProjectReference Include="..\Vibe.CSS\Vibe.CSS.csproj" />
+            <ProjectReference Include="..\Vibe.UI.CSS\Vibe.UI.CSS.csproj" />
       </ItemGroup>
 
       <ItemGroup>
@@ -162,3 +162,4 @@
       </ItemGroup>
 
 </Project>
+

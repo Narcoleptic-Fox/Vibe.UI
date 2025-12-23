@@ -36,7 +36,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         [DefaultValue(false)]
         public bool WithCharts { get; init; }
 
-        [Description("Add Vibe.CSS package reference for build-time CSS generation")]
+        [Description("Add Vibe.UI.CSS package reference for build-time CSS generation")]
         [CommandOption("--with-css")]
         [DefaultValue(false)]
         public bool WithCss { get; init; }
@@ -116,11 +116,11 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                 // Update vibe-base.css with selected color scheme
                 await ApplyColorSchemeAsync(settings.ProjectPath, baseColor);
 
-                // Add Vibe.CSS package reference (only if --with-css is specified)
-                // This is opt-in because the Vibe.CSS package may not be published to NuGet yet
+                // Add Vibe.UI.CSS package reference (only if --with-css is specified)
+                // This is opt-in because the Vibe.UI.CSS package may not be published to NuGet yet
                 if (settings.WithCss)
                 {
-                    ctx.Status("Adding Vibe.CSS package reference...");
+                    ctx.Status("Adding Vibe.UI.CSS package reference...");
                     csprojPath = FindCsprojFile(settings.ProjectPath);
                     if (csprojPath != null)
                     {
@@ -136,17 +136,17 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
         if (vibeCssAdded)
         {
-            AnsiConsole.MarkupLine($"[grey]Vibe.CSS package added to {Path.GetFileName(csprojPath)}[/]");
+            AnsiConsole.MarkupLine($"[grey]Vibe.UI.CSS package added to {Path.GetFileName(csprojPath)}[/]");
         }
         else if (settings.WithCss && csprojPath == null)
         {
-            AnsiConsole.MarkupLine($"[yellow]Warning:[/] No .csproj file found. Run [yellow]dotnet add package Vibe.CSS[/] manually.");
+            AnsiConsole.MarkupLine($"[yellow]Warning:[/] No .csproj file found. Run [yellow]dotnet add package Vibe.UI.CSS[/] manually.");
         }
 
         AnsiConsole.MarkupLine($"\n[blue]Next steps:[/]");
         if (settings.WithCss)
         {
-            AnsiConsole.MarkupLine($"  1. Add [yellow]<link href=\"css/vibe.css\" rel=\"stylesheet\" />[/] to your index.html");
+            AnsiConsole.MarkupLine($"  1. Add [yellow]<link href=\"css/Vibe.UI.CSS\" rel=\"stylesheet\" />[/] to your index.html");
             AnsiConsole.MarkupLine($"  2. Run [yellow]vibe css --watch[/] during development (or rely on build-time generation)");
             AnsiConsole.MarkupLine($"  3. Add [yellow]<ThemeToggle />[/] to your layout for light/dark mode");
             AnsiConsole.MarkupLine($"  4. Run [yellow]vibe add button[/] to add your first component");
@@ -586,7 +586,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
     }
 
     /// <summary>
-    /// Adds Vibe.CSS package reference and MSBuild targets to the project file.
+    /// Adds Vibe.UI.CSS package reference and MSBuild targets to the project file.
     /// </summary>
     private static async Task<bool> AddVibeCssToProjectAsync(string csprojPath)
     {
@@ -601,9 +601,9 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             var ns = root.GetDefaultNamespace();
             var modified = false;
 
-            // Check if Vibe.CSS is already referenced
+            // Check if Vibe.UI.CSS is already referenced
             var existingReference = root.Descendants(ns + "PackageReference")
-                .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
+                .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.UI.CSS");
 
             if (existingReference == null)
             {
@@ -617,9 +617,9 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                     root.Add(packageItemGroup);
                 }
 
-                // Add Vibe.CSS package reference
+                // Add Vibe.UI.CSS package reference
                 var vibeCssReference = new XElement(ns + "PackageReference",
-                    new XAttribute("Include", "Vibe.CSS"),
+                    new XAttribute("Include", "Vibe.UI.CSS"),
                     new XAttribute("Version", CliVersion.Current));
 
                 packageItemGroup.Add(vibeCssReference);
@@ -633,9 +633,9 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             {
                 // Add VibeCss configuration PropertyGroup
                 var vibeCssPropertyGroup = new XElement(ns + "PropertyGroup",
-                    new XComment(" Vibe.CSS JIT Configuration "),
+                    new XComment(" Vibe.UI.CSS JIT Configuration "),
                     new XElement(ns + "VibeCssEnabled", "true"),
-                    new XElement(ns + "VibeCssOutput", "wwwroot/css/vibe.css"),
+                    new XElement(ns + "VibeCssOutput", "wwwroot/css/Vibe.UI.CSS"),
                     new XElement(ns + "VibeCssIncludeBase", "true"));
 
                 // Insert after the first PropertyGroup
@@ -667,3 +667,4 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         }
     }
 }
+

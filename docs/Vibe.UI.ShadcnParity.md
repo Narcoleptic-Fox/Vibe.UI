@@ -2,7 +2,7 @@
 
 Goal: make `Vibe.UI` feel like “shadcn/ui for Blazor/.NET”: beautiful defaults, composable primitives, predictable APIs, and a copy‑into‑your‑app workflow that stays ergonomic as the library grows.
 
-This document is a pragmatic checklist (phased) rather than a strict 1:1 port. Some shadcn/ui pieces map to `Vibe.CSS` (utilities) and some map to `Vibe.UI` (components + patterns).
+This document is a pragmatic checklist (phased) rather than a strict 1:1 port. Some shadcn/ui pieces map to `Vibe.UI.CSS` (utilities) and some map to `Vibe.UI` (components + patterns).
 
 ## Current Inventory (Repo Snapshot)
 
@@ -33,7 +33,7 @@ In this context:
 ### What we already have (today)
 
 - Theming model: CSS variables (`--vibe-*`) + `.dark` class toggling (shadcn-like).
-  - Source: `src/Vibe.CSS/Data/vibe-base.css` (tokens + reset) and component styles using `var(--vibe-*)`.
+  - Source: `src/Vibe.UI.CSS/Data/vibe-base.css` (tokens + reset) and component styles using `var(--vibe-*)`.
   - Runtime toggling: `src/Vibe.UI/wwwroot/js/vibe-theme.js` + `ThemeToggle`/`ThemeProvider` components.
 - Styling approach: components ship with `.razor.css` and are designed to work with tokens out of the box.
 - Component class/attrs model: common `Class` + `AdditionalAttributes` pattern via `src/Vibe.UI/Base/VibeComponent.cs` (`VibeComponent`).
@@ -101,9 +101,9 @@ These are often what makes a shadcn site feel like a shadcn site.
 - [ ] `Carousel` parity: touch, snap, buttons, dots
 - [ ] `Sheet/Drawer` parity: placement variants, focus/scroll
 
-## Phase 3 — Theming + Styling Model (Vibe.UI ↔ Vibe.CSS contract)
+## Phase 3 — Theming + Styling Model (Vibe.UI ↔ Vibe.UI.CSS contract)
 
-- [ ] Define the contract between Vibe.UI and Vibe.CSS:
+- [ ] Define the contract between Vibe.UI and Vibe.UI.CSS:
   - Vibe.UI uses semantic tokens (`--vibe-*`) and/or `vibe-*` utilities
   - minimal bespoke component CSS where possible
 - [ ] Ensure every component has:
@@ -137,3 +137,4 @@ shadcn/ui parity is as much workflow as it is visuals.
 1) Pick 10 “flagship” components to perfect first (the ones used on the docs landing + component pages).
 2) Add visual regression screenshots to CI for those pages (home/components/button/input + overlays).
 3) Iterate tokens + focus/disabled states until the suite looks consistently “shadcn”.
+

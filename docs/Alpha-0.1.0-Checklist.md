@@ -3,7 +3,7 @@
 > Note: This checklist targets the `1.0.0-alpha` release (the filename is historical).
 
 ### Docs site (`samples/Vibe.UI.Docs`)
-- [x] `dotnet build samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj -c Release` succeeds and regenerates `samples/Vibe.UI.Docs/wwwroot/css/vibe.css`
+- [x] `dotnet build samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj -c Release` succeeds and regenerates `samples/Vibe.UI.Docs/wwwroot/css/Vibe.UI.CSS`
 - [x] No Tailwind import/usage (no CDN, no `@tailwind`, no Tailwind build pipeline)
 - [x] No legacy Bootstrap template leftovers shipped/linked (NavMenu/Bootstrap assets removed or not referenced)
 - [x] Top-nav UX feels consistent (Docs + Components + search + theme toggle); no sidebar dependency
@@ -11,7 +11,7 @@
 - [x] Command palette hotkey works (`Ctrl/Cmd+K`) and search results route correctly
 - [x] Light + dark mode visually coherent (background, overlays, code blocks, links)
 
-### Vibe.CSS (`src/Vibe.CSS`)
+### Vibe.UI.CSS (`src/Vibe.UI.CSS`)
 - [x] Docs generation works via MSBuild hook in `samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj`
 - [x] Variants work in docs patterns (`dark:*`, `hover:*`, `group-hover:*`, responsive variants)
 - [x] Core "shadcn docs" utilities covered (spacing/layout/typography/borders/rings/gradients/transforms)
@@ -47,8 +47,9 @@
 - [x] "Getting Started" + "Installation" docs match the current CLI behavior/options
 
 ### Release hygiene
-- [x] Version numbers set for alpha (`1.0.0-alpha`) in shipping package projects (`src/Vibe.UI`, `src/Vibe.CSS`, `src/Vibe.UI.CLI`)
+- [x] Version numbers set for alpha (`1.0.0-alpha`) in shipping package projects (`src/Vibe.UI`, `src/Vibe.UI.CSS`, `src/Vibe.UI.CLI`)
 - [x] Clear "alpha" messaging in README / docs (dogfooding expectations)
 - [x] Known limitations documented (utility gaps, missing variants, component rough edges)
   - Added "Known Limitations" section to README.md
   - References roadmap docs for detailed information
+

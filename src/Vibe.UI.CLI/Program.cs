@@ -27,9 +27,9 @@ app.Configure(config =>
         .WithExample(new[] { "update" });
 
     config.AddCommand<CssCommand>("css")
-        .WithDescription("Generate CSS using Vibe.CSS JIT engine")
+        .WithDescription("Generate CSS using Vibe.UI.CSS JIT engine")
         .WithExample(new[] { "css" })
-        .WithExample(new[] { "css", ".", "-o", "wwwroot/css/vibe.css" })
+        .WithExample(new[] { "css", ".", "-o", "wwwroot/css/Vibe.UI.CSS" })
         .WithExample(new[] { "css", "--watch" })
         .WithExample(new[] { "css", "--scan-only" });
 });
@@ -43,3 +43,4 @@ AnsiConsole.Write(
 AnsiConsole.MarkupLine($"[grey]v{CliVersion.Current}[/]\n");
 
 return await app.RunAsync(args);
+

@@ -1,6 +1,6 @@
-using Vibe.CSS.Scanner;
+using Vibe.UI.CSS.Scanner;
 
-namespace Vibe.CSS.Tests.Scanner;
+namespace Vibe.UI.CSS.Tests.Scanner;
 
 public class ClassScannerTests
 {
@@ -269,3 +269,4 @@ public class ClassScannerTests
 
     #endregion
 }
+

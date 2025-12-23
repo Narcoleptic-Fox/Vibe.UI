@@ -234,7 +234,7 @@ public class InitCommandTests : IDisposable
         config.CssVariables.Should().BeTrue();
     }
 
-    #region Vibe.CSS Integration Tests
+    #region Vibe.UI.CSS Integration Tests
 
     [Fact]
     public async Task ExecuteAsync_WithCss_AddsVibeCssPackageReference()
@@ -254,7 +254,7 @@ public class InitCommandTests : IDisposable
         {
             SkipPrompts = true,
             ProjectPath = _testProjectPath,
-            WithCss = true  // Explicitly enable Vibe.CSS
+            WithCss = true  // Explicitly enable Vibe.UI.CSS
         };
 
         var context = new CommandContext(
@@ -272,9 +272,9 @@ public class InitCommandTests : IDisposable
         var ns = doc.Root!.GetDefaultNamespace();
 
         var vibeCssRef = doc.Descendants(ns + "PackageReference")
-            .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
+            .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.UI.CSS");
 
-        vibeCssRef.Should().NotBeNull("Vibe.CSS package reference should be added with --with-css");
+        vibeCssRef.Should().NotBeNull("Vibe.UI.CSS package reference should be added with --with-css");
         vibeCssRef!.Attribute("Version")?.Value.Should().Be(GetCliVersion());
     }
 
@@ -308,7 +308,7 @@ public class InitCommandTests : IDisposable
         {
             SkipPrompts = true,
             ProjectPath = _testProjectPath,
-            WithCss = true  // Explicitly enable Vibe.CSS
+            WithCss = true  // Explicitly enable Vibe.UI.CSS
         };
 
         var context = new CommandContext(
@@ -333,7 +333,7 @@ public class InitCommandTests : IDisposable
         vibeCssEnabled!.Value.Should().Be("true");
 
         vibeCssOutput.Should().NotBeNull("VibeCssOutput should be added with --with-css");
-        vibeCssOutput!.Value.Should().Be("wwwroot/css/vibe.css");
+        vibeCssOutput!.Value.Should().Be("wwwroot/css/Vibe.UI.CSS");
 
         vibeCssIncludeBase.Should().NotBeNull("VibeCssIncludeBase should be added with --with-css");
         vibeCssIncludeBase!.Value.Should().Be("true");
@@ -375,9 +375,9 @@ public class InitCommandTests : IDisposable
         var ns = doc.Root!.GetDefaultNamespace();
 
         var vibeCssRef = doc.Descendants(ns + "PackageReference")
-            .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.CSS");
+            .FirstOrDefault(pr => pr.Attribute("Include")?.Value == "Vibe.UI.CSS");
 
-        vibeCssRef.Should().BeNull("Vibe.CSS package reference should NOT be added by default");
+        vibeCssRef.Should().BeNull("Vibe.UI.CSS package reference should NOT be added by default");
 
         var vibeCssEnabled = doc.Descendants(ns + "VibeCssEnabled").FirstOrDefault();
         vibeCssEnabled.Should().BeNull("VibeCssEnabled should NOT be added by default");
@@ -394,11 +394,11 @@ public class InitCommandTests : IDisposable
   </PropertyGroup>
   <PropertyGroup>
     <VibeCssEnabled>true</VibeCssEnabled>
-    <VibeCssOutput>wwwroot/css/vibe.css</VibeCssOutput>
+    <VibeCssOutput>wwwroot/css/Vibe.UI.CSS</VibeCssOutput>
     <VibeCssIncludeBase>true</VibeCssIncludeBase>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include=""Vibe.CSS"" Version=""1.0.0"" />
+    <PackageReference Include=""Vibe.UI.CSS"" Version=""1.0.0"" />
   </ItemGroup>
 </Project>");
 
@@ -406,7 +406,7 @@ public class InitCommandTests : IDisposable
         {
             SkipPrompts = true,
             ProjectPath = _testProjectPath,
-            WithCss = true  // Explicitly enable Vibe.CSS
+            WithCss = true  // Explicitly enable Vibe.UI.CSS
         };
 
         var context = new CommandContext(
@@ -424,10 +424,10 @@ public class InitCommandTests : IDisposable
         var ns = doc.Root!.GetDefaultNamespace();
 
         var vibeCssRefs = doc.Descendants(ns + "PackageReference")
-            .Where(pr => pr.Attribute("Include")?.Value == "Vibe.CSS")
+            .Where(pr => pr.Attribute("Include")?.Value == "Vibe.UI.CSS")
             .ToList();
 
-        vibeCssRefs.Should().HaveCount(1, "Should not duplicate Vibe.CSS reference");
+        vibeCssRefs.Should().HaveCount(1, "Should not duplicate Vibe.UI.CSS reference");
 
         var vibeCssEnabledElements = doc.Descendants(ns + "VibeCssEnabled").ToList();
         vibeCssEnabledElements.Should().HaveCount(1, "Should not duplicate VibeCssEnabled");
@@ -467,3 +467,4 @@ public class InitCommandTests : IDisposable
         }
     }
 }
+
