@@ -22,21 +22,26 @@ jobs:
 
     - name: Restore dependencies
       run: |
+        dotnet restore src/Vibe.UI.CSS/Vibe.UI.CSS.csproj
         dotnet restore src/Vibe.UI/Vibe.UI.csproj
         dotnet restore src/Vibe.UI.CLI/Vibe.UI.CLI.csproj
+        dotnet restore tests/Vibe.UI.CSS.Tests/Vibe.UI.CSS.Tests.csproj
         dotnet restore tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj
         dotnet restore tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj
 
     - name: Build
       run: |
         # TODO(beta): Re-enable TreatWarningsAsErrors after warning cleanup.
+        dotnet build src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=false
         dotnet build src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=false
         dotnet build src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=false
+        dotnet build tests/Vibe.UI.CSS.Tests/Vibe.UI.CSS.Tests.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=false
         dotnet build tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=false
         dotnet build tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=false
 
     - name: Run tests with coverage
       run: |
+        dotnet test tests/Vibe.UI.CSS.Tests/Vibe.UI.CSS.Tests.csproj --configuration Release --no-build --verbosity normal -p:TreatWarningsAsErrors=false --collect:"XPlat Code Coverage" --results-directory ./coverage
         dotnet test tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj --configuration Release --no-build --verbosity normal -p:TreatWarningsAsErrors=false --collect:"XPlat Code Coverage" --results-directory ./coverage
         dotnet test tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj --configuration Release --no-build --verbosity normal -p:TreatWarningsAsErrors=false --collect:"XPlat Code Coverage" --results-directory ./coverage
 
