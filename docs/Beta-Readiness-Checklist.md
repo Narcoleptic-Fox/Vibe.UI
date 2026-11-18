@@ -46,7 +46,7 @@ This checklist targets the `1.0.0-beta` release line. Beta means Vibe.UI is read
 - [x] Browser smoke tests verify package assets, DI registration, and Vibe.UI component interactivity across supported hosting models.
 - [x] Compatibility browser smoke tests can run under Chromium, Firefox, and WebKit via `BROWSER`.
 - [x] Compatibility tests support externally managed app URLs through `VIBE_STANDALONE_BASE_URL` and `VIBE_WEBAPP_BASE_URL`.
-- [x] Compatibility fixtures are included in `Vibe.sln`.
+- [x] Compatibility fixtures are included in `Vibe.slnx`.
 - [x] Compatibility behavior is documented in `docs/Compatibility.md`.
 - [x] Hosted package-mode CSS generation uses a single server-owned `wwwroot/css/Vibe.UI.CSS` and survives an immediate repeat build on Windows/.NET SDK `10.0.301`.
 - [x] 100% direct component unit coverage is complete; see `docs/Beta-Component-Hardening.md`.
@@ -92,7 +92,7 @@ This checklist targets the `1.0.0-beta` release line. Beta means Vibe.UI is read
 Run these before cutting the beta release:
 
 ```bash
-dotnet restore Vibe.sln
+dotnet restore Vibe.slnx
 npm --prefix src/Vibe.UI/ts-src ci
 npm --prefix src/Vibe.UI/ts-src test
 npm --prefix src/Vibe.UI/ts-src run deploy
@@ -100,7 +100,7 @@ npm --prefix samples/Vibe.UI.Docs/ts-src ci
 npm --prefix samples/Vibe.UI.Docs/ts-src test
 npm --prefix samples/Vibe.UI.Docs/ts-src run deploy
 git diff --exit-code -- src/Vibe.UI/wwwroot/js/vibe-chart.js samples/Vibe.UI.Docs/wwwroot/js/chart.umd.js samples/Vibe.UI.Docs/wwwroot/js/shiki-interop.js samples/Vibe.UI.Docs/wwwroot/js/docs.js
-dotnet build Vibe.sln --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+dotnet build Vibe.slnx --configuration Release --no-restore -p:TreatWarningsAsErrors=true
 dotnet run --project src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-build -- scan src/Vibe.UI --patterns "*.razor,*.cshtml,*.html,*.cs" --fail-on-unknown
 dotnet run --project src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-build -- scan src/Vibe.UI.CLI --patterns "*.razor,*.cshtml,*.html,*.cs" --fail-on-unknown
 dotnet run --project src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-build -- scan samples/Vibe.UI.Docs --patterns "*.razor,*.cshtml,*.html,*.cs" --fail-on-unknown --ignore "vibe-theme,vibe-my-app-theme,vibe-theme-toggle"

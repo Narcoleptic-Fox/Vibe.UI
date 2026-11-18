@@ -301,7 +301,7 @@ internal static class CompatibilityServerManager
         var dir = AppContext.BaseDirectory;
         while (!string.IsNullOrEmpty(dir))
         {
-            if (File.Exists(Path.Combine(dir, "Vibe.sln")))
+            if (File.Exists(Path.Combine(dir, "Vibe.slnx")))
             {
                 return dir;
             }

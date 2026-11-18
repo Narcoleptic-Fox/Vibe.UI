@@ -193,7 +193,7 @@ internal static class VisualRegression
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory != null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "Vibe.sln")))
+            if (File.Exists(Path.Combine(directory.FullName, "Vibe.slnx")))
             {
                 return directory.FullName;
             }
@@ -202,7 +202,7 @@ internal static class VisualRegression
         }
 
         throw new DirectoryNotFoundException(
-            $"Could not find Vibe.sln above '{AppContext.BaseDirectory}'.");
+            $"Could not find Vibe.slnx above '{AppContext.BaseDirectory}'.");
     }
 
     private static bool ShouldUpdateBaselines() =>

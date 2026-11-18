@@ -253,7 +253,7 @@ public sealed class VibeCssTargetsTests : IDisposable
 
         while (current is not null)
         {
-            if (File.Exists(Path.Combine(current.FullName, "Vibe.sln")))
+            if (File.Exists(Path.Combine(current.FullName, "Vibe.slnx")))
             {
                 return current.FullName;
             }
@@ -261,7 +261,7 @@ public sealed class VibeCssTargetsTests : IDisposable
             current = current.Parent;
         }
 
-        throw new InvalidOperationException("Could not locate Vibe.sln from the test output directory.");
+        throw new InvalidOperationException("Could not locate Vibe.slnx from the test output directory.");
     }
 
     private static string RunDotnetMsbuildGetProperty(string projectPath, string propertyName)

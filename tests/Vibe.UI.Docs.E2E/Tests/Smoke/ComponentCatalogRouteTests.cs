@@ -207,7 +207,7 @@ internal static class ComponentPageManifest
 
         while (directory is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "Vibe.sln")))
+            if (File.Exists(Path.Combine(directory.FullName, "Vibe.slnx")))
             {
                 return directory.FullName;
             }
@@ -216,7 +216,7 @@ internal static class ComponentPageManifest
         }
 
         throw new DirectoryNotFoundException(
-            $"Could not find Vibe.sln above '{AppContext.BaseDirectory}'.");
+            $"Could not find Vibe.slnx above '{AppContext.BaseDirectory}'.");
     }
 }
 
