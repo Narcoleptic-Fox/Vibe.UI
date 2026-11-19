@@ -20,8 +20,7 @@ internal static class DocsServerManager
             _activeUsers++;
         }
 
-        // If the caller is not using the default URL, assume an external server is managed elsewhere.
-        if (!string.Equals(baseUrl.TrimEnd('/'), DefaultBaseUrl, StringComparison.OrdinalIgnoreCase))
+        if (!ShouldManageServer(baseUrl))
         {
             return;
         }
@@ -35,6 +34,11 @@ internal static class DocsServerManager
         lock (_lock)
         {
             _activeUsers = Math.Max(0, _activeUsers - 1);
+        }
+
+        if (!ShouldManageServer(baseUrl))
+        {
+            return;
         }
 
         // Keep the shared docs server alive for the test process. Restarting
@@ -148,13 +152,26 @@ internal static class DocsServerManager
         }
     }
 
+    private static bool ShouldManageServer(string baseUrl)
+    {
+        // An explicit URL, including the default one, means the caller owns
+        // the server lifecycle. This prevents a second dev server from
+        // competing for the same port during externally managed E2E runs.
+        if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DOCS_BASE_URL")))
+        {
+            return false;
+        }
+
+        return string.Equals(baseUrl.TrimEnd('/'), DefaultBaseUrl, StringComparison.OrdinalIgnoreCase);
+    }
+
     private static string GetRepoRoot()
     {
         // Tests execute under the repo; walk up until we find the solution file.
         var dir = AppContext.BaseDirectory;
         while (!string.IsNullOrEmpty(dir))
         {
-            if (File.Exists(Path.Combine(dir, "Vibe.sln")))
+            if (File.Exists(Path.Combine(dir, "Vibe.slnx")))
             {
                 return dir;
             }

@@ -1,0 +1,4 @@
+/* Test fixture: stands in for the packaged vibe-base.css so init can append a color scheme. */
+:root {
+  --vibe-primary: fixture-default;
+}

@@ -1,0 +1,31 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/samples/">
+    <Project Path="samples/Vibe.UI.Compatibility.StandaloneClient/Vibe.UI.Compatibility.StandaloneClient.csproj" />
+    <Project Path="samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj" />
+  </Folder>
+  <Folder Name="/samples/Vibe.UI.Compatibility.WebApp/">
+    <Project Path="samples/Vibe.UI.Compatibility.WebApp/Vibe.UI.Compatibility.WebApp.Client/Vibe.UI.Compatibility.WebApp.Client.csproj" />
+    <Project Path="samples/Vibe.UI.Compatibility.WebApp/Vibe.UI.Compatibility.WebApp/Vibe.UI.Compatibility.WebApp.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Vibe.UI.CLI/Vibe.UI.CLI.csproj" />
+    <Project Path="src/Vibe.UI.CSS/Vibe.UI.CSS.csproj" />
+    <Project Path="src/Vibe.UI/Vibe.UI.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Vibe.UI.CLI.Tests/Vibe.UI.CLI.Tests.csproj" />
+    <Project Path="tests/Vibe.UI.CSS.Tests/Vibe.UI.CSS.Tests.csproj" />
+    <Project Path="tests/Vibe.UI.Docs.E2E/Vibe.UI.Docs.E2E.csproj" />
+    <Project Path="tests/Vibe.UI.Tests/Vibe.UI.Tests.csproj" />
+  </Folder>
+  <Folder Name="/_Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>
