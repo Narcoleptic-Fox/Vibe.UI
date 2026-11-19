@@ -68,5 +68,4 @@ has equal behavioral or visual depth.
 - normalized public APIs across all legacy components; and
 - complete shadcn/ui feature parity.
 
-These remain explicit stable 1.0 work in
-[the shadcn compatibility roadmap](Vibe.UI.ShadcnParity.md).
+These remain explicit stable 1.0 work.

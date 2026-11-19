@@ -65,8 +65,8 @@ Examples:
 ```
 
 Prefix-only generation is the default. Set `--allow-unprefixed true` only for a
-controlled compatibility case. Utility coverage and planned additions are
-tracked in [Tailwind parity](Vibe.UI.CSS.TailwindParity.md).
+controlled compatibility case. Supported utilities are listed in the
+[beta core profile](Vibe.UI.CSS.CoreProfile.md).
 
 ## Command-line interface
 

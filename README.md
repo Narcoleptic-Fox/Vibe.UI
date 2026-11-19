@@ -40,11 +40,9 @@ Vibe.UI.CSS is the utility-first companion (Tailwind-style) for Vibe.UI.
 
 - [Vibe.UI.CSS architecture and reference](docs/VIBE-UI-CSS.md)
 - [Vibe.UI.CSS beta core profile](docs/Vibe.UI.CSS.CoreProfile.md)
-- [Tailwind parity roadmap](docs/Vibe.UI.CSS.TailwindParity.md)
 
-## shadcn/ui Parity
+## Component Profile
 
-- [Vibe.UI parity roadmap](docs/Vibe.UI.ShadcnParity.md)
 - [Vibe.UI component beta profile](docs/Vibe.UI.ComponentBetaProfile.md)
 
 ## Installation
@@ -646,12 +644,7 @@ As a beta release, Vibe.UI has some known limitations we're actively working on:
 ### CLI
 - **Template packaging**: CLI templates are bundled in the NuGet package; local development requires packaging first
 
-For detailed roadmaps, see:
-- [Documentation index](docs/README.md)
-- [Component parity with shadcn/ui](docs/Vibe.UI.ShadcnParity.md)
-- [Utility parity with Tailwind CSS](docs/Vibe.UI.CSS.TailwindParity.md)
-- [Beta release checklist](docs/Beta-Readiness-Checklist.md)
-- [Historical alpha release](docs/Alpha-0.1.0-Checklist.md)
+For everything else, see the [documentation index](docs/README.md).
 
 ## Sponsorship
 

@@ -31,30 +31,10 @@ implementation disagree.
 - [CLI architecture](CLI.md) - source-copy workflow and project detection
 - [Vibe.UI.CSS architecture](VIBE-UI-CSS.md) - utility generation pipeline and build targets
 
-## Release evidence
-
-- [Beta readiness](Beta-Readiness-Checklist.md) - completed beta release gates and validation commands
-- [Beta component hardening](Beta-Component-Hardening.md) - direct unit and browser coverage policy
-- [1.0.0-beta release notes](Release-1.0.0-beta.md) - release scope, contracts, and limitations
-- [Alpha release history](Alpha-0.1.0-Checklist.md) - historical alpha checklist and release summary
-
-Release documents are evidence for a specific release line. They are not the
-current installation guide and should not be edited to describe a later release.
-
-## Roadmaps
-
-- [shadcn/ui parity](Vibe.UI.ShadcnParity.md) - component and workflow parity goals
-- [Tailwind parity](Vibe.UI.CSS.TailwindParity.md) - utility and variant coverage goals
-
-Roadmaps contain planned work. An unchecked item is not a promise that the
-feature exists, and a checked release gate does not imply every roadmap item is
-complete.
-
 ## Documentation rules
 
 1. Put durable repository documentation in `docs/`.
 2. Keep the root `README.md` focused on installation, first use, and project navigation.
 3. Keep package readmes under `src/` self-contained because they ship inside NuGet packages.
 4. Link to source and tests instead of copying implementation details that will drift.
-5. Mark historical release material clearly and link it to the release that superseded it.
-6. Update this index when adding or removing a document.
+5. Update this index when adding or removing a document.

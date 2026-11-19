@@ -179,5 +179,3 @@ build. This remains an automated baseline rather than formal WCAG certification.
 Hosting-specific browser coverage is documented in [Compatibility](Compatibility.md).
 Screenshot comparison and baseline-update policy are documented in
 [Visual regression](VISUAL-REGRESSION.md).
-The component coverage policy is documented in
-[Beta component hardening](Beta-Component-Hardening.md).
