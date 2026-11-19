@@ -6,7 +6,7 @@ implementation disagree.
 
 ## Start here
 
-- [Repository README](../README.md) - installation, quick start, component inventory, and support
+- [Repository README](../README.md) - status, building from source, first use, and project navigation
 - [Architecture](ARCHITECTURE.md) - component installation structure and architectural decisions
 - [Compatibility](Compatibility.md) - standalone WebAssembly and hosted Blazor Web App support
 - [CLI](CLI.md) - command behavior, topology detection, templates, and overwrite safety
