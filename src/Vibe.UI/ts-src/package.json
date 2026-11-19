@@ -26,13 +26,13 @@
   "devDependencies": {
     "@types/canvas-confetti": "1.9.0",
     "@types/node": "^26.1.1",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.12",
     "copyfiles": "^2.4.1",
     "esbuild": "0.28.1",
-    "happy-dom": "^20.10.6",
+    "happy-dom": "^21.0.4",
     "jsdom": "^29.1.1",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.12"
   },
   "dependencies": {
     "canvas-confetti": "1.9.4"
