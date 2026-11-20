@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
 using Shouldly;
 using Vibe.UI.Docs.E2E.Infrastructure;
@@ -346,6 +347,39 @@ public class DocsShellTests : E2ETestBase
         text.ShouldNotContain("Production-ready", Case.Insensitive);
         text.ShouldContain($"{ComponentPageManifest.Pages.Count} documented components");
     }
+
+    [Theory]
+    [InlineData("light")]
+    [InlineData("dark")]
+    public async Task ShellPartsOutsideTheFlagshipScanHaveNoSeriousAxeViolations(string theme)
+    {
+        // The flagship accessibility scan runs at 1280px, where the table of contents is
+        // hidden and the drawer is closed. Scan those two here.
+        await Page.EmulateMediaAsync(new() { ReducedMotion = ReducedMotion.Reduce });
+        await Page.SetViewportSizeAsync(1440, 900);
+        await NavigateAndWaitForBlazorAsync("/components/button");
+        await Page.EvaluateAsync("theme => document.documentElement.classList.toggle('dark', theme === 'dark')", theme);
+
+        var toc = Page.Locator(TocSelector);
+        await toc.WaitForAsync();
+        SeriousViolations(await toc.RunAxe()).ShouldBeEmpty("The table of contents should pass axe");
+        SeriousViolations(await Page.Locator("footer.docs-footer").RunAxe())
+            .ShouldBeEmpty("The footer should pass axe");
+
+        await Page.SetViewportSizeAsync(375, 667);
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Open navigation menu", Exact = true }).ClickAsync();
+        var drawer = Page.GetByRole(AriaRole.Dialog);
+        await drawer.WaitForAsync();
+        SeriousViolations(await drawer.RunAxe()).ShouldBeEmpty("The open navigation drawer should pass axe");
+    }
+
+    private static string[] SeriousViolations(Deque.AxeCore.Commons.AxeResult result) =>
+        result.Violations
+            .Where(violation =>
+                string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase))
+            .Select(violation => $"{violation.Id}: {string.Join(", ", violation.Nodes.Select(node => node.Target?.ToString()))}")
+            .ToArray();
 
     [Fact]
     public async Task DarkThemeSurfacesShareOneNeutralPalette()
