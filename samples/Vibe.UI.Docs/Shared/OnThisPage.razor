@@ -1,0 +1,80 @@
+@inject IJSRuntime JS
+
+@*
+    OnThisPage - table of contents for the current page.
+
+    The pages do not declare their sections anywhere, so the list is read from the rendered
+    headings after each navigation. The script gives every heading an id, and marks the link
+    for the section being read.
+*@
+
+@if (_headings.Count >= MinimumHeadings)
+{
+    <nav class="docs-toc" aria-label="On this page">
+        <p class="docs-toc-title">On this page</p>
+        <ul>
+            @foreach (var heading in _headings)
+            {
+                var target = heading.Id;
+
+                <li>
+                    <a class="docs-toc-link @(heading.Level > 2 ? "docs-toc-link-nested" : null)"
+                       href="@($"{Path}#{target}")"
+                       data-toc-target="@target"
+                       @onclick="() => ScrollToAsync(target)"
+                       @onclick:preventDefault="true">@heading.Text</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+@code {
+    // A list with a single entry is not navigation.
+    private const int MinimumHeadings = 2;
+
+    private IReadOnlyList<TocHeading> _headings = [];
+    private string? _collectedPath;
+    private bool _syncPending;
+
+    /// <summary>
+    /// The current page path, relative to the base. The table of contents is rebuilt when it changes.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string Path { get; set; } = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (_collectedPath != Path)
+            {
+                // The layout renders this component in the same batch as the page body, so the
+                // new page's headings are already in the document here.
+                _collectedPath = Path;
+                _headings = await JS.InvokeAsync<TocHeading[]>("vibeDocs.collectHeadings");
+                _syncPending = true;
+                StateHasChanged();
+            }
+            else if (_syncPending)
+            {
+                _syncPending = false;
+                await JS.InvokeVoidAsync("vibeDocs.syncTableOfContents");
+            }
+        }
+        catch (JSException)
+        {
+            _headings = [];
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+
+    private async Task ScrollToAsync(string id)
+    {
+        await JS.InvokeVoidAsync("vibeDocs.scrollToHeading", id);
+    }
+
+    private sealed record TocHeading(string Id, string Text, int Level);
+}

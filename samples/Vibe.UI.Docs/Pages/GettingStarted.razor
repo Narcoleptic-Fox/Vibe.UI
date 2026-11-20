@@ -8,10 +8,12 @@
         <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Learn how to get started with Vibe.UI in your Blazor project.</p>
     </header>
 
+    <PreReleaseNotice />
+
     <section>
         <h2>Prerequisites</h2>
         <ul>
-            <li>.NET 9.0 SDK or later</li>
+            <li>.NET 10 SDK</li>
             <li>Basic knowledge of Blazor and C#</li>
             <li>A Blazor WebAssembly or Blazor Server project</li>
         </ul>
@@ -62,7 +64,7 @@
 
         <div class="vibe-space-y-6">
             <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
-                <h3 class="vibe-mb-3">1) Install the CLI tool</h3>
+                <h3 class="vibe-mb-3">1) Build and install the CLI tool</h3>
                 <CodeBlock Code="@InstallCliCode" Language="bash" />
             </div>
 
@@ -125,7 +127,7 @@
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
-    private string InstallCliCode => "dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta";
+    private string InstallCliCode => InstallCommands.CliFromSource;
 
     private string InitProjectCode => @"cd MyBlazorApp
 vibe init";

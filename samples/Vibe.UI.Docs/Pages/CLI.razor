@@ -8,6 +8,8 @@
         <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Complete command reference for the Vibe.UI CLI tool.</p>
     </header>
 
+    <PreReleaseNotice />
+
     <section>
         <h2>Installation</h2>
         <CodeBlock Code="@InstallCode" Language="bash" />
@@ -136,7 +138,7 @@
 
     <section>
         <h2>Available Components</h2>
-        <p>The CLI provides access to 111 components across 12 categories. Representative components:</p>
+        <p>Run <code>vibe list</code> for everything the CLI can add. Representative components:</p>
 
         <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-6">
             @foreach (var category in ComponentCategories)
@@ -184,7 +186,7 @@
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
-    private string InstallCode => "dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta";
+    private string InstallCode => InstallCommands.CliFromSource;
     private string UpdateCode => "dotnet tool update -g Vibe.UI.CLI";
     private string UninstallCode => "dotnet tool uninstall -g Vibe.UI.CLI";
 
@@ -251,8 +253,8 @@ vibe update button --force   # Force update (ignore customizations)";
 dotnet new blazorwasm -n MyApp
 cd MyApp
 
-# 2. Install CLI tool
-dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta
+# 2. Install the CLI tool, packed from a clone of the repository
+dotnet tool install -g Vibe.UI.CLI --add-source path/to/Vibe.UI/artifacts/nupkg --version 1.0.0-beta
 
 # 3. Initialize Vibe.UI
 vibe init

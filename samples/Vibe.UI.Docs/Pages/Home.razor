@@ -31,12 +31,12 @@
 
         <!-- Hero Content -->
         <div
-            class="vibe-relative vibe-z-10 vibe-max-w-4xl vibe-mx-auto vibe-text-center vibe-px-4 vibe-py-20 vibe-stagger-children">
+            class="vibe-relative vibe-z-10 vibe-w-full vibe-min-w-0 vibe-max-w-4xl vibe-mx-auto vibe-text-center vibe-px-4 vibe-py-20 vibe-stagger-children">
             <!-- Badge -->
             <div class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-1.5 vibe-rounded-full vibe-bg-zinc-100 dark:vibe-bg-zinc-800/80 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-8 vibe-backdrop-blur-sm"
                 style="--stagger-index: 0">
-                <span class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-green-500 vibe-pulse-dot"></span>
-                <span>shadcn/ui for Blazor</span>
+                <span class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-yellow-500"></span>
+                <span>Pre-release &middot; shadcn/ui for Blazor</span>
             </div>
 
             <!-- Title -->
@@ -65,10 +65,10 @@
                     </svg>
                 </a>
                 <div
-                    class="vibe-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-2.5 vibe-rounded-lg vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                    class="vibe-flex vibe-items-center vibe-gap-2 vibe-max-w-full vibe-px-4 vibe-py-2.5 vibe-rounded-lg vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
                     <code
-                        class="vibe-text-sm vibe-font-mono vibe-text-zinc-600 dark:vibe-text-zinc-400">dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta</code>
-                    <CopyButton Code="dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta" ShowText="false"
+                        class="docs-command vibe-text-sm vibe-font-mono vibe-text-zinc-600 dark:vibe-text-zinc-400">@InstallCommands.Clone</code>
+                    <CopyButton Code="@InstallCommands.Clone" ShowText="false"
                         Variant="CopyButton.CopyButtonVariant.Ghost" />
                 </div>
             </div>
@@ -79,14 +79,14 @@
                 <div class="vibe-text-center">
                     <div
                         class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100">
-                        111</div>
+                        @DocsCatalog.Components.Count</div>
                     <div class="vibe-text-sm vibe-text-zinc-500 dark:vibe-text-zinc-400">Components</div>
                 </div>
                 <div class="vibe-hidden sm:vibe-block vibe-w-px vibe-h-12 vibe-bg-zinc-200 dark:vibe-bg-zinc-800"></div>
                 <div class="vibe-text-center">
                     <div
                         class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100">
-                        11</div>
+                        @DocsCatalog.Categories.Count</div>
                     <div class="vibe-text-sm vibe-text-zinc-500 dark:vibe-text-zinc-400">Categories</div>
                 </div>
                 <div class="vibe-hidden sm:vibe-block vibe-w-px vibe-h-12 vibe-bg-zinc-200 dark:vibe-bg-zinc-800"></div>
@@ -166,8 +166,8 @@
             </div>
 
             <div class="vibe-grid vibe-grid-cols-1 md:vibe-grid-cols-2 lg:vibe-grid-cols-3 vibe-gap-6">
-                <FeatureCard Icon="components" Title="111 Components"
-                    Description="Production-ready components covering every use case from buttons to data tables." />
+                <FeatureCard Icon="components" Title="@($"{DocsCatalog.Components.Count} documented components")"
+                    Description="From buttons to data tables, each with a live example page. Pre-release: APIs can still change before the beta." />
 
                 <FeatureCard Icon="copy" Title="Copy, Don't Install"
                     Description="Own your code. Copy components directly into your project and customize freely." />
@@ -176,7 +176,7 @@
                     Description="CSS variables for everything. Light and dark mode with runtime switching." />
 
                 <FeatureCard Icon="terminal" Title="CLI-First"
-                    Description="Install with 'vibe add button'. No config files needed. Just works." />
+                    Description="Run 'vibe add button' and the CLI copies the component source into your project." />
 
                 <FeatureCard Icon="code" Title="Pure C#"
                     Description="Strongly typed with full IntelliSense. No JavaScript required for most components." />
@@ -187,17 +187,21 @@
         </div>
     </section>
 
-    <!-- Terminal Section -->
+    <!-- Install Section -->
     <section class="vibe-py-20 vibe-px-4 vibe-bg-zinc-50 dark:vibe-bg-zinc-900/50">
         <div class="vibe-max-w-4xl vibe-mx-auto">
             <div class="vibe-text-center vibe-mb-12">
                 <h2
                     class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">
-                    Get started in seconds
+                    Try it from source
                 </h2>
                 <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400">
-                    Three commands to add your first component
+                    Build the CLI from the repository, then add components to your Blazor app
                 </p>
+            </div>
+
+            <div class="vibe-mb-6">
+                <PreReleaseNotice />
             </div>
 
             <!-- Terminal Window -->
@@ -213,24 +217,25 @@
                 </div>
 
                 <!-- Terminal Body -->
-                <div class="vibe-p-6 vibe-font-mono vibe-text-sm">
-                    <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3">
-                        <span class="vibe-text-green-400">$</span>
-                        <span class="vibe-text-zinc-300">dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta</span>
-                    </div>
-                    <div class="vibe-text-zinc-500 vibe-mb-4">Installing Vibe.UI.CLI...</div>
+                <div class="vibe-p-6 vibe-font-mono vibe-text-sm vibe-overflow-x-auto">
+                    <div class="vibe-text-zinc-400 vibe-mb-3 docs-terminal-line"># Build and install the CLI (needs the .NET 10 SDK)</div>
+                    @foreach (var command in InstallCommands.CliFromSource.Split('\n'))
+                    {
+                        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3 docs-terminal-line">
+                            <span class="vibe-text-green-400">$</span>
+                            <span class="vibe-text-zinc-300">@command</span>
+                        </div>
+                    }
 
-                    <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3">
+                    <div class="vibe-text-zinc-400 vibe-mt-6 vibe-mb-3 docs-terminal-line"># Then, in your Blazor app</div>
+                    <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3 docs-terminal-line">
                         <span class="vibe-text-green-400">$</span>
                         <span class="vibe-text-zinc-300">vibe init</span>
                     </div>
-                    <div class="vibe-text-blue-400 vibe-mb-4">✓ Vibe.UI initialized successfully!</div>
-
-                    <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3">
+                    <div class="vibe-flex vibe-items-center vibe-gap-2 docs-terminal-line">
                         <span class="vibe-text-green-400">$</span>
                         <span class="vibe-text-zinc-300">vibe add button card input dialog</span>
                     </div>
-                    <div class="vibe-text-green-400">✓ Added 4 components to your project</div>
                 </div>
             </div>
         </div>
@@ -303,7 +308,7 @@
                                     d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                             </svg>
                         </a>
-                        <a href="https://github.com/AcademyKit/Vibe.UI" target="_blank" rel="noopener noreferrer"
+                        <a href="https://github.com/Narcoleptic-Fox/Vibe.UI" target="_blank" rel="noopener noreferrer"
                             class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-font-medium hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-800 vibe-transition-colors">
                             <svg class="vibe-w-5 vibe-h-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -316,31 +321,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="vibe-py-8 vibe-px-4 vibe-border-t vibe-border-zinc-200 dark:vibe-border-zinc-800">
-        <div
-            class="vibe-max-w-6xl vibe-mx-auto vibe-flex vibe-flex-col sm:vibe-flex-row vibe-items-center vibe-justify-between vibe-gap-4">
-            <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 dark:vibe-text-zinc-400">
-                <span>Built with</span>
-                <svg class="vibe-w-4 vibe-h-4 vibe-text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
-                <span>by Narcoleptic Fox</span>
-            </div>
-            <div class="vibe-flex vibe-items-center vibe-gap-6">
-                <a href="https://github.com/AcademyKit/Vibe.UI" target="_blank" rel="noopener noreferrer"
-                    class="vibe-text-sm vibe-text-zinc-500 hover:vibe-text-zinc-900 dark:hover:vibe-text-zinc-100 vibe-transition-colors">
-                    GitHub
-                </a>
-                <a href="@GetUrl("getting-started")"
-                    class="vibe-text-sm vibe-text-zinc-500 hover:vibe-text-zinc-900 dark:hover:vibe-text-zinc-100 vibe-transition-colors">
-                    Documentation
-                </a>
-            </div>
-        </div>
-    </footer>
 </div>
 
 @code {

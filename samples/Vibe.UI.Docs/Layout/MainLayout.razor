@@ -12,18 +12,23 @@
         <div
             class="vibe-max-w-screen-2xl vibe-mx-auto vibe-h-14 vibe-flex vibe-items-center vibe-justify-between vibe-px-4 lg:vibe-px-6">
             <!-- Left: Logo + Primary nav -->
-            <div class="vibe-flex vibe-items-center vibe-gap-4">
+            <div class="vibe-flex vibe-items-center vibe-gap-2 md:vibe-gap-4">
+                <button type="button" class="docs-menu-button" aria-label="Open navigation menu"
+                    aria-haspopup="dialog" aria-expanded="@(navOpen ? "true" : "false")" @onclick="OpenNav">
+                    <Icon Name="menu" Size="20" />
+                </button>
+
                 <a href="@GetBaseUrl()"
                     class="vibe-flex vibe-items-center vibe-gap-2.5 vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 hover:vibe-opacity-80 vibe-transition-opacity">
                     <img src="icon-192.png" alt="Vibe.UI" class="vibe-w-7 vibe-h-7 vibe-rounded-md" />
                     <span class="vibe-text-lg vibe-tracking-tight">Vibe.UI</span>
                 </a>
 
-                <nav class="vibe-hidden md:vibe-flex vibe-items-center vibe-gap-1">
-                    <a href="@GetDocsUrl()"
-                        class="vibe-px-3 vibe-py-2 vibe-rounded-md vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 hover:vibe-text-zinc-900 dark:hover:vibe-text-zinc-100 hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors">Docs</a>
-                    <a href="@GetComponentsUrl()"
-                        class="vibe-px-3 vibe-py-2 vibe-rounded-md vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 hover:vibe-text-zinc-900 dark:hover:vibe-text-zinc-100 hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors">Components</a>
+                <nav class="vibe-hidden md:vibe-flex vibe-items-center vibe-gap-1" aria-label="Primary">
+                    <a href="getting-started" class="docs-header-link"
+                        aria-current="@(IsGuidePath ? "true" : null)">Docs</a>
+                    <a href="components" class="docs-header-link"
+                        aria-current="@(IsComponentsPath ? "true" : null)">Components</a>
                 </nav>
             </div>
 
@@ -72,12 +77,36 @@
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="vibe-flex-1 vibe-min-w-0">
-        <div class="vibe-px-4 lg:vibe-px-6 vibe-py-6 vibe-page-enter">
-            @Body
-        </div>
-    </main>
+    <!-- Shell: navigation rail, page, table of contents. Only the page lives in <main>. -->
+    <div class="docs-shell @(IsDocsPath ? "docs-shell-docs" : null)">
+        @if (IsDocsPath)
+        {
+            <aside class="docs-rail docs-rail-nav">
+                <NavSidebar Label="Documentation" />
+            </aside>
+        }
+
+        <main class="vibe-flex-1 vibe-min-w-0">
+            <div class="vibe-px-4 lg:vibe-px-6 vibe-py-6 vibe-page-enter">
+                @Body
+            </div>
+        </main>
+
+        @if (IsDocsPath)
+        {
+            <aside class="docs-rail docs-rail-toc">
+                <OnThisPage Path="@CurrentPath" />
+            </aside>
+        }
+    </div>
+
+    <SiteFooter />
+
+    <!-- Navigation drawer for widths where the rail is hidden -->
+    <Sheet @bind-IsOpen="navOpen" Side="Sheet.SheetSide.Left" Size="Sheet.SheetSize.Small" Title="Vibe.UI"
+        Class="docs-nav-sheet">
+        <NavSidebar Label="Site navigation" />
+    </Sheet>
 
     <!-- Command Palette -->
     <CommandPalette IsOpen="searchOpen" IsOpenChanged="@((value) => { searchOpen = value; StateHasChanged(); })"
@@ -89,6 +118,39 @@
 
 @code {
     private bool searchOpen = false;
+    private bool navOpen = false;
+
+    // Path of the current page relative to the base, without query or fragment.
+    private string CurrentPath =>
+        Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', '#')[0].Trim('/');
+
+    private bool IsDocsPath => DocsCatalog.IsDocsPath(CurrentPath);
+
+    private bool IsComponentsPath =>
+        CurrentPath.Equals("components", StringComparison.OrdinalIgnoreCase) ||
+        CurrentPath.StartsWith("components/", StringComparison.OrdinalIgnoreCase);
+
+    private bool IsGuidePath => IsDocsPath && !IsComponentsPath;
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        // Following a link in the drawer should close it.
+        if (navOpen)
+        {
+            navOpen = false;
+            StateHasChanged();
+        }
+    }
+
+    private void OpenNav()
+    {
+        navOpen = true;
+    }
     private DotNetObjectReference<MainLayout>? _dotNetRef;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -137,18 +199,9 @@ localStorage.setItem('theme', theme);
         return Navigation.BaseUri;
     }
 
-    private string GetDocsUrl()
-    {
-        return Navigation.BaseUri;
-    }
-
-    private string GetComponentsUrl()
-    {
-        return $"{Navigation.BaseUri}components";
-    }
-
     public void Dispose()
     {
+        Navigation.LocationChanged -= OnLocationChanged;
         JS.InvokeVoidAsync("vibeDocs.unregisterHotkeys");
         _dotNetRef?.Dispose();
     }
