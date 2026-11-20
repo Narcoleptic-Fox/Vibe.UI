@@ -248,6 +248,7 @@ function Validate-CliToolPackage {
     Invoke-Checked $toolExecutable @("add", "button", "--yes", "--path", $cliProject)
 
     Assert-FileExists (Join-Path $cliProject "Vibe/Base/VibeComponent.cs")
+    Assert-FileExists (Join-Path $cliProject "Vibe/Metadata/PropertyMetadataResolver.cs")
     Assert-FileExists (Join-Path $cliProject "Components/vibe/Button.razor")
     Assert-FileExists (Join-Path $cliProject "wwwroot/js/vibe-dialog.js")
     Assert-FileExists (Join-Path $cliProject "wwwroot/js/vibe-menu-keyboard.js")
@@ -430,6 +431,7 @@ $requiredEntries = @{
         "icon.png",
         "tools/net10.0/any/Vibe.UI.CLI.dll",
         "Templates/Infrastructure/ServiceCollectionExtensions.cs",
+        "Templates/Infrastructure/Metadata/PropertyMetadataResolver.cs",
         "Templates/Components/Utility/DropdownMenu.razor",
         "Templates/wwwroot/js/vibe-dialog.js",
         "Templates/wwwroot/js/vibe-menu-keyboard.js",
