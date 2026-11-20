@@ -118,6 +118,26 @@ public class PropertyAccessorTests
     }
 
     [Fact]
+    public void Bind_looks_through_the_conversion_the_compiler_adds_for_object_and_nullable()
+    {
+        // () => command.Quantity typed as Func<object> or Func<int?> wraps the member access in a
+        // Convert node. The binding must still find the property and write the underlying int.
+        var command = new FixtureCommand { Quantity = 1 };
+        PropertyMetadataResolver resolver = Resolver();
+
+        PropertyBinding<object> boxed = resolver.Bind<object>(() => command.Quantity);
+        PropertyBinding<int?> widened = resolver.Bind<int?>(() => command.Quantity);
+
+        boxed.Field.FieldName.ShouldBe(nameof(FixtureCommand.Quantity));
+        boxed.Value.ShouldBe(1);
+        boxed.Value = 5;
+        command.Quantity.ShouldBe(5);
+        widened.Value = 8;
+        command.Quantity.ShouldBe(8);
+        widened.Value.ShouldBe(8);
+    }
+
+    [Fact]
     public void Read_only_property_reads_and_refuses_to_write()
     {
         var command = new FixtureCommand { FirstName = "ada" };

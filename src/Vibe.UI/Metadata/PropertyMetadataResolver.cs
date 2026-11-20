@@ -87,9 +87,19 @@ public sealed class PropertyMetadataResolver : IPropertyMetadataResolver
     /// <inheritdoc />
     public PropertyBinding<TValue> Bind<TValue>(Expression<Func<TValue>> property)
     {
-        var info = (PropertyInfo)PropertyExpression.GetPropertyAccess(property).Member;
-        // The framework already knows how to find the owning instance of an accessor expression.
-        object model = FieldIdentifier.Create(property).Model;
+        MemberExpression member = PropertyExpression.GetPropertyAccess(property);
+        var info = (PropertyInfo)member.Member;
+        // The framework already knows how to find the owning instance of an accessor expression,
+        // but it accepts only a bare member access or one boxed to object. When TValue differs
+        // from the property type (int read as int?), the compiler wraps the access in a
+        // conversion it rejects, so hand it the same access boxed instead.
+        object model = ReferenceEquals(member, property.Body)
+            ? FieldIdentifier.Create(property).Model
+            : FieldIdentifier
+                .Create(
+                    Expression.Lambda<Func<object>>(Expression.Convert(member, typeof(object)))
+                )
+                .Model;
         return new PropertyBinding<TValue>(
             model,
             GetAccessor<TValue>(info),
