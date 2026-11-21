@@ -165,6 +165,36 @@ public class InitCommandTests : IDisposable
     }
 
     [Fact]
+    public async Task ExecuteAsync_CopiesMetadataFolder_BecauseServiceRegistrationDependsOnIt()
+    {
+        // Arrange
+        await File.WriteAllTextAsync(
+            Path.Combine(_testProjectPath, "Test.csproj"),
+            @"<Project Sdk=""Microsoft.NET.Sdk.BlazorWebAssembly"" />");
+
+        var settings = new InitCommand.Settings
+        {
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath
+        };
+
+        var context = new CommandContext(
+            Array.Empty<string>(),
+            new TestRemainingArguments(),
+            "init",
+            null);
+
+        // Act
+        var result = await _command.ExecuteAsync(context, settings);
+
+        // Assert: the copied ServiceCollectionExtensions.cs calls AddVibeMetadata, so a project
+        // without this folder does not compile.
+        result.Should().Be(0);
+        File.Exists(Path.Combine(_testProjectPath, "Vibe", "ServiceCollectionExtensions.cs")).Should().BeTrue();
+        File.Exists(Path.Combine(_testProjectPath, "Vibe", "Metadata", "PropertyMetadataResolver.cs")).Should().BeTrue();
+    }
+
+    [Fact]
     public async Task ExecuteAsync_WithCharts_CopiesChartJavaScriptModule()
     {
         // Arrange
