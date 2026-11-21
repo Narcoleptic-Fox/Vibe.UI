@@ -246,6 +246,12 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             Path.Combine(targetVibeDir, "Configuration")
         );
 
+        // Copy Metadata/ folder (always required - ServiceCollectionExtensions registers it)
+        await CopyDirectoryAsync(
+            Path.Combine(infrastructurePath, "Metadata"),
+            Path.Combine(targetVibeDir, "Metadata")
+        );
+
         // Copy Services/
         var servicesSourceDir = Path.Combine(infrastructurePath, "Services");
         var servicesTargetDir = Path.Combine(targetVibeDir, "Services");

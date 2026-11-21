@@ -34,6 +34,9 @@ namespace Vibe.UI
             services.AddSingleton<IToastService, ToastService>();
             services.AddSingleton<IDialogService, DialogService>();
 
+            // Property metadata (labels, required, limits) resolved from expressions
+            services.AddVibeMetadata();
+
             return services;
         }
     }

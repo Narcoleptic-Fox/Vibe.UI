@@ -113,6 +113,9 @@
 	            <None Include="../Vibe.UI/Configuration/**/*.cs"
 	                  Pack="true"
 	                  PackagePath="Templates/Infrastructure/Configuration/%(RecursiveDir)" />
+	            <None Include="../Vibe.UI/Metadata/**/*.cs"
+	                  Pack="true"
+	                  PackagePath="Templates/Infrastructure/Metadata/%(RecursiveDir)" />
 	            <None Include="../Vibe.UI/Services/**/*.cs"
 	                  Pack="true"
 	                  PackagePath="Templates/Infrastructure/Services/%(RecursiveDir)" />
