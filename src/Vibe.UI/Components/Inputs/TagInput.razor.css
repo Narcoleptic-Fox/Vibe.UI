@@ -12,8 +12,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem;
-    background-color: var(--vibe-input);
-    border: 1px solid var(--vibe-border);
+    background-color: var(--vibe-background);
+    border: 1px solid var(--vibe-input);
     border-radius: var(--vibe-radius);
     transition: all 0.2s ease;
 }
