@@ -43,22 +43,27 @@
   --vibe-accent-foreground: hsl(240 5.9% 10%);
 
   /* Destructive - For errors and dangerous actions */
-  --vibe-destructive: hsl(0 72.2% 50.6%);
+  --vibe-destructive: hsl(0 72% 46%);
   --vibe-destructive-foreground: hsl(0 0% 98%);
 
-  /* ===== Semantic Status Colors ===== */
-  --vibe-success: hsl(142 76% 36%);
+  /* ===== Semantic Status Colors =====
+     Each status color is used two ways: as text or an icon on the page, and as a fill
+     with its -foreground on top. Both uses meet WCAG 2 AA (4.5:1), so in light mode the
+     colors are deep enough to read on white and take white text. */
+  --vibe-success: hsl(142 72% 29%);
   --vibe-success-foreground: hsl(0 0% 100%);
 
-  --vibe-warning: hsl(38 92% 50%);
+  --vibe-warning: hsl(26 90% 37%);
   --vibe-warning-foreground: hsl(0 0% 100%);
 
-  --vibe-info: hsl(217 91% 60%);
+  --vibe-info: hsl(221 83% 53%);
   --vibe-info-foreground: hsl(0 0% 100%);
 
   /* ===== UI Elements ===== */
+  /* --vibe-border is decorative (dividers, card edges). --vibe-input is the boundary of
+     a form control, which WCAG 2 SC 1.4.11 requires at 3:1 against what is around it. */
   --vibe-border: hsl(240 5.9% 90%);
-  --vibe-input: hsl(240 5.9% 90%);
+  --vibe-input: hsl(240 4% 56%);
   --vibe-ring: hsl(240 10% 3.9%);
 
   /* ===== Sidebar ===== */
@@ -179,22 +184,25 @@
   --vibe-accent-foreground: hsl(0 0% 98%);
 
   /* Destructive */
-  --vibe-destructive: hsl(0 62.8% 30.6%);
-  --vibe-destructive-foreground: hsl(0 0% 98%);
+  --vibe-destructive: hsl(0 84% 67%);
+  --vibe-destructive-foreground: hsl(240 10% 3.9%);
 
-  /* ===== Semantic Status Colors (Dark Mode Adjusted) ===== */
-  --vibe-success: hsl(142 76% 36%);
-  --vibe-success-foreground: hsl(0 0% 100%);
+  /* ===== Semantic Status Colors =====
+     In dark mode the status colors, destructive included, are light enough to read as
+     text on the dark page (4.5:1), so their fills take dark text, the same way
+     --vibe-primary inverts. */
+  --vibe-success: hsl(142 69% 58%);
+  --vibe-success-foreground: hsl(240 10% 3.9%);
 
-  --vibe-warning: hsl(38 92% 50%);
-  --vibe-warning-foreground: hsl(0 0% 100%);
+  --vibe-warning: hsl(43 96% 56%);
+  --vibe-warning-foreground: hsl(240 10% 3.9%);
 
-  --vibe-info: hsl(217 91% 60%);
-  --vibe-info-foreground: hsl(0 0% 100%);
+  --vibe-info: hsl(213 94% 68%);
+  --vibe-info-foreground: hsl(240 10% 3.9%);
 
-  /* ===== UI Elements (Enhanced contrast for dark mode) ===== */
-  --vibe-border: hsl(240 3.7% 25%); /* Zinc-800 - More visible */
-  --vibe-input: hsl(240 3.7% 20%); /* Slightly lighter input background */
+  /* ===== UI Elements ===== */
+  --vibe-border: hsl(240 3.7% 25%); /* decorative */
+  --vibe-input: hsl(240 4% 46%); /* form control boundary, 3:1 on background and muted */
   --vibe-ring: hsl(240 4.9% 83.9%);
 
   /* ===== Sidebar ===== */

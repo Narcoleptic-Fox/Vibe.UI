@@ -78,6 +78,16 @@ public class VisualRegressionTests : E2ETestBase
                         await target.ScrollIntoViewIfNeededAsync();
                         await Page.Mouse.MoveAsync(0, 0);
                         await Page.EvaluateAsync("() => document.fonts.ready");
+
+                        // The page fades and slides in. Text captured while that is still
+                        // running is rasterised at a sub-pixel offset and differs run to run,
+                        // so wait for every finite animation to end rather than a fixed delay.
+                        await Page.EvaluateAsync(
+                            """
+                            () => Promise.all(document.getAnimations()
+                                .filter(animation => animation.effect?.getComputedTiming().iterations !== Infinity)
+                                .map(animation => animation.finished.catch(() => undefined)))
+                            """);
                         await Page.WaitForTimeoutAsync(100);
 
                         var screenshot = await target.ScreenshotAsync(new()

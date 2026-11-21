@@ -61,7 +61,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(210 40% 96.1%)",
                     MutedForeground = "hsl(215.3 19.3% 34.5%)",
                     Border = "hsl(214.3 31.8% 91.4%)",
-                    Input = "hsl(214.3 31.8% 91.4%)",
+                    Input = "hsl(215 16% 56%)",
                     Ring = "hsl(222.2 84% 4.9%)"
                 },
                 new ColorSet
@@ -74,7 +74,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(217.2 32.6% 17.5%)",
                     MutedForeground = "hsl(215 20.2% 65.1%)",
                     Border = "hsl(217.2 32.6% 17.5%)",
-                    Input = "hsl(217.2 32.6% 17.5%)",
+                    Input = "hsl(215 16% 50%)",
                     Ring = "hsl(212.7 26.8% 83.9%)"
                 }
             ),
@@ -89,7 +89,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(220 14.3% 95.9%)",
                     MutedForeground = "hsl(220 8.9% 33.9%)",
                     Border = "hsl(220 13% 91%)",
-                    Input = "hsl(220 13% 91%)",
+                    Input = "hsl(220 9% 56%)",
                     Ring = "hsl(224 71.4% 4.1%)"
                 },
                 new ColorSet
@@ -102,7 +102,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(215 27.9% 16.9%)",
                     MutedForeground = "hsl(217.9 10.6% 64.9%)",
                     Border = "hsl(215 27.9% 16.9%)",
-                    Input = "hsl(215 27.9% 16.9%)",
+                    Input = "hsl(220 9% 49%)",
                     Ring = "hsl(216 12.2% 83.9%)"
                 }
             ),
@@ -117,7 +117,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(240 4.8% 95.9%)",
                     MutedForeground = "hsl(240 5.2% 33.9%)",
                     Border = "hsl(240 5.9% 90%)",
-                    Input = "hsl(240 5.9% 90%)",
+                    Input = "hsl(240 4% 56%)",
                     Ring = "hsl(240 5.9% 10%)"
                 },
                 new ColorSet
@@ -130,7 +130,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(240 3.7% 15.9%)",
                     MutedForeground = "hsl(240 5% 64.9%)",
                     Border = "hsl(240 3.7% 15.9%)",
-                    Input = "hsl(240 3.7% 15.9%)",
+                    Input = "hsl(240 4% 46%)",
                     Ring = "hsl(240 4.9% 83.9%)"
                 }
             ),
@@ -145,7 +145,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(0 0% 96.1%)",
                     MutedForeground = "hsl(0 0% 32.2%)",
                     Border = "hsl(0 0% 89.8%)",
-                    Input = "hsl(0 0% 89.8%)",
+                    Input = "hsl(0 0% 54%)",
                     Ring = "hsl(0 0% 3.9%)"
                 },
                 new ColorSet
@@ -158,7 +158,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(0 0% 14.9%)",
                     MutedForeground = "hsl(0 0% 63.9%)",
                     Border = "hsl(0 0% 14.9%)",
-                    Input = "hsl(0 0% 14.9%)",
+                    Input = "hsl(0 0% 46%)",
                     Ring = "hsl(0 0% 83.1%)"
                 }
             ),
@@ -173,7 +173,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(60 4.8% 95.9%)",
                     MutedForeground = "hsl(25 5.3% 32.5%)",
                     Border = "hsl(20 5.9% 90%)",
-                    Input = "hsl(20 5.9% 90%)",
+                    Input = "hsl(24 5% 54%)",
                     Ring = "hsl(20 14.3% 4.1%)"
                 },
                 new ColorSet
@@ -186,7 +186,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(12 6.5% 15.1%)",
                     MutedForeground = "hsl(24 5.4% 63.9%)",
                     Border = "hsl(12 6.5% 15.1%)",
-                    Input = "hsl(12 6.5% 15.1%)",
+                    Input = "hsl(24 5% 46%)",
                     Ring = "hsl(24 5.7% 82.9%)"
                 }
             ),
@@ -201,7 +201,7 @@ public class ThemeService : IThemeService
                     Muted = "hsl(210 40% 96.1%)",
                     MutedForeground = "hsl(215.3 19.3% 34.5%)",
                     Border = "hsl(214.3 31.8% 91.4%)",
-                    Input = "hsl(214.3 31.8% 91.4%)",
+                    Input = "hsl(215 16% 56%)",
                     Ring = "hsl(221.2 83.2% 53.3%)"
                 },
                 new ColorSet
@@ -214,8 +214,8 @@ public class ThemeService : IThemeService
                     Muted = "hsl(217.2 32.6% 17.5%)",
                     MutedForeground = "hsl(215 20.2% 65.1%)",
                     Border = "hsl(217.2 32.6% 17.5%)",
-                    Input = "hsl(217.2 32.6% 17.5%)",
-                    Ring = "hsl(224.3 76.3% 48%)"
+                    Input = "hsl(215 16% 50%)",
+                    Ring = "hsl(217.2 91.2% 59.8%)"
                 }
             ),
             _ => throw new ArgumentException($"Unknown base color: {baseColor}")
@@ -265,7 +265,7 @@ public class ThemeService : IThemeService
     --vibe-muted-foreground: {light.MutedForeground ?? "hsl(215.3 19.3% 34.5%)"};
     --vibe-accent: {light.Accent ?? light.Secondary};
     --vibe-accent-foreground: {light.AccentForeground ?? light.Foreground};
-    --vibe-destructive: {light.Destructive ?? "hsl(0 72.2% 50.6%)"};
+    --vibe-destructive: {light.Destructive ?? "hsl(0 72% 46%)"};
     --vibe-destructive-foreground: {light.DestructiveForeground ?? "hsl(0 0% 100%)"};
     --vibe-border: {light.Border ?? "hsl(214.3 31.8% 91.4%)"};
     --vibe-input: {light.Input ?? "hsl(214.3 31.8% 91.4%)"};
@@ -288,8 +288,8 @@ public class ThemeService : IThemeService
     --vibe-muted-foreground: {dark.MutedForeground ?? "hsl(215 20.2% 65.1%)"};
     --vibe-accent: {dark.Accent ?? dark.Secondary};
     --vibe-accent-foreground: {dark.AccentForeground ?? dark.Foreground};
-    --vibe-destructive: {dark.Destructive ?? "hsl(0 62.8% 30.6%)"};
-    --vibe-destructive-foreground: {dark.DestructiveForeground ?? dark.Foreground};
+    --vibe-destructive: {dark.Destructive ?? "hsl(0 84% 67%)"};
+    --vibe-destructive-foreground: {dark.DestructiveForeground ?? dark.Background};
     --vibe-border: {dark.Border ?? dark.Secondary};
     --vibe-input: {dark.Input ?? dark.Secondary};
     --vibe-ring: {dark.Ring ?? dark.Primary};

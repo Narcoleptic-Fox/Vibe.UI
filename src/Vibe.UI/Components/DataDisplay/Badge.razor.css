@@ -52,31 +52,31 @@
 
 /* Destructive Variant */
 .vibe-badge-destructive {
-    background-color: color-mix(in srgb, var(--vibe-destructive) 78%, black);
+    background-color: var(--vibe-destructive);
     color: var(--vibe-destructive-foreground);
 }
 
 /* Success Variant */
 .vibe-badge-success {
-    background-color: color-mix(in srgb, var(--vibe-success) 78%, black);
+    background-color: var(--vibe-success);
     color: var(--vibe-success-foreground);
 }
 
 /* Warning Variant */
 .vibe-badge-warning {
     background-color: var(--vibe-warning);
-    color: color-mix(in srgb, var(--vibe-warning) 18%, black);
+    color: var(--vibe-warning-foreground);
 }
 
 /* Error Variant */
 .vibe-badge-error {
-    background-color: color-mix(in srgb, var(--vibe-destructive) 78%, black);
+    background-color: var(--vibe-destructive);
     color: var(--vibe-destructive-foreground);
 }
 
 /* Info Variant */
 .vibe-badge-info {
-    background-color: color-mix(in srgb, var(--vibe-info) 78%, black);
+    background-color: var(--vibe-info);
     color: var(--vibe-info-foreground);
 }
 

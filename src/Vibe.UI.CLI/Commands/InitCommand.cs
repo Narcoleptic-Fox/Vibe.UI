@@ -481,6 +481,8 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
     /// <summary>
     /// Gets color scheme override CSS for the selected base color.
     /// These variables override the defaults in vibe-base.css.
+    /// <c>--vibe-input</c> is deliberately not overridden: the default in vibe-base.css meets the
+    /// 3:1 boundary contrast WCAG 2 asks of form controls, and a border-colored value does not.
     /// </summary>
     private string GetColorSchemeOverrides(string baseColor)
     {
@@ -601,11 +603,10 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
   --vibe-secondary: {lightColors.Item4};
   --vibe-secondary-foreground: {lightColors.Item2};
   --vibe-muted: {lightColors.Item5};
-  --vibe-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --vibe-muted-foreground: hsl(215.4 16.3% 34%);
   --vibe-accent: {lightColors.Item4};
   --vibe-accent-foreground: {lightColors.Item2};
   --vibe-border: {lightColors.Item5};
-  --vibe-input: {lightColors.Item5};
   --vibe-ring: {lightColors.Item3};
 }}
 
@@ -625,7 +626,6 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
   --vibe-accent: {darkColors.Item4};
   --vibe-accent-foreground: {darkColors.Item2};
   --vibe-border: {darkColors.Item4};
-  --vibe-input: {darkColors.Item4};
   --vibe-ring: {darkColors.Item3};
 }}";
     }
