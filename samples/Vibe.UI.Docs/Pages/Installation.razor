@@ -8,11 +8,13 @@
         <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Choose your preferred installation method.</p>
     </header>
 
+    <PreReleaseNotice />
+
     <section>
         <h2>Option 1: CLI Tool (Recommended)</h2>
         <p>Install components as source code for full customization and control.</p>
 
-        <h3>Step 1: Install the CLI Tool</h3>
+        <h3>Step 1: Build and Install the CLI Tool</h3>
         <CodeBlock Code="@InstallCliCode" Language="bash" />
 
         <h3>Step 2: Initialize Your Project</h3>
@@ -40,10 +42,10 @@
     </section>
 
     <section>
-        <h2>Option 2: NuGet Package</h2>
-        <p>Install Vibe.UI as a traditional NuGet package.</p>
+        <h2>Option 2: Reference the Library</h2>
+        <p>Reference the component library from a clone of the repository. A NuGet package will replace this step once the beta is published.</p>
 
-        <h3>Step 1: Add the Package</h3>
+        <h3>Step 1: Add the Reference</h3>
         <CodeBlock Code="@AddPackageCode" Language="bash" />
 
         <h3>Step 2: Configure Program.cs</h3>
@@ -179,7 +181,7 @@
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
-    private string InstallCliCode => "dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta";
+    private string InstallCliCode => InstallCommands.CliFromSource;
 
     private string InitCode => @"cd MyBlazorApp
 vibe init";
@@ -197,7 +199,7 @@ await builder.Build().RunAsync();";
 vibe add card
 vibe add input";
 
-    private string AddPackageCode => "dotnet add package Vibe.UI --version 1.0.0-beta";
+    private string AddPackageCode => InstallCommands.ReferenceLibrary;
 
     private string ImportsCode => "@using Vibe.UI.Components";
 

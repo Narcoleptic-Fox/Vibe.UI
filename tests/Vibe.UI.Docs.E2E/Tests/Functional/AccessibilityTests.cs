@@ -20,7 +20,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/datatable",
         "/components/kanbanboard",
         "/components/sidebar",
-        "/components/alertdialog"
+        "/components/alertdialog",
     ];
 
     [Fact]
@@ -38,17 +38,29 @@ public class AccessibilityTests : E2ETestBase
 
                 var result = await Page.RunAxe();
                 failures.AddRange(
-                    result.Violations
-                        .Where(violation =>
-                            string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase))
-                        .Select(violation => FormatViolation(route, theme, violation)));
+                    result
+                        .Violations.Where(violation =>
+                            string.Equals(
+                                violation.Impact,
+                                "critical",
+                                StringComparison.OrdinalIgnoreCase
+                            )
+                            || string.Equals(
+                                violation.Impact,
+                                "serious",
+                                StringComparison.OrdinalIgnoreCase
+                            )
+                        )
+                        .Select(violation => FormatViolation(route, theme, violation))
+                );
             }
         }
 
         failures.ShouldBeEmpty(
-            "Flagship pages must not ship with serious or critical automated accessibility violations." +
-            Environment.NewLine + string.Join(Environment.NewLine, failures));
+            "Flagship pages must not ship with serious or critical automated accessibility violations."
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, failures)
+        );
     }
 
     [Theory]
@@ -57,7 +69,8 @@ public class AccessibilityTests : E2ETestBase
     public async Task OpenDatePickerStatesHaveNoSeriousOrCriticalAxeViolations(
         string route,
         string triggerSelector,
-        string popupSelector)
+        string popupSelector
+    )
     {
         await Page.EmulateMediaAsync(new() { ReducedMotion = ReducedMotion.Reduce });
         await NavigateAndWaitForBlazorAsync(route);
@@ -68,16 +81,19 @@ public class AccessibilityTests : E2ETestBase
         await popup.WaitForAsync();
 
         var result = await popup.RunAxe();
-        var failures = result.Violations
-            .Where(violation =>
-                string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase))
+        var failures = result
+            .Violations.Where(violation =>
+                string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase)
+            )
             .Select(violation => FormatViolation($"{route}#open", "light", violation))
             .ToArray();
 
         failures.ShouldBeEmpty(
-            $"The open picker state at {route} must not have serious or critical automated accessibility violations." +
-            Environment.NewLine + string.Join(Environment.NewLine, failures));
+            $"The open picker state at {route} must not have serious or critical automated accessibility violations."
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, failures)
+        );
     }
 
     [Fact]
@@ -85,22 +101,31 @@ public class AccessibilityTests : E2ETestBase
     {
         await Page.EmulateMediaAsync(new() { ReducedMotion = ReducedMotion.Reduce });
         await NavigateAndWaitForBlazorAsync("/components/alertdialog");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete project", Exact = true }).First.ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete project", Exact = true })
+            .First.ClickAsync();
 
-        var dialog = Page.GetByRole(AriaRole.Alertdialog, new() { Name = "Delete project?", Exact = true });
+        var dialog = Page.GetByRole(
+            AriaRole.Alertdialog,
+            new() { Name = "Delete project?", Exact = true }
+        );
         await dialog.WaitForAsync();
 
         var result = await dialog.RunAxe();
-        var failures = result.Violations
-            .Where(violation =>
-                string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase))
-            .Select(violation => FormatViolation("/components/alertdialog#open", "light", violation))
+        var failures = result
+            .Violations.Where(violation =>
+                string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase)
+            )
+            .Select(violation =>
+                FormatViolation("/components/alertdialog#open", "light", violation)
+            )
             .ToArray();
 
         failures.ShouldBeEmpty(
-            "The open alert dialog must not have serious or critical automated accessibility violations." +
-            Environment.NewLine + string.Join(Environment.NewLine, failures));
+            "The open alert dialog must not have serious or critical automated accessibility violations."
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, failures)
+        );
     }
 
     [Fact]
@@ -108,11 +133,17 @@ public class AccessibilityTests : E2ETestBase
     {
         await NavigateAndWaitForBlazorAsync("/components/alertdialog");
 
-        var opener = Page.GetByRole(AriaRole.Button, new() { Name = "Delete project", Exact = true }).First;
+        var opener = Page.GetByRole(
+            AriaRole.Button,
+            new() { Name = "Delete project", Exact = true }
+        ).First;
         await opener.FocusAsync();
         await opener.ClickAsync();
 
-        var dialog = Page.GetByRole(AriaRole.Alertdialog, new() { Name = "Delete project?", Exact = true });
+        var dialog = Page.GetByRole(
+            AriaRole.Alertdialog,
+            new() { Name = "Delete project?", Exact = true }
+        );
         await dialog.WaitForAsync();
         (await dialog.GetAttributeAsync("aria-modal")).ShouldBe("true");
         (await dialog.GetAttributeAsync("aria-labelledby")).ShouldNotBeNullOrWhiteSpace();
@@ -121,16 +152,18 @@ public class AccessibilityTests : E2ETestBase
         for (var index = 0; index < 8; index++)
         {
             await Page.Keyboard.PressAsync("Tab");
-            (await dialog.EvaluateAsync<bool>(
-                "element => element.contains(document.activeElement)")).ShouldBeTrue(
-                "Focus must remain inside the open alert dialog.");
+            (
+                await dialog.EvaluateAsync<bool>(
+                    "element => element.contains(document.activeElement)"
+                )
+            ).ShouldBeTrue("Focus must remain inside the open alert dialog.");
         }
 
         await Page.Keyboard.PressAsync("Escape");
         await dialog.WaitForAsync(new() { State = WaitForSelectorState.Detached });
-        (await opener.EvaluateAsync<bool>(
-            "element => document.activeElement === element")).ShouldBeTrue(
-            "Closing the alert dialog must restore focus to its opener.");
+        (
+            await opener.EvaluateAsync<bool>("element => document.activeElement === element")
+        ).ShouldBeTrue("Closing the alert dialog must restore focus to its opener.");
     }
 
     [Fact]
@@ -138,31 +171,36 @@ public class AccessibilityTests : E2ETestBase
     {
         await NavigateAndWaitForBlazorAsync("/components/input");
 
-        var controls = Page.Locator("main section").First.Locator("input:visible, textarea:visible, select:visible");
+        var controls = Page.Locator("main section")
+            .First.Locator("input:visible, textarea:visible, select:visible");
         var count = await controls.CountAsync();
         count.ShouldBeGreaterThan(0, "The Input preview must expose form controls.");
 
         for (var index = 0; index < count; index++)
         {
-            var hasProgrammaticName = await controls.Nth(index).EvaluateAsync<bool>(
-                """
-                element => {
-                    const labelledBy = element.getAttribute('aria-labelledby');
-                    const labelledByText = labelledBy
-                        ?.split(/\s+/)
-                        .map(id => document.getElementById(id)?.textContent?.trim())
-                        .some(Boolean) ?? false;
-                    const associatedLabel = Array.from(element.labels ?? [])
-                        .some(label => Boolean(label.textContent?.trim()));
+            var hasProgrammaticName = await controls
+                .Nth(index)
+                .EvaluateAsync<bool>(
+                    """
+                    element => {
+                        const labelledBy = element.getAttribute('aria-labelledby');
+                        const labelledByText = labelledBy
+                            ?.split(/\s+/)
+                            .map(id => document.getElementById(id)?.textContent?.trim())
+                            .some(Boolean) ?? false;
+                        const associatedLabel = Array.from(element.labels ?? [])
+                            .some(label => Boolean(label.textContent?.trim()));
 
-                    return associatedLabel ||
-                        Boolean(element.getAttribute('aria-label')?.trim()) ||
-                        labelledByText;
-                }
-                """);
+                        return associatedLabel ||
+                            Boolean(element.getAttribute('aria-label')?.trim()) ||
+                            labelledByText;
+                    }
+                    """
+                );
 
             hasProgrammaticName.ShouldBeTrue(
-                $"Visible form control {index} must use a label, aria-label, or aria-labelledby; placeholder text is not a label.");
+                $"Visible form control {index} must use a label, aria-label, or aria-labelledby; placeholder text is not a label."
+            );
         }
     }
 
@@ -180,8 +218,9 @@ public class AccessibilityTests : E2ETestBase
         (await account.GetAttributeAsync("aria-selected")).ShouldBe("true");
 
         await account.PressAsync("ArrowRight");
-        (await security.EvaluateAsync<bool>(
-            "element => document.activeElement === element")).ShouldBeTrue();
+        (
+            await security.EvaluateAsync<bool>("element => document.activeElement === element")
+        ).ShouldBeTrue();
         (await security.GetAttributeAsync("tabindex")).ShouldBe("0");
         (await security.GetAttributeAsync("aria-selected")).ShouldBe("true");
         (await account.GetAttributeAsync("tabindex")).ShouldBe("-1");
@@ -198,19 +237,21 @@ public class AccessibilityTests : E2ETestBase
             await NavigateAndWaitForBlazorAsync(route);
 
             var bodyFits = await Page.EvaluateAsync<bool>(
-                "() => document.documentElement.scrollWidth <= window.innerWidth");
+                "() => document.documentElement.scrollWidth <= window.innerWidth"
+            );
             if (!bodyFits)
             {
                 failures.Add($"{route}: page content overflows the 390px viewport.");
             }
 
             var controls = Page.Locator(
-                "main section:first-of-type button:visible, " +
-                "main section:first-of-type input:visible, " +
-                "main section:first-of-type select:visible, " +
-                "main section:first-of-type textarea:visible, " +
-                "main section:first-of-type [role='button']:visible, " +
-                "main section:first-of-type [role='tab']:visible");
+                "main section:first-of-type button:visible, "
+                    + "main section:first-of-type input:visible, "
+                    + "main section:first-of-type select:visible, "
+                    + "main section:first-of-type textarea:visible, "
+                    + "main section:first-of-type [role='button']:visible, "
+                    + "main section:first-of-type [role='tab']:visible"
+            );
             var controlCount = await controls.CountAsync();
 
             for (var index = 0; index < controlCount; index++)
@@ -219,15 +260,18 @@ public class AccessibilityTests : E2ETestBase
                 if (box != null && (box.Width < 23.5 || box.Height < 23.5))
                 {
                     failures.Add(
-                        $"{route}: interactive control {index} is {box.Width:F1}x{box.Height:F1}px; " +
-                        "WCAG 2.2 target size requires at least 24x24px unless an exception applies.");
+                        $"{route}: interactive control {index} is {box.Width:F1}x{box.Height:F1}px; "
+                            + "WCAG 2.2 target size requires at least 24x24px unless an exception applies."
+                    );
                 }
             }
         }
 
         failures.ShouldBeEmpty(
-            "Flagship mobile previews must fit the viewport and keep interaction targets usable." +
-            Environment.NewLine + string.Join(Environment.NewLine, failures));
+            "Flagship mobile previews must fit the viewport and keep interaction targets usable."
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, failures)
+        );
     }
 
     [Fact]
@@ -255,21 +299,30 @@ public class AccessibilityTests : E2ETestBase
                 localStorage.setItem('theme', theme);
             }
             """,
-            theme);
+            theme
+        );
+
+        // The switch starts colour transitions. Axe sampling a half-faded colour reports a
+        // contrast failure that no reader ever sees, so wait for them to finish.
+        await Page.WaitForFunctionAsync(
+            "() => document.getAnimations().every(animation => !(animation instanceof CSSTransition))"
+        );
     }
 
     private static string FormatViolation(
         string route,
         string theme,
-        Deque.AxeCore.Commons.AxeResultItem violation)
+        Deque.AxeCore.Commons.AxeResultItem violation
+    )
     {
-        var targets = violation.Nodes
-            .Select(node =>
-                $"{node.Target}: {string.Join(" ", node.Any.Select(check => check.Message))}")
+        var targets = violation
+            .Nodes.Select(node =>
+                $"{node.Target}: {string.Join(" ", node.Any.Select(check => check.Message))}"
+            )
             .Distinct(StringComparer.Ordinal)
             .Take(5);
 
-        return $"{route} ({theme}): [{violation.Impact}] {violation.Id} - {violation.Help}. " +
-               $"Targets: {string.Join(" | ", targets)}. {violation.HelpUrl}";
+        return $"{route} ({theme}): [{violation.Impact}] {violation.Id} - {violation.Help}. "
+            + $"Targets: {string.Join(" | ", targets)}. {violation.HelpUrl}";
     }
 }

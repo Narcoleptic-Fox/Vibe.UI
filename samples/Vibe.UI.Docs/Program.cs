@@ -12,7 +12,9 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 // Add Vibe.UI services (Toast and Dialog only - theming is pure CSS now)
 builder.Services.AddVibeUI(options =>
 {
-    options.BaseColor = "Slate";
+    // Zinc matches the zinc utility classes the docs pages are written with, so the page
+    // background, cards and code blocks share one neutral palette in both themes.
+    options.BaseColor = "Zinc";
 });
 
 await builder.Build().RunAsync();

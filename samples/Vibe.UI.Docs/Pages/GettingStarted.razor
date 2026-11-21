@@ -8,10 +8,12 @@
         <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Learn how to get started with Vibe.UI in your Blazor project.</p>
     </header>
 
+    <PreReleaseNotice />
+
     <section>
         <h2>Prerequisites</h2>
         <ul>
-            <li>.NET 9.0 SDK or later</li>
+            <li>.NET 10 SDK</li>
             <li>Basic knowledge of Blazor and C#</li>
             <li>A Blazor WebAssembly or Blazor Server project</li>
         </ul>
@@ -39,18 +41,18 @@
             </div>
 
             <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6 vibe-space-y-4">
-                <h3 class="vibe-m-0">NuGet package</h3>
-                <p>Traditional package reference for quick setup and automatic updates.</p>
+                <h3 class="vibe-m-0">Library reference</h3>
+                <p>Reference the component library project from a clone of the repository. A NuGet package will replace this once the beta is published.</p>
                 <div>
                     <strong>Pros:</strong>
                     <ul>
-                        <li>Quick installation</li>
-                        <li>Automatic updates</li>
+                        <li>No copied source to maintain</li>
+                        <li>Updates by pulling the repository</li>
                         <li>Smaller project files</li>
                         <li>Standard .NET workflow</li>
                     </ul>
                 </div>
-                <p><strong>Best for:</strong> Projects that prefer package management or need rapid prototyping.</p>
+                <p><strong>Best for:</strong> Projects that want the components as a dependency rather than as source.</p>
                 <Button Variant="ButtonVariant.Outline" Href="@GetUrl("installation")">View installation</Button>
             </div>
         </div>
@@ -62,7 +64,7 @@
 
         <div class="vibe-space-y-6">
             <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
-                <h3 class="vibe-mb-3">1) Install the CLI tool</h3>
+                <h3 class="vibe-mb-3">1) Build and install the CLI tool</h3>
                 <CodeBlock Code="@InstallCliCode" Language="bash" />
             </div>
 
@@ -103,7 +105,7 @@
         <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-4">
             <a href="@GetUrl("installation")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
                 <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Installation</h3>
-                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">CLI and NuGet setup.</p>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">CLI and library reference setup.</p>
             </a>
             <a href="@GetUrl("cli")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
                 <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">CLI reference</h3>
@@ -125,7 +127,7 @@
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
-    private string InstallCliCode => "dotnet tool install -g Vibe.UI.CLI --version 1.0.0-beta";
+    private string InstallCliCode => InstallCommands.CliFromSource;
 
     private string InitProjectCode => @"cd MyBlazorApp
 vibe init";

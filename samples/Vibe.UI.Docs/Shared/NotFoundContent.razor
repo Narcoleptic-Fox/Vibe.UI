@@ -1,0 +1,25 @@
+@inject NavigationManager Navigation
+
+@*
+    NotFoundContent - what the router shows for an address that matches no page.
+*@
+
+<PageTitle>Page not found - Vibe.UI</PageTitle>
+
+<div class="docs-not-found">
+    <p class="docs-not-found-code">404</p>
+    <h1 class="docs-not-found-title">Page not found</h1>
+    <p class="docs-not-found-text">
+        There is no page at <code>/@RequestedPath</code>. It may have moved, or the link may be out of date.
+    </p>
+    <div class="docs-not-found-actions">
+        <Button Variant="ButtonVariant.Primary" Href="./">Back to home</Button>
+        <Button Variant="ButtonVariant.Outline" Href="components">Browse components</Button>
+        <Button Variant="ButtonVariant.Ghost" Href="getting-started">Getting started</Button>
+    </div>
+</div>
+
+@code {
+    private string RequestedPath =>
+        Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', '#')[0];
+}
