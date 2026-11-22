@@ -12,7 +12,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 {
     // The stylesheet's own colors are what a project gets without a color scheme, and choosing
     // this name leaves them in place. Every other choice appends that palette's tokens.
-    private const string DefaultBaseColor = "Slate";
+    private const string DefaultBaseColor = Vibe.UI.Services.Theme.ThemePaletteData.Default;
 
     // The default first, then the rest of the built-in palettes from themes/*.json.
     private static readonly string[] BaseColorChoices =

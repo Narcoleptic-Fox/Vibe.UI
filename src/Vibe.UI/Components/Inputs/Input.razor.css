@@ -62,7 +62,7 @@
 
 /* ==================== TEXT VARIANT (Standard / Underline Only) ==================== */
 .vibe-input-wrapper.vibe-input-wrapper-text {
-    border-bottom: 1px solid var(--vibe-border);
+    border-bottom: 1px solid var(--vibe-input);
     padding-bottom: 0.25rem;
 }
 
@@ -88,7 +88,7 @@
 .vibe-input-wrapper.vibe-input-wrapper-filled {
     background-color: var(--vibe-muted);
     border-radius: var(--vibe-radius-sm) var(--vibe-radius-sm) 0 0;
-    border-bottom: 1px solid var(--vibe-border);
+    border-bottom: 1px solid var(--vibe-input);
 }
 
 .vibe-input-wrapper.vibe-input-wrapper-filled:hover:not(.vibe-input-disabled) {
@@ -120,12 +120,13 @@
 
 /* ==================== OUTLINED VARIANT (Full Border) ==================== */
 .vibe-input-wrapper.vibe-input-wrapper-outlined {
-    border: 1px solid var(--vibe-border);
+    border: 1px solid var(--vibe-input);
     border-radius: var(--vibe-radius-sm);
+    background-color: var(--vibe-card);
 }
 
 .vibe-input-wrapper.vibe-input-wrapper-outlined:hover:not(.vibe-input-disabled) {
-    border-color: color-mix(in srgb, var(--vibe-border) 70%, var(--vibe-foreground));
+    border-color: color-mix(in srgb, var(--vibe-input) 70%, var(--vibe-foreground));
 }
 
 .vibe-input-wrapper.vibe-input-wrapper-outlined.vibe-input-focused {
@@ -151,7 +152,7 @@
 ::deep .vibe-input-label.vibe-input-label-outlined {
     left: 0.75rem;
     top: 0.75rem;
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     padding: 0 0.25rem;
 }
 

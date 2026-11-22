@@ -6,10 +6,10 @@ namespace Vibe.UI.Configuration;
 public class VibeThemeOptions
 {
     /// <summary>
-    /// The base color scheme to use. Default is "Slate".
-    /// Options: Slate, Gray, Zinc, Neutral, Stone, Blue, Custom
+    /// The built-in theme to use: Tide (the default), Ink or Dune, or Custom to start from
+    /// the default and set colors with <see cref="LightColors"/> and <see cref="DarkColors"/>.
     /// </summary>
-    public string BaseColor { get; set; } = "Slate";
+    public string BaseColor { get; set; } = Vibe.UI.Services.Theme.ThemePaletteData.Default;
 
     /// <summary>
     /// Custom light mode colors (used when BaseColor = "Custom")

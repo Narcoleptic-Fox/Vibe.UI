@@ -16,7 +16,7 @@ public partial class TokenContrastTests
     private const double Text = 4.5;
     private const double NonText = 3.0;
 
-    // Every palette under themes/, read from the definitions: a palette added there is
+    // Every theme under themes/, read from the definitions: a theme added there is
     // measured here without being listed anywhere else.
     private static readonly string[] BaseColors =
         ThemeArtifacts.LoadPalettes().Select(palette => palette.Name).ToArray();
@@ -70,11 +70,16 @@ public partial class TokenContrastTests
         ("info-text", "card", Text),
         ("info-text", "muted", Text),
         ("info-text", "popover", Text),
-        // Links and inline actions. Not yet held on muted: the Blue palette's dark primary is
-        // 3.97:1 there, and that palette is being replaced, not repaired.
+        // ...and on its own soft tint.
+        ("destructive-text", "destructive-soft", Text),
+        ("success-text", "success-soft", Text),
+        ("warning-text", "warning-soft", Text),
+        ("info-text", "info-soft", Text),
+        // Links and inline actions.
         ("link", "background", Text),
         ("link", "card", Text),
         ("link", "popover", Text),
+        ("link", "muted", Text),
         // Control boundaries and the focus indicator.
         ("input", "background", NonText),
         ("input", "card", NonText),
@@ -130,56 +135,6 @@ public partial class TokenContrastTests
         );
     }
 
-    public static IEnumerable<object[]> SoftTintCases()
-    {
-        var sources = new List<string> { "vibe-base.css" };
-        sources.AddRange(BaseColors.Select(color => $"ThemeService:{color}"));
-
-        foreach (var source in sources)
-        {
-            foreach (var theme in new[] { "light", "dark" })
-            {
-                foreach (var status in new[] { "destructive", "success", "warning", "info" })
-                {
-                    yield return [source, theme, status];
-                }
-            }
-        }
-    }
-
-    [Theory]
-    [MemberData(nameof(SoftTintCases))]
-    public void StatusTextStaysReadableOnItsSoftTint(string source, string theme, string status)
-    {
-        // --vibe-<status>-text defaults to the status color, and --vibe-<status>-soft to that
-        // color mixed into the page background. Both are read from the stylesheet, so changing
-        // either default is measured here.
-        var css = File.ReadAllText(BaseCssPath());
-        Regex.IsMatch(css, $@"--vibe-{status}-text:\s*var\(--vibe-{status}\);").ShouldBeTrue(
-            $"--vibe-{status}-text is expected to default to --vibe-{status}");
-
-        var mix = Regex.Match(
-            css,
-            $@"--vibe-{status}-soft:\s*color-mix\(in srgb, var\(--vibe-{status}\) (?<share>[\d.]+)%, var\(--vibe-background\)\);");
-        mix.Success.ShouldBeTrue($"--vibe-{status}-soft is expected to mix --vibe-{status} into --vibe-background");
-        var share = Parse(mix.Groups["share"].Value) / 100.0;
-
-        var tokens = LoadTokens(source, theme);
-        var color = Rgb(tokens[status]);
-        var background = Rgb(tokens["background"]);
-        var tint = new double[3];
-        for (var channel = 0; channel < 3; channel++)
-        {
-            tint[channel] = (color[channel] * share) + (background[channel] * (1 - share));
-        }
-
-        var ratio = ContrastRatio(Luminance(color), Luminance(tint));
-
-        ratio.ShouldBeGreaterThanOrEqualTo(
-            Text,
-            $"{source} ({theme}): --vibe-{status}-text on --vibe-{status}-soft is {ratio:0.00}:1, needs {Text:0.0}:1");
-    }
-
     [Fact]
     public void ContrastRatioMatchesTheWcagReferenceValues()
     {
@@ -204,19 +159,6 @@ public partial class TokenContrastTests
             foreach (var (name, value) in ReadTheme(service.GenerateThemeCss(), theme))
             {
                 tokens[name] = value;
-            }
-        }
-
-        // A role the theme does not set falls back to the token the stylesheet points it at
-        // (--vibe-link: var(--vibe-primary)), so it is measured with that token's value.
-        var defaults = RoleDefault()
-            .Matches(File.ReadAllText(BaseCssPath()))
-            .ToDictionary(role => role.Groups["name"].Value, role => role.Groups["target"].Value);
-        foreach (var (role, target) in defaults)
-        {
-            if (!tokens.ContainsKey(role) && tokens.TryGetValue(target, out var value))
-            {
-                tokens[role] = value;
             }
         }
 
@@ -324,9 +266,6 @@ public partial class TokenContrastTests
 
     [GeneratedRegex(@"--vibe-(?<name>[a-z0-9-]+):\s*(?<value>hsl\([^)]*\))")]
     private static partial Regex ColorToken();
-
-    [GeneratedRegex(@"--vibe-(?<name>[a-z0-9-]+):\s*var\(--vibe-(?<target>[a-z0-9-]+)\);")]
-    private static partial Regex RoleDefault();
 
     [GeneratedRegex(@"hsl\(\s*(?<h>[\d.]+)\s+(?<s>[\d.]+)%\s+(?<l>[\d.]+)%\s*\)")]
     private static partial Regex Hsl();

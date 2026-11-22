@@ -6,7 +6,7 @@
   flex: 0 0 auto;
   flex-direction: column;
   gap: 0.5rem;
-  background: var(--vibe-sidebar-background, var(--vibe-muted));
+  background: var(--vibe-sidebar-background, var(--vibe-card));
   color: var(--vibe-sidebar-foreground, var(--vibe-foreground));
   border-right: 1px solid var(--vibe-border);
   overflow: hidden;

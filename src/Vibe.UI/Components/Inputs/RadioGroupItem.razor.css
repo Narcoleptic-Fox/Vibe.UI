@@ -31,7 +31,7 @@
     justify-content: center;
     width: 1.25rem;
     height: 1.25rem;
-    border: 2px solid var(--vibe-border);
+    border: 2px solid var(--vibe-input);
     border-radius: 50%;
     background-color: var(--vibe-card);
     transition: all 0.2s ease;

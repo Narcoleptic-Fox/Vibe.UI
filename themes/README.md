@@ -7,8 +7,8 @@ holds a palette by hand.
 
 ```mermaid
 flowchart TD
-    D["themes/default.json"] -->|color blocks| CSS["src/Vibe.UI/wwwroot/css/vibe-base.css<br/>(between the vibe:colors markers)"]
-    P["themes/blue.json, gray.json, neutral.json,<br/>slate.json, stone.json, zinc.json"] -->|palette table| G["src/Vibe.UI/Services/Theme/<br/>ThemePaletteData.g.cs"]
+    D["themes/tide.json<br/>(marked default)"] -->|color blocks| CSS["src/Vibe.UI/wwwroot/css/vibe-base.css<br/>(between the vibe:colors markers)"]
+    P["themes/tide.json, ink.json, dune.json"] -->|theme table| G["src/Vibe.UI/Services/Theme/<br/>ThemePaletteData.g.cs"]
     G --> S["ThemeService<br/>(AddVibeUI base color)"]
     G --> C["vibe init<br/>(color scheme appended to vibe-base.css)"]
     T["ThemeGenerationTests"] -.->|regenerates and compares| CSS
@@ -23,16 +23,16 @@ flowchart TD
 
 ## Files
 
-| File | What it defines |
-| --- | --- |
-| `default.json` | The colors in `vibe-base.css`: what a project gets with no base color chosen |
-| any other `*.json` | A built-in palette, selectable by its `name` as the base color |
+Each `*.json` file is one built-in theme, selectable by its `name` as the base color.
+Exactly one has `"default": true`. That theme supplies the stylesheet's colors, is the base
+color when none is chosen, and is what a custom theme starts from.
 
 A definition has a `name` and two objects, `light` and `dark`. Each maps a token name (the
 part after `--vibe-`) to an `hsl(H S% L%)` value. Tokens are written out in file order.
 
-A palette defines exactly the 19 tokens the theme service writes. `default.json` defines
-those plus the status, sidebar and chart colors.
+Every theme defines the same tokens in the same order in both modes: the 19 that shadcn/ui
+themes also use, then the roles (sunken border, link, status text and soft tints), the
+status fills, the sidebar and the chart colors. A test fails if a theme leaves one out.
 
 ## Changing a color
 
@@ -50,18 +50,16 @@ those plus the status, sidebar and chart colors.
 Editing `vibe-base.css` between the markers, or `ThemePaletteData.g.cs`, by hand fails
 `ThemeGenerationTests`, which names the first line that differs.
 
-## Adding a palette
+## Adding a theme
 
-Add `themes/<name>.json` with the 19 palette tokens in both modes and regenerate. It becomes
-a valid base color for `AddVibeUI` and a choice in `vibe init` with no other change.
+Copy an existing definition to `themes/<name>.json`, change the name and the colors, remove
+`"default": true`, and regenerate. It becomes a valid base color for `AddVibeUI` and a choice
+in `vibe init` with no other change, and the contrast tests measure it.
 
-## Where this is going
+## The layer model
 
-Recorded 2026-11-21, so the reasoning is not lost.
-
-The six palettes here are shadcn/ui's original HSL themes with contrast fixes. The plan is
-to replace them with a small set of Vibe.UI's own, built on a layer model that differs
-between modes on purpose:
+Recorded 2026-11-21, so the reasoning is not lost. The themes are Vibe.UI's own. They
+replaced six palettes ported from shadcn/ui on 2026-11-22.
 
 | Level | Surface | Token | Light | Dark |
 | --- | --- | --- | --- | --- |
@@ -75,19 +73,8 @@ enough to keep the page near white (under about 1.08:1 between neighbours) canno
 So light uses two fills and tells the levels apart with borders and shadow. On a dark theme
 lightness steps read clearly and shadows barely show, so dark uses four fills.
 
-Order of work, revised 2026-11-22. The components had to move first: measured against the
-new light themes, today's status colors used as text came out at 3.1 to 3.6:1 on the grey
-page and 2.7 to 3.2:1 on the sunken surface, under the 4.5:1 the contrast test holds.
+## Known gaps
 
-1. One source for every color, generated and gated (done: this folder).
-2. Move the components onto the roles and the surface levels (done). Under the six palettes
-   here nothing changes on screen, because each has card, popover and background equal, and
-   hover fill equal to muted.
-3. Add the new themes as definitions, remove the six, and switch the defaults.
-
-Still to do in step 3, because each changes what today's palettes look like:
-
-- Field edges use `--vibe-border`. They should use `--vibe-input`, which is the token held
-  to 3:1.
-- Table headers and the sidebar use the sunken surface. In the layer model they are level 2.
 - The gap inside a focus ring is drawn in the page color, whatever the control sits on.
+- The docs site's own pages are written with fixed zinc utility classes, so its panels stay
+  neutral grey while the page and the components take the theme.

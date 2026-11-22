@@ -25,33 +25,43 @@
      Status colors are used both as a fill under their -foreground and as text on the page,
      so each meets 4.5:1 both ways. */
   /* vibe:colors:light:start */
-  --vibe-background: hsl(0 0% 100%);
-  --vibe-foreground: hsl(240 10% 3.9%);
+  --vibe-background: hsl(195 14% 80%);
+  --vibe-foreground: hsl(200 40% 8%);
   --vibe-card: hsl(0 0% 100%);
-  --vibe-card-foreground: hsl(240 10% 3.9%);
+  --vibe-card-foreground: hsl(200 40% 8%);
   --vibe-popover: hsl(0 0% 100%);
-  --vibe-popover-foreground: hsl(240 10% 3.9%);
-  --vibe-primary: hsl(240 5.9% 10%);
-  --vibe-primary-foreground: hsl(0 0% 98%);
-  --vibe-secondary: hsl(240 4.8% 92%);
-  --vibe-secondary-foreground: hsl(240 5.9% 10%);
-  --vibe-muted: hsl(240 4.8% 95.9%);
-  --vibe-muted-foreground: hsl(240 5.2% 33.9%);
-  --vibe-accent: hsl(240 4.8% 95.9%);
-  --vibe-accent-foreground: hsl(240 5.9% 10%);
+  --vibe-popover-foreground: hsl(200 40% 8%);
+  --vibe-primary: hsl(191 89% 21%);
+  --vibe-primary-foreground: hsl(0 0% 100%);
+  --vibe-secondary: hsl(195 14% 90%);
+  --vibe-secondary-foreground: hsl(200 40% 8%);
+  --vibe-muted: hsl(195 14% 75%);
+  --vibe-muted-foreground: hsl(200 12% 26%);
+  --vibe-accent: hsl(195 14% 90%);
+  --vibe-accent-foreground: hsl(200 40% 8%);
   --vibe-destructive: hsl(0 72% 46%);
-  --vibe-destructive-foreground: hsl(0 0% 98%);
-  --vibe-success: hsl(142 72% 29%);
+  --vibe-destructive-foreground: hsl(0 0% 100%);
+  --vibe-border: hsl(195 12% 84%);
+  --vibe-input: hsl(195 10% 39%);
+  --vibe-ring: hsl(191 89% 18%);
+  --vibe-sunken-border: hsl(195 12% 60%);
+  --vibe-link: hsl(191 89% 18%);
+  --vibe-destructive-text: hsl(0 72% 31%);
+  --vibe-destructive-soft: hsl(0 86% 96%);
+  --vibe-success: hsl(142 72% 27%);
   --vibe-success-foreground: hsl(0 0% 100%);
-  --vibe-warning: hsl(26 90% 37%);
+  --vibe-success-text: hsl(142 72% 19%);
+  --vibe-success-soft: hsl(138 60% 94%);
+  --vibe-warning: hsl(26 90% 35%);
   --vibe-warning-foreground: hsl(0 0% 100%);
-  --vibe-info: hsl(221 83% 53%);
+  --vibe-warning-text: hsl(26 90% 23%);
+  --vibe-warning-soft: hsl(42 92% 92%);
+  --vibe-info: hsl(221 83% 50%);
   --vibe-info-foreground: hsl(0 0% 100%);
-  --vibe-border: hsl(240 5.9% 90%);
-  --vibe-input: hsl(240 4% 56%);
-  --vibe-ring: hsl(240 10% 3.9%);
-  --vibe-sidebar-background: hsl(0 0% 98%);
-  --vibe-sidebar-foreground: hsl(240 5.3% 26.1%);
+  --vibe-info-text: hsl(221 83% 36%);
+  --vibe-info-soft: hsl(214 95% 95%);
+  --vibe-sidebar-background: hsl(0 0% 100%);
+  --vibe-sidebar-foreground: hsl(200 40% 8%);
   --vibe-chart-1: hsl(12 76% 61%);
   --vibe-chart-2: hsl(173 58% 39%);
   --vibe-chart-3: hsl(197 37% 24%);
@@ -142,71 +152,49 @@
   /* In dark mode the status colors are light enough to read as text on the dark page, so
      their fills take dark text, the same way --vibe-primary inverts. */
   /* vibe:colors:dark:start */
-  --vibe-background: hsl(240 10% 3.9%);
-  --vibe-foreground: hsl(0 0% 98%);
-  --vibe-card: hsl(240 10% 3.9%);
-  --vibe-card-foreground: hsl(0 0% 98%);
-  --vibe-popover: hsl(240 10% 3.9%);
-  --vibe-popover-foreground: hsl(0 0% 98%);
-  --vibe-primary: hsl(0 0% 98%);
-  --vibe-primary-foreground: hsl(240 5.9% 10%);
-  --vibe-secondary: hsl(240 3.7% 20%);
-  --vibe-secondary-foreground: hsl(0 0% 98%);
-  --vibe-muted: hsl(240 3.7% 15.9%);
-  --vibe-muted-foreground: hsl(240 5% 64.9%);
-  --vibe-accent: hsl(240 3.7% 15.9%);
-  --vibe-accent-foreground: hsl(0 0% 98%);
-  --vibe-destructive: hsl(0 84% 67%);
-  --vibe-destructive-foreground: hsl(240 10% 3.9%);
-  --vibe-success: hsl(142 69% 58%);
-  --vibe-success-foreground: hsl(240 10% 3.9%);
-  --vibe-warning: hsl(43 96% 56%);
-  --vibe-warning-foreground: hsl(240 10% 3.9%);
-  --vibe-info: hsl(213 94% 68%);
-  --vibe-info-foreground: hsl(240 10% 3.9%);
-  --vibe-border: hsl(240 3.7% 25%);
-  --vibe-input: hsl(240 4% 46%);
-  --vibe-ring: hsl(240 4.9% 83.9%);
-  --vibe-sidebar-background: hsl(240 5.9% 10%);
-  --vibe-sidebar-foreground: hsl(240 4.8% 95.9%);
+  --vibe-background: hsl(199 40% 5%);
+  --vibe-foreground: hsl(190 25% 95%);
+  --vibe-card: hsl(199 32% 9%);
+  --vibe-card-foreground: hsl(190 25% 95%);
+  --vibe-popover: hsl(199 26% 13%);
+  --vibe-popover-foreground: hsl(190 25% 95%);
+  --vibe-primary: hsl(187 62% 52%);
+  --vibe-primary-foreground: hsl(200 40% 6%);
+  --vibe-secondary: hsl(199 32% 18%);
+  --vibe-secondary-foreground: hsl(190 25% 95%);
+  --vibe-muted: hsl(199 45% 3.5%);
+  --vibe-muted-foreground: hsl(196 14% 68%);
+  --vibe-accent: hsl(199 32% 18%);
+  --vibe-accent-foreground: hsl(190 25% 95%);
+  --vibe-destructive: hsl(0 72% 47%);
+  --vibe-destructive-foreground: hsl(0 0% 100%);
+  --vibe-border: hsl(199 22% 17%);
+  --vibe-input: hsl(199 12% 52%);
+  --vibe-ring: hsl(187 62% 58%);
+  --vibe-sunken-border: hsl(199 22% 17%);
+  --vibe-link: hsl(187 62% 58%);
+  --vibe-destructive-text: hsl(0 90% 72%);
+  --vibe-destructive-soft: hsl(0 50% 15%);
+  --vibe-success: hsl(142 72% 29%);
+  --vibe-success-foreground: hsl(0 0% 100%);
+  --vibe-success-text: hsl(142 69% 58%);
+  --vibe-success-soft: hsl(142 45% 12%);
+  --vibe-warning: hsl(26 90% 37%);
+  --vibe-warning-foreground: hsl(0 0% 100%);
+  --vibe-warning-text: hsl(43 96% 58%);
+  --vibe-warning-soft: hsl(36 60% 12%);
+  --vibe-info: hsl(221 83% 54%);
+  --vibe-info-foreground: hsl(0 0% 100%);
+  --vibe-info-text: hsl(213 94% 70%);
+  --vibe-info-soft: hsl(218 55% 16%);
+  --vibe-sidebar-background: hsl(199 32% 9%);
+  --vibe-sidebar-foreground: hsl(190 25% 95%);
   --vibe-chart-1: hsl(220 70% 50%);
   --vibe-chart-2: hsl(160 60% 45%);
   --vibe-chart-3: hsl(30 80% 55%);
   --vibe-chart-4: hsl(280 65% 60%);
   --vibe-chart-5: hsl(340 75% 55%);
   /* vibe:colors:dark:end */
-}
-
-/* ========================================
-   ROLE TOKENS THAT FOLLOW OTHER TOKENS
-
-   Each of these names a job a color does. By default it points at an existing token, so
-   every palette has a value for it. A theme that wants a different color for the job
-   defines the token itself and replaces the default.
-
-   Declared for .dark as well as :root so the references are resolved again wherever dark
-   mode is switched on, not only on the root element.
-   ======================================== */
-
-:root,
-.dark {
-  /* The edge of a sunken well: an area recessed into the surface that holds it. */
-  --vibe-sunken-border: var(--vibe-border);
-
-  /* Links and other inline actions. */
-  --vibe-link: var(--vibe-primary);
-
-  /* A status color used as text or an icon on the page. */
-  --vibe-destructive-text: var(--vibe-destructive);
-  --vibe-success-text: var(--vibe-success);
-  --vibe-warning-text: var(--vibe-warning);
-  --vibe-info-text: var(--vibe-info);
-
-  /* A quiet status background that the matching -text color stays readable on. */
-  --vibe-destructive-soft: color-mix(in srgb, var(--vibe-destructive) 6%, var(--vibe-background));
-  --vibe-success-soft: color-mix(in srgb, var(--vibe-success) 6%, var(--vibe-background));
-  --vibe-warning-soft: color-mix(in srgb, var(--vibe-warning) 6%, var(--vibe-background));
-  --vibe-info-soft: color-mix(in srgb, var(--vibe-info) 6%, var(--vibe-background));
 }
 
 /* ========================================

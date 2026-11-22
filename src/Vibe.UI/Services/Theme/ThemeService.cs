@@ -18,15 +18,15 @@ public interface IThemeService
 /// Default implementation of theme service.
 /// </summary>
 /// <remarks>
-/// The built-in palettes are not written here. They live in <c>themes/*.json</c> and reach this
+/// The built-in themes are not written here. They live in <c>themes/*.json</c> and reach this
 /// class through the generated <see cref="ThemePaletteData"/>.
 /// </remarks>
 public class ThemeService : IThemeService
 {
     private const string CustomBaseColor = "Custom";
 
-    // A custom theme changes only the colors it sets; everything else comes from this palette.
-    private const string CustomStartsFrom = "Slate";
+    // A custom theme changes only the colors it sets; everything else comes from this theme.
+    private const string CustomStartsFrom = ThemePaletteData.Default;
 
     private readonly VibeThemeOptions _options;
 
@@ -81,9 +81,10 @@ public class ThemeService : IThemeService
     }
 
     /// <summary>
-    /// Lays the custom colors over a palette. A color that is not set keeps the palette's value,
-    /// except the ones that follow another color: surfaces follow the background, text on them
-    /// follows the foreground, the hover fill follows secondary, and the focus ring follows primary.
+    /// Lays the custom colors over a theme. A color that is not set keeps the theme's value,
+    /// except the ones that follow another color: text on a surface follows the foreground, the
+    /// hover fill follows secondary, and the focus ring and links follow primary. Surfaces do
+    /// not follow the background: each is its own level of the page.
     /// </summary>
     private static KeyValuePair<string, string>[] ApplyCustomColors(
         KeyValuePair<string, string>[] palette,
@@ -106,9 +107,9 @@ public class ThemeService : IThemeService
         {
             ["background"] = background,
             ["foreground"] = foreground,
-            ["card"] = custom.Card ?? Follow(custom.Background, start["card"]),
+            ["card"] = custom.Card ?? start["card"],
             ["card-foreground"] = custom.CardForeground ?? Follow(custom.Foreground, start["card-foreground"]),
-            ["popover"] = custom.Popover ?? Follow(custom.Background, start["popover"]),
+            ["popover"] = custom.Popover ?? start["popover"],
             ["popover-foreground"] = custom.PopoverForeground ?? Follow(custom.Foreground, start["popover-foreground"]),
             ["primary"] = primary,
             ["primary-foreground"] = custom.PrimaryForeground ?? start["primary-foreground"],
@@ -124,15 +125,21 @@ public class ThemeService : IThemeService
             ["border"] = custom.Border ?? start["border"],
             ["input"] = custom.Input ?? start["input"],
             ["ring"] = custom.Ring ?? Follow(custom.Primary, start["ring"]),
+            ["link"] = Follow(custom.Primary, start["link"]),
+            ["sidebar-foreground"] = Follow(custom.Foreground, start["sidebar-foreground"]),
         };
 
         // A color that follows another takes the custom leader when there is one, and otherwise
         // keeps the palette's own value.
         static string Follow(string? customLeader, string paletteValue) => customLeader ?? paletteValue;
 
-        // Keep the palette's token order, so the output reads the same for every theme.
+        // Keep the theme's token order, so the output reads the same for every theme. A token
+        // with no custom property (status colors, the sidebar, charts) keeps the theme's value.
         return palette
-            .Select(token => new KeyValuePair<string, string>(token.Key, colors[token.Key]))
+            .Select(token => new KeyValuePair<string, string>(
+                token.Key,
+                colors.GetValueOrDefault(token.Key, token.Value)
+            ))
             .ToArray();
     }
 }

@@ -10,7 +10,7 @@ namespace Vibe.UI.Tests.Theme;
 /// </summary>
 public class ThemeGenerationTests
 {
-    // The tokens the theme service writes for a palette, in the order it writes them.
+    // The tokens every theme starts with, in order. shadcn/ui themes use the same names.
     private static readonly string[] PaletteTokens =
     [
         "background",
@@ -39,7 +39,10 @@ public class ThemeGenerationTests
     {
         ThemeArtifacts.AssertUpToDate(
             ThemeArtifacts.PaletteDataPath,
-            ThemeArtifacts.RenderPaletteData(ThemeArtifacts.LoadPalettes())
+            ThemeArtifacts.RenderPaletteData(
+                ThemeArtifacts.LoadPalettes(),
+                ThemeArtifacts.LoadDefault()
+            )
         );
     }
 
@@ -47,7 +50,7 @@ public class ThemeGenerationTests
     public void StylesheetColorsAreGeneratedFromTheDefaultDefinition()
     {
         var stylesheet = ThemeArtifacts.ReadRepositoryFile(ThemeArtifacts.StylesheetPath);
-        var definition = ThemeArtifacts.LoadAll()[ThemeArtifacts.DefaultTheme];
+        var definition = ThemeArtifacts.LoadDefault();
 
         ThemeArtifacts.AssertUpToDate(
             ThemeArtifacts.StylesheetPath,
@@ -56,34 +59,26 @@ public class ThemeGenerationTests
     }
 
     [Fact]
-    public void EveryPaletteDefinesExactlyThePaletteTokensInBothModes()
+    public void EveryThemeDefinesTheSameTokensInTheSameOrderInBothModes()
     {
-        var palettes = ThemeArtifacts.LoadPalettes();
-        palettes.ShouldNotBeEmpty();
+        var themes = ThemeArtifacts.LoadPalettes();
+        themes.ShouldNotBeEmpty();
 
-        foreach (var palette in palettes)
+        // A theme that left a token out would silently keep the default theme's color for it.
+        var expected = ThemeArtifacts.LoadDefault().Light.Select(token => token.Key).ToArray();
+        expected.Take(PaletteTokens.Length).ShouldBe(PaletteTokens);
+
+        foreach (var theme in themes)
         {
-            palette
-                .Light.Select(token => token.Key)
-                .ShouldBe(PaletteTokens, $"{palette.Name} (light)");
-            palette
-                .Dark.Select(token => token.Key)
-                .ShouldBe(PaletteTokens, $"{palette.Name} (dark)");
+            theme.Light.Select(token => token.Key).ShouldBe(expected, $"{theme.Name} (light)");
+            theme.Dark.Select(token => token.Key).ShouldBe(expected, $"{theme.Name} (dark)");
         }
     }
 
     [Fact]
-    public void DefaultDefinitionCoversEveryPaletteTokenAndBothModesAgree()
+    public void TheDefaultThemeIsTheDefaultBaseColor()
     {
-        var definition = ThemeArtifacts.LoadAll()[ThemeArtifacts.DefaultTheme];
-        var light = definition.Light.Select(token => token.Key).ToArray();
-        var dark = definition.Dark.Select(token => token.Key).ToArray();
-
-        dark.ShouldBe(light, "Light and dark must define the same tokens in the same order");
-        foreach (var token in PaletteTokens)
-        {
-            light.ShouldContain(token);
-        }
+        new VibeThemeOptions().BaseColor.ShouldBe(ThemeArtifacts.LoadDefault().Name);
     }
 
     [Fact]
@@ -138,12 +133,16 @@ public class ThemeGenerationTests
         );
 
         exception.Message.ShouldContain("Chartreuse");
-        exception.Message.ShouldContain("Slate");
+        foreach (var theme in ThemeArtifacts.LoadPalettes())
+        {
+            exception.Message.ShouldContain(theme.Name);
+        }
+
         exception.Message.ShouldContain("Custom");
     }
 
     [Fact]
-    public void CustomBaseColorStartsFromSlateAndAppliesOnlyWhatIsSet()
+    public void CustomBaseColorStartsFromTheDefaultThemeAndAppliesOnlyWhatIsSet()
     {
         var options = new VibeThemeOptions
         {
@@ -156,22 +155,26 @@ public class ThemeGenerationTests
         };
 
         var css = new ThemeService(options).GenerateThemeCss();
-        var slate = new ThemeService(
-            new VibeThemeOptions { BaseColor = "Slate" }
+        var defaultTheme = ThemeArtifacts.LoadDefault();
+        var defaultCss = new ThemeService(
+            new VibeThemeOptions { BaseColor = defaultTheme.Name }
         ).GenerateThemeCss();
+        string Default(string token) => defaultTheme.Light.Single(pair => pair.Key == token).Value;
 
         var light = css[..css.IndexOf(".dark", StringComparison.Ordinal)];
         light.ShouldContain("--vibe-primary: hsl(346 77% 40%);");
         light.ShouldContain("--vibe-background: hsl(30 20% 98%);");
-        // Surfaces that were not set follow the custom background, as cards do in every built-in palette.
-        light.ShouldContain("--vibe-card: hsl(30 20% 98%);");
-        // The focus ring follows the custom primary.
+        // The focus ring and the link color follow the custom primary.
         light.ShouldContain("--vibe-ring: hsl(346 77% 40%);");
-        // Anything else keeps the Slate value.
-        light.ShouldContain("--vibe-border: hsl(214.3 31.8% 91.4%);");
+        light.ShouldContain("--vibe-link: hsl(346 77% 40%);");
+        // Surfaces keep their own level: a custom page color does not repaint the cards.
+        light.ShouldContain($"--vibe-card: {Default("card")};");
+        // Anything else keeps the default theme's value, including tokens with no custom property.
+        light.ShouldContain($"--vibe-border: {Default("border")};");
+        light.ShouldContain($"--vibe-success-text: {Default("success-text")};");
 
-        // Dark was not customized at all, so it is Slate's dark palette unchanged.
+        // Dark was not customized at all, so it is the default theme's dark colors unchanged.
         css[css.IndexOf(".dark", StringComparison.Ordinal)..]
-            .ShouldBe(slate[slate.IndexOf(".dark", StringComparison.Ordinal)..]);
+            .ShouldBe(defaultCss[defaultCss.IndexOf(".dark", StringComparison.Ordinal)..]);
     }
 }

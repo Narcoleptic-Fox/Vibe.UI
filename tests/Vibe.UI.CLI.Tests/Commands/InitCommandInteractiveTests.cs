@@ -10,17 +10,19 @@ namespace Vibe.UI.CLI.Tests.Commands;
 
 /// <summary>
 /// Drives InitCommand through its prompts. The base color is only selectable interactively
-/// (--yes always means Slate), so these are the only tests that reach the color scheme output.
+/// (--yes always means the default theme), so these are the only tests that reach the color scheme output.
 /// </summary>
 [Collection("SpectreConsole")]
 public class InitCommandInteractiveTests : IDisposable
 {
     // The prompt offers the default first, then every other palette in themes/*.json by name.
     // Read from the same definitions the CLI is generated from, so this cannot drift from it.
+    private static readonly string DefaultTheme = Palettes().Single(palette => palette.IsDefault).Name;
+
     private static readonly string[] PromptOrder =
     [
-        "Slate",
-        .. Palettes().Select(palette => palette.Name).Where(name => name != "Slate"),
+        DefaultTheme,
+        .. Palettes().Select(palette => palette.Name).Where(name => name != DefaultTheme),
     ];
 
     private readonly string _testProjectPath;
@@ -47,7 +49,7 @@ public class InitCommandInteractiveTests : IDisposable
     }
 
     public static IEnumerable<object[]> SelectablePalettes() =>
-        Palettes().Where(palette => palette.Name != "Slate").Select(palette => new object[] { palette.Name });
+        Palettes().Where(palette => !palette.IsDefault).Select(palette => new object[] { palette.Name });
 
     [Theory]
     [MemberData(nameof(SelectablePalettes))]
@@ -79,9 +81,9 @@ public class InitCommandInteractiveTests : IDisposable
     }
 
     [Fact]
-    public async Task ExecuteAsync_SlateBaseColor_LeavesBaseCssUntouched()
+    public async Task ExecuteAsync_DefaultTheme_LeavesBaseCssUntouched()
     {
-        QueuePromptAnswers(componentDirectory: "Components/vibe", baseColor: "Slate");
+        QueuePromptAnswers(componentDirectory: "Components/vibe", baseColor: DefaultTheme);
 
         var result = await RunInitAsync();
 
@@ -94,7 +96,7 @@ public class InitCommandInteractiveTests : IDisposable
     [Fact]
     public async Task ExecuteAsync_CustomComponentDirectory_IsCreatedAndSaved()
     {
-        QueuePromptAnswers(componentDirectory: "Shared/Ui", baseColor: "Slate");
+        QueuePromptAnswers(componentDirectory: "Shared/Ui", baseColor: DefaultTheme);
 
         var result = await RunInitAsync();
 
@@ -107,7 +109,7 @@ public class InitCommandInteractiveTests : IDisposable
     [Fact]
     public async Task ExecuteAsync_ComponentDirectoryOutsideProject_IsRejected()
     {
-        QueuePromptAnswers(componentDirectory: "../outside", baseColor: "Slate");
+        QueuePromptAnswers(componentDirectory: "../outside", baseColor: DefaultTheme);
 
         var act = RunInitAsync;
 
@@ -119,10 +121,11 @@ public class InitCommandInteractiveTests : IDisposable
 
     private sealed record Palette(
         string Name,
+        bool IsDefault,
         IReadOnlyList<(string Name, string Value)> Light,
         IReadOnlyList<(string Name, string Value)> Dark);
 
-    // The built-in palettes: every definition except the stylesheet default.
+    // The built-in themes, read from the same definitions the CLI is generated from.
     private static IReadOnlyList<Palette> Palettes()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
@@ -138,7 +141,6 @@ public class InitCommandInteractiveTests : IDisposable
 
         return Directory
             .EnumerateFiles(Path.Combine(directory!.FullName, "themes"), "*.json")
-            .Where(file => Path.GetFileNameWithoutExtension(file) != "default")
             .OrderBy(Path.GetFileNameWithoutExtension, StringComparer.Ordinal)
             .Select(file =>
             {
@@ -146,6 +148,7 @@ public class InitCommandInteractiveTests : IDisposable
                 var root = document.RootElement;
                 return new Palette(
                     root.GetProperty("name").GetString()!,
+                    root.TryGetProperty("default", out var isDefault) && isDefault.GetBoolean(),
                     Tokens(root.GetProperty("light")),
                     Tokens(root.GetProperty("dark")));
             })

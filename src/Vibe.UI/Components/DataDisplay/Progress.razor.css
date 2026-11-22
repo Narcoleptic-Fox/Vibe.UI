@@ -9,6 +9,8 @@
     width: 100%;
     overflow: hidden;
     background-color: var(--vibe-muted);
+    /* A sunken track is told apart by its edge: in dark mode its fill is nearly the card's. */
+    box-shadow: inset 0 0 0 1px var(--vibe-sunken-border);
     border-radius: 9999px;
 }
 

@@ -63,7 +63,7 @@
   right: 0;
   bottom: 0;
   background-color: var(--vibe-muted);
-  border: 2px solid var(--vibe-border);
+  border: 2px solid var(--vibe-input);
   border-radius: 20px;
   transition:
     background-color 0.15s ease,
