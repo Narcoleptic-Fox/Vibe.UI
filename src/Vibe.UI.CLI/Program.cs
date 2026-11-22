@@ -34,13 +34,19 @@ app.Configure(config =>
         .WithExample(new[] { "css", "--scan-only" });
 });
 
-// Display banner
-AnsiConsole.Write(
-    new FigletText("Vibe.UI")
-        .Centered()
-        .Color(Color.Blue));
+// Machine-readable output must be nothing but the data, so the banner is skipped for it.
+var showBanner = !args.Contains(ListCommand.NamesOption);
 
-AnsiConsole.MarkupLine($"[grey]v{CliVersion.Current}[/]\n");
+// Display banner
+if (showBanner)
+{
+    AnsiConsole.Write(
+        new FigletText("Vibe.UI")
+            .Centered()
+            .Color(Color.Blue));
+
+    AnsiConsole.MarkupLine($"[grey]v{CliVersion.Current}[/]\n");
+}
 
 return await app.RunAsync(args);
 

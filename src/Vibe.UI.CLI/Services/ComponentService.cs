@@ -25,6 +25,60 @@ public class ComponentService
         return _components.TryGetValue(key, out var component) ? component : null;
     }
 
+    /// <summary>
+    /// Returns every other component that must be installed for <paramref name="componentName"/>
+    /// to compile and work, transitively, in ordinal name order.
+    /// </summary>
+    /// <remarks>
+    /// The set is the union of what the component's source refers to (see
+    /// <see cref="ComponentReferenceScanner"/>) and the registry's <c>Dependencies</c>. The
+    /// registry entries are companions a component is not usable without but never names in
+    /// its own source, such as RadioGroup's RadioGroupItem; compile-time references are never
+    /// listed there, because a hand-kept list of those is what went stale.
+    /// </remarks>
+    public IReadOnlyList<ComponentInfo> GetRequiredComponents(string componentName)
+    {
+        var root = GetComponent(componentName)
+            ?? throw new InvalidOperationException($"Component '{componentName}' not found.");
+
+        var componentNames = _components.Values
+            .Select(c => c.Name)
+            .ToHashSet(StringComparer.Ordinal);
+
+        // Parents and children refer to each other (Accordion and AccordionItem), so the
+        // visited set is what ends the walk.
+        var visited = new HashSet<string>(StringComparer.Ordinal) { root.Name };
+        var pending = new Queue<ComponentInfo>();
+        pending.Enqueue(root);
+
+        while (pending.Count > 0)
+        {
+            var current = pending.Dequeue();
+            var source = File.ReadAllText(GetComponentSourcePath(current.Name, current.Category));
+            var direct = ComponentReferenceScanner
+                .FindReferencedComponents(source, componentNames)
+                .Concat(current.Dependencies ?? Enumerable.Empty<string>());
+
+            foreach (var name in direct)
+            {
+                var dependency = GetComponent(name)
+                    ?? throw new InvalidOperationException(
+                        $"Component '{current.Name}' depends on '{name}', which is not in the registry.");
+
+                if (visited.Add(dependency.Name))
+                {
+                    pending.Enqueue(dependency);
+                }
+            }
+        }
+
+        visited.Remove(root.Name);
+        return visited
+            .Order(StringComparer.Ordinal)
+            .Select(name => GetComponent(name)!)
+            .ToList();
+    }
+
     public List<string> GetInstalledComponents(string projectPath, string componentsDir)
     {
         var installedPath = GetProjectRelativePath(projectPath, componentsDir, "componentsDir");

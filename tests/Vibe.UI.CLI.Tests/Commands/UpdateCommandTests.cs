@@ -251,6 +251,64 @@ public class UpdateCommandTests : IDisposable
         });
     }
 
+    [Fact]
+    public async Task ExecuteAsync_WithSpecificComponent_AddsDependenciesTheProjectLacks()
+    {
+        // Arrange: Select alone, as an older CLI would have installed it.
+        await InitializeProjectWithComponent("select");
+        var iconPath = Path.Combine(_testProjectPath, "Components", "Icon.razor");
+        File.Exists(iconPath).Should().BeFalse("the arrangement must start without the dependency");
+
+        // Act
+        var result = await _command.ExecuteAsync(CreateUpdateContext(), UpdateSettings("select"));
+
+        // Assert
+        result.Should().Be(0);
+        File.Exists(iconPath).Should().BeTrue("Select renders Icon, so updating Select must bring it");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_WithSpecificComponent_LeavesAnExistingDependencyAlone()
+    {
+        // Arrange: the user has edited the dependency.
+        await InitializeProjectWithComponent("select");
+        var iconPath = Path.Combine(_testProjectPath, "Components", "Icon.razor");
+        await File.WriteAllTextAsync(iconPath, "edited by the user");
+
+        // Act
+        var result = await _command.ExecuteAsync(CreateUpdateContext(), UpdateSettings("select"));
+
+        // Assert
+        result.Should().Be(0);
+        (await File.ReadAllTextAsync(iconPath)).Should().Be("edited by the user");
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_UpdateAll_AddsDependenciesTheProjectLacks()
+    {
+        // Arrange
+        await InitializeProjectWithComponent("select");
+        var iconPath = Path.Combine(_testProjectPath, "Components", "Icon.razor");
+
+        // Act
+        var result = await _command.ExecuteAsync(CreateUpdateContext(), UpdateSettings(component: null));
+
+        // Assert
+        result.Should().Be(0);
+        File.Exists(iconPath).Should().BeTrue();
+    }
+
+    private UpdateCommand.Settings UpdateSettings(string? component) =>
+        new()
+        {
+            Component = component,
+            SkipPrompts = true,
+            ProjectPath = _testProjectPath
+        };
+
+    private static CommandContext CreateUpdateContext() =>
+        new(Array.Empty<string>(), new TestRemainingArguments(), "update", null);
+
     private async Task InitializeProjectWithComponent(string componentName, string? projectPath = null)
     {
         projectPath ??= _testProjectPath;

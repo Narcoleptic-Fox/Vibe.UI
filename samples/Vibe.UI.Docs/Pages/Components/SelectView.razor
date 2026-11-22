@@ -41,9 +41,25 @@
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Bound value</h3>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
-        <div>
+        <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Inside FormField</h3>
             <CodeBlock Code="@FormFieldCode" Language="razor" />
+        </div>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Typed values</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">
+                The value takes the type of whatever it is bound to. Numbers, Guid, enums and their
+                nullable forms bind without a converter. A nullable value gets an empty option, so it
+                can be set back to nothing.
+            </p>
+            <CodeBlock Code="@TypedCode" Language="razor" />
+        </div>
+        <div>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Enum options</h3>
+            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">
+                Bound to an enum with no options written, the select lists the enum's values.
+            </p>
+            <CodeBlock Code="@EnumCode" Language="razor" />
         </div>
     </section>
 
@@ -98,13 +114,15 @@
     [
         ("Id", "string?", "generated", "ID for the native select and label"),
         ("Label", "string?", "null", "Optional floating label"),
-        ("Placeholder", "string?", "null", "Disabled empty option shown before selection"),
+        ("TValue", "type parameter", "inferred", "Type of the value; inferred from @bind-Value, or set with TValue=\"string\""),
+        ("Placeholder", "string?", "null", "Text of the empty option shown before selection"),
         ("HelperText", "string?", "null", "Visible help linked with aria-describedby"),
         ("Disabled", "bool", "false", "Disable selection"),
-        ("Value", "string?", "null", "Current selected value; supports @bind-Value"),
-        ("ValueChanged", "EventCallback<string?>", "none", "Called when the value changes"),
+        ("Value", "TValue?", "default", "Current selected value; supports @bind-Value"),
+        ("ValueChanged", "EventCallback<TValue?>", "none", "Called when the value changes"),
+        ("Clearable", "bool?", "true for nullable value types", "Offer a selectable empty option that sets the value back to nothing"),
         ("OnChange", "EventCallback<ChangeEventArgs>", "none", "Called with the native change event"),
-        ("ChildContent", "RenderFragment?", "null", "Native option and optgroup elements")
+        ("ChildContent", "RenderFragment?", "null", "Native option and optgroup elements; optional when TValue is an enum")
     ];
 
     private static readonly string[] AccessibilityItems =
@@ -126,4 +144,27 @@
         <option value=""ca"">Canada</option>
     </Select>
 </FormField>";
+
+    private string TypedCode => @"<Select Label=""Page size"" @bind-Value=""pageSize"">
+    <option value=""10"">10</option>
+    <option value=""25"">25</option>
+</Select>
+
+<Select Label=""Owner"" Placeholder=""Anyone"" @bind-Value=""ownerId"">
+    @foreach (var user in users)
+    {
+        <option value=""@user.Id"">@user.Name</option>
+    }
+</Select>
+
+@code {
+    private int pageSize = 10;
+    private Guid? ownerId;   // nullable: the ""Anyone"" option sets it back to null
+}";
+
+    private string EnumCode => @"<Select Label=""Role"" Placeholder=""Any role"" @bind-Value=""role"" />
+
+@code {
+    private Roles? role;   // options: Viewer, Editor, Admin
+}";
 }

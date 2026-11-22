@@ -26,6 +26,7 @@
   <ItemGroup>
     <None Remove="TestResults\**" />
     <ProjectReference Include="..\..\src\Vibe.UI\Vibe.UI.csproj" />
+    <ProjectReference Include="..\..\src\Vibe.UI.FluentValidation\Vibe.UI.FluentValidation.csproj" />
   </ItemGroup>
 
 </Project>
