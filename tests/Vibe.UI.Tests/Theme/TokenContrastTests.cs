@@ -16,15 +16,10 @@ public partial class TokenContrastTests
     private const double Text = 4.5;
     private const double NonText = 3.0;
 
+    // Every palette under themes/, read from the definitions: a palette added there is
+    // measured here without being listed anywhere else.
     private static readonly string[] BaseColors =
-    [
-        "Slate",
-        "Gray",
-        "Zinc",
-        "Neutral",
-        "Stone",
-        "Blue",
-    ];
+        ThemeArtifacts.LoadPalettes().Select(palette => palette.Name).ToArray();
 
     // Foreground token, background token, required ratio.
     private static readonly (string Foreground, string Background, double Minimum)[] Pairs =
