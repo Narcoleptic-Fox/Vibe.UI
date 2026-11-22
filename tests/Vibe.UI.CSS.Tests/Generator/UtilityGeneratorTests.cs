@@ -306,6 +306,8 @@ public class UtilityGeneratorTests
 
     [Theory]
     [InlineData("vibe-bg-red-500/50", "background-color: rgb(239 68 68 / 0.5);")]
+    [InlineData("vibe-bg-card/80", "background-color: color-mix(in srgb, var(--vibe-card) 80%, transparent);")]
+    [InlineData("vibe-text-muted-foreground/50", "color: color-mix(in srgb, var(--vibe-muted-foreground) 50%, transparent);")]
     [InlineData("vibe-bg-blue-600/75", "background-color: rgb(37 99 235 / 0.75);")]
     [InlineData("vibe-text-green-500/25", "color: rgb(34 197 94 / 0.25);")]
     public void Generate_ColorsWithOpacity_ReturnsCorrectCss(string className, string expectedDeclarations)

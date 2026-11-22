@@ -2071,6 +2071,19 @@ public partial class UtilityGenerator
         return null;
     }
 
+    // A theme color is a CSS variable, so its channels are not known here. An opacity
+    // modifier (vibe-bg-card/80) is applied by mixing the color with transparent.
+    private static string Translucent(string color, string opacity)
+    {
+        if (opacity == "1")
+        {
+            return color;
+        }
+
+        var percent = double.Parse(opacity, System.Globalization.CultureInfo.InvariantCulture) * 100;
+        return $"color-mix(in srgb, {color} {percent.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)}%, transparent)";
+    }
+
     private static bool TryParseColor(string colorSpec, out string value)
     {
         value = string.Empty;
@@ -2110,7 +2123,7 @@ public partial class UtilityGenerator
         var semanticColors = new[] { "primary", "secondary", "muted", "accent", "destructive", "success", "warning", "info", "background", "foreground", "card", "popover", "border", "input", "ring" };
         if (semanticColors.Contains(colorPart))
         {
-            value = $"var(--vibe-{colorPart})";
+            value = Translucent($"var(--vibe-{colorPart})", opacity);
             return true;
         }
 
@@ -2120,7 +2133,7 @@ public partial class UtilityGenerator
             var baseName = colorPart[..^11]; // Remove "-foreground"
             if (semanticColors.Contains(baseName))
             {
-                value = $"var(--vibe-{baseName}-foreground)";
+                value = Translucent($"var(--vibe-{baseName}-foreground)", opacity);
                 return true;
             }
         }
