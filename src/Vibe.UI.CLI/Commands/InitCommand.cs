@@ -10,6 +10,17 @@ namespace Vibe.UI.CLI.Commands;
 
 public class InitCommand : AsyncCommand<InitCommand.Settings>
 {
+    // The stylesheet's own colors are what a project gets without a color scheme, and choosing
+    // this name leaves them in place. Every other choice appends that palette's tokens.
+    private const string DefaultBaseColor = "Slate";
+
+    // The default first, then the rest of the built-in palettes from themes/*.json.
+    private static readonly string[] BaseColorChoices =
+    [
+        DefaultBaseColor,
+        .. Vibe.UI.Services.Theme.ThemePaletteData.Names.Where(name => name != DefaultBaseColor),
+    ];
+
     public class Settings : CommandSettings
     {
         [Description("Skip confirmation prompts")]
@@ -95,13 +106,13 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         ValidateProjectRelativePath(target.ProjectPath, componentDir, "components directory");
 
         // Select base color (shadcn-style)
-        var baseColor = "Slate";
+        var baseColor = DefaultBaseColor;
         if (!settings.SkipPrompts)
         {
             baseColor = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Which [green]base color[/] would you like to use?")
-                    .AddChoices(new[] { "Slate", "Gray", "Zinc", "Neutral", "Stone", "Blue" })
+                    .AddChoices(BaseColorChoices)
             );
         }
 
@@ -467,8 +478,8 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             return;
         }
 
-        // Slate is the default, no need to append overrides
-        if (baseColor == "Slate")
+        // The default keeps the stylesheet's own colors: nothing to append.
+        if (baseColor == DefaultBaseColor)
         {
             return;
         }
@@ -488,155 +499,35 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
     }
 
     /// <summary>
-    /// Gets color scheme override CSS for the selected base color.
-    /// These variables override the defaults in vibe-base.css.
-    /// <c>--vibe-input</c> is deliberately not overridden: the default in vibe-base.css meets the
-    /// 3:1 boundary contrast WCAG 2 asks of form controls, and a border-colored value does not.
+    /// Builds the CSS that switches vibe-base.css to a built-in palette. The colors come from
+    /// the same generated table the theme service uses (themes/*.json), so the CLI and the
+    /// library cannot disagree about what a base color looks like.
     /// </summary>
-    private string GetColorSchemeOverrides(string baseColor)
+    private static string GetColorSchemeOverrides(string baseColor)
     {
-        var (lightColors, darkColors) = baseColor switch
+        var light = Vibe.UI.Services.Theme.ThemePaletteData.Find(baseColor, dark: false);
+        var dark = Vibe.UI.Services.Theme.ThemePaletteData.Find(baseColor, dark: true);
+        if (light is null || dark is null)
         {
-            "Gray" => (
-                light: (
-                    "hsl(0 0% 100%)",
-                    "hsl(0 0% 3.9%)",
-                    "hsl(0 0% 14.9%)",
-                    "hsl(0 0% 96.1%)",
-                    "hsl(0 0% 89.8%)"
-                ),
-                dark: (
-                    "hsl(0 0% 3.9%)",
-                    "hsl(0 0% 98%)",
-                    "hsl(0 0% 14.9%)",
-                    "hsl(0 0% 14.9%)",
-                    "hsl(0 0% 63.9%)"
-                )
-            ),
-            "Zinc" => (
-                light: (
-                    "hsl(0 0% 100%)",
-                    "hsl(240 10% 3.9%)",
-                    "hsl(240 5.9% 10%)",
-                    "hsl(240 4.8% 95.9%)",
-                    "hsl(240 5.9% 90%)"
-                ),
-                dark: (
-                    "hsl(240 10% 3.9%)",
-                    "hsl(0 0% 98%)",
-                    "hsl(240 3.7% 15.9%)",
-                    "hsl(240 3.7% 15.9%)",
-                    "hsl(240 5% 64.9%)"
-                )
-            ),
-            "Neutral" => (
-                light: (
-                    "hsl(0 0% 100%)",
-                    "hsl(0 0% 3.9%)",
-                    "hsl(0 0% 14.9%)",
-                    "hsl(0 0% 96.1%)",
-                    "hsl(0 0% 89.8%)"
-                ),
-                dark: (
-                    "hsl(0 0% 3.9%)",
-                    "hsl(0 0% 98%)",
-                    "hsl(0 0% 14.9%)",
-                    "hsl(0 0% 14.9%)",
-                    "hsl(0 0% 63.9%)"
-                )
-            ),
-            "Stone" => (
-                light: (
-                    "hsl(0 0% 100%)",
-                    "hsl(20 14.3% 4.1%)",
-                    "hsl(24 9.8% 10%)",
-                    "hsl(60 9.1% 97.8%)",
-                    "hsl(24 5.7% 82.9%)"
-                ),
-                dark: (
-                    "hsl(20 14.3% 4.1%)",
-                    "hsl(60 9.1% 97.8%)",
-                    "hsl(24 9.8% 10%)",
-                    "hsl(24 9.8% 10%)",
-                    "hsl(24 5.4% 63.9%)"
-                )
-            ),
-            "Blue" => (
-                light: (
-                    "hsl(0 0% 100%)",
-                    "hsl(222.2 84% 4.9%)",
-                    "hsl(221.2 83.2% 53.3%)",
-                    "hsl(210 40% 96.1%)",
-                    "hsl(214.3 31.8% 91.4%)"
-                ),
-                dark: (
-                    "hsl(222.2 84% 4.9%)",
-                    "hsl(210 40% 98%)",
-                    "hsl(217.2 91.2% 59.8%)",
-                    "hsl(217.2 32.6% 17.5%)",
-                    "hsl(215 20.2% 65.1%)"
-                )
-            ),
-            _ => (
-                light: (
-                    "hsl(0 0% 100%)",
-                    "hsl(222.2 84% 4.9%)",
-                    "hsl(222.2 47.4% 11.2%)",
-                    "hsl(210 40% 96.1%)",
-                    "hsl(214.3 31.8% 91.4%)"
-                ),
-                dark: (
-                    "hsl(222.2 84% 4.9%)",
-                    "hsl(210 40% 98%)",
-                    "hsl(217.2 32.6% 17.5%)",
-                    "hsl(217.2 32.6% 17.5%)",
-                    "hsl(215 20.2% 65.1%)"
-                )
-            ),
-        };
+            throw new ArgumentException(
+                $"Unknown base color: {baseColor}. Use one of "
+                    + string.Join(", ", Vibe.UI.Services.Theme.ThemePaletteData.Names) + "."
+            );
+        }
 
-        return $@"/* ============================================
-   Color scheme: {baseColor}
-   Generated by Vibe.UI CLI
-   ============================================ */
+        static string Block(KeyValuePair<string, string>[] tokens) =>
+            string.Concat(tokens.Select(token => $"  --vibe-{token.Key}: {token.Value};\n"));
 
-:root {{
-  --vibe-background: {lightColors.Item1};
-  --vibe-foreground: {lightColors.Item2};
-  --vibe-card: {lightColors.Item1};
-  --vibe-card-foreground: {lightColors.Item2};
-  --vibe-popover: {lightColors.Item1};
-  --vibe-popover-foreground: {lightColors.Item2};
-  --vibe-primary: {lightColors.Item3};
-  --vibe-primary-foreground: hsl(0 0% 100%);
-  --vibe-secondary: {lightColors.Item4};
-  --vibe-secondary-foreground: {lightColors.Item2};
-  --vibe-muted: {lightColors.Item5};
-  --vibe-muted-foreground: hsl(215.4 16.3% 34%);
-  --vibe-accent: {lightColors.Item4};
-  --vibe-accent-foreground: {lightColors.Item2};
-  --vibe-border: {lightColors.Item5};
-  --vibe-ring: {lightColors.Item3};
-}}
-
-.dark {{
-  --vibe-background: {darkColors.Item1};
-  --vibe-foreground: {darkColors.Item2};
-  --vibe-card: {darkColors.Item3};
-  --vibe-card-foreground: {darkColors.Item2};
-  --vibe-popover: {darkColors.Item3};
-  --vibe-popover-foreground: {darkColors.Item2};
-  --vibe-primary: {darkColors.Item3};
-  --vibe-primary-foreground: {darkColors.Item2};
-  --vibe-secondary: {darkColors.Item4};
-  --vibe-secondary-foreground: {darkColors.Item2};
-  --vibe-muted: {darkColors.Item4};
-  --vibe-muted-foreground: {darkColors.Item5};
-  --vibe-accent: {darkColors.Item4};
-  --vibe-accent-foreground: {darkColors.Item2};
-  --vibe-border: {darkColors.Item4};
-  --vibe-ring: {darkColors.Item3};
-}}";
+        return "/* ============================================\n"
+            + $"   Color scheme: {baseColor}\n"
+            + "   Generated by Vibe.UI CLI\n"
+            + "   ============================================ */\n\n"
+            + ":root {\n"
+            + Block(light)
+            + "}\n\n"
+            + ".dark {\n"
+            + Block(dark)
+            + "}";
     }
 
     private static void ValidateProjectRelativePath(

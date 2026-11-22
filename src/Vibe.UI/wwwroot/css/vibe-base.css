@@ -16,66 +16,48 @@
    ======================================== */
 
 :root {
-  /* ===== Core Colors - Neutral "Zinc" Palette ===== */
+  /* ===== Colors =====
+     Generated from themes/default.json. Do not edit between the markers: change the
+     definition and regenerate (see themes/README.md).
+
+     --vibe-border is decorative (dividers, card edges). --vibe-input is the boundary of a
+     form control, which WCAG 2 SC 1.4.11 requires at 3:1 against what is around it.
+     Status colors are used both as a fill under their -foreground and as text on the page,
+     so each meets 4.5:1 both ways. */
+  /* vibe:colors:light:start */
   --vibe-background: hsl(0 0% 100%);
   --vibe-foreground: hsl(240 10% 3.9%);
-
   --vibe-card: hsl(0 0% 100%);
   --vibe-card-foreground: hsl(240 10% 3.9%);
-
   --vibe-popover: hsl(0 0% 100%);
   --vibe-popover-foreground: hsl(240 10% 3.9%);
-
-  /* Primary - Black in light mode, White in dark mode */
   --vibe-primary: hsl(240 5.9% 10%);
   --vibe-primary-foreground: hsl(0 0% 98%);
-
-  /* Secondary - Subtle gray backgrounds */
   --vibe-secondary: hsl(240 4.8% 92%);
   --vibe-secondary-foreground: hsl(240 5.9% 10%);
-
-  /* Muted - For disabled states and subtle text */
   --vibe-muted: hsl(240 4.8% 95.9%);
   --vibe-muted-foreground: hsl(240 5.2% 33.9%);
-
-  /* Accent - For highlighting and hover states */
   --vibe-accent: hsl(240 4.8% 95.9%);
   --vibe-accent-foreground: hsl(240 5.9% 10%);
-
-  /* Destructive - For errors and dangerous actions */
   --vibe-destructive: hsl(0 72% 46%);
   --vibe-destructive-foreground: hsl(0 0% 98%);
-
-  /* ===== Semantic Status Colors =====
-     Each status color is used two ways: as text or an icon on the page, and as a fill
-     with its -foreground on top. Both uses meet WCAG 2 AA (4.5:1), so in light mode the
-     colors are deep enough to read on white and take white text. */
   --vibe-success: hsl(142 72% 29%);
   --vibe-success-foreground: hsl(0 0% 100%);
-
   --vibe-warning: hsl(26 90% 37%);
   --vibe-warning-foreground: hsl(0 0% 100%);
-
   --vibe-info: hsl(221 83% 53%);
   --vibe-info-foreground: hsl(0 0% 100%);
-
-  /* ===== UI Elements ===== */
-  /* --vibe-border is decorative (dividers, card edges). --vibe-input is the boundary of
-     a form control, which WCAG 2 SC 1.4.11 requires at 3:1 against what is around it. */
   --vibe-border: hsl(240 5.9% 90%);
   --vibe-input: hsl(240 4% 56%);
   --vibe-ring: hsl(240 10% 3.9%);
-
-  /* ===== Sidebar ===== */
   --vibe-sidebar-background: hsl(0 0% 98%);
   --vibe-sidebar-foreground: hsl(240 5.3% 26.1%);
-
-  /* ===== Chart Colors ===== */
   --vibe-chart-1: hsl(12 76% 61%);
   --vibe-chart-2: hsl(173 58% 39%);
   --vibe-chart-3: hsl(197 37% 24%);
   --vibe-chart-4: hsl(43 74% 66%);
   --vibe-chart-5: hsl(27 87% 67%);
+  /* vibe:colors:light:end */
 
   /* ===== Border Radius ===== */
   --vibe-radius: 0.5rem; /* 8px - Default */
@@ -157,64 +139,74 @@
 .dark {
   color-scheme: dark;
 
-  /* ===== Core Colors ===== */
+  /* In dark mode the status colors are light enough to read as text on the dark page, so
+     their fills take dark text, the same way --vibe-primary inverts. */
+  /* vibe:colors:dark:start */
   --vibe-background: hsl(240 10% 3.9%);
   --vibe-foreground: hsl(0 0% 98%);
-
   --vibe-card: hsl(240 10% 3.9%);
   --vibe-card-foreground: hsl(0 0% 98%);
-
   --vibe-popover: hsl(240 10% 3.9%);
   --vibe-popover-foreground: hsl(0 0% 98%);
-
-  /* Primary - White in dark mode */
   --vibe-primary: hsl(0 0% 98%);
   --vibe-primary-foreground: hsl(240 5.9% 10%);
-
-  /* Secondary */
   --vibe-secondary: hsl(240 3.7% 20%);
   --vibe-secondary-foreground: hsl(0 0% 98%);
-
-  /* Muted */
   --vibe-muted: hsl(240 3.7% 15.9%);
   --vibe-muted-foreground: hsl(240 5% 64.9%);
-
-  /* Accent */
   --vibe-accent: hsl(240 3.7% 15.9%);
   --vibe-accent-foreground: hsl(0 0% 98%);
-
-  /* Destructive */
   --vibe-destructive: hsl(0 84% 67%);
   --vibe-destructive-foreground: hsl(240 10% 3.9%);
-
-  /* ===== Semantic Status Colors =====
-     In dark mode the status colors, destructive included, are light enough to read as
-     text on the dark page (4.5:1), so their fills take dark text, the same way
-     --vibe-primary inverts. */
   --vibe-success: hsl(142 69% 58%);
   --vibe-success-foreground: hsl(240 10% 3.9%);
-
   --vibe-warning: hsl(43 96% 56%);
   --vibe-warning-foreground: hsl(240 10% 3.9%);
-
   --vibe-info: hsl(213 94% 68%);
   --vibe-info-foreground: hsl(240 10% 3.9%);
-
-  /* ===== UI Elements ===== */
-  --vibe-border: hsl(240 3.7% 25%); /* decorative */
-  --vibe-input: hsl(240 4% 46%); /* form control boundary, 3:1 on background and muted */
+  --vibe-border: hsl(240 3.7% 25%);
+  --vibe-input: hsl(240 4% 46%);
   --vibe-ring: hsl(240 4.9% 83.9%);
-
-  /* ===== Sidebar ===== */
   --vibe-sidebar-background: hsl(240 5.9% 10%);
   --vibe-sidebar-foreground: hsl(240 4.8% 95.9%);
-
-  /* ===== Chart Colors (Same across themes) ===== */
   --vibe-chart-1: hsl(220 70% 50%);
   --vibe-chart-2: hsl(160 60% 45%);
   --vibe-chart-3: hsl(30 80% 55%);
   --vibe-chart-4: hsl(280 65% 60%);
   --vibe-chart-5: hsl(340 75% 55%);
+  /* vibe:colors:dark:end */
+}
+
+/* ========================================
+   ROLE TOKENS THAT FOLLOW OTHER TOKENS
+
+   Each of these names a job a color does. By default it points at an existing token, so
+   every palette has a value for it. A theme that wants a different color for the job
+   defines the token itself and replaces the default.
+
+   Declared for .dark as well as :root so the references are resolved again wherever dark
+   mode is switched on, not only on the root element.
+   ======================================== */
+
+:root,
+.dark {
+  /* The edge of a sunken well: an area recessed into the surface that holds it. */
+  --vibe-sunken-border: var(--vibe-border);
+
+  /* Links and other inline actions. */
+  --vibe-link: var(--vibe-primary);
+
+  /* A status color used as text or an icon on the page. */
+  --vibe-destructive-text: var(--vibe-destructive);
+  --vibe-success-text: var(--vibe-success);
+  --vibe-warning-text: var(--vibe-warning);
+  --vibe-info-text: var(--vibe-info);
+
+  /* A quiet status background that the matching -text color stays readable on. */
+  --vibe-destructive-soft: color-mix(in srgb, var(--vibe-destructive) 6%, var(--vibe-background));
+  --vibe-success-soft: color-mix(in srgb, var(--vibe-success) 6%, var(--vibe-background));
+  --vibe-warning-soft: color-mix(in srgb, var(--vibe-warning) 6%, var(--vibe-background));
+  --vibe-info-soft: color-mix(in srgb, var(--vibe-info) 6%, var(--vibe-background));
 }
 
 /* ========================================

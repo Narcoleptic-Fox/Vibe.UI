@@ -15,16 +15,13 @@ namespace Vibe.UI.CLI.Tests.Commands;
 [Collection("SpectreConsole")]
 public class InitCommandInteractiveTests : IDisposable
 {
-    // Order must match the SelectionPrompt in InitCommand: the test picks by arrow-key count.
+    // The prompt offers the default first, then every other palette in themes/*.json by name.
+    // Read from the same definitions the CLI is generated from, so this cannot drift from it.
     private static readonly string[] PromptOrder =
-    {
+    [
         "Slate",
-        "Gray",
-        "Zinc",
-        "Neutral",
-        "Stone",
-        "Blue",
-    };
+        .. Palettes().Select(palette => palette.Name).Where(name => name != "Slate"),
+    ];
 
     private readonly string _testProjectPath;
     private readonly IAnsiConsole _originalConsole;
@@ -49,28 +46,36 @@ public class InitCommandInteractiveTests : IDisposable
         AnsiConsole.Console = _console;
     }
 
+    public static IEnumerable<object[]> SelectablePalettes() =>
+        Palettes().Where(palette => palette.Name != "Slate").Select(palette => new object[] { palette.Name });
+
     [Theory]
-    [InlineData("Gray", "hsl(0 0% 14.9%)", "hsl(0 0% 96.1%)")]
-    [InlineData("Zinc", "hsl(240 5.9% 10%)", "hsl(240 4.8% 95.9%)")]
-    [InlineData("Neutral", "hsl(0 0% 14.9%)", "hsl(0 0% 96.1%)")]
-    [InlineData("Stone", "hsl(24 9.8% 10%)", "hsl(60 9.1% 97.8%)")]
-    [InlineData("Blue", "hsl(221.2 83.2% 53.3%)", "hsl(210 40% 96.1%)")]
-    public async Task ExecuteAsync_SelectedBaseColor_AppendsThatColorScheme(
-        string baseColor,
-        string expectedLightPrimary,
-        string expectedLightSecondary
-    )
+    [MemberData(nameof(SelectablePalettes))]
+    public async Task ExecuteAsync_SelectedBaseColor_AppendsThatPaletteFromItsDefinition(string baseColor)
     {
+        var palette = Palettes().Single(candidate => candidate.Name == baseColor);
         QueuePromptAnswers(componentDirectory: "Components/vibe", baseColor);
 
         var result = await RunInitAsync();
 
         result.Should().Be(0);
         var css = await ReadVibeBaseCssAsync();
-        css.Should().Contain($"Color scheme: {baseColor}");
-        css.Should().Contain($"--vibe-primary: {expectedLightPrimary};");
-        css.Should().Contain($"--vibe-secondary: {expectedLightSecondary};");
-        css.Should().Contain(".dark {");
+        var scheme = css[css.IndexOf($"Color scheme: {baseColor}", StringComparison.Ordinal)..];
+        var darkStart = scheme.IndexOf(".dark {", StringComparison.Ordinal);
+        darkStart.Should().BeGreaterThan(0);
+
+        // Every token of the definition, in both modes, and nothing the definition does not have.
+        foreach (var (name, value) in palette.Light)
+        {
+            scheme[..darkStart].Should().Contain($"--vibe-{name}: {value};");
+        }
+
+        foreach (var (name, value) in palette.Dark)
+        {
+            scheme[darkStart..].Should().Contain($"--vibe-{name}: {value};");
+        }
+
+        scheme.Split("--vibe-").Length.Should().Be(1 + palette.Light.Count + palette.Dark.Count);
     }
 
     [Fact]
@@ -110,6 +115,41 @@ public class InitCommandInteractiveTests : IDisposable
             .ThrowAsync<InvalidOperationException>()
             .WithMessage("*within the project directory*");
         File.Exists(Path.Combine(_testProjectPath, "vibe.json")).Should().BeFalse();
+    }
+
+    private sealed record Palette(
+        string Name,
+        IReadOnlyList<(string Name, string Value)> Light,
+        IReadOnlyList<(string Name, string Value)> Dark);
+
+    // The built-in palettes: every definition except the stylesheet default.
+    private static IReadOnlyList<Palette> Palettes()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "Vibe.slnx")))
+        {
+            directory = directory.Parent;
+        }
+
+        directory.Should().NotBeNull("the tests run from inside the repository");
+
+        static (string, string)[] Tokens(System.Text.Json.JsonElement mode) =>
+            mode.EnumerateObject().Select(token => (token.Name, token.Value.GetString()!)).ToArray();
+
+        return Directory
+            .EnumerateFiles(Path.Combine(directory!.FullName, "themes"), "*.json")
+            .Where(file => Path.GetFileNameWithoutExtension(file) != "default")
+            .OrderBy(Path.GetFileNameWithoutExtension, StringComparer.Ordinal)
+            .Select(file =>
+            {
+                using var document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(file));
+                var root = document.RootElement;
+                return new Palette(
+                    root.GetProperty("name").GetString()!,
+                    Tokens(root.GetProperty("light")),
+                    Tokens(root.GetProperty("dark")));
+            })
+            .ToArray();
     }
 
     private void QueuePromptAnswers(string componentDirectory, string baseColor)

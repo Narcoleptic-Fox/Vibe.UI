@@ -32,6 +32,13 @@
       </ItemGroup>
 
       <ItemGroup>
+            <!-- The built-in palettes, generated from themes/*.json. Compiled into the CLI from
+                 the library's copy so `vibe init` writes the same colors the theme service does. -->
+            <Compile Include="..\Vibe.UI\Services\Theme\ThemePaletteData.g.cs"
+                     Link="Generated\ThemePaletteData.g.cs" />
+      </ItemGroup>
+
+      <ItemGroup>
             <!-- Components from Vibe.UI (packed into Templates/Components/) -->
             <None Include="../Vibe.UI/Components/Inputs/*.razor"
                   Pack="true"

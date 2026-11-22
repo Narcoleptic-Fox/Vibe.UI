@@ -101,7 +101,10 @@ Then add the `<ThemeProvider />` component to your layout:
 
 #### Custom Colors
 
-For complete control, use custom colors:
+For complete control, use custom colors. A custom theme starts from the Slate palette and
+changes only the colors you set. Colors that follow another keep following it: cards and
+popovers follow `Background`, text on them follows `Foreground`, the hover fill (`Accent`)
+follows `Secondary`, and the focus ring follows `Primary`.
 
 ```csharp
 builder.Services.AddVibeUI(options =>
@@ -181,6 +184,27 @@ All base colors follow shadcn/ui color palettes:
 - **Blue** - Vibrant blue primary color
 
 ---
+
+## Where the Colors Are Defined
+
+Every built-in color is defined once, in [`themes/`](../themes/README.md). The stylesheet's
+color block and the palettes the theme service and the CLI use are generated from those
+files, and a test fails if a generated file is edited by hand.
+
+## Role Tokens
+
+These tokens name a job a color does. Each defaults to an existing token, so they work with
+every palette. Define one yourself to give that job its own color.
+
+| Token | Job | Default |
+| --- | --- | --- |
+| `--vibe-sunken-border` | Edge of a sunken well | `--vibe-border` |
+| `--vibe-link` | Links and inline actions | `--vibe-primary` |
+| `--vibe-destructive-text`, `--vibe-success-text`, `--vibe-warning-text`, `--vibe-info-text` | A status color used as text or an icon | The status color |
+| `--vibe-destructive-soft`, `--vibe-success-soft`, `--vibe-warning-soft`, `--vibe-info-soft` | A quiet status background | The status color mixed 6% into the background |
+
+The components do not use these yet. They are in place so components can move to them
+without another round of token changes.
 
 ## CSS Variables Reference
 

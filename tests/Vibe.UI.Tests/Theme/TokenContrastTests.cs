@@ -16,15 +16,10 @@ public partial class TokenContrastTests
     private const double Text = 4.5;
     private const double NonText = 3.0;
 
+    // Every palette under themes/, read from the definitions: a palette added there is
+    // measured here without being listed anywhere else.
     private static readonly string[] BaseColors =
-    [
-        "Slate",
-        "Gray",
-        "Zinc",
-        "Neutral",
-        "Stone",
-        "Blue",
-    ];
+        ThemeArtifacts.LoadPalettes().Select(palette => palette.Name).ToArray();
 
     // Foreground token, background token, required ratio.
     private static readonly (string Foreground, string Background, double Minimum)[] Pairs =
@@ -108,6 +103,56 @@ public partial class TokenContrastTests
         );
     }
 
+    public static IEnumerable<object[]> SoftTintCases()
+    {
+        var sources = new List<string> { "vibe-base.css" };
+        sources.AddRange(BaseColors.Select(color => $"ThemeService:{color}"));
+
+        foreach (var source in sources)
+        {
+            foreach (var theme in new[] { "light", "dark" })
+            {
+                foreach (var status in new[] { "destructive", "success", "warning", "info" })
+                {
+                    yield return [source, theme, status];
+                }
+            }
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(SoftTintCases))]
+    public void StatusTextStaysReadableOnItsSoftTint(string source, string theme, string status)
+    {
+        // --vibe-<status>-text defaults to the status color, and --vibe-<status>-soft to that
+        // color mixed into the page background. Both are read from the stylesheet, so changing
+        // either default is measured here.
+        var css = File.ReadAllText(BaseCssPath());
+        Regex.IsMatch(css, $@"--vibe-{status}-text:\s*var\(--vibe-{status}\);").ShouldBeTrue(
+            $"--vibe-{status}-text is expected to default to --vibe-{status}");
+
+        var mix = Regex.Match(
+            css,
+            $@"--vibe-{status}-soft:\s*color-mix\(in srgb, var\(--vibe-{status}\) (?<share>[\d.]+)%, var\(--vibe-background\)\);");
+        mix.Success.ShouldBeTrue($"--vibe-{status}-soft is expected to mix --vibe-{status} into --vibe-background");
+        var share = Parse(mix.Groups["share"].Value) / 100.0;
+
+        var tokens = LoadTokens(source, theme);
+        var color = Rgb(tokens[status]);
+        var background = Rgb(tokens["background"]);
+        var tint = new double[3];
+        for (var channel = 0; channel < 3; channel++)
+        {
+            tint[channel] = (color[channel] * share) + (background[channel] * (1 - share));
+        }
+
+        var ratio = ContrastRatio(Luminance(color), Luminance(tint));
+
+        ratio.ShouldBeGreaterThanOrEqualTo(
+            Text,
+            $"{source} ({theme}): --vibe-{status}-text on --vibe-{status}-soft is {ratio:0.00}:1, needs {Text:0.0}:1");
+    }
+
     [Fact]
     public void ContrastRatioMatchesTheWcagReferenceValues()
     {
@@ -170,14 +215,17 @@ public partial class TokenContrastTests
             );
     }
 
-    private static double ContrastRatio(string first, string second)
-    {
-        var a = RelativeLuminance(first);
-        var b = RelativeLuminance(second);
-        return (Math.Max(a, b) + 0.05) / (Math.Min(a, b) + 0.05);
-    }
+    private static double ContrastRatio(string first, string second) =>
+        ContrastRatio(Luminance(Rgb(first)), Luminance(Rgb(second)));
 
-    private static double RelativeLuminance(string hsl)
+    private static double ContrastRatio(double first, double second) =>
+        (Math.Max(first, second) + 0.05) / (Math.Min(first, second) + 0.05);
+
+    private static double Luminance(double[] rgb) =>
+        (0.2126 * Linear(rgb[0])) + (0.7152 * Linear(rgb[1])) + (0.0722 * Linear(rgb[2]));
+
+    // sRGB channels, 0 to 1, for an hsl() color.
+    private static double[] Rgb(string hsl)
     {
         var match = Hsl().Match(hsl);
         match.Success.ShouldBeTrue($"'{hsl}' is not an hsl() color this test can measure");
@@ -186,15 +234,12 @@ public partial class TokenContrastTests
         var saturation = Parse(match.Groups["s"].Value) / 100.0;
         var lightness = Parse(match.Groups["l"].Value) / 100.0;
 
-        var q =
-            lightness < 0.5
-                ? lightness * (1 + saturation)
-                : lightness + saturation - (lightness * saturation);
+        var q = lightness < 0.5
+            ? lightness * (1 + saturation)
+            : lightness + saturation - (lightness * saturation);
         var p = (2 * lightness) - q;
 
-        return (0.2126 * Linear(Channel(p, q, hue + (1.0 / 3))))
-            + (0.7152 * Linear(Channel(p, q, hue)))
-            + (0.0722 * Linear(Channel(p, q, hue - (1.0 / 3))));
+        return [Channel(p, q, hue + (1.0 / 3)), Channel(p, q, hue), Channel(p, q, hue - (1.0 / 3))];
     }
 
     private static double Channel(double p, double q, double t)
