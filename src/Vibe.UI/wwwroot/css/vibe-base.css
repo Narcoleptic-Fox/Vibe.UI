@@ -178,6 +178,38 @@
 }
 
 /* ========================================
+   ROLE TOKENS THAT FOLLOW OTHER TOKENS
+
+   Each of these names a job a color does. By default it points at an existing token, so
+   every palette has a value for it. A theme that wants a different color for the job
+   defines the token itself and replaces the default.
+
+   Declared for .dark as well as :root so the references are resolved again wherever dark
+   mode is switched on, not only on the root element.
+   ======================================== */
+
+:root,
+.dark {
+  /* The edge of a sunken well: an area recessed into the surface that holds it. */
+  --vibe-sunken-border: var(--vibe-border);
+
+  /* Links and other inline actions. */
+  --vibe-link: var(--vibe-primary);
+
+  /* A status color used as text or an icon on the page. */
+  --vibe-destructive-text: var(--vibe-destructive);
+  --vibe-success-text: var(--vibe-success);
+  --vibe-warning-text: var(--vibe-warning);
+  --vibe-info-text: var(--vibe-info);
+
+  /* A quiet status background that the matching -text color stays readable on. */
+  --vibe-destructive-soft: color-mix(in srgb, var(--vibe-destructive) 6%, var(--vibe-background));
+  --vibe-success-soft: color-mix(in srgb, var(--vibe-success) 6%, var(--vibe-background));
+  --vibe-warning-soft: color-mix(in srgb, var(--vibe-warning) 6%, var(--vibe-background));
+  --vibe-info-soft: color-mix(in srgb, var(--vibe-info) 6%, var(--vibe-background));
+}
+
+/* ========================================
    MINIMAL RESET
 
    Intentionally non-invasive: box-sizing, margin/padding normalization, and
