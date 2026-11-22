@@ -10,8 +10,12 @@
     One app per component is deliberate. A single app with every component added cannot see a
     missing dependency: Select would find Icon simply because `vibe add icon` had already put
     it there. Isolation is the only arrangement in which "vibe add select" has to stand on what
-    it installs itself. One extra app with everything added is built as well, because that is
-    the only arrangement that can see two components colliding with each other.
+    it installs itself.
+
+    Two more apps get every component at once, because that is the only arrangement that can
+    see two components colliding with each other: one Server app, and one hosted app where
+    `vibe init` installs into the WebAssembly client, which compiles against a smaller
+    framework than the server does.
 
     The apps are compiled by a single parallel MSBuild invocation, so the cost is one build
     session rather than one per component.
@@ -45,7 +49,9 @@ $ErrorActionPreference = "Stop"
 $knownUnvendorable = [ordered]@{
 }
 
-$allTogetherName = "_AllComponents"
+# Short names: the WebAssembly build nests deep paths, and Windows stops at 260 characters.
+$allTogetherName = "_All"
+$allTogetherWasmName = "_AllWasm"
 
 function Invoke-Logged {
     param(
@@ -151,11 +157,57 @@ if (-not (Test-Path -LiteralPath (Join-Path $templatePath "Vibe/Base/VibeCompone
 $appsRoot = Join-Path $WorkRoot "apps"
 $apps = [System.Collections.Generic.List[object]]::new()
 foreach ($componentName in $validatedNames) {
-    $apps.Add([pscustomobject]@{ Name = $componentName; Components = @($componentName) })
+    $apps.Add([pscustomobject]@{
+        Name          = $componentName
+        Components    = @($componentName)
+        Template      = $templatePath
+        ComponentsDir = "Components/vibe"
+        Project       = "Consumer.csproj"
+        Assembly      = "bin/Release/net10.0/Consumer.dll"
+    })
 }
 
 if (-not $isSubset) {
-    $apps.Add([pscustomobject]@{ Name = $allTogetherName; Components = @($validatedNames) })
+    $apps.Add([pscustomobject]@{
+        Name          = $allTogetherName
+        Components    = @($validatedNames)
+        Template      = $templatePath
+        ComponentsDir = "Components/vibe"
+        Project       = "Consumer.csproj"
+        Assembly      = "bin/Release/net10.0/Consumer.dll"
+    })
+
+    # The hosted shape: `vibe init` picks the WebAssembly client, so the components are
+    # compiled there. The server project references the client, so the server assembly
+    # existing means the client compiled first.
+    $wasmTemplatePath = Join-Path $WorkRoot "template-wasm"
+    $exitCode = Invoke-Logged "dotnet" @(
+        "new", "blazor",
+        "--name", "Consumer",
+        "--output", $wasmTemplatePath,
+        "--framework", "net10.0",
+        "--interactivity", "WebAssembly",
+        "--all-interactive",
+        "--no-restore",
+        "--no-update-check"
+    ) $setupLog
+    Assert-Step $exitCode "dotnet new blazor (WebAssembly)" $setupLog
+
+    $exitCode = Invoke-Logged $ToolExecutable @("init", "--yes", "--path", $wasmTemplatePath) $setupLog
+    Assert-Step $exitCode "vibe init (WebAssembly)" $setupLog
+
+    if (-not (Test-Path -LiteralPath (Join-Path $wasmTemplatePath "Consumer.Client/Vibe/Base/VibeComponent.cs") -PathType Leaf)) {
+        throw "vibe init exited 0 but did not copy the infrastructure into the client project of $wasmTemplatePath."
+    }
+
+    $apps.Add([pscustomobject]@{
+        Name          = $allTogetherWasmName
+        Components    = @($validatedNames)
+        Template      = $wasmTemplatePath
+        ComponentsDir = "Consumer.Client/Components/vibe"
+        Project       = "Consumer/Consumer.csproj"
+        Assembly      = "Consumer/bin/Release/net10.0/Consumer.dll"
+    })
 }
 
 $appNames = @($apps | ForEach-Object { $_.Name })
@@ -164,7 +216,7 @@ Write-Host "Vendoring $($validatedNames.Count) components, one app each..."
 $vendoringFailures = @($apps | ForEach-Object -ThrottleLimit 8 -Parallel {
     $appPath = Join-Path $using:appsRoot $_.Name
     New-Item -ItemType Directory -Force -Path $appPath | Out-Null
-    Copy-Item -Path (Join-Path $using:templatePath '*') -Destination $appPath -Recurse -Force
+    Copy-Item -Path (Join-Path $_.Template '*') -Destination $appPath -Recurse -Force
 
     $logPath = Join-Path $appPath "vibe-add.log"
     foreach ($componentName in $_.Components) {
@@ -174,7 +226,7 @@ $vendoringFailures = @($apps | ForEach-Object -ThrottleLimit 8 -Parallel {
         }
 
         # Exit 0 only says the tool did not crash; the component file is the receipt.
-        $componentFile = Join-Path $appPath "Components/vibe/$componentName.razor"
+        $componentFile = Join-Path $appPath "$($_.ComponentsDir)/$componentName.razor"
         if (-not (Test-Path -LiteralPath $componentFile -PathType Leaf)) {
             return "vibe add $componentName exited 0 but did not write $componentFile."
         }
@@ -188,10 +240,18 @@ if ($vendoringFailures.Count -gt 0) {
 
 # ContinueOnError keeps one broken component from hiding the rest of the list.
 $traversalProject = Join-Path $WorkRoot "apps.proj"
+$projectItems = @($apps | ForEach-Object {
+    $projectPath = Join-Path (Join-Path $appsRoot $_.Name) $_.Project
+    if (-not (Test-Path -LiteralPath $projectPath -PathType Leaf)) {
+        throw "Generated app '$($_.Name)' has no project at $projectPath."
+    }
+
+    "    <ConsumerApp Include=`"$([System.Security.SecurityElement]::Escape($projectPath))`" />"
+}) -join [System.Environment]::NewLine
 Set-Content -LiteralPath $traversalProject -Encoding utf8NoBOM -Value @"
 <Project>
   <ItemGroup>
-    <ConsumerApp Include="apps/*/Consumer.csproj" />
+$projectItems
   </ItemGroup>
   <Target Name="RestoreApps">
     <MSBuild Projects="@(ConsumerApp)" Targets="Restore" BuildInParallel="true"
@@ -224,14 +284,18 @@ if (Test-Path -LiteralPath $errorLog -PathType Leaf) {
     $errorLines = @(Get-Content -LiteralPath $errorLog | Where-Object { $_ -match '\S' } | Sort-Object -Unique)
 }
 
-$results = foreach ($appName in $appNames) {
-    $appPath = Join-Path $appsRoot $appName
-    $assembly = Join-Path $appPath "bin/Release/net10.0/Consumer.dll"
-    $marker = [System.IO.Path]::DirectorySeparatorChar + $appName + [System.IO.Path]::DirectorySeparatorChar + "Consumer.csproj]"
-    $appErrors = @($errorLines | Where-Object { $_.Contains($marker) })
+$separator = [System.IO.Path]::DirectorySeparatorChar
+$results = foreach ($app in $apps) {
+    $appPath = Join-Path $appsRoot $app.Name
+    $assembly = Join-Path $appPath $app.Assembly
+
+    # An error line ends with the project it came from, in brackets. Matching on the app's
+    # directory attributes errors from either project of the hosted app.
+    $marker = "$separator" + "apps$separator$($app.Name)$separator"
+    $appErrors = @($errorLines | Where-Object { $_.Substring($_.LastIndexOf('[') + 1).Contains($marker) })
 
     [pscustomobject]@{
-        Name   = $appName
+        Name   = $app.Name
         Passed = (Test-Path -LiteralPath $assembly -PathType Leaf)
         Errors = $appErrors
     }
@@ -293,9 +357,9 @@ if ($failed.Count -gt 0) {
     }
 
     Write-Host ""
-    Write-Host "Vendoring gate FAILED: $($failed.Count) of $($results.Count) apps did not compile ($($validatedNames.Count) components one at a time$(if (-not $isSubset) { ', plus all of them together' })). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
+    Write-Host "Vendoring gate FAILED: $($failed.Count) of $($results.Count) apps did not compile ($($validatedNames.Count) components one at a time$(if (-not $isSubset) { ', plus all of them together in a Server app and in a WebAssembly client' })). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
     Write-Host "Failed: $($failed.Name -join ', ')"
     throw "Vendoring gate failed for $($failed.Count) of $($results.Count) apps."
 }
 
-Write-Host "Vendoring gate passed: $($passed.Count) of $($results.Count) apps compiled ($($validatedNames.Count) components one at a time$(if (-not $isSubset) { ', plus all of them together' })). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
+Write-Host "Vendoring gate passed: $($passed.Count) of $($results.Count) apps compiled ($($validatedNames.Count) components one at a time$(if (-not $isSubset) { ', plus all of them together in a Server app and in a WebAssembly client' })). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."

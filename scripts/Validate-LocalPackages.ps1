@@ -430,7 +430,7 @@ function Validate-CliToolPackage {
     & (Join-Path $PSScriptRoot "Validate-VendoredComponents.ps1") `
         -ToolExecutable $toolExecutable `
         -NuGetConfigPath $NuGetConfigPath `
-        -WorkRoot (Join-Path $TempRoot "vendored-components")
+        -WorkRoot (Join-Path $TempRoot "vc")
 }
 
 if ([string]::IsNullOrWhiteSpace($Version)) {
