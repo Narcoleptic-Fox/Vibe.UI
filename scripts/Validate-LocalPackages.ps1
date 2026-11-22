@@ -71,6 +71,37 @@ function Assert-PackageEntry {
     }
 }
 
+function Assert-PackageDependency {
+    param(
+        [Parameter(Mandatory = $true)][string]$PackagePath,
+        [Parameter(Mandatory = $true)][string]$DependencyId
+    )
+
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($PackagePath)
+    try {
+        $nuspecEntry = $zip.Entries | Where-Object { $_.FullName -like "*.nuspec" } | Select-Object -First 1
+        if ($null -eq $nuspecEntry) {
+            throw "Package $PackagePath has no nuspec."
+        }
+
+        $reader = [System.IO.StreamReader]::new($nuspecEntry.Open())
+        try {
+            [xml]$nuspec = $reader.ReadToEnd()
+        }
+        finally {
+            $reader.Dispose()
+        }
+
+        $dependencyIds = @($nuspec.SelectNodes("//*[local-name()='dependency']") | ForEach-Object { $_.id })
+        if ($dependencyIds -notcontains $DependencyId) {
+            throw "Package $PackagePath does not declare a dependency on $DependencyId. Found: $($dependencyIds -join ', ')"
+        }
+    }
+    finally {
+        $zip.Dispose()
+    }
+}
+
 function Write-NuGetConfig {
     param(
         [Parameter(Mandatory = $true)][string]$Path,
@@ -249,6 +280,8 @@ function Validate-CliToolPackage {
 
     Assert-FileExists (Join-Path $cliProject "Vibe/Base/VibeComponent.cs")
     Assert-FileExists (Join-Path $cliProject "Vibe/Metadata/PropertyMetadataResolver.cs")
+    Assert-FileExists (Join-Path $cliProject "Vibe/Components/Form/FormFieldContext.cs")
+    Assert-FileExists (Join-Path $cliProject "Vibe/Components/Overlay/DialogContext.cs")
     Assert-FileExists (Join-Path $cliProject "Components/vibe/Button.razor")
     Assert-FileExists (Join-Path $cliProject "wwwroot/js/vibe-dialog.js")
     Assert-FileExists (Join-Path $cliProject "wwwroot/js/vibe-menu-keyboard.js")
@@ -392,6 +425,12 @@ function Validate-CliToolPackage {
     if (Test-Path -LiteralPath $hostedClientCss -PathType Leaf) {
         throw "Hosted CLI initialization generated a duplicate client Vibe.UI.CSS asset."
     }
+
+    # Every registered component, vendored on its own into a fresh app and compiled.
+    & (Join-Path $PSScriptRoot "Validate-VendoredComponents.ps1") `
+        -ToolExecutable $toolExecutable `
+        -NuGetConfigPath $NuGetConfigPath `
+        -WorkRoot (Join-Path $TempRoot "vc")
 }
 
 if ([string]::IsNullOrWhiteSpace($Version)) {
@@ -406,6 +445,7 @@ if (-not (Test-Path -LiteralPath $packagesFullPath -PathType Container)) {
 $packageFiles = @{
     "Vibe.UI.CSS" = Join-Path $packagesFullPath "Vibe.UI.CSS.$Version.nupkg"
     "Vibe.UI" = Join-Path $packagesFullPath "Vibe.UI.$Version.nupkg"
+    "Vibe.UI.FluentValidation" = Join-Path $packagesFullPath "Vibe.UI.FluentValidation.$Version.nupkg"
     "Vibe.UI.CLI" = Join-Path $packagesFullPath "Vibe.UI.CLI.$Version.nupkg"
 }
 
@@ -426,12 +466,19 @@ $requiredEntries = @{
         "lib/net10.0/Vibe.UI.dll",
         "staticwebassets/css/vibe-base.css"
     )
+    "Vibe.UI.FluentValidation" = @(
+        "README.nuget.md",
+        "icon.png",
+        "lib/net10.0/Vibe.UI.FluentValidation.dll"
+    )
     "Vibe.UI.CLI" = @(
         "README.cli.md",
         "icon.png",
         "tools/net10.0/any/Vibe.UI.CLI.dll",
         "Templates/Infrastructure/ServiceCollectionExtensions.cs",
         "Templates/Infrastructure/Metadata/PropertyMetadataResolver.cs",
+        "Templates/Infrastructure/Components/Form/FormFieldContext.cs",
+        "Templates/Infrastructure/Components/Overlay/DialogContext.cs",
         "Templates/Components/Utility/DropdownMenu.razor",
         "Templates/wwwroot/js/vibe-dialog.js",
         "Templates/wwwroot/js/vibe-menu-keyboard.js",
@@ -443,6 +490,11 @@ foreach ($packageName in $requiredEntries.Keys) {
     foreach ($entryName in $requiredEntries[$packageName]) {
         Assert-PackageEntry -PackagePath $packageFiles[$packageName] -EntryName $entryName
     }
+}
+
+# Nothing else consumes the adapter package, so its declared dependencies are checked here.
+foreach ($dependencyId in @("Vibe.UI", "FluentValidation")) {
+    Assert-PackageDependency -PackagePath $packageFiles["Vibe.UI.FluentValidation"] -DependencyId $dependencyId
 }
 
 $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) "vibe-local-package-validation-$([System.Guid]::NewGuid().ToString("N"))"

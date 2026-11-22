@@ -100,6 +100,12 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
 
         AnsiConsole.MarkupLine($"[blue]Adding {component.Name} component...[/]\n");
 
+        // Everything the component needs in order to compile, worked out from its source.
+        var dependencies = componentService
+            .GetRequiredComponents(component.Name)
+            .Select(dependency => dependency.Name)
+            .ToList();
+
         // Show component info
         var table = new Table();
         table.AddColumn("Property");
@@ -107,7 +113,7 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         table.AddRow("Component", component.Name);
         table.AddRow("Category", component.Category);
         table.AddRow("Description", component.Description ?? "No description");
-        table.AddRow("Dependencies", component.Dependencies?.Count > 0 ? string.Join(", ", component.Dependencies) : "None");
+        table.AddRow("Dependencies", dependencies.Count > 0 ? string.Join(", ", dependencies) : "None");
 
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
@@ -126,9 +132,9 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
             .StartAsync($"Installing {component.Name}...", async ctx =>
             {
                 // Install dependencies first (dependencies don't get renamed or custom output)
-                if (component.Dependencies?.Any() == true)
+                if (dependencies.Count > 0)
                 {
-                    foreach (var dep in component.Dependencies)
+                    foreach (var dep in dependencies)
                     {
                         ctx.Status($"Installing dependency: {dep}...");
                         await componentService.InstallComponentAsync(
@@ -184,9 +190,9 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         AnsiConsole.MarkupLine("  1. Import the component: [dim]@using Vibe.UI.Components[/]");
         AnsiConsole.MarkupLine($"  2. Use in your Razor files: [dim]<{displayName} />[/]");
 
-        if (component.Dependencies?.Any() == true)
+        if (dependencies.Count > 0)
         {
-            AnsiConsole.MarkupLine($"  3. Dependencies installed: [dim]{string.Join(", ", component.Dependencies)}[/]");
+            AnsiConsole.MarkupLine($"  3. Dependencies installed: [dim]{string.Join(", ", dependencies)}[/]");
         }
 
         AnsiConsole.MarkupLine($"\n[dim]💡 Tip: Run [blue]vibe add {component.Name} --help[/] for more options.[/]");

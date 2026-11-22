@@ -6,7 +6,7 @@ public class SelectTests : TestBase
     public void Select_Renders_WithDefaultProps()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent("<option value='1'>Option 1</option>"));
 
         // Assert
@@ -18,7 +18,7 @@ public class SelectTests : TestBase
     public void Select_Renders_WithLabel()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Label, "Choose Option")
             .AddChildContent("<option>Option 1</option>"));
 
@@ -31,7 +31,7 @@ public class SelectTests : TestBase
     public void Select_Renders_WithPlaceholder()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Placeholder, "Select an option")
             .AddChildContent("<option value='1'>Option 1</option>"));
 
@@ -44,7 +44,7 @@ public class SelectTests : TestBase
     public void Select_Applies_Disabled_Attribute()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .AddChildContent("<option>Option 1</option>"));
 
@@ -57,7 +57,7 @@ public class SelectTests : TestBase
     public void Select_Shows_HelperText()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.HelperText, "Please select one option")
             .AddChildContent("<option>Option 1</option>"));
 
@@ -70,7 +70,7 @@ public class SelectTests : TestBase
     public void Select_Renders_Options()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent(@"
                 <option value='1'>Option 1</option>
                 <option value='2'>Option 2</option>
@@ -87,7 +87,7 @@ public class SelectTests : TestBase
     {
         // Arrange
         ChangeEventArgs? capturedArgs = null;
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.OnChange, args => capturedArgs = args)
             .AddChildContent(@"
                 <option value='1'>Option 1</option>
@@ -106,7 +106,7 @@ public class SelectTests : TestBase
     public void Select_HasCorrectId()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Id, "my-select")
             .AddChildContent("<option>Option 1</option>"));
 
@@ -121,7 +121,7 @@ public class SelectTests : TestBase
     public void Select_WithNullChildContent_RendersEmpty()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.ChildContent, (RenderFragment?)null));
 
         // Assert
@@ -133,7 +133,7 @@ public class SelectTests : TestBase
     public void Select_WithEmptyOptions_RendersEmpty()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent(string.Empty));
 
         // Assert
@@ -147,7 +147,7 @@ public class SelectTests : TestBase
         var optionsHtml = string.Join("\n", Enumerable.Range(1, 100).Select(i => $"<option value='{i}'>Option {i}</option>"));
 
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent(optionsHtml));
 
         // Assert
@@ -161,7 +161,7 @@ public class SelectTests : TestBase
     public void Select_WithEmptyLabel_DoesNotRenderLabel()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Label, string.Empty)
             .AddChildContent("<option>Option 1</option>"));
 
@@ -173,7 +173,7 @@ public class SelectTests : TestBase
     public void Select_WithNullLabel_DoesNotRenderLabel()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Label, null)
             .AddChildContent("<option>Option 1</option>"));
 
@@ -187,7 +187,7 @@ public class SelectTests : TestBase
     public void Select_WithEmptyPlaceholder_DoesNotRenderPlaceholder()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Placeholder, string.Empty)
             .AddChildContent("<option value='1'>Option 1</option>"));
 
@@ -199,7 +199,7 @@ public class SelectTests : TestBase
     public void Select_WithNullPlaceholder_DoesNotRenderPlaceholder()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Placeholder, null)
             .AddChildContent("<option value='1'>Option 1</option>"));
 
@@ -211,7 +211,7 @@ public class SelectTests : TestBase
     public void Select_Placeholder_IsDisabledAndSelected()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Placeholder, "Choose one")
             .AddChildContent("<option value='1'>Option 1</option>"));
 
@@ -227,7 +227,7 @@ public class SelectTests : TestBase
     public void Select_WithEmptyHelperText_DoesNotRenderHelperText()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.HelperText, string.Empty)
             .AddChildContent("<option>Option 1</option>"));
 
@@ -239,7 +239,7 @@ public class SelectTests : TestBase
     public void Select_WithNullHelperText_DoesNotRenderHelperText()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.HelperText, null)
             .AddChildContent("<option>Option 1</option>"));
 
@@ -253,9 +253,9 @@ public class SelectTests : TestBase
     public void Select_WithoutId_GeneratesUniqueId()
     {
         // Act
-        var cut1 = Render<Select>(parameters => parameters
+        var cut1 = Render<Select<string>>(parameters => parameters
             .AddChildContent("<option>Option 1</option>"));
-        var cut2 = Render<Select>(parameters => parameters
+        var cut2 = Render<Select<string>>(parameters => parameters
             .AddChildContent("<option>Option 1</option>"));
 
         // Assert
@@ -272,7 +272,7 @@ public class SelectTests : TestBase
     public void Select_WithNoOnChangeDelegate_DoesNotThrow()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent("<option value='1'>Option 1</option>"));
 
         // Act & Assert - Should not throw
@@ -284,7 +284,7 @@ public class SelectTests : TestBase
     {
         // Arrange
         var changeCount = 0;
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.OnChange, args => changeCount++)
             .AddChildContent(@"
                 <option value='1'>Option 1</option>
@@ -308,7 +308,7 @@ public class SelectTests : TestBase
     {
         // Arrange
         var changeCount = 0;
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.OnChange, args => changeCount++)
             .AddChildContent("<option value='1'>Option 1</option>"));
 
@@ -328,7 +328,7 @@ public class SelectTests : TestBase
     public void Select_WhenDisabled_HasDisabledAttribute()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .AddChildContent("<option>Option 1</option>"));
 
@@ -342,7 +342,7 @@ public class SelectTests : TestBase
         // Arrange
         string? selectedValue = "unchanged";
         ChangeEventArgs? capturedArgs = null;
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .Add(p => p.ValueChanged, value => selectedValue = value)
             .Add(p => p.OnChange, args => capturedArgs = args)
@@ -365,7 +365,7 @@ public class SelectTests : TestBase
     public void Select_HasBaseClass()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent("<option>Option 1</option>"));
 
         // Assert
@@ -378,7 +378,7 @@ public class SelectTests : TestBase
     public void Select_WithAdditionalAttributes_MergesCorrectly()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .AddChildContent("<option>Option 1</option>")
             .Add(p => p.AdditionalAttributes, new Dictionary<string, object>
             {
@@ -396,7 +396,7 @@ public class SelectTests : TestBase
     public void Select_WithClassParameter_AppendsCustomClassToContainer()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Class, "country-select")
             .AddChildContent("<option>Option 1</option>"));
 
@@ -409,7 +409,7 @@ public class SelectTests : TestBase
     public void Select_WithValue_RendersValueAndDoesNotSelectPlaceholder()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Placeholder, "Choose one")
             .Add(p => p.Value, "2")
             .AddChildContent(@"
@@ -429,7 +429,7 @@ public class SelectTests : TestBase
         // Arrange
         string? selectedValue = null;
         ChangeEventArgs? capturedArgs = null;
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.ValueChanged, value => selectedValue = value)
             .Add(p => p.OnChange, args => capturedArgs = args)
             .AddChildContent(@"
@@ -450,7 +450,7 @@ public class SelectTests : TestBase
     public void Select_WithHelperText_ComputesAriaDescribedBy()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Id, "country")
             .Add(p => p.HelperText, "Choose your country")
             .AddChildContent("<option value='us'>United States</option>"));
@@ -464,7 +464,7 @@ public class SelectTests : TestBase
     public void Select_WithAdditionalAriaDescribedBy_MergesHelperDescription()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Id, "state")
             .Add(p => p.HelperText, "Choose your state")
             .Add(p => p.AdditionalAttributes, new Dictionary<string, object>
@@ -484,7 +484,7 @@ public class SelectTests : TestBase
     public void Select_WithLabelPlaceholderAndHelperText_RendersAllElements()
     {
         // Act
-        var cut = Render<Select>(parameters => parameters
+        var cut = Render<Select<string>>(parameters => parameters
             .Add(p => p.Label, "Choose Option")
             .Add(p => p.Placeholder, "Select...")
             .Add(p => p.HelperText, "Pick one option")

@@ -210,10 +210,10 @@ public class FormFieldTests : TestBase
                     p => p.ChildContent,
                     builder =>
                     {
-                        builder.OpenComponent<Select>(0);
+                        builder.OpenComponent<Select<string>>(0);
                         builder.AddAttribute(
                             1,
-                            nameof(Select.ChildContent),
+                            nameof(Select<string>.ChildContent),
                             (RenderFragment)(
                                 options =>
                                     options.AddMarkupContent(
