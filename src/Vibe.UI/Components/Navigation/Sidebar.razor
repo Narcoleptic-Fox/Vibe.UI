@@ -140,6 +140,13 @@
     [Parameter]
     public SidebarPosition Position { get; set; } = SidebarPosition.Left;
 
+    /// <summary>
+    /// The level of the page the sidebar is drawn on. The default is a panel on the card
+    /// level, like an app bar.
+    /// </summary>
+    [Parameter]
+    public SidebarSurface Surface { get; set; } = SidebarSurface.Card;
+
     [Parameter]
     public int Width { get; set; } = 280;
 
@@ -179,6 +186,7 @@
     private string CombinedCssClass => CombineClasses(
     "vibe-sidebar",
     $"sidebar-{Position.ToString().ToLower()}",
+    $"sidebar-surface-{Surface.ToString().ToLower()}",
     IsOpen ? "sidebar-open" : "sidebar-closed",
     Resizable ? "sidebar-resizable" : null,
     Disabled ? "sidebar-disabled" : null,
@@ -410,5 +418,20 @@
     {
         Left,
         Right
+    }
+
+    /// <summary>
+    /// The level of the page a sidebar is drawn on. The names are the theme's surface levels.
+    /// </summary>
+    public enum SidebarSurface
+    {
+        /// <summary>A panel beside the content, on the same level as an app bar.</summary>
+        Card,
+
+        /// <summary>No panel of its own: the sidebar takes the page color, for a quiet rail of links.</summary>
+        Page,
+
+        /// <summary>Recessed below the page, with the sunken edge, for a tool panel or inspector.</summary>
+        Sunken
     }
 }

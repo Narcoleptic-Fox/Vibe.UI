@@ -226,6 +226,68 @@ public class SidebarTests : TestBase
     }
 
     [Fact]
+    public void Sidebar_DrawsOnTheCardLevelByDefault()
+    {
+        var cut = Render<Sidebar>(parameters => parameters.AddChildContent("Content"));
+
+        cut.Find(".vibe-sidebar").ClassList.ShouldContain("sidebar-surface-card");
+    }
+
+    [Theory]
+    [InlineData(Sidebar.SidebarSurface.Card, "sidebar-surface-card")]
+    [InlineData(Sidebar.SidebarSurface.Page, "sidebar-surface-page")]
+    [InlineData(Sidebar.SidebarSurface.Sunken, "sidebar-surface-sunken")]
+    public void Sidebar_AppliesTheSurfaceClass(Sidebar.SidebarSurface surface, string expectedClass)
+    {
+        var cut = Render<Sidebar>(parameters => parameters
+            .Add(p => p.Surface, surface)
+            .AddChildContent("Content"));
+
+        var classes = cut.Find(".vibe-sidebar").ClassList;
+        classes.ShouldContain(expectedClass);
+        classes.Count(name => name.StartsWith("sidebar-surface-", StringComparison.Ordinal)).ShouldBe(1);
+    }
+
+    [Fact]
+    public void Sidebar_StylesheetGivesEverySurfaceItsOwnLevel()
+    {
+        // The class is only a name until the stylesheet paints it. Each surface other than the
+        // default must set a fill from the matching surface token, or the option does nothing.
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "Vibe.slnx")))
+        {
+            directory = directory.Parent;
+        }
+
+        directory.ShouldNotBeNull();
+        var css = File.ReadAllText(Path.Combine(
+            directory.FullName, "src", "Vibe.UI", "Components", "Navigation", "Sidebar.razor.css"));
+
+        var tokens = new Dictionary<Sidebar.SidebarSurface, string>
+        {
+            [Sidebar.SidebarSurface.Card] = "--vibe-card",
+            [Sidebar.SidebarSurface.Page] = "--vibe-background",
+            [Sidebar.SidebarSurface.Sunken] = "--vibe-muted",
+        };
+
+        foreach (var surface in Enum.GetValues<Sidebar.SidebarSurface>())
+        {
+            tokens.ShouldContainKey(surface, $"{surface} has no surface token in this test");
+            var selector = surface == Sidebar.SidebarSurface.Card
+                ? ".vibe-sidebar"
+                : $".sidebar-surface-{surface.ToString().ToLowerInvariant()}";
+
+            var rule = System.Text.RegularExpressions.Regex.Match(
+                css,
+                $@"(?m)^{System.Text.RegularExpressions.Regex.Escape(selector)}\s*\{{(?<body>[^}}]*)\}}");
+            rule.Success.ShouldBeTrue($"Sidebar.razor.css has no '{selector}' rule");
+            rule.Groups["body"].Value.ShouldContain(
+                $"var({tokens[surface]})",
+                customMessage: $"'{selector}' should take its fill from {tokens[surface]}");
+        }
+    }
+
+    [Fact]
     public void Sidebar_AppliesPositionResizableAndCustomClasses()
     {
         // Act
