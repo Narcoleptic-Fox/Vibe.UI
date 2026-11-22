@@ -1,16 +1,33 @@
 @namespace Vibe.UI.Components
+@using System.Globalization
+@typeparam TValue
 @inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass">
     <div class="vibe-select-wrapper">
         <select id="@ElementId" class="vibe-select-input" value="@currentValue" disabled="@Disabled" @attributes="GetSelectAttributes()"
             @onchange="OnChangeHandler" @onfocus="OnFocus" @onblur="OnBlur" @onclick:stopPropagation>
-            @if (!string.IsNullOrEmpty(Placeholder))
+            @if (IsClearable)
+            {
+                @* The empty option is how a nullable value returns to "nothing selected". *@
+                <option value="" selected="@string.IsNullOrEmpty(currentValue)">@Placeholder</option>
+            }
+            else if (!string.IsNullOrEmpty(Placeholder))
             {
                 <option value="" disabled selected="@string.IsNullOrEmpty(currentValue)">@Placeholder</option>
             }
 
-            @ChildContent
+            @if (ChildContent is not null)
+            {
+                @ChildContent
+            }
+            else if (EnumType is not null)
+            {
+                @foreach (var option in Enum.GetValues(EnumType))
+                {
+                    <option value="@option">@Vibe.UI.Metadata.ConventionMetadataProvider.ToLabel(option.ToString()!)</option>
+                }
+            }
         </select>
 
         @if (!string.IsNullOrEmpty(Label))
@@ -66,22 +83,33 @@
     public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the current selected value.
+    /// Gets or sets the current selected value. Option values are converted to and from
+    /// <typeparamref name="TValue"/> with the framework's binding converter, so strings, numbers,
+    /// <see cref="Guid"/>, enums and their nullable forms bind without a converter.
     /// </summary>
     [Parameter]
-    public string? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>
     /// Gets or sets the callback for when the selected value changes.
     /// </summary>
     [Parameter]
-    public EventCallback<string?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the select options
+    /// Gets or sets the select options. When omitted and <typeparamref name="TValue"/> is an enum,
+    /// one option per enum value is rendered.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether an empty option is offered so the value can be set back to nothing.
+    /// Defaults to true for a nullable value type such as <c>int?</c> or a nullable enum, and to
+    /// false otherwise. The empty option shows the <see cref="Placeholder"/> text.
+    /// </summary>
+    [Parameter]
+    public bool? Clearable { get; set; }
 
     /// <summary>
     /// Gets or sets the callback for when the value changes
@@ -100,9 +128,15 @@
 
     private string HelperId => $"{ElementId}-helper";
 
+    private static readonly Type? EnumType =
+        (Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue)) is { IsEnum: true } type ? type : null;
+
+    private bool IsClearable => Clearable ?? Nullable.GetUnderlyingType(typeof(TValue)) is not null;
+
     protected override void OnParametersSet()
     {
-        currentValue = Value ?? string.Empty;
+        // The same converter InputSelect uses, in the invariant culture so "1.5" round-trips.
+        currentValue = BindConverter.FormatValue(Value, CultureInfo.InvariantCulture)?.ToString() ?? string.Empty;
 
         if (Disabled)
         {
@@ -148,11 +182,22 @@
             return;
         }
 
-        currentValue = args.Value?.ToString() ?? string.Empty;
+        var selected = args.Value?.ToString() ?? string.Empty;
+
+        // The converter also rejects a number that is not a defined enum value, such as "99".
+        if (!BindConverter.TryConvertTo<TValue>(selected, CultureInfo.InvariantCulture, out var value))
+        {
+            // Dropping it would leave the control showing one thing and the model holding another.
+            throw new InvalidOperationException(
+                $"Select<{typeof(TValue).Name}> could not convert the option value '{selected}' to {typeof(TValue).Name}. "
+                + "Check that every option's value is valid for the bound type.");
+        }
+
+        currentValue = selected;
 
         if (ValueChanged.HasDelegate)
         {
-            await ValueChanged.InvokeAsync(currentValue);
+            await ValueChanged.InvokeAsync(value);
         }
 
         if (OnChange.HasDelegate)
