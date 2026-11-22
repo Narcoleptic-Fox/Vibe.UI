@@ -10,6 +10,13 @@ public class VisualRegressionTests : E2ETestBase
     private const string StableScreenshotStyles =
         "*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }";
 
+    // Chromium draws text with subpixel (LCD) antialiasing on some page loads and grayscale on
+    // others. Measured over ten runs: six surfaces each gave two different captures with
+    // identical geometry (same scroll offset, same element position and size), and the
+    // comparison failed on about one run in four. Forcing grayscale leaves one way to draw
+    // text, so a capture depends only on the page.
+    protected override IEnumerable<string> ChromiumArguments => ["--disable-lcd-text"];
+
     private static readonly ViewportProfile[] Viewports =
     [
         new("desktop", 1280, 900),
@@ -79,9 +86,8 @@ public class VisualRegressionTests : E2ETestBase
                         await Page.Mouse.MoveAsync(0, 0);
                         await Page.EvaluateAsync("() => document.fonts.ready");
 
-                        // The page fades and slides in. Text captured while that is still
-                        // running is rasterised at a sub-pixel offset and differs run to run,
-                        // so wait for every finite animation to end rather than a fixed delay.
+                        // Let the page-enter animation and any other finite animation end
+                        // before capturing, rather than trusting a fixed delay.
                         await Page.EvaluateAsync(
                             """
                             () => Promise.all(document.getAnimations()

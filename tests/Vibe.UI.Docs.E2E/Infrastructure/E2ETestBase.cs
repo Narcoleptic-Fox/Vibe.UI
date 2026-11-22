@@ -35,6 +35,12 @@ public abstract class E2ETestBase : IAsyncLifetime
     protected string BrowserType { get; } =
         Environment.GetEnvironmentVariable("BROWSER")?.ToLowerInvariant() ?? "chromium";
 
+    /// <summary>
+    /// Extra command-line switches for Chromium. A test class overrides this when it needs
+    /// the browser to behave in a particular way.
+    /// </summary>
+    protected virtual IEnumerable<string> ChromiumArguments => [];
+
     public virtual async Task InitializeAsync()
     {
         // Ensure the docs site is reachable when using the default base URL.
@@ -57,7 +63,8 @@ public abstract class E2ETestBase : IAsyncLifetime
             }),
             _ => await Playwright.Chromium.LaunchAsync(new()
             {
-                Headless = Headless
+                Headless = Headless,
+                Args = ChromiumArguments
             })
         };
 
