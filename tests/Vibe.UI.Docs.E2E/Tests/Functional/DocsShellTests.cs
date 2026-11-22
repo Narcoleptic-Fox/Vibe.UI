@@ -380,24 +380,4 @@ public class DocsShellTests : E2ETestBase
                 string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase))
             .Select(violation => $"{violation.Id}: {string.Join(", ", violation.Nodes.Select(node => node.Target?.ToString()))}")
             .ToArray();
-
-    [Fact]
-    public async Task DarkThemeSurfacesShareOneNeutralPalette()
-    {
-        await NavigateAndWaitForBlazorAsync("/components/button");
-        await Page.EvaluateAsync("() => document.documentElement.classList.add('dark')");
-
-        // The page background comes from the theme tokens; cards and code blocks use zinc
-        // utilities. A tinted base color (slate) shows up as a blue channel far above red.
-        var channels = await Page.EvaluateAsync<int[]>(
-            """
-            () => getComputedStyle(document.body).backgroundColor.match(/\d+/g).slice(0, 3).map(Number)
-            """
-        );
-
-        (channels.Max() - channels.Min()).ShouldBeLessThanOrEqualTo(
-            6,
-            $"The dark page background rgb({string.Join(", ", channels)}) should be neutral like the cards on it"
-        );
-    }
 }

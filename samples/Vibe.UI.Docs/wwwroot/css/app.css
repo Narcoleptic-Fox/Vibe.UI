@@ -73,6 +73,11 @@
   color: var(--vibe-foreground);
 }
 
+/* Zinc-500 is 3.06:1 on the light page, so quiet text takes the theme's muted text color. */
+.vibe-text-zinc-500 {
+  color: var(--vibe-muted-foreground);
+}
+
 /* Zinc-500 is too dim for normal text on the docs dark surfaces. */
 .dark .vibe-text-zinc-500 {
   color: rgb(161 161 170);
