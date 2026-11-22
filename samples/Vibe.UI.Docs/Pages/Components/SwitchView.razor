@@ -5,34 +5,34 @@
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <!-- Header -->
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Switch</span>
+            <span class="vibe-text-foreground">Switch</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Switch</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Switch</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             A toggle switch control for on/off or true/false values with smooth animations.
         </p>
     </header>
 
     <!-- Preview -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card">
             <div class="vibe-space-y-4 vibe-max-w-md">
                 <div class="vibe-flex vibe-items-center vibe-justify-between">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Default (off)</span>
+                    <span class="vibe-text-foreground">Default (off)</span>
                     <Switch Label="Default off" />
                 </div>
                 <div class="vibe-flex vibe-items-center vibe-justify-between">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Default (on)</span>
+                    <span class="vibe-text-foreground">Default (on)</span>
                     <Switch Label="Default on" Checked="true" />
                 </div>
                 <div class="vibe-flex vibe-items-center vibe-justify-between">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Enable notifications</span>
+                    <span class="vibe-text-foreground">Enable notifications</span>
                     <Switch Label="Enable notifications" Checked="@notificationsEnabled" CheckedChanged="@OnNotificationsChanged" />
                 </div>
                 @if (notificationsEnabled)
@@ -42,15 +42,15 @@
                     </div>
                 }
                 <div class="vibe-flex vibe-items-center vibe-justify-between">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Dark mode</span>
+                    <span class="vibe-text-foreground">Dark mode</span>
                     <Switch Label="Dark mode" Checked="@darkModeEnabled" CheckedChanged="@((bool val) => darkModeEnabled = val)" />
                 </div>
                 <div class="vibe-flex vibe-items-center vibe-justify-between vibe-opacity-50">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled (off)</span>
+                    <span class="vibe-text-foreground">Disabled (off)</span>
                     <Switch Label="Disabled off" Disabled="true" />
                 </div>
                 <div class="vibe-flex vibe-items-center vibe-justify-between vibe-opacity-50">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled (on)</span>
+                    <span class="vibe-text-foreground">Disabled (on)</span>
                     <Switch Label="Disabled on" Checked="true" Disabled="true" />
                 </div>
             </div>
@@ -59,15 +59,15 @@
 
     <!-- Examples Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <!-- Basic Usage -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Usage</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Basic Usage</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Simple toggle switch with on and off states.
             </p>
-            <div class="vibe-flex vibe-items-center vibe-gap-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-items-center vibe-gap-4 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Switch Label="Feature disabled" />
                 <Switch Label="Feature enabled" Checked="true" />
             </div>
@@ -76,17 +76,17 @@
 
         <!-- With Label -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Label</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Label</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Add a label to provide context for the switch control.
             </p>
-            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-flex vibe-items-center vibe-justify-between vibe-max-w-md">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Enable notifications</span>
+                    <span class="vibe-text-foreground">Enable notifications</span>
                     <Switch Label="Enable notifications" />
                 </div>
                 <div class="vibe-flex vibe-items-center vibe-justify-between vibe-max-w-md">
-                    <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Dark mode</span>
+                    <span class="vibe-text-foreground">Dark mode</span>
                     <Switch Label="Dark mode" Checked="true" />
                 </div>
             </div>
@@ -95,22 +95,22 @@
 
         <!-- Sizes -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Sizes</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Sizes</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Available in three sizes to fit different layouts and use cases.
             </p>
-            <div class="vibe-flex vibe-items-center vibe-gap-6 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-items-center vibe-gap-6 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-flex vibe-flex-col vibe-items-center vibe-gap-2">
                     <Switch Size="sm" Label="Small switch" Checked="true" />
-                    <span class="vibe-text-xs vibe-text-zinc-500">Small</span>
+                    <span class="vibe-text-xs vibe-text-muted-foreground">Small</span>
                 </div>
                 <div class="vibe-flex vibe-flex-col vibe-items-center vibe-gap-2">
                     <Switch Label="Default switch" Checked="true" />
-                    <span class="vibe-text-xs vibe-text-zinc-500">Medium</span>
+                    <span class="vibe-text-xs vibe-text-muted-foreground">Medium</span>
                 </div>
                 <div class="vibe-flex vibe-flex-col vibe-items-center vibe-gap-2">
                     <Switch Size="lg" Label="Large switch" Checked="true" />
-                    <span class="vibe-text-xs vibe-text-zinc-500">Large</span>
+                    <span class="vibe-text-xs vibe-text-muted-foreground">Large</span>
                 </div>
             </div>
             <CodeBlock Code="@SizesCode" Language="razor" />
@@ -118,11 +118,11 @@
 
         <!-- Disabled State -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Disabled State</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Disabled State</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Prevent user interaction with the disabled state.
             </p>
-            <div class="vibe-flex vibe-items-center vibe-gap-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-items-center vibe-gap-4 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Switch Label="Disabled off" Disabled="true" />
                 <Switch Label="Disabled on" Checked="true" Disabled="true" />
             </div>
@@ -131,8 +131,8 @@
 
         <!-- With Change Handler -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Change Handler</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Change Handler</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Handle switch state changes with event callbacks to implement custom logic.
             </p>
             <CodeBlock Code="@ChangeHandlerCode" Language="razor" />
@@ -141,57 +141,57 @@
 
     <!-- API Reference -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Checked</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Checked</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the switch is checked</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Whether the switch is checked</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Disabled</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the switch is disabled</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Whether the switch is disabled</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Label</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Label</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Label text for the switch</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Label text for the switch</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">AriaLabel</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">AriaLabel</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Accessible name that takes precedence over Label</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Accessible name that takes precedence over Label</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Size</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Size</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"default"</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Switch size: sm, default, or lg</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">"default"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Switch size: sm, default, or lg</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Name</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Name attribute of the input</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Name attribute of the input</td>
                         </tr>
                     </tbody>
                 </table>
@@ -200,21 +200,21 @@
 
         <!-- Events -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Events</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">CheckedChanged</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">CheckedChanged</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<bool>" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when checked state changes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when checked state changes</td>
                         </tr>
                     </tbody>
                 </table>
@@ -224,8 +224,8 @@
 
     <!-- Installation -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
-        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-4">
             Install the Switch component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add switch" Language="bash" />
@@ -233,8 +233,8 @@
 
     <!-- Accessibility -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <Vibe.UI.Components.Icon Name="check-circle" Size="20" Color="var(--vibe-success)" CssClass="vibe-mt-0.5 vibe-shrink-0" />
                 Uses semantic switch role with proper ARIA attributes
@@ -260,15 +260,15 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/checkbox" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Checkbox</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Multiple selection control</p>
+            <a href="components/checkbox" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Checkbox</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Multiple selection control</p>
             </a>
-            <a href="components/radiogroup" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Radio Group</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Single selection from options</p>
+            <a href="components/radiogroup" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Radio Group</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Single selection from options</p>
             </a>
             </div>
     </section>

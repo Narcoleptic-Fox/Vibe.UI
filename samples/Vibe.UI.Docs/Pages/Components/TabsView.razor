@@ -5,40 +5,40 @@
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <!-- Header -->
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Tabs</span>
+            <span class="vibe-text-foreground">Tabs</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Tabs</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Tabs</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             Organizes content into multiple panels where only one is visible at a time with tab navigation.
         </p>
     </header>
 
     <!-- Preview -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card">
             <Tabs @bind-ActiveTabId="activeTabId">
                 <TabItem Id="account" Header="Account" DefaultActive="true">
                     <div class="vibe-py-2">
-                        <h3 class="vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-1">Account</h3>
-                        <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Update your profile and account preferences.</p>
+                        <h3 class="vibe-font-semibold vibe-text-foreground vibe-mb-1">Account</h3>
+                        <p class="vibe-text-sm vibe-text-muted-foreground">Update your profile and account preferences.</p>
                     </div>
                 </TabItem>
                 <TabItem Id="security" Header="Security">
                     <div class="vibe-py-2">
-                        <h3 class="vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-1">Security</h3>
-                        <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Manage your password and active sessions.</p>
+                        <h3 class="vibe-font-semibold vibe-text-foreground vibe-mb-1">Security</h3>
+                        <p class="vibe-text-sm vibe-text-muted-foreground">Manage your password and active sessions.</p>
                     </div>
                 </TabItem>
                 <TabItem Id="billing" Header="Billing">
                     <div class="vibe-py-2">
-                        <h3 class="vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-1">Billing</h3>
-                        <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Review invoices and payment details.</p>
+                        <h3 class="vibe-font-semibold vibe-text-foreground vibe-mb-1">Billing</h3>
+                        <p class="vibe-text-sm vibe-text-muted-foreground">Review invoices and payment details.</p>
                     </div>
                 </TabItem>
             </Tabs>
@@ -47,12 +47,12 @@
 
     <!-- Examples Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <!-- Basic Usage -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Usage</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Basic Usage</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Declare tab headers and panels together with <code>TabItem</code> children.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
@@ -60,8 +60,8 @@
 
         <!-- Controlled State -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Controlled State</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Controlled State</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Bind the active tab ID when application state needs to control the selection.
             </p>
             <CodeBlock Code="@ControlledCode" Language="razor" />
@@ -69,8 +69,8 @@
 
         <!-- Disabled Tab -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Disabled Tab</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Disabled Tab</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Disabled tabs remain visible but cannot be selected with pointer or keyboard input.
             </p>
             <CodeBlock Code="@DisabledCode" Language="razor" />
@@ -78,8 +78,8 @@
 
         <!-- Tab Events -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Tab Events</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Tab Events</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Listen to tab activation events.
             </p>
             <CodeBlock Code="@EventsCode" Language="razor" />
@@ -89,57 +89,57 @@
 
     <!-- API Reference -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ActiveTabId</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ActiveTabId</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">ID of the currently active tab</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">ID of the currently active tab</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ActiveTabIdChanged</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ActiveTabIdChanged</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;string&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when active tab changes (enables two-way binding)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when active tab changes (enables two-way binding)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnTabActivated</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">OnTabActivated</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;TabActivatedEventArgs&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Event fired when a tab is activated</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Event fired when a tab is activated</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ChildContent</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ChildContent</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Declarative <code>TabItem</code> children</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Declarative <code>TabItem</code> children</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Class</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Class</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">""</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Additional CSS classes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">""</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Additional CSS classes</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">AdditionalAttributes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">AdditionalAttributes</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="Dictionary&lt;string, object&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Additional HTML attributes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Additional HTML attributes</td>
                         </tr>
                     </tbody>
                 </table>
@@ -148,26 +148,26 @@
 
         <!-- Events -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Events</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ActiveTabIdChanged</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ActiveTabIdChanged</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;string&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Fires when the active tab ID changes</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Fires when the active tab ID changes</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnTabActivated</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">OnTabActivated</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;TabActivatedEventArgs&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Fires when a tab is activated with tab details</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Fires when a tab is activated with tab details</td>
                         </tr>
                     </tbody>
                 </table>
@@ -176,26 +176,26 @@
 
         <!-- TabActivatedEventArgs -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">TabActivatedEventArgs</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">TabActivatedEventArgs</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Property</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Property</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">TabId</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">TabId</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">The ID of the activated tab</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The ID of the activated tab</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Title</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Title</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">The title/label of the activated tab</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The title/label of the activated tab</td>
                         </tr>
                     </tbody>
                 </table>
@@ -205,8 +205,8 @@
 
     <!-- Installation -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
-        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-4">
             Install the Tabs component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add tabs" Language="bash" />
@@ -214,19 +214,19 @@
 
     <!-- Accessibility -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Uses proper ARIA roles: <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="tablist"</code>, <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="tab"</code>, and <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="tabpanel"</code>
+                Uses proper ARIA roles: <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">role="tablist"</code>, <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">role="tab"</code>, and <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">role="tabpanel"</code>
             </li>
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-selected</code> attribute on active tab button
+                <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">aria-selected</code> attribute on active tab button
             </li>
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -238,7 +238,7 @@
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Disabled tabs use the <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">disabled</code> attribute
+                Disabled tabs use the <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">disabled</code> attribute
             </li>
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-amber-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -251,19 +251,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/accordion" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Accordion</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Collapsible content sections</p>
+            <a href="components/accordion" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Accordion</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Collapsible content sections</p>
             </a>
-            <a href="components/stepper" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Stepper</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Multi-step progress indicator</p>
+            <a href="components/stepper" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Stepper</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Multi-step progress indicator</p>
             </a>
-            <a href="components/menu" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Menu</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Dropdown action menus</p>
+            <a href="components/menu" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Menu</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Dropdown action menus</p>
             </a>
         </div>
     </section>

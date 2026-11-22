@@ -6,22 +6,22 @@
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <!-- Header -->
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Button</span>
+            <span class="vibe-text-foreground">Button</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Button</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Button</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             Displays a button or a component that looks like a button.
         </p>
     </header>
 
     <!-- Interactive Preview -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Interactive Preview</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Interactive Preview</h2>
         <LivePreview Code="@GeneratedCode" Props="@buttonProps" OnPropChanged="HandlePropChanged" OnPropsReset="HandlePropsReset">
             <PreviewContent>
                 <Button Variant="@currentVariant"
@@ -36,15 +36,15 @@
 
     <!-- Examples Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <!-- Variants -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Variants</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Variants</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Use different variants to communicate intent and hierarchy.
             </p>
-            <div class="vibe-flex vibe-flex-wrap vibe-gap-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-wrap vibe-gap-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Button Variant="ButtonVariant.Primary">Primary</Button>
                 <Button Variant="ButtonVariant.Secondary">Secondary</Button>
                 <Button Variant="ButtonVariant.Destructive">Destructive</Button>
@@ -57,11 +57,11 @@
 
         <!-- Sizes -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Sizes</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Sizes</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Buttons come in three sizes for different contexts.
             </p>
-            <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Button Size="ComponentSize.Small">Small</Button>
                 <Button Size="ComponentSize.Medium">Medium</Button>
                 <Button Size="ComponentSize.Large">Large</Button>
@@ -71,11 +71,11 @@
 
         <!-- States -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">States</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">States</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Buttons support disabled and loading states.
             </p>
-            <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Button Disabled="true">Disabled</Button>
                 <Button Loading="true">Loading</Button>
                 <Button Variant="ButtonVariant.Primary" Loading="true">Saving...</Button>
@@ -85,11 +85,11 @@
 
         <!-- With Icons -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Icons</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Icons</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Add icons to enhance button meaning.
             </p>
-            <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Button Variant="ButtonVariant.Primary">
                     <Icon>
                         <Vibe.UI.Components.Icon Name="plus" Size="16" />
@@ -109,57 +109,57 @@
 
     <!-- API Reference -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Variant</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Variant</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="ButtonVariant" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Primary</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">The visual style variant of the button</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Primary</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The visual style variant of the button</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Size</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Size</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="ComponentSize" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Medium</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">The size of the button</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Medium</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The size of the button</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Disabled</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Disabled</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Whether the button is disabled</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Whether the button is disabled</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Loading</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Loading</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show loading spinner and disable interactions</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Show loading spinner and disable interactions</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Type</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"button"</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">HTML button type (button, submit, reset)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">"button"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">HTML button type (button, submit, reset)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ChildContent</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ChildContent</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Content to display inside the button</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Content to display inside the button</td>
                         </tr>
                     </tbody>
                 </table>
@@ -168,21 +168,21 @@
 
         <!-- Events -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Events</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnClick</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">OnClick</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<MouseEventArgs>" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when the button is clicked</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when the button is clicked</td>
                         </tr>
                     </tbody>
                 </table>
@@ -192,8 +192,8 @@
 
     <!-- Installation -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
-        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-4">
             Install the Button component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add button" Language="bash" />
@@ -201,12 +201,12 @@
 
     <!-- Accessibility -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
         <div class="vibe-prose dark:vibe-prose-invert vibe-max-w-none">
-            <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            <ul class="vibe-space-y-2 vibe-text-muted-foreground">
                 <li class="vibe-flex vibe-items-start vibe-gap-2">
                     <Icon Name="check-circle" Size="20" CssClass="vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" />
-                    Uses semantic <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;button&gt;</code> element
+                    Uses semantic <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;button&gt;</code> element
                 </li>
                 <li class="vibe-flex vibe-items-start vibe-gap-2">
                     <Icon Name="check-circle" Size="20" CssClass="vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" />
@@ -230,11 +230,11 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/link" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Link</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Navigation link component</p>
+            <a href="components/link" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Link</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Navigation link component</p>
             </a>
             </div>
     </section>

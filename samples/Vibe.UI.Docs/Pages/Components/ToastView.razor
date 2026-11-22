@@ -8,23 +8,23 @@
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <!-- Header -->
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Toast</span>
+            <span class="vibe-text-foreground">Toast</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Toast</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Toast</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             A temporary notification that appears on screen to provide feedback about an action or event.
         </p>
     </header>
 
     <!-- Preview -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card">
             <div class="vibe-flex vibe-gap-3 vibe-flex-wrap">
                 <Button OnClick="@ShowDefaultToast">
                     Show Info Toast
@@ -47,12 +47,12 @@
 
     <!-- Examples Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <!-- Basic Toast -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Toast</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Basic Toast</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Display a simple toast notification with a message.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
@@ -60,8 +60,8 @@
 
         <!-- Toast Variants -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Toast Variants</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Toast Variants</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Use different variants to communicate the type of message (Info, Success, Warning, Error).
             </p>
             <CodeBlock Code="@VariantsCode" Language="razor" />
@@ -69,8 +69,8 @@
 
         <!-- Positions -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Positions</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Positions</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Control where the toast appears on the screen.
             </p>
             <CodeBlock Code="@PositionsCode" Language="razor" />
@@ -78,8 +78,8 @@
 
         <!-- With Action -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">With Action</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Action</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Add interactive actions to your toasts for user engagement.
             </p>
             <CodeBlock Code="@ActionCode" Language="razor" />
@@ -87,8 +87,8 @@
 
         <!-- Using Toast Service -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Using Toast Service</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Using Toast Service</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Use the injected toast service for programmatic control.
             </p>
             <CodeBlock Code="@ServiceCode" Language="razor" />
@@ -97,63 +97,63 @@
 
     <!-- API Reference -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Variant</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Variant</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="ToastVariant" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Info</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Visual style (Info, Success, Warning, Error)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Info</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Visual style (Info, Success, Warning, Error)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Title</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Title</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Toast title text</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Toast title text</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Message</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Message</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Toast message content</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Toast message content</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Duration</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Duration</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">5000</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Auto-dismiss duration in milliseconds</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">5000</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Auto-dismiss duration in milliseconds</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Position</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Position</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="ToastPosition" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">TopRight</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Screen position for toast</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">TopRight</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Screen position for toast</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Closable</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Closable</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">true</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show close button</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">true</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Show close button</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ShowProgress</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ShowProgress</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show progress bar countdown</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Show progress bar countdown</td>
                         </tr>
                     </tbody>
                 </table>
@@ -162,26 +162,26 @@
 
         <!-- Events -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Events</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnClose</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">OnClose</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when toast is closed</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when toast is closed</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">OnActionClick</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">OnActionClick</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Callback when action button is clicked</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when action button is clicked</td>
                         </tr>
                     </tbody>
                 </table>
@@ -191,8 +191,8 @@
 
     <!-- Installation -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
-        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-4">
             Install the Toast component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add toast" Language="bash" />
@@ -200,25 +200,25 @@
 
     <!-- Accessibility -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Uses <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="alert"</code> for important messages
+                Uses <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">role="alert"</code> for important messages
             </li>
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Uses <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">role="status"</code> for informational messages
+                Uses <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">role="status"</code> for informational messages
             </li>
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Includes <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-live</code> for dynamic announcements
+                Includes <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">aria-live</code> for dynamic announcements
             </li>
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -243,15 +243,15 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/alert" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Alert</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Important messages for users</p>
+            <a href="components/alert" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Alert</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Important messages for users</p>
             </a>
-            <a href="components/notification" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Notification</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">System-level notifications</p>
+            <a href="components/notification" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Notification</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">System-level notifications</p>
             </a>
             </div>
     </section>

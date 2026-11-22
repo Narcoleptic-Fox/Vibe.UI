@@ -8,7 +8,7 @@
 <div class="vibe-min-h-screen vibe-flex vibe-flex-col">
     <!-- Top Navigation Bar -->
     <header
-        class="vibe-sticky vibe-top-0 vibe-z-40 vibe-backdrop-blur-lg vibe-bg-white/80 dark:vibe-bg-zinc-950/80 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
+        class="vibe-sticky vibe-top-0 vibe-z-40 vibe-backdrop-blur-lg vibe-bg-card/80 vibe-border-b vibe-border-border">
         <div
             class="vibe-max-w-screen-2xl vibe-mx-auto vibe-h-14 vibe-flex vibe-items-center vibe-justify-between vibe-px-4 lg:vibe-px-6">
             <!-- Left: Logo + Primary nav -->
@@ -19,7 +19,7 @@
                 </button>
 
                 <a href="@GetBaseUrl()"
-                    class="vibe-flex vibe-items-center vibe-gap-2.5 vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 hover:vibe-opacity-80 vibe-transition-opacity">
+                    class="vibe-flex vibe-items-center vibe-gap-2.5 vibe-font-semibold vibe-text-foreground hover:vibe-opacity-80 vibe-transition-opacity">
                     <img src="icon-192.png" alt="Vibe.UI" class="vibe-w-7 vibe-h-7 vibe-rounded-md" />
                     <span class="vibe-text-lg vibe-tracking-tight">Vibe.UI</span>
                 </a>
@@ -34,13 +34,13 @@
 
             <!-- Center: Search button (desktop) -->
             <button
-                class="vibe-hidden md:vibe-flex vibe-items-center vibe-gap-2 vibe-px-3 vibe-py-1.5 vibe-w-64 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-zinc-50 dark:vibe-bg-zinc-900 hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors vibe-text-left"
+                class="vibe-hidden md:vibe-flex vibe-items-center vibe-gap-2 vibe-px-3 vibe-py-1.5 vibe-w-64 vibe-rounded-lg vibe-border vibe-border-border vibe-bg-card hover:vibe-bg-accent vibe-transition-colors vibe-text-left"
                 @onclick="OpenSearch">
                 <svg class="vibe-w-4 vibe-h-4 docs-icon-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
-                <span class="vibe-flex-1 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Search components...</span>
+                <span class="vibe-flex-1 vibe-text-sm vibe-text-muted-foreground">Search components...</span>
                 <span class="vibe-flex vibe-items-center vibe-gap-0.5">
                     <Kbd Size="Kbd.KbdSize.Small">Ctrl</Kbd>
                     <Kbd Size="Kbd.KbdSize.Small">K</Kbd>
@@ -51,7 +51,7 @@
             <div class="vibe-flex vibe-items-center vibe-gap-1">
                 <!-- Mobile search button -->
                 <button
-                    class="md:vibe-hidden vibe-p-2 vibe-rounded-md hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors"
+                    class="md:vibe-hidden vibe-p-2 vibe-rounded-md hover:vibe-bg-accent vibe-transition-colors"
                     @onclick="OpenSearch" aria-label="Search">
                     <svg class="vibe-w-5 vibe-h-5 docs-icon-muted" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -62,7 +62,7 @@
 
                 <!-- GitHub -->
                 <a href="https://github.com/Narcoleptic-Fox/Vibe.UI" target="_blank" rel="noopener noreferrer"
-                    class="vibe-p-2 vibe-rounded-md hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors"
+                    class="vibe-p-2 vibe-rounded-md hover:vibe-bg-accent vibe-transition-colors"
                     title="View on GitHub">
                     <svg class="vibe-w-5 vibe-h-5 docs-icon-muted" viewBox="0 0 24 24"
                         fill="currentColor">

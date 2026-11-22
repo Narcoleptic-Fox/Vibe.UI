@@ -4,22 +4,22 @@
 
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Notification Center</span>
+            <span class="vibe-text-foreground">Notification Center</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Notification Center</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Notification Center</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             A bell-triggered inbox for filtering, reading, and clearing persistent notifications.
         </p>
     </header>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card">
             <div class="vibe-flex vibe-items-center vibe-justify-center vibe-gap-3 vibe-flex-wrap">
                 <NotificationCenter Notifications="@notifications"
                                     NotificationsChanged="@HandleNotificationsChanged"
@@ -31,7 +31,7 @@
             </div>
             @if (!string.IsNullOrWhiteSpace(activityMessage))
             {
-                <p class="vibe-mt-4 vibe-text-center vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400" role="status">
+                <p class="vibe-mt-4 vibe-text-center vibe-text-sm vibe-text-muted-foreground" role="status">
                     @activityMessage
                 </p>
             }
@@ -39,27 +39,27 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Notification Data</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Notification Data</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Supply a list of typed notification items with stable IDs and timestamps.
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
 
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Persisting Changes</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Persisting Changes</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Handle list updates when users mark, remove, or clear notifications.
             </p>
             <CodeBlock Code="@UpdatesCode" Language="razor" />
         </div>
 
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Read-only Inbox</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Read-only Inbox</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Keep filtering and item selection available while preventing list mutations.
             </p>
             <CodeBlock Code="@ReadOnlyCode" Language="razor" />
@@ -67,62 +67,62 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
 
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                        <tr class="vibe-border-b vibe-border-border">
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Name</th>
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Type</th>
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Default</th>
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">Notifications</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="List&lt;NotificationItem&gt;?" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">empty</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Notification source list</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">empty</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Notification source list</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">ShowFilters</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">true</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show filter controls</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">true</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Show filter controls</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">Filters</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="List&lt;string&gt;?" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">All and types</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Available filter labels</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">All and types</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Available filter labels</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">MaxDisplayCount</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">5</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Maximum visible items before View all</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">5</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Maximum visible items before View all</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">AllowClearAll</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">true</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Show the Clear all command</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">true</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Show the Clear all command</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">ReadOnly</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Prevent mutation commands</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Prevent mutation commands</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">Disabled</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="bool" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">false</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Disable the notification trigger</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">false</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Disable the notification trigger</td>
                         </tr>
                     </tbody>
                 </table>
@@ -130,31 +130,31 @@
         </div>
 
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Events</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Events</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                        <tr class="vibe-border-b vibe-border-border">
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Name</th>
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Type</th>
                             <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">NotificationsChanged</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;List&lt;NotificationItem&gt;&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">List mutation callback</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">List mutation callback</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">OnNotificationClicked</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback&lt;NotificationItem&gt;" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Item selection callback</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Item selection callback</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">OnViewAll</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">View all callback</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">View all callback</td>
                         </tr>
                     </tbody>
                 </table>
@@ -163,16 +163,16 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
-        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-4">
             Install NotificationCenter and its dependencies with the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add notificationcenter" Language="bash" />
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li>Native trigger button exposes expanded and controlled-panel state.</li>
             <li>Unread-count changes are announced through a polite live region.</li>
             <li>The panel uses dialog, list, and listitem semantics.</li>
@@ -181,15 +181,15 @@
     </section>
 
     <section>
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-2 vibe-gap-4">
-            <a href="components/toast" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Toast</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Temporary feedback messages</p>
+            <a href="components/toast" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Toast</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Temporary feedback messages</p>
             </a>
-            <a href="components/alert" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Alert</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Important static messages</p>
+            <a href="components/alert" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Alert</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Important static messages</p>
             </a>
         </div>
     </section>

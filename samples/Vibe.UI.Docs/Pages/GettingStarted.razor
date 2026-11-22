@@ -5,7 +5,7 @@
 <div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
     <header class="vibe-space-y-2">
         <h1 class="vibe-m-0">Getting Started</h1>
-        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Learn how to get started with Vibe.UI in your Blazor project.</p>
+        <p class="vibe-m-0 vibe-text-muted-foreground">Learn how to get started with Vibe.UI in your Blazor project.</p>
     </header>
 
     <PreReleaseNotice />
@@ -24,7 +24,7 @@
         <p>Vibe.UI offers two installation approaches to fit your workflow:</p>
 
         <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-6">
-            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6 vibe-space-y-4">
+            <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6 vibe-space-y-4">
                 <h3 class="vibe-m-0">CLI approach (recommended)</h3>
                 <p>Copy component source code directly to your project for full control and customization.</p>
                 <div>
@@ -40,7 +40,7 @@
                 <Button Variant="ButtonVariant.Primary" Href="@GetUrl("installation")">View installation</Button>
             </div>
 
-            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6 vibe-space-y-4">
+            <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6 vibe-space-y-4">
                 <h3 class="vibe-m-0">Library reference</h3>
                 <p>Reference the component library project from a clone of the repository. A NuGet package will replace this once the beta is published.</p>
                 <div>
@@ -63,21 +63,21 @@
         <p>Get started in 3 simple steps:</p>
 
         <div class="vibe-space-y-6">
-            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+            <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
                 <h3 class="vibe-mb-3">1) Build and install the CLI tool</h3>
                 <CodeBlock Code="@InstallCliCode" Language="bash" />
             </div>
 
-            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+            <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
                 <h3 class="vibe-mb-3">2) Initialize in your project</h3>
                 <CodeBlock Code="@InitProjectCode" Language="bash" />
-                <p class="vibe-mt-3 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">This copies the required infrastructure files to your project.</p>
+                <p class="vibe-mt-3 vibe-mb-0 vibe-text-sm vibe-text-muted-foreground">This copies the required infrastructure files to your project.</p>
             </div>
 
-            <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+            <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
                 <h3 class="vibe-mb-3">3) Add components</h3>
                 <CodeBlock Code="@AddComponentsCode" Language="bash" />
-                <p class="vibe-mt-3 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Components are copied to <code>Components/vibe/</code>.</p>
+                <p class="vibe-mt-3 vibe-mb-0 vibe-text-sm vibe-text-muted-foreground">Components are copied to <code>Components/vibe/</code>.</p>
             </div>
         </div>
     </section>
@@ -103,21 +103,21 @@
     <section>
         <h2>Next steps</h2>
         <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-4">
-            <a href="@GetUrl("installation")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+            <a href="@GetUrl("installation")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-5 hover:vibe-bg-accent vibe-transition-colors">
                 <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Installation</h3>
-                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">CLI and library reference setup.</p>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-muted-foreground">CLI and library reference setup.</p>
             </a>
-            <a href="@GetUrl("cli")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+            <a href="@GetUrl("cli")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-5 hover:vibe-bg-accent vibe-transition-colors">
                 <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">CLI reference</h3>
-                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Commands, options, workflows.</p>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-muted-foreground">Commands, options, workflows.</p>
             </a>
-            <a href="@GetUrl("components")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+            <a href="@GetUrl("components")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-5 hover:vibe-bg-accent vibe-transition-colors">
                 <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Browse components</h3>
-                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Explore available components.</p>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-muted-foreground">Explore available components.</p>
             </a>
-            <a href="@GetUrl("theming")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-5 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-900 vibe-transition-colors">
+            <a href="@GetUrl("theming")" class="vibe-block vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-5 hover:vibe-bg-accent vibe-transition-colors">
                 <h3 class="vibe-text-base vibe-font-semibold vibe-m-0">Theming</h3>
-                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Tokens, dark mode, customization.</p>
+                <p class="vibe-mt-2 vibe-mb-0 vibe-text-sm vibe-text-muted-foreground">Tokens, dark mode, customization.</p>
             </a>
         </div>
     </section>

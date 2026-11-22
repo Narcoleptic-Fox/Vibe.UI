@@ -4,24 +4,24 @@
 
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">ThemeToggle</span>
+            <span class="vibe-text-foreground">ThemeToggle</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">ThemeToggle</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">A simple, self-contained component for toggling between light and dark themes. No service registration required.</p>
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">ThemeToggle</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">A simple, self-contained component for toggling between light and dark themes. No service registration required.</p>
     </header>
 
     <!-- Preview Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
+        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
         <LivePreview>
             <div class="vibe-flex vibe-flex-col vibe-gap-6 vibe-items-center">
                 <div class="vibe-flex vibe-gap-4 vibe-items-center">
-                    <span class="vibe-text-zinc-700 dark:vibe-text-zinc-300">Toggle theme:</span>
+                    <span class="vibe-text-foreground">Toggle theme:</span>
                     <ThemeToggle />
                 </div>
 
@@ -30,9 +30,9 @@
                     The theme preference is saved to localStorage and persists across sessions.
                 </Alert>
 
-                <div class="vibe-p-6 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-rounded-lg vibe-w-full vibe-max-w-md vibe-bg-white dark:vibe-bg-zinc-900">
-                    <h4 class="vibe-text-lg vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-2">Themed Card Example</h4>
-                    <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">This card automatically adapts to the selected theme using CSS variables.</p>
+                <div class="vibe-p-6 vibe-border vibe-border-border vibe-rounded-lg vibe-w-full vibe-max-w-md vibe-bg-card">
+                    <h4 class="vibe-text-lg vibe-font-semibold vibe-text-foreground vibe-mb-2">Themed Card Example</h4>
+                    <p class="vibe-text-muted-foreground vibe-mb-4">This card automatically adapts to the selected theme using CSS variables.</p>
                     <Button Variant="ButtonVariant.Primary">Primary Button</Button>
                 </div>
             </div>
@@ -41,7 +41,7 @@
 
     <!-- Installation Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
         <Alert Variant="AlertVariant.Info" Class="mb-4">
             <strong>No Service Registration Required!</strong>
             <br />
@@ -52,77 +52,77 @@
 
     <!-- Examples Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <div class="vibe-space-y-8">
             <!-- Features -->
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Features</h3>
-                <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-3">Features</h3>
+                <ul class="vibe-space-y-2 vibe-text-muted-foreground">
                     <li class="vibe-flex vibe-items-start">
                         <span class="vibe-mr-2">✅</span>
-                        <div><strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Zero Dependencies</strong> - No service registration, no external libraries</div>
+                        <div><strong class="vibe-text-foreground">Zero Dependencies</strong> - No service registration, no external libraries</div>
                     </li>
                     <li class="vibe-flex vibe-items-start">
                         <span class="vibe-mr-2">✅</span>
-                        <div><strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">System Preference Detection</strong> - Automatically detects user's OS theme preference on first load</div>
+                        <div><strong class="vibe-text-foreground">System Preference Detection</strong> - Automatically detects user's OS theme preference on first load</div>
                     </li>
                     <li class="vibe-flex vibe-items-start">
                         <span class="vibe-mr-2">✅</span>
-                        <div><strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">localStorage Persistence</strong> - Remembers user choice across sessions</div>
+                        <div><strong class="vibe-text-foreground">localStorage Persistence</strong> - Remembers user choice across sessions</div>
                     </li>
                     <li class="vibe-flex vibe-items-start">
                         <span class="vibe-mr-2">✅</span>
-                        <div><strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Inline JavaScript</strong> - Uses minimal inline JS for theme detection and persistence</div>
+                        <div><strong class="vibe-text-foreground">Inline JavaScript</strong> - Uses minimal inline JS for theme detection and persistence</div>
                     </li>
                     <li class="vibe-flex vibe-items-start">
                         <span class="vibe-mr-2">✅</span>
-                        <div><strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Pure CSS Theming</strong> - Works by toggling .dark class on document element</div>
+                        <div><strong class="vibe-text-foreground">Pure CSS Theming</strong> - Works by toggling .dark class on document element</div>
                     </li>
                     <li class="vibe-flex vibe-items-start">
                         <span class="vibe-mr-2">✅</span>
-                        <div><strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Self-Contained</strong> - Everything needed is in one component file</div>
+                        <div><strong class="vibe-text-foreground">Self-Contained</strong> - Everything needed is in one component file</div>
                     </li>
                 </ul>
             </div>
 
             <!-- In Navigation Bar -->
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">In Navigation Bar</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">Commonly placed in the header alongside other actions:</p>
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-3">In Navigation Bar</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-3">Commonly placed in the header alongside other actions:</p>
                 <CodeBlock Code="@NavBarCode" Language="razor" />
             </div>
 
             <!-- Custom Storage Key -->
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Custom Storage Key</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">Use a custom localStorage key for theme preference:</p>
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-3">Custom Storage Key</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-3">Use a custom localStorage key for theme preference:</p>
                 <CodeBlock Code="@CustomStorageCode" Language="razor" ShowLineNumbers="false" />
             </div>
 
             <!-- Multiple Toggles -->
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Multiple Toggles</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">You can have multiple ThemeToggle components on the same page - they all stay in sync:</p>
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-3">Multiple Toggles</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-3">You can have multiple ThemeToggle components on the same page - they all stay in sync:</p>
                 <CodeBlock Code="@MultipleCode" Language="razor" />
             </div>
 
             <!-- How It Works -->
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">How It Works Internally</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">The ThemeToggle component uses a simple, elegant approach:</p>
-                <ol class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400 list-decimal list-inside vibe-mb-4">
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-3">How It Works Internally</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-3">The ThemeToggle component uses a simple, elegant approach:</p>
+                <ol class="vibe-space-y-2 vibe-text-muted-foreground list-decimal list-inside vibe-mb-4">
                     <li>
-                        <strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">On Initialization</strong> - Checks localStorage for saved preference, or falls back to system preference using <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">matchMedia('(prefers-color-scheme: dark)')</code>
+                        <strong class="vibe-text-foreground">On Initialization</strong> - Checks localStorage for saved preference, or falls back to system preference using <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">matchMedia('(prefers-color-scheme: dark)')</code>
                     </li>
                     <li>
-                        <strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">On Toggle</strong> - Adds or removes the <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">.dark</code> class on <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">document.documentElement</code> (the <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;html&gt;</code> element)
+                        <strong class="vibe-text-foreground">On Toggle</strong> - Adds or removes the <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">.dark</code> class on <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">document.documentElement</code> (the <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;html&gt;</code> element)
                     </li>
                     <li>
-                        <strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Persistence</strong> - Saves the current theme to localStorage under the configured key
+                        <strong class="vibe-text-foreground">Persistence</strong> - Saves the current theme to localStorage under the configured key
                     </li>
                     <li>
-                        <strong class="vibe-text-zinc-900 dark:vibe-text-zinc-100">CSS Response</strong> - All components use CSS variables defined in <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">:root</code> (light) and <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">.dark</code> (dark) selectors
+                        <strong class="vibe-text-foreground">CSS Response</strong> - All components use CSS variables defined in <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">:root</code> (light) and <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">.dark</code> (dark) selectors
                     </li>
                 </ol>
                 <CodeBlock Code="@HowItWorksCode" Language="csharp" />
@@ -130,8 +130,8 @@
 
             <!-- Implementation Details -->
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Implementation Details</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-3">Here's how the component works internally:</p>
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-3">Implementation Details</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-3">Here's how the component works internally:</p>
                 <CodeBlock Code="@ImplementationCode" Language="csharp" />
             </div>
 
@@ -145,45 +145,45 @@
 
     <!-- API Reference -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">API Reference</h2>
+        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-foreground vibe-mb-4">API Reference</h2>
 
         <div class="vibe-space-y-6">
             <div>
-                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Properties</h3>
+                <h3 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Properties</h3>
                 <div class="vibe-space-y-4">
-                    <div class="vibe-border-l-2 vibe-border-zinc-300 dark:vibe-border-zinc-700 vibe-pl-4">
+                    <div class="vibe-border-l-2 vibe-border-border vibe-pl-4">
                         <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-2">
-                            <code class="vibe-text-sm vibe-font-mono vibe-text-zinc-900 dark:vibe-text-zinc-100">StorageKey</code>
+                            <code class="vibe-text-sm vibe-font-mono vibe-text-foreground">StorageKey</code>
                             <TypeBadge Type="string" />
                         </div>
-                        <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-2">localStorage key for persisting theme preference.</p>
+                        <p class="vibe-text-sm vibe-text-muted-foreground vibe-mb-2">localStorage key for persisting theme preference.</p>
                         <div class="vibe-text-sm">
-                            <span class="vibe-text-zinc-500 dark:vibe-text-zinc-500">Default:</span>
-                            <code class="vibe-ml-2 vibe-text-xs vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1.5 vibe-py-0.5 vibe-rounded">"vibe-theme"</code>
+                            <span class="vibe-text-muted-foreground">Default:</span>
+                            <code class="vibe-ml-2 vibe-text-xs vibe-bg-secondary vibe-px-1.5 vibe-py-0.5 vibe-rounded">"vibe-theme"</code>
                         </div>
                     </div>
 
-                    <div class="vibe-border-l-2 vibe-border-zinc-300 dark:vibe-border-zinc-700 vibe-pl-4">
+                    <div class="vibe-border-l-2 vibe-border-border vibe-pl-4">
                         <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-2">
-                            <code class="vibe-text-sm vibe-font-mono vibe-text-zinc-900 dark:vibe-text-zinc-100">Class</code>
+                            <code class="vibe-text-sm vibe-font-mono vibe-text-foreground">Class</code>
                             <TypeBadge Type="string" />
                         </div>
-                        <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-2">Additional CSS classes (inherited from VibeComponent).</p>
+                        <p class="vibe-text-sm vibe-text-muted-foreground vibe-mb-2">Additional CSS classes (inherited from VibeComponent).</p>
                         <div class="vibe-text-sm">
-                            <span class="vibe-text-zinc-500 dark:vibe-text-zinc-500">Default:</span>
-                            <code class="vibe-ml-2 vibe-text-xs vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1.5 vibe-py-0.5 vibe-rounded">""</code>
+                            <span class="vibe-text-muted-foreground">Default:</span>
+                            <code class="vibe-ml-2 vibe-text-xs vibe-bg-secondary vibe-px-1.5 vibe-py-0.5 vibe-rounded">""</code>
                         </div>
                     </div>
 
-                    <div class="vibe-border-l-2 vibe-border-zinc-300 dark:vibe-border-zinc-700 vibe-pl-4">
+                    <div class="vibe-border-l-2 vibe-border-border vibe-pl-4">
                         <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-2">
-                            <code class="vibe-text-sm vibe-font-mono vibe-text-zinc-900 dark:vibe-text-zinc-100">AdditionalAttributes</code>
+                            <code class="vibe-text-sm vibe-font-mono vibe-text-foreground">AdditionalAttributes</code>
                             <TypeBadge Type="Dictionary<string, object>" />
                         </div>
-                        <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-2">Additional HTML attributes (inherited from VibeComponent).</p>
+                        <p class="vibe-text-sm vibe-text-muted-foreground vibe-mb-2">Additional HTML attributes (inherited from VibeComponent).</p>
                         <div class="vibe-text-sm">
-                            <span class="vibe-text-zinc-500 dark:vibe-text-zinc-500">Default:</span>
-                            <code class="vibe-ml-2 vibe-text-xs vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1.5 vibe-py-0.5 vibe-rounded">null</code>
+                            <span class="vibe-text-muted-foreground">Default:</span>
+                            <code class="vibe-ml-2 vibe-text-xs vibe-bg-secondary vibe-px-1.5 vibe-py-0.5 vibe-rounded">null</code>
                         </div>
                     </div>
                 </div>
@@ -193,11 +193,11 @@
 
     <!-- Accessibility -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li class="vibe-flex vibe-items-start">
                 <span class="vibe-mr-2">•</span>
-                <div>Uses semantic <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;button&gt;</code> element</div>
+                <div>Uses semantic <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">&lt;button&gt;</code> element</div>
             </li>
             <li class="vibe-flex vibe-items-start">
                 <span class="vibe-mr-2">•</span>
@@ -220,9 +220,9 @@
 
     <!-- Related Components -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related Components</h2>
+        <h2 class="vibe-text-2xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related Components</h2>
         <div class="vibe-flex vibe-gap-2">
-            <a href="components/button" class="vibe-px-4 vibe-py-2 vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-rounded-lg hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-transition-colors vibe-text-zinc-900 dark:vibe-text-zinc-100">
+            <a href="components/button" class="vibe-px-4 vibe-py-2 vibe-bg-secondary vibe-rounded-lg hover:vibe-bg-accent vibe-transition-colors vibe-text-foreground">
                 Button
             </a>
         </div>
@@ -236,8 +236,8 @@
 <ThemeToggle />
 ";
 
-    private string NavBarCode => @"<header class=""vibe-flex vibe-items-center vibe-justify-between vibe-h-14 vibe-px-4 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800"">
-    <a href=""/"" class=""vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100"">My App</a>
+    private string NavBarCode => @"<header class=""vibe-flex vibe-items-center vibe-justify-between vibe-h-14 vibe-px-4 vibe-border-b vibe-border-border"">
+    <a href=""/"" class=""vibe-font-semibold vibe-text-foreground"">My App</a>
 
     <div class=""vibe-flex vibe-items-center vibe-gap-2"">
         <Button Variant=""ButtonVariant.Ghost"">🔔</Button>

@@ -25,7 +25,7 @@
 
             <!-- Radial gradient overlay -->
             <div
-                class="vibe-absolute vibe-inset-0 vibe-bg-gradient-to-b vibe-from-transparent vibe-via-white/50 vibe-to-white dark:vibe-via-zinc-950/50 dark:vibe-to-zinc-950">
+                class="vibe-absolute vibe-inset-0 vibe-bg-gradient-to-b vibe-from-transparent vibe-via-background/50 vibe-to-background">
             </div>
         </div>
 
@@ -33,21 +33,21 @@
         <div
             class="vibe-relative vibe-z-10 vibe-w-full vibe-min-w-0 vibe-max-w-4xl vibe-mx-auto vibe-text-center vibe-px-4 vibe-py-20 vibe-stagger-children">
             <!-- Badge -->
-            <div class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-1.5 vibe-rounded-full vibe-bg-zinc-100 dark:vibe-bg-zinc-800/80 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-text-sm vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-mb-8 vibe-backdrop-blur-sm"
+            <div class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-1.5 vibe-rounded-full vibe-bg-secondary vibe-border vibe-border-border vibe-text-sm vibe-font-medium vibe-text-foreground vibe-mb-8 vibe-backdrop-blur-sm"
                 style="--stagger-index: 0">
                 <span class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-yellow-500"></span>
                 <span>Pre-release &middot; shadcn/ui for Blazor</span>
             </div>
 
             <!-- Title -->
-            <h1 class="vibe-text-5xl sm:vibe-text-6xl md:vibe-text-7xl vibe-font-bold vibe-tracking-tight vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6"
+            <h1 class="vibe-text-5xl sm:vibe-text-6xl md:vibe-text-7xl vibe-font-bold vibe-tracking-tight vibe-text-foreground vibe-mb-6"
                 style="--stagger-index: 1">
                 Build <GradientText>beautiful</GradientText><br class="vibe-hidden sm:vibe-block" />
                 Blazor apps faster
             </h1>
 
             <!-- Subtitle -->
-            <p class="vibe-text-lg sm:vibe-text-xl vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-max-w-2xl vibe-mx-auto vibe-mb-10 vibe-leading-relaxed"
+            <p class="vibe-text-lg sm:vibe-text-xl vibe-text-muted-foreground vibe-max-w-2xl vibe-mx-auto vibe-mb-10 vibe-leading-relaxed"
                 style="--stagger-index: 2">
                 A collection of beautifully designed, accessible components.
                 Copy and paste into your apps. Open source. Free forever.
@@ -57,7 +57,7 @@
             <div class="vibe-flex vibe-flex-col sm:vibe-flex-row vibe-items-center vibe-justify-center vibe-gap-4 vibe-mb-12"
                 style="--stagger-index: 3">
                 <a href="@GetUrl("getting-started")"
-                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-zinc-900 dark:vibe-bg-zinc-100 vibe-text-white dark:vibe-text-zinc-900 vibe-font-medium hover:vibe-bg-zinc-800 dark:hover:vibe-bg-zinc-200 vibe-transition-colors vibe-press-effect">
+                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-primary vibe-text-primary-foreground vibe-font-medium hover:vibe-bg-primary/90 vibe-transition-colors vibe-press-effect">
                     Get Started
                     <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -65,9 +65,9 @@
                     </svg>
                 </a>
                 <div
-                    class="vibe-flex vibe-items-center vibe-gap-2 vibe-max-w-full vibe-px-4 vibe-py-2.5 vibe-rounded-lg vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                    class="vibe-flex vibe-items-center vibe-gap-2 vibe-max-w-full vibe-px-4 vibe-py-2.5 vibe-rounded-lg vibe-bg-secondary vibe-border vibe-border-border">
                     <code
-                        class="docs-command vibe-text-sm vibe-font-mono vibe-text-zinc-600 dark:vibe-text-zinc-400">@InstallCommands.Clone</code>
+                        class="docs-command vibe-text-sm vibe-font-mono vibe-text-muted-foreground">@InstallCommands.Clone</code>
                     <CopyButton Code="@InstallCommands.Clone" ShowText="false"
                         Variant="CopyButton.CopyButtonVariant.Ghost" />
                 </div>
@@ -78,23 +78,23 @@
                 style="--stagger-index: 4">
                 <div class="vibe-text-center">
                     <div
-                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100">
+                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground">
                         @DocsCatalog.Components.Count</div>
-                    <div class="vibe-text-sm vibe-text-zinc-500 dark:vibe-text-zinc-400">Components</div>
+                    <div class="vibe-text-sm vibe-text-muted-foreground">Components</div>
                 </div>
-                <div class="vibe-hidden sm:vibe-block vibe-w-px vibe-h-12 vibe-bg-zinc-200 dark:vibe-bg-zinc-800"></div>
+                <div class="vibe-hidden sm:vibe-block vibe-w-px vibe-h-12 vibe-bg-muted"></div>
                 <div class="vibe-text-center">
                     <div
-                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100">
+                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground">
                         @DocsCatalog.Categories.Count</div>
-                    <div class="vibe-text-sm vibe-text-zinc-500 dark:vibe-text-zinc-400">Categories</div>
+                    <div class="vibe-text-sm vibe-text-muted-foreground">Categories</div>
                 </div>
-                <div class="vibe-hidden sm:vibe-block vibe-w-px vibe-h-12 vibe-bg-zinc-200 dark:vibe-bg-zinc-800"></div>
+                <div class="vibe-hidden sm:vibe-block vibe-w-px vibe-h-12 vibe-bg-muted"></div>
                 <div class="vibe-text-center">
                     <div
-                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100">
+                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground">
                         100%</div>
-                    <div class="vibe-text-sm vibe-text-zinc-500 dark:vibe-text-zinc-400">Open Source</div>
+                    <div class="vibe-text-sm vibe-text-muted-foreground">Open Source</div>
                 </div>
             </div>
         </div>
@@ -109,30 +109,30 @@
     </section>
 
     <!-- Component Preview Section -->
-    <section class="vibe-py-20 vibe-px-4 vibe-bg-zinc-50 dark:vibe-bg-zinc-900/50">
+    <section class="vibe-py-20 vibe-px-4 vibe-bg-card">
         <div class="vibe-max-w-5xl vibe-mx-auto">
             <div class="vibe-text-center vibe-mb-12">
                 <h2
-                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">
+                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground vibe-mb-4">
                     See it in action
                 </h2>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400">
+                <p class="vibe-text-muted-foreground">
                     Beautiful, accessible components right out of the box
                 </p>
             </div>
 
             <!-- Preview Card -->
             <div
-                class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 vibe-shadow-xl vibe-overflow-hidden">
+                class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-shadow-xl vibe-overflow-hidden">
                 <!-- Preview Header -->
                 <div
-                    class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-3 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50">
+                    class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-3 vibe-border-b vibe-border-border vibe-bg-card">
                     <div class="vibe-flex vibe-items-center vibe-gap-2">
                         <div class="vibe-w-3 vibe-h-3 vibe-rounded-full vibe-bg-red-500"></div>
                         <div class="vibe-w-3 vibe-h-3 vibe-rounded-full vibe-bg-yellow-500"></div>
                         <div class="vibe-w-3 vibe-h-3 vibe-rounded-full vibe-bg-green-500"></div>
                     </div>
-                    <span class="vibe-text-xs vibe-text-zinc-500">Button Component</span>
+                    <span class="vibe-text-xs vibe-text-muted-foreground">Button Component</span>
                     <div class="vibe-w-16"></div>
                 </div>
 
@@ -157,10 +157,10 @@
                     Features
                 </span>
                 <h2
-                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">
+                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground vibe-mb-4">
                     Everything you need
                 </h2>
-                <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-max-w-2xl vibe-mx-auto">
+                <p class="vibe-text-lg vibe-text-muted-foreground vibe-max-w-2xl vibe-mx-auto">
                     Built for modern Blazor development with developer experience in mind
                 </p>
             </div>
@@ -188,14 +188,14 @@
     </section>
 
     <!-- Install Section -->
-    <section class="vibe-py-20 vibe-px-4 vibe-bg-zinc-50 dark:vibe-bg-zinc-900/50">
+    <section class="vibe-py-20 vibe-px-4 vibe-bg-card">
         <div class="vibe-max-w-4xl vibe-mx-auto">
             <div class="vibe-text-center vibe-mb-12">
                 <h2
-                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">
+                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground vibe-mb-4">
                     Try it from source
                 </h2>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400">
+                <p class="vibe-text-muted-foreground">
                     Build the CLI from the repository, then add components to your Blazor app
                 </p>
             </div>
@@ -206,35 +206,35 @@
 
             <!-- Terminal Window -->
             <div
-                class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-bg-zinc-900 vibe-shadow-2xl vibe-overflow-hidden">
+                class="vibe-rounded-xl dark vibe-border vibe-border-border vibe-bg-card vibe-text-foreground vibe-shadow-2xl vibe-overflow-hidden">
                 <!-- Terminal Header -->
                 <div
-                    class="vibe-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-3 vibe-bg-zinc-800 vibe-border-b vibe-border-zinc-700">
+                    class="vibe-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-3 vibe-bg-popover vibe-border-b vibe-border-border">
                     <div class="vibe-w-3 vibe-h-3 vibe-rounded-full vibe-bg-red-500"></div>
                     <div class="vibe-w-3 vibe-h-3 vibe-rounded-full vibe-bg-yellow-500"></div>
                     <div class="vibe-w-3 vibe-h-3 vibe-rounded-full vibe-bg-green-500"></div>
-                    <span class="vibe-ml-4 vibe-text-xs vibe-text-zinc-400 vibe-font-mono">Terminal</span>
+                    <span class="vibe-ml-4 vibe-text-xs vibe-text-muted-foreground vibe-font-mono">Terminal</span>
                 </div>
 
                 <!-- Terminal Body -->
                 <div class="vibe-p-6 vibe-font-mono vibe-text-sm vibe-overflow-x-auto">
-                    <div class="vibe-text-zinc-400 vibe-mb-3 docs-terminal-line"># Build and install the CLI (needs the .NET 10 SDK)</div>
+                    <div class="vibe-text-muted-foreground vibe-mb-3 docs-terminal-line"># Build and install the CLI (needs the .NET 10 SDK)</div>
                     @foreach (var command in InstallCommands.CliFromSource.Split('\n'))
                     {
                         <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3 docs-terminal-line">
                             <span class="vibe-text-green-400">$</span>
-                            <span class="vibe-text-zinc-300">@command</span>
+                            <span class="vibe-text-muted-foreground">@command</span>
                         </div>
                     }
 
-                    <div class="vibe-text-zinc-400 vibe-mt-6 vibe-mb-3 docs-terminal-line"># Then, in your Blazor app</div>
+                    <div class="vibe-text-muted-foreground vibe-mt-6 vibe-mb-3 docs-terminal-line"># Then, in your Blazor app</div>
                     <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-mb-3 docs-terminal-line">
                         <span class="vibe-text-green-400">$</span>
-                        <span class="vibe-text-zinc-300">vibe init</span>
+                        <span class="vibe-text-muted-foreground">vibe init</span>
                     </div>
                     <div class="vibe-flex vibe-items-center vibe-gap-2 docs-terminal-line">
                         <span class="vibe-text-green-400">$</span>
-                        <span class="vibe-text-zinc-300">vibe add button card input dialog</span>
+                        <span class="vibe-text-muted-foreground">vibe add button card input dialog</span>
                     </div>
                 </div>
             </div>
@@ -246,10 +246,10 @@
         <div class="vibe-max-w-6xl vibe-mx-auto">
             <div class="vibe-text-center vibe-mb-12">
                 <h2
-                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">
+                    class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground vibe-mb-4">
                     Popular components
                 </h2>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400">
+                <p class="vibe-text-muted-foreground">
                     Start with these frequently used components
                 </p>
             </div>
@@ -259,13 +259,13 @@
                 @foreach (var component in PopularComponents)
                 {
                     <a href="@GetUrl($"components/{component.ToLower()}")"
-                        class="vibe-group vibe-p-4 vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-900 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal hover:vibe-shadow-lg vibe-transition-all vibe-duration-200">
+                        class="vibe-group vibe-p-4 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal hover:vibe-shadow-lg vibe-transition-all vibe-duration-200">
                         <div
                             class="vibe-w-10 vibe-h-10 vibe-rounded-lg vibe-bg-gradient-to-br vibe-from-brand-teal/10 vibe-to-brand-lilac/10 vibe-flex vibe-items-center vibe-justify-center vibe-mb-3 group-hover:vibe-scale-110 vibe-transition-transform">
                             <span class="vibe-text-sm vibe-font-bold vibe-text-brand-teal">@component[0]</span>
                         </div>
                         <span
-                            class="vibe-text-sm vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal vibe-transition-colors">@component</span>
+                            class="vibe-text-sm vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal vibe-transition-colors">@component</span>
                     </a>
                 }
             </div>
@@ -288,20 +288,20 @@
         <div class="vibe-max-w-4xl vibe-mx-auto vibe-text-center">
             <div
                 class="vibe-relative vibe-rounded-2xl vibe-bg-gradient-to-br vibe-from-brand-teal vibe-to-brand-lilac vibe-p-px vibe-overflow-hidden">
-                <div class="vibe-rounded-2xl vibe-bg-white dark:vibe-bg-zinc-900 vibe-px-8 vibe-py-16 sm:vibe-px-16">
+                <div class="vibe-rounded-2xl vibe-bg-card vibe-px-8 vibe-py-16 sm:vibe-px-16">
                     <h2
-                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">
+                        class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground vibe-mb-4">
                         Ready to build something <GradientText>beautiful</GradientText>?
                     </h2>
                     <p
-                        class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-8 vibe-max-w-xl vibe-mx-auto">
+                        class="vibe-text-lg vibe-text-muted-foreground vibe-mb-8 vibe-max-w-xl vibe-mx-auto">
                         Start building with Vibe.UI today. It's free, open source, and designed for Blazor developers.
                     </p>
 
                     <div
                         class="vibe-flex vibe-flex-col sm:vibe-flex-row vibe-items-center vibe-justify-center vibe-gap-4">
                         <a href="@GetUrl("getting-started")"
-                            class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-zinc-900 dark:vibe-bg-zinc-100 vibe-text-white dark:vibe-text-zinc-900 vibe-font-medium hover:vibe-bg-zinc-800 dark:hover:vibe-bg-zinc-200 vibe-transition-colors vibe-press-effect">
+                            class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-bg-primary vibe-text-primary-foreground vibe-font-medium hover:vibe-bg-primary/90 vibe-transition-colors vibe-press-effect">
                             Get Started
                             <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -309,7 +309,7 @@
                             </svg>
                         </a>
                         <a href="https://github.com/Narcoleptic-Fox/Vibe.UI" target="_blank" rel="noopener noreferrer"
-                            class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-text-zinc-700 dark:vibe-text-zinc-300 vibe-font-medium hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-800 vibe-transition-colors">
+                            class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-6 vibe-py-3 vibe-rounded-lg vibe-border vibe-border-border vibe-text-foreground vibe-font-medium hover:vibe-bg-accent vibe-transition-colors">
                             <svg class="vibe-w-5 vibe-h-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path
                                     d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />

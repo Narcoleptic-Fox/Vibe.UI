@@ -800,6 +800,8 @@ body {
 .vibe-bg-blue-100 { background-color: #dbeafe; }
 .vibe-bg-brand-teal { background-color: #065465; }
 .vibe-bg-brand-teal\/10 { background-color: rgb(6 84 101 / 0.1); }
+.vibe-bg-card { background-color: var(--vibe-card); }
+.vibe-bg-card\/80 { background-color: color-mix(in srgb, var(--vibe-card) 80%, transparent); }
 .vibe-bg-clip-text { -webkit-background-clip: text; background-clip: text; }
 .vibe-bg-emerald-100 { background-color: #d1fae5; }
 .vibe-bg-gradient-to-b { background-image: linear-gradient(to bottom, var(--tw-gradient-stops)); }
@@ -807,21 +809,17 @@ body {
 .vibe-bg-green-100 { background-color: #dcfce7; }
 .vibe-bg-green-500 { background-color: #22c55e; }
 .vibe-bg-grid-pattern { background-image: linear-gradient(to right, rgb(228 228 231 / 0.6) 1px, transparent 1px), linear-gradient(to bottom, rgb(228 228 231 / 0.6) 1px, transparent 1px); background-size: 64px 64px; }
+.vibe-bg-muted { background-color: var(--vibe-muted); }
 .vibe-bg-orange-100 { background-color: #ffedd5; }
 .vibe-bg-pink-100 { background-color: #fce7f3; }
+.vibe-bg-popover { background-color: var(--vibe-popover); }
+.vibe-bg-primary { background-color: var(--vibe-primary); }
 .vibe-bg-purple-100 { background-color: #f3e8ff; }
 .vibe-bg-red-500 { background-color: #ef4444; }
+.vibe-bg-secondary { background-color: var(--vibe-secondary); }
 .vibe-bg-transparent { background-color: transparent; }
 .vibe-bg-white { background-color: #ffffff; }
-.vibe-bg-white\/80 { background-color: rgb(255 255 255 / 0.8); }
 .vibe-bg-yellow-500 { background-color: #eab308; }
-.vibe-bg-zinc-100 { background-color: #f4f4f5; }
-.vibe-bg-zinc-100\/70 { background-color: rgb(244 244 245 / 0.7); }
-.vibe-bg-zinc-200 { background-color: #e4e4e7; }
-.vibe-bg-zinc-200\/70 { background-color: rgb(228 228 231 / 0.7); }
-.vibe-bg-zinc-50 { background-color: #fafafa; }
-.vibe-bg-zinc-800 { background-color: #27272a; }
-.vibe-bg-zinc-900 { background-color: #18181b; }
 .vibe-from-brand-teal { --tw-gradient-from: #065465; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .vibe-from-brand-teal\/10 { --tw-gradient-from: rgb(6 84 101 / 0.1); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .vibe-from-brand-teal\/5 { --tw-gradient-from: rgb(6 84 101 / 0.05); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
@@ -833,40 +831,32 @@ body {
 .vibe-text-blue-700 { color: #1d4ed8; }
 .vibe-text-brand-teal { color: #065465; }
 .vibe-text-emerald-700 { color: #047857; }
+.vibe-text-foreground { color: var(--vibe-foreground); }
 .vibe-text-green-400 { color: #4ade80; }
 .vibe-text-green-500 { color: #22c55e; }
 .vibe-text-green-700 { color: #15803d; }
 .vibe-text-muted { color: var(--vibe-muted); }
+.vibe-text-muted-foreground { color: var(--vibe-muted-foreground); }
 .vibe-text-orange-700 { color: #c2410c; }
 .vibe-text-pink-700 { color: #be185d; }
+.vibe-text-primary-foreground { color: var(--vibe-primary-foreground); }
 .vibe-text-purple-700 { color: #7e22ce; }
-.vibe-text-white { color: #ffffff; }
-.vibe-text-zinc-300 { color: #d4d4d8; }
-.vibe-text-zinc-400 { color: #a1a1aa; }
-.vibe-text-zinc-500 { color: #71717a; }
-.vibe-text-zinc-600 { color: #52525b; }
-.vibe-text-zinc-700 { color: #3f3f46; }
-.vibe-text-zinc-800 { color: #27272a; }
-.vibe-text-zinc-900 { color: #18181b; }
+.vibe-to-background { --tw-gradient-to: var(--vibe-background); }
 .vibe-to-brand-lilac { --tw-gradient-to: #AA98A9; }
 .vibe-to-brand-lilac\/10 { --tw-gradient-to: rgb(170 152 169 / 0.1); }
 .vibe-to-brand-lilac\/5 { --tw-gradient-to: rgb(170 152 169 / 0.05); }
-.vibe-to-white { --tw-gradient-to: #ffffff; }
-.vibe-via-white\/50 { --tw-gradient-stops: var(--tw-gradient-from), rgb(255 255 255 / 0.5), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
+.vibe-via-background\/50 { --tw-gradient-stops: var(--tw-gradient-from), color-mix(in srgb, var(--vibe-background) 50%, transparent), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .vibe-border { border-width: 1px; }
 .vibe-border-b { border-bottom-width: 1px; }
+.vibe-border-border { border-color: var(--vibe-border); }
 .vibe-border-brand-teal\/20 { border-color: rgb(6 84 101 / 0.2); }
 .vibe-border-dashed { border-style: dashed; }
 .vibe-border-l { border-left-width: 1px; }
 .vibe-border-l-2 { border-left-width: 2px; }
 .vibe-border-none { border-style: none; }
 .vibe-border-t { border-top-width: 1px; }
-.vibe-border-zinc-100 { border-color: #f4f4f5; }
-.vibe-border-zinc-200 { border-color: #e4e4e7; }
-.vibe-border-zinc-300 { border-color: #d4d4d8; }
-.vibe-border-zinc-700 { border-color: #3f3f46; }
+.vibe-divide-border { --vibe-divide-color: var(--vibe-border); }
 .vibe-divide-y > :not([hidden]) ~ :not([hidden]) { border-top-width: 1px; border-bottom-width: 0px; border-style: solid; border-color: var(--vibe-divide-color, currentColor); }
-.vibe-divide-zinc-100 { --vibe-divide-color: #f4f4f5; }
 .vibe-rounded { border-radius: 0.25rem; }
 .vibe-rounded-2xl { border-radius: 1rem; }
 .vibe-rounded-full { border-radius: 9999px; }
@@ -917,16 +907,6 @@ body {
 .dark .dark\:vibe-bg-orange-900\/30 { background-color: rgb(124 45 18 / 0.3); }
 .dark .dark\:vibe-bg-pink-900\/30 { background-color: rgb(131 24 67 / 0.3); }
 .dark .dark\:vibe-bg-purple-900\/30 { background-color: rgb(88 28 135 / 0.3); }
-.dark .dark\:vibe-bg-zinc-100 { background-color: #f4f4f5; }
-.dark .dark\:vibe-bg-zinc-700 { background-color: #3f3f46; }
-.dark .dark\:vibe-bg-zinc-800 { background-color: #27272a; }
-.dark .dark\:vibe-bg-zinc-800\/50 { background-color: rgb(39 39 42 / 0.5); }
-.dark .dark\:vibe-bg-zinc-800\/80 { background-color: rgb(39 39 42 / 0.8); }
-.dark .dark\:vibe-bg-zinc-900 { background-color: #18181b; }
-.dark .dark\:vibe-bg-zinc-900\/40 { background-color: rgb(24 24 27 / 0.4); }
-.dark .dark\:vibe-bg-zinc-900\/50 { background-color: rgb(24 24 27 / 0.5); }
-.dark .dark\:vibe-bg-zinc-950 { background-color: #09090b; }
-.dark .dark\:vibe-bg-zinc-950\/80 { background-color: rgb(9 9 11 / 0.8); }
 .dark .dark\:vibe-text-amber-400 { color: #fbbf24; }
 .dark .dark\:vibe-text-blue-300 { color: #93c5fd; }
 .dark .dark\:vibe-text-blue-400 { color: #60a5fa; }
@@ -935,26 +915,12 @@ body {
 .dark .dark\:vibe-text-orange-400 { color: #fb923c; }
 .dark .dark\:vibe-text-pink-400 { color: #f472b6; }
 .dark .dark\:vibe-text-purple-400 { color: #c084fc; }
-.dark .dark\:vibe-text-zinc-100 { color: #f4f4f5; }
-.dark .dark\:vibe-text-zinc-200 { color: #e4e4e7; }
-.dark .dark\:vibe-text-zinc-300 { color: #d4d4d8; }
-.dark .dark\:vibe-text-zinc-400 { color: #a1a1aa; }
-.dark .dark\:vibe-text-zinc-500 { color: #71717a; }
-.dark .dark\:vibe-text-zinc-600 { color: #52525b; }
-.dark .dark\:vibe-text-zinc-900 { color: #18181b; }
-.dark .dark\:vibe-to-zinc-950 { --tw-gradient-to: #09090b; }
-.dark .dark\:vibe-via-zinc-950\/50 { --tw-gradient-stops: var(--tw-gradient-from), rgb(9 9 11 / 0.5), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .group:hover .group-hover\:vibe-text-brand-teal, .vibe-group:hover .group-hover\:vibe-text-brand-teal { color: #065465; }
+.hover\:vibe-bg-accent:hover { background-color: var(--vibe-accent); }
+.hover\:vibe-bg-primary\/90:hover { background-color: color-mix(in srgb, var(--vibe-primary) 90%, transparent); }
 .hover\:vibe-bg-white:hover { background-color: #ffffff; }
-.hover\:vibe-bg-zinc-100:hover { background-color: #f4f4f5; }
-.hover\:vibe-bg-zinc-200:hover { background-color: #e4e4e7; }
-.hover\:vibe-bg-zinc-50:hover { background-color: #fafafa; }
-.hover\:vibe-bg-zinc-800:hover { background-color: #27272a; }
-.hover\:vibe-text-zinc-700:hover { color: #3f3f46; }
-.placeholder\:vibe-text-zinc-400::placeholder { color: #a1a1aa; }
-.dark .dark\:vibe-border-zinc-700 { border-color: #3f3f46; }
-.dark .dark\:vibe-border-zinc-800 { border-color: #27272a; }
-.dark .dark\:vibe-divide-zinc-800 { --vibe-divide-color: #27272a; }
+.hover\:vibe-text-foreground:hover { color: var(--vibe-foreground); }
+.placeholder\:vibe-text-muted-foreground::placeholder { color: var(--vibe-muted-foreground); }
 .focus\:vibe-border-transparent:focus { border-color: transparent; }
 .focus\:vibe-ring-brand-teal:focus { --tw-ring-color: #065465; }
 .focus\:vibe-ring-brand-teal\/50:focus { --tw-ring-color: rgb(6 84 101 / 0.5); }
@@ -967,12 +933,6 @@ body {
 .hover\:vibe-shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
 .hover\:vibe-shadow-md:hover { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .focus\:vibe-outline-none:focus { outline: none; }
-.dark .dark\:hover\:vibe-bg-zinc-200:hover { background-color: #e4e4e7; }
-.dark .dark\:hover\:vibe-bg-zinc-700:hover { background-color: #3f3f46; }
-.dark .dark\:hover\:vibe-bg-zinc-800:hover { background-color: #27272a; }
-.dark .dark\:hover\:vibe-bg-zinc-800\/70:hover { background-color: rgb(39 39 42 / 0.7); }
-.dark .dark\:hover\:vibe-bg-zinc-900:hover { background-color: #18181b; }
-.dark .dark\:hover\:vibe-text-zinc-300:hover { color: #d4d4d8; }
 .dark .dark\:hover\:vibe-border-brand-teal:hover { border-color: #065465; }
 
 /* @media (min-width: 640px) */

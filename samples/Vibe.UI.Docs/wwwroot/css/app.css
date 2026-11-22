@@ -73,16 +73,6 @@
   color: var(--vibe-foreground);
 }
 
-/* Zinc-500 is 3.06:1 on the light page, so quiet text takes the theme's muted text color. */
-.vibe-text-zinc-500 {
-  color: var(--vibe-muted-foreground);
-}
-
-/* Zinc-500 is too dim for normal text on the docs dark surfaces. */
-.dark .vibe-text-zinc-500 {
-  color: rgb(161 161 170);
-}
-
 main :not(pre) > code {
   white-space: normal;
   overflow-wrap: anywhere;
@@ -157,6 +147,8 @@ main li {
 .docs-rail-nav {
   width: var(--docs-nav-width);
   padding: 1.5rem 0.75rem 2rem 1rem;
+  /* The navigation rail is a panel beside the page, on the same level as the app bar. */
+  background-color: var(--vibe-card);
   border-right: 1px solid var(--vibe-border);
 }
 

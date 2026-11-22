@@ -5,7 +5,7 @@
 <div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
     <header class="vibe-space-y-2">
         <h1 class="vibe-m-0">CLI Reference</h1>
-        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Complete command reference for the Vibe.UI CLI tool.</p>
+        <p class="vibe-m-0 vibe-text-muted-foreground">Complete command reference for the Vibe.UI CLI tool.</p>
     </header>
 
     <PreReleaseNotice />
@@ -24,7 +24,7 @@
     <section class="vibe-space-y-6">
         <h2>Commands</h2>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3><code>vibe init</code></h3>
             <p>Initialize Vibe.UI in your project by copying infrastructure files.</p>
 
@@ -49,7 +49,7 @@
             </ul>
         </div>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3><code>vibe add</code></h3>
             <p>Add a component to your project.</p>
 
@@ -68,7 +68,7 @@
             <CodeBlock Code="@AddExamplesCode" Language="bash" />
         </div>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3><code>vibe list</code></h3>
             <p>List all available components grouped by category.</p>
 
@@ -85,7 +85,7 @@
             <CodeBlock Code="@ListExamplesCode" Language="bash" />
         </div>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3><code>vibe update</code></h3>
             <p>Update components to the latest version.</p>
 
@@ -120,17 +120,17 @@
     <section class="vibe-space-y-4">
         <h2>Workflows</h2>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3 class="vibe-mt-0">Starting a new project</h3>
             <CodeBlock Code="@NewProjectWorkflow" Language="bash" />
         </div>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3 class="vibe-mt-0">Adding components to an existing project</h3>
             <CodeBlock Code="@ExistingProjectWorkflow" Language="bash" />
         </div>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3 class="vibe-mt-0">Updating components</h3>
             <CodeBlock Code="@UpdateWorkflow" Language="bash" />
         </div>
@@ -143,9 +143,9 @@
         <div class="vibe-grid md:vibe-grid-cols-2 vibe-gap-6">
             @foreach (var category in ComponentCategories)
             {
-                <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+                <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
                     <h4 class="vibe-mt-0">@category.Key</h4>
-                    <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">@category.Value.Count components</p>
+                    <p class="vibe-text-sm vibe-text-muted-foreground">@category.Value.Count components</p>
                     <ul>
                         @foreach (var component in category.Value)
                         {

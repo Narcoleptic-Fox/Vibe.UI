@@ -7,12 +7,12 @@
 
 <div class="prop-tweaker @(IsOpen ? "open" : "")">
     <!-- Header -->
-    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-3 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
-        <h3 class="vibe-text-sm vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100">Properties</h3>
-        <button class="vibe-p-1 vibe-rounded hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-transition-colors"
+    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-3 vibe-border-b vibe-border-border">
+        <h3 class="vibe-text-sm vibe-font-semibold vibe-text-foreground">Properties</h3>
+        <button class="vibe-p-1 vibe-rounded hover:vibe-bg-accent vibe-transition-colors"
                 @onclick="Reset"
                 title="Reset to defaults">
-            <svg class="vibe-w-4 vibe-h-4 vibe-text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="vibe-w-4 vibe-h-4 vibe-text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
             </svg>
         </button>
@@ -25,11 +25,11 @@
             <div class="vibe-space-y-1.5">
                 <!-- Label -->
                 <label class="vibe-flex vibe-items-center vibe-justify-between vibe-text-sm">
-                    <span class="vibe-font-medium vibe-text-zinc-700 dark:vibe-text-zinc-300">@prop.Name</span>
+                    <span class="vibe-font-medium vibe-text-foreground">@prop.Name</span>
                     @if (prop.Type == PropType.Boolean)
                     {
                         <!-- Boolean Toggle -->
-                        <button class="vibe-relative vibe-w-10 vibe-h-5 vibe-rounded-full vibe-transition-colors @(IsTrue(prop.Value) ? "vibe-bg-brand-teal" : "vibe-bg-zinc-300 dark:vibe-bg-zinc-600")"
+                        <button class="vibe-relative vibe-w-10 vibe-h-5 vibe-rounded-full vibe-transition-colors @(IsTrue(prop.Value) ? "vibe-bg-brand-teal" : "vibe-bg-muted")"
                                 @onclick="() => ToggleBool(prop)">
                             <span class="vibe-absolute vibe-top-0.5 vibe-left-0.5 vibe-w-4 vibe-h-4 vibe-bg-white vibe-rounded-full vibe-shadow vibe-transition-transform @(IsTrue(prop.Value) ? "vibe-translate-x-5" : "")"></span>
                         </button>
@@ -38,7 +38,7 @@
 
                 @if (prop.Description != null)
                 {
-                    <p class="vibe-text-xs vibe-text-zinc-500">@prop.Description</p>
+                    <p class="vibe-text-xs vibe-text-muted-foreground">@prop.Description</p>
                 }
 
                 @switch (prop.Type)
@@ -49,7 +49,7 @@
                             @foreach (var option in prop.Options)
                             {
                                 var isSelected = prop.Value?.ToString() == option;
-                                <button class="vibe-px-2.5 vibe-py-1 vibe-text-xs vibe-font-medium vibe-rounded-md vibe-transition-colors @(isSelected ? "vibe-bg-brand-teal vibe-text-white" : "vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-text-zinc-600 dark:vibe-text-zinc-400 hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700")"
+                                <button class="vibe-px-2.5 vibe-py-1 vibe-text-xs vibe-font-medium vibe-rounded-md vibe-transition-colors @(isSelected ? "vibe-bg-brand-teal vibe-text-white" : "vibe-bg-secondary vibe-text-muted-foreground hover:vibe-bg-accent")"
                                         @onclick="() => SelectOption(prop, option)">
                                     @option
                                 </button>
@@ -62,7 +62,7 @@
                         <input type="text"
                                value="@prop.Value?.ToString()"
                                @onchange="e => SetValue(prop, e.Value)"
-                               class="vibe-w-full vibe-px-3 vibe-py-1.5 vibe-text-sm vibe-rounded-md vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-bg-white dark:vibe-bg-zinc-800 vibe-text-zinc-900 dark:vibe-text-zinc-100 focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-brand-teal/50" />
+                               class="vibe-w-full vibe-px-3 vibe-py-1.5 vibe-text-sm vibe-rounded-md vibe-border vibe-border-border vibe-bg-card vibe-text-foreground focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-brand-teal/50" />
                         break;
 
                     case PropType.Number:
@@ -74,8 +74,8 @@
                                    step="@(prop.Step ?? 1)"
                                    value="@prop.Value"
                                    @onchange="e => HandleNumberChange(prop, e)"
-                                   class="vibe-flex-1 vibe-h-1.5 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded-full vibe-appearance-none vibe-cursor-pointer" />
-                            <span class="vibe-w-10 vibe-text-xs vibe-text-zinc-500 vibe-text-right">@prop.Value</span>
+                                   class="vibe-flex-1 vibe-h-1.5 vibe-bg-muted vibe-rounded-full vibe-appearance-none vibe-cursor-pointer" />
+                            <span class="vibe-w-10 vibe-text-xs vibe-text-muted-foreground vibe-text-right">@prop.Value</span>
                         </div>
                         break;
 
@@ -85,8 +85,8 @@
                             <input type="color"
                                    value="@prop.Value?.ToString()"
                                    @onchange="e => SetValue(prop, e.Value)"
-                                   class="vibe-w-8 vibe-h-8 vibe-rounded vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-cursor-pointer" />
-                            <span class="vibe-text-xs vibe-text-zinc-500 vibe-font-mono">@prop.Value</span>
+                                   class="vibe-w-8 vibe-h-8 vibe-rounded vibe-border vibe-border-border vibe-cursor-pointer" />
+                            <span class="vibe-text-xs vibe-text-muted-foreground vibe-font-mono">@prop.Value</span>
                         </div>
                         break;
 
@@ -99,34 +99,29 @@
 
         @if (!Props.Any())
         {
-            <p class="vibe-text-sm vibe-text-zinc-500 vibe-text-center vibe-py-4">No properties to configure</p>
+            <p class="vibe-text-sm vibe-text-muted-foreground vibe-text-center vibe-py-4">No properties to configure</p>
         }
     </div>
 
     <!-- Generated Code Preview -->
     @if (ShowCodePreview && Props.Any())
     {
-        <div class="vibe-border-t vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-p-4">
+        <div class="vibe-border-t vibe-border-border vibe-p-4">
             <div class="vibe-flex vibe-items-center vibe-justify-between vibe-mb-2">
-                <span class="vibe-text-xs vibe-font-medium vibe-text-zinc-500 vibe-uppercase vibe-tracking-wider">Generated Props</span>
+                <span class="vibe-text-xs vibe-font-medium vibe-text-muted-foreground vibe-uppercase vibe-tracking-wider">Generated Props</span>
                 <CopyButton Text="@GeneratedCode" Variant="CopyButton.CopyButtonVariant.Ghost" />
             </div>
-            <pre class="vibe-text-xs vibe-font-mono vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-md vibe-p-2 vibe-overflow-x-auto"><code>@GeneratedCode</code></pre>
+            <pre class="vibe-text-xs vibe-font-mono vibe-text-muted-foreground vibe-bg-card vibe-rounded-md vibe-p-2 vibe-overflow-x-auto"><code>@GeneratedCode</code></pre>
         </div>
     }
 </div>
 
 <style>
     .prop-tweaker {
-        background: white;
+        background: var(--vibe-card);
         border-radius: 0.75rem;
-        border: 1px solid rgb(228 228 231);
+        border: 1px solid var(--vibe-border);
         overflow: hidden;
-    }
-
-    :global(.dark) .prop-tweaker {
-        background: rgb(24 24 27);
-        border-color: rgb(39 39 42);
     }
 
     /* Custom range input styling */
@@ -135,7 +130,7 @@
         appearance: none;
         width: 14px;
         height: 14px;
-        background: #065465;
+        background: var(--vibe-primary);
         border-radius: 50%;
         cursor: pointer;
     }
@@ -143,7 +138,7 @@
     input[type="range"]::-moz-range-thumb {
         width: 14px;
         height: 14px;
-        background: #065465;
+        background: var(--vibe-primary);
         border-radius: 50%;
         cursor: pointer;
         border: none;

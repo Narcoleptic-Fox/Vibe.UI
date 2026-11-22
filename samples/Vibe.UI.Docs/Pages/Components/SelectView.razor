@@ -5,19 +5,19 @@
 
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
             <a href="./">Docs</a><span>/</span><a href="components">Components</a><span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Select</span>
+            <span class="vibe-text-foreground">Select</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Select</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Select</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             A styled native select for choosing one value from a fixed set of options.
         </p>
     </header>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
             <div class="vibe-max-w-md">
                 <Select Id="country"
                         Label="Country"
@@ -28,7 +28,7 @@
                     <option value="ca">Canada</option>
                     <option value="gb">United Kingdom</option>
                 </Select>
-                <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-zinc-500">
+                <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">
                     Selected: @(string.IsNullOrEmpty(selectedCountry) ? "None" : selectedCountry)
                 </output>
             </div>
@@ -36,35 +36,35 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Bound value</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Bound value</h3>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
         <div>
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Inside FormField</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Inside FormField</h3>
             <CodeBlock Code="@FormFieldCode" Language="razor" />
         </div>
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
         <div class="vibe-overflow-x-auto">
             <table class="vibe-w-full vibe-text-sm">
-                <thead><tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                <thead><tr class="vibe-border-b vibe-border-border">
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Name</th>
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Type</th>
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Default</th>
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Description</th>
                 </tr></thead>
-                <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                <tbody class="vibe-divide-y vibe-divide-border">
                     @foreach (var property in Properties)
                     {
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">@property.Name</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="@property.Type" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">@property.Default</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">@property.Description</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Description</td>
                         </tr>
                     }
                 </tbody>
@@ -73,13 +73,13 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
         <CodeBlock Code="vibe add select" Language="bash" />
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             @foreach (var item in AccessibilityItems)
             {
                 <li class="vibe-flex vibe-items-start vibe-gap-2">

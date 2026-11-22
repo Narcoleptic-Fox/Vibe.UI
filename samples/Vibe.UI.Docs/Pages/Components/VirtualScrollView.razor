@@ -5,66 +5,66 @@
 
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">VirtualScroll</span>
+            <span class="vibe-text-foreground">VirtualScroll</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">VirtualScroll</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">VirtualScroll</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             Render large, fixed-height lists while keeping only the visible range in the DOM.
         </p>
     </header>
 
     <section class="vibe-mb-12">
         <div class="vibe-flex vibe-items-center vibe-justify-between vibe-gap-3 vibe-mb-4">
-            <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100">Interactive Preview</h2>
+            <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground">Interactive Preview</h2>
             <Button Variant="ButtonVariant.Outline" Size="ComponentSize.Small" OnClick="JumpToMiddle">
                 Jump to item 501
             </Button>
         </div>
-        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
             <VirtualScroll @ref="previewScroll"
                            Items="scrollItems"
                            ItemHeight="48"
                            Height="288"
                            AriaLabel="One thousand numbered items">
                 <ItemTemplate Context="item">
-                    <div class="vibe-h-full vibe-flex vibe-items-center vibe-justify-between vibe-gap-3 vibe-px-4 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-bg-white dark:vibe-bg-zinc-900">
-                        <span class="vibe-text-sm vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">@item</span>
-                        <span class="vibe-text-xs vibe-text-zinc-500">Fixed 48px row</span>
+                    <div class="vibe-h-full vibe-flex vibe-items-center vibe-justify-between vibe-gap-3 vibe-px-4 vibe-border-b vibe-border-border vibe-bg-card">
+                        <span class="vibe-text-sm vibe-font-medium vibe-text-foreground">@item</span>
+                        <span class="vibe-text-xs vibe-text-muted-foreground">Fixed 48px row</span>
                     </div>
                 </ItemTemplate>
             </VirtualScroll>
         </div>
-        <p class="vibe-mt-3 vibe-text-sm vibe-text-zinc-500" role="status">@previewStatus</p>
+        <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground" role="status">@previewStatus</p>
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <div class="vibe-space-y-8">
             <div>
-                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Fixed-height list</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Fixed-height list</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-4">
                     Set <code>ItemHeight</code> to the rendered row height and provide a numeric viewport <code>Height</code> in pixels.
                 </p>
                 <CodeBlock Code="@BasicCode" Language="razor" />
             </div>
 
             <div>
-                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Programmatic scrolling</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Programmatic scrolling</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-4">
                     Keep a component reference and await <code>ScrollToIndex</code> to update the rendered range and the browser scroll position together.
                 </p>
                 <CodeBlock Code="@ProgrammaticCode" Language="razor" />
             </div>
 
             <div>
-                <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Empty state</h3>
-                <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+                <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Empty state</h3>
+                <p class="vibe-text-muted-foreground vibe-mb-4">
                     Supply <code>EmptyContent</code> for a contextual empty result, or use <code>EmptyText</code> for plain text.
                 </p>
                 <CodeBlock Code="@EmptyCode" Language="razor" />
@@ -73,25 +73,25 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
         <div class="vibe-overflow-x-auto">
             <table class="vibe-w-full vibe-text-sm">
                 <thead>
-                    <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
-                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                    <tr class="vibe-border-b vibe-border-border">
+                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Default</th>
+                        <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                     </tr>
                 </thead>
-                <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                <tbody class="vibe-divide-y vibe-divide-border">
                     @foreach (var property in properties)
                     {
                         <tr>
                             <td class="vibe-py-3 vibe-px-4"><code>@property.Name</code></td>
                             <td class="vibe-py-3 vibe-px-4"><code>@property.Type</code></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">@property.Default</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">@property.Description</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Description</td>
                         </tr>
                     }
                 </tbody>
@@ -99,21 +99,21 @@
         </div>
 
         <div class="vibe-mt-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Methods</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Methods</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Returns</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Returns</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4"><code>ScrollToIndex(int index)</code></td>
                             <td class="vibe-py-3 vibe-px-4"><code>Task</code></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Scrolls to a valid zero-based item index.</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Scrolls to a valid zero-based item index.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,8 +122,8 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li class="vibe-flex vibe-items-start vibe-gap-2">
                 <Vibe.UI.Components.Icon Name="check-circle" Size="20" Color="var(--vibe-success)" CssClass="vibe-mt-0.5 vibe-shrink-0" />
                 The viewport is a named list and every rendered row is a list item.
@@ -140,7 +140,7 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
         <CodeBlock Code="vibe add virtualscroll" Language="bash" />
     </section>
 </div>
