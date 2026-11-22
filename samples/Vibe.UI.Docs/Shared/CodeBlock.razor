@@ -9,10 +9,10 @@
     - Dark/light theme support
 *@
 
-<div class="code-block vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-overflow-hidden vibe-bg-white dark:vibe-bg-zinc-900">
+<div class="code-block vibe-rounded-lg vibe-border vibe-border-border vibe-overflow-hidden vibe-bg-card">
     <!-- Header -->
-    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-2 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800">
-        <span class="vibe-text-xs vibe-font-medium vibe-text-zinc-500 dark:vibe-text-zinc-400 vibe-uppercase vibe-tracking-wider">@DisplayLanguage</span>
+    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-px-4 vibe-py-2 vibe-bg-card vibe-border-b vibe-border-border">
+        <span class="vibe-text-xs vibe-font-medium vibe-text-muted-foreground vibe-uppercase vibe-tracking-wider">@DisplayLanguage</span>
         <CopyButton Text="@Code" Variant="CopyButton.CopyButtonVariant.Ghost" ShowText="false" />
     </div>
 
@@ -25,7 +25,7 @@
         else
         {
             <!-- Fallback while loading -->
-            <pre class="vibe-p-4 vibe-text-sm vibe-leading-relaxed"><code class="vibe-font-mono vibe-text-zinc-700 dark:vibe-text-zinc-300">@Code</code></pre>
+            <pre class="vibe-p-4 vibe-text-sm vibe-leading-relaxed"><code class="vibe-font-mono vibe-text-foreground">@Code</code></pre>
         }
     </div>
 </div>
@@ -64,7 +64,7 @@
         width: 2rem;
         margin-right: 1rem;
         text-align: right;
-        color: rgb(161 161 170);
+        color: var(--vibe-muted-foreground);
         font-size: 0.75rem;
     }
 </style>

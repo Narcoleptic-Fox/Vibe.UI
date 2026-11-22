@@ -6,12 +6,12 @@
     Combines preview, code, and property controls in a tabbed interface
 *@
 
-<div class="live-preview vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-overflow-hidden vibe-bg-white dark:vibe-bg-zinc-900">
+<div class="live-preview vibe-rounded-lg vibe-border vibe-border-border vibe-overflow-hidden vibe-bg-card">
     <!-- Header Tabs -->
-    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50">
+    <div class="vibe-flex vibe-items-center vibe-justify-between vibe-border-b vibe-border-border vibe-bg-card">
         <!-- Tab Buttons -->
         <div class="vibe-flex" role="tablist" aria-label="Live preview tabs">
-            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "preview" ? "active vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
+            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "preview" ? "active vibe-text-foreground" : "vibe-text-muted-foreground hover:vibe-text-foreground")"
                     type="button"
                     role="tab"
                     data-tab="preview"
@@ -25,7 +25,7 @@
                     <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-brand-teal"></span>
                 }
             </button>
-            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "code" ? "active vibe-text-zinc-900 dark:vibe-text-zinc-100" : "vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300")"
+            <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "code" ? "active vibe-text-foreground" : "vibe-text-muted-foreground hover:vibe-text-foreground")"
                     type="button"
                     role="tab"
                     data-tab="code"
@@ -44,25 +44,25 @@
         <!-- Action Buttons -->
         <div class="vibe-flex vibe-items-center vibe-gap-1 vibe-px-2">
             <!-- Theme Toggle -->
-            <button class="vibe-p-2 vibe-rounded-md hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-transition-colors"
+            <button class="vibe-p-2 vibe-rounded-md hover:vibe-bg-accent vibe-transition-colors"
                     type="button"
                     @onclick="TogglePreviewTheme"
                     aria-label="Toggle preview theme"
                     title="Toggle preview theme">
                 @if (previewDark)
                 {
-                    <Icon Name="sun" Size="16" CssClass="vibe-text-zinc-500" />
+                    <Icon Name="sun" Size="16" CssClass="vibe-text-muted-foreground" />
                 }
                 else
                 {
-                    <Icon Name="moon" Size="16" CssClass="vibe-text-zinc-500" />
+                    <Icon Name="moon" Size="16" CssClass="vibe-text-muted-foreground" />
                 }
             </button>
 
             <!-- Props Toggle -->
             @if (Props.Any())
             {
-                <button class="vibe-p-2 vibe-rounded-md vibe-transition-colors @(showProps ? "vibe-bg-brand-teal/10 vibe-text-brand-teal" : "hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-text-zinc-500")"
+                <button class="vibe-p-2 vibe-rounded-md vibe-transition-colors @(showProps ? "vibe-bg-brand-teal/10 vibe-text-brand-teal" : "hover:vibe-bg-accent vibe-text-muted-foreground")"
                         type="button"
                         @onclick="() => showProps = !showProps"
                         aria-label="Toggle properties panel"
@@ -85,7 +85,7 @@
             {
                 <!-- Preview Panel -->
                 <div id="live-preview-panel"
-                     class="preview-panel preview-content vibe-p-6 vibe-min-h-[200px] vibe-flex vibe-items-center vibe-justify-center @(previewDark ? "vibe-bg-zinc-900" : "vibe-bg-white dark:vibe-bg-zinc-900")"
+                     class="preview-panel preview-content vibe-p-6 vibe-min-h-[200px] vibe-flex vibe-items-center vibe-justify-center vibe-bg-card vibe-text-foreground @(previewDark ? "dark" : "")"
                      role="tabpanel"
                      data-panel="preview">
                     @(PreviewContent ?? ChildContent)
@@ -106,7 +106,7 @@
         <!-- Props Panel (slide-in) -->
         @if (showProps && Props.Any())
         {
-            <div class="vibe-w-72 vibe-border-l vibe-border-zinc-200 dark:vibe-border-zinc-800 props-slide-in">
+            <div class="vibe-w-72 vibe-border-l vibe-border-border props-slide-in">
                 <PropTweaker Props="Props"
                              ShowCodePreview="false"
                              OnPropChanged="HandlePropChanged"

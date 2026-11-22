@@ -5,7 +5,7 @@
 <div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
     <header class="vibe-space-y-2">
         <h1 class="vibe-m-0">Theming</h1>
-        <p class="vibe-m-0 vibe-text-zinc-600 dark:vibe-text-zinc-400">Customize your application with Vibe.UI’s shadcn-inspired theming system using pure CSS variables.</p>
+        <p class="vibe-m-0 vibe-text-muted-foreground">Customize your application with Vibe.UI’s shadcn-inspired theming system using pure CSS variables.</p>
     </header>
 
     <section class="vibe-space-y-4">
@@ -27,15 +27,15 @@
         <p>Vibe.UI uses CSS custom properties (variables) for theming. The theme toggle simply adds or removes a <code>.dark</code> class on the <code>&lt;html&gt;</code> element:</p>
 
         <div class="vibe-flex vibe-flex-wrap vibe-items-center vibe-gap-2 vibe-text-sm">
-            <div class="vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-px-3 vibe-py-2">
+            <div class="vibe-rounded-lg vibe-border vibe-border-border vibe-bg-card vibe-px-3 vibe-py-2">
                 <code>:root</code> defines light theme colors
             </div>
-            <div class="vibe-text-zinc-500 dark:vibe-text-zinc-400">→</div>
-            <div class="vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-px-3 vibe-py-2">
+            <div class="vibe-text-muted-foreground">→</div>
+            <div class="vibe-rounded-lg vibe-border vibe-border-border vibe-bg-card vibe-px-3 vibe-py-2">
                 <code>.dark</code> overrides with dark colors
             </div>
-            <div class="vibe-text-zinc-500 dark:vibe-text-zinc-400">→</div>
-            <div class="vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-px-3 vibe-py-2">
+            <div class="vibe-text-muted-foreground">→</div>
+            <div class="vibe-rounded-lg vibe-border vibe-border-border vibe-bg-card vibe-px-3 vibe-py-2">
                 Components use <code>--vibe-*</code> variables
             </div>
         </div>
@@ -45,7 +45,7 @@
         <h2>Theme Variables</h2>
         <p>All Vibe.UI components use the following CSS custom properties:</p>
 
-        <div class="vibe-rounded-xl vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-800 vibe-bg-white dark:vibe-bg-zinc-950 vibe-p-6">
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6">
             <h3>Color Palette</h3>
             <ul>
                 <li><code>--vibe-background</code> - Main background color</li>
@@ -103,7 +103,7 @@
 
         <div class="vibe-flex vibe-items-center vibe-gap-2">
             <ThemeToggle />
-            <span class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Try it out!</span>
+            <span class="vibe-text-sm vibe-text-muted-foreground">Try it out!</span>
         </div>
     </section>
 

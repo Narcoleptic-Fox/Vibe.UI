@@ -5,49 +5,49 @@
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <!-- Header -->
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Skeleton</span>
+            <span class="vibe-text-foreground">Skeleton</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Skeleton</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Skeleton</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             A placeholder component that displays a loading state while content is being fetched.
         </p>
     </header>
 
     <!-- Preview -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-flex vibe-flex-col vibe-gap-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-flex vibe-flex-col vibe-gap-4 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
             <div class="vibe-flex vibe-items-center vibe-gap-4">
-                <div class="vibe-w-12 vibe-h-12 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded-full vibe-animate-pulse"></div>
+                <div class="vibe-w-12 vibe-h-12 vibe-bg-muted vibe-rounded-full vibe-animate-pulse"></div>
                 <div class="vibe-flex-1 vibe-space-y-2">
-                    <div class="vibe-h-4 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded vibe-animate-pulse vibe-w-3/4"></div>
-                    <div class="vibe-h-3 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded vibe-animate-pulse vibe-w-1/2"></div>
+                    <div class="vibe-h-4 vibe-bg-muted vibe-rounded vibe-animate-pulse vibe-w-3/4"></div>
+                    <div class="vibe-h-3 vibe-bg-muted vibe-rounded vibe-animate-pulse vibe-w-1/2"></div>
                 </div>
             </div>
             <div class="vibe-space-y-2">
-                <div class="vibe-h-4 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded vibe-animate-pulse"></div>
-                <div class="vibe-h-4 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded vibe-animate-pulse"></div>
-                <div class="vibe-h-4 vibe-bg-zinc-200 dark:vibe-bg-zinc-700 vibe-rounded vibe-animate-pulse vibe-w-5/6"></div>
+                <div class="vibe-h-4 vibe-bg-muted vibe-rounded vibe-animate-pulse"></div>
+                <div class="vibe-h-4 vibe-bg-muted vibe-rounded vibe-animate-pulse"></div>
+                <div class="vibe-h-4 vibe-bg-muted vibe-rounded vibe-animate-pulse vibe-w-5/6"></div>
             </div>
         </div>
     </section>
 
     <!-- Examples Section -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
         <!-- Basic Skeleton -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Basic Skeleton</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Basic Skeleton</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Simple skeleton loaders for different content types.
             </p>
-            <div class="vibe-flex vibe-flex-col vibe-gap-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-col vibe-gap-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <Skeleton Width="200px" Height="20px" />
                 <Skeleton Width="100%" Height="40px" />
                 <Skeleton Width="300px" Height="16px" />
@@ -57,21 +57,21 @@
 
         <!-- Skeleton Variants -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Skeleton Variants</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Skeleton Variants</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Different animation styles for skeleton loaders.
             </p>
-            <div class="vibe-flex vibe-flex-col vibe-gap-4 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-col vibe-gap-4 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div>
-                    <div class="vibe-mb-2 vibe-text-xs vibe-text-zinc-500">Pulse (Default)</div>
+                    <div class="vibe-mb-2 vibe-text-xs vibe-text-muted-foreground">Pulse (Default)</div>
                     <Skeleton Variant="SkeletonVariant.Pulse" Width="200px" />
                 </div>
                 <div>
-                    <div class="vibe-mb-2 vibe-text-xs vibe-text-zinc-500">Wave</div>
+                    <div class="vibe-mb-2 vibe-text-xs vibe-text-muted-foreground">Wave</div>
                     <Skeleton Variant="SkeletonVariant.Wave" Width="200px" />
                 </div>
                 <div>
-                    <div class="vibe-mb-2 vibe-text-xs vibe-text-zinc-500">None</div>
+                    <div class="vibe-mb-2 vibe-text-xs vibe-text-muted-foreground">None</div>
                     <Skeleton Variant="SkeletonVariant.None" Width="200px" />
                 </div>
             </div>
@@ -80,22 +80,22 @@
 
         <!-- Skeleton Shapes -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Skeleton Shapes</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Skeleton Shapes</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Different shapes for avatars, images, and other content.
             </p>
-            <div class="vibe-flex vibe-items-center vibe-gap-6 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-items-center vibe-gap-6 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-text-center">
                     <Skeleton Shape="SkeletonShape.Circle" Width="60px" Height="60px" />
-                    <div class="vibe-mt-2 vibe-text-xs vibe-text-zinc-500">Circle</div>
+                    <div class="vibe-mt-2 vibe-text-xs vibe-text-muted-foreground">Circle</div>
                 </div>
                 <div class="vibe-text-center">
                     <Skeleton Shape="SkeletonShape.Rounded" Width="100px" Height="100px" />
-                    <div class="vibe-mt-2 vibe-text-xs vibe-text-zinc-500">Rounded</div>
+                    <div class="vibe-mt-2 vibe-text-xs vibe-text-muted-foreground">Rounded</div>
                 </div>
                 <div class="vibe-text-center">
                     <Skeleton Shape="SkeletonShape.Rectangle" Width="200px" Height="50px" />
-                    <div class="vibe-mt-2 vibe-text-xs vibe-text-zinc-500">Rectangle</div>
+                    <div class="vibe-mt-2 vibe-text-xs vibe-text-muted-foreground">Rectangle</div>
                 </div>
             </div>
             <CodeBlock Code="@ShapesCode" Language="razor" />
@@ -103,12 +103,12 @@
 
         <!-- Card Skeleton -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Card Skeleton</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Card Skeleton</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Compose skeleton components to create card loaders.
             </p>
-            <div class="vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
-                <div class="vibe-bg-white dark:vibe-bg-zinc-900 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-overflow-hidden">
+            <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
+                <div class="vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-overflow-hidden">
                     <Skeleton Shape="SkeletonShape.Rectangle" Width="100%" Height="200px" />
                     <div class="vibe-p-4 vibe-space-y-3">
                         <Skeleton Width="60%" Height="24px" />
@@ -121,11 +121,11 @@
 
         <!-- List Skeleton -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">List Skeleton</h3>
-            <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">List Skeleton</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
                 Create list item placeholders for loading states.
             </p>
-            <div class="vibe-flex vibe-flex-col vibe-gap-3 vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 vibe-mb-3">
+            <div class="vibe-flex vibe-flex-col vibe-gap-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 @foreach (var item in Enumerable.Range(1, 5))
                 {
                     <div class="vibe-flex vibe-items-center vibe-gap-3">
@@ -143,57 +143,57 @@
 
     <!-- API Reference -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
 
         <!-- Properties -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-4">Properties</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
             <div class="vibe-overflow-x-auto">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
-                        <tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Name</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Type</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Default</th>
-                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100">Description</th>
+                        <tr class="vibe-border-b vibe-border-border">
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Name</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Type</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Default</th>
+                            <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium vibe-text-foreground">Description</th>
                         </tr>
                     </thead>
-                    <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                    <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Width</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Width</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"100%"</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Width of the skeleton (CSS value)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">"100%"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Width of the skeleton (CSS value)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Height</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Height</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">"20px"</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Height of the skeleton (CSS value)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">"20px"</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Height of the skeleton (CSS value)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Shape</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Shape</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="SkeletonShape" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Rectangle</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Shape of the skeleton (Rectangle, Circle, Rounded)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Rectangle</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Shape of the skeleton (Rectangle, Circle, Rounded)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Variant</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Variant</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="SkeletonVariant" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">Pulse</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Animation variant (Pulse, Wave, None)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Pulse</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Animation variant (Pulse, Wave, None)</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">Count</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Count</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="int" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">1</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Number of skeleton lines to render</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">1</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Number of skeleton lines to render</td>
                         </tr>
                         <tr>
-                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-zinc-900 dark:vibe-text-zinc-100">ChildContent</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ChildContent</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">Optional custom skeleton content</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Optional custom skeleton content</td>
                         </tr>
                     </tbody>
                 </table>
@@ -203,8 +203,8 @@
 
     <!-- Installation -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
-        <p class="vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-mb-4">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-4">
             Install the Skeleton component using the Vibe.UI CLI:
         </p>
         <CodeBlock Code="vibe add skeleton" Language="bash" />
@@ -212,20 +212,20 @@
 
     <!-- Accessibility -->
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
         <div class="vibe-prose dark:vibe-prose-invert vibe-max-w-none">
-            <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+            <ul class="vibe-space-y-2 vibe-text-muted-foreground">
                 <li class="vibe-flex vibe-items-start vibe-gap-2">
                     <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Uses <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-busy="true"</code> to indicate loading state
+                    Uses <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">aria-busy="true"</code> to indicate loading state
                 </li>
                 <li class="vibe-flex vibe-items-start vibe-gap-2">
                     <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Includes <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">aria-label</code> to describe loading content
+                    Includes <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">aria-label</code> to describe loading content
                 </li>
                 <li class="vibe-flex vibe-items-start vibe-gap-2">
                     <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -243,7 +243,7 @@
                     <svg class="vibe-w-5 vibe-h-5 vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    Respects <code class="vibe-text-sm vibe-bg-zinc-100 dark:vibe-bg-zinc-800 vibe-px-1 vibe-py-0.5 vibe-rounded">prefers-reduced-motion</code> for animations
+                    Respects <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">prefers-reduced-motion</code> for animations
                 </li>
             </ul>
         </div>
@@ -251,19 +251,19 @@
 
     <!-- Related Components -->
     <section>
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Related</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/spinner" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Spinner</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Loading spinner indicator</p>
+            <a href="components/spinner" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Spinner</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Loading spinner indicator</p>
             </a>
-            <a href="components/progress" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">ProgressBar</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Progress indicator</p>
+            <a href="components/progress" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">ProgressBar</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Progress indicator</p>
             </a>
-            <a href="components/card" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-zinc-900 dark:vibe-text-zinc-100 group-hover:vibe-text-brand-teal">Card</h4>
-                <p class="vibe-text-sm vibe-text-zinc-500">Content container</p>
+            <a href="components/card" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Card</h4>
+                <p class="vibe-text-sm vibe-text-muted-foreground">Content container</p>
             </a>
         </div>
     </section>

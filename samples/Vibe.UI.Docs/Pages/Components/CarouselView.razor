@@ -5,22 +5,22 @@
 
 <div class="vibe-max-w-4xl vibe-mx-auto">
     <header class="vibe-mb-8">
-        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-zinc-500 vibe-mb-2">
-            <a href="./" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Docs</a>
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./" class="hover:vibe-text-foreground">Docs</a>
             <span>/</span>
-            <a href="components" class="hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300">Components</a>
+            <a href="components" class="hover:vibe-text-foreground">Components</a>
             <span>/</span>
-            <span class="vibe-text-zinc-900 dark:vibe-text-zinc-100">Carousel</span>
+            <span class="vibe-text-foreground">Carousel</span>
         </div>
-        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-3">Carousel</h1>
-        <p class="vibe-text-lg vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">Carousel</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
             Cycle through a small set of visual panels with pointer, keyboard, and direct navigation.
         </p>
     </header>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Preview</h2>
-        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-zinc-50 dark:vibe-bg-zinc-800/50 vibe-rounded-lg vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
             <Carousel @bind-ActiveIndex="activeIndex"
                       AriaLabel="Vibe.UI release highlights"
                       Loop="false"
@@ -31,65 +31,65 @@
                 <CarouselItem>
                     <div style="height: 18rem; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: var(--vibe-background);">
                         <img src="logo.png" alt="Vibe.UI wave mark" style="width: 100%; height: 100%; min-height: 0; object-fit: cover;" />
-                        <div class="vibe-p-4 vibe-border-t vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                        <div class="vibe-p-4 vibe-border-t vibe-border-border">
                             <strong>Visual system</strong>
-                            <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Consistent controls, spacing, and focus states.</p>
+                            <p class="vibe-text-sm vibe-text-muted-foreground">Consistent controls, spacing, and focus states.</p>
                         </div>
                     </div>
                 </CarouselItem>
                 <CarouselItem>
                     <div style="height: 18rem; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: var(--vibe-background);">
                         <img src="icon-512.png" alt="Vibe.UI application icon" style="width: 100%; height: 100%; min-height: 0; object-fit: contain; padding: 1.5rem;" />
-                        <div class="vibe-p-4 vibe-border-t vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                        <div class="vibe-p-4 vibe-border-t vibe-border-border">
                             <strong>Hosting coverage</strong>
-                            <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Standalone WebAssembly and every Blazor Web App render mode.</p>
+                            <p class="vibe-text-sm vibe-text-muted-foreground">Standalone WebAssembly and every Blazor Web App render mode.</p>
                         </div>
                     </div>
                 </CarouselItem>
                 <CarouselItem>
                     <div style="height: 18rem; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: var(--vibe-background);">
                         <img src="icon-192.png" alt="Compact Vibe.UI application icon" style="width: 100%; height: 100%; min-height: 0; object-fit: contain; padding: 2rem;" />
-                        <div class="vibe-p-4 vibe-border-t vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                        <div class="vibe-p-4 vibe-border-t vibe-border-border">
                             <strong>Accessible interaction</strong>
-                            <p class="vibe-text-sm vibe-text-zinc-600 dark:vibe-text-zinc-400">Named controls, direct slide selection, and arrow navigation.</p>
+                            <p class="vibe-text-sm vibe-text-muted-foreground">Named controls, direct slide selection, and arrow navigation.</p>
                         </div>
                     </div>
                 </CarouselItem>
             </Carousel>
-            <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-zinc-500">Slide @(activeIndex + 1) of 3</output>
+            <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Slide @(activeIndex + 1) of 3</output>
         </div>
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">Examples</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Controlled slide</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Controlled slide</h3>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
         <div>
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-zinc-800 dark:vibe-text-zinc-200 vibe-mb-3">Automatic rotation</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Automatic rotation</h3>
             <CodeBlock Code="@AutoPlayCode" Language="razor" />
         </div>
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-6">API Reference</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
         <div class="vibe-overflow-x-auto">
             <table class="vibe-w-full vibe-text-sm">
-                <thead><tr class="vibe-border-b vibe-border-zinc-200 dark:vibe-border-zinc-700">
+                <thead><tr class="vibe-border-b vibe-border-border">
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Name</th>
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Type</th>
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Default</th>
                     <th class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Description</th>
                 </tr></thead>
-                <tbody class="vibe-divide-y vibe-divide-zinc-100 dark:vibe-divide-zinc-800">
+                <tbody class="vibe-divide-y vibe-divide-border">
                     @foreach (var property in Properties)
                     {
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono">@property.Name</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="@property.Type" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-500">@property.Default</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-zinc-600 dark:vibe-text-zinc-400">@property.Description</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Description</td>
                         </tr>
                     }
                 </tbody>
@@ -98,13 +98,13 @@
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Installation</h2>
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
         <CodeBlock Code="vibe add carousel" Language="bash" />
     </section>
 
     <section class="vibe-mb-12">
-        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-zinc-900 dark:vibe-text-zinc-100 vibe-mb-4">Accessibility</h2>
-        <ul class="vibe-space-y-2 vibe-text-zinc-600 dark:vibe-text-zinc-400">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             @foreach (var item in AccessibilityItems)
             {
                 <li class="vibe-flex vibe-items-start vibe-gap-2">

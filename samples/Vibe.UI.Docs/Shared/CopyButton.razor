@@ -74,9 +74,9 @@
 
             var variantClasses = Variant switch
             {
-                CopyButtonVariant.Ghost => "vibe-p-1.5 vibe-rounded-md hover:vibe-bg-zinc-100 dark:hover:vibe-bg-zinc-800 vibe-text-zinc-500 hover:vibe-text-zinc-700 dark:hover:vibe-text-zinc-300",
-                CopyButtonVariant.Outline => "vibe-px-3 vibe-py-1.5 vibe-rounded-md vibe-border vibe-border-zinc-200 dark:vibe-border-zinc-700 hover:vibe-bg-zinc-50 dark:hover:vibe-bg-zinc-800 vibe-text-zinc-600 dark:vibe-text-zinc-400 vibe-text-sm",
-                _ => "vibe-px-3 vibe-py-1.5 vibe-rounded-md vibe-bg-zinc-100 dark:vibe-bg-zinc-800 hover:vibe-bg-zinc-200 dark:hover:vibe-bg-zinc-700 vibe-text-zinc-600 dark:vibe-text-zinc-300 vibe-text-sm vibe-font-medium"
+                CopyButtonVariant.Ghost => "vibe-p-1.5 vibe-rounded-md hover:vibe-bg-accent vibe-text-muted-foreground hover:vibe-text-foreground",
+                CopyButtonVariant.Outline => "vibe-px-3 vibe-py-1.5 vibe-rounded-md vibe-border vibe-border-border hover:vibe-bg-accent vibe-text-muted-foreground vibe-text-sm",
+                _ => "vibe-px-3 vibe-py-1.5 vibe-rounded-md vibe-bg-secondary hover:vibe-bg-accent vibe-text-muted-foreground vibe-text-sm vibe-font-medium"
             };
 
             return $"{baseClasses} {variantClasses} {Class}".Trim();
