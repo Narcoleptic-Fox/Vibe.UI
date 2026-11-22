@@ -53,6 +53,7 @@ jobs:
       run: |
         dotnet restore src/Vibe.UI.CSS/Vibe.UI.CSS.csproj
         dotnet restore src/Vibe.UI/Vibe.UI.csproj
+        dotnet restore src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj
         dotnet restore src/Vibe.UI.CLI/Vibe.UI.CLI.csproj
         dotnet restore samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj
         dotnet restore samples/Vibe.UI.Compatibility.StandaloneClient/Vibe.UI.Compatibility.StandaloneClient.csproj
@@ -66,6 +67,7 @@ jobs:
       run: |
         dotnet build src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
         dotnet build src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+        dotnet build src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
         dotnet build src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
         dotnet build samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
         dotnet build samples/Vibe.UI.Compatibility.StandaloneClient/Vibe.UI.Compatibility.StandaloneClient.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
@@ -82,6 +84,7 @@ jobs:
       run: |
         dotnet pack src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-build --output ./packages
         dotnet pack src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-build --output ./packages
+        dotnet pack src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj --configuration Release --no-build --output ./packages
         dotnet pack src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-build --output ./packages
 
     - name: Configure candidate package source mapping
@@ -201,18 +204,21 @@ jobs:
       run: |
         dotnet restore src/Vibe.UI.CSS/Vibe.UI.CSS.csproj
         dotnet restore src/Vibe.UI/Vibe.UI.csproj
+        dotnet restore src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj
         dotnet restore src/Vibe.UI.CLI/Vibe.UI.CLI.csproj
 
     - name: Build shipping projects
       run: |
         dotnet build src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
         dotnet build src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+        dotnet build src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
         dotnet build src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
 
     - name: Pack shipping packages
       run: |
         dotnet pack src/Vibe.UI.CSS/Vibe.UI.CSS.csproj --configuration Release --no-build --output ./packages
         dotnet pack src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-build --output ./packages
+        dotnet pack src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj --configuration Release --no-build --output ./packages
         dotnet pack src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-build --output ./packages
 
     - name: Validate packages and repeat builds
