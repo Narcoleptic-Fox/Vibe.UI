@@ -9,7 +9,7 @@
     gap: 0.5rem;
     border-radius: var(--vibe-radius, 0.5rem);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
     border: 1px solid var(--vibe-border);
     opacity: 0;
     transform: translateX(100%);
@@ -77,7 +77,7 @@
 }
 
 .vibe-toast .toast-close:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 .vibe-toast .toast-close:focus-visible {
@@ -127,7 +127,7 @@
 
 /* Variant Styles */
 .vibe-toast.toast-default {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
     border-color: var(--vibe-border);
 }
 

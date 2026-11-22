@@ -16,7 +16,7 @@
   overflow: hidden;
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius, 0.5rem);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   box-shadow: var(--vibe-shadow-sm);
 }
 
@@ -28,7 +28,7 @@
   gap: 0.75rem;
   padding: 0.625rem 0.75rem;
   border-bottom: 1px solid var(--vibe-border);
-  background: color-mix(in srgb, var(--vibe-muted) 62%, var(--vibe-background));
+  background: color-mix(in srgb, var(--vibe-muted) 62%, var(--vibe-card));
 }
 
 .panel-title {
@@ -52,7 +52,7 @@
   padding: 0 0.375rem;
   border: 1px solid var(--vibe-border);
   border-radius: 9999px;
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-muted-foreground);
   font-size: 0.75rem;
   font-weight: 600;
@@ -62,7 +62,7 @@
 .transfer-search {
   padding: 0.625rem;
   border-bottom: 1px solid var(--vibe-border);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
 }
 
 .search-input {
@@ -73,7 +73,7 @@
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius-sm, 0.375rem);
   outline: none;
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-foreground);
   font: inherit;
   font-size: 0.875rem;
@@ -137,12 +137,12 @@
 }
 
 .transfer-item.selected {
-  background: color-mix(in srgb, var(--vibe-primary) 12%, var(--vibe-background));
+  background: color-mix(in srgb, var(--vibe-primary) 12%, var(--vibe-card));
   color: var(--vibe-foreground);
 }
 
 .transfer-item.selected:hover {
-  background: color-mix(in srgb, var(--vibe-primary) 17%, var(--vibe-background));
+  background: color-mix(in srgb, var(--vibe-primary) 17%, var(--vibe-card));
 }
 
 .item-checkbox {
@@ -187,7 +187,7 @@
   padding: 0;
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius-sm, 0.375rem);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   box-shadow: var(--vibe-shadow-sm);
   color: var(--vibe-foreground);
   cursor: pointer;
@@ -229,7 +229,7 @@
 }
 
 .vibe-transfer.is-disabled .transfer-panel {
-  background: color-mix(in srgb, var(--vibe-muted) 35%, var(--vibe-background));
+  background: color-mix(in srgb, var(--vibe-muted) 35%, var(--vibe-card));
 }
 
 .vibe-transfer.is-disabled .transfer-item {

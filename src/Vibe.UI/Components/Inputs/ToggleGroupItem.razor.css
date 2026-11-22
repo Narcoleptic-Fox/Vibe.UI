@@ -36,13 +36,13 @@
 
 .vibe-toggle-group-item-pressed {
     border-color: color-mix(in srgb, var(--vibe-border) 75%, transparent);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     color: var(--vibe-foreground);
     box-shadow: var(--vibe-shadow-xs, 0 1px 2px rgb(0 0 0 / 0.04));
 }
 
 .vibe-toggle-group-item-pressed:hover:not(:disabled) {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     color: var(--vibe-foreground);
 }
 

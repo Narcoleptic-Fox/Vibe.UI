@@ -82,19 +82,19 @@
 }
 
 .vibe-icon-destructive {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 .vibe-icon-success {
-    color: var(--vibe-success);
+    color: var(--vibe-success-text);
 }
 
 .vibe-icon-warning {
-    color: var(--vibe-warning);
+    color: var(--vibe-warning-text);
 }
 
 .vibe-icon-info {
-    color: var(--vibe-info);
+    color: var(--vibe-info-text);
 }
 
 /* ----------------------------------------

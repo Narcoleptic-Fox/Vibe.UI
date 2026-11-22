@@ -59,7 +59,7 @@
 }
 
 .calendar-nav-button:active:not(:disabled) {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-muted-foreground);
 }
 
@@ -168,7 +168,7 @@
 }
 
 .calendar-day:active:not(:disabled):not(.disabled) {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-muted-foreground);
 }
 
@@ -227,5 +227,5 @@
 
 .calendar-day-outside:hover:not(:disabled):not(.disabled) {
     opacity: 0.5;
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }

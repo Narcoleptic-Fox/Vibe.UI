@@ -48,12 +48,12 @@
 }
 
 .vibe-toggle.toggle-default:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-foreground);
 }
 
 .vibe-toggle.toggle-default.pressed {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-foreground);
     border-color: var(--vibe-border);
 }

@@ -42,7 +42,7 @@
     width: 320px;
     padding: 1rem;
     border-radius: var(--vibe-radius-md, 0.5rem);
-    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    background-color: var(--vibe-popover-bg, var(--vibe-popover));
     color: var(--vibe-popover-foreground, var(--vibe-foreground));
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--vibe-border);
@@ -85,7 +85,7 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    background-color: var(--vibe-popover-bg, var(--vibe-popover));
     border: 1px solid var(--vibe-border);
     border-top: none;
     border-left: none;
@@ -114,7 +114,7 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    background-color: var(--vibe-popover-bg, var(--vibe-popover));
     border: 1px solid var(--vibe-border);
     border-bottom: none;
     border-right: none;
@@ -143,7 +143,7 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    background-color: var(--vibe-popover-bg, var(--vibe-popover));
     border: 1px solid var(--vibe-border);
     border-left: none;
     border-bottom: none;
@@ -172,7 +172,7 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: var(--vibe-popover-bg, var(--vibe-background));
+    background-color: var(--vibe-popover-bg, var(--vibe-popover));
     border: 1px solid var(--vibe-border);
     border-right: none;
     border-top: none;

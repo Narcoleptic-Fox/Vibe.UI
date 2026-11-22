@@ -5,7 +5,7 @@
   overflow: hidden;
   border: 1px dashed var(--vibe-border);
   border-radius: var(--vibe-radius);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-foreground);
   font-family: var(--vibe-font);
   transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
@@ -17,7 +17,7 @@
 
 .vibe-file-upload.file-upload-dragging {
   border-color: var(--vibe-ring);
-  background: color-mix(in srgb, var(--vibe-primary) 6%, var(--vibe-background));
+  background: color-mix(in srgb, var(--vibe-primary) 6%, var(--vibe-card));
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--vibe-ring) 28%, transparent);
 }
 
@@ -56,7 +56,7 @@
   height: 2.75rem;
   margin-bottom: 0.875rem;
   place-items: center;
-  border: 1px solid var(--vibe-border);
+  border: 1px solid var(--vibe-sunken-border);
   border-radius: var(--vibe-radius-sm);
   background: var(--vibe-muted);
   color: var(--vibe-muted-foreground);
@@ -92,7 +92,7 @@
   padding: 0 0.875rem;
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius-sm);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-foreground);
   box-shadow: var(--vibe-shadow-sm);
   font-size: 0.8125rem;
@@ -114,7 +114,7 @@
   padding: 0.625rem 0.75rem;
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius-sm);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   transition: background-color 0.15s ease;
 }
 
@@ -165,7 +165,7 @@
 
 .file-item-remove:hover {
   background: color-mix(in srgb, var(--vibe-destructive) 10%, transparent);
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .file-upload-add-wrapper {
@@ -208,8 +208,8 @@
 .file-upload-error-message {
   padding: 0.625rem 0.75rem;
   border-top: 1px solid color-mix(in srgb, var(--vibe-destructive) 35%, var(--vibe-border));
-  background: color-mix(in srgb, var(--vibe-destructive) 6%, var(--vibe-background));
-  color: var(--vibe-destructive);
+  background: var(--vibe-destructive-soft);
+  color: var(--vibe-destructive-text);
   font-size: 0.75rem;
 }
 

@@ -26,7 +26,7 @@
     height: 1rem;
     border: 1px solid var(--vibe-border);
     border-radius: 50%;
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     transition: all 0.2s ease;
     flex-shrink: 0;
 }
@@ -76,7 +76,7 @@
 .vibe-radio-input:checked + .vibe-radio-label .vibe-radio-button {
     border-color: var(--vibe-primary);
     border-width: 4px;
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
 }
 
 .vibe-radio-input:focus + .vibe-radio-label .vibe-radio-button {

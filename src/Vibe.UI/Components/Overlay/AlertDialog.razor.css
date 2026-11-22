@@ -128,7 +128,7 @@
 }
 
 .vibe-alert-dialog-close:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-foreground);
 }
 
@@ -137,7 +137,7 @@
    ---------------------------------------- */
 
 .vibe-alert-dialog.vibe-alert-dialog-destructive .vibe-alert-dialog-title {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 .vibe-alert-dialog.vibe-alert-dialog-destructive .vibe-alert-dialog-content {

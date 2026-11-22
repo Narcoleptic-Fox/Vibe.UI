@@ -83,7 +83,7 @@
   width: var(--vibe-switch-thumb-size);
   left: 3px;
   bottom: 3px;
-  background-color: var(--vibe-background);
+  background-color: var(--vibe-card);
   border-radius: 50%;
   transition:
     transform 0.15s ease,

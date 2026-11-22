@@ -13,7 +13,7 @@
     height: 2.5rem;
     border-radius: var(--vibe-radius-md, 0.5rem);
     border: 1px solid var(--vibe-border);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     padding: var(--vibe-spacing-1, 0.25rem);
 }
 

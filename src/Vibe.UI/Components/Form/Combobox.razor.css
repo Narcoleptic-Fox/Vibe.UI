@@ -23,7 +23,7 @@
     width: 100%;
     border: 1px solid var(--vibe-border);
     border-radius: var(--vibe-radius-sm);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     cursor: text;
 }
@@ -104,7 +104,7 @@
     overflow-x: hidden;
     border: 1px solid var(--vibe-border);
     border-radius: var(--vibe-radius-sm);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     animation: vibe-combobox-slideIn 0.15s ease-out;
 }
@@ -157,7 +157,7 @@
 }
 
 .combobox-option:active {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 /* ----------------------------------------
@@ -266,7 +266,7 @@
 }
 
 .combobox-error {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 /* ----------------------------------------
@@ -301,7 +301,7 @@
    ---------------------------------------- */
 
 .dark .combobox-trigger {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     border-color: var(--vibe-border);
 }
 
@@ -310,7 +310,7 @@
 }
 
 .dark .combobox-content {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
     border-color: var(--vibe-border);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }

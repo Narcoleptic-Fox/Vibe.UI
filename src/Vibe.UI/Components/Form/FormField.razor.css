@@ -18,7 +18,7 @@
 }
 
 .form-field-required {
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .form-field-input {
@@ -35,7 +35,7 @@
 ::deep .form-validation-message {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .has-error ::deep input,

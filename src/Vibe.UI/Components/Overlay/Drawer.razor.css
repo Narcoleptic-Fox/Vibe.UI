@@ -65,7 +65,7 @@
 }
 
 .drawer-close:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 .drawer-close:focus-visible {

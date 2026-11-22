@@ -71,7 +71,7 @@
    ---------------------------------------- */
 
 .vibe-menu-item-danger {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 .vibe-menu-item-danger:hover {

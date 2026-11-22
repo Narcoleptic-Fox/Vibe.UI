@@ -13,5 +13,5 @@
 
 .vibe-form-label .required-indicator {
   margin-left: 0.25rem;
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }

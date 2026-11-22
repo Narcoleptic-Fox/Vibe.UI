@@ -84,7 +84,7 @@
   appearance: none;
   width: 1rem;
   height: 1rem;
-  background-color: var(--vibe-background);
+  background-color: var(--vibe-card);
   border: 2px solid var(--vibe-primary);
   border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
@@ -99,7 +99,7 @@
   appearance: none;
   width: 1rem;
   height: 1rem;
-  background-color: var(--vibe-background);
+  background-color: var(--vibe-card);
   border: 2px solid var(--vibe-primary);
   border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);

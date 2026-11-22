@@ -120,7 +120,7 @@
     padding: 0.25rem 0.75rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--vibe-primary);
+    color: var(--vibe-link);
     background: transparent;
     border: 1px solid var(--vibe-border);
     border-radius: calc(var(--vibe-radius, 0.5rem) - 0.125rem);
@@ -129,7 +129,7 @@
 }
 
 .sonner-action:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 .sonner-action:disabled,
@@ -164,7 +164,7 @@
 
 .sonner-close:hover {
     color: var(--vibe-foreground);
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 .sonner-disabled .sonner-toast,

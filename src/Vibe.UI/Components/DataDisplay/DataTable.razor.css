@@ -49,7 +49,7 @@
     color: var(--vibe-foreground);
     font: inherit;
     font-size: var(--vibe-font-size-sm);
-    background: var(--vibe-background);
+    background: var(--vibe-card);
     border: 1px solid var(--vibe-input);
     border-radius: var(--vibe-radius-sm);
     outline: none;
@@ -206,7 +206,7 @@
 }
 
 .datatable-table tbody tr:hover {
-    background: var(--vibe-muted);
+    background: var(--vibe-accent);
 }
 
 .datatable-table tbody tr:last-child td {

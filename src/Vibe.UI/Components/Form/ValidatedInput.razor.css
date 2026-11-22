@@ -19,7 +19,7 @@
 
 .required-indicator {
   margin-left: 0.125rem;
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .validated-input-wrapper {
@@ -39,7 +39,7 @@
   border: 1px solid var(--vibe-input);
   border-radius: var(--vibe-radius-sm);
   outline: none;
-  background-color: var(--vibe-background);
+  background-color: var(--vibe-card);
   color: var(--vibe-foreground);
   font: inherit;
   font-size: 0.875rem;
@@ -76,7 +76,7 @@
 
 .vibe-validated-input.invalid .validation-icon,
 .validated-input-field.is-invalid + .validation-icon {
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .vibe-validated-input.disabled {
@@ -103,7 +103,7 @@
 }
 
 .validated-input-error {
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .validated-input-field.is-valid {

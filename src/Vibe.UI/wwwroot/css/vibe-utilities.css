@@ -347,7 +347,7 @@
 }
 
 .vibe-text-destructive {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 .vibe-text-foreground {

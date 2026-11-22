@@ -203,8 +203,23 @@ every palette. Define one yourself to give that job its own color.
 | `--vibe-destructive-text`, `--vibe-success-text`, `--vibe-warning-text`, `--vibe-info-text` | A status color used as text or an icon | The status color |
 | `--vibe-destructive-soft`, `--vibe-success-soft`, `--vibe-warning-soft`, `--vibe-info-soft` | A quiet status background | The status color mixed 6% into the background |
 
-The components do not use these yet. They are in place so components can move to them
-without another round of token changes.
+The components use them: status text and icons read `-text`, link-style buttons and the
+`Link` component read `--vibe-link`, and bordered wells read `--vibe-sunken-border`.
+
+## Surface Tokens
+
+Each surface token is one level of the page. Components pick the level they sit on, so a
+theme can give the levels different colors.
+
+| Level | Token | Used for |
+| --- | --- | --- |
+| 0 | `--vibe-muted` | Sunken areas: tracks, wells, disabled and read-only fields |
+| 1 | `--vibe-background` | The page itself |
+| 2 | `--vibe-card` | Cards, panels, fields and buttons that sit on the page |
+| 3 | `--vibe-popover` | Anything that floats: menus, toasts, sheets, hover cards |
+
+`--vibe-accent` is the fill for hovered, pressed and highlighted items. A sunken surface
+that darkens on hover (a filled input, a scrollbar thumb) still starts from `--vibe-muted`.
 
 ## CSS Variables Reference
 

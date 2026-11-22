@@ -14,6 +14,6 @@
 }
 
 .vibe-dialog-close:hover {
-  background: var(--vibe-muted);
+  background: var(--vibe-accent);
 }
 

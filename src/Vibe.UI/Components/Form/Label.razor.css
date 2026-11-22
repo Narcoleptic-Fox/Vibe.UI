@@ -15,5 +15,5 @@
 }
 
 .vibe-label-required .required-indicator {
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
