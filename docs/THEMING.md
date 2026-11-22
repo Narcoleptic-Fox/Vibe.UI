@@ -14,13 +14,10 @@ Vibe.UI supports two approaches for theming: **CLI-based** (via `vibe init`) and
 # Initialize Vibe.UI with theme selection
 vibe init
 
-# Choose your base color when prompted:
-# - Slate (default)
-# - Gray
-# - Zinc
-# - Neutral
-# - Stone
-# - Blue
+# Choose your theme when prompted:
+# - Tide (default)
+# - Dune
+# - Ink
 ```
 
 This generates CSS variables directly in your `app.css`:
@@ -83,7 +80,7 @@ Configure the theme in DI registration:
 // Program.cs
 builder.Services.AddVibeUI(options =>
 {
-    options.BaseColor = "Slate"; // Or: Gray, Zinc, Neutral, Stone, Blue, Custom
+    options.BaseColor = "Tide"; // Or: Ink, Dune, Custom
     options.BorderRadius = "0.75rem"; // Optional: customize border radius
 });
 ```
@@ -101,10 +98,11 @@ Then add the `<ThemeProvider />` component to your layout:
 
 #### Custom Colors
 
-For complete control, use custom colors. A custom theme starts from the Slate palette and
-changes only the colors you set. Colors that follow another keep following it: cards and
-popovers follow `Background`, text on them follows `Foreground`, the hover fill (`Accent`)
-follows `Secondary`, and the focus ring follows `Primary`.
+For complete control, use custom colors. A custom theme starts from Tide and changes only
+the colors you set. Colors that follow another keep following it: text on a surface follows
+`Foreground`, the hover fill (`Accent`) follows `Secondary`, and the focus ring and links
+follow `Primary`. Surfaces do not follow each other: `Background`, `Card`, `Popover` and
+`Muted` are four levels of the page, so set each one you want to change.
 
 ```csharp
 builder.Services.AddVibeUI(options =>
@@ -172,16 +170,23 @@ private async Task ToggleDarkMode()
 
 ---
 
-## Available Base Colors
+## Built-in Themes
 
-All base colors follow shadcn/ui color palettes:
+Three themes ship with Vibe.UI. They are its own, not ports of another library's palettes,
+and they keep the shadcn/ui token names.
 
-- **Slate** - Cool gray with subtle blue undertones (default)
-- **Gray** - Pure neutral gray
-- **Zinc** - Modern gray with slight warmth
-- **Neutral** - Balanced neutral tones
-- **Stone** - Warm gray with brown undertones
-- **Blue** - Vibrant blue primary color
+| Theme | Character | Primary |
+| --- | --- | --- |
+| **Tide** (default) | Cool blue-grey surfaces | Deep teal |
+| **Ink** | True neutral grey | Near black in light mode, near white in dark |
+| **Dune** | Warm sand surfaces | Muted plum |
+
+Light and dark are built differently on purpose. In light mode the page is a mid grey, cards
+and popovers are white, sunken areas are a darker grey with a border, and popovers are lifted
+by shadow. In dark mode the four levels are four steps of lightness.
+
+The earlier palettes (Slate, Gray, Zinc, Neutral, Stone, Blue) were removed. A project
+configured with one of those names gets an error listing the names that are accepted.
 
 ---
 
@@ -193,15 +198,18 @@ files, and a test fails if a generated file is edited by hand.
 
 ## Role Tokens
 
-These tokens name a job a color does. Each defaults to an existing token, so they work with
-every palette. Define one yourself to give that job its own color.
+These tokens name a job a color does. Every built-in theme sets each of them.
 
-| Token | Job | Default |
-| --- | --- | --- |
-| `--vibe-sunken-border` | Edge of a sunken well | `--vibe-border` |
-| `--vibe-link` | Links and inline actions | `--vibe-primary` |
-| `--vibe-destructive-text`, `--vibe-success-text`, `--vibe-warning-text`, `--vibe-info-text` | A status color used as text or an icon | The status color |
-| `--vibe-destructive-soft`, `--vibe-success-soft`, `--vibe-warning-soft`, `--vibe-info-soft` | A quiet status background | The status color mixed 6% into the background |
+| Token | Job |
+| --- | --- |
+| `--vibe-sunken-border` | Edge of a sunken well |
+| `--vibe-link` | Links and inline actions |
+| `--vibe-destructive-text`, `--vibe-success-text`, `--vibe-warning-text`, `--vibe-info-text` | A status color used as text or an icon |
+| `--vibe-destructive-soft`, `--vibe-success-soft`, `--vibe-warning-soft`, `--vibe-info-soft` | A quiet status background the matching `-text` stays readable on |
+| `--vibe-input` | The edge of a field or control, held to 3:1 against every surface |
+
+If you write your own theme in CSS, set these as well as the surface and brand colors. They
+have no fallback: a theme that sets only `--vibe-primary` keeps Tide's link color.
 
 The components use them: status text and icons read `-text`, link-style buttons and the
 `Link` component read `--vibe-link`, and bordered wells read `--vibe-sunken-border`.
@@ -256,11 +264,11 @@ that darkens on hover (a filled input, a scrollbar thumb) still starts from `--v
 
 ## Examples
 
-### Example 1: Slate Theme (CLI)
+### Example 1: Tide Theme (CLI)
 
 ```bash
 vibe init
-# Select: Slate
+# Select: Tide
 ```
 
 ### Example 2: Custom Brand Colors (Library)
@@ -278,12 +286,12 @@ builder.Services.AddVibeUI(options =>
 });
 ```
 
-### Example 3: Zinc with Larger Border Radius
+### Example 3: Ink with Larger Border Radius
 
 ```csharp
 builder.Services.AddVibeUI(options =>
 {
-    options.BaseColor = "Zinc";
+    options.BaseColor = "Ink";
     options.BorderRadius = "1rem"; // 16px instead of default 8px
 });
 ```

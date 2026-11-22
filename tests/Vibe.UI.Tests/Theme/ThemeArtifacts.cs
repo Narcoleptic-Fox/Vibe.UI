@@ -13,9 +13,6 @@ internal static class ThemeArtifacts
 {
     internal const string UpdateVariable = "UPDATE_GENERATED_THEMES";
 
-    /// <summary>The definition that supplies the stylesheet's default colors.</summary>
-    internal const string DefaultTheme = "default";
-
     internal const string StylesheetPath = "src/Vibe.UI/wwwroot/css/vibe-base.css";
     internal const string PaletteDataPath = "src/Vibe.UI/Services/Theme/ThemePaletteData.g.cs";
 
@@ -24,6 +21,7 @@ internal static class ThemeArtifacts
 
     internal sealed record ThemeDefinition(
         string Name,
+        bool IsDefault,
         IReadOnlyList<KeyValuePair<string, string>> Light,
         IReadOnlyList<KeyValuePair<string, string>> Dark
     );
@@ -60,9 +58,27 @@ internal static class ThemeArtifacts
             );
     }
 
-    /// <summary>The selectable palettes: every definition except the stylesheet default.</summary>
-    internal static IReadOnlyList<ThemeDefinition> LoadPalettes() =>
-        LoadAll().Where(pair => pair.Key != DefaultTheme).Select(pair => pair.Value).ToArray();
+    /// <summary>The built-in themes, each selectable by name as the base color.</summary>
+    internal static IReadOnlyList<ThemeDefinition> LoadPalettes() => LoadAll().Values.ToArray();
+
+    /// <summary>
+    /// The one definition marked <c>"default": true</c>. It supplies the stylesheet's colors and
+    /// is the base color when none is chosen.
+    /// </summary>
+    internal static ThemeDefinition LoadDefault()
+    {
+        var marked = LoadPalettes().Where(theme => theme.IsDefault).ToArray();
+        if (marked.Length != 1)
+        {
+            throw new InvalidOperationException(
+                "Exactly one definition in themes/ must have \"default\": true. Found "
+                    + (marked.Length == 0 ? "none" : string.Join(", ", marked.Select(theme => theme.Name)))
+                    + "."
+            );
+        }
+
+        return marked[0];
+    }
 
     private static ThemeDefinition Load(string file)
     {
@@ -80,13 +96,17 @@ internal static class ThemeArtifacts
 
         return new ThemeDefinition(
             root.GetProperty("name").GetString()!,
+            root.TryGetProperty("default", out var isDefault) && isDefault.GetBoolean(),
             Tokens(root.GetProperty("light")),
             Tokens(root.GetProperty("dark"))
         );
     }
 
     /// <summary>The C# palette table, as it should be on disk.</summary>
-    internal static string RenderPaletteData(IReadOnlyList<ThemeDefinition> palettes)
+    internal static string RenderPaletteData(
+        IReadOnlyList<ThemeDefinition> palettes,
+        ThemeDefinition defaultTheme
+    )
     {
         var text = new StringBuilder();
         text.Append(
@@ -103,11 +123,14 @@ internal static class ThemeArtifacts
             namespace Vibe.UI.Services.Theme;
 
             /// <summary>
-            /// The built-in palettes, one list of token and value per mode. The theme service and
+            /// The built-in themes, one list of token and value per mode. The theme service and
             /// the CLI both read this table, so there is one copy of every color.
             /// </summary>
             internal static class ThemePaletteData
             {
+                /// <summary>The base color used when none is chosen. The stylesheet ships its colors.</summary>
+                internal const string Default = "{{defaultTheme.Name}}";
+
                 /// <summary>The names accepted as a base color.</summary>
                 internal static readonly string[] Names =
                 [
