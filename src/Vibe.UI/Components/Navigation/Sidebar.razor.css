@@ -18,6 +18,20 @@
   border-left: 1px solid var(--vibe-border);
 }
 
+/* Surface: which level of the page the sidebar is drawn on. sidebar-surface-card is the
+   default above. The other two set the fill themselves, so they are not changed by
+   --vibe-sidebar-background, which belongs to the default panel. */
+.sidebar-surface-page {
+  background: var(--vibe-background);
+  color: var(--vibe-foreground);
+}
+
+.sidebar-surface-sunken {
+  background: var(--vibe-muted);
+  color: var(--vibe-foreground);
+  border-color: var(--vibe-sunken-border);
+}
+
 .sidebar-disabled {
   opacity: 0.6;
 }

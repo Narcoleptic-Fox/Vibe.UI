@@ -65,6 +65,27 @@
             </p>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Surface</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
+                A sidebar is a panel on the card level by default, like an app bar. Use
+                <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">Page</code> for a quiet rail of links with no
+                panel of its own, or
+                <code class="vibe-text-sm vibe-bg-secondary vibe-px-1 vibe-py-0.5 vibe-rounded">Sunken</code> for a recessed tool panel.
+            </p>
+            <div class="vibe-grid vibe-grid-cols-1 md:vibe-grid-cols-3 vibe-gap-4 vibe-mb-4" data-testid="sidebar-surfaces">
+                @foreach (var surface in Enum.GetValues<Sidebar.SidebarSurface>())
+                {
+                    <div class="vibe-h-40 vibe-flex vibe-overflow-hidden vibe-rounded-lg vibe-border vibe-border-border">
+                        <Sidebar Surface="@surface" Title="@surface.ToString()" Collapsible="false" Width="160" MinWidth="120"
+                                 PersistState="false" AriaLabel="@($"{surface} surface example")">
+                            <p class="vibe-px-3 vibe-text-sm vibe-text-muted-foreground">Navigation</p>
+                        </Sidebar>
+                    </div>
+                }
+            </div>
+            <CodeBlock Code="@SurfaceCode" Language="razor" />
+        </div>
     </section>
 
     <section class="vibe-mb-12">
@@ -117,6 +138,12 @@
     private bool sidebarOpen = true;
     private int sidebarWidth = 220;
 
+    private const string SurfaceCode = """
+        <Sidebar Surface="Sidebar.SidebarSurface.Page" Title="Docs">
+            ...
+        </Sidebar>
+        """;
+
     private static readonly (string Name, string Type, string Default, string Description)[] Properties =
     [
         ("IsOpen", "bool", "true", "Expanded or collapsed state; supports @bind-IsOpen"),
@@ -125,6 +152,7 @@
         ("MinWidth", "int", "200", "Minimum resizable width"),
         ("MaxWidth", "int", "600", "Maximum resizable width"),
         ("Position", "SidebarPosition", "Left", "Left or Right edge behavior"),
+        ("Surface", "SidebarSurface", "Card", "Level of the page it is drawn on: Card, Page or Sunken"),
         ("Collapsible", "bool", "true", "Render the collapse control"),
         ("Resizable", "bool", "false", "Render pointer and keyboard resize controls"),
         ("Disabled", "bool", "false", "Block collapse and resize interactions"),
