@@ -1,6 +1,6 @@
 # Theme definitions
 
-*Last updated 2026-11-21.*
+*Last updated 2026-11-22.*
 
 Every color Vibe.UI ships is defined once, in this folder. Nothing else in the repository
 holds a palette by hand.
@@ -75,11 +75,19 @@ enough to keep the page near white (under about 1.08:1 between neighbours) canno
 So light uses two fills and tells the levels apart with borders and shadow. On a dark theme
 lightness steps read clearly and shadows barely show, so dark uses four fills.
 
-Order of work:
+Order of work, revised 2026-11-22. The components had to move first: measured against the
+new light themes, today's status colors used as text came out at 3.1 to 3.6:1 on the grey
+page and 2.7 to 3.2:1 on the sunken surface, under the 4.5:1 the contrast test holds.
 
 1. One source for every color, generated and gated (done: this folder).
-2. Add the new themes as definitions. They need the role tokens (`--vibe-sunken-border`,
-   `--vibe-link`, status `-text` and `-soft`) to carry their own values.
-3. Move the components onto the roles, then switch the defaults. Until then the new themes
-   would look wrong: about 29 component rules use `--vibe-muted` as a hover fill and 64 use
-   `--vibe-background` as a fill, which a grey page and a darker sunken surface would change.
+2. Move the components onto the roles and the surface levels (done). Under the six palettes
+   here nothing changes on screen, because each has card, popover and background equal, and
+   hover fill equal to muted.
+3. Add the new themes as definitions, remove the six, and switch the defaults.
+
+Still to do in step 3, because each changes what today's palettes look like:
+
+- Field edges use `--vibe-border`. They should use `--vibe-input`, which is the token held
+  to 3:1.
+- Table headers and the sidebar use the sunken surface. In the layer model they are level 2.
+- The gap inside a focus ring is drawn in the page color, whatever the control sits on.

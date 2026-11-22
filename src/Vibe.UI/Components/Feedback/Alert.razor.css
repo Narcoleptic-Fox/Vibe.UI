@@ -14,7 +14,7 @@
     padding: var(--vibe-spacing-3) var(--vibe-spacing-4);
     border-radius: var(--vibe-radius-md);
     border: 1px solid var(--vibe-border);
-    background: var(--vibe-background);
+    background: var(--vibe-card);
     color: var(--vibe-foreground);
     font-family: var(--vibe-font);
 }
@@ -41,17 +41,17 @@
 
 .vibe-alert-success {
     border-color: color-mix(in srgb, var(--vibe-success) 45%, var(--vibe-border));
-    background-color: color-mix(in srgb, var(--vibe-success) 4%, var(--vibe-background));
+    background-color: color-mix(in srgb, var(--vibe-success) 4%, var(--vibe-card));
 }
 
 .vibe-alert-info {
     border-color: color-mix(in srgb, var(--vibe-info) 45%, var(--vibe-border));
-    background-color: color-mix(in srgb, var(--vibe-info) 4%, var(--vibe-background));
+    background-color: color-mix(in srgb, var(--vibe-info) 4%, var(--vibe-card));
 }
 
 .vibe-alert-warning {
     border-color: color-mix(in srgb, var(--vibe-warning) 45%, var(--vibe-border));
-    background-color: color-mix(in srgb, var(--vibe-warning) 4%, var(--vibe-background));
+    background-color: color-mix(in srgb, var(--vibe-warning) 4%, var(--vibe-card));
 }
 
 .vibe-alert-destructive .vibe-alert-description {
@@ -59,15 +59,15 @@
 }
 
 .vibe-alert-success .vibe-alert-icon {
-    color: var(--vibe-success);
+    color: var(--vibe-success-text);
 }
 
 .vibe-alert-info .vibe-alert-icon {
-    color: var(--vibe-info);
+    color: var(--vibe-info-text);
 }
 
 .vibe-alert-warning .vibe-alert-icon {
-    color: var(--vibe-warning);
+    color: var(--vibe-warning-text);
 }
 
 /* Alert Sub-elements
@@ -131,7 +131,7 @@
 }
 
 .vibe-alert-close:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-foreground);
 }
 

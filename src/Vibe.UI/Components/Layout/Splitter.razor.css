@@ -56,7 +56,7 @@
   place-items: center;
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius-sm);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-muted-foreground);
   box-shadow: var(--vibe-shadow-sm);
 }

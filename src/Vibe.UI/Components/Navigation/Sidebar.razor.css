@@ -68,7 +68,7 @@
   height: 2rem;
   border: 1px solid var(--vibe-border);
   border-radius: calc(var(--vibe-radius, 0.5rem) - 2px);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-foreground);
   cursor: pointer;
 }

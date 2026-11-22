@@ -184,7 +184,7 @@
     padding: 0 0.625rem;
     border: 1px solid var(--vibe-border);
     border-radius: calc(var(--vibe-radius, 0.5rem) - 0.1875rem);
-    background: var(--vibe-background);
+    background: var(--vibe-card);
     color: var(--vibe-foreground);
     font: inherit;
     font-size: 0.875rem;
@@ -210,7 +210,7 @@
 
 .control-btn.active {
     border-color: var(--vibe-primary);
-    background: color-mix(in srgb, var(--vibe-primary) 12%, var(--vibe-background));
+    background: color-mix(in srgb, var(--vibe-primary) 12%, var(--vibe-card));
     color: var(--vibe-primary);
 }
 

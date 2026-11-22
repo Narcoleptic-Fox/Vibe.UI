@@ -7,6 +7,6 @@
     flex-direction: column;
     width: 100%;
     border-radius: var(--vibe-radius);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     font-family: var(--vibe-font);
 }

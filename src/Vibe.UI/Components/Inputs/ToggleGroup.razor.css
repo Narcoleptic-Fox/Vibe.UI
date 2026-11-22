@@ -8,7 +8,7 @@
     max-width: 100%;
     gap: 0.125rem;
     padding: 0.1875rem;
-    border: 1px solid var(--vibe-border);
+    border: 1px solid var(--vibe-sunken-border);
     border-radius: var(--vibe-radius-md, var(--vibe-radius));
     background-color: var(--vibe-muted);
     color: var(--vibe-foreground);

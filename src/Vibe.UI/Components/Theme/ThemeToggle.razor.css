@@ -15,7 +15,7 @@
 }
 
 .vibe-theme-toggle:hover {
-  background-color: var(--vibe-muted);
+  background-color: var(--vibe-accent);
 }
 
 .vibe-theme-toggle:disabled,

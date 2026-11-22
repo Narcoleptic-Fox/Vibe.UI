@@ -14,7 +14,7 @@
 }
 
 .form-message-error {
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .form-message-warning {

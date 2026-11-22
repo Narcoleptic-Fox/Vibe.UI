@@ -218,7 +218,7 @@
 ::deep .vibe-input-error {
     margin-top: 0.25rem;
     font-size: 0.875rem;
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 ::deep .vibe-input-helper {

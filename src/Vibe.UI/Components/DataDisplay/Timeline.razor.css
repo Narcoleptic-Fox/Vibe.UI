@@ -115,10 +115,10 @@
     text-transform: uppercase;
 }
 
-.timeline-status.status-success { color: var(--vibe-success); }
-.timeline-status.status-error { color: var(--vibe-destructive); }
-.timeline-status.status-warning { color: var(--vibe-warning); }
-.timeline-status.status-info { color: var(--vibe-info); }
+.timeline-status.status-success { color: var(--vibe-success-text); }
+.timeline-status.status-error { color: var(--vibe-destructive-text); }
+.timeline-status.status-warning { color: var(--vibe-warning-text); }
+.timeline-status.status-info { color: var(--vibe-info-text); }
 
 /* ----------------------------------------
    STATUS VARIANTS (DOT COLORS)
@@ -133,28 +133,28 @@
 /* Success Status */
 .timeline-marker.marker-success {
     border-color: var(--vibe-success);
-    color: var(--vibe-success);
+    color: var(--vibe-success-text);
     background-color: var(--vibe-background);
 }
 
 /* Error Status */
 .timeline-marker.marker-error {
     border-color: var(--vibe-destructive);
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
     background-color: var(--vibe-background);
 }
 
 /* Warning Status */
 .timeline-marker.marker-warning {
     border-color: var(--vibe-warning);
-    color: var(--vibe-warning);
+    color: var(--vibe-warning-text);
     background-color: var(--vibe-background);
 }
 
 /* Info Status */
 .timeline-marker.marker-info {
     border-color: var(--vibe-info);
-    color: var(--vibe-info);
+    color: var(--vibe-info-text);
     background-color: var(--vibe-background);
 }
 

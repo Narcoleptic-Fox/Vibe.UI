@@ -24,7 +24,7 @@
     padding: 0.5rem 1rem;
     border: 1px solid var(--vibe-border);
     border-radius: var(--vibe-radius);
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     color: var(--vibe-foreground);
     font: inherit;
     font-size: 0.875rem;
@@ -174,7 +174,7 @@
 }
 
 ::deep .dropdown-item:active {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 ::deep .dropdown-item[disabled] {
@@ -184,13 +184,13 @@
 }
 
 ::deep .dropdown-item.destructive {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 ::deep .dropdown-item.destructive:hover,
 ::deep .dropdown-item.destructive:focus-visible {
     background-color: color-mix(in srgb, var(--vibe-destructive) 10%, transparent);
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 .dark ::deep .dropdown-item.destructive {

@@ -282,7 +282,7 @@
 
 /* Error Label */
 .vibe-stepper-item-error .vibe-stepper-label {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 /* ----------------------------------------

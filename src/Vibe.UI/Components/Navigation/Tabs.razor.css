@@ -90,7 +90,7 @@
 
 /* Active State */
 .vibe-tabs-trigger-active {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     color: var(--vibe-foreground);
     box-shadow: var(--vibe-shadow-sm, 0 1px 2px rgb(0 0 0 / 0.08));
 }

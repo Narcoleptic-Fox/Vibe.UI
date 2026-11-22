@@ -52,7 +52,7 @@
 
 /* Native select options styling */
 .vibe-select-input option {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
     color: var(--vibe-foreground);
     padding: 0.5rem;
 }
@@ -138,23 +138,23 @@
 .vibe-select-wrapper.vibe-select-error .vibe-select-label,
 .vibe-select-error .vibe-select-label,
 .vibe-select-wrapper:has(.vibe-select-input[aria-invalid="true"]) .vibe-select-label {
-    color: var(--vibe-destructive);
+    color: var(--vibe-destructive-text);
 }
 
 /* ==================== Dark Mode Support ==================== */
 .dark .vibe-select-input {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     color: var(--vibe-foreground);
     border-color: var(--vibe-border);
 }
 
 .dark .vibe-select-input option {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-popover);
     color: var(--vibe-foreground);
 }
 
 .dark .vibe-select-label {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
 }
 
 .dark .vibe-select-wrapper {

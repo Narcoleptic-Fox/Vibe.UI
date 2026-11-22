@@ -19,7 +19,7 @@
 
 .vibe-navigation-menu-item .navigation-menu-item-trigger:hover:not(:disabled),
 .vibe-navigation-menu-item.navigation-menu-item-open .navigation-menu-item-trigger {
-  background: var(--vibe-muted);
+  background: var(--vibe-accent);
 }
 
 .vibe-navigation-menu-item .navigation-menu-item-trigger:focus-visible {

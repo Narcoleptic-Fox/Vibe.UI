@@ -144,7 +144,7 @@
 }
 
 .command-item:active {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 /* ----------------------------------------

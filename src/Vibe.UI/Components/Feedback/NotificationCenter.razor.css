@@ -25,7 +25,7 @@
   height: 2.5rem;
   border: 1px solid var(--vibe-border);
   border-radius: var(--vibe-radius);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-foreground);
   cursor: pointer;
   transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
@@ -138,7 +138,7 @@
 .clear-all-btn {
   border: 0;
   background: transparent;
-  color: var(--vibe-primary);
+  color: var(--vibe-link);
   font: inherit;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -164,7 +164,7 @@
   padding: 0.25rem 0.625rem;
   border: 1px solid var(--vibe-border);
   border-radius: calc(var(--vibe-radius) - 2px);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   color: var(--vibe-muted-foreground);
   font: inherit;
   font-size: 0.8125rem;
@@ -242,7 +242,7 @@
 
 .notification-item.type-error .notification-icon {
   background: color-mix(in srgb, var(--vibe-destructive) 14%, transparent);
-  color: var(--vibe-destructive);
+  color: var(--vibe-destructive-text);
 }
 
 .dark .notification-item.type-error .notification-icon {

@@ -30,8 +30,13 @@ public partial class TokenContrastTests
         ("primary-foreground", "primary", Text),
         ("secondary-foreground", "secondary", Text),
         ("accent-foreground", "accent", Text),
+        // A hovered row keeps its own text colors on the hover fill.
+        ("foreground", "accent", Text),
+        ("muted-foreground", "accent", Text),
+        ("foreground", "muted", Text),
         ("muted-foreground", "background", Text),
         ("muted-foreground", "card", Text),
+        ("muted-foreground", "popover", Text),
         ("muted-foreground", "muted", Text),
         ("sidebar-foreground", "sidebar-background", Text),
         // Status colors are used as a fill under their -foreground...
@@ -39,15 +44,37 @@ public partial class TokenContrastTests
         ("success-foreground", "success", Text),
         ("warning-foreground", "warning", Text),
         ("info-foreground", "info", Text),
-        // ...and as text or icons on the page and on muted surfaces.
-        ("destructive", "background", Text),
-        ("destructive", "muted", Text),
-        ("success", "background", Text),
-        ("success", "muted", Text),
-        ("warning", "background", Text),
-        ("warning", "muted", Text),
-        ("info", "background", Text),
-        ("info", "muted", Text),
+        // ...and as a mark with no text on it (a progress bar, a status dot), on the page or a card.
+        ("destructive", "background", NonText),
+        ("destructive", "card", NonText),
+        ("success", "background", NonText),
+        ("success", "card", NonText),
+        ("warning", "background", NonText),
+        ("warning", "card", NonText),
+        ("info", "background", NonText),
+        ("info", "card", NonText),
+        // Status text and icons use the -text role, on every surface text can sit on.
+        ("destructive-text", "background", Text),
+        ("destructive-text", "card", Text),
+        ("destructive-text", "muted", Text),
+        ("destructive-text", "popover", Text),
+        ("success-text", "background", Text),
+        ("success-text", "card", Text),
+        ("success-text", "muted", Text),
+        ("success-text", "popover", Text),
+        ("warning-text", "background", Text),
+        ("warning-text", "card", Text),
+        ("warning-text", "muted", Text),
+        ("warning-text", "popover", Text),
+        ("info-text", "background", Text),
+        ("info-text", "card", Text),
+        ("info-text", "muted", Text),
+        ("info-text", "popover", Text),
+        // Links and inline actions. Not yet held on muted: the Blue palette's dark primary is
+        // 3.97:1 there, and that palette is being replaced, not repaired.
+        ("link", "background", Text),
+        ("link", "card", Text),
+        ("link", "popover", Text),
         // Control boundaries and the focus indicator.
         ("input", "background", NonText),
         ("input", "card", NonText),
@@ -180,6 +207,19 @@ public partial class TokenContrastTests
             }
         }
 
+        // A role the theme does not set falls back to the token the stylesheet points it at
+        // (--vibe-link: var(--vibe-primary)), so it is measured with that token's value.
+        var defaults = RoleDefault()
+            .Matches(File.ReadAllText(BaseCssPath()))
+            .ToDictionary(role => role.Groups["name"].Value, role => role.Groups["target"].Value);
+        foreach (var (role, target) in defaults)
+        {
+            if (!tokens.ContainsKey(role) && tokens.TryGetValue(target, out var value))
+            {
+                tokens[role] = value;
+            }
+        }
+
         return tokens;
     }
 
@@ -284,6 +324,9 @@ public partial class TokenContrastTests
 
     [GeneratedRegex(@"--vibe-(?<name>[a-z0-9-]+):\s*(?<value>hsl\([^)]*\))")]
     private static partial Regex ColorToken();
+
+    [GeneratedRegex(@"--vibe-(?<name>[a-z0-9-]+):\s*var\(--vibe-(?<target>[a-z0-9-]+)\);")]
+    private static partial Regex RoleDefault();
 
     [GeneratedRegex(@"hsl\(\s*(?<h>[\d.]+)\s+(?<s>[\d.]+)%\s+(?<l>[\d.]+)%\s*\)")]
     private static partial Regex Hsl();

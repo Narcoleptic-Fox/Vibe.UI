@@ -16,7 +16,7 @@
   gap: 0.25rem;
   border: 1px solid var(--vibe-input);
   border-radius: var(--vibe-radius-sm);
-  background: var(--vibe-background);
+  background: var(--vibe-card);
   padding: 0.125rem 0.25rem 0.125rem 0.625rem;
   transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
 }
@@ -224,7 +224,7 @@
 }
 
 .mentions-readonly .mentions-input-container {
-  background: color-mix(in srgb, var(--vibe-muted) 60%, var(--vibe-background));
+  background: color-mix(in srgb, var(--vibe-muted) 60%, var(--vibe-card));
 }
 
 .mentions-readonly .mentions-input,

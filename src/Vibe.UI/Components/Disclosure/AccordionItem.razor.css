@@ -45,11 +45,11 @@
 }
 
 .vibe-accordion-item-trigger:hover {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
 }
 
 .vibe-accordion-item-trigger:focus-visible {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     outline: 2px solid var(--vibe-ring);
     outline-offset: 2px;
     box-shadow: 0 0 0 2px var(--vibe-background), 0 0 0 4px var(--vibe-ring);
@@ -103,7 +103,7 @@
    ======================================== */
 
 .vibe-accordion-item-content {
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     overflow: hidden;
     transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
 }

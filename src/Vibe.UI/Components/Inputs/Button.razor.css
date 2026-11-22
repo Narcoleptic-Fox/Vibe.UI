@@ -121,7 +121,7 @@
 }
 
 .vibe-button-outline:active:not(:disabled) {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-muted-foreground);
 }
 
@@ -137,14 +137,14 @@
 }
 
 .vibe-button-ghost:active:not(:disabled) {
-    background-color: var(--vibe-muted);
+    background-color: var(--vibe-accent);
     color: var(--vibe-muted-foreground);
 }
 
 /* Link Button */
 .vibe-button-link {
     background-color: transparent;
-    color: var(--vibe-primary);
+    color: var(--vibe-link);
     height: auto;
     padding: 0;
     text-decoration: underline;
@@ -152,7 +152,7 @@
 }
 
 .vibe-button-link:hover:not(:disabled) {
-    color: color-mix(in srgb, var(--vibe-primary) 80%, black);
+    color: color-mix(in srgb, var(--vibe-link) 80%, black);
 }
 
 /* ----------------------------------------

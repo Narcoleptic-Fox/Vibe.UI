@@ -38,7 +38,7 @@
     height: 1rem;
     border: 1px solid var(--vibe-border);
     border-radius: 0.25rem;
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     color: var(--vibe-primary-foreground);
     transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     flex-shrink: 0;
