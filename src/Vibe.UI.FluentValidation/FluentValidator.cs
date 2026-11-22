@@ -108,7 +108,7 @@ public sealed class FluentValidator : ComponentBase, IDisposable
             return;
         _subscribedTo.OnValidationRequested -= ValidateModel;
         _subscribedTo.OnFieldChanged -= ValidateField;
-        _messages?.Clear();
+        _messages!.Clear();
         _subscribedTo = null;
     }
 

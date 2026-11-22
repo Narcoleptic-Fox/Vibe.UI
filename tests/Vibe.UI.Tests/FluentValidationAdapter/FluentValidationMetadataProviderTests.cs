@@ -91,6 +91,12 @@ public class FluentValidationMetadataProviderTests
     }
 
     [Fact]
+    public void NotNull_on_a_reference_type_is_required()
+    {
+        Build().GetMetadata<Order, string?>(x => x.Reference).Required.ShouldBe(true);
+    }
+
+    [Fact]
     public void NotEmpty_on_an_inherited_value_type_property_is_required()
     {
         Build().GetMetadata<Order, Guid>(x => x.Id).Required.ShouldBe(true);

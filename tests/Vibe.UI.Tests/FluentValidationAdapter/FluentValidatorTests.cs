@@ -7,19 +7,24 @@ namespace Vibe.UI.Tests.FluentValidationAdapter;
 
 public class FluentValidatorTests : TestBase
 {
-    private IRenderedComponent<CascadingValue<EditContext>> RenderIn(
+    // bUnit replaces the whole parameter set on a re-render, so the same set is used both times.
+    private static Action<ComponentParameterCollectionBuilder<CascadingValue<EditContext>>> Form(
         EditContext edit,
-        IValidator? validator = null
+        IValidator? validator
     ) =>
-        Render<CascadingValue<EditContext>>(parameters =>
+        parameters =>
             parameters
                 .Add(cascade => cascade.Value, edit)
                 .AddChildContent<FluentValidator>(child =>
                 {
                     if (validator is not null)
                         child.Add(v => v.Validator, validator);
-                })
-        );
+                });
+
+    private IRenderedComponent<CascadingValue<EditContext>> RenderIn(
+        EditContext edit,
+        IValidator? validator = null
+    ) => Render(Form(edit, validator));
 
     private static Order ValidOrder() =>
         new()
@@ -111,6 +116,52 @@ public class FluentValidatorTests : TestBase
             .ShouldBe(["City is required."]);
         // GetValidationMessages() is what ValidationSummary renders.
         edit.GetValidationMessages().ShouldContain("City is required.");
+    }
+
+    [Fact]
+    public void A_rule_on_the_whole_model_is_reported_at_form_level()
+    {
+        Order order = ValidOrder() with { Quantity = 0 };
+        var edit = new EditContext(order);
+        RenderIn(edit, new WholeOrderValidator());
+
+        edit.Validate().ShouldBeFalse();
+
+        edit.GetValidationMessages(new FieldIdentifier(order, string.Empty))
+            .ShouldBe(["An order needs at least one item."]);
+    }
+
+    [Fact]
+    public void Re_rendering_with_the_same_form_does_not_subscribe_twice()
+    {
+        var validator = new WholeOrderValidator();
+        var edit = new EditContext(ValidOrder() with { Quantity = 0 });
+        IRenderedComponent<CascadingValue<EditContext>> rendered = RenderIn(edit, validator);
+
+        rendered.Render(Form(edit, validator));
+        rendered.Render(Form(edit, validator));
+        edit.Validate();
+
+        // Two subscriptions would run the validator twice for one validation request.
+        validator.Runs.ShouldBe(1);
+        edit.GetValidationMessages().Count().ShouldBe(1);
+    }
+
+    [Fact]
+    public void Replacing_the_form_moves_validation_to_the_new_one_and_clears_the_old()
+    {
+        var validator = new WholeOrderValidator();
+        var first = new EditContext(ValidOrder() with { Quantity = 0 });
+        var second = new EditContext(ValidOrder() with { Quantity = 0 });
+        IRenderedComponent<CascadingValue<EditContext>> rendered = RenderIn(first, validator);
+        first.Validate().ShouldBeFalse();
+
+        rendered.Render(Form(second, validator));
+
+        first.GetValidationMessages().ShouldBeEmpty();
+        first.Validate().ShouldBeTrue();
+        second.Validate().ShouldBeFalse();
+        second.GetValidationMessages().ShouldBe(["An order needs at least one item."]);
     }
 
     [Fact]

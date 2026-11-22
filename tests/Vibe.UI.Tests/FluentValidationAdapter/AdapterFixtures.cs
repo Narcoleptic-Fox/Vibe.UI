@@ -33,6 +33,7 @@ public sealed record Order : OrderBase
     public string InBlock { get; init; } = "";
     public string UnlessActive { get; init; } = "";
     public int Percent { get; init; }
+    public string? Reference { get; init; }
 
     [StringLength(500)]
     [Display(Name = "From the attribute")]
@@ -66,6 +67,7 @@ public sealed class OrderValidator : AbstractValidator<Order>
         When(x => x.IsActive, () => RuleFor(x => x.InBlock).NotEmpty());
         RuleFor(x => x.UnlessActive).NotEmpty().Unless(x => x.IsActive);
         RuleFor(x => x.Percent).ExclusiveBetween(0, 100);
+        RuleFor(x => x.Reference).NotNull();
     }
 }
 
@@ -94,6 +96,21 @@ public sealed class NestedOrderValidator : AbstractValidator<Order>
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
         RuleFor(x => x.Address.City).NotEmpty().WithMessage("City is required.");
     }
+}
+
+/// <summary>A rule on the model as a whole, which FluentValidation reports with an empty property name.</summary>
+public sealed class WholeOrderValidator : AbstractValidator<Order>
+{
+    public int Runs;
+
+    public WholeOrderValidator() =>
+        RuleFor(x => x)
+            .Must(order =>
+            {
+                Runs++;
+                return order.Quantity > 0;
+            })
+            .WithMessage("An order needs at least one item.");
 }
 
 public sealed class AsyncOrderValidator : AbstractValidator<Order>
