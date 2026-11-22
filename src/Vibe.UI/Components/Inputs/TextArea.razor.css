@@ -12,7 +12,7 @@
     min-height: 80px;
     padding: 0.625rem 0.75rem;
     border-radius: var(--vibe-radius-sm);
-    border: 1px solid var(--vibe-border);
+    border: 1px solid var(--vibe-input);
     background-color: var(--vibe-card);
     color: var(--vibe-foreground);
     font-family: var(--vibe-font);
@@ -28,7 +28,7 @@
    ---------------------------------------- */
 
 .vibe-textarea:hover:not(:disabled):not(:read-only) {
-    border-color: color-mix(in srgb, var(--vibe-border) 80%, var(--vibe-foreground));
+    border-color: color-mix(in srgb, var(--vibe-input) 80%, var(--vibe-foreground));
 }
 
 /* ----------------------------------------

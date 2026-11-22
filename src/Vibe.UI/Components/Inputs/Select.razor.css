@@ -14,13 +14,14 @@
     display: flex;
     align-items: center;
     width: 100%;
-    border: 1px solid var(--vibe-border);
+    border: 1px solid var(--vibe-input);
     border-radius: var(--vibe-radius-sm);
+    background-color: var(--vibe-card);
     transition: border-color 0.2s ease;
 }
 
 .vibe-select:not(.vibe-select-disabled) .vibe-select-wrapper:hover {
-    border-color: color-mix(in srgb, var(--vibe-border) 70%, var(--vibe-foreground));
+    border-color: color-mix(in srgb, var(--vibe-input) 70%, var(--vibe-foreground));
 }
 
 /* ==================== Select Input ==================== */
@@ -65,7 +66,7 @@
     color: var(--vibe-muted-foreground);
     font-size: 1rem;
     pointer-events: none;
-    background-color: var(--vibe-background);
+    background-color: var(--vibe-card);
     padding: 0 0.25rem;
     transition: all 0.2s ease;
     transform-origin: left top;
@@ -145,7 +146,7 @@
 .dark .vibe-select-input {
     background-color: var(--vibe-card);
     color: var(--vibe-foreground);
-    border-color: var(--vibe-border);
+    border-color: var(--vibe-input);
 }
 
 .dark .vibe-select-input option {
@@ -158,7 +159,7 @@
 }
 
 .dark .vibe-select-wrapper {
-    border-color: var(--vibe-border);
+    border-color: var(--vibe-input);
 }
 
 .dark .vibe-select-wrapper:focus-within {

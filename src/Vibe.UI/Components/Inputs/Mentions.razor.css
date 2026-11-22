@@ -22,7 +22,7 @@
 }
 
 .mentions-input-container:hover {
-  border-color: color-mix(in srgb, var(--vibe-border) 65%, var(--vibe-foreground));
+  border-color: color-mix(in srgb, var(--vibe-input) 65%, var(--vibe-foreground));
 }
 
 .mentions-input-container:focus-within {
@@ -208,14 +208,14 @@
 }
 
 .mentions-disabled .mentions-input-container {
-  border-color: var(--vibe-border);
+  border-color: var(--vibe-input);
   background: var(--vibe-muted);
   opacity: 0.55;
   cursor: not-allowed;
 }
 
 .mentions-disabled .mentions-input-container:hover {
-  border-color: var(--vibe-border);
+  border-color: var(--vibe-input);
 }
 
 .mentions-disabled .mentions-input,

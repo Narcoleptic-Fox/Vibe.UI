@@ -115,7 +115,7 @@
 }
 
 .datatable-table thead {
-    background: var(--vibe-muted);
+    background: var(--vibe-card);
 }
 
 .datatable-table th,
