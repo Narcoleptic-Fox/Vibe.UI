@@ -128,8 +128,9 @@
 
     private string HelperId => $"{ElementId}-helper";
 
-    private static readonly Type? EnumType =
-        (Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue)) is { IsEnum: true } type ? type : null;
+    private static readonly Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+    private static readonly Type? EnumType = ValueType.IsEnum ? ValueType : null;
 
     private bool IsClearable => Clearable ?? Nullable.GetUnderlyingType(typeof(TValue)) is not null;
 

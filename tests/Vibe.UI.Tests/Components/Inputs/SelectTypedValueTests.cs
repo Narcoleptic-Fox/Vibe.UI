@@ -266,6 +266,21 @@ public class SelectTypedValueTests : TestBase
     }
 
     [Fact]
+    public void A_change_event_with_no_value_is_read_as_the_empty_option()
+    {
+        int? cleared = 10;
+        string? text = "us";
+        var nullable = RenderSelect<int?>(cleared, v => cleared = v, "<option value='10'>10</option>");
+        var plain = RenderSelect<string>(text, v => text = v, "<option value='us'>US</option>");
+
+        nullable.Find("select").TriggerEvent("onchange", new ChangeEventArgs { Value = null });
+        plain.Find("select").TriggerEvent("onchange", new ChangeEventArgs { Value = null });
+
+        cleared.ShouldBeNull();
+        text.ShouldBe(string.Empty);
+    }
+
+    [Fact]
     public void A_disabled_select_does_not_change_the_model()
     {
         int model = 10;
