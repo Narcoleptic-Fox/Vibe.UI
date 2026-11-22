@@ -153,6 +153,7 @@ jobs:
         for project in \
           src/Vibe.UI.CSS/Vibe.UI.CSS.csproj \
           src/Vibe.UI/Vibe.UI.csproj \
+          src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj \
           src/Vibe.UI.CLI/Vibe.UI.CLI.csproj
         do
           PROJECT_VERSION="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' "$project" | head -n 1)"
@@ -190,6 +191,9 @@ jobs:
     - name: Restore Vibe.UI
       run: dotnet restore src/Vibe.UI/Vibe.UI.csproj
 
+    - name: Restore Vibe.UI.FluentValidation
+      run: dotnet restore src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj
+
     - name: Restore Vibe.UI.CLI
       run: dotnet restore src/Vibe.UI.CLI/Vibe.UI.CLI.csproj
 
@@ -207,6 +211,9 @@ jobs:
 
     - name: Build Vibe.UI
       run: dotnet build src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+
+    - name: Build Vibe.UI.FluentValidation
+      run: dotnet build src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
 
     - name: Build Vibe.UI.CLI
       run: dotnet build src/Vibe.UI.CLI/Vibe.UI.CLI.csproj --configuration Release --no-restore -p:TreatWarningsAsErrors=true
@@ -265,6 +272,12 @@ jobs:
         PACKAGE_VERSION: ${{ steps.release.outputs.version }}
       run: |
         dotnet pack src/Vibe.UI/Vibe.UI.csproj --configuration Release --no-build --output ./packages /p:Version="$PACKAGE_VERSION" /p:PackageVersion="$PACKAGE_VERSION"
+
+    - name: Pack Vibe.UI.FluentValidation
+      env:
+        PACKAGE_VERSION: ${{ steps.release.outputs.version }}
+      run: |
+        dotnet pack src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj --configuration Release --no-build --output ./packages /p:Version="$PACKAGE_VERSION" /p:PackageVersion="$PACKAGE_VERSION"
 
     - name: Pack Vibe.UI.CLI
       env:
@@ -379,6 +392,7 @@ jobs:
         for package in \
           "./packages/Vibe.UI.CSS.${PACKAGE_VERSION}.nupkg" \
           "./packages/Vibe.UI.${PACKAGE_VERSION}.nupkg" \
+          "./packages/Vibe.UI.FluentValidation.${PACKAGE_VERSION}.nupkg" \
           "./packages/Vibe.UI.CLI.${PACKAGE_VERSION}.nupkg"
         do
           if [[ ! -f "$package" ]]; then

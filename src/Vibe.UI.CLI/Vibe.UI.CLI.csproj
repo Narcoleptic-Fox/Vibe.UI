@@ -117,6 +117,12 @@
 	            <None Include="../Vibe.UI/Base/**/*.cs"
 	                  Pack="true"
 	                  PackagePath="Templates/Infrastructure/Base/%(RecursiveDir)" />
+	            <!-- Types that components share but that are not components themselves
+	                 (FormFieldContext, DialogContext). vibe init always copies them.
+	                 Pack appends the recursive directory itself, so it is not repeated here. -->
+	            <None Include="../Vibe.UI/Components/**/*.cs"
+	                  Pack="true"
+	                  PackagePath="Templates/Infrastructure/Components/" />
 	            <None Include="../Vibe.UI/Configuration/**/*.cs"
 	                  Pack="true"
 	                  PackagePath="Templates/Infrastructure/Configuration/%(RecursiveDir)" />

@@ -251,6 +251,15 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             Path.Combine(targetVibeDir, "Base")
         );
 
+        // Copy Components/ support types (always required). These are the non-component
+        // types that components share, such as FormFieldContext and DialogContext. No single
+        // component owns them, so they travel with the infrastructure rather than with
+        // `vibe add`.
+        await CopyDirectoryAsync(
+            Path.Combine(infrastructurePath, "Components"),
+            Path.Combine(targetVibeDir, "Components")
+        );
+
         // Copy Configuration/ folder (needed for theme options)
         await CopyDirectoryAsync(
             Path.Combine(infrastructurePath, "Configuration"),
