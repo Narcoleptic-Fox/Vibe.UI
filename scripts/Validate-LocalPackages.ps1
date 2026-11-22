@@ -280,6 +280,8 @@ function Validate-CliToolPackage {
 
     Assert-FileExists (Join-Path $cliProject "Vibe/Base/VibeComponent.cs")
     Assert-FileExists (Join-Path $cliProject "Vibe/Metadata/PropertyMetadataResolver.cs")
+    Assert-FileExists (Join-Path $cliProject "Vibe/Components/Form/FormFieldContext.cs")
+    Assert-FileExists (Join-Path $cliProject "Vibe/Components/Overlay/DialogContext.cs")
     Assert-FileExists (Join-Path $cliProject "Components/vibe/Button.razor")
     Assert-FileExists (Join-Path $cliProject "wwwroot/js/vibe-dialog.js")
     Assert-FileExists (Join-Path $cliProject "wwwroot/js/vibe-menu-keyboard.js")
@@ -423,6 +425,12 @@ function Validate-CliToolPackage {
     if (Test-Path -LiteralPath $hostedClientCss -PathType Leaf) {
         throw "Hosted CLI initialization generated a duplicate client Vibe.UI.CSS asset."
     }
+
+    # Every registered component, vendored on its own into a fresh app and compiled.
+    & (Join-Path $PSScriptRoot "Validate-VendoredComponents.ps1") `
+        -ToolExecutable $toolExecutable `
+        -NuGetConfigPath $NuGetConfigPath `
+        -WorkRoot (Join-Path $TempRoot "vc")
 }
 
 if ([string]::IsNullOrWhiteSpace($Version)) {
@@ -469,6 +477,8 @@ $requiredEntries = @{
         "tools/net10.0/any/Vibe.UI.CLI.dll",
         "Templates/Infrastructure/ServiceCollectionExtensions.cs",
         "Templates/Infrastructure/Metadata/PropertyMetadataResolver.cs",
+        "Templates/Infrastructure/Components/Form/FormFieldContext.cs",
+        "Templates/Infrastructure/Components/Overlay/DialogContext.cs",
         "Templates/Components/Utility/DropdownMenu.razor",
         "Templates/wwwroot/js/vibe-dialog.js",
         "Templates/wwwroot/js/vibe-menu-keyboard.js",
