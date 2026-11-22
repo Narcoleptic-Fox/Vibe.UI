@@ -56,6 +56,11 @@ public class UpdateCommand : AsyncCommand<UpdateCommand.Settings>
                 config.ComponentsDirectory,
                 settings.Component,
                 overwrite: true);
+            await InstallMissingDependenciesAsync(
+                componentService,
+                projectPath,
+                config.ComponentsDirectory,
+                settings.Component);
             await RazorImportsService.EnsureVibeImportsAsync(projectPath, includeComponents: true);
 
             AnsiConsole.MarkupLine($"[green]✓[/] {settings.Component} updated successfully!");
@@ -88,6 +93,11 @@ public class UpdateCommand : AsyncCommand<UpdateCommand.Settings>
                             config.ComponentsDirectory,
                             component,
                             overwrite: true);
+                        await InstallMissingDependenciesAsync(
+                            componentService,
+                            projectPath,
+                            config.ComponentsDirectory,
+                            component);
                     }
                 });
 
@@ -100,6 +110,32 @@ public class UpdateCommand : AsyncCommand<UpdateCommand.Settings>
         }
 
         return 0;
+    }
+
+    /// <summary>
+    /// A newer version of a component can need a component the project does not have yet.
+    /// Those are added; ones already present are left alone, since the user may have edited them.
+    /// </summary>
+    private static async Task InstallMissingDependenciesAsync(
+        ComponentService componentService,
+        string projectPath,
+        string componentsDirectory,
+        string componentName)
+    {
+        // Anything in the components directory that the registry does not know is the user's own.
+        if (componentService.GetComponent(componentName) == null)
+        {
+            return;
+        }
+
+        foreach (var dependency in componentService.GetRequiredComponents(componentName))
+        {
+            await componentService.InstallComponentAsync(
+                projectPath,
+                componentsDirectory,
+                dependency.Name,
+                overwrite: false);
+        }
     }
 
     private static bool PathsEqual(string left, string right) =>
