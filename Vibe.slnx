@@ -15,6 +15,7 @@
   <Folder Name="/src/">
     <Project Path="src/Vibe.UI.CLI/Vibe.UI.CLI.csproj" />
     <Project Path="src/Vibe.UI.CSS/Vibe.UI.CSS.csproj" />
+    <Project Path="src/Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj" />
     <Project Path="src/Vibe.UI/Vibe.UI.csproj" />
   </Folder>
   <Folder Name="/tests/">
