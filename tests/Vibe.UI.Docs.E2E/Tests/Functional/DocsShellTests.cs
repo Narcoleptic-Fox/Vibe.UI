@@ -198,6 +198,45 @@ public class DocsShellTests : E2ETestBase
     }
 
     [Fact]
+    public async Task WideWindowPinsTheRailAndLogoToTheLeftEdge()
+    {
+        // Wider than 96rem, the rail and the app bar stay attached to the window's left edge.
+        // The page stops growing and sits, with its table of contents, in the space left over.
+        await Page.SetViewportSizeAsync(1920, 900);
+        await NavigateAndWaitForBlazorAsync("/components/button");
+        await Page.Locator(TocSelector).WaitForAsync();
+
+        var box = await Page.EvaluateAsync<double[]>(
+            @"() => {
+                const rect = selector => document.querySelector(selector).getBoundingClientRect();
+                const rail = rect('.docs-rail-nav');
+                const main = rect('.docs-shell-docs > main');
+                const toc = rect('.docs-rail-toc');
+                return [
+                    rail.left,
+                    rect('header a img').left,
+                    rect('.docs-rail-nav a').left,
+                    main.left - rail.right,
+                    document.documentElement.clientWidth - toc.right,
+                    toc.left - main.right,
+                    rect('main .live-preview').width,
+                    rect('.docs-footer-inner').left,
+                    document.documentElement.scrollWidth - document.documentElement.clientWidth
+                ];
+            }");
+
+        box[0].ShouldBe(0, 0.5, "The rail should start at the window's left edge");
+        box[1].ShouldBeLessThan(40, "The logo should sit at the left edge, above the rail");
+        Math.Abs(box[1] - box[2]).ShouldBeLessThan(16, "The logo and the rail's links should line up");
+        box[3].ShouldBeGreaterThan(100, "This test needs a window wide enough to leave spare room");
+        box[3].ShouldBe(box[4], 1, "The page and its table of contents should be centered in the spare room");
+        box[5].ShouldBe(0, 1, "The table of contents should stay beside the page");
+        box[6].ShouldBe(896, 1, "The page column should keep its 56rem width");
+        box[7].ShouldBe(0, 0.5, "The footer should span the window like the app bar");
+        box[8].ShouldBeLessThanOrEqualTo(0, "The layout must not add sideways scrolling");
+    }
+
+    [Fact]
     [Trait("Category", TestCategories.Mobile)]
     public async Task PhoneWidthReplacesTheRailWithADrawer()
     {

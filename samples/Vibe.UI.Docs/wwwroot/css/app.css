@@ -114,6 +114,7 @@ main li {
   --docs-header-height: 3.5rem;
   --docs-nav-width: 15rem;
   --docs-toc-width: 14rem;
+  /* The widest the page and its table of contents grow together, beside the rail. */
   --docs-shell-max-width: 96rem;
 }
 
@@ -125,8 +126,6 @@ main li {
 
 .docs-shell-docs {
   width: 100%;
-  max-width: var(--docs-shell-max-width);
-  margin-inline: auto;
 }
 
 /* Rails stay put while the page scrolls, and scroll on their own when they are too tall. */
@@ -167,6 +166,20 @@ main li {
 @media (min-width: 87.5rem) {
   .docs-rail-toc {
     display: block;
+  }
+}
+
+/* The rail is a panel attached to the window's left edge, like the app bar above it. In a
+   window wider than the shell's maximum, the page stops growing and sits with its table of
+   contents in the middle of the space the rail leaves. */
+@media (min-width: 96rem) {
+  .docs-shell-docs > main {
+    max-width: calc(var(--docs-shell-max-width) - var(--docs-nav-width) - var(--docs-toc-width));
+    margin-left: auto;
+  }
+
+  .docs-shell-docs > .docs-rail-toc {
+    margin-right: auto;
   }
 }
 
@@ -348,8 +361,6 @@ main :is(h2, h3)[id] {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem 1.5rem;
-  max-width: var(--docs-shell-max-width);
-  margin-inline: auto;
   padding: 1.5rem 1rem;
 }
 
