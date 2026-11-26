@@ -20,15 +20,8 @@
     <section class="vibe-mb-12">
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
         <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
-            <ToggleGroup Type="ToggleGroupType.Single"
-                         @bind-Value="alignment"
-                         AriaLabel="Text alignment">
-                <ToggleGroupItem Value="@("left")">Left</ToggleGroupItem>
-                <ToggleGroupItem Value="@("center")">Center</ToggleGroupItem>
-                <ToggleGroupItem Value="@("right")">Right</ToggleGroupItem>
-                <ToggleGroupItem Value="@("justify")">Justify</ToggleGroupItem>
-            </ToggleGroup>
-            <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Alignment: @(alignment ?? "None")</output>
+            <ToggleGroup @bind-Value="alignment" AriaLabel="Text alignment" />
+            <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Alignment: @(alignment?.ToString() ?? "None")</output>
         </div>
         <div class="vibe-mt-4">
             <CodeBlock Code="@SingleCode" Language="razor" />
@@ -40,30 +33,32 @@
 
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Multiple selection</h3>
-            <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
+            <p class="vibe-text-muted-foreground vibe-mb-4">
+                With <code>Type="ToggleGroupType.Multiple"</code>, bind a list with
+                <code>@@bind-Values</code>. Each pressed item adds its enum value to the list.
+            </p>
+            <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3" data-testid="toggle-enum-formats">
                 <ToggleGroup Type="ToggleGroupType.Multiple"
                              @bind-Values="formats"
-                             AriaLabel="Text formatting">
-                    <ToggleGroupItem Value="@("bold")">Bold</ToggleGroupItem>
-                    <ToggleGroupItem Value="@("italic")">Italic</ToggleGroupItem>
-                    <ToggleGroupItem Value="@("underline")">Underline</ToggleGroupItem>
-                    <ToggleGroupItem Value="@("strike")">Strikethrough</ToggleGroupItem>
-                    <ToggleGroupItem Value="@("code")">Code</ToggleGroupItem>
-                </ToggleGroup>
-                <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Active: @(formats.Count == 0 ? "None" : string.Join(", ", formats))</output>
+                             AriaLabel="Text formatting" />
+                <output id="toggle-enum-formats-value" class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Active: @(formats.Count == 0 ? "None" : string.Join(", ", formats))</output>
             </div>
             <CodeBlock Code="@MultipleCode" Language="razor" />
         </div>
 
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Vertical orientation</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Vertical, with an item disabled</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
+                Write the items to disable one or to choose the labels. Each item's value is the
+                enum value itself.
+            </p>
             <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <ToggleGroup Orientation="ToggleGroupOrientation.Vertical"
-                             Value="@("comfortable")"
+                             @bind-Value="density"
                              AriaLabel="Display density">
-                    <ToggleGroupItem Value="@("compact")">Compact</ToggleGroupItem>
-                    <ToggleGroupItem Value="@("comfortable")">Comfortable</ToggleGroupItem>
-                    <ToggleGroupItem Value="@("spacious")" Disabled="true">Spacious</ToggleGroupItem>
+                    <ToggleGroupItem Value="Density.Compact">Compact</ToggleGroupItem>
+                    <ToggleGroupItem Value="Density.Comfortable">Comfortable</ToggleGroupItem>
+                    <ToggleGroupItem Value="Density.Spacious" Disabled="true">Spacious (coming soon)</ToggleGroupItem>
                 </ToggleGroup>
             </div>
             <CodeBlock Code="@VerticalCode" Language="razor" />
@@ -74,21 +69,17 @@
             <div class="vibe-flex vibe-flex-col vibe-items-start vibe-gap-4 vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
                 @foreach (var size in Sizes)
                 {
-                    <ToggleGroup Size="size" Value="@("week")" AriaLabel="@($"{size} calendar range")">
-                        <ToggleGroupItem Value="@("day")">Day</ToggleGroupItem>
-                        <ToggleGroupItem Value="@("week")">Week</ToggleGroupItem>
-                        <ToggleGroupItem Value="@("month")">Month</ToggleGroupItem>
-                    </ToggleGroup>
+                    <ToggleGroup Size="size" Value="CalendarRange.Week" AriaLabel="@($"{size} calendar range")" />
                 }
             </div>
         </div>
 
         <div class="vibe-mt-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Typed values</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Clearing, and other types</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Bind an enum or a number directly, for one value or for several. An enum with no
-                items written builds its own. Pressing the selected item of a single group clears
-                it only when the bound type can be null.
+                Pressing the selected item of a single group clears it only when the bound type can
+                be null: a nullable enum goes back to <code>null</code>, while an <code>int</code>
+                keeps its value. Numbers bind the same way as enums, with the items written out.
             </p>
             <div class="vibe-flex vibe-flex-col vibe-items-start vibe-gap-4 vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div data-testid="toggle-typed-enum">
@@ -183,8 +174,14 @@
 </div>
 
 @code {
-    private string? alignment = "left";
-    private List<string> formats = ["bold"];
+    private enum TextAlign { Left, Center, Right, Justify }
+    private enum TextStyle { Bold, Italic, Underline, Strikethrough, Code }
+    private enum Density { Compact, Comfortable, Spacious }
+    private enum CalendarRange { Day, Week, Month }
+
+    private TextAlign? alignment = TextAlign.Left;
+    private List<TextStyle> formats = [TextStyle.Bold];
+    private Density density = Density.Comfortable;
 
     private static readonly ToggleGroupSize[] Sizes =
     [
@@ -195,12 +192,12 @@
 
     private static readonly (string Name, string Type, string Default, string Description)[] GroupProperties =
     [
-        ("ChildContent", "RenderFragment?", "null", "ToggleGroupItem content"),
+        ("ChildContent", "RenderFragment?", "null", "ToggleGroupItem content. Optional when TValue is an enum: one item per value is built"),
         ("Type", "ToggleGroupType", "Single", "Single or Multiple selection behavior"),
-        ("Value", "string?", "null", "Selected value in Single mode; supports @bind-Value"),
-        ("Values", "List<string>", "empty", "Selected values in Multiple mode; supports @bind-Values"),
-        ("ValueChanged", "EventCallback<string?>", "-", "Raised when the Single value changes"),
-        ("ValuesChanged", "EventCallback<List<string>>", "-", "Raised with a new list when Multiple values change"),
+        ("Value", "TValue?", "default", "Selected value in Single mode; supports @bind-Value. An enum, number, bool, Guid or string, or a nullable form"),
+        ("Values", "List<TValue>", "empty", "Selected values in Multiple mode; supports @bind-Values"),
+        ("ValueChanged", "EventCallback<TValue?>", "-", "Raised when the Single value changes"),
+        ("ValuesChanged", "EventCallback<List<TValue>>", "-", "Raised with a new list when Multiple values change"),
         ("Disabled", "bool", "false", "Disables every item"),
         ("Orientation", "ToggleGroupOrientation", "Horizontal", "Horizontal or Vertical keyboard axis"),
         ("Size", "ToggleGroupSize", "Default", "Small, Default, or Large target size"),
@@ -211,29 +208,29 @@
     private static readonly (string Name, string Type, string Default, string Description)[] ItemProperties =
     [
         ("ChildContent", "RenderFragment?", "null", "Visible item content"),
-        ("Value", "string", "empty", "Value used by the parent selection model"),
+        ("Value", "TValue", "default", "This item's value, as a C# expression of the group's type: Value=\"Density.Compact\" or Value=\"25\""),
         ("Disabled", "bool", "false", "Disables this item"),
         ("CssClass", "string?", "null", "Additional item CSS class")
     ];
 
     private const string SingleCode = """
-        <ToggleGroup Type="ToggleGroupType.Single"
-                     @bind-Value="alignment"
-                     AriaLabel="Text alignment">
-            <ToggleGroupItem Value="@("left")">Left</ToggleGroupItem>
-            <ToggleGroupItem Value="@("center")">Center</ToggleGroupItem>
-            <ToggleGroupItem Value="@("right")">Right</ToggleGroupItem>
-        </ToggleGroup>
+        <ToggleGroup @bind-Value="alignment" AriaLabel="Text alignment" />
+
+        @code {
+            private enum TextAlign { Left, Center, Right, Justify }
+
+            private TextAlign? alignment = TextAlign.Left;   // one item per value; press again to clear
+        }
         """;
 
     private const string MultipleCode = """
-        <ToggleGroup Type="ToggleGroupType.Multiple"
-                     @bind-Values="formats"
-                     AriaLabel="Text formatting">
-            <ToggleGroupItem Value="@("bold")">Bold</ToggleGroupItem>
-            <ToggleGroupItem Value="@("italic")">Italic</ToggleGroupItem>
-            <ToggleGroupItem Value="@("underline")">Underline</ToggleGroupItem>
-        </ToggleGroup>
+        <ToggleGroup Type="ToggleGroupType.Multiple" @bind-Values="formats" AriaLabel="Text formatting" />
+
+        @code {
+            private enum TextStyle { Bold, Italic, Underline, Strikethrough, Code }
+
+            private List<TextStyle> formats = [TextStyle.Bold];
+        }
         """;
 
     private enum TextAlignment { Left, Center, Right }
@@ -264,11 +261,17 @@
 
     private const string VerticalCode = """
         <ToggleGroup Orientation="ToggleGroupOrientation.Vertical"
-                     Value="@("comfortable")"
+                     @bind-Value="density"
                      AriaLabel="Display density">
-            <ToggleGroupItem Value="@("compact")">Compact</ToggleGroupItem>
-            <ToggleGroupItem Value="@("comfortable")">Comfortable</ToggleGroupItem>
-            <ToggleGroupItem Value="@("spacious")" Disabled="true">Spacious</ToggleGroupItem>
+            <ToggleGroupItem Value="Density.Compact">Compact</ToggleGroupItem>
+            <ToggleGroupItem Value="Density.Comfortable">Comfortable</ToggleGroupItem>
+            <ToggleGroupItem Value="Density.Spacious" Disabled="true">Spacious (coming soon)</ToggleGroupItem>
         </ToggleGroup>
+
+        @code {
+            private enum Density { Compact, Comfortable, Spacious }
+
+            private Density density = Density.Comfortable;
+        }
         """;
 }
