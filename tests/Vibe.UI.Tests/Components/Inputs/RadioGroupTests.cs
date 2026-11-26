@@ -6,7 +6,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Renders_WithDefaultProps()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .AddChildContent("<div>Radio items</div>"));
 
         // Assert
@@ -19,7 +19,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Applies_VerticalOrientation_ByDefault()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -30,8 +30,8 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Applies_HorizontalOrientation()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
-            .Add(p => p.Orientation, RadioGroup.RadioGroupOrientation.Horizontal)
+        var cut = Render<RadioGroup<string>>(parameters => parameters
+            .Add(p => p.Orientation, RadioGroupOrientation.Horizontal)
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -42,7 +42,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Applies_DisabledClass()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .AddChildContent("<div>Items</div>"));
 
@@ -54,7 +54,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Has_RequiredAttribute()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Required, true)
             .AddChildContent("<div>Items</div>"));
 
@@ -67,7 +67,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Has_AriaLabel()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.AriaLabel, "Select an option")
             .AddChildContent("<div>Items</div>"));
 
@@ -79,9 +79,9 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Generates_UniqueName()
     {
         // Act
-        var cut1 = Render<RadioGroup>(parameters => parameters
+        var cut1 = Render<RadioGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
-        var cut2 = Render<RadioGroup>(parameters => parameters
+        var cut2 = Render<RadioGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
 
         // Assert - Each instance should have a unique name
@@ -92,7 +92,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Accepts_CustomName()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Name, "custom-group")
             .AddChildContent("<div>Items</div>"));
 
@@ -104,7 +104,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Renders_ChildContent()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .AddChildContent("<span class='test-child'>Test Content</span>"));
 
         // Assert
@@ -116,7 +116,7 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_Applies_CustomCssClass()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.CssClass, "custom-radio-group")
             .AddChildContent("<div>Items</div>"));
 
@@ -128,15 +128,15 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_WithMultipleItems_OnlyOneSelected()
     {
         // Arrange & Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "option2")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option3")
                 .AddChildContent("Option 3")));
 
@@ -153,13 +153,13 @@ public class RadioGroupTests : TestBase
     {
         // Arrange
         var selectedValue = "option1";
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, selectedValue)
             .Add(p => p.ValueChanged, value => selectedValue = value)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2")));
 
@@ -180,14 +180,14 @@ public class RadioGroupTests : TestBase
     {
         // Arrange
         var selectedValue = "option1";
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, selectedValue)
             .Add(p => p.ValueChanged, value => selectedValue = value)
             .Add(p => p.Disabled, true)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2")));
 
@@ -204,10 +204,10 @@ public class RadioGroupTests : TestBase
     {
         // Arrange
         var callbackCount = 0;
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .Add(p => p.ValueChanged, _ => callbackCount++)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -223,15 +223,15 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_InitialValue_SelectsCorrectItem()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "option2")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option3")
                 .AddChildContent("Option 3")));
 
@@ -246,9 +246,9 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_NullValue_NoItemSelected()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, null)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -262,12 +262,12 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_InvalidValue_NoItemSelected()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "nonexistent")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2")));
 
@@ -281,8 +281,8 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_HorizontalOrientation_HasCorrectClass()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
-            .Add(p => p.Orientation, RadioGroup.RadioGroupOrientation.Horizontal)
+        var cut = Render<RadioGroup<string>>(parameters => parameters
+            .Add(p => p.Orientation, RadioGroupOrientation.Horizontal)
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -295,8 +295,8 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_VerticalOrientation_HasCorrectClass()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
-            .Add(p => p.Orientation, RadioGroup.RadioGroupOrientation.Vertical)
+        var cut = Render<RadioGroup<string>>(parameters => parameters
+            .Add(p => p.Orientation, RadioGroupOrientation.Vertical)
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -309,15 +309,15 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_AllItemsShareSameName()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Name, "test-group")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option3")
                 .AddChildContent("Option 3")));
 
@@ -333,11 +333,11 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_RendersAccessibleStateAttributes()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Required, true)
             .Add(p => p.Disabled, true)
-            .Add(p => p.Orientation, RadioGroup.RadioGroupOrientation.Horizontal)
-            .AddChildContent<RadioGroupItem>(item => item
+            .Add(p => p.Orientation, RadioGroupOrientation.Horizontal)
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -354,9 +354,9 @@ public class RadioGroupTests : TestBase
     {
         // Arrange
         string? callbackValue = null;
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.ValueChanged, value => callbackValue = value)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -371,9 +371,9 @@ public class RadioGroupTests : TestBase
     public void RadioGroup_EmptyStringValue_ValidSelection()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "")
                 .AddChildContent("Empty Option")));
 
