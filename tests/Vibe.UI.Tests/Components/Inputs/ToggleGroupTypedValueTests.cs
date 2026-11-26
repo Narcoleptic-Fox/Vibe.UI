@@ -396,6 +396,68 @@ public class ToggleGroupTypedValueTests : TestBase
         exception.Message.ShouldContain("ToggleGroup<Int32>");
     }
 
+    // === Edges ===
+
+    [Fact]
+    public void A_type_that_is_not_an_enum_renders_no_items_of_its_own()
+    {
+        var bound = SingleFromEnum(1);
+
+        bound.Labels().ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void A_null_list_of_values_is_an_empty_selection()
+    {
+        var reported = new List<List<int>>();
+        var cut = Render<ToggleGroup<int>>(parameters =>
+            parameters
+                .Add(p => p.Type, ToggleGroupType.Multiple)
+                .Add(p => p.Values, null!)
+                .Add(p => p.ValuesChanged, values => reported.Add(values))
+                .AddChildContent<ToggleGroupItem<int>>(item => item.Add(i => i.Value, 10).AddChildContent("Ten"))
+        );
+
+        cut.FindAll(".vibe-toggle-group-item-pressed").ShouldBeEmpty();
+
+        cut.Find(".vibe-toggle-group-item").Click();
+
+        reported.Single().ShouldBe([10]);
+    }
+
+    [Fact]
+    public void An_item_with_a_null_value_cannot_join_a_multiple_selection()
+    {
+        // A list of pressed values has no place for "nothing", so the item is inert.
+        var bound = new Bound<int?, int?>(
+            this,
+            ToggleGroupType.Multiple,
+            default,
+            [5],
+            [("None", null), ("Five", 5)]
+        );
+
+        bound.Pressed().ShouldBe(["Five"]);
+
+        bound.Press("None");
+
+        bound.Changes.ShouldBe(0);
+        bound.Models.ShouldBe([5]);
+        bound.Pressed().ShouldBe(["Five"]);
+    }
+
+    [Fact]
+    public void Int_items_work_inside_a_nullable_long_group()
+    {
+        var bound = new Bound<long?, int>(this, ToggleGroupType.Single, 5L, null, [("One", 1), ("Five", 5)]);
+
+        bound.Pressed().ShouldBe(["Five"]);
+
+        bound.Press("One");
+
+        bound.Model.ShouldBe(1L);
+    }
+
     // === Disabled ===
 
     [Fact]
