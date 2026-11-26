@@ -456,10 +456,10 @@ public class FormFieldTests : TestBase
     {
         return builder =>
         {
-            builder.OpenComponent<Input>(0);
+            builder.OpenComponent<Input<string>>(0);
             if (attributes is not null)
             {
-                builder.AddAttribute(1, nameof(Input.AdditionalAttributes), attributes);
+                builder.AddAttribute(1, nameof(Input<string>.AdditionalAttributes), attributes);
             }
             builder.CloseComponent();
         };

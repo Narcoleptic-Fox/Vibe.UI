@@ -23,9 +23,9 @@
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
         <div class="vibe-p-6 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-space-y-6">
             <div class="vibe-space-y-3">
-                <Input Label="Username" Placeholder="Enter your username" Variant="InputVariant.Outlined" />
-                <Input Label="Email" Type="email" Placeholder="you@example.com" Variant="InputVariant.Outlined" HelperText="We'll never share your email" />
-                <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Size="ComponentSize.Small" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Username" Placeholder="Enter your username" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Email" Type="email" Placeholder="you@example.com" Variant="InputVariant.Outlined" HelperText="We'll never share your email" />
+                <Input TValue="string" Label="Search" Placeholder="Search..." LeadingIcon="🔍" Size="ComponentSize.Small" Variant="InputVariant.Outlined" />
             </div>
         </div>
     </section>
@@ -41,9 +41,9 @@
                 Choose from three visual styles: text (underline only), filled (muted background), or outlined (full border).
             </p>
             <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <Input Label="Text Variant" Placeholder="Underline only" Variant="InputVariant.Text" />
-                <Input Label="Filled Variant" Placeholder="Muted background" Variant="InputVariant.Filled" />
-                <Input Label="Outlined Variant" Placeholder="Full vibe-border" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Text Variant" Placeholder="Underline only" Variant="InputVariant.Text" />
+                <Input TValue="string" Label="Filled Variant" Placeholder="Muted background" Variant="InputVariant.Filled" />
+                <Input TValue="string" Label="Outlined Variant" Placeholder="Full vibe-border" Variant="InputVariant.Outlined" />
             </div>
             <CodeBlock Code="@VariantsCode" Language="razor" />
         </div>
@@ -55,10 +55,10 @@
                 Support for all standard HTML input types for different data formats.
             </p>
             <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <Input Label="Text" Type="text" Placeholder="Text input" Variant="InputVariant.Outlined" />
-                <Input Label="Email" Type="email" Placeholder="Email input" Variant="InputVariant.Outlined" />
-                <Input Label="Password" Type="password" Placeholder="Password" Variant="InputVariant.Outlined" />
-                <Input Label="Number" Type="number" Placeholder="Number input" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Text" Type="text" Placeholder="Text input" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Email" Type="email" Placeholder="Email input" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Password" Type="password" Placeholder="Password" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Number" Type="number" Placeholder="Number input" Variant="InputVariant.Outlined" />
             </div>
             <CodeBlock Code="@TypesCode" Language="razor" />
         </div>
@@ -70,9 +70,9 @@
                 Available in three sizes to fit different layouts and use cases.
             </p>
             <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <Input Label="Small" Size="ComponentSize.Small" Placeholder="Small input" Variant="InputVariant.Outlined" />
-                <Input Label="Medium" Size="ComponentSize.Medium" Placeholder="Medium input" Variant="InputVariant.Outlined" />
-                <Input Label="Large" Size="ComponentSize.Large" Placeholder="Large input" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Small" Size="ComponentSize.Small" Placeholder="Small input" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Medium" Size="ComponentSize.Medium" Placeholder="Medium input" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Large" Size="ComponentSize.Large" Placeholder="Large input" Variant="InputVariant.Outlined" />
             </div>
             <CodeBlock Code="@SizesCode" Language="razor" />
         </div>
@@ -84,9 +84,9 @@
                 Add leading or trailing icons to provide visual context for the input field.
             </p>
             <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <Input Label="Search" Placeholder="Search..." LeadingIcon="🔍" Variant="InputVariant.Outlined" />
-                <Input Label="Password" Type="password" Placeholder="Password" LeadingIcon="🔒" Variant="InputVariant.Filled" />
-                <Input Label="Email" Placeholder="you@example.com" TrailingIcon="✉️" Variant="InputVariant.Text" />
+                <Input TValue="string" Label="Search" Placeholder="Search..." LeadingIcon="🔍" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Password" Type="password" Placeholder="Password" LeadingIcon="🔒" Variant="InputVariant.Filled" />
+                <Input TValue="string" Label="Email" Placeholder="you@example.com" TrailingIcon="✉️" Variant="InputVariant.Text" />
             </div>
             <CodeBlock Code="@IconsCode" Language="razor" />
         </div>
@@ -98,8 +98,8 @@
                 Display helper text or error messages to guide user input.
             </p>
             <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <Input Label="Email" Type="email" Variant="InputVariant.Outlined" HelperText="Enter a valid email address" />
-                <Input Label="Username" ErrorMessage="Username is required" Variant="InputVariant.Outlined" />
+                <Input TValue="string" Label="Email" Type="email" Variant="InputVariant.Outlined" HelperText="Enter a valid email address" />
+                <Input TValue="string" Label="Username" ErrorMessage="Username is required" Variant="InputVariant.Outlined" />
             </div>
             <CodeBlock Code="@ValidationCode" Language="razor" />
         </div>
@@ -111,10 +111,36 @@
                 Prevent user interaction with disabled state or allow reading with readonly state.
             </p>
             <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <Input Label="Disabled" Placeholder="Disabled input" Disabled="true" Variant="InputVariant.Outlined" />
-                <Input Label="Read-only" Value="Read-only value" ReadOnly="true" Variant="InputVariant.Filled" />
+                <Input TValue="string" Label="Disabled" Placeholder="Disabled input" Disabled="true" Variant="InputVariant.Outlined" />
+                <Input Label="Read-only" Value="@("Read-only value")" ReadOnly="true" Variant="InputVariant.Filled" />
             </div>
             <CodeBlock Code="@DisabledCode" Language="razor" />
+        </div>
+
+        <!-- Typed values -->
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Typed values</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
+                Bind a number, a date or a time directly. The input type follows the bound type, and a
+                nullable value goes back to null when the box is cleared. Text that is not a valid
+                value stays in the box and marks the input invalid; the bound value keeps its last
+                valid state.
+            </p>
+            <div class="vibe-space-y-3 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
+                <Input Id="typed-quantity" Label="Quantity" @bind-Value="quantity" ParsingErrorMessage="Enter a whole number" />
+                <Input Id="typed-price" Label="Price" @bind-Value="price" />
+                <Input Id="typed-discount" Label="Discount (optional)" @bind-Value="discount" />
+                <Input Id="typed-due" Label="Due" @bind-Value="due" />
+                <Input Id="typed-starts" Label="Starts" @bind-Value="starts" />
+                <Input Id="typed-shipped" Label="Shipped (optional)" @bind-Value="shipped" />
+                <p id="typed-readout" class="vibe-text-sm vibe-text-muted-foreground">
+                    quantity = @quantity · price = @price.ToString(System.Globalization.CultureInfo.InvariantCulture) ·
+                    discount = @(discount?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "null") ·
+                    due = @due.ToString("yyyy-MM-dd") · starts = @starts.ToString("HH:mm") ·
+                    shipped = @(shipped?.ToString("yyyy-MM-dd") ?? "null")
+                </p>
+            </div>
+            <CodeBlock Code="@TypedCode" Language="razor" />
         </div>
     </section>
 
@@ -138,15 +164,27 @@
                     <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Value</td>
-                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The input value</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TValue" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The input value. Strings, numbers, DateOnly, DateTime, TimeOnly, Guid and their nullable forms bind without a converter. A literal needs an expression: Value="@@("text")".</td>
+                        </tr>
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">TValue</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="type" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">inferred</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The value type. Inferred from Value or @@bind-Value. An input with neither needs TValue="string".</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Type</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">"text"</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">HTML input type (text, email, password, number, etc.)</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">from TValue</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">HTML input type. Unset, it is number for numeric types, date for DateOnly, datetime-local for DateTime, time for TimeOnly, and text otherwise.</td>
+                        </tr>
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ParsingErrorMessage</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">by type</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Message shown while the text does not convert to TValue and no ErrorMessage is set. Defaults to a short English sentence chosen by the value type; an empty string shows none.</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Placeholder</td>
@@ -234,8 +272,8 @@
                     <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ValueChanged</td>
-                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<string>" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when value changes</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<TValue?>" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Raised on every keystroke and on commit, with the converted value. Not raised while the text does not convert.</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">OnInput</td>
@@ -319,27 +357,50 @@
 </div>
 
 @code {
-    private string VariantsCode => @"<!-- Text variant: Bottom vibe-border only --> <Input Label=""Username"" Placeholder=""Enter your username"" Variant=""InputVariant.Text""/> <!-- Filled variant: Muted background with vibe-rounded top corners --> <Input Label=""Email"" Placeholder=""you@example.com"" Variant=""InputVariant.Filled""/> <!-- Outlined variant: Full vibe-border (default) --> <Input Label=""Password"" Placeholder=""Enter password"" Variant=""InputVariant.Outlined"" />";
+    private string VariantsCode => @"<!-- Text variant: Bottom vibe-border only --> <Input TValue=""string"" Label=""Username"" Placeholder=""Enter your username"" Variant=""InputVariant.Text""/> <!-- Filled variant: Muted background with vibe-rounded top corners --> <Input TValue=""string"" Label=""Email"" Placeholder=""you@example.com"" Variant=""InputVariant.Filled""/> <!-- Outlined variant: Full vibe-border (default) --> <Input TValue=""string"" Label=""Password"" Placeholder=""Enter password"" Variant=""InputVariant.Outlined"" />";
 
-    private string TypesCode => @"<Input Label=""Text"" Type=""text"" Placeholder=""Text input"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Email"" Type=""email"" Placeholder=""Email input"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Password"" Type=""password"" Placeholder=""Password"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Number"" Type=""number"" Placeholder=""Number input"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Search"" Type=""search"" Placeholder=""Search..."" Variant=""InputVariant.Outlined"" />";
+    private string TypesCode => @"<Input TValue=""string"" Label=""Text"" Type=""text"" Placeholder=""Text input"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Email"" Type=""email"" Placeholder=""Email input"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Password"" Type=""password"" Placeholder=""Password"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Number"" Type=""number"" Placeholder=""Number input"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Search"" Type=""search"" Placeholder=""Search..."" Variant=""InputVariant.Outlined"" />";
 
-    private string SizesCode => @"<Input Label=""Small"" Size=""ComponentSize.Small"" Placeholder=""Small input"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Medium"" Size=""ComponentSize.Medium"" Placeholder=""Medium input"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Large"" Size=""ComponentSize.Large"" Placeholder=""Large input"" Variant=""InputVariant.Outlined"" />";
+    private string SizesCode => @"<Input TValue=""string"" Label=""Small"" Size=""ComponentSize.Small"" Placeholder=""Small input"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Medium"" Size=""ComponentSize.Medium"" Placeholder=""Medium input"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Large"" Size=""ComponentSize.Large"" Placeholder=""Large input"" Variant=""InputVariant.Outlined"" />";
 
-    private string IconsCode => @"<Input Label=""Search"" Placeholder=""Search..."" LeadingIcon=""🔍"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Password"" Type=""password"" Placeholder=""Password"" LeadingIcon=""🔒"" Variant=""InputVariant.Filled"" />
-<Input Label=""Email"" Placeholder=""you@example.com"" TrailingIcon=""✉️"" Variant=""InputVariant.Text"" />";
+    private string IconsCode => @"<Input TValue=""string"" Label=""Search"" Placeholder=""Search..."" LeadingIcon=""🔍"" Variant=""InputVariant.Outlined"" />
+<Input TValue=""string"" Label=""Password"" Type=""password"" Placeholder=""Password"" LeadingIcon=""🔒"" Variant=""InputVariant.Filled"" />
+<Input TValue=""string"" Label=""Email"" Placeholder=""you@example.com"" TrailingIcon=""✉️"" Variant=""InputVariant.Text"" />";
 
-    private string ValidationCode => @"<Input Label=""Email"" Type=""email"" Variant=""InputVariant.Outlined"" HelperText=""Enter a valid email address"" />
-<Input Label=""Username"" ErrorMessage=""Username is required"" Variant=""InputVariant.Outlined"" />";
+    private string ValidationCode => @"<Input TValue=""string"" Label=""Email"" Type=""email"" Variant=""InputVariant.Outlined"" HelperText=""Enter a valid email address"" />
+<Input TValue=""string"" Label=""Username"" ErrorMessage=""Username is required"" Variant=""InputVariant.Outlined"" />";
 
-    private string DisabledCode => @"<Input Label=""Disabled"" Placeholder=""Disabled input"" Disabled=""true"" Variant=""InputVariant.Outlined"" />
-<Input Label=""Read-only"" Value=""Read-only value"" ReadOnly=""true"" Variant=""InputVariant.Filled"" />";
+    private int quantity = 3;
+    private decimal price = 19.5m;
+    private decimal? discount;
+    private DateOnly due = new(2026, 12, 1);
+    private TimeOnly starts = new(9, 30);
+    private DateOnly? shipped;
+
+    private string TypedCode => @"<Input Label=""Quantity"" @bind-Value=""quantity"" ParsingErrorMessage=""Enter a whole number"" />
+<Input Label=""Price"" @bind-Value=""price"" />
+<Input Label=""Discount (optional)"" @bind-Value=""discount"" />
+<Input Label=""Due"" @bind-Value=""due"" />
+<Input Label=""Starts"" @bind-Value=""starts"" />
+<Input Label=""Shipped (optional)"" @bind-Value=""shipped"" />
+
+@code {
+    private int quantity = 3;
+    private decimal price = 19.5m;
+    private decimal? discount;      // cleared box = null
+    private DateOnly due = new(2026, 12, 1);
+    private TimeOnly starts = new(9, 30);
+    private DateOnly? shipped;      // cleared box = null
+}";
+
+    private string DisabledCode => @"<Input TValue=""string"" Label=""Disabled"" Placeholder=""Disabled input"" Disabled=""true"" Variant=""InputVariant.Outlined"" />
+<Input Label=""Read-only"" Value=""@(""Read-only value"")"" ReadOnly=""true"" Variant=""InputVariant.Filled"" />";
 }
 
 
