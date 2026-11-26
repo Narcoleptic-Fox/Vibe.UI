@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- For the built-in theme CSS, so the browser tests can show each theme as an app would. -->
+    <ProjectReference Include="..\..\src\Vibe.UI\Vibe.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Artifacts\**" />
     <None Remove="TestResults\**" />
   </ItemGroup>

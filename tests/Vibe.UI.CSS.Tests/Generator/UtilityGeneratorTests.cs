@@ -267,6 +267,7 @@ public class UtilityGeneratorTests
     [InlineData("vibe-text-foreground", "color: var(--vibe-foreground);")]
     [InlineData("vibe-text-muted", "color: var(--vibe-muted);")]
     [InlineData("vibe-text-primary", "color: var(--vibe-primary);")]
+    [InlineData("vibe-text-link", "color: var(--vibe-link);")]
     public void Generate_SemanticTextColors_ReturnsCorrectCss(string className, string expectedDeclarations)
     {
         var rule = _generator.Generate(className);

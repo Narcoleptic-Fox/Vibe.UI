@@ -82,8 +82,8 @@
                                 {
                                     <button class="vibe-w-full vibe-flex vibe-items-center vibe-gap-3 vibe-px-3 vibe-py-2 vibe-rounded-lg hover:vibe-bg-accent vibe-transition-colors vibe-text-left"
                                             @onclick="() => NavigateToComponent(component)">
-                                        <div class="vibe-w-8 vibe-h-8 vibe-rounded-md vibe-bg-gradient-to-br vibe-from-brand-teal/10 vibe-to-brand-lilac/10 vibe-flex vibe-items-center vibe-justify-center">
-                                            <span class="vibe-text-xs vibe-font-semibold vibe-text-brand-teal">@component.Name[0]</span>
+                                        <div class="vibe-w-8 vibe-h-8 vibe-rounded-md vibe-bg-gradient-to-br vibe-from-primary/10 vibe-to-primary/10 vibe-flex vibe-items-center vibe-justify-center">
+                                            <span class="vibe-text-xs vibe-font-semibold vibe-text-link">@component.Name[0]</span>
                                         </div>
                                         <div class="vibe-flex-1 vibe-min-w-0">
                                             <div class="vibe-text-sm vibe-font-medium vibe-text-foreground">@component.Name</div>
@@ -107,11 +107,12 @@
                                     var index = i;
                                     var isSelected = index == _selectedIndex;
 
-                                    <button class="vibe-w-full vibe-flex vibe-items-center vibe-gap-3 vibe-px-3 vibe-py-2 vibe-rounded-lg vibe-transition-colors vibe-text-left @(isSelected ? "vibe-bg-brand-teal/10 dark:vibe-bg-brand-teal/20" : "hover:vibe-bg-accent")"
+                                    <button class="vibe-w-full vibe-flex vibe-items-center vibe-gap-3 vibe-px-3 vibe-py-2 vibe-rounded-lg vibe-transition-colors vibe-text-left @(isSelected ? "vibe-bg-primary/10 dark:vibe-bg-primary/20" : "hover:vibe-bg-accent")"
+                                            data-selected="@(isSelected ? "true" : "false")"
                                             @onclick="() => NavigateToComponent(component)"
                                             @onmouseenter="() => _selectedIndex = index">
-                                        <div class="vibe-w-8 vibe-h-8 vibe-rounded-md @(isSelected ? "vibe-bg-brand-teal vibe-text-white" : "vibe-bg-gradient-to-br vibe-from-brand-teal/10 vibe-to-brand-lilac/10") vibe-flex vibe-items-center vibe-justify-center vibe-transition-colors">
-                                            <span class="vibe-text-xs vibe-font-semibold @(isSelected ? "" : "vibe-text-brand-teal")">@component.Name[0]</span>
+                                        <div class="vibe-w-8 vibe-h-8 vibe-rounded-md @(isSelected ? "vibe-bg-primary vibe-text-primary-foreground" : "vibe-bg-gradient-to-br vibe-from-primary/10 vibe-to-primary/10") vibe-flex vibe-items-center vibe-justify-center vibe-transition-colors">
+                                            <span class="vibe-text-xs vibe-font-semibold @(isSelected ? "" : "vibe-text-link")">@component.Name[0]</span>
                                         </div>
                                         <div class="vibe-flex-1 vibe-min-w-0">
                                             <div class="vibe-text-sm vibe-font-medium vibe-text-foreground">
@@ -119,10 +120,10 @@
                                             </div>
                                             <div class="vibe-text-xs vibe-text-muted-foreground vibe-truncate">@component.Description</div>
                                         </div>
-                                        <span class="vibe-text-xs @(isSelected ? "vibe-text-brand-teal" : "vibe-text-muted-foreground")">@component.Category</span>
+                                        <span class="vibe-text-xs @(isSelected ? "vibe-text-link" : "vibe-text-muted-foreground")">@component.Category</span>
                                         @if (isSelected)
                                         {
-                                            <svg class="vibe-w-4 vibe-h-4 vibe-text-brand-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="vibe-w-4 vibe-h-4 vibe-text-link" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                                             </svg>
                                         }
@@ -383,7 +384,7 @@
         var match = text.Substring(index, query.Length);
         var after = text[(index + query.Length)..];
 
-        return new MarkupString($"{before}<span class=\"vibe-text-brand-teal vibe-font-semibold\">{match}</span>{after}");
+        return new MarkupString($"{before}<span class=\"vibe-text-link vibe-font-semibold\">{match}</span>{after}");
     }
 
     private record ComponentInfo(string Name, string Category, string Description);

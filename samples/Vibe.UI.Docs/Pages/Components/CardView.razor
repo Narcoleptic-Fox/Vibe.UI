@@ -39,15 +39,15 @@
                 <ChildContent>
                     <div class="vibe-space-y-2">
                         <div class="vibe-flex vibe-items-center vibe-gap-2">
-                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-brand-teal"></div>
+                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-primary"></div>
                             <span class="vibe-text-sm">New comment on your post</span>
                         </div>
                         <div class="vibe-flex vibe-items-center vibe-gap-2">
-                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-brand-teal"></div>
+                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-primary"></div>
                             <span class="vibe-text-sm">Someone liked your photo</span>
                         </div>
                         <div class="vibe-flex vibe-items-center vibe-gap-2">
-                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-brand-teal"></div>
+                            <div class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-primary"></div>
                             <span class="vibe-text-sm">New follower</span>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
         <!-- Card -->
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Card</h3>
-            <div class="vibe-overflow-x-auto">
+            <div class="vibe-overflow-x-auto" tabindex="0">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
                         <tr class="vibe-border-b vibe-border-border">
@@ -159,7 +159,7 @@
         <!-- Sub-components -->
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Sub-components</h3>
-            <div class="vibe-overflow-x-auto">
+            <div class="vibe-overflow-x-auto" tabindex="0">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
                         <tr class="vibe-border-b vibe-border-border">
@@ -238,16 +238,16 @@
     <section>
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/container" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Container</h4>
+            <a href="components/container" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-primary vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-link">Container</h4>
                 <p class="vibe-text-sm vibe-text-muted-foreground">Layout wrapper component</p>
             </a>
-            <a href="components/stack" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Stack</h4>
+            <a href="components/stack" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-primary vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-link">Stack</h4>
                 <p class="vibe-text-sm vibe-text-muted-foreground">Vertical/horizontal layouts</p>
             </a>
-            <a href="components/grid" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Grid</h4>
+            <a href="components/grid" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-primary vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-link">Grid</h4>
                 <p class="vibe-text-sm vibe-text-muted-foreground">Grid layout system</p>
             </a>
         </div>
@@ -285,7 +285,7 @@
     </Footer>
 </Card>";
 
-    private string ClickableCode => @"<Card class=""vibe-cursor-pointer hover:vibe-border-brand-teal vibe-transition-colors"" @onclick=""HandleClick"">
+    private string ClickableCode => @"<Card class=""vibe-cursor-pointer hover:vibe-border-primary vibe-transition-colors"" @onclick=""HandleClick"">
     <CardTitle>Clickable Card</CardTitle>
     <CardDescription>Click anywhere on this card.</CardDescription>
 </Card>

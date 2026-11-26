@@ -60,10 +60,11 @@ const WEB_BUNDLE_LANGUAGES: readonly SupportedLanguage[] = [
   'xml'
 ] as const;
 
-// Theme mapping
+// Theme mapping. The dark palette is GitHub's "dark default": plain "github-dark" draws comments
+// at 3.0:1 on its background, below the 4.5:1 the docs are held to.
 const THEMES: Record<Theme, string> = {
   light: 'github-light',
-  dark: 'github-dark'
+  dark: 'github-dark-default'
 };
 
 /**

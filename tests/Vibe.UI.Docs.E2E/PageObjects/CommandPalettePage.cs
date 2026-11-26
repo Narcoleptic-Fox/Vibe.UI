@@ -17,32 +17,33 @@ public class CommandPalettePage
 
     // Modal Elements
     public ILocator Overlay => _page.Locator(".vibe-fixed.vibe-inset-0.vibe-z-50");
-    public ILocator ModalContent => Overlay.Locator(".vibe-bg-white.dark\\:vibe-bg-zinc-900.vibe-rounded-xl");
+    public ILocator ModalContent =>
+        Overlay.Locator(".vibe-bg-white.dark\\:vibe-bg-zinc-900.vibe-rounded-xl");
     public ILocator SearchInput => _page.GetByPlaceholder("Search components...");
     public ILocator EscHint => _page.GetByText("ESC");
 
     // Results Section
-    public ILocator ResultsContainer => Overlay.Locator(".vibe-max-h-\\[400px\\].vibe-overflow-y-auto");
-    public ILocator QuickActionsSection => Overlay.GetByText("Quick Actions", new() { Exact = true });
-    public ILocator PopularComponentsSection => Overlay.GetByText("Popular Components", new() { Exact = true });
+    public ILocator ResultsContainer =>
+        Overlay.Locator(".vibe-max-h-\\[400px\\].vibe-overflow-y-auto");
+    public ILocator QuickActionsSection =>
+        Overlay.GetByText("Quick Actions", new() { Exact = true });
+    public ILocator PopularComponentsSection =>
+        Overlay.GetByText("Popular Components", new() { Exact = true });
     public ILocator SearchResultsSection => _page.Locator("text=/Components \\(/");
 
     // Quick Actions
-    public ILocator ToggleThemeAction => Overlay.GetByRole(AriaRole.Button, new()
-    {
-        NameString = "Toggle theme",
-        Exact = false
-    });
+    public ILocator ToggleThemeAction =>
+        Overlay.GetByRole(AriaRole.Button, new() { NameString = "Toggle theme", Exact = false });
 
-    public ILocator GitHubAction => Overlay.GetByRole(AriaRole.Link, new()
-    {
-        NameString = "View on GitHub",
-        Exact = false
-    });
+    public ILocator GitHubAction =>
+        Overlay.GetByRole(AriaRole.Link, new() { NameString = "View on GitHub", Exact = false });
 
     // Search Results
     public ILocator SearchResults => Overlay.Locator("button.vibe-w-full");
-    public ILocator SelectedResult => _page.Locator("button.vibe-bg-brand-teal\\/10, button.dark\\:vibe-bg-brand-teal\\/20");
+
+    // The selected result is marked with data-selected, not found by its colour classes, so a
+    // theme or colour change cannot break the keyboard tests.
+    public ILocator SelectedResult => _page.Locator("button[data-selected='true']");
 
     // No Results
     public ILocator NoResultsMessage => Overlay.Locator("text=/No components found for/");
@@ -65,11 +66,9 @@ public class CommandPalettePage
     /// </summary>
     public async Task WaitForModalAsync(int timeout = 5000)
     {
-        await Overlay.WaitForAsync(new()
-        {
-            State = WaitForSelectorState.Visible,
-            Timeout = timeout
-        });
+        await Overlay.WaitForAsync(
+            new() { State = WaitForSelectorState.Visible, Timeout = timeout }
+        );
     }
 
     /// <summary>
@@ -98,11 +97,9 @@ public class CommandPalettePage
     /// </summary>
     public async Task WaitForModalCloseAsync(int timeout = 8000)
     {
-        await Overlay.WaitForAsync(new()
-        {
-            State = WaitForSelectorState.Hidden,
-            Timeout = timeout
-        });
+        await Overlay.WaitForAsync(
+            new() { State = WaitForSelectorState.Hidden, Timeout = timeout }
+        );
     }
 
     /// <summary>
@@ -173,8 +170,7 @@ public class CommandPalettePage
         var allResults = await SearchResults.AllAsync();
         for (int i = 0; i < allResults.Count; i++)
         {
-            var classes = await allResults[i].GetAttributeAsync("class") ?? "";
-            if (classes.Contains("vibe-bg-brand-teal/10") || classes.Contains("dark:vibe-bg-brand-teal/20"))
+            if (await allResults[i].GetAttributeAsync("data-selected") == "true")
             {
                 return i;
             }
