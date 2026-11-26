@@ -28,8 +28,9 @@
     transition: all 0.2s ease;
 }
 
-::deep .vibe-input:disabled,
-::deep .vibe-input:read-only {
+/* Only a disabled input is dimmed. Read-only text is content the user is meant to read, so it
+   keeps full contrast; the read-only state is carried by the attribute, not by fading. */
+::deep .vibe-input:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
