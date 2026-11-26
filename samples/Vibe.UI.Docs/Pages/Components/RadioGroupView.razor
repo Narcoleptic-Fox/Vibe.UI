@@ -29,9 +29,9 @@
                                 ValueChanged="@((string val) => currentValue = val)"
                                 Orientation="@currentOrientation"
                                 Disabled="@currentDisabled">
-                        <RadioGroupItem Value="option1">Option 1</RadioGroupItem>
-                        <RadioGroupItem Value="option2">Option 2</RadioGroupItem>
-                        <RadioGroupItem Value="option3">Option 3</RadioGroupItem>
+                        <RadioGroupItem Value="@("option1")">Option 1</RadioGroupItem>
+                        <RadioGroupItem Value="@("option2")">Option 2</RadioGroupItem>
+                        <RadioGroupItem Value="@("option3")">Option 3</RadioGroupItem>
                     </RadioGroup>
                     @if (!string.IsNullOrEmpty(currentValue))
                     {
@@ -54,10 +54,10 @@
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Value="@selectedSize" ValueChanged="@OnSizeChanged">
-                        <RadioGroupItem Value="small">Small</RadioGroupItem>
-                        <RadioGroupItem Value="medium">Medium</RadioGroupItem>
-                        <RadioGroupItem Value="large">Large</RadioGroupItem>
+                    <RadioGroup TValue="string" Value="@selectedSize" ValueChanged="@OnSizeChanged">
+                        <RadioGroupItem Value="@("small")">Small</RadioGroupItem>
+                        <RadioGroupItem Value="@("medium")">Medium</RadioGroupItem>
+                        <RadioGroupItem Value="@("large")">Large</RadioGroupItem>
                     </RadioGroup>
                     @if (!string.IsNullOrEmpty(selectedSize))
                     {
@@ -76,10 +76,10 @@
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Value="medium">
-                        <RadioGroupItem Value="small">Small</RadioGroupItem>
-                        <RadioGroupItem Value="medium">Medium (Default)</RadioGroupItem>
-                        <RadioGroupItem Value="large">Large</RadioGroupItem>
+                    <RadioGroup Value="@("medium")">
+                        <RadioGroupItem Value="@("small")">Small</RadioGroupItem>
+                        <RadioGroupItem Value="@("medium")">Medium (Default)</RadioGroupItem>
+                        <RadioGroupItem Value="@("large")">Large</RadioGroupItem>
                     </RadioGroup>
                 </div>
             </div>
@@ -94,10 +94,10 @@
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Orientation="RadioGroup.RadioGroupOrientation.Horizontal" Value="pro">
-                        <RadioGroupItem Value="free">Free</RadioGroupItem>
-                        <RadioGroupItem Value="pro">Pro</RadioGroupItem>
-                        <RadioGroupItem Value="enterprise">Enterprise</RadioGroupItem>
+                    <RadioGroup Orientation="RadioGroupOrientation.Horizontal" Value="@("pro")">
+                        <RadioGroupItem Value="@("free")">Free</RadioGroupItem>
+                        <RadioGroupItem Value="@("pro")">Pro</RadioGroupItem>
+                        <RadioGroupItem Value="@("enterprise")">Enterprise</RadioGroupItem>
                     </RadioGroup>
                 </div>
             </div>
@@ -113,9 +113,9 @@
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
                     <RadioGroup Value="@selectedColor" ValueChanged="@((string val) => selectedColor = val)">
-                        <RadioGroupItem Value="red">Red</RadioGroupItem>
-                        <RadioGroupItem Value="green" Disabled="true">Green (Unavailable)</RadioGroupItem>
-                        <RadioGroupItem Value="blue">Blue</RadioGroupItem>
+                        <RadioGroupItem Value="@("red")">Red</RadioGroupItem>
+                        <RadioGroupItem Value="@("green")" Disabled="true">Green (Unavailable)</RadioGroupItem>
+                        <RadioGroupItem Value="@("blue")">Blue</RadioGroupItem>
                     </RadioGroup>
                     @if (!string.IsNullOrEmpty(selectedColor))
                     {
@@ -134,10 +134,10 @@
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Disabled="true" Value="option2">
-                        <RadioGroupItem Value="option1">Option 1</RadioGroupItem>
-                        <RadioGroupItem Value="option2">Option 2</RadioGroupItem>
-                        <RadioGroupItem Value="option3">Option 3</RadioGroupItem>
+                    <RadioGroup Disabled="true" Value="@("option2")">
+                        <RadioGroupItem Value="@("option1")">Option 1</RadioGroupItem>
+                        <RadioGroupItem Value="@("option2")">Option 2</RadioGroupItem>
+                        <RadioGroupItem Value="@("option3")">Option 3</RadioGroupItem>
                     </RadioGroup>
                 </div>
             </div>
@@ -154,14 +154,46 @@
                 <div class="vibe-max-w-md">
                     <FormField TValue="string" Label="Preferred Contact Method">
                         <RadioGroup Value="@contactMethod" ValueChanged="@((string val) => contactMethod = val)">
-                            <RadioGroupItem Value="email">Email</RadioGroupItem>
-                            <RadioGroupItem Value="phone">Phone</RadioGroupItem>
-                            <RadioGroupItem Value="sms">SMS</RadioGroupItem>
+                            <RadioGroupItem Value="@("email")">Email</RadioGroupItem>
+                            <RadioGroupItem Value="@("phone")">Phone</RadioGroupItem>
+                            <RadioGroupItem Value="@("sms")">SMS</RadioGroupItem>
                         </RadioGroup>
                     </FormField>
                 </div>
             </div>
             <CodeBlock Code="@FormIntegrationCode" Language="razor" />
+        </div>
+
+        <!-- Typed values -->
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Typed values</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
+                Bind an enum, a number or a bool directly. An item's value is a C# expression of the
+                group's type, and the items take that type from the group. An enum with no items
+                written builds its own, one per value.
+            </p>
+            <div class="vibe-space-y-6 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
+                <div data-testid="radio-typed-enum">
+                    <RadioGroup @bind-Value="density" AriaLabel="Density" Orientation="RadioGroupOrientation.Horizontal" />
+                </div>
+                <div data-testid="radio-typed-int">
+                    <RadioGroup @bind-Value="seats" AriaLabel="Seats" Orientation="RadioGroupOrientation.Horizontal">
+                        <RadioGroupItem Value="1">Just me</RadioGroupItem>
+                        <RadioGroupItem Value="5">Team of five</RadioGroupItem>
+                        <RadioGroupItem Value="25">Department</RadioGroupItem>
+                    </RadioGroup>
+                </div>
+                <div data-testid="radio-typed-bool">
+                    <RadioGroup @bind-Value="subscribed" AriaLabel="Newsletter" Orientation="RadioGroupOrientation.Horizontal">
+                        <RadioGroupItem Value="true">Subscribed</RadioGroupItem>
+                        <RadioGroupItem Value="false">Not subscribed</RadioGroupItem>
+                    </RadioGroup>
+                </div>
+                <p id="radio-typed-readout" class="vibe-text-sm vibe-text-muted-foreground">
+                    density = @density · seats = @seats · subscribed = @(subscribed?.ToString() ?? "null")
+                </p>
+            </div>
+            <CodeBlock Code="@TypedCode" Language="razor" />
         </div>
     </section>
 
@@ -185,9 +217,9 @@
                     <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Value</td>
-                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TValue" /></td>
                             <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Currently selected value</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Currently selected value. An enum, number, bool, Guid or string, or a nullable form of one; null means nothing is checked.</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Name</td>
@@ -240,9 +272,9 @@
                     <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Value</td>
-                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TValue" /></td>
                             <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Value for this radio option</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Value for this radio option, as a C# expression of the group's type: Value="Density.Compact", Value="5", or Value="@@("text")" for a string. The type comes from the enclosing group.</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Disabled</td>
@@ -276,7 +308,7 @@
                     <tbody class="vibe-divide-y vibe-divide-border">
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ValueChanged</td>
-                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<string>" /></td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="EventCallback<TValue?>" /></td>
                             <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Callback when selected value changes</td>
                         </tr>
                     </tbody>
@@ -356,7 +388,7 @@
 @code {
     // Interactive preview state
     private string currentValue = "option2";
-    private RadioGroup.RadioGroupOrientation currentOrientation = RadioGroup.RadioGroupOrientation.Vertical;
+    private RadioGroupOrientation currentOrientation = RadioGroupOrientation.Vertical;
     private bool currentDisabled = false;
 
     // Example values
@@ -377,7 +409,7 @@
         radioProps = new List<PropDefinition>
         {
             PropDefinition.String("Value", "option2", "Currently selected value"),
-            PropDefinition.Enum<RadioGroup.RadioGroupOrientation>("Orientation", RadioGroup.RadioGroupOrientation.Vertical, "Layout orientation"),
+            PropDefinition.Enum<RadioGroupOrientation>("Orientation", RadioGroupOrientation.Vertical, "Layout orientation"),
             PropDefinition.Boolean("Disabled", false, "Disable the radio group")
         };
     }
@@ -390,7 +422,7 @@
                 currentValue = prop.Value?.ToString() ?? "option1";
                 break;
             case "Orientation":
-                if (Enum.TryParse<RadioGroup.RadioGroupOrientation>(prop.Value?.ToString(), out var orientation))
+                if (Enum.TryParse<RadioGroupOrientation>(prop.Value?.ToString(), out var orientation))
                     currentOrientation = orientation;
                 break;
             case "Disabled":
@@ -403,7 +435,7 @@
     private void HandlePropsReset()
     {
         currentValue = "option2";
-        currentOrientation = RadioGroup.RadioGroupOrientation.Vertical;
+        currentOrientation = RadioGroupOrientation.Vertical;
         currentDisabled = false;
         InitializeProps();
         StateHasChanged();
@@ -422,24 +454,24 @@
 
             if (!string.IsNullOrEmpty(currentValue))
                 props.Add($"Value=\"{currentValue}\"");
-            if (currentOrientation != RadioGroup.RadioGroupOrientation.Vertical)
-                props.Add($"Orientation=\"RadioGroup.RadioGroupOrientation.{currentOrientation}\"");
+            if (currentOrientation != RadioGroupOrientation.Vertical)
+                props.Add($"Orientation=\"RadioGroupOrientation.{currentOrientation}\"");
             if (currentDisabled)
                 props.Add("Disabled=\"true\"");
 
             var propsStr = props.Any() ? " " + string.Join(" ", props) : "";
-            return $@"<RadioGroup{propsStr}>
-    <RadioGroupItem Value=""option1"">Option 1</RadioGroupItem>
-    <RadioGroupItem Value=""option2"">Option 2</RadioGroupItem>
-    <RadioGroupItem Value=""option3"">Option 3</RadioGroupItem>
+            return $@"<RadioGroup TValue=""@(""string"")""{propsStr}>
+    <RadioGroupItem Value=""@(""option1"")"">Option 1</RadioGroupItem>
+    <RadioGroupItem Value=""@(""option2"")"">Option 2</RadioGroupItem>
+    <RadioGroupItem Value=""@(""option3"")"">Option 3</RadioGroupItem>
 </RadioGroup>";
         }
     }
 
-    private string DefaultCode => @"<RadioGroup Value=""@selectedSize"" ValueChanged=""@OnSizeChanged"">
-    <RadioGroupItem Value=""small"">Small</RadioGroupItem>
-    <RadioGroupItem Value=""medium"">Medium</RadioGroupItem>
-    <RadioGroupItem Value=""large"">Large</RadioGroupItem>
+    private string DefaultCode => @"<RadioGroup TValue=""string"" Value=""@selectedSize"" ValueChanged=""@OnSizeChanged"">
+    <RadioGroupItem Value=""@(""small"")"">Small</RadioGroupItem>
+    <RadioGroupItem Value=""@(""medium"")"">Medium</RadioGroupItem>
+    <RadioGroupItem Value=""@(""large"")"">Large</RadioGroupItem>
 </RadioGroup>
 
 @code {
@@ -451,39 +483,66 @@
     }
 }";
 
-    private string DefaultSelectionCode => @"<RadioGroup Value=""option2"">
-    <RadioGroupItem Value=""option1"">Option 1</RadioGroupItem>
-    <RadioGroupItem Value=""option2"">Option 2</RadioGroupItem>
-    <RadioGroupItem Value=""option3"">Option 3</RadioGroupItem>
+    private string DefaultSelectionCode => @"<RadioGroup Value=""@(""option2"")"">
+    <RadioGroupItem Value=""@(""option1"")"">Option 1</RadioGroupItem>
+    <RadioGroupItem Value=""@(""option2"")"">Option 2</RadioGroupItem>
+    <RadioGroupItem Value=""@(""option3"")"">Option 3</RadioGroupItem>
 </RadioGroup>";
 
-    private string HorizontalCode => @"<RadioGroup Orientation=""RadioGroup.RadioGroupOrientation.Horizontal"">
-    <RadioGroupItem Value=""small"">Small</RadioGroupItem>
-    <RadioGroupItem Value=""medium"">Medium</RadioGroupItem>
-    <RadioGroupItem Value=""large"">Large</RadioGroupItem>
+    private string HorizontalCode => @"<RadioGroup TValue=""@(""string"")"" Orientation=""RadioGroupOrientation.Horizontal"">
+    <RadioGroupItem Value=""@(""small"")"">Small</RadioGroupItem>
+    <RadioGroupItem Value=""@(""medium"")"">Medium</RadioGroupItem>
+    <RadioGroupItem Value=""@(""large"")"">Large</RadioGroupItem>
 </RadioGroup>";
 
     private string DisabledCode => @"<RadioGroup Value=""@selectedColor"" ValueChanged=""@((string val) => selectedColor = val)"">
-    <RadioGroupItem Value=""red"">Red</RadioGroupItem>
-    <RadioGroupItem Value=""green"" Disabled=""true"">Green (Unavailable)</RadioGroupItem>
-    <RadioGroupItem Value=""blue"">Blue</RadioGroupItem>
+    <RadioGroupItem Value=""@(""red"")"">Red</RadioGroupItem>
+    <RadioGroupItem Value=""@(""green"")"" Disabled=""true"">Green (Unavailable)</RadioGroupItem>
+    <RadioGroupItem Value=""@(""blue"")"">Blue</RadioGroupItem>
 </RadioGroup>
 
 @code {
     private string selectedColor = ""blue"";
 }";
 
-    private string DisabledGroupCode => @"<RadioGroup Disabled=""true"" Value=""option2"">
-    <RadioGroupItem Value=""option1"">Option 1</RadioGroupItem>
-    <RadioGroupItem Value=""option2"">Option 2</RadioGroupItem>
-    <RadioGroupItem Value=""option3"">Option 3</RadioGroupItem>
+    private string DisabledGroupCode => @"<RadioGroup Disabled=""true"" Value=""@(""option2"")"">
+    <RadioGroupItem Value=""@(""option1"")"">Option 1</RadioGroupItem>
+    <RadioGroupItem Value=""@(""option2"")"">Option 2</RadioGroupItem>
+    <RadioGroupItem Value=""@(""option3"")"">Option 3</RadioGroupItem>
 </RadioGroup>";
+
+    private enum Density { Compact, ComfortablySpaced, Roomy }
+
+    private Density density = Density.ComfortablySpaced;
+    private int seats = 5;
+    private bool? subscribed;
+
+    private string TypedCode => @"<RadioGroup @bind-Value=""density"" AriaLabel=""Density"" />
+
+<RadioGroup @bind-Value=""seats"" AriaLabel=""Seats"">
+    <RadioGroupItem Value=""1"">Just me</RadioGroupItem>
+    <RadioGroupItem Value=""5"">Team of five</RadioGroupItem>
+    <RadioGroupItem Value=""25"">Department</RadioGroupItem>
+</RadioGroup>
+
+<RadioGroup @bind-Value=""subscribed"" AriaLabel=""Newsletter"">
+    <RadioGroupItem Value=""true"">Subscribed</RadioGroupItem>
+    <RadioGroupItem Value=""false"">Not subscribed</RadioGroupItem>
+</RadioGroup>
+
+@code {
+    private enum Density { Compact, ComfortablySpaced, Roomy }
+
+    private Density density = Density.ComfortablySpaced;   // items come from the enum
+    private int seats = 5;
+    private bool? subscribed;                              // nothing checked until one is picked
+}";
 
     private string FormIntegrationCode => @"<FormField TValue=""string"" Label=""Preferred Contact Method"">
     <RadioGroup Value=""@contactMethod"" ValueChanged=""@((string val) => contactMethod = val)"">
-        <RadioGroupItem Value=""email"">Email</RadioGroupItem>
-        <RadioGroupItem Value=""phone"">Phone</RadioGroupItem>
-        <RadioGroupItem Value=""sms"">SMS</RadioGroupItem>
+        <RadioGroupItem Value=""@(""email"")"">Email</RadioGroupItem>
+        <RadioGroupItem Value=""@(""phone"")"">Phone</RadioGroupItem>
+        <RadioGroupItem Value=""@(""sms"")"">SMS</RadioGroupItem>
     </RadioGroup>
 </FormField>
 
