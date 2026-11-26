@@ -12,6 +12,8 @@
 }
 else if (Listen)
 {
+    @* The parameter type is stated: with TValue inferred from For, the compiler accepts neither
+       an untyped lambda nor a method group here (tried 2026-11-26). *@
     <PropertyInput Id="kind" For="() => Model.Kind" ValueChanged="(AccountKind kind) => Heard = kind" />
     @Dependent
 }

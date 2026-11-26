@@ -18,6 +18,7 @@
 
     <PropertyInput Id="start" For="() => Model.Start" Minimum="Earliest" Maximum="Latest" />
     <PropertyInput Id="changed" For="() => Model.Changed" Minimum="Earliest" />
+    <PropertyInput Id="opens" For="() => Model.Opens" Minimum="OpensAt" />
 </EditForm>
 
 @code {
@@ -25,6 +26,8 @@
     public Account Model { get; set; } = new();
 
     private static readonly object Earliest = new DateTime(2026, 1, 2);
+
+    private static readonly object OpensAt = new TimeOnly(9, 0);
 
     private static readonly object Latest = new DateTime(2026, 12, 30);
 }

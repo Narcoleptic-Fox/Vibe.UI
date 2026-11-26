@@ -52,6 +52,13 @@ public class PropertyInputTests : TestBase
     [InlineData("start", "input", "date")]
     [InlineData("changed", "input", "datetime-local")]
     [InlineData("owner", "input", "text")]
+    [InlineData("title", "input", "text")]
+    [InlineData("visits", "input", "number")]
+    [InlineData("phone", "input", "tel")]
+    [InlineData("site", "input", "url")]
+    [InlineData("secret", "input", "password")]
+    [InlineData("opens", "input", "time")]
+    [InlineData("seen", "input", "datetime-local")]
     [InlineData("kind", "select", null)]
     [InlineData("priority", "select", null)]
     [InlineData("archived", "select", null)]
@@ -257,6 +264,7 @@ public class PropertyInputTests : TestBase
         overrides.Find("#start").GetAttribute("min").ShouldBe("2026-01-02");
         overrides.Find("#start").GetAttribute("max").ShouldBe("2026-12-30");
         overrides.Find("#changed").GetAttribute("min").ShouldBe("2026-01-02T00:00:00");
+        overrides.Find("#opens").GetAttribute("min").ShouldBe("09:00:00");
     }
 
     [Fact]
@@ -327,6 +335,9 @@ public class PropertyInputTests : TestBase
         Control("start").Change("2026-04-02");
         Control("owner").Change(owner.ToString());
         Control("score").Change("3.25");
+        Control("title").Change("Dr");
+        Control("visits").Change("5000000000");
+        Control("opens").Change("08:15:00");
 
         Model.Kind.ShouldBe(AccountKind.SmallCompany);
         Model.Priority.ShouldBe(Priority.High);
@@ -335,6 +346,9 @@ public class PropertyInputTests : TestBase
         Model.Start.ShouldBe(new System.DateTime(2026, 4, 2));
         Model.OwnerId.ShouldBe(owner);
         Model.Score.ShouldBe(3.25m);
+        Model.Title.ShouldBe("Dr");
+        Model.Visits.ShouldBe(5_000_000_000);
+        Model.Opens.ShouldBe(new TimeOnly(8, 15));
         Messages(nameof(Account.Priority)).ShouldBeEmpty();
         Context.IsModified(new FieldIdentifier(Model, nameof(Account.IsActive))).ShouldBeTrue();
     }

@@ -8,7 +8,7 @@
 @inherits Base.VibeComponent
 @inject IPropertyMetadataResolver Resolver
 
-@* One line per field: the control comes from the property's type, and the label, required marker,
+@* One line per field: the control comes from the type of the property, and the label, required marker,
    limits and messages from its metadata. FormField does the wrapping, so there is one wrapper. *@
 <FormField TValue="TValue" Id="@Id" Class="@CombinedClass" @attributes="AdditionalAttributes"
            ValidationFor="For" Label="@(kind == ControlKind.Checkbox ? null : metadata.Label)"
