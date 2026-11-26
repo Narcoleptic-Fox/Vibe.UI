@@ -23,6 +23,14 @@
     They add no components, so the adapter has to stand on `vibe init` alone. The fixture uses
     every adapter file, so a file missing from the package fails the build.
 
+    Two more apps check `vibe update --infrastructure`. One is initialised, given components,
+    then damaged the way an older or edited project would be (shared types and metadata
+    missing, a base class replaced, no version stamp) and refreshed. The other is a hosted app
+    initialised without the adapter, which `vibe update --infrastructure --with-fluentvalidation`
+    then adds, run from the solution root as a user would. Each must then compile, its Vibe/ tree
+    must equal a freshly initialised one file for file, and what update promises not to touch
+    (components, the components directory, the colour in vibe-base.css) must be unchanged.
+
     The apps are compiled by a single parallel MSBuild invocation, so the cost is one build
     session rather than one per component.
 
@@ -61,6 +69,8 @@ $allTogetherName = "_All"
 $allTogetherWasmName = "_AllWasm"
 $fluentValidationName = "_FV"
 $fluentValidationWasmName = "_FVWasm"
+$updateName = "_Upd"
+$updateWasmName = "_UpdWasm"
 
 function Invoke-Logged {
     param(
@@ -120,7 +130,7 @@ function Add-FluentValidationFixture {
 
     $adapterDirectory = Join-Path $ComponentsProject "Vibe/FluentValidation"
     if (-not (Test-Path -LiteralPath $adapterDirectory -PathType Container)) {
-        throw "vibe init --with-fluentvalidation exited 0 but did not copy the adapter into $ComponentsProject."
+        throw "The CLI exited 0 but did not copy the FluentValidation adapter into $ComponentsProject."
     }
 
     $validationDirectory = Join-Path $ComponentsProject "Validation"
@@ -192,6 +202,50 @@ public sealed class PersonValidator : AbstractValidator<Person>
 
         $lines.InsertRange($builderLine + 1, [string[]]$registrations)
         Set-Content -LiteralPath $programFile -Encoding utf8NoBOM -Value $lines
+    }
+}
+
+function Get-TreeHashes {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    $hashes = [ordered]@{}
+    foreach ($file in @(Get-ChildItem -LiteralPath $Path -File -Recurse | Sort-Object FullName)) {
+        $relative = [System.IO.Path]::GetRelativePath($Path, $file.FullName).Replace('\', '/')
+        $hashes[$relative] = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
+    }
+
+    return $hashes
+}
+
+# The receipt for a refresh: the same files with the same content as a fresh `vibe init`.
+function Assert-SameTree {
+    param(
+        [Parameter(Mandatory = $true)][string]$Expected,
+        [Parameter(Mandatory = $true)][string]$Actual,
+        [Parameter(Mandatory = $true)][string]$What
+    )
+
+    $expectedHashes = Get-TreeHashes $Expected
+    $actualHashes = Get-TreeHashes $Actual
+    $differences = @(
+        @($expectedHashes.Keys | Where-Object { -not $actualHashes.Contains($_) } | ForEach-Object { "missing: $_" }) +
+        @($actualHashes.Keys | Where-Object { -not $expectedHashes.Contains($_) } | ForEach-Object { "extra: $_" }) +
+        @($expectedHashes.Keys | Where-Object { $actualHashes.Contains($_) -and $actualHashes[$_] -ne $expectedHashes[$_] } | ForEach-Object { "differs: $_" })
+    )
+    if ($differences.Count -gt 0) {
+        throw "$What does not match a fresh vibe init:`n  $($differences -join "`n  ")"
+    }
+}
+
+function Assert-Unchanged {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$Hash,
+        [Parameter(Mandatory = $true)][string]$What
+    )
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf) -or (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash -ne $Hash) {
+        throw "vibe update --infrastructure changed $What, which it promises to leave alone: $Path"
     }
 }
 
@@ -333,6 +387,79 @@ $apps.Add([pscustomobject]@{
     Assembly      = "Consumer/bin/Release/net10.0/Consumer.dll"
 })
 
+# vibe update --infrastructure on a damaged Server project. Components are added before the
+# damage, because the components are what the refreshed infrastructure has to compile under.
+$updTemplatePath = Join-Path $WorkRoot "template-upd"
+New-ConsumerTemplate -Path $updTemplatePath -What "Server, update" -NewArguments @("--interactivity", "Server")
+foreach ($componentName in @("input", "select", "dialog")) {
+    $exitCode = Invoke-Logged $ToolExecutable @("add", $componentName, "--yes", "--path", $updTemplatePath) $setupLog
+    Assert-Step $exitCode "vibe add $componentName (update)" $setupLog
+}
+
+$updComponents = Join-Path $updTemplatePath "Components/vibe"
+$componentHashes = Get-TreeHashes $updComponents
+if ($componentHashes.Count -lt 3) {
+    throw "Expected the update app to have components before the refresh, found $($componentHashes.Count)."
+}
+
+$updBaseCss = Join-Path $updTemplatePath "wwwroot/css/vibe-base.css"
+Add-Content -LiteralPath $updBaseCss -Value "/* Color scheme: kept by the vendoring gate */"
+$updBaseCssHash = (Get-FileHash -LiteralPath $updBaseCss -Algorithm SHA256).Hash
+
+$updVibe = Join-Path $updTemplatePath "Vibe"
+Remove-Item -LiteralPath (Join-Path $updVibe "Metadata") -Recurse -Force
+Remove-Item -LiteralPath (Join-Path $updVibe "Components") -Recurse -Force
+Set-Content -LiteralPath (Join-Path $updVibe "Base/VibeComponent.cs") -Value "// replaced by the vendoring gate" -Encoding utf8NoBOM
+
+$updConfigPath = Join-Path $updTemplatePath "vibe.json"
+$updConfig = Get-Content -LiteralPath $updConfigPath -Raw | ConvertFrom-Json
+$updConfig.PSObject.Properties.Remove("infrastructureVersion")
+$updConfig | ConvertTo-Json | Set-Content -LiteralPath $updConfigPath -Encoding utf8NoBOM
+
+$exitCode = Invoke-Logged $ToolExecutable @("update", "--infrastructure", "--yes", "--path", $updTemplatePath) $setupLog
+Assert-Step $exitCode "vibe update --infrastructure" $setupLog
+
+Assert-SameTree -Expected (Join-Path $templatePath "Vibe") -Actual $updVibe -What "Vibe/ after vibe update --infrastructure"
+foreach ($relative in $componentHashes.Keys) {
+    Assert-Unchanged -Path (Join-Path $updComponents $relative) -Hash $componentHashes[$relative] -What "a component"
+}
+Assert-Unchanged -Path $updBaseCss -Hash $updBaseCssHash -What "the colour in vibe-base.css"
+$updConfigAfter = Get-Content -LiteralPath $updConfigPath -Raw | ConvertFrom-Json
+$recordedVersion = $updConfigAfter.PSObject.Properties["infrastructureVersion"]
+if (-not $recordedVersion -or -not $recordedVersion.Value -or $updConfigAfter.componentsDirectory -ne "Components/vibe") {
+    throw "vibe update --infrastructure did not record its version, or changed the components directory, in $updConfigPath."
+}
+
+$apps.Add([pscustomobject]@{
+    Name          = $updateName
+    Components    = @()
+    Template      = $updTemplatePath
+    ComponentsDir = "Components/vibe"
+    Project       = "Consumer.csproj"
+    Assembly      = "bin/Release/net10.0/Consumer.dll"
+})
+
+# vibe update --infrastructure --with-fluentvalidation on a hosted app initialised without the
+# adapter, from the solution root. Its client must end up as a fresh `init --with-fluentvalidation`.
+$updWasmTemplatePath = Join-Path $WorkRoot "template-updwasm"
+New-ConsumerTemplate -Path $updWasmTemplatePath -What "WebAssembly, update" -NewArguments @("--interactivity", "WebAssembly", "--all-interactive")
+$exitCode = Invoke-Logged $ToolExecutable @("update", "--infrastructure", "--with-fluentvalidation", "--yes", "--path", $updWasmTemplatePath) $setupLog
+Assert-Step $exitCode "vibe update --infrastructure --with-fluentvalidation" $setupLog
+Assert-SameTree -Expected (Join-Path $fvWasmTemplatePath "Consumer.Client/Vibe") -Actual (Join-Path $updWasmTemplatePath "Consumer.Client/Vibe") -What "the client's Vibe/ after vibe update --infrastructure --with-fluentvalidation"
+
+Add-FluentValidationFixture -ComponentsProject (Join-Path $updWasmTemplatePath "Consumer.Client") -PagesDirectory (Join-Path $updWasmTemplatePath "Consumer.Client/Pages") -ProgramFiles @(
+    (Join-Path $updWasmTemplatePath "Consumer.Client/Program.cs"),
+    (Join-Path $updWasmTemplatePath "Consumer/Program.cs")
+)
+$apps.Add([pscustomobject]@{
+    Name          = $updateWasmName
+    Components    = @()
+    Template      = $updWasmTemplatePath
+    ComponentsDir = "Consumer.Client/Components/vibe"
+    Project       = "Consumer/Consumer.csproj"
+    Assembly      = "Consumer/bin/Release/net10.0/Consumer.dll"
+})
+
 $appNames = @($apps | ForEach-Object { $_.Name })
 
 Write-Host "Vendoring $($validatedNames.Count) components, one app each..."
@@ -447,7 +574,8 @@ if ($inconsistent.Count -gt 0) {
 $passed = @($results | Where-Object { $_.Passed })
 $scopeDescription = "$($validatedNames.Count) components one at a time" +
     $(if (-not $isSubset) { ", plus all of them together in a Server app and in a WebAssembly client" } else { "" }) +
-    ", plus the FluentValidation adapter in a Server app and in a WebAssembly client"
+    ", plus the FluentValidation adapter in a Server app and in a WebAssembly client" +
+    ", plus vibe update --infrastructure on a damaged Server app and adding the adapter to a WebAssembly client"
 $failed = @($results | Where-Object { -not $_.Passed })
 
 if ($failed.Count -gt 0) {
