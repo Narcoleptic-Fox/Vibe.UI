@@ -394,6 +394,24 @@ public class InputTypedValueTests : TestBase
     }
 
     [Fact]
+    public void A_DateTime_in_a_plain_text_box_round_trips_in_the_invariant_format()
+    {
+        // No browser date format applies to a text box, so the value is written and read back
+        // the same invariant way, whatever the current culture.
+        UseCulture("de-DE");
+        var bound = Bind<System.DateTime>(
+            new System.DateTime(2026, 11, 25, 14, 30, 0),
+            type: "text"
+        );
+
+        bound.Text.ShouldBe("11/25/2026 14:30:00");
+
+        bound.Element.Change("12/01/2026 08:15:00");
+
+        bound.Model.ShouldBe(new System.DateTime(2026, 12, 1, 8, 15, 0));
+    }
+
+    [Fact]
     public void A_comma_decimal_typed_into_a_text_box_is_refused_not_read_as_fifteen()
     {
         UseCulture("de-DE");
