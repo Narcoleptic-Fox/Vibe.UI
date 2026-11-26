@@ -30,6 +30,7 @@ public class AccessibilityTests : E2ETestBase
     [
         "/",
         "/why-vibe-ui",
+        "/colors",
         "/components",
         "/components/button",
         "/components/input",

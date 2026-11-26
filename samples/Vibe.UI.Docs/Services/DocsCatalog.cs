@@ -166,6 +166,7 @@ public static partial class DocsCatalog
         new("Why Vibe.UI", "why-vibe-ui"),
         new("Installation", "installation"),
         new("Theming", "theming"),
+        new("Colors", "colors"),
         new("CLI", "cli"),
     ];
 

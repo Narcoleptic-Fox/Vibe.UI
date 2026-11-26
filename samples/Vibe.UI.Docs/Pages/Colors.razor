@@ -1,0 +1,133 @@
+@page "/colors"
+@using System.Text.RegularExpressions
+@using Vibe.UI.Services.Theme
+
+<PageTitle>Colors - Vibe.UI</PageTitle>
+
+@*
+    The palette comes from Services/ColorReference.g.cs, generated from the utility generator's
+    own colour table, so a swatch shows exactly the colour its class produces. The theme colours
+    are read from the theme itself and painted with var(--vibe-*), so they follow the theme picker
+    and light or dark mode.
+*@
+
+<div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
+    <header class="vibe-space-y-2">
+        <h1 class="vibe-m-0">Colors</h1>
+        <p class="vibe-m-0 vibe-text-muted-foreground">
+            Two kinds of colour: theme colours that change with the theme and with light or dark
+            mode, and a fixed palette for colours that should stay the same everywhere.
+        </p>
+    </header>
+
+    <section>
+        <h2>Which to use</h2>
+        <ul>
+            <li>
+                <strong>Theme colours</strong> for anything that is part of the interface: text,
+                surfaces, borders, links, buttons. They follow Tide, Ink or Dune and light or dark,
+                and the built-in themes are checked for contrast in both modes.
+            </li>
+            <li>
+                <strong>Palette colours</strong> for colour that means something fixed, such as a
+                status dot or a chart series, where the same red should be red in every theme.
+                They do not change with the theme or with dark mode, so check their contrast
+                yourself.
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Theme colours</h2>
+        <p>
+            Each is a CSS variable, <code>--vibe-name</code>. Those with utilities take the usual
+            prefixes, such as <code>vibe-bg-primary</code>, <code>vibe-text-muted-foreground</code>
+            and <code>vibe-border-border</code>, and accept an opacity, as in
+            <code>vibe-bg-primary/10</code>. The rest are used through the variable, as in
+            <code>color: var(--vibe-success-text)</code>. Switch the theme or the mode in the header
+            to see them change.
+        </p>
+        <div class="vibe-overflow-x-auto vibe-rounded-lg vibe-border vibe-border-border" tabindex="0">
+            <table class="vibe-w-full vibe-text-sm" data-testid="theme-colors">
+                <thead>
+                    <tr class="vibe-border-b vibe-border-border">
+                        <th scope="col" class="vibe-text-left vibe-py-2 vibe-px-3 vibe-font-medium">Colour</th>
+                        <th scope="col" class="vibe-text-left vibe-py-2 vibe-px-3 vibe-font-medium">Variable</th>
+                        <th scope="col" class="vibe-text-left vibe-py-2 vibe-px-3 vibe-font-medium">Background utility</th>
+                    </tr>
+                </thead>
+                <tbody class="vibe-divide-y vibe-divide-border">
+                    @foreach (var token in ThemeTokens)
+                    {
+                        <tr>
+                            <td class="vibe-py-2 vibe-px-3">
+                                <span class="docs-swatch" style="background: var(--vibe-@token)" aria-hidden="true"></span>
+                            </td>
+                            <td class="vibe-py-2 vibe-px-3 vibe-font-mono">--vibe-@token</td>
+                            <td class="vibe-py-2 vibe-px-3 vibe-font-mono vibe-text-muted-foreground">
+                                @(WithUtilities.Contains(token) ? $"vibe-bg-{token}" : "use the variable")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Palette</h2>
+        <p>
+            @ColorReference.Palette.Length families in @Shades.Length shades, from 50 (lightest) to
+            950 (darkest). Write a colour as <code>family-shade</code> after any colour prefix:
+            <code>vibe-bg-blue-500</code>, <code>vibe-text-rose-700</code>,
+            <code>vibe-border-emerald-300</code>, <code>vibe-ring-amber-400</code>. Add an opacity
+            with a slash: <code>vibe-bg-blue-500/20</code>. <code>black</code> and
+            <code>white</code> have no shade: <code>vibe-text-white</code>.
+        </p>
+        <div class="vibe-overflow-x-auto" tabindex="0">
+            <table class="docs-palette" data-testid="palette">
+                <thead>
+                    <tr>
+                        <th scope="col"><span class="vibe-sr-only">Family</span></th>
+                        @foreach (var shade in Shades)
+                        {
+                            <th scope="col">@shade</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var (family, shades) in ColorReference.Palette)
+                    {
+                        <tr>
+                            <th scope="row">@family</th>
+                            @foreach (var (shade, hex) in shades)
+                            {
+                                <td title="@($"vibe-bg-{family}-{shade}: {hex}")">
+                                    <span class="docs-swatch" style="background: @hex" aria-hidden="true"></span>
+                                    <span class="docs-palette-hex">@hex</span>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+@code {
+    private static readonly int[] Shades =
+        ColorReference.Palette[0].Shades.Select(entry => entry.Shade).ToArray();
+
+    private static readonly HashSet<string> WithUtilities = [.. ColorReference.ThemeTokensWithUtilities];
+
+    // The colour variables the default theme declares, in its own order. Read from the CSS the
+    // theme renders, so a token added to the themes shows up here without editing this page.
+    private static readonly string[] ThemeTokens = Regex
+        .Matches(
+            Regex.Match(ThemeService.GenerateBuiltInThemeCss(ThemeService.BuiltInThemes[0]), @":root\s*\{(?<body>[^}]*)\}").Groups["body"].Value,
+            @"--vibe-(?<name>[a-z0-9-]+):")
+        .Select(match => match.Groups["name"].Value)
+        .Where(name => name != "radius")
+        .ToArray();
+}
