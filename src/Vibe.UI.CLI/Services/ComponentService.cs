@@ -290,7 +290,6 @@ public class ComponentService
             ["formmessage"] = new ComponentInfo { Name = "FormMessage", Category = "Form", Description = "Displays form validation messages", HasCss = false },
             ["label"] = new ComponentInfo { Name = "Label", Category = "Form", Description = "Renders an accessible label associated with controls", HasCss = false },
             ["combobox"] = new ComponentInfo { Name = "Combobox", Category = "Form", Description = "Autocomplete input and command palette with a list of suggestions" },
-            ["validatedinput"] = new ComponentInfo { Name = "ValidatedInput", Category = "Form", Description = "Input field with integrated validation display", HasCss = false },
 
             // Data Display (7 components)
             ["avatar"] = new ComponentInfo { Name = "Avatar", Category = "DataDisplay", Description = "An image element with a fallback for representing the user" },

@@ -215,7 +215,7 @@ share the configured prefix.
 
 **Input:** Button, Checkbox, ColorPicker, FileUpload, Input, InputOTP, MultiSelect, Radio, RadioGroup, Rating, Select, Slider, Switch, TagInput, TextArea, Toggle
 
-**Form:** Form, FormField, Label, ValidatedInput, Combobox
+**Form:** Form, FormField, Label, Combobox
 
 **DataDisplay:** Avatar, Badge, Chart, DataTable, Progress, Table, Timeline
 
