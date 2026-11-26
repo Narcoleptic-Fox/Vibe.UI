@@ -275,7 +275,7 @@ public class FormFieldTests : TestBase
                     p => p.ChildContent,
                     builder =>
                     {
-                        builder.OpenComponent<Combobox>(0);
+                        builder.OpenComponent<Combobox<string>>(0);
                         builder.CloseComponent();
                     }
                 )
