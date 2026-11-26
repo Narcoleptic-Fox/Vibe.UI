@@ -144,7 +144,8 @@
         ControlDescribedBy,
         EffectiveErrorId,
         EffectiveHasError,
-        Required);
+        Required,
+        CurrentEditContext is null ? null : _fieldIdentifier);
 
     private IReadOnlyList<string> ValidationMessages => GetValidationMessages();
 

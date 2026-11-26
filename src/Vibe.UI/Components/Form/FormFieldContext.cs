@@ -5,4 +5,5 @@ internal sealed record FormFieldContext(
     string? DescribedBy,
     string? ErrorId,
     bool IsInvalid,
-    bool IsRequired);
+    bool IsRequired,
+    Microsoft.AspNetCore.Components.Forms.FieldIdentifier? ValidatedField = null);

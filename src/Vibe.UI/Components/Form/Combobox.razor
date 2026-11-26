@@ -1,6 +1,9 @@
 @namespace Vibe.UI.Components
 @using System.Globalization
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
 @typeparam TValue
+@implements IDisposable
 @inherits Base.VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedClass">
@@ -58,6 +61,21 @@
 </div>
 
 @code {
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(TValue? value)
+    {
+        await ValueChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
+    public void Dispose() => formField.Dispose();
+
     private readonly string _instanceId = Guid.NewGuid().ToString("N");
     private TValue? _lastValue;
     private IReadOnlyList<IComboboxOption<TValue>>? _lastOptions;
@@ -101,6 +119,13 @@
     /// </summary>
     [Parameter]
     public EventCallback<TValue?> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Names the bound property to the form. <c>@bind-Value</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<TValue>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets whether text that matches no option can be entered with Enter. The text is
@@ -287,6 +312,8 @@
     /// </summary>
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, ValueExpression);
+
         base.OnParametersSet();
 
         var valueChanged = !_hasSyncedParameters || !SameValue(Value, _lastValue);
@@ -362,7 +389,7 @@
         if (InputValue.Length == 0 && IsClearable && _currentValue is not null)
         {
             _currentValue = default;
-            await ValueChanged.InvokeAsync(default);
+            await ReportAsync(default);
         }
     }
 
@@ -448,7 +475,7 @@
                     if (BindConverter.TryConvertTo<TValue>(InputValue, CultureInfo.InvariantCulture, out var typed))
                     {
                         _currentValue = typed;
-                        await ValueChanged.InvokeAsync(typed);
+                        await ReportAsync(typed);
                         CloseDropdown();
                     }
                 }
@@ -516,7 +543,7 @@
 
         InputValue = GetOptionLabel(option);
         _currentValue = option.Value;
-        await ValueChanged.InvokeAsync(option.Value);
+        await ReportAsync(option.Value);
         CloseDropdown();
     }
 

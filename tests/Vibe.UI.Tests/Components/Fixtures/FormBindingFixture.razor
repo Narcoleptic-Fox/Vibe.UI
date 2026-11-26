@@ -1,0 +1,93 @@
+@* The five typed inputs inside a real form, bound with @bind-Value as an app writes it.
+   EditContextNotificationTests drives this. Binding by hand in C# would not show a parameter
+   that @bind fails to fill. *@
+@using System.ComponentModel.DataAnnotations
+
+<EditForm EditContext="Context">
+    <DataAnnotationsValidator />
+
+    <Input Id="name" @bind-Value="Model.Name" />
+
+    @if (ShowQuantity)
+    {
+        <FormField Label="Quantity" ValidationFor="() => Model.Quantity">
+            <Input @bind-Value="Model.Quantity" />
+        </FormField>
+    }
+
+    <Input Id="seats" @bind-Value="Model.Seats" />
+
+    @* Bound by hand, with no expression: inside the form, but naming no field of it. *@
+    <Input Id="manual" TValue="int?" Value="Manual" ValueChanged="value => Manual = value" />
+
+    <Select Id="country" @bind-Value="Model.Country">
+        <option value="">Choose</option>
+        <option value="no">Norway</option>
+    </Select>
+
+    <Combobox Id="framework" Options="frameworks" Clearable="true" @bind-Value="Model.Framework" />
+
+    <RadioGroup @bind-Value="Model.Plan" AriaLabel="Plan">
+        <RadioGroupItem Value="@("free")">Free</RadioGroupItem>
+        <RadioGroupItem Value="@("pro")">Pro</RadioGroupItem>
+    </RadioGroup>
+
+    <ToggleGroup @bind-Value="Model.Alignment" AriaLabel="Alignment">
+        <ToggleGroupItem Value="@("left")">Left</ToggleGroupItem>
+        <ToggleGroupItem Value="@("right")">Right</ToggleGroupItem>
+    </ToggleGroup>
+
+    <ToggleGroup Type="ToggleGroupType.Multiple" @bind-Values="Model.Tags" AriaLabel="Tags">
+        <ToggleGroupItem Value="@("urgent")">Urgent</ToggleGroupItem>
+        <ToggleGroupItem Value="@("billing")">Billing</ToggleGroupItem>
+    </ToggleGroup>
+</EditForm>
+
+@code {
+    public sealed class Order
+    {
+        [Required]
+        public string? Name { get; set; }
+
+        [Range(1, 10)]
+        public int? Quantity { get; set; }
+
+        public int? Seats { get; set; }
+
+        [Required]
+        public string? Country { get; set; }
+
+        [Required]
+        public string? Framework { get; set; }
+
+        [Required]
+        public string? Plan { get; set; }
+
+        [Required]
+        public string? Alignment { get; set; }
+
+        [MinLength(1)]
+        public List<string> Tags { get; set; } = [];
+    }
+
+    private readonly List<ComboboxOption<string>> frameworks = [new() { Label = "Blazor", Value = "blazor" }];
+
+    [Parameter]
+    public Order Model { get; set; } = new();
+
+    [Parameter]
+    public bool ShowQuantity { get; set; } = true;
+
+    public int? Manual { get; private set; }
+
+    public EditContext Context { get; private set; } = default!;
+
+    // A new model gets a new EditContext, as a form does when its page loads another record.
+    protected override void OnParametersSet()
+    {
+        if (Context is null || !ReferenceEquals(Context.Model, Model))
+        {
+            Context = new EditContext(Model);
+        }
+    }
+}

@@ -1,8 +1,10 @@
 @namespace Vibe.UI.Components
 @using System.Globalization
+@using System.Linq.Expressions
 @using Microsoft.AspNetCore.Components.Forms
 @typeparam TValue
 @inherits VibeComponent
+@implements IDisposable
 
 <div class="@CombinedClass">
     <div class="@GetInputWrapperClass()">
@@ -37,8 +39,13 @@
     private readonly string generatedId = Guid.NewGuid().ToString();
     private string currentValue = string.Empty;
 
+    private readonly EditContextField formField = new();
+
     [CascadingParameter]
     private FormFieldContext? FieldContext { get; set; }
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
 
     [Parameter] public string? Id { get; set; }
     [Parameter] public string? Label { get; set; } = string.Empty;
@@ -60,6 +67,12 @@
     /// </summary>
     [Parameter] public TValue? Value { get; set; }
     [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Names the bound property to the form. <c>@bind-Value</c> supplies it; it is what lets the
+    /// input tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter] public Expression<Func<TValue>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the message shown while the text does not convert to
@@ -103,8 +116,17 @@
     private bool hasRendered;
     private TValue? lastValue;
     private bool hasValue => !string.IsNullOrEmpty(currentValue);
+    private string ParsingMessage => ParsingErrorMessage ?? DefaultParsingErrorMessage;
+
+    // Inside a FormField that shows this field's messages, the form's own message area says it:
+    // the parsing message is in the EditContext, and saying it here too would print it twice.
+    private bool FormFieldShowsMessages =>
+        formField.Field is { } bound && FieldContext?.ValidatedField is { } shown && bound.Equals(shown);
+
     private string? EffectiveErrorMessage =>
-        !string.IsNullOrEmpty(ErrorMessage) ? ErrorMessage : hasParsingError ? ParsingErrorMessage ?? DefaultParsingErrorMessage : null;
+        !string.IsNullOrEmpty(ErrorMessage) ? ErrorMessage
+        : hasParsingError && !FormFieldShowsMessages ? ParsingMessage
+        : null;
     private bool HasError => !string.IsNullOrEmpty(EffectiveErrorMessage);
     private bool EffectiveHasError => HasError || hasParsingError || FieldContext?.IsInvalid == true;
     private bool HasHelper => !string.IsNullOrEmpty(HelperText);
@@ -123,10 +145,12 @@
 
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, ValueExpression);
+
         if (!hasRendered || !TextStillStandsFor(Value))
         {
             currentValue = Format(Value);
-            hasParsingError = false;
+            SetParsingError(false);
         }
 
         hasRendered = true;
@@ -214,13 +238,32 @@
         if (!TryParse(currentValue, out var value))
         {
             // Half-typed text such as "-" is not an error yet. It is one once the user commits it.
-            hasParsingError = isCommit;
+            SetParsingError(isCommit);
             return;
         }
 
-        hasParsingError = false;
+        SetParsingError(false);
         await ValueChanged.InvokeAsync(value);
+
+        // The form hears about the field once the user commits it, as with the framework's own
+        // inputs. Telling it on every key would validate "-" on the way to "-5", and a required
+        // number would flash its message in between.
+        if (isCommit)
+        {
+            formField.NotifyChanged();
+        }
     }
+
+    // The one place the parsing state changes: the box's own state and the form's go together.
+    // While the form holds the message it does not validate, so it cannot submit the last good
+    // value in place of the text the user sees.
+    private void SetParsingError(bool hasError)
+    {
+        hasParsingError = hasError;
+        formField.SetParsingError(hasError ? ParsingMessage : null);
+    }
+
+    public void Dispose() => formField.Dispose();
 
     private void OnFocus(FocusEventArgs e)
     {

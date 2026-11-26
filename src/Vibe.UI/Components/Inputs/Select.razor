@@ -1,6 +1,9 @@
 @namespace Vibe.UI.Components
 @using System.Globalization
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
 @typeparam TValue
+@implements IDisposable
 @inherits Vibe.UI.Base.VibeComponent
 
 <div class="@CombinedClass">
@@ -45,6 +48,21 @@
 </div>
 
 @code {
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(TValue? value)
+    {
+        await ValueChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
+    public void Dispose() => formField.Dispose();
+
     private readonly string _id = Guid.NewGuid().ToString();
     private bool isFocused = false;
     private string currentValue = string.Empty;
@@ -97,6 +115,13 @@
     public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>
+    /// Names the bound property to the form. <c>@bind-Value</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<TValue>>? ValueExpression { get; set; }
+
+    /// <summary>
     /// Gets or sets the select options. When omitted and <typeparamref name="TValue"/> is an enum,
     /// one option per enum value is rendered.
     /// </summary>
@@ -136,6 +161,8 @@
 
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, ValueExpression);
+
         // The same converter InputSelect uses, in the invariant culture so "1.5" round-trips.
         currentValue = BindConverter.FormatValue(Value, CultureInfo.InvariantCulture)?.ToString() ?? string.Empty;
 
@@ -198,7 +225,7 @@
 
         if (ValueChanged.HasDelegate)
         {
-            await ValueChanged.InvokeAsync(value);
+            await ReportAsync(value);
         }
 
         if (OnChange.HasDelegate)

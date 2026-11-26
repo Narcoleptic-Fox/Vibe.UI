@@ -1,4 +1,6 @@
 @namespace Vibe.UI.Components
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
 @typeparam TValue
 @attribute [CascadingTypeParameter(nameof(TValue))]
 @inherits VibeComponent
@@ -25,6 +27,25 @@
 </div>
 
 @code {
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(TValue? value)
+    {
+        await ValueChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
+    private async Task ReportValuesAsync(List<TValue> values)
+    {
+        await ValuesChanged.InvokeAsync(values);
+        formField.NotifyChanged();
+    }
+
     private TValue? _value;
     private List<TValue> _values = new();
     private readonly List<IToggleGroupItem> _items = new();
@@ -81,10 +102,23 @@
     public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>
+    /// Names the bound property to the form. <c>@bind-Value</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<TValue>>? ValueExpression { get; set; }
+
+    /// <summary>
     /// Event callback when the values change (for multiple selection).
     /// </summary>
     [Parameter]
     public EventCallback<List<TValue>> ValuesChanged { get; set; }
+
+    /// <summary>
+    /// Names the bound list to the form in multiple mode. <c>@bind-Values</c> supplies it.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<List<TValue>>>? ValuesExpression { get; set; }
 
     /// <summary>
     /// Whether the toggle group is disabled.
@@ -146,6 +180,15 @@
 
     protected override void OnParametersSet()
     {
+        if (Type == ToggleGroupType.Multiple)
+        {
+            formField.Update(EditContext, ValuesExpression);
+        }
+        else
+        {
+            formField.Update(EditContext, ValueExpression);
+        }
+
         _value = Value;
         _values = Values?.Where(value => value is not null).ToList() ?? new List<TValue>();
     }
@@ -189,12 +232,12 @@
             if (!SameValue(_value, itemValue))
             {
                 _value = itemValue;
-                await ValueChanged.InvokeAsync(itemValue);
+                await ReportAsync(itemValue);
             }
             else if (CanBeEmpty && _value is not null)
             {
                 _value = default;
-                await ValueChanged.InvokeAsync(default);
+                await ReportAsync(default);
             }
             else
             {
@@ -220,7 +263,7 @@
             }
 
             _values = updatedValues;
-            await ValuesChanged.InvokeAsync(updatedValues);
+            await ReportValuesAsync(updatedValues);
         }
 
         await InvokeAsync(StateHasChanged);
@@ -353,6 +396,8 @@
 
     public async ValueTask DisposeAsync()
     {
+        formField.Dispose();
+
         if (_domModule is null)
         {
             return;

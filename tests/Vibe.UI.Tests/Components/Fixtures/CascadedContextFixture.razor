@@ -1,0 +1,15 @@
+@* An input under an EditContext cascaded by hand, with no EditForm. EditForm rebuilds its
+   children when its context changes; a hand-rolled form does not, so the same input lives on
+   under a new context and a new model. *@
+
+<CascadingValue Value="Context">
+    <Input Id="quantity" @bind-Value="Model.Quantity" />
+</CascadingValue>
+
+@code {
+    [Parameter, EditorRequired]
+    public FormBindingFixture.Order Model { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public EditContext Context { get; set; } = default!;
+}
