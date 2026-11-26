@@ -15,11 +15,10 @@ public abstract class E2ETestBase : IAsyncLifetime
     protected IPage Page { get; private set; } = null!;
 
     /// <summary>
-    /// Base URL for the documentation site
-    /// Configurable via DOCS_BASE_URL environment variable
+    /// Base URL for the documentation site: a server this run starts from this checkout on a
+    /// free port, or DOCS_BASE_URL when it is set. Known once InitializeAsync has run.
     /// </summary>
-    protected string BaseUrl { get; } = Environment.GetEnvironmentVariable("DOCS_BASE_URL")
-        ?? "http://localhost:5000";
+    protected string BaseUrl => DocsServerManager.BaseUrl;
 
     /// <summary>
     /// Whether to run browser in headless mode
@@ -43,9 +42,9 @@ public abstract class E2ETestBase : IAsyncLifetime
 
     public virtual async Task InitializeAsync()
     {
-        // Ensure the docs site is reachable when using the default base URL.
-        // If DOCS_BASE_URL points elsewhere, assume the caller/CI starts the server externally.
-        await DocsServerManager.AcquireAsync(BaseUrl, CancellationToken.None);
+        // Starts this checkout's docs server once per run (or checks DOCS_BASE_URL), and fails
+        // every test fast if the server is not serving this checkout's build.
+        await DocsServerManager.AcquireAsync();
 
         // Create Playwright instance
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
@@ -115,7 +114,7 @@ public abstract class E2ETestBase : IAsyncLifetime
         await Browser?.CloseAsync()!;
         Playwright?.Dispose();
 
-        DocsServerManager.Release(BaseUrl);
+        // The docs server is shared by the whole run and stopped when the test process ends.
     }
 
     /// <summary>
