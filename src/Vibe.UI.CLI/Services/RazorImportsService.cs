@@ -24,8 +24,7 @@ public static class RazorImportsService
     /// </summary>
     public static async Task EnsureUsingsAsync(string projectPath, IReadOnlyList<string> requiredUsings)
     {
-        var projectRoot = GetProjectRoot(projectPath);
-        var importsPath = Path.Combine(projectRoot, "_Imports.razor");
+        var importsPath = ImportsPath(projectPath);
 
         if (!File.Exists(importsPath))
         {
@@ -35,16 +34,13 @@ public static class RazorImportsService
             return;
         }
 
-        var existing = await File.ReadAllTextAsync(importsPath);
-        var linesToAppend = requiredUsings
-            .Where(line => existing.IndexOf(line, StringComparison.OrdinalIgnoreCase) < 0)
-            .ToArray();
-
-        if (linesToAppend.Length == 0)
+        var linesToAppend = MissingUsings(projectPath, requiredUsings);
+        if (linesToAppend.Count == 0)
         {
             return;
         }
 
+        var existing = await File.ReadAllTextAsync(importsPath);
         var separator = existing.EndsWith(Environment.NewLine, StringComparison.Ordinal)
             ? string.Empty
             : Environment.NewLine;
@@ -52,6 +48,25 @@ public static class RazorImportsService
         await File.WriteAllTextAsync(
             importsPath,
             existing + separator + string.Join(Environment.NewLine, linesToAppend));
+    }
+
+    /// <summary>The project's root _Imports.razor, which may not exist yet.</summary>
+    public static string ImportsPath(string projectPath) =>
+        Path.Combine(GetProjectRoot(projectPath), "_Imports.razor");
+
+    /// <summary>Which of <paramref name="requiredUsings"/> EnsureUsingsAsync would add.</summary>
+    public static IReadOnlyList<string> MissingUsings(string projectPath, IReadOnlyList<string> requiredUsings)
+    {
+        var importsPath = ImportsPath(projectPath);
+        if (!File.Exists(importsPath))
+        {
+            return requiredUsings;
+        }
+
+        var existing = File.ReadAllText(importsPath);
+        return requiredUsings
+            .Where(line => existing.IndexOf(line, StringComparison.OrdinalIgnoreCase) < 0)
+            .ToList();
     }
 
     private static string GetProjectRoot(string projectPath)
