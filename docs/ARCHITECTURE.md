@@ -23,7 +23,7 @@ When designing the CLI tool for Vibe.UI, we needed to decide how components shou
    │   └── Checkbox.razor
    ├── Form/
    │   ├── Label.razor
-   │   └── ValidatedInput.razor
+   │   └── FormField.razor
    └── Overlay/
        ├── Dialog.razor
        └── Popover.razor
@@ -35,7 +35,7 @@ When designing the CLI tool for Vibe.UI, we needed to decide how components shou
    ├── Button.razor
    ├── Checkbox.razor
    ├── Label.razor
-   ├── ValidatedInput.razor
+   ├── FormField.razor
    ├── Dialog.razor
    └── Popover.razor
    ```
