@@ -54,8 +54,7 @@
         </div>
         <CodeBlock Code="@TypedSelectCode" Language="razor" />
         <ul>
-            <li><Badge Variant="success">Available</Badge> <a href="@GetUrl("components/select")"><code>Select</code></a>, <a href="@GetUrl("components/combobox")"><code>Combobox</code></a>, and <a href="@GetUrl("components/input")"><code>Input</code></a> for text, numbers, dates and times.</li>
-            <li><Badge Variant="outline">Planned</Badge> <code>RadioGroup</code> and <code>ToggleGroup</code>.</li>
+            <li><Badge Variant="success">Available</Badge> <a href="@GetUrl("components/select")"><code>Select</code></a>, <a href="@GetUrl("components/combobox")"><code>Combobox</code></a>, <a href="@GetUrl("components/radiogroup")"><code>RadioGroup</code></a>, <a href="@GetUrl("components/togglegroup")"><code>ToggleGroup</code></a>, and <a href="@GetUrl("components/input")"><code>Input</code></a> for text, numbers, dates and times.</li>
         </ul>
 
         <h3>Describe a property once</h3>
@@ -184,13 +183,13 @@
         <p>
             <strong>Available today:</strong> @DocsCatalog.Components.Count documented components,
             three themes in light and dark, the <code>vibe</code> CLI and the utility CSS, typed
-            <code>Select</code>, <code>Combobox</code> and <code>Input</code>, the property metadata
-            layer and the FluentValidation adapter. All
+            <code>Select</code>, <code>Combobox</code>, <code>RadioGroup</code>,
+            <code>ToggleGroup</code> and <code>Input</code>, the property metadata layer and the
+            FluentValidation adapter. All
             of it is built from the repository; the beta is not on NuGet yet.
         </p>
         <p>
-            <strong>Planned before the first beta:</strong> the remaining typed inputs, the
-            one-line form field, the data grid on QuickGrid, links that know the current route,
+            <strong>Planned before the first beta:</strong> the one-line form field, the data grid on QuickGrid, links that know the current route,
             typed dialog results, and the NuGet beta.
         </p>
         <p>

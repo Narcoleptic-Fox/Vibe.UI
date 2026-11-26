@@ -744,7 +744,7 @@ public class ComponentVisualContractTests : E2ETestBase
         (await left.GetAttributeAsync("aria-pressed")).ShouldBe("true");
         await center.ClickAsync();
         (await center.GetAttributeAsync("aria-pressed")).ShouldBe("true");
-        await Page.GetByText("Alignment: center", new() { Exact = true }).WaitForAsync();
+        await Page.GetByText("Alignment: Center", new() { Exact = true }).WaitForAsync();
     }
 
     [Fact]
