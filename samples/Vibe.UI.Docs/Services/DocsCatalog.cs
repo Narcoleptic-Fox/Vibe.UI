@@ -164,6 +164,7 @@ public static partial class DocsCatalog
     public static IReadOnlyList<GuidePage> Guides { get; } =
     [
         new("Introduction", "getting-started"),
+        new("Why Vibe.UI", "why-vibe-ui"),
         new("Installation", "installation"),
         new("Theming", "theming"),
         new("CLI", "cli"),

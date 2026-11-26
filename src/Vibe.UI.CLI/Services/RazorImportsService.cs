@@ -11,13 +11,21 @@ public static class RazorImportsService
 
     private const string ComponentsUsing = "@using global::Vibe.UI.Components";
 
-    public static async Task EnsureVibeImportsAsync(string projectPath, bool includeComponents)
+    public static Task EnsureVibeImportsAsync(string projectPath, bool includeComponents) =>
+        EnsureUsingsAsync(
+            projectPath,
+            includeComponents
+                ? InfrastructureUsings.Append(ComponentsUsing).ToArray()
+                : InfrastructureUsings);
+
+    /// <summary>
+    /// Appends each of <paramref name="requiredUsings"/> to the project's root _Imports.razor
+    /// unless it is already there, creating the file if needed.
+    /// </summary>
+    public static async Task EnsureUsingsAsync(string projectPath, IReadOnlyList<string> requiredUsings)
     {
         var projectRoot = GetProjectRoot(projectPath);
         var importsPath = Path.Combine(projectRoot, "_Imports.razor");
-        var requiredUsings = includeComponents
-            ? InfrastructureUsings.Append(ComponentsUsing).ToArray()
-            : InfrastructureUsings;
 
         if (!File.Exists(importsPath))
         {

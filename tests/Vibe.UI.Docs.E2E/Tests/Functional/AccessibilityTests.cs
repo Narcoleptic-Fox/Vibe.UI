@@ -22,6 +22,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/sidebar",
         "/components/alertdialog",
         "/components/combobox",
+        "/why-vibe-ui",
     ];
 
     [Fact]

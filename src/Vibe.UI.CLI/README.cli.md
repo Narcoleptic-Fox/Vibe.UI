@@ -148,6 +148,24 @@ Options:
 - `--no-theme` - Skip theme system
 - `--with-charts` - Copy the `vibe-chart.js` interop script (the Chart.js library must also be loaded by the app)
 - `--with-css` - Add build-time `Vibe.UI.CSS` generation. Hosted Web Apps configure the server as the single CSS owner and scan both server and client sources.
+- `--with-fluentvalidation` - Copy the FluentValidation adapter to `Vibe/FluentValidation/`, add the `FluentValidation` package reference to the same project, and add `@using global::Vibe.UI.FluentValidation` to its `_Imports.razor`. This is the vendored form of the `Vibe.UI.FluentValidation` package, for projects that have the components as source and no `Vibe.UI` package. In a hosted Web App it goes into the client, like the components. An existing `FluentValidation` reference is left at the version the app chose.
+
+#### FluentValidation
+
+```bash
+vibe init --with-fluentvalidation
+```
+
+Then register the adapter and your validators, in the client and on the server if the app has both:
+
+```csharp
+builder.Services.AddVibeFluentValidation();   // namespace Vibe.UI
+builder.Services.AddScoped<IValidator<Person>, PersonValidator>();
+```
+
+and put `<FluentValidator />` inside an `EditForm`. Labels, required and limits are then read from the validator, and its errors are written into the form's `EditContext`.
+
+The option belongs to `vibe init`, so adding the adapter to a project that is already initialised means running `vibe init --with-fluentvalidation` again. That refreshes the rest of `Vibe/` and the CSS foundation files as well, and asks again for the components directory and the color; with `--yes` it takes the defaults for both. `vibe update` does not refresh the adapter.
 
 ### `vibe add <component>`
 Adds a component to `Components/`.
