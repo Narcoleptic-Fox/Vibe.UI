@@ -243,4 +243,73 @@ public class EditContextNotificationTests : TestBase
 
         StaticBindingFixture.Shared.ShouldBe("x");
     }
+
+    [Fact]
+    public void When_an_EditForm_gets_another_model_the_bad_text_and_its_message_go()
+    {
+        RenderInvalid(ValidOrder());
+        Quantity.Change("abc");
+        var firstContext = Context;
+        var firstModel = Model;
+
+        // EditForm rebuilds its children for a new context, so this is a fresh input.
+        cut.Render(p => p.Add(f => f.Model, ValidOrder()));
+
+        Context.ShouldNotBeSameAs(firstContext);
+        Quantity.GetAttribute("value").ShouldBe("2");
+        Validate().ShouldBeTrue();
+        firstContext
+            .GetValidationMessages(new FieldIdentifier(firstModel, nameof(Order.Quantity)))
+            .ShouldBeEmpty("the form that was replaced should not keep the message");
+    }
+
+    [Fact]
+    public void Under_a_context_cascaded_by_hand_the_message_follows_the_input_to_a_new_context()
+    {
+        var firstModel = ValidOrder();
+        var firstContext = new EditContext(firstModel);
+        var hand = Render<CascadedContextFixture>(p =>
+            p.Add(f => f.Model, firstModel).Add(f => f.Context, firstContext)
+        );
+        hand.Find("#quantity").Change("abc");
+        firstContext
+            .GetValidationMessages(new FieldIdentifier(firstModel, nameof(Order.Quantity)))
+            .ShouldBe(["Enter a valid number."]);
+
+        // Same quantity, so the same input keeps the text the user typed: still not a number.
+        var secondModel = ValidOrder();
+        var secondContext = new EditContext(secondModel);
+        hand.Render(p => p.Add(f => f.Model, secondModel).Add(f => f.Context, secondContext));
+
+        hand.Find("#quantity").GetAttribute("value").ShouldBe("abc");
+        secondContext
+            .GetValidationMessages(new FieldIdentifier(secondModel, nameof(Order.Quantity)))
+            .ShouldBe(["Enter a valid number."], "the new form must not submit while the box says abc");
+        firstContext
+            .GetValidationMessages(new FieldIdentifier(firstModel, nameof(Order.Quantity)))
+            .ShouldBeEmpty("the context left behind should not keep the message");
+
+        // And it still clears from the new one.
+        hand.Find("#quantity").Change("5");
+        secondModel.Quantity.ShouldBe(5);
+        secondContext.GetValidationMessages().ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void An_input_bound_by_hand_inside_a_form_works_and_names_no_field()
+    {
+        RenderInvalid(ValidOrder());
+
+        cut.Find("#manual").Change("4");
+        cut.Instance.Manual.ShouldBe(4);
+
+        cut.Find("#manual").Change("abc");
+
+        // It has no field to hang a message on, so it says it itself and the form is not held.
+        cut.Instance.Manual.ShouldBe(4);
+        cut.FindAll("*")
+            .Count(e => e.ChildElementCount == 0 && e.TextContent.Trim() == "Enter a valid number.")
+            .ShouldBe(1);
+        Validate().ShouldBeTrue();
+    }
 }

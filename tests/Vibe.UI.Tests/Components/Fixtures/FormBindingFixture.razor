@@ -17,6 +17,9 @@
 
     <Input Id="seats" @bind-Value="Model.Seats" />
 
+    @* Bound by hand, with no expression: inside the form, but naming no field of it. *@
+    <Input Id="manual" TValue="int?" Value="Manual" ValueChanged="value => Manual = value" />
+
     <Select Id="country" @bind-Value="Model.Country">
         <option value="">Choose</option>
         <option value="no">Norway</option>
@@ -75,7 +78,16 @@
     [Parameter]
     public bool ShowQuantity { get; set; } = true;
 
+    public int? Manual { get; private set; }
+
     public EditContext Context { get; private set; } = default!;
 
-    protected override void OnInitialized() => Context = new EditContext(Model);
+    // A new model gets a new EditContext, as a form does when its page loads another record.
+    protected override void OnParametersSet()
+    {
+        if (Context is null || !ReferenceEquals(Context.Model, Model))
+        {
+            Context = new EditContext(Model);
+        }
+    }
 }
