@@ -222,12 +222,12 @@ public class InitCommandFluentValidationTests : IDisposable
     }
 
     [Fact]
-    public async Task InstallAsync_WithoutAProjectFile_FailsBeforeCopyingAnything()
+    public void PlanProjectChanges_WithoutAProjectFile_Refuses()
     {
-        var act = () => FluentValidationAdapterInstaller.InstallAsync(_root, projectFile: null);
+        var act = () =>
+            FluentValidationAdapterInstaller.PlanProjectChanges(_root, projectFile: null);
 
-        await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("*.csproj*");
-        Directory.Exists(Path.Combine(_root, "Vibe", "FluentValidation")).Should().BeFalse();
+        act.Should().Throw<InvalidOperationException>().WithMessage("*.csproj*");
     }
 
     private async Task<int> InitAsync(string projectPath, bool withFluentValidation) =>

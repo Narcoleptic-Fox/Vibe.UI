@@ -6,11 +6,11 @@ using System.Xml.Linq;
 namespace Vibe.UI.CLI.Services;
 
 /// <summary>
-/// Copies the FluentValidation adapter into a vendored project, the way <c>vibe init</c> copies
-/// Metadata/: verbatim, so it keeps its <c>Vibe.UI.FluentValidation</c> and <c>Vibe.UI</c>
-/// namespaces and sits beside the infrastructure it builds on. It also adds the FluentValidation
-/// package reference to the project the files land in, and the Razor using for
-/// <c>&lt;FluentValidator /&gt;</c>.
+/// The FluentValidation adapter, vendored the way <c>vibe init</c> copies Metadata/: verbatim, so
+/// it keeps its <c>Vibe.UI.FluentValidation</c> and <c>Vibe.UI</c> namespaces and sits beside the
+/// infrastructure it builds on. Besides its files (<see cref="Plan"/>) it needs the
+/// FluentValidation package reference in the project the files land in, and the Razor using for
+/// <c>&lt;FluentValidator /&gt;</c> (<see cref="PlanProjectChanges"/>).
 /// </summary>
 public static class FluentValidationAdapterInstaller
 {
@@ -43,16 +43,59 @@ public static class FluentValidationAdapterInstaller
             "This build of the Vibe.UI CLI does not record a FluentValidation version."
         );
 
-    public sealed record Result(
-        string AdapterDirectory,
+    /// <summary>
+    /// What adding the adapter changes in the project besides its own files. Worked out before
+    /// anything is written, so a project the CLI cannot change correctly is refused untouched.
+    /// </summary>
+    /// <param name="ProjectFile">The project the adapter compiles in.</param>
+    /// <param name="CentralPackageFile">
+    /// The Directory.Packages.props that holds the version when the project uses central package
+    /// management; otherwise null and the version goes on the PackageReference.
+    /// </param>
+    public sealed record ProjectChanges(
+        string ProjectPath,
         string ProjectFile,
-        string PackageVersion,
-        bool PackageReferenceAdded
-    );
-
-    public static async Task<Result> InstallAsync(string projectPath, string? projectFile)
+        string? CentralPackageFile,
+        bool AddsReference,
+        bool AddsCentralVersion,
+        string ImportsFile,
+        bool AddsUsing
+    )
     {
-        // Fail before copying anything: a project with the files and no package does not build.
+        /// <summary>The project files this will edit, for the confirmation list.</summary>
+        public IEnumerable<string> EditedFiles()
+        {
+            if (AddsReference)
+            {
+                yield return ProjectFile;
+            }
+
+            if (AddsCentralVersion && CentralPackageFile is not null)
+            {
+                yield return CentralPackageFile;
+            }
+
+            if (AddsUsing)
+            {
+                yield return ImportsFile;
+            }
+        }
+    }
+
+    /// <summary>The adapter's files, from the packaged templates or this repository.</summary>
+    public static IReadOnlyList<PlannedFile> Plan()
+    {
+        var sourceDirectory = FindSourceDirectory();
+        return SourceFiles
+            .Select(fileName => new PlannedFile(
+                Path.Combine(sourceDirectory, fileName),
+                Path.Combine(TargetDirectory, fileName)
+            ))
+            .ToList();
+    }
+
+    public static ProjectChanges PlanProjectChanges(string projectPath, string? projectFile)
+    {
         if (projectFile is null || !File.Exists(projectFile))
         {
             throw new InvalidOperationException(
@@ -61,22 +104,66 @@ public static class FluentValidationAdapterInstaller
             );
         }
 
-        var sourceDirectory = FindSourceDirectory();
-        var targetDirectory = Path.Combine(projectPath, TargetDirectory);
-        Directory.CreateDirectory(targetDirectory);
-
-        foreach (var fileName in SourceFiles)
+        var hasReference = HasItem(projectFile, "PackageReference");
+        var importsFile = RazorImportsService.ImportsPath(projectPath);
+        var addsUsing = RazorImportsService.MissingUsings(projectPath, [RazorUsing]).Count > 0;
+        if (!CentralPackageManagement.IsEnabled(projectFile))
         {
-            await File.WriteAllTextAsync(
-                Path.Combine(targetDirectory, fileName),
-                await File.ReadAllTextAsync(Path.Combine(sourceDirectory, fileName))
+            return new ProjectChanges(
+                projectPath,
+                projectFile,
+                null,
+                !hasReference,
+                false,
+                importsFile,
+                addsUsing
             );
         }
 
-        var added = await AddPackageReferenceAsync(projectFile);
-        await RazorImportsService.EnsureUsingsAsync(projectPath, [RazorUsing]);
+        // Central package management rejects a Version on a PackageReference. The version goes
+        // to Directory.Packages.props instead, as `dotnet add package` does.
+        var packagesFile =
+            CentralPackageManagement.FindPackagesFile(projectFile)
+            ?? throw new InvalidOperationException(
+                $"{Path.GetFileName(projectFile)} uses central package management, but no "
+                    + "Directory.Packages.props was found in its directory or above it. Add "
+                    + $"<PackageVersion Include=\"{PackageId}\" Version=\"{PackageVersion}\" /> to the "
+                    + "file that holds your package versions, and "
+                    + $"<PackageReference Include=\"{PackageId}\" /> to {Path.GetFileName(projectFile)}."
+            );
 
-        return new Result(targetDirectory, projectFile, PackageVersion, added);
+        return new ProjectChanges(
+            projectPath,
+            projectFile,
+            packagesFile,
+            !hasReference,
+            !HasItem(packagesFile, "PackageVersion"),
+            importsFile,
+            addsUsing
+        );
+    }
+
+    /// <summary>
+    /// Adds the package reference (and, under central package management, the package version)
+    /// unless already there, so an app's own choice of version is left alone; then the Razor using.
+    /// </summary>
+    public static async Task ApplyProjectChangesAsync(ProjectChanges changes)
+    {
+        if (changes.AddsCentralVersion && changes.CentralPackageFile is not null)
+        {
+            await AddItemAsync(changes.CentralPackageFile, "PackageVersion", withVersion: true);
+        }
+
+        if (changes.AddsReference)
+        {
+            await AddItemAsync(
+                changes.ProjectFile,
+                "PackageReference",
+                withVersion: changes.CentralPackageFile is null
+            );
+        }
+
+        await RazorImportsService.EnsureUsingsAsync(changes.ProjectPath, [RazorUsing]);
     }
 
     /// <summary>
@@ -146,50 +233,53 @@ public static class FluentValidationAdapterInstaller
         );
     }
 
-    /// <summary>
-    /// Adds a FluentValidation package reference unless the project already has one, in which
-    /// case the app's choice of version is left alone.
-    /// </summary>
-    private static async Task<bool> AddPackageReferenceAsync(string projectFile)
+    private static bool HasItem(string file, string itemName)
     {
-        var text = await File.ReadAllTextAsync(projectFile);
-        var newLine = text.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
-        var document = XDocument.Parse(text, LoadOptions.PreserveWhitespace);
-        var root =
-            document.Root
-            ?? throw new InvalidOperationException($"{projectFile} has no root element.");
-        var ns = root.GetDefaultNamespace();
-
-        var existing = root.Descendants(ns + "PackageReference")
-            .Any(reference =>
-                string.Equals(
-                    reference.Attribute("Include")?.Value,
-                    PackageId,
-                    StringComparison.OrdinalIgnoreCase
-                )
-            );
-        if (existing)
+        var root = XDocument.Load(file).Root;
+        if (root is null)
         {
             return false;
         }
 
-        var reference = new XElement(
-            ns + "PackageReference",
-            new XAttribute("Include", PackageId),
-            new XAttribute("Version", PackageVersion)
-        );
+        return root.Descendants(root.GetDefaultNamespace() + itemName)
+            .Any(item =>
+                string.Equals(
+                    item.Attribute("Include")?.Value,
+                    PackageId,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            );
+    }
 
-        // The file is loaded with its whitespace kept, so the rest of it is left as the app wrote
-        // it. The new line copies the indentation of the reference it follows.
-        var lastReference = root.Elements(ns + "ItemGroup")
-            .SelectMany(group => group.Elements(ns + "PackageReference"))
-            .LastOrDefault();
-        if (lastReference is not null)
+    /// <summary>
+    /// Adds <c>&lt;itemName Include="FluentValidation" [Version="…"] /&gt;</c> after the last item
+    /// of that kind, or in a new ItemGroup. The file keeps its whitespace, line endings and lack
+    /// of an XML declaration: the only change is the added line.
+    /// </summary>
+    private static async Task AddItemAsync(string file, string itemName, bool withVersion)
+    {
+        var text = await File.ReadAllTextAsync(file);
+        var newLine = text.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
+        var document = XDocument.Parse(text, LoadOptions.PreserveWhitespace);
+        var root =
+            document.Root ?? throw new InvalidOperationException($"{file} has no root element.");
+        var ns = root.GetDefaultNamespace();
+
+        var item = new XElement(ns + itemName, new XAttribute("Include", PackageId));
+        if (withVersion)
         {
-            var indentation = lastReference.PreviousNode is XText leading
+            item.Add(new XAttribute("Version", PackageVersion));
+        }
+
+        var lastItem = root.Elements(ns + "ItemGroup")
+            .SelectMany(group => group.Elements(ns + itemName))
+            .LastOrDefault();
+        if (lastItem is not null)
+        {
+            var indentation = lastItem.PreviousNode is XText leading
                 ? leading.Value[(leading.Value.LastIndexOf('\n') + 1)..]
                 : "    ";
-            lastReference.AddAfterSelf(new XText(newLine + indentation), reference);
+            lastItem.AddAfterSelf(new XText(newLine + indentation), item);
         }
         else
         {
@@ -199,15 +289,13 @@ public static class FluentValidationAdapterInstaller
                 new XElement(
                     ns + "ItemGroup",
                     new XText(newLine + "    "),
-                    reference,
+                    item,
                     new XText(newLine + "  ")
                 ),
                 new XText(newLine)
             );
         }
 
-        // Written back without an XML declaration the file did not have, and with its own line
-        // endings: the only change is the added reference.
         var settings = new XmlWriterSettings
         {
             Async = true,
@@ -215,11 +303,9 @@ public static class FluentValidationAdapterInstaller
             NewLineHandling = NewLineHandling.None,
             Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
         };
-        await using (var writer = XmlWriter.Create(projectFile, settings))
+        await using (var writer = XmlWriter.Create(file, settings))
         {
             await document.SaveAsync(writer, CancellationToken.None);
         }
-
-        return true;
     }
 }
