@@ -48,6 +48,26 @@ public class ComboboxTests : TestBase
     }
 
     [Fact]
+    public void Combobox_NamesNoActiveOption_WhileTheListIsClosed()
+    {
+        var cut = Render<Combobox<string>>(parameters => parameters
+            .Add(p => p.Id, "choice")
+            .Add(p => p.Options, CreateOptions()));
+
+        var input = cut.Find("input");
+        input.GetAttribute("aria-expanded").ShouldBe("false");
+        input.HasAttribute("aria-activedescendant").ShouldBeFalse(
+            "the options are not rendered while closed, so there is nothing to point at");
+        cut.FindAll("#choice-option-0").ShouldBeEmpty();
+
+        cut.Find("input").Focus();
+        cut.Find("input").GetAttribute("aria-activedescendant").ShouldBe("choice-option-0");
+
+        cut.Find("input").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Escape" });
+        cut.Find("input").HasAttribute("aria-activedescendant").ShouldBeFalse();
+    }
+
+    [Fact]
     public void Combobox_ExposesListboxAndActiveOptionSemantics_OnFocus()
     {
         var cut = Render<Combobox<string>>(parameters => parameters
