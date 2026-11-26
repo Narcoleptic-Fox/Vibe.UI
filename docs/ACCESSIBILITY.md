@@ -62,8 +62,8 @@ The shared behavior is:
 - Visible error styling uses `--vibe-destructive`.
 - Error text uses `role="alert"` or an appropriate live-region policy.
 
-`Input`, `TextArea`, `Select`, `Checkbox`, `Radio`, `Combobox`,
-`ValidatedInput`, and `FormField` have direct tests for these contracts.
+`Input`, `TextArea`, `Select`, `Checkbox`, `Radio`, `Combobox`
+and `FormField` have direct tests for these contracts.
 
 ### Use visible focus
 

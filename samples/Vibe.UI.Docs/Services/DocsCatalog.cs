@@ -97,7 +97,6 @@ public static partial class DocsCatalog
         ["Tooltip"] = "Overlay",
         ["TransferList"] = "Forms",
         ["TreeView"] = "Data Display",
-        ["ValidatedInput"] = "Forms",
         ["VirtualScroll"] = "Data Display",
     };
 
