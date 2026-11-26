@@ -1,119 +1,121 @@
-using System.Diagnostics;
-using System.Net.Http;
-
 namespace Vibe.UI.Docs.E2E.Infrastructure;
 
+/// <summary>
+/// The docs site the browser tests run against.
+/// </summary>
+/// <remarks>
+/// <para>
+/// Without <c>DOCS_BASE_URL</c>, the run starts its own docs server from this checkout on a free
+/// port (see <see cref="OwnedServer"/>) and stops it when the test process ends. It never uses a
+/// server it did not start, whatever is listening on the old default port 5000.
+/// </para>
+/// <para>
+/// With <c>DOCS_BASE_URL</c>, the caller owns the server, as before.
+/// </para>
+/// <para>
+/// Either way, before the first test the server must prove it serves this checkout's build
+/// (<see cref="DocsBuildIdentity"/>). The result is shared by the whole run: one failure fails
+/// every test fast with the same message, instead of each one timing out on a page that is not
+/// there.
+/// </para>
+/// </remarks>
 internal static class DocsServerManager
 {
-    private static readonly object _lock = new();
-    private static Process? _process;
-    private static int _activeUsers;
-    private static readonly Queue<string> _recentOutput = new();
-    private static bool _processExitHandlerRegistered;
+    internal const string BaseUrlVariable = "DOCS_BASE_URL";
+    internal const string SkipIdentityCheckVariable = "DOCS_SKIP_IDENTITY_CHECK";
 
-    internal static string DefaultBaseUrl => "http://localhost:5000";
+    private const string ProjectPath = "samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj";
 
-    internal static async Task AcquireAsync(string baseUrl, CancellationToken cancellationToken)
+    private static readonly Lazy<Task<string>> Server = new(
+        () => StartOrVerifyAsync(CancellationToken.None),
+        LazyThreadSafetyMode.ExecutionAndPublication
+    );
+
+    private static string? _baseUrl;
+
+    /// <summary>The docs site's URL, without a trailing slash. Set by <see cref="AcquireAsync"/>.</summary>
+    internal static string BaseUrl =>
+        _baseUrl
+        ?? throw new InvalidOperationException(
+            $"{nameof(DocsServerManager)}.{nameof(AcquireAsync)} has not completed; the docs URL is not known yet."
+        );
+
+    internal static async Task AcquireAsync()
     {
-        lock (_lock)
+        _baseUrl = await Server.Value;
+    }
+
+    private static async Task<string> StartOrVerifyAsync(CancellationToken cancellationToken)
+    {
+        var configured = Environment.GetEnvironmentVariable(BaseUrlVariable);
+        if (!string.IsNullOrWhiteSpace(configured))
         {
-            _activeUsers++;
+            var external = configured.TrimEnd('/');
+            await WaitForExternalAsync(external, cancellationToken);
+            await CheckIdentityAsync(external, owned: false, cancellationToken);
+            return external;
         }
 
-        if (!ShouldManageServer(baseUrl))
+        var server = await OwnedServer.StartAsync(
+            "Docs server",
+            ProjectPath,
+            new Dictionary<string, string> { ["DOTNET_ENVIRONMENT"] = "Development" },
+            cancellationToken
+        );
+        Console.WriteLine(
+            $"Docs server for this run: {server.BaseUrl} (started from {OwnedServer.RepositoryRoot()})."
+        );
+        await CheckIdentityAsync(server.BaseUrl, owned: true, cancellationToken);
+        return server.BaseUrl;
+    }
+
+    private static async Task CheckIdentityAsync(
+        string baseUrl,
+        bool owned,
+        CancellationToken cancellationToken
+    )
+    {
+        // Only for a server the caller runs, such as a published copy of this checkout, whose
+        // files legitimately differ from the local build. Never honoured for a server this run
+        // started: that one is always this checkout's build.
+        if (
+            !owned
+            && bool.TryParse(
+                Environment.GetEnvironmentVariable(SkipIdentityCheckVariable),
+                out var skip
+            )
+            && skip
+        )
         {
+            Console.Error.WriteLine(
+                $"WARNING: {SkipIdentityCheckVariable} is set, so {baseUrl} is not checked against this checkout's build."
+            );
             return;
         }
 
-        await EnsureStartedAsync(cancellationToken);
-        await WaitForReadyAsync(baseUrl, cancellationToken);
+        await DocsBuildIdentity.VerifyAsync(baseUrl, cancellationToken);
     }
 
-    internal static void Release(string baseUrl)
-    {
-        lock (_lock)
-        {
-            _activeUsers = Math.Max(0, _activeUsers - 1);
-        }
-
-        if (!ShouldManageServer(baseUrl))
-        {
-            return;
-        }
-
-        // Keep the shared docs server alive for the test process. Restarting
-        // between individual E2E tests is slow and can miss readiness windows
-        // on hosted CI runners. The process-exit handler handles final cleanup.
-    }
-
-    private static Task EnsureStartedAsync(CancellationToken cancellationToken)
-    {
-        lock (_lock)
-        {
-            if (_process != null && !_process.HasExited)
-            {
-                return Task.CompletedTask;
-            }
-
-            // Start the docs site using the Blazor WASM dev server.
-            // Use --no-build to avoid concurrent build output locks during test runs.
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = "dotnet",
-                // Force a stable port for tests (ignore launchSettings.json which uses a random dev port).
-                Arguments = "run --project \"samples/Vibe.UI.Docs/Vibe.UI.Docs.csproj\" -c Release --no-build --no-launch-profile --urls \"http://localhost:5000\"",
-                WorkingDirectory = GetRepoRoot(),
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-
-            startInfo.EnvironmentVariables["DOTNET_ENVIRONMENT"] = "Development";
-
-            _process = Process.Start(startInfo);
-            if (_process == null)
-            {
-                throw new InvalidOperationException("Failed to start docs server process.");
-            }
-
-            _process.OutputDataReceived += (_, e) => AddOutput(e.Data);
-            _process.ErrorDataReceived += (_, e) => AddOutput(e.Data);
-            _process.BeginOutputReadLine();
-            _process.BeginErrorReadLine();
-
-            if (!_processExitHandlerRegistered)
-            {
-                AppDomain.CurrentDomain.ProcessExit += (_, __) =>
-                {
-                    try { _process?.Kill(entireProcessTree: true); } catch { }
-                };
-                _processExitHandlerRegistered = true;
-            }
-        }
-
-        return Task.CompletedTask;
-    }
-
-    private static async Task WaitForReadyAsync(string baseUrl, CancellationToken cancellationToken)
+    private static async Task WaitForExternalAsync(
+        string baseUrl,
+        CancellationToken cancellationToken
+    )
     {
         using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(2) };
-
         var deadline = DateTimeOffset.UtcNow.AddSeconds(90);
         Exception? last = null;
 
         while (DateTimeOffset.UtcNow < deadline)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             try
             {
                 using var response = await http.GetAsync(baseUrl, cancellationToken);
-                if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 500)
+                if ((int)response.StatusCode < 500)
                 {
                     return;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
             {
                 last = ex;
             }
@@ -122,64 +124,8 @@ internal static class DocsServerManager
         }
 
         throw new TimeoutException(
-            $"Docs server did not become ready at {baseUrl} within 90s. Recent output:{Environment.NewLine}{GetRecentOutput()}",
-            last);
-    }
-
-    private static void AddOutput(string? line)
-    {
-        if (string.IsNullOrWhiteSpace(line))
-        {
-            return;
-        }
-
-        lock (_recentOutput)
-        {
-            _recentOutput.Enqueue(line);
-
-            while (_recentOutput.Count > 40)
-            {
-                _recentOutput.Dequeue();
-            }
-        }
-    }
-
-    private static string GetRecentOutput()
-    {
-        lock (_recentOutput)
-        {
-            return string.Join(Environment.NewLine, _recentOutput);
-        }
-    }
-
-    private static bool ShouldManageServer(string baseUrl)
-    {
-        // An explicit URL, including the default one, means the caller owns
-        // the server lifecycle. This prevents a second dev server from
-        // competing for the same port during externally managed E2E runs.
-        if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DOCS_BASE_URL")))
-        {
-            return false;
-        }
-
-        return string.Equals(baseUrl.TrimEnd('/'), DefaultBaseUrl, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static string GetRepoRoot()
-    {
-        // Tests execute under the repo; walk up until we find the solution file.
-        var dir = AppContext.BaseDirectory;
-        while (!string.IsNullOrEmpty(dir))
-        {
-            if (File.Exists(Path.Combine(dir, "Vibe.slnx")))
-            {
-                return dir;
-            }
-
-            dir = Directory.GetParent(dir)?.FullName;
-        }
-
-        // Fallback: use current directory.
-        return Directory.GetCurrentDirectory();
+            $"The docs server at {baseUrl} ({BaseUrlVariable}) did not answer within 90s.",
+            last
+        );
     }
 }
