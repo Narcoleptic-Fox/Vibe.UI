@@ -1,5 +1,8 @@
 @namespace Vibe.UI.Components
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
 @typeparam TValue
+@implements IDisposable
 @implements IRadioGroupContext
 @attribute [CascadingTypeParameter(nameof(TValue))]
 @inherits VibeComponent
@@ -22,6 +25,21 @@
 </div>
 
 @code {
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(TValue? value)
+    {
+        await ValueChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
+    public void Dispose() => formField.Dispose();
+
     /// <summary>
     /// The content of the radio group (RadioGroupItem components). When omitted and
     /// <typeparamref name="TValue"/> is an enum, one item per enum value is rendered.
@@ -41,6 +59,13 @@
     /// </summary>
     [Parameter]
     public EventCallback<TValue?> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Names the bound property to the form. <c>@bind-Value</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<TValue>>? ValueExpression { get; set; }
 
     /// <summary>
     /// The name for the radio group (shared by all radio buttons).
@@ -101,6 +126,8 @@
 
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, ValueExpression);
+
         _currentValue = Value;
     }
 
@@ -117,7 +144,7 @@
         }
 
         _currentValue = itemValue;
-        await ValueChanged.InvokeAsync(itemValue);
+        await ReportAsync(itemValue);
         await InvokeAsync(StateHasChanged);
     }
 

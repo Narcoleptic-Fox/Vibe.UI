@@ -29,6 +29,9 @@
                         <FormField TValue="string" Id="email" Label="Email" ValidationFor="@(() => model.Email)" Required="true">
                             <Input Type="email" @bind-Value="model.Email" />
                         </FormField>
+                        <FormField TValue="int?" Id="team-size" Label="Team size" ValidationFor="@(() => model.TeamSize)" Required="true">
+                            <Input @bind-Value="model.TeamSize" />
+                        </FormField>
                         <Button Type="submit">Create account</Button>
                     </div>
                 </Form>
@@ -36,6 +39,10 @@
                 {
                     <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">@submitStatus</output>
                 }
+                <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">
+                    Each field is checked again when you leave it, so a message clears as soon as
+                    the field is put right, without submitting again.
+                </p>
             </div>
         </div>
     </section>
@@ -145,5 +152,9 @@
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Enter a valid email")]
         public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Team size is required")]
+        [Range(1, 500, ErrorMessage = "Team size must be between 1 and 500")]
+        public int? TeamSize { get; set; }
     }
 }
