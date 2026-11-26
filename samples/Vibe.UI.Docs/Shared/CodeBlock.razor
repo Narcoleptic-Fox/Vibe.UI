@@ -25,7 +25,7 @@
         else
         {
             <!-- Fallback while loading -->
-            <pre class="vibe-p-4 vibe-text-sm vibe-leading-relaxed"><code class="vibe-font-mono vibe-text-foreground">@Code</code></pre>
+            <pre tabindex="0" class="vibe-p-4 vibe-text-sm vibe-leading-relaxed"><code class="vibe-font-mono vibe-text-foreground">@Code</code></pre>
         }
     </div>
 </div>
@@ -49,10 +49,13 @@
         border-radius: 0;
     }
 
+    /* In dark mode the code sits on the theme's sunken surface rather than the highlighter's own
+       background, so it matches the theme around it. The dark palette's syntax colours are all
+       above 6:1 on every built-in theme's dark muted colour. */
     html.dark .code-block .code-content .shiki,
     html.dark .code-block .code-content .shiki span {
         color: var(--shiki-dark) !important;
-        background-color: var(--shiki-dark-bg) !important;
+        background-color: var(--vibe-muted) !important;
         font-style: var(--shiki-dark-font-style) !important;
         font-weight: var(--shiki-dark-font-weight) !important;
         text-decoration: var(--shiki-dark-text-decoration) !important;
@@ -139,19 +142,32 @@
     {
         if (string.IsNullOrEmpty(Code)) return;
 
-        try
+        // The highlighter is a module script that can finish loading after Blazor renders the
+        // first code blocks. A call made before it defines window.highlightCode throws, and the
+        // block used to stay plain text for good. Retry for up to about five seconds instead.
+        for (var attempt = 0; attempt < 50; attempt++)
         {
-            // Detect theme from document
-            var isDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
-            var theme = isDark ? "dark" : "light";
+            try
+            {
+                var isDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
+                var theme = isDark ? "dark" : "light";
 
-            highlightedHtml = await JS.InvokeAsync<string>("highlightCode", Code, Language, theme);
-            StateHasChanged();
+                highlightedHtml = await JS.InvokeAsync<string>("highlightCode", Code, Language, theme);
+                StateHasChanged();
+                return;
+            }
+            catch (JSException)
+            {
+                await Task.Delay(100);
+            }
+            catch
+            {
+                // The runtime is going away (navigation or prerendering): keep the plain text.
+                highlightedHtml = null;
+                return;
+            }
         }
-        catch
-        {
-            // Shiki not available, keep fallback
-            highlightedHtml = null;
-        }
+
+        highlightedHtml = null;
     }
 }

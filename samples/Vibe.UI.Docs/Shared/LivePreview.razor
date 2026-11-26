@@ -22,7 +22,7 @@
                 Preview
                 @if (activeTab == "preview")
                 {
-                    <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-brand-teal"></span>
+                    <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-primary"></span>
                 }
             </button>
             <button class="vibe-px-4 vibe-py-2.5 vibe-text-sm vibe-font-medium vibe-transition-colors vibe-relative @(activeTab == "code" ? "active vibe-text-foreground" : "vibe-text-muted-foreground hover:vibe-text-foreground")"
@@ -36,7 +36,7 @@
                 Code
                 @if (activeTab == "code")
                 {
-                    <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-brand-teal"></span>
+                    <span class="vibe-absolute vibe-bottom-0 vibe-left-0 vibe-right-0 vibe-h-0.5 vibe-bg-primary"></span>
                 }
             </button>
         </div>
@@ -62,7 +62,7 @@
             <!-- Props Toggle -->
             @if (Props.Any())
             {
-                <button class="vibe-p-2 vibe-rounded-md vibe-transition-colors @(showProps ? "vibe-bg-brand-teal/10 vibe-text-brand-teal" : "hover:vibe-bg-accent vibe-text-muted-foreground")"
+                <button class="vibe-p-2 vibe-rounded-md vibe-transition-colors @(showProps ? "vibe-bg-primary/10 vibe-text-link" : "hover:vibe-bg-accent vibe-text-muted-foreground")"
                         type="button"
                         @onclick="() => showProps = !showProps"
                         aria-label="Toggle properties panel"

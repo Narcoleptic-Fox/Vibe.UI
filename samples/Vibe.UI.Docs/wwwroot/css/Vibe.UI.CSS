@@ -799,8 +799,6 @@ body {
 .vibe-bg-amber-100 { background-color: #fef3c7; }
 .vibe-bg-black\/50 { background-color: rgb(0 0 0 / 0.5); }
 .vibe-bg-blue-100 { background-color: #dbeafe; }
-.vibe-bg-brand-teal { background-color: #065465; }
-.vibe-bg-brand-teal\/10 { background-color: rgb(6 84 101 / 0.1); }
 .vibe-bg-card { background-color: var(--vibe-card); }
 .vibe-bg-card\/80 { background-color: color-mix(in srgb, var(--vibe-card) 80%, transparent); }
 .vibe-bg-clip-text { -webkit-background-clip: text; background-clip: text; }
@@ -815,15 +813,15 @@ body {
 .vibe-bg-pink-100 { background-color: #fce7f3; }
 .vibe-bg-popover { background-color: var(--vibe-popover); }
 .vibe-bg-primary { background-color: var(--vibe-primary); }
+.vibe-bg-primary\/10 { background-color: color-mix(in srgb, var(--vibe-primary) 10%, transparent); }
 .vibe-bg-purple-100 { background-color: #f3e8ff; }
 .vibe-bg-red-500 { background-color: #ef4444; }
 .vibe-bg-secondary { background-color: var(--vibe-secondary); }
 .vibe-bg-transparent { background-color: transparent; }
-.vibe-bg-white { background-color: #ffffff; }
 .vibe-bg-yellow-500 { background-color: #eab308; }
-.vibe-from-brand-teal { --tw-gradient-from: #065465; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
-.vibe-from-brand-teal\/10 { --tw-gradient-from: rgb(6 84 101 / 0.1); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
-.vibe-from-brand-teal\/5 { --tw-gradient-from: rgb(6 84 101 / 0.05); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
+.vibe-from-primary { --tw-gradient-from: var(--vibe-primary); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
+.vibe-from-primary\/10 { --tw-gradient-from: color-mix(in srgb, var(--vibe-primary) 10%, transparent); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
+.vibe-from-primary\/5 { --tw-gradient-from: color-mix(in srgb, var(--vibe-primary) 5%, transparent); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .vibe-from-transparent { --tw-gradient-from: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .vibe-gradient-orb-lilac { background: radial-gradient(circle at 30% 30%, rgb(170 152 169 / 0.9), rgb(170 152 169 / 0)); }
 .vibe-gradient-orb-teal { background: radial-gradient(circle at 30% 30%, rgb(6 84 101 / 0.9), rgb(6 84 101 / 0)); }
@@ -836,6 +834,7 @@ body {
 .vibe-text-green-400 { color: #4ade80; }
 .vibe-text-green-500 { color: #22c55e; }
 .vibe-text-green-700 { color: #15803d; }
+.vibe-text-link { color: var(--vibe-link); }
 .vibe-text-muted { color: var(--vibe-muted); }
 .vibe-text-muted-foreground { color: var(--vibe-muted-foreground); }
 .vibe-text-orange-700 { color: #c2410c; }
@@ -843,18 +842,18 @@ body {
 .vibe-text-primary-foreground { color: var(--vibe-primary-foreground); }
 .vibe-text-purple-700 { color: #7e22ce; }
 .vibe-to-background { --tw-gradient-to: var(--vibe-background); }
-.vibe-to-brand-lilac { --tw-gradient-to: #AA98A9; }
-.vibe-to-brand-lilac\/10 { --tw-gradient-to: rgb(170 152 169 / 0.1); }
-.vibe-to-brand-lilac\/5 { --tw-gradient-to: rgb(170 152 169 / 0.05); }
+.vibe-to-link { --tw-gradient-to: var(--vibe-link); }
+.vibe-to-primary\/10 { --tw-gradient-to: color-mix(in srgb, var(--vibe-primary) 10%, transparent); }
+.vibe-to-primary\/5 { --tw-gradient-to: color-mix(in srgb, var(--vibe-primary) 5%, transparent); }
 .vibe-via-background\/50 { --tw-gradient-stops: var(--tw-gradient-from), color-mix(in srgb, var(--vibe-background) 50%, transparent), var(--tw-gradient-to, rgb(255 255 255 / 0)); }
 .vibe-border { border-width: 1px; }
 .vibe-border-b { border-bottom-width: 1px; }
 .vibe-border-border { border-color: var(--vibe-border); }
-.vibe-border-brand-teal\/20 { border-color: rgb(6 84 101 / 0.2); }
 .vibe-border-dashed { border-style: dashed; }
 .vibe-border-l { border-left-width: 1px; }
 .vibe-border-l-2 { border-left-width: 2px; }
 .vibe-border-none { border-style: none; }
+.vibe-border-primary\/20 { border-color: color-mix(in srgb, var(--vibe-primary) 20%, transparent); }
 .vibe-border-t { border-top-width: 1px; }
 .vibe-divide-border { --vibe-divide-color: var(--vibe-border); }
 .vibe-divide-y > :not([hidden]) ~ :not([hidden]) { border-top-width: 1px; border-bottom-width: 0px; border-style: solid; border-color: var(--vibe-divide-color, currentColor); }
@@ -917,15 +916,15 @@ body {
 .dark .dark\:vibe-text-pink-400 { color: #f472b6; }
 .dark .dark\:vibe-text-purple-400 { color: #c084fc; }
 .group:hover .group-hover\:vibe-text-brand-teal, .vibe-group:hover .group-hover\:vibe-text-brand-teal { color: #065465; }
+.group:hover .group-hover\:vibe-text-link, .vibe-group:hover .group-hover\:vibe-text-link { color: var(--vibe-link); }
 .hover\:vibe-bg-accent:hover { background-color: var(--vibe-accent); }
 .hover\:vibe-bg-primary\/90:hover { background-color: color-mix(in srgb, var(--vibe-primary) 90%, transparent); }
-.hover\:vibe-bg-white:hover { background-color: #ffffff; }
 .hover\:vibe-text-foreground:hover { color: var(--vibe-foreground); }
 .placeholder\:vibe-text-muted-foreground::placeholder { color: var(--vibe-muted-foreground); }
 .focus\:vibe-border-transparent:focus { border-color: transparent; }
-.focus\:vibe-ring-brand-teal:focus { --tw-ring-color: #065465; }
-.focus\:vibe-ring-brand-teal\/50:focus { --tw-ring-color: rgb(6 84 101 / 0.5); }
+.focus\:vibe-ring-ring:focus { --tw-ring-color: var(--vibe-ring); }
 .hover\:vibe-border-brand-teal:hover { border-color: #065465; }
+.hover\:vibe-border-primary:hover { border-color: var(--vibe-primary); }
 .focus\:vibe-ring-2:focus { box-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width, 0px)) var(--tw-ring-color, var(--vibe-ring, currentColor)); }
 .group:hover .group-hover\:vibe-opacity-100, .vibe-group:hover .group-hover\:vibe-opacity-100 { opacity: 1; }
 .group:hover .group-hover\:vibe-scale-110, .vibe-group:hover .group-hover\:vibe-scale-110 { --tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x, 0), var(--tw-translate-y, 0)) rotate(var(--tw-rotate, 0)) scaleX(var(--tw-scale-x, 1)) scaleY(var(--tw-scale-y, 1)); }

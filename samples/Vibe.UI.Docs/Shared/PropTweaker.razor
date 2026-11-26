@@ -29,9 +29,9 @@
                     @if (prop.Type == PropType.Boolean)
                     {
                         <!-- Boolean Toggle -->
-                        <button class="vibe-relative vibe-w-10 vibe-h-5 vibe-rounded-full vibe-transition-colors @(IsTrue(prop.Value) ? "vibe-bg-brand-teal" : "vibe-bg-muted")"
+                        <button class="vibe-relative vibe-w-10 vibe-h-5 vibe-rounded-full vibe-transition-colors @(IsTrue(prop.Value) ? "vibe-bg-primary" : "vibe-bg-muted")"
                                 @onclick="() => ToggleBool(prop)">
-                            <span class="vibe-absolute vibe-top-0.5 vibe-left-0.5 vibe-w-4 vibe-h-4 vibe-bg-white vibe-rounded-full vibe-shadow vibe-transition-transform @(IsTrue(prop.Value) ? "vibe-translate-x-5" : "")"></span>
+                            <span class="vibe-absolute vibe-top-0.5 vibe-left-0.5 vibe-w-4 vibe-h-4 vibe-bg-card vibe-rounded-full vibe-shadow vibe-transition-transform @(IsTrue(prop.Value) ? "vibe-translate-x-5" : "")"></span>
                         </button>
                     }
                 </label>
@@ -49,7 +49,7 @@
                             @foreach (var option in prop.Options)
                             {
                                 var isSelected = prop.Value?.ToString() == option;
-                                <button class="vibe-px-2.5 vibe-py-1 vibe-text-xs vibe-font-medium vibe-rounded-md vibe-transition-colors @(isSelected ? "vibe-bg-brand-teal vibe-text-white" : "vibe-bg-secondary vibe-text-muted-foreground hover:vibe-bg-accent")"
+                                <button class="vibe-px-2.5 vibe-py-1 vibe-text-xs vibe-font-medium vibe-rounded-md vibe-transition-colors @(isSelected ? "vibe-bg-primary vibe-text-primary-foreground" : "vibe-bg-secondary vibe-text-muted-foreground hover:vibe-bg-accent")"
                                         @onclick="() => SelectOption(prop, option)">
                                     @option
                                 </button>
@@ -62,7 +62,7 @@
                         <input type="text"
                                value="@prop.Value?.ToString()"
                                @onchange="e => SetValue(prop, e.Value)"
-                               class="vibe-w-full vibe-px-3 vibe-py-1.5 vibe-text-sm vibe-rounded-md vibe-border vibe-border-border vibe-bg-card vibe-text-foreground focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-brand-teal/50" />
+                               class="vibe-w-full vibe-px-3 vibe-py-1.5 vibe-text-sm vibe-rounded-md vibe-border vibe-border-border vibe-bg-card vibe-text-foreground focus:vibe-outline-none focus:vibe-ring-2 focus:vibe-ring-ring" />
                         break;
 
                     case PropType.Number:

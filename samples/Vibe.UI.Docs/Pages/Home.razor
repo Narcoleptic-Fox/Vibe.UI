@@ -67,7 +67,7 @@
                 </a>
                 <div
                     class="vibe-flex vibe-items-center vibe-gap-2 vibe-max-w-full vibe-px-4 vibe-py-2.5 vibe-rounded-lg vibe-bg-secondary vibe-border vibe-border-border">
-                    <code
+                    <code tabindex="0"
                         class="docs-command vibe-text-sm vibe-font-mono vibe-text-muted-foreground">@InstallCommands.Clone</code>
                     <CopyButton Code="@InstallCommands.Clone" ShowText="false"
                         Variant="CopyButton.CopyButtonVariant.Ghost" />
@@ -154,7 +154,7 @@
         <div class="vibe-max-w-6xl vibe-mx-auto">
             <div class="vibe-text-center vibe-mb-16">
                 <span
-                    class="vibe-inline-block vibe-px-3 vibe-py-1 vibe-rounded-full vibe-bg-brand-teal/10 vibe-text-brand-teal vibe-text-sm vibe-font-medium vibe-mb-4">
+                    class="vibe-inline-block vibe-px-3 vibe-py-1 vibe-rounded-full vibe-bg-primary/10 vibe-text-link vibe-text-sm vibe-font-medium vibe-mb-4">
                     Features
                 </span>
                 <h2
@@ -188,7 +188,7 @@
 
             <div class="vibe-text-center vibe-mt-10">
                 <a href="@GetUrl("why-vibe-ui")"
-                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-text-brand-teal hover:vibe-underline vibe-font-medium">
+                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-text-link hover:vibe-underline vibe-font-medium">
                     Why Vibe.UI
                     <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -229,7 +229,7 @@
                 </div>
 
                 <!-- Terminal Body -->
-                <div class="vibe-p-6 vibe-font-mono vibe-text-sm vibe-overflow-x-auto">
+                <div class="vibe-p-6 vibe-font-mono vibe-text-sm vibe-overflow-x-auto" tabindex="0">
                     <div class="vibe-text-muted-foreground vibe-mb-3 docs-terminal-line"># Build and install the CLI (needs the .NET 10 SDK)</div>
                     @foreach (var command in InstallCommands.CliFromSource.Split('\n'))
                     {
@@ -271,20 +271,20 @@
                 @foreach (var component in PopularComponents)
                 {
                     <a href="@GetUrl($"components/{component.ToLower()}")"
-                        class="vibe-group vibe-p-4 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal hover:vibe-shadow-lg vibe-transition-all vibe-duration-200">
+                        class="vibe-group vibe-p-4 vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card hover:vibe-border-primary hover:vibe-shadow-lg vibe-transition-all vibe-duration-200">
                         <div
-                            class="vibe-w-10 vibe-h-10 vibe-rounded-lg vibe-bg-gradient-to-br vibe-from-brand-teal/10 vibe-to-brand-lilac/10 vibe-flex vibe-items-center vibe-justify-center vibe-mb-3 group-hover:vibe-scale-110 vibe-transition-transform">
-                            <span class="vibe-text-sm vibe-font-bold vibe-text-brand-teal">@component[0]</span>
+                            class="vibe-w-10 vibe-h-10 vibe-rounded-lg vibe-bg-gradient-to-br vibe-from-primary/10 vibe-to-primary/10 vibe-flex vibe-items-center vibe-justify-center vibe-mb-3 group-hover:vibe-scale-110 vibe-transition-transform">
+                            <span class="vibe-text-sm vibe-font-bold vibe-text-link">@component[0]</span>
                         </div>
                         <span
-                            class="vibe-text-sm vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal vibe-transition-colors">@component</span>
+                            class="vibe-text-sm vibe-font-medium vibe-text-foreground group-hover:vibe-text-link vibe-transition-colors">@component</span>
                     </a>
                 }
             </div>
 
             <div class="vibe-text-center vibe-mt-8">
                 <a href="@GetUrl("components")"
-                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-text-brand-teal hover:vibe-underline vibe-font-medium">
+                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-text-link hover:vibe-underline vibe-font-medium">
                     View all components
                     <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -299,7 +299,7 @@
     <section class="vibe-py-20 vibe-px-4">
         <div class="vibe-max-w-4xl vibe-mx-auto vibe-text-center">
             <div
-                class="vibe-relative vibe-rounded-2xl vibe-bg-gradient-to-br vibe-from-brand-teal vibe-to-brand-lilac vibe-p-px vibe-overflow-hidden">
+                class="vibe-relative vibe-rounded-2xl vibe-bg-gradient-to-br vibe-from-primary vibe-to-link vibe-p-px vibe-overflow-hidden">
                 <div class="vibe-rounded-2xl vibe-bg-card vibe-px-8 vibe-py-16 sm:vibe-px-16">
                     <h2
                         class="vibe-text-3xl sm:vibe-text-4xl vibe-font-bold vibe-text-foreground vibe-mb-4">

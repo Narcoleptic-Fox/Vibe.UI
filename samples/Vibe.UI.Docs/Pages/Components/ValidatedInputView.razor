@@ -55,7 +55,7 @@
                                     ValidateOnInput="true" />
                     @if (!string.IsNullOrEmpty(password))
                     {
-                        <p class="vibe-text-sm vibe-mt-2 vibe-text-brand-teal">Strength: @passwordStrength</p>
+                        <p class="vibe-text-sm vibe-mt-2 vibe-text-link">Strength: @passwordStrength</p>
                     }
                 </div>
 
@@ -128,7 +128,7 @@
         <!-- Properties -->
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Properties</h3>
-            <div class="vibe-overflow-x-auto">
+            <div class="vibe-overflow-x-auto" tabindex="0">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
                         <tr class="vibe-border-b vibe-border-border">
@@ -183,7 +183,7 @@
         <!-- Events -->
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-4">Events</h3>
-            <div class="vibe-overflow-x-auto">
+            <div class="vibe-overflow-x-auto" tabindex="0">
                 <table class="vibe-w-full vibe-text-sm">
                     <thead>
                         <tr class="vibe-border-b vibe-border-border">
@@ -261,16 +261,16 @@
     <section>
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Related</h2>
         <div class="vibe-grid vibe-grid-cols-1 sm:vibe-grid-cols-3 vibe-gap-4">
-            <a href="components/form" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Form</h4>
+            <a href="components/form" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-primary vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-link">Form</h4>
                 <p class="vibe-text-sm vibe-text-muted-foreground">Form container with validation</p>
             </a>
-            <a href="components/formfield" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">FormField</h4>
+            <a href="components/formfield" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-primary vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-link">FormField</h4>
                 <p class="vibe-text-sm vibe-text-muted-foreground">Form field wrapper</p>
             </a>
-            <a href="components/input" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-brand-teal dark:hover:vibe-border-brand-teal vibe-transition-colors">
-                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-brand-teal">Input</h4>
+            <a href="components/input" class="vibe-group vibe-p-4 vibe-rounded-lg vibe-border vibe-border-border hover:vibe-border-primary vibe-transition-colors">
+                <h4 class="vibe-font-medium vibe-text-foreground group-hover:vibe-text-link">Input</h4>
                 <p class="vibe-text-sm vibe-text-muted-foreground">Basic text input</p>
             </a>
         </div>
