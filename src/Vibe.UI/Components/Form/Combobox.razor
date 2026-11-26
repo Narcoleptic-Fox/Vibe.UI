@@ -1,4 +1,6 @@
 @namespace Vibe.UI.Components
+@using System.Globalization
+@typeparam TValue
 @inherits Base.VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedClass">
@@ -57,37 +59,16 @@
 
 @code {
     private readonly string _instanceId = Guid.NewGuid().ToString("N");
-    private string? _lastValue;
-    private List<ComboboxOption>? _lastOptions;
+    private TValue? _lastValue;
+    private List<ComboboxOption<TValue>>? _lastOptions;
     private bool _hasSyncedParameters;
-    private string? _currentValue;
+    private TValue? _currentValue;
 
     /// <summary>
     /// Gets the relationships cascaded by an ancestor <see cref="FormField{TValue}"/>, if any.
     /// </summary>
     [CascadingParameter]
     private FormFieldContext? FieldContext { get; set; }
-
-    /// <summary>
-    /// Represents an option in the combobox.
-    /// </summary>
-    public class ComboboxOption
-    {
-        /// <summary>
-        /// Gets or sets the option's label.
-        /// </summary>
-        public string Label { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the option's value.
-        /// </summary>
-        public string Value { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Gets or sets whether the option is disabled.
-        /// </summary>
-        public bool Disabled { get; set; }
-    }
 
     /// <summary>
     /// Gets or sets the placeholder text.
@@ -102,28 +83,39 @@
     public string? Id { get; set; }
 
     /// <summary>
-    /// Gets or sets the available options.
+    /// Gets or sets the available options. When omitted and <typeparamref name="TValue"/> is an
+    /// enum, one option per enum value is offered.
     /// </summary>
     [Parameter]
-    public List<ComboboxOption> Options { get; set; } = new List<ComboboxOption>();
+    public List<ComboboxOption<TValue>>? Options { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected value.
+    /// Gets or sets the selected value. Options carry values of <typeparamref name="TValue"/>
+    /// themselves, so nothing is converted to or from text when one is picked.
     /// </summary>
     [Parameter]
-    public string? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>
     /// Gets or sets the callback when the value changes.
     /// </summary>
     [Parameter]
-    public EventCallback<string?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether to allow free text input.
+    /// Gets or sets whether text that matches no option can be entered with Enter. The text is
+    /// converted to <typeparamref name="TValue"/> in the invariant culture; text that does not
+    /// convert is not reported.
     /// </summary>
     [Parameter]
     public bool AllowFreeText { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether emptying the text clears the value. Defaults to true for a nullable
+    /// value type such as <c>int?</c> or a nullable enum, and to false otherwise.
+    /// </summary>
+    [Parameter]
+    public bool? Clearable { get; set; }
 
     /// <summary>
     /// Gets or sets whether the combobox is disabled.
@@ -217,12 +209,29 @@
     /// <summary>
     /// The filtered options based on the input value.
     /// </summary>
-    private List<ComboboxOption> FilteredOptions = new List<ComboboxOption>();
+    private List<ComboboxOption<TValue>> FilteredOptions = new List<ComboboxOption<TValue>>();
 
     /// <summary>
     /// The currently highlighted option.
     /// </summary>
-    private ComboboxOption? HighlightedOption;
+    private ComboboxOption<TValue>? HighlightedOption;
+
+    private static readonly System.Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+    private static readonly List<ComboboxOption<TValue>>? EnumOptions = ValueType.IsEnum
+        ? Enum.GetValues(ValueType)
+            .Cast<object>()
+            .Select(value => new ComboboxOption<TValue>
+            {
+                Value = (TValue)value,
+                Label = Vibe.UI.Metadata.ConventionMetadataProvider.ToLabel(value.ToString()!),
+            })
+            .ToList()
+        : null;
+
+    private static bool SameValue(TValue? left, TValue? right) => EqualityComparer<TValue?>.Default.Equals(left, right);
+
+    private bool IsClearable => Clearable ?? Nullable.GetUnderlyingType(typeof(TValue)) is not null;
 
     private string InputId => FieldContext?.ControlId
         ?? (string.IsNullOrWhiteSpace(Id) ? $"vibe-combobox-input-{_instanceId}" : Id!);
@@ -273,7 +282,7 @@
     {
         base.OnParametersSet();
 
-        var valueChanged = !_hasSyncedParameters || !string.Equals(Value, _lastValue, StringComparison.Ordinal);
+        var valueChanged = !_hasSyncedParameters || !SameValue(Value, _lastValue);
         var optionsChanged = !_hasSyncedParameters || !ReferenceEquals(Options, _lastOptions);
 
         if (valueChanged || optionsChanged)
@@ -299,16 +308,16 @@
     /// </summary>
     private void UpdateInputFromValue()
     {
-        if (string.IsNullOrEmpty(Value))
+        if (Value is null)
         {
             _inputValue = string.Empty;
             return;
         }
 
-        var selectedOption = GetOptions().FirstOrDefault(o => string.Equals(o.Value, Value, StringComparison.Ordinal));
+        var selectedOption = GetOptions().FirstOrDefault(o => SameValue(o.Value, Value));
         _inputValue = selectedOption != null
             ? GetOptionLabel(selectedOption)
-            : AllowFreeText ? Value : string.Empty;
+            : AllowFreeText ? BindConverter.FormatValue(Value, CultureInfo.InvariantCulture)?.ToString() ?? string.Empty : string.Empty;
     }
 
     /// <summary>
@@ -316,17 +325,23 @@
     /// </summary>
     private void FilterOptions()
     {
-        FilteredOptions = string.IsNullOrWhiteSpace(InputValue)
+        // The label of the current selection is not a search. Filtering by it would leave a
+        // one-item list, and the user could not see what else there is without clearing the box.
+        var selected = _currentValue is null ? null : GetOptions().FirstOrDefault(o => SameValue(o.Value, _currentValue));
+        var showsSelection = selected is not null && string.Equals(InputValue, GetOptionLabel(selected), StringComparison.Ordinal);
+
+        FilteredOptions = string.IsNullOrWhiteSpace(InputValue) || showsSelection
             ? GetOptions().Where(o => !o.Disabled).ToList()
             : GetOptions()
                 .Where(o => !o.Disabled &&
                     GetOptionLabel(o).Contains(InputValue, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-        HighlightedOption = FilteredOptions.FirstOrDefault();
+        HighlightedOption = (showsSelection ? FilteredOptions.FirstOrDefault(o => ReferenceEquals(o, selected)) : null)
+            ?? FilteredOptions.FirstOrDefault();
     }
 
-    private void OnInputChanged(ChangeEventArgs e)
+    private async Task OnInputChanged(ChangeEventArgs e)
     {
         if (!IsInteractive)
         {
@@ -335,6 +350,13 @@
 
         InputValue = e.Value?.ToString() ?? string.Empty;
         IsOpen = true;
+
+        // Emptying the box is how a nullable value goes back to nothing selected.
+        if (InputValue.Length == 0 && IsClearable && _currentValue is not null)
+        {
+            _currentValue = default;
+            await ValueChanged.InvokeAsync(default);
+        }
     }
 
     /// <summary>
@@ -415,8 +437,13 @@
                 }
                 else if (AllowFreeText && !string.IsNullOrWhiteSpace(InputValue))
                 {
-                    await ValueChanged.InvokeAsync(InputValue);
-                    CloseDropdown();
+                    // The user typed this, so text that is not a TValue is ignored, not thrown.
+                    if (BindConverter.TryConvertTo<TValue>(InputValue, CultureInfo.InvariantCulture, out var typed))
+                    {
+                        _currentValue = typed;
+                        await ValueChanged.InvokeAsync(typed);
+                        CloseDropdown();
+                    }
                 }
                 break;
 
@@ -453,7 +480,7 @@
     /// Highlights an option.
     /// </summary>
     /// <param name="option">The option to highlight.</param>
-    private void HighlightOption(ComboboxOption option)
+    private void HighlightOption(ComboboxOption<TValue> option)
     {
         HighlightedOption = option;
     }
@@ -462,18 +489,18 @@
     /// Checks if an option is the currently selected one.
     /// </summary>
     /// <param name="option">The option to check.</param>
-    private bool IsSelectedOption(ComboboxOption option)
+    private bool IsSelectedOption(ComboboxOption<TValue> option)
     {
-        return string.Equals(option.Value, _currentValue, StringComparison.Ordinal);
+        return _currentValue is not null && SameValue(option.Value, _currentValue);
     }
 
-    private bool IsHighlightedOption(ComboboxOption option) => ReferenceEquals(HighlightedOption, option);
+    private bool IsHighlightedOption(ComboboxOption<TValue> option) => ReferenceEquals(HighlightedOption, option);
 
     /// <summary>
     /// Selects an option.
     /// </summary>
     /// <param name="option">The option to select.</param>
-    private async Task SelectOption(ComboboxOption? option)
+    private async Task SelectOption(ComboboxOption<TValue>? option)
     {
         if (!IsInteractive || option == null || option.Disabled)
         {
@@ -482,16 +509,16 @@
 
         InputValue = GetOptionLabel(option);
         _currentValue = option.Value;
-        await ValueChanged.InvokeAsync(option.Value ?? string.Empty);
+        await ValueChanged.InvokeAsync(option.Value);
         CloseDropdown();
     }
 
-    private IEnumerable<ComboboxOption> GetOptions()
+    private IEnumerable<ComboboxOption<TValue>> GetOptions()
     {
-        return Options ?? Enumerable.Empty<ComboboxOption>();
+        return Options ?? EnumOptions ?? Enumerable.Empty<ComboboxOption<TValue>>();
     }
 
-    private string GetOptionLabel(ComboboxOption option)
+    private string GetOptionLabel(ComboboxOption<TValue> option)
     {
         return option.Label ?? string.Empty;
     }
