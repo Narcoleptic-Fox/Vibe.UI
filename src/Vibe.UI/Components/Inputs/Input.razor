@@ -1,5 +1,7 @@
 @namespace Vibe.UI.Components
+@using System.Globalization
 @using Microsoft.AspNetCore.Components.Forms
+@typeparam TValue
 @inherits VibeComponent
 
 <div class="@CombinedClass">
@@ -8,8 +10,9 @@
         {
             <span class="vibe-input-icon vibe-input-icon-leading">@((MarkupString)LeadingIcon)</span>
         }
-        <input type="@EffectiveType" class="@GetInputClass()" id="@EffectiveId" placeholder="@GetPlaceholder()" value="@currentValue"
-            @onchange="OnValueChanged" @oninput="OnInput" @onfocus="OnFocus" @onblur="OnBlur" disabled="@Disabled"
+        <input type="@EffectiveType" class="@GetInputClass()" id="@EffectiveId" placeholder="@GetPlaceholder()"
+            @bind:get="currentValue" @bind:set="OnTextInput" @bind:event="oninput"
+            @onchange="OnValueChanged" @onfocus="OnFocus" @onblur="OnBlur" disabled="@Disabled"
             readonly="@ReadOnly" @attributes="GetInputAttributes()" />
         @if (!string.IsNullOrEmpty(Label))
         {
@@ -20,9 +23,9 @@
             <span class="vibe-input-icon vibe-input-icon-trailing">@((MarkupString)TrailingIcon)</span>
         }
     </div>
-    @if (!string.IsNullOrEmpty(ErrorMessage))
+    @if (!string.IsNullOrEmpty(EffectiveErrorMessage))
     {
-        <div class="vibe-input-error" id="@ErrorId">@ErrorMessage</div>
+        <div class="vibe-input-error" id="@ErrorId">@EffectiveErrorMessage</div>
     }
     @if (!string.IsNullOrEmpty(HelperText))
     {
@@ -39,10 +42,31 @@
 
     [Parameter] public string? Id { get; set; }
     [Parameter] public string? Label { get; set; } = string.Empty;
-    [Parameter] public string? Type { get; set; } = "text";
+
+    /// <summary>
+    /// Gets or sets the HTML input type. When unset it follows <typeparamref name="TValue"/>:
+    /// <c>number</c> for numeric types, <c>date</c> for <see cref="DateOnly"/>, <c>datetime-local</c>
+    /// for <see cref="DateTime"/> and <see cref="DateTimeOffset"/>, <c>time</c> for
+    /// <see cref="TimeOnly"/>, and <c>text</c> otherwise.
+    /// </summary>
+    [Parameter] public string? Type { get; set; }
     [Parameter] public string? Placeholder { get; set; } = string.Empty;
-    [Parameter] public string? Value { get; set; } = string.Empty;
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value. Text is converted to and from <typeparamref name="TValue"/> with the
+    /// framework's binding converter in the invariant culture, which is the format the browser's
+    /// number, date and time inputs use. Text that does not convert stays in the box, is not
+    /// reported, and marks the input invalid until it converts.
+    /// </summary>
+    [Parameter] public TValue? Value { get; set; }
+    [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the message shown while the text does not convert to
+    /// <typeparamref name="TValue"/> and no <see cref="ErrorMessage"/> is set. Defaults to a short
+    /// English sentence chosen by the value type; set an empty string to show none.
+    /// </summary>
+    [Parameter] public string? ParsingErrorMessage { get; set; }
     [Parameter] public bool Disabled { get; set; } = false;
     [Parameter] public bool ReadOnly { get; set; } = false;
     [Parameter] public string? LeadingIcon { get; set; } = string.Empty;
@@ -52,15 +76,45 @@
     [Parameter] public ComponentSize Size { get; set; } = ComponentSize.Medium;
     [Parameter] public InputVariant Variant { get; set; } = InputVariant.Outlined;
 
+    private static readonly System.Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+    private static readonly bool IsIntegerType =
+        ValueType == typeof(int) || ValueType == typeof(long) || ValueType == typeof(short);
+
+    private static readonly bool IsNumericType =
+        IsIntegerType || ValueType == typeof(decimal) || ValueType == typeof(double) || ValueType == typeof(float);
+
+    private static readonly string DefaultType =
+        IsNumericType ? "number"
+        : ValueType == typeof(DateOnly) ? "date"
+        : ValueType == typeof(DateTime) || ValueType == typeof(DateTimeOffset) ? "datetime-local"
+        : ValueType == typeof(TimeOnly) ? "time"
+        : "text";
+
+    // An invalid box with no words is a red outline nobody can act on.
+    private static readonly string DefaultParsingErrorMessage =
+        IsNumericType ? "Enter a valid number."
+        : ValueType == typeof(DateOnly) || ValueType == typeof(DateTime) || ValueType == typeof(DateTimeOffset) ? "Enter a valid date."
+        : ValueType == typeof(TimeOnly) ? "Enter a valid time."
+        : "Enter a valid value.";
+
     private bool isFocused = false;
+    private bool hasParsingError;
+    private bool hasRendered;
+    private TValue? lastValue;
     private bool hasValue => !string.IsNullOrEmpty(currentValue);
-    private bool HasError => !string.IsNullOrEmpty(ErrorMessage);
-    private bool EffectiveHasError => HasError || FieldContext?.IsInvalid == true;
+    private string? EffectiveErrorMessage =>
+        !string.IsNullOrEmpty(ErrorMessage) ? ErrorMessage : hasParsingError ? ParsingErrorMessage ?? DefaultParsingErrorMessage : null;
+    private bool HasError => !string.IsNullOrEmpty(EffectiveErrorMessage);
+    private bool EffectiveHasError => HasError || hasParsingError || FieldContext?.IsInvalid == true;
     private bool HasHelper => !string.IsNullOrEmpty(HelperText);
 
     private string EffectiveId => FieldContext?.ControlId
         ?? (string.IsNullOrWhiteSpace(Id) ? generatedId : Id);
-    private string EffectiveType => string.IsNullOrWhiteSpace(Type) ? "text" : Type;
+
+    // A lowercase type="..." attribute lands here too: the framework matches parameter names
+    // without regard to case, so it never reaches AdditionalAttributes.
+    private string EffectiveType => string.IsNullOrWhiteSpace(Type) ? DefaultType : Type;
     private string ErrorId => $"{EffectiveId}-error";
     private string HelperId => $"{EffectiveId}-helper";
     private string? DescribedBy => BuildDescribedBy();
@@ -69,7 +123,14 @@
 
     protected override void OnParametersSet()
     {
-        currentValue = Value ?? string.Empty;
+        if (!hasRendered || !TextStillStandsFor(Value))
+        {
+            currentValue = Format(Value);
+            hasParsingError = false;
+        }
+
+        hasRendered = true;
+        lastValue = Value;
 
         if (Disabled)
         {
@@ -77,26 +138,88 @@
         }
     }
 
-    private async Task OnValueChanged(ChangeEventArgs e)
+    // A parent re-render must not rewrite what the user is typing. "1.50" is kept while the value
+    // is 1.5, and text that does not convert is kept while the parent has not changed the value.
+    private bool TextStillStandsFor(TValue? value)
     {
-        if (Disabled || ReadOnly)
-        {
-            return;
-        }
-
-        currentValue = e.Value?.ToString() ?? string.Empty;
-        await ValueChanged.InvokeAsync(currentValue);
+        var comparer = EqualityComparer<TValue?>.Default;
+        return TryParse(currentValue, out var parsed)
+            ? comparer.Equals(parsed, value)
+            : comparer.Equals(lastValue, value);
     }
 
-    private async Task OnInput(ChangeEventArgs e)
+    private string Format(TValue? value)
+    {
+        var type = EffectiveType;
+        object? formatted = value switch
+        {
+            null => null,
+            DateOnly date when type == "date" => BindConverter.FormatValue(date, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            DateTime dateTime when DateTimeFormatFor(type) is { } format => BindConverter.FormatValue(dateTime, format, CultureInfo.InvariantCulture),
+            DateTimeOffset offset when DateTimeFormatFor(type) is { } format => BindConverter.FormatValue(offset, format, CultureInfo.InvariantCulture),
+            TimeOnly time when type == "time" => BindConverter.FormatValue(time, "HH:mm:ss", CultureInfo.InvariantCulture),
+            _ => BindConverter.FormatValue(value, CultureInfo.InvariantCulture),
+        };
+
+        return formatted?.ToString() ?? string.Empty;
+    }
+
+    // The formats the browser's own date and time inputs read and write.
+    private static string? DateTimeFormatFor(string type) => type switch
+    {
+        "date" => "yyyy-MM-dd",
+        "datetime-local" => "yyyy-MM-ddTHH:mm:ss",
+        "month" => "yyyy-MM",
+        _ => null,
+    };
+
+    private static readonly bool IsNullableValueType = Nullable.GetUnderlyingType(typeof(TValue)) is not null;
+
+    private static bool TryParse(string text, out TValue? value)
+    {
+        // The framework's converter does this for nullable numbers but not for a nullable DateOnly.
+        if (text.Length == 0 && IsNullableValueType)
+        {
+            value = default;
+            return true;
+        }
+
+        // Invariant parsing reads a comma as a thousands separator, so "1,5" typed by a German
+        // user into a text box would become 15. The browser's number format has no comma or space.
+        if (IsNumericType && text.AsSpan().IndexOfAny(',', ' ') >= 0)
+        {
+            value = default;
+            return false;
+        }
+
+        return BindConverter.TryConvertTo<TValue>(text, CultureInfo.InvariantCulture, out value);
+    }
+
+    private Task OnValueChanged(ChangeEventArgs e) => AcceptText(e.Value?.ToString(), isCommit: true);
+
+    // Typing goes through @bind, not a bare @oninput, so the renderer knows what the box holds
+    // and leaves it alone. A number box reports "" for a half-typed "-": echoing that back as a
+    // new value would erase the minus sign under the user's cursor.
+    private Task OnTextInput(string? text) => AcceptText(text, isCommit: false);
+
+    private async Task AcceptText(string? text, bool isCommit)
     {
         if (Disabled || ReadOnly)
         {
             return;
         }
 
-        currentValue = e.Value?.ToString() ?? string.Empty;
-        await ValueChanged.InvokeAsync(currentValue);
+        currentValue = text ?? string.Empty;
+
+        if (!TryParse(currentValue, out var value))
+        {
+            // Half-typed text such as "-" is not an error yet. It is one once the user commits it.
+            hasParsingError = isCommit;
+            return;
+        }
+
+        hasParsingError = false;
+        await ValueChanged.InvokeAsync(value);
     }
 
     private void OnFocus(FocusEventArgs e)
@@ -179,7 +302,7 @@
 
     private Dictionary<string, object>? GetComputedA11yAttributes()
     {
-        if (!EffectiveHasError && !HasHelper && FieldContext is null)
+        if (!EffectiveHasError && !HasHelper && FieldContext is null && !NeedsAnyStep)
             return null;
 
         var attrs = new Dictionary<string, object>();
@@ -187,8 +310,16 @@
         return attrs.Count > 0 ? attrs : null;
     }
 
+    // A number input only accepts whole numbers unless told otherwise.
+    private bool NeedsAnyStep => IsNumericType && !IsIntegerType && EffectiveType == "number";
+
     private void MergeComputedA11yAttributes(Dictionary<string, object> target)
     {
+        if (NeedsAnyStep && !target.ContainsKey("step"))
+        {
+            target["step"] = "any";
+        }
+
         if (EffectiveHasError)
         {
             target["aria-invalid"] = "true";
