@@ -21,7 +21,7 @@
         <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
             <div class="vibe-max-w-md vibe-space-y-2">
                 <label for="combobox-framework" class="vibe-block vibe-text-sm vibe-font-medium vibe-text-foreground">Framework</label>
-                <Combobox TValue="string" Id="combobox-framework" Options="frameworks" Placeholder="Choose a framework"
+                <Combobox Id="combobox-framework" Options="frameworks" Placeholder="Choose a framework"
                           HelperText="Type to filter the list" @bind-Value="framework" />
                 <output id="combobox-framework-value" class="vibe-block vibe-text-sm vibe-text-muted-foreground">
                     Value: @Show(framework)
@@ -37,10 +37,9 @@
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Text options</h3>
             <p class="vibe-text-muted-foreground vibe-mb-3">
                 Each <code>ComboboxOption</code> has the text shown and the value reported. The value
-                in the preview above is a <code>string</code>. With text values, state
-                <code>TValue="string"</code>: a <code>string?</code> field bound to
-                <code>ComboboxOption&lt;string&gt;</code> options otherwise makes the compiler infer
-                <code>string?</code> and warn that the two lists differ in nullability.
+                in the preview above is a <code>string</code>. A <code>string?</code> field binds to
+                <code>ComboboxOption&lt;string&gt;</code> options as written: the field can be empty, the
+                options cannot, and <code>TValue</code> does not need stating.
             </p>
             <CodeBlock Code="@StringCode" Language="razor" />
         </div>
@@ -106,7 +105,7 @@
                     </div>
                     <div class="vibe-space-y-2">
                         <label for="combobox-city" class="vibe-block vibe-text-sm vibe-font-medium vibe-text-foreground">City</label>
-                        <Combobox TValue="string" Id="combobox-city" Options="cities" AllowFreeText="true" Clearable="true"
+                        <Combobox Id="combobox-city" Options="cities" AllowFreeText="true" Clearable="true"
                                   Placeholder="Any city" @bind-Value="city" />
                         <output id="combobox-city-value" class="vibe-block vibe-text-sm vibe-text-muted-foreground">
                             Value: @Show(city)
@@ -244,8 +243,8 @@
 
     private static readonly (string Name, string Type, string Default, string Description)[] Properties =
     [
-        ("TValue", "type parameter", "inferred", "Type of the value; inferred from Options or @bind-Value, otherwise set it, such as TValue=\"string\". State it for text values bound to a string? field"),
-        ("Options", "List<ComboboxOption<TValue>>?", "null", "The choices. When omitted and TValue is an enum or nullable enum, one option per enum value"),
+        ("TValue", "type parameter", "inferred", "Type of the value; inferred from Options or @bind-Value, otherwise set it, such as TValue=\"string\""),
+        ("Options", "IReadOnlyList<IComboboxOption<TValue>>?", "null", "The choices, usually a List<ComboboxOption<TValue>>. When omitted and TValue is an enum or nullable enum, one option per enum value"),
         ("Value", "TValue?", "default", "The selected value; supports @bind-Value"),
         ("ValueChanged", "EventCallback<TValue?>", "none", "Called when the value changes"),
         ("AllowFreeText", "bool", "false", "Enter on text that matches no option reports the text, converted to TValue in the invariant culture; text that does not convert is ignored"),
@@ -281,7 +280,7 @@
 
     private const string StringCode = """
         <label for="framework">Framework</label>
-        <Combobox TValue="string" Id="framework" Options="frameworks" Placeholder="Choose a framework" @bind-Value="framework" />
+        <Combobox Id="framework" Options="frameworks" Placeholder="Choose a framework" @bind-Value="framework" />
 
         @code {
             private string? framework;
@@ -322,7 +321,7 @@
     private const string FreeTextCode = """
         <Combobox Id="page-size" Options="pageSizes" AllowFreeText="true" @bind-Value="pageSize" />
 
-        <Combobox TValue="string" Id="city" Options="cities" AllowFreeText="true" Clearable="true"
+        <Combobox Id="city" Options="cities" AllowFreeText="true" Clearable="true"
                   Placeholder="Any city" @bind-Value="city" />
 
         @code {
