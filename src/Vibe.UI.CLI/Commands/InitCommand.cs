@@ -21,6 +21,8 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         .. Vibe.UI.Services.Theme.ThemePaletteData.Names.Where(name => name != DefaultBaseColor),
     ];
 
+    public const string WithFluentValidationOption = "--with-fluentvalidation";
+
     public class Settings : CommandSettings
     {
         [Description("Skip confirmation prompts")]
@@ -47,6 +49,13 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         [CommandOption("--with-charts")]
         [DefaultValue(false)]
         public bool WithCharts { get; init; }
+
+        [Description(
+            "Copy the FluentValidation adapter (FluentValidator, AddVibeFluentValidation) and add the FluentValidation package reference"
+        )]
+        [CommandOption(WithFluentValidationOption)]
+        [DefaultValue(false)]
+        public bool WithFluentValidation { get; init; }
 
         [Description("Add Vibe.UI.CSS package reference for build-time CSS generation")]
         [CommandOption("--with-css")]
@@ -127,6 +136,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
         string? csprojPath = null;
         var vibeCssConfigured = false;
+        FluentValidationAdapterInstaller.Result? fluentValidation = null;
 
         await AnsiConsole
             .Status()
@@ -152,6 +162,15 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                         target.ProjectPath,
                         includeComponents: false
                     );
+
+                    if (settings.WithFluentValidation)
+                    {
+                        ctx.Status("Copying the FluentValidation adapter...");
+                        fluentValidation = await FluentValidationAdapterInstaller.InstallAsync(
+                            target.ProjectPath,
+                            FindCsprojFile(target.ProjectPath)
+                        );
+                    }
 
                     ctx.Status("Creating component directory...");
 
@@ -197,6 +216,21 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
             $"CSS foundation files copied to {Path.Combine(target.ProjectPath, "wwwroot", "css")}"
         );
         AnsiConsole.WriteLine($"Color scheme: {baseColor}");
+
+        if (fluentValidation is not null)
+        {
+            AnsiConsole.WriteLine(
+                $"FluentValidation adapter copied to {fluentValidation.AdapterDirectory}"
+            );
+            AnsiConsole.MarkupLine(
+                fluentValidation.PackageReferenceAdded
+                    ? $"[grey]FluentValidation {fluentValidation.PackageVersion} added to {Path.GetFileName(fluentValidation.ProjectFile)}[/]"
+                    : $"[grey]{Path.GetFileName(fluentValidation.ProjectFile)} already references FluentValidation; left as it is. The adapter is tested with {fluentValidation.PackageVersion}.[/]"
+            );
+            AnsiConsole.MarkupLine(
+                "[grey]Call services.AddVibeFluentValidation() and register your validators, in the client as well as on the server.[/]"
+            );
+        }
 
         if (vibeCssConfigured)
         {
