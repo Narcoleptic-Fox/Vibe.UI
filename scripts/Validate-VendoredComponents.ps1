@@ -17,6 +17,12 @@
     `vibe init` installs into the WebAssembly client, which compiles against a smaller
     framework than the server does.
 
+    Two more apps check the FluentValidation adapter, which `vibe init --with-fluentvalidation`
+    copies as source: a Server app and a hosted app's WebAssembly client, each with a model, a
+    validator, `AddVibeFluentValidation()` in Program.cs and a form using `<FluentValidator />`.
+    They add no components, so the adapter has to stand on `vibe init` alone. The fixture uses
+    every adapter file, so a file missing from the package fails the build.
+
     The apps are compiled by a single parallel MSBuild invocation, so the cost is one build
     session rather than one per component.
 
@@ -31,7 +37,8 @@
 
 .PARAMETER Components
     Debugging aid: validate only these components. Never passed by CI. A run narrowed this way
-    says so loudly and does not build the "everything together" app.
+    says so loudly and does not build the "everything together" apps. The FluentValidation apps
+    are built either way.
 #>
 [CmdletBinding()]
 param(
@@ -52,6 +59,8 @@ $knownUnvendorable = [ordered]@{
 # Short names: the WebAssembly build nests deep paths, and Windows stops at 260 characters.
 $allTogetherName = "_All"
 $allTogetherWasmName = "_AllWasm"
+$fluentValidationName = "_FV"
+$fluentValidationWasmName = "_FVWasm"
 
 function Invoke-Logged {
     param(
@@ -74,6 +83,115 @@ function Assert-Step {
     if ($ExitCode -ne 0) {
         Get-Content -LiteralPath $LogPath | Write-Host
         throw "$What failed with exit code $ExitCode. Log: $LogPath"
+    }
+}
+
+function New-ConsumerTemplate {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$What,
+        [Parameter(Mandatory = $true)][string[]]$NewArguments,
+        [string[]]$InitArguments = @()
+    )
+
+    $exitCode = Invoke-Logged "dotnet" (@(
+        "new", "blazor",
+        "--name", "Consumer",
+        "--output", $Path,
+        "--framework", "net10.0",
+        "--no-restore",
+        "--no-update-check"
+    ) + $NewArguments) $setupLog
+    Assert-Step $exitCode "dotnet new blazor ($What)" $setupLog
+
+    $exitCode = Invoke-Logged $ToolExecutable (@("init", "--yes", "--path", $Path) + $InitArguments) $setupLog
+    Assert-Step $exitCode "vibe init ($What)" $setupLog
+}
+
+# The code an app writes to use the adapter: a model and its validator, the registrations in
+# Program.cs, and a form with <FluentValidator />. The page relies on the Razor using that
+# `vibe init --with-fluentvalidation` adds, so a missing using fails here as RZ10012.
+function Add-FluentValidationFixture {
+    param(
+        [Parameter(Mandatory = $true)][string]$ComponentsProject,
+        [Parameter(Mandatory = $true)][string]$PagesDirectory,
+        [Parameter(Mandatory = $true)][string[]]$ProgramFiles
+    )
+
+    $adapterDirectory = Join-Path $ComponentsProject "Vibe/FluentValidation"
+    if (-not (Test-Path -LiteralPath $adapterDirectory -PathType Container)) {
+        throw "vibe init --with-fluentvalidation exited 0 but did not copy the adapter into $ComponentsProject."
+    }
+
+    $validationDirectory = Join-Path $ComponentsProject "Validation"
+    New-Item -ItemType Directory -Force -Path $validationDirectory | Out-Null
+    Set-Content -LiteralPath (Join-Path $validationDirectory "Person.cs") -Encoding utf8NoBOM -Value @'
+using FluentValidation;
+
+namespace Consumer.Validation;
+
+public sealed class Person
+{
+    public string Name { get; set; } = string.Empty;
+
+    public int Age { get; set; }
+}
+
+public sealed class PersonValidator : AbstractValidator<Person>
+{
+    public PersonValidator()
+    {
+        RuleFor(person => person.Name).NotEmpty().MaximumLength(50);
+        RuleFor(person => person.Age).InclusiveBetween(0, 150);
+    }
+}
+'@
+
+    # Where the template keeps its own pages, so the page sees the template's _Imports.razor.
+    if (-not (Test-Path -LiteralPath $PagesDirectory -PathType Container)) {
+        throw "The template has no pages directory at $PagesDirectory."
+    }
+    Set-Content -LiteralPath (Join-Path $PagesDirectory "PersonForm.razor") -Encoding utf8NoBOM -Value @'
+@page "/person"
+@using Consumer.Validation
+
+<EditForm Model="person" OnValidSubmit="Save">
+    <FluentValidator />
+    <InputText @bind-Value="person.Name" />
+    <ValidationSummary />
+    <button type="submit">Save</button>
+</EditForm>
+
+<p>@saved</p>
+
+@code {
+    private readonly Person person = new();
+    private int saved;
+
+    private void Save() => saved++;
+}
+'@
+
+    $registrations = @(
+        "Vibe.UI.FluentValidationServiceCollectionExtensions.AddVibeFluentValidation(builder.Services);",
+        "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddScoped<global::FluentValidation.IValidator<Consumer.Validation.Person>, Consumer.Validation.PersonValidator>(builder.Services);"
+    )
+    foreach ($programFile in $ProgramFiles) {
+        $lines = [System.Collections.Generic.List[string]]::new([string[]](Get-Content -LiteralPath $programFile))
+        $builderLine = -1
+        for ($index = 0; $index -lt $lines.Count; $index++) {
+            if ($lines[$index] -match '^\s*var builder\s*=') {
+                $builderLine = $index
+                break
+            }
+        }
+
+        if ($builderLine -lt 0) {
+            throw "No 'var builder =' line to register the validator after in $programFile."
+        }
+
+        $lines.InsertRange($builderLine + 1, [string[]]$registrations)
+        Set-Content -LiteralPath $programFile -Encoding utf8NoBOM -Value $lines
     }
 }
 
@@ -136,19 +254,7 @@ foreach ($excludedName in $excludedNames) {
 $templatePath = Join-Path $WorkRoot "template"
 $setupLog = Join-Path $WorkRoot "setup.log"
 
-$exitCode = Invoke-Logged "dotnet" @(
-    "new", "blazor",
-    "--name", "Consumer",
-    "--output", $templatePath,
-    "--framework", "net10.0",
-    "--interactivity", "Server",
-    "--no-restore",
-    "--no-update-check"
-) $setupLog
-Assert-Step $exitCode "dotnet new blazor" $setupLog
-
-$exitCode = Invoke-Logged $ToolExecutable @("init", "--yes", "--path", $templatePath) $setupLog
-Assert-Step $exitCode "vibe init" $setupLog
+New-ConsumerTemplate -Path $templatePath -What "Server" -NewArguments @("--interactivity", "Server")
 
 if (-not (Test-Path -LiteralPath (Join-Path $templatePath "Vibe/Base/VibeComponent.cs") -PathType Leaf)) {
     throw "vibe init exited 0 but did not copy the infrastructure into $templatePath."
@@ -181,20 +287,7 @@ if (-not $isSubset) {
     # compiled there. The server project references the client, so the server assembly
     # existing means the client compiled first.
     $wasmTemplatePath = Join-Path $WorkRoot "template-wasm"
-    $exitCode = Invoke-Logged "dotnet" @(
-        "new", "blazor",
-        "--name", "Consumer",
-        "--output", $wasmTemplatePath,
-        "--framework", "net10.0",
-        "--interactivity", "WebAssembly",
-        "--all-interactive",
-        "--no-restore",
-        "--no-update-check"
-    ) $setupLog
-    Assert-Step $exitCode "dotnet new blazor (WebAssembly)" $setupLog
-
-    $exitCode = Invoke-Logged $ToolExecutable @("init", "--yes", "--path", $wasmTemplatePath) $setupLog
-    Assert-Step $exitCode "vibe init (WebAssembly)" $setupLog
+    New-ConsumerTemplate -Path $wasmTemplatePath -What "WebAssembly" -NewArguments @("--interactivity", "WebAssembly", "--all-interactive")
 
     if (-not (Test-Path -LiteralPath (Join-Path $wasmTemplatePath "Consumer.Client/Vibe/Base/VibeComponent.cs") -PathType Leaf)) {
         throw "vibe init exited 0 but did not copy the infrastructure into the client project of $wasmTemplatePath."
@@ -209,6 +302,36 @@ if (-not $isSubset) {
         Assembly      = "Consumer/bin/Release/net10.0/Consumer.dll"
     })
 }
+
+# The FluentValidation adapter, in both shapes. No components are added.
+$fvTemplatePath = Join-Path $WorkRoot "template-fv"
+New-ConsumerTemplate -Path $fvTemplatePath -What "Server, FluentValidation" -NewArguments @("--interactivity", "Server") -InitArguments @("--with-fluentvalidation")
+Add-FluentValidationFixture -ComponentsProject $fvTemplatePath -PagesDirectory (Join-Path $fvTemplatePath "Components/Pages") -ProgramFiles @(Join-Path $fvTemplatePath "Program.cs")
+$apps.Add([pscustomobject]@{
+    Name          = $fluentValidationName
+    Components    = @()
+    Template      = $fvTemplatePath
+    ComponentsDir = "Components/vibe"
+    Project       = "Consumer.csproj"
+    Assembly      = "bin/Release/net10.0/Consumer.dll"
+})
+
+# Hosted: the adapter, the validator and the page are in the client; the server prerenders the
+# page, so it registers the validator too.
+$fvWasmTemplatePath = Join-Path $WorkRoot "template-fvwasm"
+New-ConsumerTemplate -Path $fvWasmTemplatePath -What "WebAssembly, FluentValidation" -NewArguments @("--interactivity", "WebAssembly", "--all-interactive") -InitArguments @("--with-fluentvalidation")
+Add-FluentValidationFixture -ComponentsProject (Join-Path $fvWasmTemplatePath "Consumer.Client") -PagesDirectory (Join-Path $fvWasmTemplatePath "Consumer.Client/Pages") -ProgramFiles @(
+    (Join-Path $fvWasmTemplatePath "Consumer.Client/Program.cs"),
+    (Join-Path $fvWasmTemplatePath "Consumer/Program.cs")
+)
+$apps.Add([pscustomobject]@{
+    Name          = $fluentValidationWasmName
+    Components    = @()
+    Template      = $fvWasmTemplatePath
+    ComponentsDir = "Consumer.Client/Components/vibe"
+    Project       = "Consumer/Consumer.csproj"
+    Assembly      = "Consumer/bin/Release/net10.0/Consumer.dll"
+})
 
 $appNames = @($apps | ForEach-Object { $_.Name })
 
@@ -322,6 +445,9 @@ if ($inconsistent.Count -gt 0) {
 }
 
 $passed = @($results | Where-Object { $_.Passed })
+$scopeDescription = "$($validatedNames.Count) components one at a time" +
+    $(if (-not $isSubset) { ", plus all of them together in a Server app and in a WebAssembly client" } else { "" }) +
+    ", plus the FluentValidation adapter in a Server app and in a WebAssembly client"
 $failed = @($results | Where-Object { -not $_.Passed })
 
 if ($failed.Count -gt 0) {
@@ -357,9 +483,9 @@ if ($failed.Count -gt 0) {
     }
 
     Write-Host ""
-    Write-Host "Vendoring gate FAILED: $($failed.Count) of $($results.Count) apps did not compile ($($validatedNames.Count) components one at a time$(if (-not $isSubset) { ', plus all of them together in a Server app and in a WebAssembly client' })). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
+    Write-Host "Vendoring gate FAILED: $($failed.Count) of $($results.Count) apps did not compile ($scopeDescription). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
     Write-Host "Failed: $($failed.Name -join ', ')"
     throw "Vendoring gate failed for $($failed.Count) of $($results.Count) apps."
 }
 
-Write-Host "Vendoring gate passed: $($passed.Count) of $($results.Count) apps compiled ($($validatedNames.Count) components one at a time$(if (-not $isSubset) { ', plus all of them together in a Server app and in a WebAssembly client' })). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
+Write-Host "Vendoring gate passed: $($passed.Count) of $($results.Count) apps compiled ($scopeDescription). Excluded: $($excludedNames.Count). Registry: $($registryNames.Count)."
