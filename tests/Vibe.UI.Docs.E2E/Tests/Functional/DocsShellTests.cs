@@ -298,6 +298,39 @@ public class DocsShellTests : E2ETestBase
         await Page.WaitForURLAsync(new Regex("/components$"));
     }
 
+    [Fact]
+    public async Task WhyVibeUIIsReachableFromTheHomePageAndTheRail()
+    {
+        await NavigateAndWaitForBlazorAsync("/");
+
+        // The home page credits shadcn/ui on the overview page, not in its own headline.
+        (await Page.Locator("main").InnerTextAsync()).ShouldNotContain(
+            "shadcn",
+            Case.Insensitive,
+            "The home page should not present Vibe.UI as a port of shadcn/ui"
+        );
+
+        await Page.Locator("main")
+            .GetByRole(AriaRole.Link, new() { Name = "Why Vibe.UI", Exact = true })
+            .ClickAsync();
+        await Page.WaitForURLAsync(new Regex("/why-vibe-ui$"));
+        (await Page.GetByRole(AriaRole.Heading, new() { Level = 1 }).InnerTextAsync())
+            .Trim()
+            .ShouldBe("Why Vibe.UI");
+
+        await Page.SetViewportSizeAsync(1280, 900);
+        await Page.Locator(RailSelector)
+            .Locator("a[aria-current='page']")
+            .Filter(new() { HasText = "Why Vibe.UI" })
+            .WaitForAsync();
+
+        // The typed example is live: choosing an option sets the enum value, not a string.
+        var example = Page.Locator("[data-testid='why-typed-select']");
+        await example.GetByLabel("Order status", new() { Exact = true })
+            .SelectOptionAsync(new SelectOptionValue { Label = "Shipped" });
+        await example.GetByText("OrderStatus.Shipped", new() { Exact = true }).WaitForAsync();
+    }
+
     [Theory]
     [InlineData("/")]
     [InlineData("/components")]
@@ -327,6 +360,7 @@ public class DocsShellTests : E2ETestBase
     [InlineData("/components/button")]
     [InlineData("/components/table")]
     [InlineData("/getting-started")]
+    [InlineData("/why-vibe-ui")]
     [InlineData("/no/such/page")]
     public async Task PhoneWidthPagesDoNotScrollSideways(string path)
     {
