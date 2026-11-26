@@ -1,0 +1,312 @@
+@namespace Vibe.UI.Components
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+@using System.Linq.Expressions
+@using System.Reflection
+@using Vibe.UI.Metadata
+@typeparam TValue
+@inherits Base.VibeComponent
+@inject IPropertyMetadataResolver Resolver
+
+@* One line per field: the control comes from the property's type, and the label, required marker,
+   limits and messages from its metadata. FormField does the wrapping, so there is one wrapper. *@
+<FormField TValue="TValue" Id="@Id" Class="@CombinedClass" @attributes="AdditionalAttributes"
+           ValidationFor="For" Label="@(kind == ControlKind.Checkbox ? null : metadata.Label)"
+           Description="@metadata.Description" Required="@IsRequired">
+    @switch (kind)
+    {
+        case ControlKind.Custom:
+            <DynamicComponent Type="@(metadata.Control!)" Parameters="@BuildCustomParameters(metadata.Control!)" />
+            break;
+
+        case ControlKind.Checkbox:
+            @* A checkbox carries its label beside the box, so the field prints none above it. *@
+            <Checkbox Checked="@((bool)(object)binding.Value!)"
+                      CheckedChanged="@(EventCallback.Factory.Create<bool>(this, value => WriteAsync((TValue)(object)value)))"
+                      CheckedExpression="@((Expression<Func<bool>>)(object)For)"
+                      Label="@metadata.Label" Disabled="@Disabled" />
+            break;
+
+        case ControlKind.Select:
+            <Select TValue="TValue" Value="@binding.Value"
+                    ValueChanged="@(EventCallback.Factory.Create<TValue?>(this, WriteAsync))"
+                    ValueExpression="For" Placeholder="@metadata.Placeholder" Disabled="@Disabled"
+                    ChildContent="@(ValueType == typeof(bool) ? YesNoOptions : null)" />
+            break;
+
+        default:
+            <Input TValue="TValue" Value="@binding.Value"
+                   ValueChanged="@(EventCallback.Factory.Create<TValue?>(this, WriteAsync))"
+                   ValueExpression="For" Type="@inputType" Placeholder="@metadata.Placeholder"
+                   Disabled="@Disabled" @attributes="inputAttributes" />
+            break;
+    }
+</FormField>
+
+@code {
+    private enum ControlKind
+    {
+        Input,
+        Select,
+        Checkbox,
+        Custom,
+    }
+
+    private static readonly Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+    private static readonly bool IsNullableValueType = Nullable.GetUnderlyingType(typeof(TValue)) is not null;
+
+    // What the typed Input converts to and from text without help.
+    private static readonly HashSet<Type> InputTypes =
+    [
+        typeof(string), typeof(int), typeof(long), typeof(short), typeof(float), typeof(double),
+        typeof(decimal), typeof(DateTime), typeof(DateTimeOffset), typeof(DateOnly), typeof(TimeOnly),
+        typeof(Guid),
+    ];
+
+    // A bool that can also be "not answered", such as a filter: yes, no, or the empty option.
+    private static readonly RenderFragment YesNoOptions = builder =>
+    {
+        builder.OpenElement(0, "option");
+        builder.AddAttribute(1, "value", bool.TrueString);
+        builder.AddContent(2, "Yes");
+        builder.CloseElement();
+        builder.OpenElement(3, "option");
+        builder.AddAttribute(4, "value", bool.FalseString);
+        builder.AddContent(5, "No");
+        builder.CloseElement();
+    };
+
+    private PropertyBinding<TValue> binding = default!;
+    private PropertyMetadata metadata = PropertyMetadata.Empty;
+    private ControlKind kind;
+    private string? inputType;
+    private Dictionary<string, object>? inputAttributes;
+
+    /// <summary>
+    /// The property to edit, as <c>() =&gt; model.Name</c>. The control, label, required marker,
+    /// limits and validation messages all follow from it.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public Expression<Func<TValue>> For { get; set; } = default!;
+
+    /// <summary>
+    /// Raised after a new value has been written to the model. The model is written in place, so
+    /// this is only needed when something outside the field has to react to the change.
+    /// </summary>
+    [Parameter]
+    public EventCallback<TValue?> ValueChanged { get; set; }
+
+    /// <summary>Gets or sets the ID of the control. One is generated when unset.</summary>
+    [Parameter]
+    public string? Id { get; set; }
+
+    /// <summary>Gets or sets whether the control is disabled.</summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>Overrides the label from the property's metadata. An empty string shows none.</summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    /// <summary>Overrides the description from the property's metadata.</summary>
+    [Parameter]
+    public string? Description { get; set; }
+
+    /// <summary>Overrides the placeholder from the property's metadata.</summary>
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    /// <summary>Overrides whether the property is required. Unset, the metadata decides.</summary>
+    [Parameter]
+    public bool? Required { get; set; }
+
+    /// <summary>Overrides the shortest text the property's metadata allows.</summary>
+    [Parameter]
+    public int? MinLength { get; set; }
+
+    /// <summary>Overrides the longest text the property's metadata allows.</summary>
+    [Parameter]
+    public int? MaxLength { get; set; }
+
+    /// <summary>Overrides the smallest value the property's metadata allows.</summary>
+    [Parameter]
+    public object? Minimum { get; set; }
+
+    /// <summary>Overrides the largest value the property's metadata allows.</summary>
+    [Parameter]
+    public object? Maximum { get; set; }
+
+    /// <summary>Overrides the kind of value, which picks the input type: email, password, and so on.</summary>
+    [Parameter]
+    public DataType? DataType { get; set; }
+
+    /// <summary>
+    /// Overrides the component that edits the value. It must take <c>Value</c> and
+    /// <c>ValueChanged</c> of the property's type; <c>ValueExpression</c> is passed when it has one.
+    /// </summary>
+    [Parameter]
+    public Type? Control { get; set; }
+
+    /// <inheritdoc />
+    protected override string ComponentClass => "vibe-property-input";
+
+    // A bool always has a value, so "required" has nothing to ask for. Passing it on would put
+    // the required attribute on the checkbox, and the browser reads that as "must be ticked".
+    private bool IsRequired => metadata.Required == true && kind != ControlKind.Checkbox;
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        if (For is null)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(PropertyInput<TValue>)} needs a {nameof(For)} expression, such as For=\"() => model.Name\".");
+        }
+
+        // Bound again on every parameter set: the parent may have replaced the model, and the
+        // write below must go to the one the expression reads now. The resolver caches the rest.
+        binding = Resolver.Bind(For);
+
+        if (!binding.Accessor.CanWrite)
+        {
+            throw new InvalidOperationException(
+                $"{Describe()} has no public setter, so {nameof(PropertyInput<TValue>)} cannot edit it.");
+        }
+
+        // Call-site parameters are the first source in the chain: each one set here wins.
+        metadata = new PropertyMetadata
+        {
+            Label = Label,
+            Description = Description,
+            Placeholder = Placeholder,
+            Required = Required,
+            MinLength = MinLength,
+            MaxLength = MaxLength,
+            Minimum = Minimum,
+            Maximum = Maximum,
+            DataType = DataType,
+            Control = Control,
+        }.OverlayOn(binding.Metadata);
+
+        kind = PickControl();
+        inputType = kind == ControlKind.Input ? InputTypeFor(metadata.DataType) : null;
+        inputAttributes = kind == ControlKind.Input ? BuildInputAttributes() : null;
+    }
+
+    private ControlKind PickControl()
+    {
+        if (metadata.Control is not null)
+        {
+            return ControlKind.Custom;
+        }
+
+        if (ValueType == typeof(bool))
+        {
+            return IsNullableValueType ? ControlKind.Select : ControlKind.Checkbox;
+        }
+
+        if (ValueType.IsEnum)
+        {
+            return ControlKind.Select;
+        }
+
+        if (InputTypes.Contains(ValueType))
+        {
+            return ControlKind.Input;
+        }
+
+        throw new InvalidOperationException(
+            $"{nameof(PropertyInput<TValue>)} has no control for {Describe()} of type {typeof(TValue).Name}. "
+            + $"Name one with the {nameof(Control)} parameter or a model profile, or wrap your own control in a FormField.");
+    }
+
+    // The one way a value leaves this component: the model first, in place, so it holds the new
+    // value when the control tells the form and the form validates the field.
+    private async Task WriteAsync(TValue? value)
+    {
+        binding.Value = value!;
+        await ValueChanged.InvokeAsync(value);
+    }
+
+    private string Describe() =>
+        $"{binding.Accessor.Property.DeclaringType?.Name}.{binding.Accessor.Property.Name}";
+
+    // Unset, the typed Input picks number, date and so on from the type by itself.
+    private static string? InputTypeFor(DataType? dataType) => dataType switch
+    {
+        System.ComponentModel.DataAnnotations.DataType.EmailAddress => "email",
+        System.ComponentModel.DataAnnotations.DataType.Password => "password",
+        System.ComponentModel.DataAnnotations.DataType.PhoneNumber => "tel",
+        System.ComponentModel.DataAnnotations.DataType.Url => "url",
+        System.ComponentModel.DataAnnotations.DataType.Date
+            when ValueType == typeof(DateTime) || ValueType == typeof(DateTimeOffset) => "date",
+        _ => null,
+    };
+
+    private Dictionary<string, object>? BuildInputAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        if (ValueType == typeof(string))
+        {
+            if (metadata.MinLength is { } minLength)
+            {
+                attributes["minlength"] = minLength;
+            }
+
+            if (metadata.MaxLength is { } maxLength)
+            {
+                attributes["maxlength"] = maxLength;
+            }
+        }
+        else
+        {
+            if (FormatLimit(metadata.Minimum) is { } minimum)
+            {
+                attributes["min"] = minimum;
+            }
+
+            if (FormatLimit(metadata.Maximum) is { } maximum)
+            {
+                attributes["max"] = maximum;
+            }
+        }
+
+        return attributes.Count == 0 ? null : attributes;
+    }
+
+    // The browser reads min and max in its own fixed formats, whatever the user's culture is.
+    private string? FormatLimit(object? limit) => limit switch
+    {
+        null => null,
+        // A [Range] over dates holds its limits as text until it first validates.
+        string text => text,
+        DateOnly date => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+        TimeOnly time => time.ToString("HH:mm:ss", CultureInfo.InvariantCulture),
+        DateTime dateTime => dateTime.ToString(DateTimeLimitFormat, CultureInfo.InvariantCulture),
+        DateTimeOffset offset => offset.ToString(DateTimeLimitFormat, CultureInfo.InvariantCulture),
+        IFormattable formattable => formattable.ToString(null, CultureInfo.InvariantCulture),
+        _ => limit.ToString(),
+    };
+
+    private string DateTimeLimitFormat => inputType == "date" ? "yyyy-MM-dd" : "yyyy-MM-ddTHH:mm:ss";
+
+    // Built at render, not kept: it carries the value, which a write has just changed.
+    private Dictionary<string, object?> BuildCustomParameters(Type control)
+    {
+        var parameters = new Dictionary<string, object?>
+        {
+            ["Value"] = binding.Value,
+            ["ValueChanged"] = EventCallback.Factory.Create<TValue?>(this, WriteAsync),
+        };
+
+        // A control that names its field to the form gets the same expression the built-in ones do.
+        if (control.GetProperty("ValueExpression", BindingFlags.Public | BindingFlags.Instance) is not null)
+        {
+            parameters["ValueExpression"] = For;
+        }
+
+        return parameters;
+    }
+}

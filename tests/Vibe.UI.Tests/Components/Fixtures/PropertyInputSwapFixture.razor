@@ -1,0 +1,10 @@
+@* No form around the field, so nothing rebuilds it when the model is replaced: the same
+   PropertyInput has to follow the expression to the new model. *@
+@using Account = Vibe.UI.Tests.Components.Fixtures.PropertyInputFixture.Account
+
+<PropertyInput Id="name" For="() => Model.Name" />
+
+@code {
+    [Parameter]
+    public Account Model { get; set; } = new();
+}

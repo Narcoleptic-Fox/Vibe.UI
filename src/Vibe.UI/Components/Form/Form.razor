@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Forms
 @typeparam TForm where TForm : class, new()
 @inherits Base.VibeComponent
+@implements IDisposable
 
 <EditForm @attributes="AdditionalAttributes" EditContext="@EffectiveEditContext" OnValidSubmit="HandleValidSubmit"
     OnInvalidSubmit="HandleInvalidSubmit" FormName="@FormName" Enhance="@Enhance" class="@CombinedClass">
@@ -94,6 +95,7 @@
     private readonly TForm _fallbackModel = new();
     private TForm? _lastEffectiveModel;
     private EditContext? _internalEditContext;
+    private EditContext? _watchedEditContext;
 
     private EditContext EffectiveEditContext => EditContext ?? _internalEditContext ?? throw new InvalidOperationException("The form edit context has not been initialized.");
 
@@ -102,16 +104,54 @@
     {
         base.OnParametersSet();
 
-        if (EditContext != null)
+        if (EditContext == null)
+        {
+            var effectiveModel = Model ?? _fallbackModel;
+            if (!ReferenceEquals(effectiveModel, _lastEffectiveModel))
+            {
+                _internalEditContext = new EditContext(effectiveModel);
+                _lastEffectiveModel = effectiveModel;
+            }
+        }
+
+        Watch(EffectiveEditContext);
+    }
+
+    /// <inheritdoc />
+    public void Dispose() => Watch(null);
+
+    private void Watch(EditContext? context)
+    {
+        if (ReferenceEquals(context, _watchedEditContext))
         {
             return;
         }
 
-        var effectiveModel = Model ?? _fallbackModel;
-        if (!ReferenceEquals(effectiveModel, _lastEffectiveModel))
+        if (_watchedEditContext != null)
         {
-            _internalEditContext = new EditContext(effectiveModel);
-            _lastEffectiveModel = effectiveModel;
+            _watchedEditContext.OnFieldChanged -= HandleFieldChanged;
+        }
+
+        if (context != null)
+        {
+            context.OnFieldChanged += HandleFieldChanged;
+        }
+
+        _watchedEditContext = context;
+    }
+
+    // A PropertyInput writes the model in place and the page is not told, so content in the form
+    // that depends on another field's value would go stale. An input reports a field when its
+    // value is committed, not on each key, so this renders once per change.
+    private async void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
+    {
+        try
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception exception)
+        {
+            await DispatchExceptionAsync(exception);
         }
     }
 

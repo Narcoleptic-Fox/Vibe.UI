@@ -1,0 +1,95 @@
+@* A form written with one line per field, as an app writes it: no TValue, no label, no limits.
+   PropertyInputTests drives this. It also has to build with warnings as errors, which is what
+   shows that nullable and non-nullable properties of each kind bind without stating a type. *@
+@using System.ComponentModel.DataAnnotations
+
+<EditForm EditContext="Context">
+    <DataAnnotationsValidator />
+
+    <PropertyInput Id="name" For="() => Model.Name" />
+    <PropertyInput Id="email" For="() => Model.Email" />
+    <PropertyInput Id="age" For="() => Model.Age" />
+    <PropertyInput Id="seats" For="() => Model.Seats" />
+    <PropertyInput Id="score" For="() => Model.Score" />
+    <PropertyInput Id="kind" For="() => Model.Kind" />
+    <PropertyInput Id="priority" For="() => Model.Priority" />
+    <PropertyInput Id="active" For="() => Model.IsActive" />
+    <PropertyInput Id="archived" For="() => Model.Archived" />
+    <PropertyInput Id="born" For="() => Model.Born" />
+    <PropertyInput Id="start" For="() => Model.Start" />
+    <PropertyInput Id="changed" For="() => Model.Changed" />
+    <PropertyInput Id="owner" For="() => Model.OwnerId" />
+    <PropertyInput Id="nickname" For="() => Model.Nickname" />
+</EditForm>
+
+@code {
+    public enum AccountKind
+    {
+        Person,
+        SmallCompany,
+    }
+
+    public enum Priority
+    {
+        Low,
+        High,
+    }
+
+    public sealed class Account
+    {
+        [Required]
+        public string? Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [StringLength(50, MinimumLength = 3)]
+        [Display(Name = "Work email", Description = "We never share it.", Prompt = "you@work.com")]
+        public string? Email { get; set; }
+
+        [Range(18, 120)]
+        public int? Age { get; set; }
+
+        public int Seats { get; set; }
+
+        [Range(1.5, 4.5)]
+        public decimal Score { get; set; } = 2.5m;
+
+        public AccountKind Kind { get; set; }
+
+        [Required]
+        public Priority? Priority { get; set; }
+
+        // "Required" on a bool is what a validator's NotNull rule reports. It must not turn
+        // into "must be ticked".
+        [Required]
+        public bool IsActive { get; set; }
+
+        public bool? Archived { get; set; }
+
+        [Range(typeof(DateOnly), "1900-01-01", "2030-12-31")]
+        public DateOnly? Born { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Start { get; set; } = new(2026, 3, 1);
+
+        public DateTime Changed { get; set; } = new(2026, 3, 1, 9, 30, 0);
+
+        public Guid OwnerId { get; set; }
+
+        // An init-only property is written in place, as on an immutable command record.
+        public string? Nickname { get; init; }
+    }
+
+    [Parameter]
+    public Account Model { get; set; } = new();
+
+    public EditContext Context { get; private set; } = default!;
+
+    protected override void OnParametersSet()
+    {
+        if (Context is null || !ReferenceEquals(Context.Model, Model))
+        {
+            Context = new EditContext(Model);
+        }
+    }
+}

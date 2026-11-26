@@ -1,0 +1,10 @@
+@* A control an app brings itself: Value and ValueChanged, and nothing that names a field. *@
+<button type="button" class="seat-picker" @onclick="() => ValueChanged.InvokeAsync(Value + 1)">@Value seats</button>
+
+@code {
+    [Parameter]
+    public int Value { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+}
