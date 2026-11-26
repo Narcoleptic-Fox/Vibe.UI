@@ -225,6 +225,11 @@ public class PropertyInputTests : TestBase
         Find("#age").GetAttribute("min").ShouldBe("21");
         Find("#age").GetAttribute("max").ShouldBe("65");
 
+        // A class and any other attribute land on the field's root, beside the field's own class.
+        var root = Find("[data-field='age']");
+        root.ClassList.ShouldContain("wide");
+        root.ClassList.ShouldContain("vibe-form-field");
+
         // An empty label means none, which is not the same as leaving it to the metadata.
         overrides.FindAll("#seats-label").ShouldBeEmpty();
 

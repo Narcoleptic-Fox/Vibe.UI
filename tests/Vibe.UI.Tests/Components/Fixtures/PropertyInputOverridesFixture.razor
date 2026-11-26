@@ -8,7 +8,7 @@
     <PropertyInput Id="email" For="() => Model.Email"
                    Label="Contact" Description="Used for receipts." Placeholder="name@example.com"
                    Required="false" MinLength="5" MaxLength="20" DataType="DataType.Text" />
-    <PropertyInput Id="age" For="() => Model.Age" Required="true" Minimum="21" Maximum="65" />
+    <PropertyInput Id="age" For="() => Model.Age" Class="wide" data-field="age" Required="true" Minimum="21" Maximum="65" />
     <PropertyInput Id="seats" For="() => Model.Seats" Label="" />
     <PropertyInput Id="active" For="() => Model.IsActive" Label="Enabled" Disabled="true" />
     <PropertyInput Id="picker" For="() => Model.Seats" Control="typeof(SeatPicker)" />

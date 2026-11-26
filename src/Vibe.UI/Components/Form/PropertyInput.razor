@@ -148,8 +148,10 @@
     [Parameter]
     public Type? Control { get; set; }
 
+    // No class of its own: it renders a FormField, which carries the styling. A caller's Class
+    // is passed through to it.
     /// <inheritdoc />
-    protected override string ComponentClass => "vibe-property-input";
+    protected override string ComponentClass => string.Empty;
 
     // A bool always has a value, so "required" has nothing to ask for. Passing it on would put
     // the required attribute on the checkbox, and the browser reads that as "must be ticked".
