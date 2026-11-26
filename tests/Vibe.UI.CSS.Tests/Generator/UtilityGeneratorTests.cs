@@ -16,7 +16,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-inline-block", "display: inline-block;")]
     [InlineData("vibe-inline-flex", "display: inline-flex;")]
     [InlineData("vibe-grid", "display: grid;")]
-    public void Generate_DisplayUtilities_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_DisplayUtilities_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -33,7 +36,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-flex-col", "flex-direction: column;")]
     [InlineData("vibe-flex-row-reverse", "flex-direction: row-reverse;")]
     [InlineData("vibe-flex-col-reverse", "flex-direction: column-reverse;")]
-    public void Generate_FlexDirection_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_FlexDirection_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -61,7 +67,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-justify-between", "justify-content: space-between;")]
     [InlineData("vibe-justify-around", "justify-content: space-around;")]
     [InlineData("vibe-justify-evenly", "justify-content: space-evenly;")]
-    public void Generate_JustifyContent_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_JustifyContent_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -117,7 +126,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-pr-4", "padding-right: 1rem;")]
     [InlineData("vibe-pb-4", "padding-bottom: 1rem;")]
     [InlineData("vibe-pl-4", "padding-left: 1rem;")]
-    public void Generate_PaddingDirectional_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_PaddingDirectional_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -144,7 +156,10 @@ public class UtilityGeneratorTests
     [Theory]
     [InlineData("vibe--mt-4", "margin-top: -1rem;")]
     [InlineData("vibe--m-2", "margin: -0.5rem;")]
-    public void Generate_NegativeMargin_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_NegativeMargin_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -185,7 +200,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-min-w-0", "min-width: 0;")]
     [InlineData("vibe-max-w-lg", "max-width: 32rem;")]
     [InlineData("vibe-max-w-full", "max-width: 100%;")]
-    public void Generate_MinMaxWidth_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_MinMaxWidth_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -242,7 +260,10 @@ public class UtilityGeneratorTests
         var rule = _generator.Generate("vibe-truncate");
 
         Assert.NotNull(rule);
-        Assert.Equal("overflow: hidden; text-overflow: ellipsis; white-space: nowrap;", rule.Declarations);
+        Assert.Equal(
+            "overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+            rule.Declarations
+        );
     }
 
     #endregion
@@ -255,7 +276,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-bg-muted", "background-color: var(--vibe-muted);")]
     [InlineData("vibe-bg-accent", "background-color: var(--vibe-accent);")]
     [InlineData("vibe-bg-destructive", "background-color: var(--vibe-destructive);")]
-    public void Generate_SemanticBackgroundColors_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_SemanticBackgroundColors_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -264,11 +288,35 @@ public class UtilityGeneratorTests
     }
 
     [Theory]
+    [InlineData("vibe-bg-grid-pattern", "var(--vibe-border)")]
+    [InlineData("vibe-gradient-orb-teal", "var(--vibe-primary)")]
+    [InlineData("vibe-gradient-orb-lilac", "var(--vibe-link)")]
+    public void Generate_DecorativeBackgrounds_FollowTheTheme(string className, string token)
+    {
+        // These draw the home page's hero. Fixed colours left them in the default theme's teal
+        // and lilac whichever theme was chosen.
+        var rules = _generator.GenerateAll(className);
+
+        Assert.NotEmpty(rules);
+        Assert.All(
+            rules,
+            rule =>
+            {
+                Assert.Contains(token, rule.Declarations);
+                Assert.DoesNotMatch(@"rgb\(|#[0-9a-fA-F]{3,8}(?![\w-])", rule.Declarations);
+            }
+        );
+    }
+
+    [Theory]
     [InlineData("vibe-text-foreground", "color: var(--vibe-foreground);")]
     [InlineData("vibe-text-muted", "color: var(--vibe-muted);")]
     [InlineData("vibe-text-primary", "color: var(--vibe-primary);")]
     [InlineData("vibe-text-link", "color: var(--vibe-link);")]
-    public void Generate_SemanticTextColors_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_SemanticTextColors_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -286,7 +334,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-bg-green-400", "background-color: #4ade80;")]
     [InlineData("vibe-bg-slate-100", "background-color: #f1f5f9;")]
     [InlineData("vibe-bg-gray-900", "background-color: #111827;")]
-    public void Generate_PaletteBackgroundColors_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_PaletteBackgroundColors_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -297,7 +348,10 @@ public class UtilityGeneratorTests
     [Theory]
     [InlineData("vibe-text-red-500", "color: #ef4444;")]
     [InlineData("vibe-text-blue-600", "color: #2563eb;")]
-    public void Generate_PaletteTextColors_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_PaletteTextColors_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -307,11 +361,20 @@ public class UtilityGeneratorTests
 
     [Theory]
     [InlineData("vibe-bg-red-500/50", "background-color: rgb(239 68 68 / 0.5);")]
-    [InlineData("vibe-bg-card/80", "background-color: color-mix(in srgb, var(--vibe-card) 80%, transparent);")]
-    [InlineData("vibe-text-muted-foreground/50", "color: color-mix(in srgb, var(--vibe-muted-foreground) 50%, transparent);")]
+    [InlineData(
+        "vibe-bg-card/80",
+        "background-color: color-mix(in srgb, var(--vibe-card) 80%, transparent);"
+    )]
+    [InlineData(
+        "vibe-text-muted-foreground/50",
+        "color: color-mix(in srgb, var(--vibe-muted-foreground) 50%, transparent);"
+    )]
     [InlineData("vibe-bg-blue-600/75", "background-color: rgb(37 99 235 / 0.75);")]
     [InlineData("vibe-text-green-500/25", "color: rgb(34 197 94 / 0.25);")]
-    public void Generate_ColorsWithOpacity_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_ColorsWithOpacity_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -328,7 +391,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-border-0", "border-width: 0px;")]
     [InlineData("vibe-border-2", "border-width: 2px;")]
     [InlineData("vibe-border-4", "border-width: 4px;")]
-    public void Generate_BorderWidth_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_BorderWidth_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -342,7 +408,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-rounded-sm", "border-radius: 0.125rem;")]
     [InlineData("vibe-rounded-lg", "border-radius: 0.5rem;")]
     [InlineData("vibe-rounded-full", "border-radius: 9999px;")]
-    public void Generate_BorderRadius_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_BorderRadius_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -519,7 +588,10 @@ public class UtilityGeneratorTests
     [InlineData("focus:vibe-bg-primary", ":focus")]
     [InlineData("active:vibe-bg-primary", ":active")]
     [InlineData("disabled:vibe-opacity-50", ":disabled")]
-    public void Generate_StateVariants_ReturnsCorrectSelector(string className, string expectedPseudo)
+    public void Generate_StateVariants_ReturnsCorrectSelector(
+        string className,
+        string expectedPseudo
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -532,7 +604,10 @@ public class UtilityGeneratorTests
     [InlineData("md:vibe-hidden", "768px")]
     [InlineData("lg:vibe-grid-cols-4", "1024px")]
     [InlineData("xl:vibe-p-8", "1280px")]
-    public void Generate_ResponsiveVariants_ReturnsCorrectMediaQuery(string className, string expectedMinWidth)
+    public void Generate_ResponsiveVariants_ReturnsCorrectMediaQuery(
+        string className,
+        string expectedMinWidth
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -559,7 +634,10 @@ public class UtilityGeneratorTests
     [InlineData("vibe-h-[100vh]", "height: 100vh;")]
     [InlineData("vibe-p-[1.5rem]", "padding: 1.5rem;")]
     [InlineData("vibe-m-[20px]", "margin: 20px;")]
-    public void Generate_ArbitraryValues_ReturnsCorrectCss(string className, string expectedDeclarations)
+    public void Generate_ArbitraryValues_ReturnsCorrectCss(
+        string className,
+        string expectedDeclarations
+    )
     {
         var rule = _generator.Generate(className);
 
@@ -615,4 +693,3 @@ public class UtilityGeneratorTests
 
     #endregion
 }
-
