@@ -13,14 +13,13 @@ namespace Vibe.UI.Docs.E2E.Infrastructure;
 /// </summary>
 public static partial class BuiltInThemes
 {
-    /// <summary>Every built-in theme. A theme added to <c>themes/</c> must be added here.</summary>
-    public static readonly string[] Names = ["Tide", "Ink", "Dune"];
+    /// <summary>Every built-in theme, from the library itself.</summary>
+    public static IReadOnlyList<string> Names => ThemeService.BuiltInThemes;
 
     private const string StyleId = "e2e-built-in-theme";
 
     /// <summary>The CSS an app configured with this theme renders.</summary>
-    public static string Css(string theme) =>
-        new ThemeService(new VibeThemeOptions { BaseColor = theme }).GenerateThemeCss();
+    public static string Css(string theme) => ThemeService.GenerateBuiltInThemeCss(theme);
 
     /// <summary>
     /// Applies the theme to the current page and checks that the page now resolves its colors,
@@ -45,6 +44,20 @@ public static partial class BuiltInThemes
             new object[] { StyleId, css }
         );
 
+        var failure = await ThemeMismatchAsync(page, theme);
+        if (failure is not null)
+        {
+            throw new InvalidOperationException(failure);
+        }
+    }
+
+    /// <summary>
+    /// Null when the page resolves its colours from this theme, both on the page and inside a
+    /// scoped <c>.dark</c> element; otherwise what it resolves to instead.
+    /// </summary>
+    public static async Task<string?> ThemeMismatchAsync(this IPage page, string theme)
+    {
+        var css = Css(theme);
         var expectedLight = Token(css, ":root", "background");
         var expectedDark = Token(css, ".dark", "background");
         var actual = await page.EvaluateAsync<string[]>(
@@ -63,14 +76,11 @@ public static partial class BuiltInThemes
         );
 
         var expectedPage = actual[2] == "dark" ? expectedDark : expectedLight;
-        if (actual[0] != expectedPage || actual[1] != expectedDark)
-        {
-            throw new InvalidOperationException(
-                $"{theme} did not take: the page resolves --vibe-background to '{actual[0]}' "
-                    + $"(expected '{expectedPage}') and a scoped .dark element to '{actual[1]}' "
-                    + $"(expected '{expectedDark}')."
-            );
-        }
+        return actual[0] == expectedPage && actual[1] == expectedDark
+            ? null
+            : $"{theme} did not take: the page resolves --vibe-background to '{actual[0]}' "
+                + $"(expected '{expectedPage}') and a scoped .dark element to '{actual[1]}' "
+                + $"(expected '{expectedDark}').";
     }
 
     private static string Token(string css, string selector, string token)

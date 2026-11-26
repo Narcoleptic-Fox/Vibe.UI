@@ -156,9 +156,15 @@
                 StateHasChanged();
                 return;
             }
-            catch (JSException)
+            catch (JSException exception) when (IsNotLoadedYet(exception))
             {
                 await Task.Delay(100);
+            }
+            catch (JSException)
+            {
+                // A real highlighting error: retrying would not help, so show the plain text now.
+                highlightedHtml = null;
+                return;
             }
             catch
             {
@@ -170,4 +176,9 @@
 
         highlightedHtml = null;
     }
+
+    // Blazor reports a call to a function that is not defined yet as "Could not find
+    // 'highlightCode' ('highlightCode' was undefined)".
+    private static bool IsNotLoadedYet(JSException exception) =>
+        exception.Message.Contains("Could not find 'highlightCode'", StringComparison.Ordinal);
 }
