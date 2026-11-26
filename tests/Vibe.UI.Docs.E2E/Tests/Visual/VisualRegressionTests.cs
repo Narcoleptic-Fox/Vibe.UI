@@ -20,27 +20,46 @@ public class VisualRegressionTests : E2ETestBase
     private static readonly ViewportProfile[] Viewports =
     [
         new("desktop", 1280, 900),
-        new("mobile", 390, 844)
+        new("mobile", 390, 844),
     ];
 
     private static readonly ThemeProfile[] Themes =
     [
         new("light", ColorScheme.Light),
-        new("dark", ColorScheme.Dark)
+        new("dark", ColorScheme.Dark),
     ];
 
     private static readonly SnapshotSurface[] Surfaces =
     [
         new("button", "/components/button", page => page.Locator(".live-preview").First),
-        new("form-field", "/components/formfield", page => page.Locator("main section").First.Locator(":scope > div").First),
-        new("data-table", "/components/datatable", page => page.Locator("main section").First.Locator(":scope > div").First),
-        new("kanban-board", "/components/kanbanboard", page => page.Locator("main section").First.Locator(":scope > div").First),
-        new("sidebar", "/components/sidebar", page => page.Locator("main section").First.Locator(":scope > div").First),
+        new(
+            "form-field",
+            "/components/formfield",
+            page => page.Locator("main section").First.Locator(":scope > div").First
+        ),
+        new(
+            "data-table",
+            "/components/datatable",
+            page => page.Locator("main section").First.Locator(":scope > div").First
+        ),
+        new(
+            "kanban-board",
+            "/components/kanbanboard",
+            page => page.Locator("main section").First.Locator(":scope > div").First
+        ),
+        new(
+            "sidebar",
+            "/components/sidebar",
+            page => page.Locator("main section").First.Locator(":scope > div").First
+        ),
         new(
             "alert-dialog-open",
             "/components/alertdialog",
             page => page.Locator(".vibe-alert-dialog").First,
-            page => page.GetByRole(AriaRole.Button, new() { Name = "Delete project", Exact = true }).First.ClickAsync())
+            page =>
+                page.GetByRole(AriaRole.Button, new() { Name = "Delete project", Exact = true })
+                    .First.ClickAsync()
+        ),
     ];
 
     [Fact]
@@ -49,7 +68,8 @@ public class VisualRegressionTests : E2ETestBase
         if (!string.Equals(BrowserType, "chromium", StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(
-                "Visual baselines are Chromium-specific. Run this category with BROWSER=chromium.");
+                "Visual baselines are Chromium-specific. Run this category with BROWSER=chromium."
+            );
         }
 
         var failures = new List<string>();
@@ -60,11 +80,9 @@ public class VisualRegressionTests : E2ETestBase
 
             foreach (var theme in Themes)
             {
-                await Page.EmulateMediaAsync(new()
-                {
-                    ColorScheme = theme.ColorScheme,
-                    ReducedMotion = ReducedMotion.Reduce
-                });
+                await Page.EmulateMediaAsync(
+                    new() { ColorScheme = theme.ColorScheme, ReducedMotion = ReducedMotion.Reduce }
+                );
 
                 foreach (var surface in Surfaces)
                 {
@@ -86,6 +104,16 @@ public class VisualRegressionTests : E2ETestBase
                         await Page.Mouse.MoveAsync(0, 0);
                         await Page.EvaluateAsync("() => document.fonts.ready");
 
+                        // Code blocks render plain text first and are highlighted a moment later.
+                        // A capture taken in between depends on timing, so wait until every code
+                        // block on the page has been highlighted.
+                        await Page.WaitForFunctionAsync(
+                            "() => [...document.querySelectorAll('.code-block .code-content')]"
+                                + ".every(content => content.querySelector('pre.shiki'))",
+                            null,
+                            new() { Timeout = 15000 }
+                        );
+
                         // Let the page-enter animation and any other finite animation end
                         // before capturing, rather than trusting a fixed delay.
                         await Page.EvaluateAsync(
@@ -93,22 +121,26 @@ public class VisualRegressionTests : E2ETestBase
                             () => Promise.all(document.getAnimations()
                                 .filter(animation => animation.effect?.getComputedTiming().iterations !== Infinity)
                                 .map(animation => animation.finished.catch(() => undefined)))
-                            """);
+                            """
+                        );
                         await Page.WaitForTimeoutAsync(100);
 
-                        var screenshot = await target.ScreenshotAsync(new()
-                        {
-                            Animations = ScreenshotAnimations.Disabled,
-                            Caret = ScreenshotCaret.Hide,
-                            Scale = ScreenshotScale.Css,
-                            Style = StableScreenshotStyles
-                        });
+                        var screenshot = await target.ScreenshotAsync(
+                            new()
+                            {
+                                Animations = ScreenshotAnimations.Disabled,
+                                Caret = ScreenshotCaret.Hide,
+                                Scale = ScreenshotScale.Css,
+                                Style = StableScreenshotStyles,
+                            }
+                        );
 
                         await VisualRegression.AssertMatchesAsync(
                             Page,
                             BrowserType,
                             snapshotName,
-                            screenshot);
+                            screenshot
+                        );
                     }
                     catch (Exception exception)
                     {
@@ -121,8 +153,9 @@ public class VisualRegressionTests : E2ETestBase
         if (failures.Count > 0)
         {
             throw new InvalidOperationException(
-                $"{failures.Count} visual regression check(s) failed:{Environment.NewLine}" +
-                string.Join(Environment.NewLine, failures));
+                $"{failures.Count} visual regression check(s) failed:{Environment.NewLine}"
+                    + string.Join(Environment.NewLine, failures)
+            );
         }
     }
 
@@ -137,7 +170,8 @@ public class VisualRegressionTests : E2ETestBase
                 localStorage.setItem('theme', theme);
             }
             """,
-            theme);
+            theme
+        );
     }
 
     private sealed record ViewportProfile(string Name, int Width, int Height);
@@ -148,5 +182,6 @@ public class VisualRegressionTests : E2ETestBase
         string Name,
         string Path,
         Func<IPage, ILocator> GetTarget,
-        Func<IPage, Task>? PrepareAsync = null);
+        Func<IPage, Task>? PrepareAsync = null
+    );
 }

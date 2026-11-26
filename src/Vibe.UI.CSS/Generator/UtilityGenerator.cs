@@ -2120,7 +2120,7 @@ public partial class UtilityGenerator
         }
 
         // Check semantic colors (primary, secondary, etc.) - use CSS variables
-        var semanticColors = new[] { "primary", "secondary", "muted", "accent", "destructive", "success", "warning", "info", "background", "foreground", "card", "popover", "border", "input", "ring" };
+        var semanticColors = new[] { "primary", "secondary", "muted", "accent", "destructive", "success", "warning", "info", "background", "foreground", "card", "popover", "border", "input", "ring", "link" };
         if (semanticColors.Contains(colorPart))
         {
             value = Translucent($"var(--vibe-{colorPart})", opacity);
