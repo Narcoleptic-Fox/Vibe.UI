@@ -21,8 +21,10 @@ public class FormLiveValidationTests : E2ETestBase
     [Fact]
     public async Task AMessageAppearsAndClearsAsTheFieldIsLeft()
     {
-        // No submit here: the browser's own required check stops an empty form before Blazor
-        // sees it. Every message below comes from the form being told a field changed.
+        // No submit here: the fields carry the required attribute, so the browser's own check
+        // stops an empty form before Blazor sees it (checked: with noValidate set on the form,
+        // the same click shows both messages). Every message below comes from the form being
+        // told a field changed.
         await NavigateAndWaitForBlazorAsync("/components/form");
 
         await Name.ClickAsync();
@@ -36,7 +38,8 @@ public class FormLiveValidationTests : E2ETestBase
 
         await Name.ClickAsync();
         await Name.PressSequentiallyAsync("Grace", new() { Delay = 60 });
-        await Page.Keyboard.PressAsync("Tab");
+        // Enter commits the text as leaving the field does.
+        await Page.Keyboard.PressAsync("Enter");
         await Assertions.Expect(Error("name")).ToHaveCountAsync(0);
 
         // A field that was never touched has not been judged.

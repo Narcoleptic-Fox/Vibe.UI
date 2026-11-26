@@ -230,4 +230,17 @@ public class EditContextNotificationTests : TestBase
 
         bare.Instance.Framework.ShouldBe("blazor");
     }
+
+    [Fact]
+    public void Outside_a_form_a_binding_that_names_no_model_field_still_works()
+    {
+        // A static member is not something a FieldIdentifier can describe. With no form there is
+        // nothing to tell, so the binding must not be inspected at all.
+        StaticBindingFixture.Shared = null;
+        var bare = Render<StaticBindingFixture>();
+
+        bare.Find("#shared").Change("x");
+
+        StaticBindingFixture.Shared.ShouldBe("x");
+    }
 }

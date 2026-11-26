@@ -1,0 +1,7 @@
+@* Outside any form, bound to a static member: nothing here names a field of a model, and it
+   has to keep working. *@
+<Input Id="shared" @bind-Value="Shared" />
+
+@code {
+    public static string? Shared { get; set; }
+}

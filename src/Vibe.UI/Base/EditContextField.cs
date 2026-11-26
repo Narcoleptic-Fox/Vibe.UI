@@ -28,7 +28,12 @@ internal sealed class EditContextField : IDisposable
     /// </summary>
     public void Update<TField>(EditContext? context, Expression<Func<TField>>? expression)
     {
-        FieldIdentifier? field = expression is null ? null : FieldIdentifier.Create(expression);
+        // Outside a form there is no field to name, and the binding may be to something a
+        // FieldIdentifier cannot describe, such as a static member. Resolving costs under a
+        // microsecond (the framework caches it), so inside a form it runs on every parameter set
+        // and follows the model if the parent swaps it.
+        FieldIdentifier? field =
+            context is null || expression is null ? null : FieldIdentifier.Create(expression);
 
         if (ReferenceEquals(context, _context) && Nullable.Equals(field, _field))
         {
