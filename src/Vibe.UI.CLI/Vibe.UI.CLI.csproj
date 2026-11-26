@@ -129,6 +129,11 @@
 	            <None Include="../Vibe.UI/Metadata/**/*.cs"
 	                  Pack="true"
 	                  PackagePath="Templates/Infrastructure/Metadata/%(RecursiveDir)" />
+	            <!-- The FluentValidation adapter. Copied only when vibe init is asked for it.
+	                 Not recursive: the folder also holds bin/ and obj/. -->
+	            <None Include="../Vibe.UI.FluentValidation/*.cs"
+	                  Pack="true"
+	                  PackagePath="Templates/Infrastructure/FluentValidation/" />
 	            <None Include="../Vibe.UI/Services/**/*.cs"
 	                  Pack="true"
 	                  PackagePath="Templates/Infrastructure/Services/%(RecursiveDir)" />
@@ -165,6 +170,20 @@
                   Condition="!Exists('../../icon.png') And Exists('../../assets/icon.png')" />
             <None Include="README.cli.md" Pack="true" PackagePath="" />
       </ItemGroup>
+
+      <!-- The FluentValidation version the adapter is built and tested with, read from the
+           adapter's own project so the version `vibe init` writes cannot drift from it. -->
+      <Target Name="RecordAdapterFluentValidationVersion" BeforeTargets="GetAssemblyAttributes">
+            <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)../Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj"
+                     Query="/Project/ItemGroup/PackageReference[@Include='FluentValidation']/@Version">
+                  <Output TaskParameter="Result" PropertyName="AdapterFluentValidationVersion" />
+            </XmlPeek>
+            <Error Condition="'$(AdapterFluentValidationVersion)' == ''"
+                   Text="Could not read the FluentValidation version from Vibe.UI.FluentValidation.csproj." />
+            <ItemGroup>
+                  <AssemblyMetadata Include="FluentValidationVersion" Value="$(AdapterFluentValidationVersion)" />
+            </ItemGroup>
+      </Target>
 
 </Project>
 

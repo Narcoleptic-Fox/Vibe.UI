@@ -21,6 +21,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/kanbanboard",
         "/components/sidebar",
         "/components/alertdialog",
+        "/why-vibe-ui",
     ];
 
     [Fact]

@@ -1,0 +1,229 @@
+@page "/why-vibe-ui"
+
+<PageTitle>Why Vibe.UI - Vibe.UI</PageTitle>
+
+@*
+    Every idea on this page carries a status: Available (on main) or Planned. Update the status,
+    not the prose, when a planned piece lands.
+*@
+
+<div class="vibe-max-w-4xl vibe-mx-auto vibe-prose dark:vibe-prose-invert vibe-space-y-8">
+    <header class="vibe-space-y-2">
+        <h1 class="vibe-m-0">Why Vibe.UI</h1>
+        <p class="vibe-m-0 vibe-text-muted-foreground">
+            What the library is for, the ideas it is built on, where they come from, and what it
+            deliberately leaves out.
+        </p>
+    </header>
+
+    <p class="vibe-text-sm vibe-text-muted-foreground">
+        Vibe.UI is pre-release. Each idea below is marked
+        <Badge Variant="success">Available</Badge> when it is on the main branch today, or
+        <Badge Variant="outline">Planned</Badge> when it is designed but not built.
+    </p>
+
+    <section>
+        <h2>What it is for</h2>
+        <p>
+            Line-of-business applications built with Blazor. Most screens in those applications
+            are one of three things, repeated many times: a list of records you page, sort and
+            filter; a detail page for one record; and a form that creates or edits a record, over
+            a real model with real validation rules.
+        </p>
+        <p>
+            Vibe.UI aims to make those three screens short to write and consistent to use. It is
+            not trying to cover every widget a component library could have.
+        </p>
+    </section>
+
+    <section>
+        <h2>The ideas</h2>
+
+        <h3>Components are generic over your types</h3>
+        <p>
+            A value input binds the type of your model's property, such as an <code>int</code>,
+            an enum, a <code>Guid</code> or a <code>DateOnly</code>, not a string you convert
+            yourself. An enum needs no list of options; the select builds them.
+        </p>
+        <div class="vibe-rounded-xl vibe-border vibe-border-border vibe-bg-card vibe-p-6 vibe-space-y-3"
+            data-testid="why-typed-select">
+            <Select Id="why-order-status" Label="Order status" @bind-Value="orderStatus" />
+            <p class="vibe-m-0 vibe-text-sm vibe-text-muted-foreground">
+                Bound value: <code>@($"OrderStatus.{orderStatus}")</code>
+            </p>
+        </div>
+        <CodeBlock Code="@TypedSelectCode" Language="razor" />
+        <ul>
+            <li><Badge Variant="success">Available</Badge> <code>Select</code>, <code>Combobox</code>, and <code>Input</code> for text, numbers, dates and times.</li>
+            <li><Badge Variant="outline">Planned</Badge> <code>RadioGroup</code> and <code>ToggleGroup</code>.</li>
+        </ul>
+
+        <h3>Describe a property once</h3>
+        <p>
+            A field's label, its required marker and its length or range limits should come from
+            the model, written down once, not repeated by hand on every form. Vibe.UI resolves
+            them, in order, from a profile written in C#, a FluentValidation validator,
+            DataAnnotations attributes, and finally the property name (<code>FirstName</code>
+            becomes "First name"). The first one that answers wins, and a component can still
+            override any of them where it is used.
+        </p>
+        <p>
+            All validation goes through Blazor's own <code>EditContext</code>, so FluentValidation
+            and DataAnnotations errors land in the same place and Vibe.UI keeps no error state of
+            its own.
+        </p>
+        <ul>
+            <li>
+                <Badge Variant="success">Available</Badge> The metadata layer that resolves those
+                sources, and a FluentValidation adapter whose <code>&lt;FluentValidator /&gt;</code>
+                writes errors into the form's <code>EditContext</code>. The adapter is in the
+                repository and is not on NuGet yet.
+            </li>
+            <li>
+                <Badge Variant="outline">Planned</Badge> Components that read it: a form field that
+                picks its control from the property's type and fills in its own label, required
+                marker and error, so a form is one line per field.
+            </li>
+        </ul>
+
+        <h3>Bind with expressions, not strings</h3>
+        <p>
+            Anything bound to a model takes an expression such as <code>x =&gt; x.Name</code>,
+            so renaming a property is a compile error rather than a blank column.
+        </p>
+        <ul>
+            <li>
+                <Badge Variant="outline">Planned</Badge> as a rule for every data component. Today's
+                <code>DataTable</code> still names its columns with strings and is due to be replaced.
+            </li>
+        </ul>
+
+        <h3>Own the source, or reference the library</h3>
+        <p>
+            The <code>vibe</code> command line tool copies a component's source into your project,
+            where you can read and change it like your own code. If you would rather take updates
+            than own the code, reference the library instead.
+        </p>
+        <ul>
+            <li>
+                <Badge Variant="success">Available</Badge> The CLI and the library reference, both
+                built from the repository.
+            </li>
+            <li><Badge Variant="outline">Planned</Badge> A beta package on NuGet.</li>
+        </ul>
+        <PreReleaseNotice />
+    </section>
+
+    <section>
+        <h2>Where it comes from</h2>
+        <p>Vibe.UI borrows from projects that did parts of this well. It is not affiliated with any of them.</p>
+        <ul>
+            <li>
+                <a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer">shadcn/ui</a>
+                for the look and the ownership model: a CLI that copies component source into your
+                project, theme colors as CSS variables, and Tailwind-style utility classes. Vibe.UI's
+                theme token names follow shadcn/ui's.
+            </li>
+            <li>
+                <a href="https://mudblazor.com/" target="_blank" rel="noopener noreferrer">MudBlazor</a>
+                as the bar for completeness: what a Blazor team expects a component library to cover.
+            </li>
+            <li>
+                Microsoft's
+                <a href="https://learn.microsoft.com/aspnet/core/blazor/components/quickgrid" target="_blank" rel="noopener noreferrer">QuickGrid</a>
+                as the grid to build on rather than replace. <Badge Variant="outline">Planned</Badge>
+                Vibe.UI's data grid will wrap it with the theme, a paginator, rows that are real
+                links, server paging through a provider, and column titles from the model.
+            </li>
+            <li>
+                <a href="https://github.com/Narcoleptic-Fox/CRISP" target="_blank" rel="noopener noreferrer">CRISP</a>,
+                Narcoleptic Fox's public application template, as the application Vibe.UI is designed
+                against: data from an API as paged queries, validation in FluentValidation validators
+                shared with the server. <Badge Variant="outline">Planned</Badge> A Blazor client for
+                CRISP built on Vibe.UI.
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>What it refuses to do</h2>
+        <p>
+            These are rules for the redesign now under way. Where the library does not follow one
+            yet, it says so.
+        </p>
+        <ul>
+            <li>
+                <strong>No second grid engine.</strong> Where QuickGrid can carry a table, Vibe.UI
+                styles and extends it instead of writing its own.
+            </li>
+            <li>
+                <strong>No race for Tailwind parity.</strong> The documented set of utility classes
+                is the product. A utility is added when a real screen needs it.
+            </li>
+            <li>
+                <strong>No component without a consumer.</strong> Nothing new is built until a real
+                application needs it.
+            </li>
+            <li>
+                <strong>No data API keyed by strings</strong>, not even as a "simple mode". Today's
+                <code>DataTable</code> breaks this rule and is due to be replaced.
+            </li>
+            <li>
+                <strong>No hierarchical rows, column drag-reorder or spreadsheet-style range
+                selection.</strong> An application that needs those is better served by a
+                commercial grid.
+            </li>
+            <li>
+                <strong>No wrapper component where a utility class does the job.</strong>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Status</h2>
+        <p>
+            <strong>Available today:</strong> @DocsCatalog.Components.Count documented components,
+            three themes in light and dark, the <code>vibe</code> CLI and the utility CSS, typed
+            <code>Select</code>, <code>Combobox</code> and <code>Input</code>, the property metadata
+            layer and the FluentValidation adapter. All
+            of it is built from the repository; the beta is not on NuGet yet.
+        </p>
+        <p>
+            <strong>Planned before the first beta:</strong> the remaining typed inputs, the
+            one-line form field, the data grid on QuickGrid, links that know the current route,
+            typed dialog results, and the NuGet beta.
+        </p>
+        <p>
+            Progress happens in the open on
+            <a href="https://github.com/Narcoleptic-Fox/Vibe.UI" target="_blank" rel="noopener noreferrer">GitHub</a>.
+            To try what exists now, start with <a href="@GetUrl("installation")">Installation</a>.
+        </p>
+    </section>
+</div>
+
+@code {
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
+    private enum OrderStatus
+    {
+        Draft,
+        Submitted,
+        Shipped,
+        Cancelled
+    }
+
+    private OrderStatus orderStatus = OrderStatus.Submitted;
+
+    private const string TypedSelectCode = """
+        <Select Id="order-status" Label="Order status" @bind-Value="orderStatus" />
+
+        @code {
+            private enum OrderStatus { Draft, Submitted, Shipped, Cancelled }
+
+            private OrderStatus orderStatus = OrderStatus.Submitted;
+        }
+        """;
+
+    private string GetUrl(string path) => $"{Navigation.BaseUri}{path}";
+}

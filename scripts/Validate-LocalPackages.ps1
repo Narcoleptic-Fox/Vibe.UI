@@ -486,6 +486,14 @@ $requiredEntries = @{
     )
 }
 
+# `vibe init --with-fluentvalidation` copies every source file of the adapter project, so the
+# list comes from that project rather than being written out a second time.
+$adapterSources = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot "src/Vibe.UI.FluentValidation") -Filter "*.cs" -File)
+if ($adapterSources.Count -eq 0) {
+    throw "Found no source files in src/Vibe.UI.FluentValidation."
+}
+$requiredEntries["Vibe.UI.CLI"] += @($adapterSources | ForEach-Object { "Templates/Infrastructure/FluentValidation/$($_.Name)" })
+
 foreach ($packageName in $requiredEntries.Keys) {
     foreach ($entryName in $requiredEntries[$packageName]) {
         Assert-PackageEntry -PackagePath $packageFiles[$packageName] -EntryName $entryName
