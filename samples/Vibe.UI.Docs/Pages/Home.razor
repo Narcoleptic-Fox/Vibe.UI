@@ -36,7 +36,7 @@
             <div class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-px-4 vibe-py-1.5 vibe-rounded-full vibe-bg-secondary vibe-border vibe-border-border vibe-text-sm vibe-font-medium vibe-text-foreground vibe-mb-8 vibe-backdrop-blur-sm"
                 style="--stagger-index: 0">
                 <span class="vibe-w-2 vibe-h-2 vibe-rounded-full vibe-bg-yellow-500"></span>
-                <span>Pre-release &middot; shadcn/ui for Blazor</span>
+                <span>Pre-release &middot; Typed Blazor components you own</span>
             </div>
 
             <!-- Title -->
@@ -49,8 +49,9 @@
             <!-- Subtitle -->
             <p class="vibe-text-lg sm:vibe-text-xl vibe-text-muted-foreground vibe-max-w-2xl vibe-mx-auto vibe-mb-10 vibe-leading-relaxed"
                 style="--stagger-index: 2">
-                A collection of beautifully designed, accessible components.
-                Copy and paste into your apps. Open source. Free forever.
+                Accessible, themeable components for the lists, detail pages and forms of
+                business apps. Bind them to your own types, and keep the source in your project.
+                Open source.
             </p>
 
             <!-- CTA Buttons -->
@@ -169,8 +170,8 @@
                 <FeatureCard Icon="components" Title="@($"{DocsCatalog.Components.Count} documented components")"
                     Description="From buttons to data tables, each with a live example page. Pre-release: APIs can still change before the beta." />
 
-                <FeatureCard Icon="copy" Title="Copy, Don't Install"
-                    Description="Own your code. Copy components directly into your project and customize freely." />
+                <FeatureCard Icon="copy" Title="Own the source"
+                    Description="Copy a component's source into your project and change it like your own code, or reference the library instead." />
 
                 <FeatureCard Icon="palette" Title="Themeable"
                     Description="CSS variables for everything. Light and dark mode with runtime switching." />
@@ -178,11 +179,22 @@
                 <FeatureCard Icon="terminal" Title="CLI-First"
                     Description="Run 'vibe add button' and the CLI copies the component source into your project." />
 
-                <FeatureCard Icon="code" Title="Pure C#"
-                    Description="Strongly typed with full IntelliSense. No JavaScript required for most components." />
+                <FeatureCard Icon="code" Title="Typed to your models"
+                    Description="Components bind your own types, not strings. Select, Combobox and Input are typed today; the other inputs are on the way." />
 
                 <FeatureCard Icon="accessibility" Title="Accessible"
                     Description="Semantic markup, ARIA state, and keyboard support are covered in the core interactive components." />
+            </div>
+
+            <div class="vibe-text-center vibe-mt-10">
+                <a href="@GetUrl("why-vibe-ui")"
+                    class="vibe-inline-flex vibe-items-center vibe-gap-2 vibe-text-brand-teal hover:vibe-underline vibe-font-medium">
+                    Why Vibe.UI
+                    <svg class="vibe-w-4 vibe-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>

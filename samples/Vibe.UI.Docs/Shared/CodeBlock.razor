@@ -41,6 +41,12 @@
 
     .code-block .code-content pre code {
         font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        /* Guide pages use the prose styles, which give inline code a grey chip. Inside a
+           highlighted block that chip sits under the highlighter's colors and drops some of
+           them below 4.5:1, so the block keeps its own background. */
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
     }
 
     html.dark .code-block .code-content .shiki,
