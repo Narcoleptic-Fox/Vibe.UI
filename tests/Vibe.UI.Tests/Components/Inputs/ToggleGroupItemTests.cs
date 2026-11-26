@@ -6,7 +6,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Renders_WithDefaultProps()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Item"));
 
@@ -18,7 +18,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Renders_AsButton()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Item"));
 
@@ -31,7 +31,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Requires_Value()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Item"));
 
@@ -43,7 +43,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Renders_ChildContent()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Test Content"));
 
@@ -55,7 +55,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Has_AriaPressed_Attribute()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Item"));
 
@@ -68,7 +68,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Applies_DisabledAttribute_WhenDisabled()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .Add(p => p.Disabled, true)
             .AddChildContent("Item"));
@@ -84,7 +84,7 @@ public class ToggleGroupItemTests : TestBase
     {
         // This test verifies the CSS class application, though parent integration requires the parent component
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Item"));
 
@@ -96,7 +96,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_Applies_CustomCssClass()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .Add(p => p.CssClass, "custom-item")
             .AddChildContent("Item"));
@@ -109,7 +109,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_ForwardsClassAndAdditionalAttributes()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .Add(p => p.Class, "toolbar-item")
             .Add(p => p.AdditionalAttributes, new Dictionary<string, object>
@@ -128,7 +128,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_WhenDisabled_SetsAriaDisabled()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .Add(p => p.Disabled, true)
             .AddChildContent("Item"));
@@ -141,7 +141,7 @@ public class ToggleGroupItemTests : TestBase
     public void ToggleGroupItem_WithNullValue_DoesNotThrow()
     {
         // Act
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, null!)
             .AddChildContent("Item"));
 
@@ -152,7 +152,7 @@ public class ToggleGroupItemTests : TestBase
     [Fact]
     public void ToggleGroupItem_StandaloneItemIsKeyboardReachable()
     {
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .AddChildContent("Item"));
 
@@ -164,7 +164,7 @@ public class ToggleGroupItemTests : TestBase
     [Fact]
     public void ToggleGroupItem_UsesProvidedIdForFocusCoordination()
     {
-        var cut = Render<ToggleGroupItem>(parameters => parameters
+        var cut = Render<ToggleGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "item1")
             .Add(p => p.AdditionalAttributes, new Dictionary<string, object>
             {

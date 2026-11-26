@@ -1,6 +1,8 @@
 @namespace Vibe.UI.Components
+@typeparam TValue
 @inherits VibeComponent
 @implements IDisposable
+@implements IToggleGroupItem
 
 <button id="@ElementId" type="button" @attributes="AdditionalAttributes" class="@CombinedCssClass"
     disabled="@IsEffectivelyDisabled" aria-pressed="@AriaBool(IsPressed)"
@@ -11,8 +13,8 @@
 
 @code {
     private readonly string _generatedId = $"vibe-toggle-item-{Guid.NewGuid():N}";
-    private ToggleGroup? _registeredParent;
-    private string? _registeredValue;
+    private IToggleGroupContext? _registeredParent;
+    private TValue? _registeredValue;
     private bool _registeredDisabled;
     private bool _hasRegisteredState;
 
@@ -23,10 +25,11 @@
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// The value of this toggle item.
+    /// The value of this toggle item. It is a C# expression of the group's type, so an enum is
+    /// written <c>Value="Alignment.Left"</c> and a string <c>Value="@("left")"</c>.
     /// </summary>
     [Parameter, EditorRequired]
-    public string Value { get; set; } = string.Empty;
+    public TValue? Value { get; set; }
 
     /// <summary>
     /// Whether this item is disabled.
@@ -41,13 +44,18 @@
     public string? CssClass { get; set; }
 
     [CascadingParameter]
-    private ToggleGroup? Parent { get; set; }
+    private IToggleGroupContext? Parent { get; set; }
 
-    internal string EffectiveValue => Value ?? string.Empty;
-    internal string ElementId => GetAdditionalAttributeId() ?? _generatedId;
+    private string ElementId => GetAdditionalAttributeId() ?? _generatedId;
 
-    private bool IsPressed => Parent?.IsSelected(EffectiveValue) ?? false;
-    internal bool IsEffectivelyDisabled => Disabled || (Parent?.Disabled ?? false);
+    string IToggleGroupItem.ElementId => ElementId;
+
+    bool IToggleGroupItem.IsEffectivelyDisabled => IsEffectivelyDisabled;
+
+    object? IToggleGroupItem.ItemValue => Value;
+
+    private bool IsPressed => Parent?.IsSelected(Value) ?? false;
+    private bool IsEffectivelyDisabled => Disabled || (Parent?.Disabled ?? false);
     private int TabIndex => Parent?.GetItemTabIndex(this) ?? (IsEffectivelyDisabled ? -1 : 0);
 
     private string CombinedCssClass => CombineClasses(
@@ -75,12 +83,12 @@
         }
 
         if (_hasRegisteredState
-            && (_registeredValue != EffectiveValue || _registeredDisabled != Disabled))
+            && (!EqualityComparer<TValue?>.Default.Equals(_registeredValue, Value) || _registeredDisabled != Disabled))
         {
             _registeredParent?.NotifyItemChanged(this);
         }
 
-        _registeredValue = EffectiveValue;
+        _registeredValue = Value;
         _registeredDisabled = Disabled;
         _hasRegisteredState = true;
     }
@@ -90,7 +98,7 @@
         if (Parent != null && !IsEffectivelyDisabled)
         {
             Parent.HandleItemFocus(this);
-            await Parent.HandleItemToggle(EffectiveValue);
+            await Parent.ToggleAsync(Value);
         }
     }
 
