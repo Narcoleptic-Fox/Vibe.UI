@@ -1,4 +1,7 @@
 @namespace Vibe.UI.Components
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
+@implements IDisposable
 @inherits Vibe.UI.Base.VibeComponent
 
 <label class="@CombinedClass" aria-disabled="@(Disabled ? "true" : null)" @attributes="AdditionalAttributes">
@@ -44,6 +47,21 @@
 </label>
 
 @code {
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(bool value)
+    {
+        await CheckedChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
+    public void Dispose() => formField.Dispose();
+
     private bool currentChecked;
     private bool currentIndeterminate;
 
@@ -76,6 +94,13 @@
     /// </summary>
     [Parameter]
     public EventCallback<bool> CheckedChanged { get; set; }
+
+    /// <summary>
+    /// Names the bound property to the form. <c>@bind-Checked</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<bool>>? CheckedExpression { get; set; }
 
     /// <summary>
     /// Gets or sets whether the checkbox represents a mixed selection.
@@ -147,6 +172,7 @@
 
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, CheckedExpression);
         currentChecked = Checked;
         currentIndeterminate = Indeterminate;
     }
@@ -175,10 +201,7 @@
                 }
             }
 
-            if (CheckedChanged.HasDelegate)
-            {
-                await CheckedChanged.InvokeAsync(value);
-            }
+            await ReportAsync(value);
 
             if (OnChange.HasDelegate)
             {

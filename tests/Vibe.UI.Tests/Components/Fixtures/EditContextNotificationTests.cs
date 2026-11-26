@@ -153,6 +153,9 @@ public class EditContextNotificationTests : TestBase
             Plan = "pro",
             Alignment = "left",
             Tags = ["urgent"],
+            Accepted = true,
+            Notify = true,
+            Due = new System.DateTime(2026, 1, 15),
         };
 
     private IElement Quantity => cut.Find(".vibe-form-field input");
@@ -242,6 +245,61 @@ public class EditContextNotificationTests : TestBase
         bare.Find("#shared").Change("x");
 
         StaticBindingFixture.Shared.ShouldBe("x");
+    }
+
+    [Fact]
+    public void Outside_a_form_a_checkbox_a_switch_and_a_date_picker_bound_to_static_members_still_work()
+    {
+        StaticBindingFixture.SharedFlag = false;
+        StaticBindingFixture.SharedDate = null;
+        var bare = Render<StaticBindingFixture>();
+
+        bare.Find("#shared-checkbox").Change(true);
+        StaticBindingFixture.SharedFlag.ShouldBeTrue();
+
+        bare.Find("#shared-switch").Change(false);
+        StaticBindingFixture.SharedFlag.ShouldBeFalse();
+
+        bare.Find(".date-icon").Click();
+        bare.Find(".date-today-btn").Click();
+        StaticBindingFixture.SharedDate.ShouldBe(System.DateTime.Today);
+    }
+
+    [Fact]
+    public void Checkbox_notifies()
+    {
+        RenderInvalid();
+        Messages(nameof(Order.Accepted)).ShouldNotBeEmpty();
+
+        cut.Find("#accepted").Change(true);
+
+        Model.Accepted.ShouldBeTrue();
+        ShouldNowBeValidAndModified(nameof(Order.Accepted));
+    }
+
+    [Fact]
+    public void Switch_notifies()
+    {
+        RenderInvalid();
+        Messages(nameof(Order.Notify)).ShouldNotBeEmpty();
+
+        cut.Find("#notify").Change(true);
+
+        Model.Notify.ShouldBeTrue();
+        ShouldNowBeValidAndModified(nameof(Order.Notify));
+    }
+
+    [Fact]
+    public void DatePicker_notifies_when_a_day_is_picked()
+    {
+        RenderInvalid();
+        Messages(nameof(Order.Due)).ShouldNotBeEmpty();
+
+        cut.Find(".date-icon").Click();
+        cut.Find(".date-today-btn").Click();
+
+        Model.Due.ShouldBe(System.DateTime.Today);
+        ShouldNowBeValidAndModified(nameof(Order.Due));
     }
 
     [Fact]
