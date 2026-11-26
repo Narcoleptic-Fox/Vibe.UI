@@ -60,7 +60,7 @@
 @code {
     private readonly string _instanceId = Guid.NewGuid().ToString("N");
     private TValue? _lastValue;
-    private List<ComboboxOption<TValue>>? _lastOptions;
+    private IReadOnlyList<IComboboxOption<TValue>>? _lastOptions;
     private bool _hasSyncedParameters;
     private TValue? _currentValue;
 
@@ -87,7 +87,7 @@
     /// enum, one option per enum value is offered.
     /// </summary>
     [Parameter]
-    public List<ComboboxOption<TValue>>? Options { get; set; }
+    public IReadOnlyList<IComboboxOption<TValue>>? Options { get; set; }
 
     /// <summary>
     /// Gets or sets the selected value. Options carry values of <typeparamref name="TValue"/>
@@ -209,12 +209,12 @@
     /// <summary>
     /// The filtered options based on the input value.
     /// </summary>
-    private List<ComboboxOption<TValue>> FilteredOptions = new List<ComboboxOption<TValue>>();
+    private List<IComboboxOption<TValue>> FilteredOptions = new List<IComboboxOption<TValue>>();
 
     /// <summary>
     /// The currently highlighted option.
     /// </summary>
-    private ComboboxOption<TValue>? HighlightedOption;
+    private IComboboxOption<TValue>? HighlightedOption;
 
     private static readonly System.Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
 
@@ -487,7 +487,7 @@
     /// Highlights an option.
     /// </summary>
     /// <param name="option">The option to highlight.</param>
-    private void HighlightOption(ComboboxOption<TValue> option)
+    private void HighlightOption(IComboboxOption<TValue> option)
     {
         HighlightedOption = option;
     }
@@ -496,18 +496,18 @@
     /// Checks if an option is the currently selected one.
     /// </summary>
     /// <param name="option">The option to check.</param>
-    private bool IsSelectedOption(ComboboxOption<TValue> option)
+    private bool IsSelectedOption(IComboboxOption<TValue> option)
     {
         return _currentValue is not null && SameValue(option.Value, _currentValue);
     }
 
-    private bool IsHighlightedOption(ComboboxOption<TValue> option) => ReferenceEquals(HighlightedOption, option);
+    private bool IsHighlightedOption(IComboboxOption<TValue> option) => ReferenceEquals(HighlightedOption, option);
 
     /// <summary>
     /// Selects an option.
     /// </summary>
     /// <param name="option">The option to select.</param>
-    private async Task SelectOption(ComboboxOption<TValue>? option)
+    private async Task SelectOption(IComboboxOption<TValue>? option)
     {
         if (!IsInteractive || option == null || option.Disabled)
         {
@@ -520,12 +520,12 @@
         CloseDropdown();
     }
 
-    private IEnumerable<ComboboxOption<TValue>> GetOptions()
+    private IEnumerable<IComboboxOption<TValue>> GetOptions()
     {
-        return Options ?? EnumOptions ?? Enumerable.Empty<ComboboxOption<TValue>>();
+        return Options ?? EnumOptions ?? Enumerable.Empty<IComboboxOption<TValue>>();
     }
 
-    private string GetOptionLabel(ComboboxOption<TValue> option)
+    private string GetOptionLabel(IComboboxOption<TValue> option)
     {
         return option.Label ?? string.Empty;
     }
