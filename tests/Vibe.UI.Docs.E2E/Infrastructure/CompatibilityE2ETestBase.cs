@@ -25,8 +25,7 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
 
     public virtual async Task InitializeAsync()
     {
-        BaseUrl = CompatibilityServerManager.GetBaseUrl(App);
-        await CompatibilityServerManager.AcquireAsync(App, BaseUrl, CancellationToken.None);
+        BaseUrl = await CompatibilityServerManager.AcquireAsync(App, CancellationToken.None);
 
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
         Browser = BrowserType switch
@@ -92,7 +91,7 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
             }
             finally
             {
-                await CompatibilityServerManager.ReleaseAsync(App, BaseUrl);
+                await CompatibilityServerManager.ReleaseAsync(App);
             }
         }
     }

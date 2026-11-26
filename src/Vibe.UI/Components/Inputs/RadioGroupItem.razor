@@ -1,8 +1,10 @@
 @namespace Vibe.UI.Components
+@using System.Globalization
+@typeparam TValue
 @inherits VibeComponent
 
 <label @attributes="AdditionalAttributes" class="@CombinedCssClass">
-    <input id="@Id" type="radio" class="vibe-radio-group-item-input" name="@GroupName" value="@Value" checked="@IsChecked"
+    <input id="@Id" type="radio" class="vibe-radio-group-item-input" name="@GroupName" value="@ValueText" checked="@IsChecked"
         disabled="@IsDisabled" aria-checked="@AriaChecked" @onchange="HandleChange" />
     <span class="vibe-radio-group-item-control"></span>
     @if (ChildContent != null)
@@ -21,10 +23,11 @@
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// The value of this radio item.
+    /// The value of this radio item. It is a C# expression of the group's type, so an enum is
+    /// written <c>Value="Density.Compact"</c> and a string <c>Value="@("compact")"</c>.
     /// </summary>
     [Parameter, EditorRequired]
-    public string Value { get; set; } = string.Empty;
+    public TValue? Value { get; set; }
 
     /// <summary>
     /// The ID of this radio item (for accessibility).
@@ -45,12 +48,15 @@
     public string? CssClass { get; set; }
 
     [CascadingParameter]
-    private RadioGroup? Parent { get; set; }
+    private IRadioGroupContext? Parent { get; set; }
 
     private string GroupName => Parent?.Name ?? string.Empty;
     private bool IsChecked => Parent?.IsSelected(Value) ?? false;
     private bool IsDisabled => Disabled || (Parent?.Disabled ?? false);
     private string AriaChecked => IsChecked ? "true" : "false";
+
+    // Only what a plain HTML form would post. Selection never goes through this text.
+    private string ValueText => BindConverter.FormatValue(Value, CultureInfo.InvariantCulture)?.ToString() ?? string.Empty;
 
     private string CombinedCssClass => CombineClasses(
     "vibe-radio-group-item",
@@ -65,7 +71,7 @@
     {
         if (Parent != null && !IsDisabled)
         {
-            await Parent.HandleValueChange(Value);
+            await Parent.SelectAsync(Value);
         }
     }
 }

@@ -6,7 +6,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_Renders_WithDefaultProps()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .AddChildContent("Option 1"));
 
@@ -19,7 +19,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_Renders_RadioInput()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .AddChildContent("Option 1"));
 
@@ -33,7 +33,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_Renders_Label()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .AddChildContent("Option 1"));
 
@@ -46,7 +46,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_Applies_DisabledState()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .Add(p => p.Disabled, true)
             .AddChildContent("Option 1"));
@@ -61,7 +61,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_Applies_CustomCssClass()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .Add(p => p.CssClass, "custom-radio")
             .AddChildContent("Option 1"));
@@ -74,7 +74,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_Renders_Control()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .AddChildContent("Option 1"));
 
@@ -87,9 +87,9 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_WithParent_InheritsGroupName()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Name, "parent-group")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -102,9 +102,9 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_WithParentValue_ShowsChecked()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -118,9 +118,9 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_WithDifferentParentValue_NotChecked()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, "option2")
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -134,9 +134,9 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_ParentDisabled_ItemBecomesDisabled()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -150,9 +150,9 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_BothDisabled_RemainsDisabled()
     {
         // Act
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .Add(i => i.Disabled, true)
                 .AddChildContent("Option 1")));
@@ -167,9 +167,9 @@ public class RadioGroupItemTests : TestBase
     {
         // Arrange
         string? selectedValue = null;
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.ValueChanged, value => selectedValue = value)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1")));
 
@@ -185,9 +185,9 @@ public class RadioGroupItemTests : TestBase
     {
         // Arrange
         string? selectedValue = null;
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.ValueChanged, value => selectedValue = value)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .Add(i => i.Disabled, true)
                 .AddChildContent("Option 1")));
@@ -203,7 +203,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_WithoutParent_HasEmptyName()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .AddChildContent("Option 1"));
 
@@ -216,7 +216,7 @@ public class RadioGroupItemTests : TestBase
     public void RadioGroupItem_WithId_AppliesId()
     {
         // Act
-        var cut = Render<RadioGroupItem>(parameters => parameters
+        var cut = Render<RadioGroupItem<string>>(parameters => parameters
             .Add(p => p.Value, "option1")
             .Add(p => p.Id, "custom-id")
             .AddChildContent("Option 1"));
@@ -231,13 +231,13 @@ public class RadioGroupItemTests : TestBase
     {
         // Arrange
         string? selectedValue = "option1";
-        var cut = Render<RadioGroup>(parameters => parameters
+        var cut = Render<RadioGroup<string>>(parameters => parameters
             .Add(p => p.Value, selectedValue)
             .Add(p => p.ValueChanged, value => selectedValue = value)
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option1")
                 .AddChildContent("Option 1"))
-            .AddChildContent<RadioGroupItem>(item => item
+            .AddChildContent<RadioGroupItem<string>>(item => item
                 .Add(i => i.Value, "option2")
                 .AddChildContent("Option 2")));
 
