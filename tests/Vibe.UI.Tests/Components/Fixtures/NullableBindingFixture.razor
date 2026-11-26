@@ -1,0 +1,38 @@
+@* Compile-time fixture: nullable fields bound to the typed inputs without stating TValue.
+   This file has to build with warnings as errors. It is rendered by NullableBindingTests. *@
+
+<Input @bind-Value="name" />
+<Input @bind-Value="age" />
+
+<Select @bind-Value="city">
+    <option value="oslo">Oslo</option>
+</Select>
+
+<Combobox Id="framework" Options="frameworks" @bind-Value="framework" />
+
+<RadioGroup @bind-Value="plan">
+    <RadioGroupItem Value="@("free")">Free</RadioGroupItem>
+</RadioGroup>
+
+<ToggleGroup @bind-Value="alignment">
+    <ToggleGroupItem Value="@("left")">Left</ToggleGroupItem>
+</ToggleGroup>
+
+<ToggleGroup Type="ToggleGroupType.Multiple" @bind-Values="tags">
+    <ToggleGroupItem Value="@("a")">A</ToggleGroupItem>
+</ToggleGroup>
+
+@code {
+    private string? name;
+    private int? age;
+    private string? city;
+    private string? framework;
+    private string? plan;
+    private string? alignment;
+    private List<string> tags = [];
+
+    // Options of string, bound to a field of string?: the pairing that used to need TValue stated.
+    private readonly List<ComboboxOption<string>> frameworks = [new() { Label = "Blazor", Value = "blazor" }];
+
+    public string? Framework => framework;
+}
