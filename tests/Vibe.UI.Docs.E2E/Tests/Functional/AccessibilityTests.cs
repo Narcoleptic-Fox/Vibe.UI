@@ -21,6 +21,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/kanbanboard",
         "/components/sidebar",
         "/components/alertdialog",
+        "/components/combobox",
     ];
 
     [Fact]
