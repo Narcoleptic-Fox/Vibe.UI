@@ -1,5 +1,4 @@
 @namespace Vibe.UI.Components
-@using System.Globalization
 @typeparam TValue
 @implements IRadioGroupContext
 @attribute [CascadingTypeParameter(nameof(TValue))]
@@ -129,31 +128,6 @@
         return EqualityComparer<TValue?>.Default.Equals(_currentValue, itemValue);
     }
 
-    // An item's value arrives as whatever type the compiler gave the item, which is not always
-    // the group's: Value="true" in a bool? group is a bool, and Value="1" in a long group an int.
-    private static TValue? Coerce(object? itemValue)
-    {
-        switch (itemValue)
-        {
-            case null:
-                return default;
-            case TValue typed:
-                return typed;
-        }
-
-        try
-        {
-            return ValueType.IsEnum
-                ? (TValue)Enum.ToObject(ValueType, itemValue)
-                : (TValue)Convert.ChangeType(itemValue, ValueType, CultureInfo.InvariantCulture);
-        }
-        catch (Exception exception) when (exception is InvalidCastException or FormatException or OverflowException or ArgumentException)
-        {
-            // The author wrote this value, so it is a mistake in the markup, not user input.
-            throw new InvalidOperationException(
-                $"A RadioGroupItem has a value of type {itemValue.GetType().Name} ('{itemValue}'), which cannot be used in a "
-                + $"RadioGroup<{typeof(TValue).Name}>. Give the item a value of the group's type.",
-                exception);
-        }
-    }
+    // The item's own type is not always the group's; see ItemValue.
+    private static TValue? Coerce(object? itemValue) => Vibe.UI.Base.ItemValue.Coerce<TValue>(itemValue, "RadioGroup");
 }

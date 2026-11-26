@@ -20,13 +20,13 @@
     <section class="vibe-mb-12">
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
         <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
-            <ToggleGroup Type="ToggleGroup.ToggleGroupType.Single"
+            <ToggleGroup Type="ToggleGroupType.Single"
                          @bind-Value="alignment"
                          AriaLabel="Text alignment">
-                <ToggleGroupItem Value="left">Left</ToggleGroupItem>
-                <ToggleGroupItem Value="center">Center</ToggleGroupItem>
-                <ToggleGroupItem Value="right">Right</ToggleGroupItem>
-                <ToggleGroupItem Value="justify">Justify</ToggleGroupItem>
+                <ToggleGroupItem Value="@("left")">Left</ToggleGroupItem>
+                <ToggleGroupItem Value="@("center")">Center</ToggleGroupItem>
+                <ToggleGroupItem Value="@("right")">Right</ToggleGroupItem>
+                <ToggleGroupItem Value="@("justify")">Justify</ToggleGroupItem>
             </ToggleGroup>
             <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Alignment: @(alignment ?? "None")</output>
         </div>
@@ -41,14 +41,14 @@
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Multiple selection</h3>
             <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <ToggleGroup Type="ToggleGroup.ToggleGroupType.Multiple"
+                <ToggleGroup Type="ToggleGroupType.Multiple"
                              @bind-Values="formats"
                              AriaLabel="Text formatting">
-                    <ToggleGroupItem Value="bold">Bold</ToggleGroupItem>
-                    <ToggleGroupItem Value="italic">Italic</ToggleGroupItem>
-                    <ToggleGroupItem Value="underline">Underline</ToggleGroupItem>
-                    <ToggleGroupItem Value="strike">Strikethrough</ToggleGroupItem>
-                    <ToggleGroupItem Value="code">Code</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("bold")">Bold</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("italic")">Italic</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("underline")">Underline</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("strike")">Strikethrough</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("code")">Code</ToggleGroupItem>
                 </ToggleGroup>
                 <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Active: @(formats.Count == 0 ? "None" : string.Join(", ", formats))</output>
             </div>
@@ -58,12 +58,12 @@
         <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Vertical orientation</h3>
             <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <ToggleGroup Orientation="ToggleGroup.ToggleGroupOrientation.Vertical"
-                             Value="comfortable"
+                <ToggleGroup Orientation="ToggleGroupOrientation.Vertical"
+                             Value="@("comfortable")"
                              AriaLabel="Display density">
-                    <ToggleGroupItem Value="compact">Compact</ToggleGroupItem>
-                    <ToggleGroupItem Value="comfortable">Comfortable</ToggleGroupItem>
-                    <ToggleGroupItem Value="spacious" Disabled="true">Spacious</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("compact")">Compact</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("comfortable")">Comfortable</ToggleGroupItem>
+                    <ToggleGroupItem Value="@("spacious")" Disabled="true">Spacious</ToggleGroupItem>
                 </ToggleGroup>
             </div>
             <CodeBlock Code="@VerticalCode" Language="razor" />
@@ -74,13 +74,41 @@
             <div class="vibe-flex vibe-flex-col vibe-items-start vibe-gap-4 vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
                 @foreach (var size in Sizes)
                 {
-                    <ToggleGroup Size="size" Value="week" AriaLabel="@($"{size} calendar range")">
-                        <ToggleGroupItem Value="day">Day</ToggleGroupItem>
-                        <ToggleGroupItem Value="week">Week</ToggleGroupItem>
-                        <ToggleGroupItem Value="month">Month</ToggleGroupItem>
+                    <ToggleGroup Size="size" Value="@("week")" AriaLabel="@($"{size} calendar range")">
+                        <ToggleGroupItem Value="@("day")">Day</ToggleGroupItem>
+                        <ToggleGroupItem Value="@("week")">Week</ToggleGroupItem>
+                        <ToggleGroupItem Value="@("month")">Month</ToggleGroupItem>
                     </ToggleGroup>
                 }
             </div>
+        </div>
+
+        <div class="vibe-mt-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Typed values</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-4">
+                Bind an enum or a number directly, for one value or for several. An enum with no
+                items written builds its own. Pressing the selected item of a single group clears
+                it only when the bound type can be null.
+            </p>
+            <div class="vibe-flex vibe-flex-col vibe-items-start vibe-gap-4 vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
+                <div data-testid="toggle-typed-enum">
+                    <ToggleGroup @bind-Value="typedAlignment" AriaLabel="Alignment" />
+                </div>
+                <div data-testid="toggle-typed-days">
+                    <ToggleGroup Type="ToggleGroupType.Multiple" @bind-Values="typedDays" AriaLabel="Working days" />
+                </div>
+                <div data-testid="toggle-typed-int">
+                    <ToggleGroup @bind-Value="typedPageSize" AriaLabel="Rows per page">
+                        <ToggleGroupItem Value="10">10</ToggleGroupItem>
+                        <ToggleGroupItem Value="25">25</ToggleGroupItem>
+                        <ToggleGroupItem Value="50">50</ToggleGroupItem>
+                    </ToggleGroup>
+                </div>
+                <p id="toggle-typed-readout" class="vibe-text-sm vibe-text-muted-foreground">
+                    alignment = @(typedAlignment?.ToString() ?? "null") · days = @string.Join(", ", typedDays) · page size = @typedPageSize
+                </p>
+            </div>
+            <CodeBlock Code="@TypedCode" Language="razor" />
         </div>
     </section>
 
@@ -158,11 +186,11 @@
     private string? alignment = "left";
     private List<string> formats = ["bold"];
 
-    private static readonly ToggleGroup.ToggleGroupSize[] Sizes =
+    private static readonly ToggleGroupSize[] Sizes =
     [
-        ToggleGroup.ToggleGroupSize.Small,
-        ToggleGroup.ToggleGroupSize.Default,
-        ToggleGroup.ToggleGroupSize.Large
+        ToggleGroupSize.Small,
+        ToggleGroupSize.Default,
+        ToggleGroupSize.Large
     ];
 
     private static readonly (string Name, string Type, string Default, string Description)[] GroupProperties =
@@ -189,32 +217,58 @@
     ];
 
     private const string SingleCode = """
-        <ToggleGroup Type="ToggleGroup.ToggleGroupType.Single"
+        <ToggleGroup Type="ToggleGroupType.Single"
                      @bind-Value="alignment"
                      AriaLabel="Text alignment">
-            <ToggleGroupItem Value="left">Left</ToggleGroupItem>
-            <ToggleGroupItem Value="center">Center</ToggleGroupItem>
-            <ToggleGroupItem Value="right">Right</ToggleGroupItem>
+            <ToggleGroupItem Value="@("left")">Left</ToggleGroupItem>
+            <ToggleGroupItem Value="@("center")">Center</ToggleGroupItem>
+            <ToggleGroupItem Value="@("right")">Right</ToggleGroupItem>
         </ToggleGroup>
         """;
 
     private const string MultipleCode = """
-        <ToggleGroup Type="ToggleGroup.ToggleGroupType.Multiple"
+        <ToggleGroup Type="ToggleGroupType.Multiple"
                      @bind-Values="formats"
                      AriaLabel="Text formatting">
-            <ToggleGroupItem Value="bold">Bold</ToggleGroupItem>
-            <ToggleGroupItem Value="italic">Italic</ToggleGroupItem>
-            <ToggleGroupItem Value="underline">Underline</ToggleGroupItem>
+            <ToggleGroupItem Value="@("bold")">Bold</ToggleGroupItem>
+            <ToggleGroupItem Value="@("italic")">Italic</ToggleGroupItem>
+            <ToggleGroupItem Value="@("underline")">Underline</ToggleGroupItem>
         </ToggleGroup>
         """;
 
+    private enum TextAlignment { Left, Center, Right }
+
+    private TextAlignment? typedAlignment = TextAlignment.Left;
+    private List<DayOfWeek> typedDays = [DayOfWeek.Monday, DayOfWeek.Wednesday];
+    private int typedPageSize = 25;
+
+    private const string TypedCode = """
+        <ToggleGroup @bind-Value="alignment" AriaLabel="Alignment" />
+
+        <ToggleGroup Type="ToggleGroupType.Multiple" @bind-Values="days" AriaLabel="Working days" />
+
+        <ToggleGroup @bind-Value="pageSize" AriaLabel="Rows per page">
+            <ToggleGroupItem Value="10">10</ToggleGroupItem>
+            <ToggleGroupItem Value="25">25</ToggleGroupItem>
+            <ToggleGroupItem Value="50">50</ToggleGroupItem>
+        </ToggleGroup>
+
+        @code {
+            private enum TextAlignment { Left, Center, Right }
+
+            private TextAlignment? alignment = TextAlignment.Left;   // press again to clear
+            private List<DayOfWeek> days = [DayOfWeek.Monday, DayOfWeek.Wednesday];
+            private int pageSize = 25;                               // always has a value
+        }
+        """;
+
     private const string VerticalCode = """
-        <ToggleGroup Orientation="ToggleGroup.ToggleGroupOrientation.Vertical"
-                     Value="comfortable"
+        <ToggleGroup Orientation="ToggleGroupOrientation.Vertical"
+                     Value="@("comfortable")"
                      AriaLabel="Display density">
-            <ToggleGroupItem Value="compact">Compact</ToggleGroupItem>
-            <ToggleGroupItem Value="comfortable">Comfortable</ToggleGroupItem>
-            <ToggleGroupItem Value="spacious" Disabled="true">Spacious</ToggleGroupItem>
+            <ToggleGroupItem Value="@("compact")">Compact</ToggleGroupItem>
+            <ToggleGroupItem Value="@("comfortable")">Comfortable</ToggleGroupItem>
+            <ToggleGroupItem Value="@("spacious")" Disabled="true">Spacious</ToggleGroupItem>
         </ToggleGroup>
         """;
 }
