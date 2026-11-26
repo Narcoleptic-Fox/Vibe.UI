@@ -142,32 +142,35 @@
     {
         if (string.IsNullOrEmpty(Code)) return;
 
-        // The highlighter is a module script that can finish loading after Blazor renders the
-        // first code blocks. A call made before it defines window.highlightCode throws, and the
-        // block used to stay plain text for good. Retry for up to about five seconds instead.
-        for (var attempt = 0; attempt < 50; attempt++)
+        try
         {
-            try
+            // The highlighter is a module script that can finish loading after Blazor renders the
+            // first code blocks. Wait up to about five seconds for it to define highlightCode,
+            // rather than calling too early and leaving the block as plain text for good.
+            var ready = false;
+            for (var attempt = 0; attempt < 50 && !ready; attempt++)
             {
-                var isDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
-                var theme = isDark ? "dark" : "light";
+                ready = await JS.InvokeAsync<bool>("eval", "typeof window.highlightCode === 'function'");
+                if (!ready)
+                {
+                    await Task.Delay(100);
+                }
+            }
 
-                highlightedHtml = await JS.InvokeAsync<string>("highlightCode", Code, Language, theme);
-                StateHasChanged();
-                return;
-            }
-            catch (JSException)
+            if (!ready)
             {
-                await Task.Delay(100);
-            }
-            catch
-            {
-                // The runtime is going away (navigation or prerendering): keep the plain text.
                 highlightedHtml = null;
                 return;
             }
-        }
 
-        highlightedHtml = null;
+            var isDark = await JS.InvokeAsync<bool>("eval", "document.documentElement.classList.contains('dark')");
+            highlightedHtml = await JS.InvokeAsync<string>("highlightCode", Code, Language, isDark ? "dark" : "light");
+            StateHasChanged();
+        }
+        catch
+        {
+            // A highlighting error, or the runtime going away: keep the plain text.
+            highlightedHtml = null;
+        }
     }
 }

@@ -688,7 +688,8 @@ public partial class UtilityGenerator
             ];
         }
 
-        // Grid pattern background (auto-inverts when html.dark is present)
+        // Grid pattern background, drawn in the theme's border colour so it follows the theme
+        // and light or dark mode.
         if (name is "bg-grid-pattern")
         {
             return
@@ -696,13 +697,7 @@ public partial class UtilityGenerator
                 new()
                 {
                     Selector = selector,
-                    Declarations = "background-image: linear-gradient(to right, rgb(228 228 231 / 0.6) 1px, transparent 1px), linear-gradient(to bottom, rgb(228 228 231 / 0.6) 1px, transparent 1px); background-size: 64px 64px;",
-                    Order = CssOrder.Background
-                },
-                new()
-                {
-                    Selector = $".dark {selector}",
-                    Declarations = "background-image: linear-gradient(to right, rgb(63 63 70 / 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgb(63 63 70 / 0.35) 1px, transparent 1px);",
+                    Declarations = "background-image: linear-gradient(to right, color-mix(in srgb, var(--vibe-border) 60%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--vibe-border) 60%, transparent) 1px, transparent 1px); background-size: 64px 64px;",
                     Order = CssOrder.Background
                 }
             ];
@@ -729,7 +724,7 @@ public partial class UtilityGenerator
                 new()
                 {
                     Selector = selector,
-                    Declarations = "background: radial-gradient(circle at 30% 30%, rgb(6 84 101 / 0.9), rgb(6 84 101 / 0));",
+                    Declarations = "background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--vibe-primary) 90%, transparent), transparent);",
                     Order = CssOrder.Background
                 }
             ];
@@ -742,7 +737,7 @@ public partial class UtilityGenerator
                 new()
                 {
                     Selector = selector,
-                    Declarations = "background: radial-gradient(circle at 30% 30%, rgb(170 152 169 / 0.9), rgb(170 152 169 / 0));",
+                    Declarations = "background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--vibe-link) 90%, transparent), transparent);",
                     Order = CssOrder.Background
                 }
             ];
