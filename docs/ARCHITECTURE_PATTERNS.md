@@ -440,7 +440,7 @@ public enum ComponentSize
 **Usage:**
 ```csharp
 <Button Size="ComponentSize.Large">Large Button</Button>
-<Input Size="ComponentSize.Small" />
+<Input TValue="string" Size="ComponentSize.Small" />
 ```
 
 **Components using ComponentSize:**
@@ -517,8 +517,8 @@ public enum InputVariant
 
 **Usage:**
 ```csharp
-<Input Variant="InputVariant.Outlined" />
-<Input Variant="InputVariant.Filled" />
+<Input TValue="string" Variant="InputVariant.Outlined" />
+<Input TValue="string" Variant="InputVariant.Filled" />
 ```
 
 #### CardVariant
