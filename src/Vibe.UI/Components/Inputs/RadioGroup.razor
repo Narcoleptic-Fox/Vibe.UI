@@ -1,31 +1,47 @@
 @namespace Vibe.UI.Components
+@using System.Globalization
+@typeparam TValue
+@implements IRadioGroupContext
+@attribute [CascadingTypeParameter(nameof(TValue))]
 @inherits VibeComponent
 
 <div @attributes="AdditionalAttributes" class="@CombinedCssClass" role="radiogroup" aria-label="@AriaLabel"
     aria-required="@AriaRequired" aria-disabled="@AriaDisabled" aria-orientation="@AriaOrientation">
-    <CascadingValue Value="this">
-        @ChildContent
+    <CascadingValue TValue="IRadioGroupContext" Value="this" IsFixed="true">
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+        else if (EnumValues is not null)
+        {
+            @foreach (var value in EnumValues)
+            {
+                <RadioGroupItem TValue="TValue" Value="value">@Vibe.UI.Metadata.ConventionMetadataProvider.ToLabel(value!.ToString()!)</RadioGroupItem>
+            }
+        }
     </CascadingValue>
 </div>
 
 @code {
     /// <summary>
-    /// The content of the radio group (RadioGroupItem components).
+    /// The content of the radio group (RadioGroupItem components). When omitted and
+    /// <typeparamref name="TValue"/> is an enum, one item per enum value is rendered.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// The currently selected value.
+    /// The currently selected value. Items carry values of <typeparamref name="TValue"/>
+    /// themselves, so nothing is converted to or from text when one is picked.
     /// </summary>
     [Parameter]
-    public string? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>
     /// Event callback when the selected value changes.
     /// </summary>
     [Parameter]
-    public EventCallback<string?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>
     /// The name for the radio group (shared by all radio buttons).
@@ -63,6 +79,12 @@
     [Parameter]
     public string? CssClass { get; set; }
 
+    private static readonly System.Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+    private static readonly TValue[]? EnumValues = ValueType.IsEnum
+        ? Enum.GetValues(ValueType).Cast<object>().Select(value => (TValue)value).ToArray()
+        : null;
+
     private string CombinedCssClass => CombineClasses(
     "vibe-radio-group",
     $"vibe-radio-group-{Orientation.ToString().ToLower()}",
@@ -70,7 +92,7 @@
     CssClass
     );
 
-    private string? _currentValue;
+    private TValue? _currentValue;
 
     private string? AriaRequired => Required ? "true" : null;
     private string? AriaDisabled => Disabled ? "true" : null;
@@ -83,11 +105,14 @@
         _currentValue = Value;
     }
 
-    internal async Task HandleValueChange(string itemValue)
-    {
-        if (Disabled) return;
+    bool IRadioGroupContext.IsSelected(object? itemValue) => IsSelected(Coerce(itemValue));
 
-        if (_currentValue == itemValue)
+    Task IRadioGroupContext.SelectAsync(object? itemValue) => HandleValueChange(Coerce(itemValue));
+
+    private async Task HandleValueChange(TValue? itemValue)
+    {
+        // A disabled group needs no check here: its items are disabled and never call this.
+        if (IsSelected(itemValue))
         {
             return;
         }
@@ -97,14 +122,38 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    internal bool IsSelected(string itemValue)
+    // Plain equality. An int at 0 is the item whose value is 0, and a null value checks only an
+    // item written with a null value, such as a "No preference" choice in a nullable group.
+    private bool IsSelected(TValue? itemValue)
     {
-        return _currentValue == itemValue;
+        return EqualityComparer<TValue?>.Default.Equals(_currentValue, itemValue);
     }
 
-    public enum RadioGroupOrientation
+    // An item's value arrives as whatever type the compiler gave the item, which is not always
+    // the group's: Value="true" in a bool? group is a bool, and Value="1" in a long group an int.
+    private static TValue? Coerce(object? itemValue)
     {
-        Horizontal,
-        Vertical
+        switch (itemValue)
+        {
+            case null:
+                return default;
+            case TValue typed:
+                return typed;
+        }
+
+        try
+        {
+            return ValueType.IsEnum
+                ? (TValue)Enum.ToObject(ValueType, itemValue)
+                : (TValue)Convert.ChangeType(itemValue, ValueType, CultureInfo.InvariantCulture);
+        }
+        catch (Exception exception) when (exception is InvalidCastException or FormatException or OverflowException or ArgumentException)
+        {
+            // The author wrote this value, so it is a mistake in the markup, not user input.
+            throw new InvalidOperationException(
+                $"A RadioGroupItem has a value of type {itemValue.GetType().Name} ('{itemValue}'), which cannot be used in a "
+                + $"RadioGroup<{typeof(TValue).Name}>. Give the item a value of the group's type.",
+                exception);
+        }
     }
 }

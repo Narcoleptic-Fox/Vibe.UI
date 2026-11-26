@@ -270,6 +270,13 @@
     {
         get
         {
+            // The options are only in the page while the list is open. Pointing at one that is not
+            // there is an invalid reference, so a closed combobox names no active option.
+            if (!IsOpen)
+            {
+                return null;
+            }
+
             var index = HighlightedOption == null ? -1 : FilteredOptions.IndexOf(HighlightedOption);
             return index >= 0 ? GetOptionId(index) : null;
         }
