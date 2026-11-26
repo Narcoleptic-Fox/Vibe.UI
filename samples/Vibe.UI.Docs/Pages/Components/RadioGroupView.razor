@@ -25,18 +25,11 @@
         <LivePreview Code="@GeneratedCode" Props="@radioProps" OnPropChanged="HandlePropChanged" OnPropsReset="HandlePropsReset">
             <PreviewContent>
                 <div class="vibe-max-w-md">
-                    <RadioGroup Value="@currentValue"
-                                ValueChanged="@((string val) => currentValue = val)"
+                    <RadioGroup @bind-Value="plan"
+                                AriaLabel="Plan"
                                 Orientation="@currentOrientation"
-                                Disabled="@currentDisabled">
-                        <RadioGroupItem Value="@("option1")">Option 1</RadioGroupItem>
-                        <RadioGroupItem Value="@("option2")">Option 2</RadioGroupItem>
-                        <RadioGroupItem Value="@("option3")">Option 3</RadioGroupItem>
-                    </RadioGroup>
-                    @if (!string.IsNullOrEmpty(currentValue))
-                    {
-                        <p class="vibe-mt-3 vibe-text-sm vibe-text-link">Selected: @currentValue</p>
-                    }
+                                Disabled="@currentDisabled" />
+                    <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Selected: @($"Plan.{plan}")</p>
                 </div>
             </PreviewContent>
         </LivePreview>
@@ -46,59 +39,51 @@
     <section class="vibe-mb-12">
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
 
-        <!-- Default -->
+        <!-- Enum, no items written -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Default</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Bound to an enum</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                A basic radio group with vertical layout.
+                Bind an enum and write no items: the group lists one option per value, labelled from
+                the value's name, so <code>NextDay</code> shows as "Next day". The bound value is the
+                enum itself, not a string.
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <div class="vibe-max-w-md">
-                    <RadioGroup TValue="string" Value="@selectedSize" ValueChanged="@OnSizeChanged">
-                        <RadioGroupItem Value="@("small")">Small</RadioGroupItem>
-                        <RadioGroupItem Value="@("medium")">Medium</RadioGroupItem>
-                        <RadioGroupItem Value="@("large")">Large</RadioGroupItem>
-                    </RadioGroup>
-                    @if (!string.IsNullOrEmpty(selectedSize))
-                    {
-                        <p class="vibe-mt-3 vibe-text-sm vibe-text-link">Selected: @selectedSize</p>
-                    }
+                <div class="vibe-max-w-md" data-testid="radio-enum-shipping">
+                    <RadioGroup @bind-Value="shipping" AriaLabel="Shipping" />
+                    <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground" id="radio-enum-shipping-value">Value: @($"Shipping.{shipping}")</p>
                 </div>
             </div>
-            <CodeBlock Code="@DefaultCode" Language="razor" />
+            <CodeBlock Code="@EnumCode" Language="razor" />
         </div>
 
-        <!-- With Default Selection -->
+        <!-- Written items -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Default Selection</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Your own labels</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Pre-select an option by setting the Value property.
+                Write the items to choose the labels and the order, or to leave values out. Each
+                item's value is the enum value itself.
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Value="@("medium")">
-                        <RadioGroupItem Value="@("small")">Small</RadioGroupItem>
-                        <RadioGroupItem Value="@("medium")">Medium (Default)</RadioGroupItem>
-                        <RadioGroupItem Value="@("large")">Large</RadioGroupItem>
+                    <RadioGroup @bind-Value="shipping" AriaLabel="Shipping speed">
+                        <RadioGroupItem Value="Shipping.Standard">Standard, 5 to 7 days</RadioGroupItem>
+                        <RadioGroupItem Value="Shipping.Express">Express, 2 days</RadioGroupItem>
+                        <RadioGroupItem Value="Shipping.NextDay">Next day</RadioGroupItem>
                     </RadioGroup>
                 </div>
             </div>
-            <CodeBlock Code="@DefaultSelectionCode" Language="razor" />
+            <CodeBlock Code="@LabelsCode" Language="razor" />
         </div>
 
         <!-- Horizontal Layout -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Horizontal Layout</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Horizontal layout</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Display radio options horizontally for compact layouts.
+                Lay a short set of options out in a row.
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Orientation="RadioGroupOrientation.Horizontal" Value="@("pro")">
-                        <RadioGroupItem Value="@("free")">Free</RadioGroupItem>
-                        <RadioGroupItem Value="@("pro")">Pro</RadioGroupItem>
-                        <RadioGroupItem Value="@("enterprise")">Enterprise</RadioGroupItem>
-                    </RadioGroup>
+                    <RadioGroup @bind-Value="billing" AriaLabel="Billing" Orientation="RadioGroupOrientation.Horizontal" />
                 </div>
             </div>
             <CodeBlock Code="@HorizontalCode" Language="razor" />
@@ -106,21 +91,17 @@
 
         <!-- With Disabled Options -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Disabled Options</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Disabled options</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Disable specific options while keeping others interactive.
+                Disable one option while keeping the others available. This needs the items written out.
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Value="@selectedColor" ValueChanged="@((string val) => selectedColor = val)">
-                        <RadioGroupItem Value="@("red")">Red</RadioGroupItem>
-                        <RadioGroupItem Value="@("green")" Disabled="true">Green (Unavailable)</RadioGroupItem>
-                        <RadioGroupItem Value="@("blue")">Blue</RadioGroupItem>
+                    <RadioGroup @bind-Value="plan" AriaLabel="Plan with an unavailable option">
+                        <RadioGroupItem Value="Plan.Free">Free</RadioGroupItem>
+                        <RadioGroupItem Value="Plan.Pro">Pro</RadioGroupItem>
+                        <RadioGroupItem Value="Plan.Enterprise" Disabled="true">Enterprise (contact sales)</RadioGroupItem>
                     </RadioGroup>
-                    @if (!string.IsNullOrEmpty(selectedColor))
-                    {
-                        <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">Selected: @selectedColor</p>
-                    }
                 </div>
             </div>
             <CodeBlock Code="@DisabledCode" Language="razor" />
@@ -128,49 +109,40 @@
 
         <!-- Disabled Group -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Disabled Group</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Disabled group</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Disable the entire radio group to prevent any interaction.
+                Disable the whole group to show a value that cannot be changed here.
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div class="vibe-max-w-md">
-                    <RadioGroup Disabled="true" Value="@("option2")">
-                        <RadioGroupItem Value="@("option1")">Option 1</RadioGroupItem>
-                        <RadioGroupItem Value="@("option2")">Option 2</RadioGroupItem>
-                        <RadioGroupItem Value="@("option3")">Option 3</RadioGroupItem>
-                    </RadioGroup>
+                    <RadioGroup Disabled="true" Value="Plan.Pro" AriaLabel="Current plan" />
                 </div>
             </div>
             <CodeBlock Code="@DisabledGroupCode" Language="razor" />
         </div>
 
-        <!-- With Form Integration -->
+        <!-- Nullable -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">With Form Integration</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Nothing chosen yet</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Use with FormField for complete form integration.
+                Bind a nullable enum to start with no option checked. The value stays
+                <code>null</code> until the user picks one.
             </p>
             <div class="vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
-                <div class="vibe-max-w-md">
-                    <FormField TValue="string" Label="Preferred Contact Method">
-                        <RadioGroup Value="@contactMethod" ValueChanged="@((string val) => contactMethod = val)">
-                            <RadioGroupItem Value="@("email")">Email</RadioGroupItem>
-                            <RadioGroupItem Value="@("phone")">Phone</RadioGroupItem>
-                            <RadioGroupItem Value="@("sms")">SMS</RadioGroupItem>
-                        </RadioGroup>
-                    </FormField>
+                <div class="vibe-max-w-md" data-testid="radio-enum-contact">
+                    <RadioGroup @bind-Value="contact" AriaLabel="Preferred contact method" />
+                    <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground" id="radio-enum-contact-value">Value: @(contact is null ? "null" : $"Contact.{contact}")</p>
                 </div>
             </div>
-            <CodeBlock Code="@FormIntegrationCode" Language="razor" />
+            <CodeBlock Code="@NullableCode" Language="razor" />
         </div>
 
         <!-- Typed values -->
         <div class="vibe-mb-8">
-            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Typed values</h3>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Numbers, booleans and other types</h3>
             <p class="vibe-text-muted-foreground vibe-mb-4">
-                Bind an enum, a number or a bool directly. An item's value is a C# expression of the
-                group's type, and the items take that type from the group. An enum with no items
-                written builds its own, one per value.
+                Any value type binds the same way. With a number or a bool, write the items: an
+                item's value is a C# expression of the group's type.
             </p>
             <div class="vibe-space-y-6 vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border vibe-mb-3">
                 <div data-testid="radio-typed-enum">
@@ -224,7 +196,7 @@
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Name</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="string" /></td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">generated</td>
                             <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Name attribute for the radio group</td>
                         </tr>
                         <tr>
@@ -249,7 +221,7 @@
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">ChildContent</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="RenderFragment" /></td>
                             <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">—</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Radio options content</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">The RadioGroupItem options. Optional when the value is an enum: one option per value is built</td>
                         </tr>
                     </tbody>
                 </table>
@@ -274,7 +246,7 @@
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Value</td>
                             <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="TValue" /></td>
                             <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">null</td>
-                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Value for this radio option, as a C# expression of the group's type: Value="Density.Compact", Value="5", or Value="@@("text")" for a string. The type comes from the enclosing group.</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">Value for this radio option, as a C# expression of the group's type: Value="Plan.Pro", Value="5", or Value="@@("text")" for a string. The type comes from the enclosing group.</td>
                         </tr>
                         <tr>
                             <td class="vibe-py-3 vibe-px-4 vibe-font-mono vibe-text-sm vibe-text-foreground">Disabled</td>
@@ -386,15 +358,20 @@
 </div>
 
 @code {
+    private enum Plan { Free, Pro, Enterprise }
+    private enum Shipping { Standard, Express, NextDay }
+    private enum Billing { Monthly, Yearly }
+    private enum Contact { Email, Phone, TextMessage }
+
     // Interactive preview state
-    private string currentValue = "option2";
+    private Plan plan = Plan.Pro;
     private RadioGroupOrientation currentOrientation = RadioGroupOrientation.Vertical;
     private bool currentDisabled = false;
 
     // Example values
-    private string selectedSize = "medium";
-    private string selectedColor = "blue";
-    private string contactMethod = "email";
+    private Shipping shipping = Shipping.Standard;
+    private Billing billing = Billing.Yearly;
+    private Contact? contact;
 
     // PropTweaker props
     private List<PropDefinition> radioProps = new();
@@ -408,7 +385,7 @@
     {
         radioProps = new List<PropDefinition>
         {
-            PropDefinition.String("Value", "option2", "Currently selected value"),
+            PropDefinition.Enum<Plan>("Value", Plan.Pro, "Currently selected plan"),
             PropDefinition.Enum<RadioGroupOrientation>("Orientation", RadioGroupOrientation.Vertical, "Layout orientation"),
             PropDefinition.Boolean("Disabled", false, "Disable the radio group")
         };
@@ -419,7 +396,8 @@
         switch (prop.Name)
         {
             case "Value":
-                currentValue = prop.Value?.ToString() ?? "option1";
+                if (Enum.TryParse<Plan>(prop.Value?.ToString(), out var chosen))
+                    plan = chosen;
                 break;
             case "Orientation":
                 if (Enum.TryParse<RadioGroupOrientation>(prop.Value?.ToString(), out var orientation))
@@ -434,82 +412,85 @@
 
     private void HandlePropsReset()
     {
-        currentValue = "option2";
+        plan = Plan.Pro;
         currentOrientation = RadioGroupOrientation.Vertical;
         currentDisabled = false;
         InitializeProps();
         StateHasChanged();
     }
 
-    private void OnSizeChanged(string value)
-    {
-        selectedSize = value;
-    }
-
     private string GeneratedCode
     {
         get
         {
-            var props = new List<string>();
-
-            if (!string.IsNullOrEmpty(currentValue))
-                props.Add($"Value=\"{currentValue}\"");
+            var props = new List<string> { "@bind-Value=\"plan\"", "AriaLabel=\"Plan\"" };
             if (currentOrientation != RadioGroupOrientation.Vertical)
                 props.Add($"Orientation=\"RadioGroupOrientation.{currentOrientation}\"");
             if (currentDisabled)
                 props.Add("Disabled=\"true\"");
 
-            var propsStr = props.Any() ? " " + string.Join(" ", props) : "";
-            return $@"<RadioGroup TValue=""@(""string"")""{propsStr}>
-    <RadioGroupItem Value=""@(""option1"")"">Option 1</RadioGroupItem>
-    <RadioGroupItem Value=""@(""option2"")"">Option 2</RadioGroupItem>
-    <RadioGroupItem Value=""@(""option3"")"">Option 3</RadioGroupItem>
-</RadioGroup>";
+            return $$"""
+                <RadioGroup {{string.Join(" ", props)}} />
+
+                @code {
+                    private enum Plan { Free, Pro, Enterprise }
+
+                    private Plan plan = Plan.{{plan}};
+                }
+                """;
         }
     }
 
-    private string DefaultCode => @"<RadioGroup TValue=""string"" Value=""@selectedSize"" ValueChanged=""@OnSizeChanged"">
-    <RadioGroupItem Value=""@(""small"")"">Small</RadioGroupItem>
-    <RadioGroupItem Value=""@(""medium"")"">Medium</RadioGroupItem>
-    <RadioGroupItem Value=""@(""large"")"">Large</RadioGroupItem>
-</RadioGroup>
+    private const string EnumCode = """
+        <RadioGroup @bind-Value="shipping" AriaLabel="Shipping" />
 
-@code {
-    private string selectedSize = ""medium"";
+        @code {
+            private enum Shipping { Standard, Express, NextDay }
 
-    private void OnSizeChanged(string value)
-    {
-        selectedSize = value;
-    }
-}";
+            private Shipping shipping = Shipping.Standard;   // options: Standard, Express, Next day
+        }
+        """;
 
-    private string DefaultSelectionCode => @"<RadioGroup Value=""@(""option2"")"">
-    <RadioGroupItem Value=""@(""option1"")"">Option 1</RadioGroupItem>
-    <RadioGroupItem Value=""@(""option2"")"">Option 2</RadioGroupItem>
-    <RadioGroupItem Value=""@(""option3"")"">Option 3</RadioGroupItem>
-</RadioGroup>";
+    private const string LabelsCode = """
+        <RadioGroup @bind-Value="shipping" AriaLabel="Shipping speed">
+            <RadioGroupItem Value="Shipping.Standard">Standard, 5 to 7 days</RadioGroupItem>
+            <RadioGroupItem Value="Shipping.Express">Express, 2 days</RadioGroupItem>
+            <RadioGroupItem Value="Shipping.NextDay">Next day</RadioGroupItem>
+        </RadioGroup>
+        """;
 
-    private string HorizontalCode => @"<RadioGroup TValue=""@(""string"")"" Orientation=""RadioGroupOrientation.Horizontal"">
-    <RadioGroupItem Value=""@(""small"")"">Small</RadioGroupItem>
-    <RadioGroupItem Value=""@(""medium"")"">Medium</RadioGroupItem>
-    <RadioGroupItem Value=""@(""large"")"">Large</RadioGroupItem>
-</RadioGroup>";
+    private const string HorizontalCode = """
+        <RadioGroup @bind-Value="billing" AriaLabel="Billing"
+                    Orientation="RadioGroupOrientation.Horizontal" />
 
-    private string DisabledCode => @"<RadioGroup Value=""@selectedColor"" ValueChanged=""@((string val) => selectedColor = val)"">
-    <RadioGroupItem Value=""@(""red"")"">Red</RadioGroupItem>
-    <RadioGroupItem Value=""@(""green"")"" Disabled=""true"">Green (Unavailable)</RadioGroupItem>
-    <RadioGroupItem Value=""@(""blue"")"">Blue</RadioGroupItem>
-</RadioGroup>
+        @code {
+            private enum Billing { Monthly, Yearly }
 
-@code {
-    private string selectedColor = ""blue"";
-}";
+            private Billing billing = Billing.Yearly;
+        }
+        """;
 
-    private string DisabledGroupCode => @"<RadioGroup Disabled=""true"" Value=""@(""option2"")"">
-    <RadioGroupItem Value=""@(""option1"")"">Option 1</RadioGroupItem>
-    <RadioGroupItem Value=""@(""option2"")"">Option 2</RadioGroupItem>
-    <RadioGroupItem Value=""@(""option3"")"">Option 3</RadioGroupItem>
-</RadioGroup>";
+    private const string DisabledCode = """
+        <RadioGroup @bind-Value="plan" AriaLabel="Plan">
+            <RadioGroupItem Value="Plan.Free">Free</RadioGroupItem>
+            <RadioGroupItem Value="Plan.Pro">Pro</RadioGroupItem>
+            <RadioGroupItem Value="Plan.Enterprise" Disabled="true">Enterprise (contact sales)</RadioGroupItem>
+        </RadioGroup>
+        """;
+
+    private const string DisabledGroupCode = """
+        <RadioGroup Disabled="true" Value="Plan.Pro" AriaLabel="Current plan" />
+        """;
+
+    private const string NullableCode = """
+        <RadioGroup @bind-Value="contact" AriaLabel="Preferred contact method" />
+
+        @code {
+            private enum Contact { Email, Phone, TextMessage }
+
+            private Contact? contact;   // null: nothing checked yet
+        }
+        """;
 
     private enum Density { Compact, ComfortablySpaced, Roomy }
 
@@ -517,38 +498,26 @@
     private int seats = 5;
     private bool? subscribed;
 
-    private string TypedCode => @"<RadioGroup @bind-Value=""density"" AriaLabel=""Density"" />
+    private const string TypedCode = """
+        <RadioGroup @bind-Value="density" AriaLabel="Density" />
 
-<RadioGroup @bind-Value=""seats"" AriaLabel=""Seats"">
-    <RadioGroupItem Value=""1"">Just me</RadioGroupItem>
-    <RadioGroupItem Value=""5"">Team of five</RadioGroupItem>
-    <RadioGroupItem Value=""25"">Department</RadioGroupItem>
-</RadioGroup>
+        <RadioGroup @bind-Value="seats" AriaLabel="Seats">
+            <RadioGroupItem Value="1">Just me</RadioGroupItem>
+            <RadioGroupItem Value="5">Team of five</RadioGroupItem>
+            <RadioGroupItem Value="25">Department</RadioGroupItem>
+        </RadioGroup>
 
-<RadioGroup @bind-Value=""subscribed"" AriaLabel=""Newsletter"">
-    <RadioGroupItem Value=""true"">Subscribed</RadioGroupItem>
-    <RadioGroupItem Value=""false"">Not subscribed</RadioGroupItem>
-</RadioGroup>
+        <RadioGroup @bind-Value="subscribed" AriaLabel="Newsletter">
+            <RadioGroupItem Value="true">Subscribed</RadioGroupItem>
+            <RadioGroupItem Value="false">Not subscribed</RadioGroupItem>
+        </RadioGroup>
 
-@code {
-    private enum Density { Compact, ComfortablySpaced, Roomy }
+        @code {
+            private enum Density { Compact, ComfortablySpaced, Roomy }
 
-    private Density density = Density.ComfortablySpaced;   // items come from the enum
-    private int seats = 5;
-    private bool? subscribed;                              // nothing checked until one is picked
-}";
-
-    private string FormIntegrationCode => @"<FormField TValue=""string"" Label=""Preferred Contact Method"">
-    <RadioGroup Value=""@contactMethod"" ValueChanged=""@((string val) => contactMethod = val)"">
-        <RadioGroupItem Value=""@(""email"")"">Email</RadioGroupItem>
-        <RadioGroupItem Value=""@(""phone"")"">Phone</RadioGroupItem>
-        <RadioGroupItem Value=""@(""sms"")"">SMS</RadioGroupItem>
-    </RadioGroup>
-</FormField>
-
-@code {
-    private string contactMethod = ""email"";
-}";
+            private Density density = Density.ComfortablySpaced;   // items come from the enum
+            private int seats = 5;
+            private bool? subscribed;                              // nothing checked until one is picked
+        }
+        """;
 }
-
-
