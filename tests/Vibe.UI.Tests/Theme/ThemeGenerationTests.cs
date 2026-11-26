@@ -35,6 +35,27 @@ public class ThemeGenerationTests
     ];
 
     [Fact]
+    public void BuiltInThemesListsEveryDefinitionWithTheDefaultFirst()
+    {
+        var definitions = ThemeArtifacts.LoadPalettes().Select(theme => theme.Name).ToArray();
+
+        ThemeService.BuiltInThemes.ShouldBe(definitions, ignoreOrder: true);
+        ThemeService.BuiltInThemes[0].ShouldBe(ThemeArtifacts.LoadDefault().Name);
+    }
+
+    [Fact]
+    public void BuiltInThemeCssIsTheCssThatThemeRendersWhenConfigured()
+    {
+        foreach (var theme in ThemeService.BuiltInThemes)
+        {
+            ThemeService.GenerateBuiltInThemeCss(theme).ShouldBe(
+                new ThemeService(new VibeThemeOptions { BaseColor = theme }).GenerateThemeCss());
+        }
+
+        Should.Throw<ArgumentException>(() => ThemeService.GenerateBuiltInThemeCss("Custom"));
+    }
+
+    [Fact]
     public void PaletteDataIsGeneratedFromTheDefinitions()
     {
         ThemeArtifacts.AssertUpToDate(

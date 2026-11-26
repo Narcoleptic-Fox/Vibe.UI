@@ -31,6 +31,31 @@ public class ThemeService : IThemeService
     private readonly VibeThemeOptions _options;
 
     /// <summary>
+    /// The names of the built-in themes, the default first. Use one as
+    /// <see cref="VibeThemeOptions.BaseColor"/>, or pass it to <see cref="GenerateBuiltInThemeCss"/>.
+    /// </summary>
+    public static IReadOnlyList<string> BuiltInThemes { get; } =
+        [ThemePaletteData.Default, .. ThemePaletteData.Names.Where(name => name != ThemePaletteData.Default)];
+
+    /// <summary>
+    /// The CSS an app configured with this built-in theme renders: its <c>:root</c> and
+    /// <c>.dark</c> blocks. Lay it over the page after the theme already there to switch to it.
+    /// </summary>
+    /// <param name="theme">One of <see cref="BuiltInThemes"/>.</param>
+    public static string GenerateBuiltInThemeCss(string theme)
+    {
+        if (!BuiltInThemes.Contains(theme))
+        {
+            throw new ArgumentException(
+                $"Unknown theme: {theme}. Use one of {string.Join(", ", BuiltInThemes)}.",
+                nameof(theme)
+            );
+        }
+
+        return new ThemeService(new VibeThemeOptions { BaseColor = theme }).GenerateThemeCss();
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ThemeService"/> class.
     /// </summary>
     /// <param name="options">The theme options used to generate CSS.</param>
