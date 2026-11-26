@@ -8,7 +8,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Renders_WithDefaultProps()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -19,7 +19,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Has_GroupRole()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -31,30 +31,30 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Has_SingleType_ByDefault()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
 
         // Assert
-        cut.Instance.Type.ShouldBe(ToggleGroup.ToggleGroupType.Single);
+        cut.Instance.Type.ShouldBe(ToggleGroupType.Single);
     }
 
     [Fact]
     public void ToggleGroup_Accepts_MultipleType()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Type, ToggleGroup.ToggleGroupType.Multiple)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Type, ToggleGroupType.Multiple)
             .AddChildContent("<div>Items</div>"));
 
         // Assert
-        cut.Instance.Type.ShouldBe(ToggleGroup.ToggleGroupType.Multiple);
+        cut.Instance.Type.ShouldBe(ToggleGroupType.Multiple);
     }
 
     [Fact]
     public void ToggleGroup_Has_HorizontalOrientation_ByDefault()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -65,8 +65,8 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Applies_VerticalOrientation()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Orientation, ToggleGroup.ToggleGroupOrientation.Vertical)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Orientation, ToggleGroupOrientation.Vertical)
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -77,8 +77,8 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Applies_SizeClass()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Size, ToggleGroup.ToggleGroupSize.Large)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Size, ToggleGroupSize.Large)
             .AddChildContent("<div>Items</div>"));
 
         // Assert
@@ -89,7 +89,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Applies_DisabledClass()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .AddChildContent("<div>Items</div>"));
 
@@ -101,7 +101,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Has_AriaLabel()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.AriaLabel, "Toggle options")
             .AddChildContent("<div>Items</div>"));
 
@@ -114,8 +114,8 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Accepts_Value_InSingleMode()
     {
         // Arrange & Act
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Type, ToggleGroup.ToggleGroupType.Single)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Type, ToggleGroupType.Single)
             .Add(p => p.Value, "item1")
             .AddChildContent("<div>Items</div>"));
 
@@ -130,8 +130,8 @@ public class ToggleGroupTests : TestBase
         var values = new List<string> { "item1", "item2" };
 
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Type, ToggleGroup.ToggleGroupType.Multiple)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Type, ToggleGroupType.Multiple)
             .Add(p => p.Values, values)
             .AddChildContent("<div>Items</div>"));
 
@@ -144,7 +144,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_Applies_CustomCssClass()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.CssClass, "custom-toggle-group")
             .AddChildContent("<div>Items</div>"));
 
@@ -156,9 +156,9 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_ForwardsAdditionalAttributesClassAndAriaOrientation()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.Class, "editor-formatting")
-            .Add(p => p.Orientation, ToggleGroup.ToggleGroupOrientation.Vertical)
+            .Add(p => p.Orientation, ToggleGroupOrientation.Vertical)
             .Add(p => p.Disabled, true)
             .Add(p => p.AdditionalAttributes, new Dictionary<string, object>
             {
@@ -178,10 +178,10 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_InvalidEnumValues_FallBackToDefaultClasses()
     {
         // Act
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Type, (ToggleGroup.ToggleGroupType)999)
-            .Add(p => p.Orientation, (ToggleGroup.ToggleGroupOrientation)999)
-            .Add(p => p.Size, (ToggleGroup.ToggleGroupSize)999)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Type, (ToggleGroupType)999)
+            .Add(p => p.Orientation, (ToggleGroupOrientation)999)
+            .Add(p => p.Size, (ToggleGroupSize)999)
             .AddChildContent(BuildItems("left", "right")));
 
         // Assert
@@ -196,7 +196,7 @@ public class ToggleGroupTests : TestBase
     {
         // Arrange
         string? changedValue = "unchanged";
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.ValueChanged, value => changedValue = value)
             .AddChildContent(BuildItems("left", "right")));
 
@@ -219,7 +219,7 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_SingleMode_ClearsPreviouslyPressedSibling()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent(BuildItems("left", "right")));
 
         cut.FindAll("button")[0].Click();
@@ -239,8 +239,8 @@ public class ToggleGroupTests : TestBase
         // Arrange
         var originalValues = new List<string> { "left" };
         List<string>? changedValues = null;
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Type, ToggleGroup.ToggleGroupType.Multiple)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Type, ToggleGroupType.Multiple)
             .Add(p => p.Values, originalValues)
             .Add(p => p.ValuesChanged, values => changedValues = values)
             .AddChildContent(BuildItems("left", "right")));
@@ -261,7 +261,7 @@ public class ToggleGroupTests : TestBase
     {
         // Arrange
         string? changedValue = "unchanged";
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .Add(p => p.ValueChanged, value => changedValue = value)
             .AddChildContent(BuildItems("left", "right")));
@@ -279,7 +279,7 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_UsesSelectedItemAsOnlyInitialTabStop()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.Value, "center")
             .AddChildContent(BuildItems("left", "center", "right")));
 
@@ -294,7 +294,7 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_UsesFirstEnabledItemWhenNothingIsSelected()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent(BuildItems(("left", true), ("center", false), ("right", false))));
 
         var buttons = cut.FindAll("button");
@@ -308,7 +308,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_HorizontalArrowsMoveFocusWrapAndPreserveSelection()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.Value, "left")
             .AddChildContent(BuildItems("left", "center", "right")));
 
@@ -330,7 +330,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_HorizontalNavigationSkipsDisabledItems()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent(BuildItems(("left", false), ("center", true), ("right", false))));
 
         cut.FindAll("button")[0].KeyDown("ArrowRight");
@@ -344,8 +344,8 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_VerticalArrowsUseVerticalAxisOnly()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Orientation, ToggleGroup.ToggleGroupOrientation.Vertical)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Orientation, ToggleGroupOrientation.Vertical)
             .AddChildContent(BuildItems("top", "middle", "bottom")));
 
         cut.FindAll("button")[0].KeyDown("ArrowRight");
@@ -362,7 +362,7 @@ public class ToggleGroupTests : TestBase
     public void ToggleGroup_HomeAndEndMoveToEnabledBounds()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent(BuildItems(("first", true), ("second", false), ("third", false))));
 
         cut.FindAll("button")[1].KeyDown("End");
@@ -375,7 +375,7 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_FocusUpdatesTheSingleRovingTabStop()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent(BuildItems("left", "center", "right")));
 
         cut.FindAll("button")[2].TriggerEvent("onfocus", new FocusEventArgs());
@@ -388,7 +388,7 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_DisabledGroupRemovesEveryItemFromTabOrder()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .Add(p => p.Disabled, true)
             .AddChildContent(BuildItems("left", "center", "right")));
 
@@ -398,8 +398,8 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_MultipleModeKeepsOnlyFirstSelectedItemInTabOrder()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
-            .Add(p => p.Type, ToggleGroup.ToggleGroupType.Multiple)
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
+            .Add(p => p.Type, ToggleGroupType.Multiple)
             .Add(p => p.Values, new List<string> { "right", "center" })
             .AddChildContent(BuildItems("left", "center", "right")));
 
@@ -411,7 +411,7 @@ public class ToggleGroupTests : TestBase
     [Fact]
     public void ToggleGroup_ReassignsTabStopWhenCurrentItemBecomesDisabled()
     {
-        var cut = Render<ToggleGroup>(parameters => parameters
+        var cut = Render<ToggleGroup<string>>(parameters => parameters
             .AddChildContent(BuildItems(("left", false), ("right", false))));
 
         cut.FindAll("button")[0].GetAttribute("tabindex")!.ShouldBe("0");
@@ -431,9 +431,9 @@ public class ToggleGroupTests : TestBase
             var sequence = 0;
             foreach (var value in values)
             {
-                builder.OpenComponent<ToggleGroupItem>(sequence++);
-                builder.AddAttribute(sequence++, nameof(ToggleGroupItem.Value), value);
-                builder.AddAttribute(sequence++, nameof(ToggleGroupItem.ChildContent), (RenderFragment)(childBuilder =>
+                builder.OpenComponent<ToggleGroupItem<string>>(sequence++);
+                builder.AddAttribute(sequence++, nameof(ToggleGroupItem<string>.Value), value);
+                builder.AddAttribute(sequence++, nameof(ToggleGroupItem<string>.ChildContent), (RenderFragment)(childBuilder =>
                 {
                     childBuilder.AddContent(0, value);
                 }));
@@ -449,10 +449,10 @@ public class ToggleGroupTests : TestBase
             var sequence = 0;
             foreach (var item in items)
             {
-                builder.OpenComponent<ToggleGroupItem>(sequence++);
-                builder.AddAttribute(sequence++, nameof(ToggleGroupItem.Value), item.Value);
-                builder.AddAttribute(sequence++, nameof(ToggleGroupItem.Disabled), item.Disabled);
-                builder.AddAttribute(sequence++, nameof(ToggleGroupItem.ChildContent), (RenderFragment)(childBuilder =>
+                builder.OpenComponent<ToggleGroupItem<string>>(sequence++);
+                builder.AddAttribute(sequence++, nameof(ToggleGroupItem<string>.Value), item.Value);
+                builder.AddAttribute(sequence++, nameof(ToggleGroupItem<string>.Disabled), item.Disabled);
+                builder.AddAttribute(sequence++, nameof(ToggleGroupItem<string>.ChildContent), (RenderFragment)(childBuilder =>
                 {
                     childBuilder.AddContent(0, item.Value);
                 }));

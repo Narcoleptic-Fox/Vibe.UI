@@ -1,20 +1,43 @@
 @namespace Vibe.UI.Components
+@typeparam TValue
+@attribute [CascadingTypeParameter(nameof(TValue))]
 @inherits VibeComponent
 @inject IJSRuntime JSRuntime
 @implements IAsyncDisposable
+@implements IToggleGroupContext
 
 <div id="@EffectiveId" @attributes="AdditionalAttributes" class="@CombinedCssClass" role="group" aria-label="@AriaLabel"
     aria-orientation="@EffectiveOrientation.ToString().ToLowerInvariant()" aria-disabled="@AriaBool(Disabled)"
     aria-describedby="@EffectiveDescribedBy" aria-invalid="@AriaInvalidValue" aria-errormessage="@EffectiveErrorMessageId">
-    <CascadingValue Value="this" IsFixed="true">
-        @ChildContent
+    <CascadingValue TValue="IToggleGroupContext" Value="this" IsFixed="true">
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+        else if (EnumValues is not null)
+        {
+            @foreach (var value in EnumValues)
+            {
+                <ToggleGroupItem TValue="TValue" Value="value">@Vibe.UI.Metadata.ConventionMetadataProvider.ToLabel(value!.ToString()!)</ToggleGroupItem>
+            }
+        }
     </CascadingValue>
 </div>
 
 @code {
-    private string? _value;
-    private List<string> _values = new();
-    private readonly List<ToggleGroupItem> _items = new();
+    private TValue? _value;
+    private List<TValue> _values = new();
+    private readonly List<IToggleGroupItem> _items = new();
+
+    private static readonly System.Type ValueType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+    private static readonly TValue[]? EnumValues = ValueType.IsEnum
+        ? Enum.GetValues(ValueType).Cast<object>().Select(value => (TValue)value).ToArray()
+        : null;
+
+    // Releasing the pressed item of a single group means "no value", which only a type that
+    // can be null is able to say. An int group keeps its value instead.
+    private static readonly bool CanBeEmpty = default(TValue) is null;
     private IJSObjectReference? _domModule;
     private string? _rovingItemId;
     private string? _pendingFocusId;
@@ -26,7 +49,8 @@
     private FormFieldContext? FieldContext { get; set; }
 
     /// <summary>
-    /// The content of the toggle group (ToggleGroupItem components).
+    /// The content of the toggle group (ToggleGroupItem components). When omitted and
+    /// <typeparamref name="TValue"/> is an enum, one item per enum value is rendered.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -38,28 +62,29 @@
     public ToggleGroupType Type { get; set; } = ToggleGroupType.Single;
 
     /// <summary>
-    /// The currently selected value (for single selection).
+    /// The currently selected value (for single selection). Pressing the selected item again
+    /// clears it when <typeparamref name="TValue"/> can be null, and does nothing otherwise.
     /// </summary>
     [Parameter]
-    public string? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>
     /// The currently selected values (for multiple selection).
     /// </summary>
     [Parameter]
-    public List<string> Values { get; set; } = new();
+    public List<TValue> Values { get; set; } = new();
 
     /// <summary>
     /// Event callback when the value changes.
     /// </summary>
     [Parameter]
-    public EventCallback<string?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>
     /// Event callback when the values change (for multiple selection).
     /// </summary>
     [Parameter]
-    public EventCallback<List<string>> ValuesChanged { get; set; }
+    public EventCallback<List<TValue>> ValuesChanged { get; set; }
 
     /// <summary>
     /// Whether the toggle group is disabled.
@@ -122,7 +147,7 @@
     protected override void OnParametersSet()
     {
         _value = Value;
-        _values = Values?.Where(value => value is not null).Select(value => value!).ToList() ?? new List<string>();
+        _values = Values?.Where(value => value is not null).ToList() ?? new List<TValue>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -147,22 +172,47 @@
 
     private static string AriaBool(bool value) => value ? "true" : "false";
 
-    internal async Task HandleItemToggle(string itemValue)
-    {
-        if (Disabled) return;
+    private static bool SameValue(TValue? left, TValue? right) => EqualityComparer<TValue?>.Default.Equals(left, right);
 
+    // The item's own type is not always the group's; see ItemValue.
+    private static TValue? Coerce(object? itemValue) => Vibe.UI.Base.ItemValue.Coerce<TValue>(itemValue, "ToggleGroup");
+
+    bool IToggleGroupContext.IsSelected(object? itemValue) => IsSelected(Coerce(itemValue));
+
+    Task IToggleGroupContext.ToggleAsync(object? itemValue) => HandleItemToggle(Coerce(itemValue));
+
+    // A disabled group needs no check here: its items are disabled and never call this.
+    private async Task HandleItemToggle(TValue? itemValue)
+    {
         if (EffectiveType == ToggleGroupType.Single)
         {
-            var newValue = _value == itemValue ? null : itemValue;
-            _value = newValue;
-            await ValueChanged.InvokeAsync(newValue);
+            if (!SameValue(_value, itemValue))
+            {
+                _value = itemValue;
+                await ValueChanged.InvokeAsync(itemValue);
+            }
+            else if (CanBeEmpty && _value is not null)
+            {
+                _value = default;
+                await ValueChanged.InvokeAsync(default);
+            }
+            else
+            {
+                return;
+            }
         }
         else
         {
-            var updatedValues = _values.ToList();
-            if (updatedValues.Contains(itemValue))
+            if (itemValue is null)
             {
-                updatedValues.Remove(itemValue);
+                return;
+            }
+
+            var updatedValues = _values.ToList();
+            var index = updatedValues.FindIndex(value => SameValue(value, itemValue));
+            if (index >= 0)
+            {
+                updatedValues.RemoveAt(index);
             }
             else
             {
@@ -176,7 +226,9 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    internal void RegisterItem(ToggleGroupItem item)
+    void IToggleGroupContext.RegisterItem(IToggleGroupItem item) => RegisterItem(item);
+
+    private void RegisterItem(IToggleGroupItem item)
     {
         if (_items.Contains(item))
         {
@@ -187,7 +239,7 @@
         StateHasChanged();
     }
 
-    internal void RemoveItem(ToggleGroupItem item)
+    void IToggleGroupContext.RemoveItem(IToggleGroupItem item)
     {
         if (!_items.Remove(item))
         {
@@ -200,7 +252,7 @@
         }
     }
 
-    internal void NotifyItemChanged(ToggleGroupItem item)
+    void IToggleGroupContext.NotifyItemChanged(IToggleGroupItem item)
     {
         if (!_items.Contains(item))
         {
@@ -216,7 +268,7 @@
         StateHasChanged();
     }
 
-    internal int GetItemTabIndex(ToggleGroupItem item)
+    int IToggleGroupContext.GetItemTabIndex(IToggleGroupItem item)
     {
         if (Disabled || item.IsEffectivelyDisabled)
         {
@@ -227,7 +279,7 @@
         return ReferenceEquals(tabStop, item) ? 0 : -1;
     }
 
-    internal void HandleItemFocus(ToggleGroupItem item)
+    void IToggleGroupContext.HandleItemFocus(IToggleGroupItem item)
     {
         if (!Disabled && !item.IsEffectivelyDisabled && _rovingItemId != item.ElementId)
         {
@@ -236,7 +288,7 @@
         }
     }
 
-    internal Task HandleItemKeyDown(ToggleGroupItem item, KeyboardEventArgs args)
+    Task IToggleGroupContext.HandleItemKeyDown(IToggleGroupItem item, KeyboardEventArgs args)
     {
         if (Disabled || item.IsEffectivelyDisabled)
         {
@@ -250,7 +302,7 @@
             return Task.CompletedTask;
         }
 
-        ToggleGroupItem? target = args.Key switch
+        IToggleGroupItem? target = args.Key switch
         {
             "Home" => enabledItems[0],
             "End" => enabledItems[^1],
@@ -276,7 +328,7 @@
         return Task.CompletedTask;
     }
 
-    private ToggleGroupItem? GetTabStopItem()
+    private IToggleGroupItem? GetTabStopItem()
     {
         var enabledItems = _items.Where(item => !item.IsEffectivelyDisabled).ToList();
 
@@ -286,15 +338,17 @@
             return rovingItem;
         }
 
-        return enabledItems.FirstOrDefault(item => IsSelected(item.EffectiveValue))
+        return enabledItems.FirstOrDefault(item => IsSelected(Coerce(item.ItemValue)))
             ?? enabledItems.FirstOrDefault();
     }
 
-    internal bool IsSelected(string itemValue)
+    // Plain equality. A zero is a value like any other; in a single group a null value presses
+    // only an item written with a null value.
+    private bool IsSelected(TValue? itemValue)
     {
         return EffectiveType == ToggleGroupType.Single
-        ? _value == itemValue
-        : _values.Contains(itemValue);
+        ? SameValue(_value, itemValue)
+        : itemValue is not null && _values.Exists(value => SameValue(value, itemValue));
     }
 
     public async ValueTask DisposeAsync()
@@ -315,23 +369,4 @@
 
     private static bool IsRecoverableJsInteropException(Exception exception) =>
         exception is JSException or JSDisconnectedException or InvalidOperationException or TaskCanceledException;
-
-    public enum ToggleGroupType
-    {
-        Single,
-        Multiple
-    }
-
-    public enum ToggleGroupOrientation
-    {
-        Horizontal,
-        Vertical
-    }
-
-    public enum ToggleGroupSize
-    {
-        Small,
-        Default,
-        Large
-    }
 }
