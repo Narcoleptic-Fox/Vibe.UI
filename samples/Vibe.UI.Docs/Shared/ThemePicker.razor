@@ -27,7 +27,8 @@
 }
 
 @code {
-    private const string StorageKey = "vibe-docs-theme";
+    // No utility prefix here: the class scan reads any word that starts with it as a class.
+    private const string StorageKey = "docs-built-in-theme";
 
     private string _theme = ThemeService.BuiltInThemes[0];
     private string? _css;
