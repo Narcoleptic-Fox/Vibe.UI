@@ -3,6 +3,8 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 @using System.Globalization
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
 
 <div class="@CombinedClass" @attributes="AdditionalAttributes">
     <div class="date-input-wrapper">
@@ -135,6 +137,19 @@
         public bool IsToday { get; init; }
     }
 
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(DateTime? value)
+    {
+        await DateChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
     private readonly string _componentId = $"datepicker-{Guid.NewGuid():N}";
     private IJSObjectReference? _domModule;
     private ElementReference _gridReference;
@@ -161,6 +176,13 @@
     /// </summary>
     [Parameter]
     public EventCallback<DateTime?> DateChanged { get; set; }
+
+    /// <summary>
+    /// Names the bound property to the form. <c>@bind-Date</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<DateTime?>>? DateExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the compatibility callback invoked when the date changes.
@@ -238,6 +260,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        formField.Update(EditContext, DateExpression);
 
         if (!IsOpen && Date != _previousDate)
         {
@@ -404,7 +427,7 @@
 
         var selectedDate = date.Date;
         Date = selectedDate;
-        await DateChanged.InvokeAsync(selectedDate);
+        await ReportAsync(selectedDate);
         await OnChange.InvokeAsync(selectedDate);
         CloseCalendar();
     }
@@ -592,6 +615,8 @@
 
     public async ValueTask DisposeAsync()
     {
+        formField.Dispose();
+
         if (_domModule is null)
         {
             return;

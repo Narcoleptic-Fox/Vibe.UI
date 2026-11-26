@@ -1,4 +1,4 @@
-@* The five typed inputs inside a real form, bound with @bind-Value as an app writes it.
+@* The typed inputs inside a real form, bound with @bind-Value as an app writes it.
    EditContextNotificationTests drives this. Binding by hand in C# would not show a parameter
    that @bind fails to fill. *@
 @using System.ComponentModel.DataAnnotations
@@ -41,6 +41,12 @@
         <ToggleGroupItem Value="@("urgent")">Urgent</ToggleGroupItem>
         <ToggleGroupItem Value="@("billing")">Billing</ToggleGroupItem>
     </ToggleGroup>
+
+    <Checkbox Id="accepted" @bind-Checked="Model.Accepted" Label="Accept the terms" />
+
+    <Switch Id="notify" @bind-Checked="Model.Notify" Label="Notify me" />
+
+    <DatePicker @bind-Date="Model.Due" />
 </EditForm>
 
 @code {
@@ -68,6 +74,16 @@
 
         [MinLength(1)]
         public List<string> Tags { get; set; } = [];
+
+        // DataAnnotations has no "must be true"; a range of one value says it.
+        [Range(typeof(bool), "true", "true")]
+        public bool Accepted { get; set; }
+
+        [Range(typeof(bool), "true", "true")]
+        public bool Notify { get; set; }
+
+        [Required]
+        public DateTime? Due { get; set; }
     }
 
     private readonly List<ComboboxOption<string>> frameworks = [new() { Label = "Blazor", Value = "blazor" }];

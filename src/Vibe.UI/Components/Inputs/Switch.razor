@@ -1,4 +1,7 @@
 @namespace Vibe.UI.Components
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
+@implements IDisposable
 @inherits Base.VibeComponent
 
 <label class="@CombinedClass" aria-disabled="@(Disabled ? "true" : null)">
@@ -12,6 +15,21 @@
 </label>
 
 @code {
+    private readonly EditContextField formField = new();
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    // The one way a value leaves this component: the binding first, so the model holds the new
+    // value by the time the form validates the field.
+    private async Task ReportAsync(bool value)
+    {
+        await CheckedChanged.InvokeAsync(value);
+        formField.NotifyChanged();
+    }
+
+    public void Dispose() => formField.Dispose();
+
     private bool currentChecked;
 
     /// <summary>
@@ -81,6 +99,13 @@
     public EventCallback<bool> CheckedChanged { get; set; }
 
     /// <summary>
+    /// Names the bound property to the form. <c>@bind-Checked</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<bool>>? CheckedExpression { get; set; }
+
+    /// <summary>
     /// Gets the component CSS class name.
     /// </summary>
     protected override string ComponentClass => new ClassBuilder()
@@ -92,6 +117,7 @@
 
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, CheckedExpression);
         currentChecked = Checked;
     }
 
@@ -107,7 +133,7 @@
             return Task.CompletedTask;
 
         currentChecked = value;
-        return CheckedChanged.InvokeAsync(value);
+        return ReportAsync(value);
     }
 
     private string? EffectiveId => FieldContext?.ControlId ?? Id;
