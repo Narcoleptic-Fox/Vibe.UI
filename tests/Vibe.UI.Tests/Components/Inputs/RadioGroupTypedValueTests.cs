@@ -128,6 +128,22 @@ public class RadioGroupTypedValueTests : TestBase
     }
 
     [Fact]
+    public void An_item_with_a_null_value_is_the_choice_for_nothing()
+    {
+        var bound = Bind<int?>(5, [("No limit", null), ("Five", 5)]);
+
+        bound.CheckedLabel().ShouldBe("Five");
+        // A null value has no text to post.
+        bound.Cut.FindAll("input")[0].GetAttribute("value").ShouldBe(string.Empty);
+
+        bound.Pick("No limit");
+
+        bound.Model.ShouldBeNull();
+        bound.Changes.ShouldBe(1);
+        bound.CheckedLabel().ShouldBe("No limit");
+    }
+
+    [Fact]
     public void Bool_binds_both_ways()
     {
         var bound = Bind(true, [("Yes", true), ("No", false)]);

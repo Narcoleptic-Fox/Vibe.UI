@@ -122,10 +122,11 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    // Nothing selected is a null value only: an int at 0 is the item whose value is 0.
+    // Plain equality. An int at 0 is the item whose value is 0, and a null value checks only an
+    // item written with a null value, such as a "No preference" choice in a nullable group.
     private bool IsSelected(TValue? itemValue)
     {
-        return _currentValue is not null && EqualityComparer<TValue?>.Default.Equals(_currentValue, itemValue);
+        return EqualityComparer<TValue?>.Default.Equals(_currentValue, itemValue);
     }
 
     // An item's value arrives as whatever type the compiler gave the item, which is not always
