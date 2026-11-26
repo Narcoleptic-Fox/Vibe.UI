@@ -136,7 +136,17 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
 
         string? csprojPath = null;
         var vibeCssConfigured = false;
-        FluentValidationAdapterInstaller.Result? fluentValidation = null;
+
+        // Worked out before anything is written: a project the adapter cannot be added to
+        // correctly (central package management without a Directory.Packages.props) is refused
+        // untouched.
+        var fluentValidation = settings.WithFluentValidation
+            ? FluentValidationAdapterInstaller.PlanProjectChanges(
+                target.ProjectPath,
+                ProjectService.FindProjectFile(target.ProjectPath)
+            )
+            : null;
+        InfrastructureStamp.Write(config);
 
         await AnsiConsole
             .Status()
@@ -152,9 +162,9 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                     // Copy infrastructure files (includes CSS foundation files)
                     await CopyInfrastructureAsync(
                         target.ProjectPath,
-                        settings.Minimal,
                         settings.NoTheme,
-                        settings.WithCharts
+                        settings.WithCharts,
+                        settings.WithFluentValidation
                     );
 
                     ctx.Status("Updating root _Imports.razor...");
@@ -163,12 +173,11 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                         includeComponents: false
                     );
 
-                    if (settings.WithFluentValidation)
+                    if (fluentValidation is not null)
                     {
-                        ctx.Status("Copying the FluentValidation adapter...");
-                        fluentValidation = await FluentValidationAdapterInstaller.InstallAsync(
-                            target.ProjectPath,
-                            FindCsprojFile(target.ProjectPath)
+                        ctx.Status("Adding the FluentValidation package reference...");
+                        await FluentValidationAdapterInstaller.ApplyProjectChangesAsync(
+                            fluentValidation
                         );
                     }
 
@@ -191,7 +200,7 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
                             topology.IsBlazorWebApp
                             && !string.IsNullOrWhiteSpace(topology.ServerProjectFile)
                                 ? topology.ServerProjectFile
-                                : FindCsprojFile(target.ProjectPath);
+                                : ProjectService.FindProjectFile(target.ProjectPath);
 
                         if (csprojPath != null)
                         {
@@ -220,16 +229,10 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         if (fluentValidation is not null)
         {
             AnsiConsole.WriteLine(
-                $"FluentValidation adapter copied to {fluentValidation.AdapterDirectory}"
+                "FluentValidation adapter copied to "
+                    + Path.Combine(target.ProjectPath, FluentValidationAdapterInstaller.TargetDirectory)
             );
-            AnsiConsole.MarkupLine(
-                fluentValidation.PackageReferenceAdded
-                    ? $"[grey]FluentValidation {fluentValidation.PackageVersion} added to {Path.GetFileName(fluentValidation.ProjectFile)}[/]"
-                    : $"[grey]{Path.GetFileName(fluentValidation.ProjectFile)} already references FluentValidation; left as it is. The adapter is tested with {fluentValidation.PackageVersion}.[/]"
-            );
-            AnsiConsole.MarkupLine(
-                "[grey]Call services.AddVibeFluentValidation() and register your validators, in the client as well as on the server.[/]"
-            );
+            WriteFluentValidationSummary(fluentValidation);
         }
 
         if (vibeCssConfigured)
@@ -259,244 +262,29 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         return 0;
     }
 
-    private async Task CopyInfrastructureAsync(
+    /// <summary>
+    /// Copies the infrastructure (and the FluentValidation adapter when asked) from the list
+    /// <see cref="InfrastructureInstaller.Plan"/> gives, the same list
+    /// <c>vibe update --infrastructure</c> uses.
+    /// </summary>
+    private static Task CopyInfrastructureAsync(
         string projectPath,
-        bool minimal,
         bool noTheme,
-        bool withCharts
-    )
-    {
-        // Get the template path (either from package or development)
-        var templatePath = GetTemplatePath();
-        var infrastructurePath = Path.Combine(templatePath, "Infrastructure");
-
-        if (!Directory.Exists(infrastructurePath))
-        {
-            throw new DirectoryNotFoundException(
-                $"Infrastructure templates not found at: {infrastructurePath}"
-            );
-        }
-
-        var targetVibeDir = Path.Combine(projectPath, "Vibe");
-
-        // Copy Base/ folder (always required - includes ClassBuilder)
-        await CopyDirectoryAsync(
-            Path.Combine(infrastructurePath, "Base"),
-            Path.Combine(targetVibeDir, "Base")
-        );
-
-        // Copy Components/ support types (always required). These are the non-component
-        // types that components share, such as FormFieldContext and DialogContext. No single
-        // component owns them, so they travel with the infrastructure rather than with
-        // `vibe add`.
-        await CopyDirectoryAsync(
-            Path.Combine(infrastructurePath, "Components"),
-            Path.Combine(targetVibeDir, "Components")
-        );
-
-        // Copy Configuration/ folder (needed for theme options)
-        await CopyDirectoryAsync(
-            Path.Combine(infrastructurePath, "Configuration"),
-            Path.Combine(targetVibeDir, "Configuration")
-        );
-
-        // Copy Metadata/ folder (always required - ServiceCollectionExtensions registers it)
-        await CopyDirectoryAsync(
-            Path.Combine(infrastructurePath, "Metadata"),
-            Path.Combine(targetVibeDir, "Metadata")
-        );
-
-        // Copy Services/
-        var servicesSourceDir = Path.Combine(infrastructurePath, "Services");
-        var servicesTargetDir = Path.Combine(targetVibeDir, "Services");
-        Directory.CreateDirectory(servicesTargetDir);
-
-        // Sub-services used by the core library.
-        await CopyDirectoryAsync(
-            Path.Combine(servicesSourceDir, "Dialog"),
-            Path.Combine(servicesTargetDir, "Dialog")
-        );
-
-        await CopyDirectoryAsync(
-            Path.Combine(servicesSourceDir, "Theme"),
-            Path.Combine(servicesTargetDir, "Theme")
-        );
-
-        await CopyDirectoryAsync(
-            Path.Combine(servicesSourceDir, "Toast"),
-            Path.Combine(servicesTargetDir, "Toast")
-        );
-
-        // Helpers (only copy the ones that don't introduce extra component dependencies by default).
-        await CopyFileIfExistsAsync(
-            Path.Combine(servicesSourceDir, "LucideIcons.cs"),
-            Path.Combine(servicesTargetDir, "LucideIcons.cs")
-        );
-
-        await CopyFileIfExistsAsync(
-            Path.Combine(servicesSourceDir, "FormValidators.cs"),
-            Path.Combine(servicesTargetDir, "FormValidators.cs")
-        );
-
-        await CopyFileIfExistsAsync(
-            Path.Combine(servicesSourceDir, "DataTableExporter.cs"),
-            Path.Combine(servicesTargetDir, "DataTableExporter.cs")
-        );
-
-        // Charts are optional; ChartDataBuilder depends on chart component types.
-        if (withCharts)
-        {
-            await CopyFileIfExistsAsync(
-                Path.Combine(servicesSourceDir, "ChartDataBuilder.cs"),
-                Path.Combine(servicesTargetDir, "ChartDataBuilder.cs")
-            );
-        }
-
-        // Copy Enums/ folder (always required)
-        await CopyDirectoryAsync(
-            Path.Combine(infrastructurePath, "Enums"),
-            Path.Combine(targetVibeDir, "Enums")
-        );
-
-        // Copy Themes/ folder (unless --no-theme)
-        if (!noTheme)
-        {
-            await CopyDirectoryAsync(
-                Path.Combine(infrastructurePath, "Themes"),
-                Path.Combine(targetVibeDir, "Themes")
-            );
-        }
-
-        // Copy ServiceCollectionExtensions.cs
-        var serviceExtensionsSource = Path.Combine(
-            infrastructurePath,
-            "ServiceCollectionExtensions.cs"
-        );
-        var serviceExtensionsTarget = Path.Combine(targetVibeDir, "ServiceCollectionExtensions.cs");
-        if (File.Exists(serviceExtensionsSource))
-        {
-            await File.WriteAllTextAsync(
-                serviceExtensionsTarget,
-                await File.ReadAllTextAsync(serviceExtensionsSource)
-            );
-        }
-
-        // Copy CSS foundation files to wwwroot/css/
-        var cssTemplatePath = Path.Combine(templatePath, "wwwroot", "css");
-        var cssTargetPath = Path.Combine(projectPath, "wwwroot", "css");
-        Directory.CreateDirectory(cssTargetPath);
-
-        // vibe-preflight.css is copied so it is available to opt into, but it is not
-        // linked by default (see ProjectSetupGuidance) because it restyles native HTML.
-        var cssFiles = new[] { "vibe-base.css", "vibe-preflight.css", "vibe-utilities.css" };
-        foreach (var cssFile in cssFiles)
-        {
-            var cssSource = Path.Combine(cssTemplatePath, cssFile);
-            var cssTarget = Path.Combine(cssTargetPath, cssFile);
-            if (File.Exists(cssSource))
-            {
-                await File.WriteAllTextAsync(cssTarget, await File.ReadAllTextAsync(cssSource));
-            }
-        }
-
-        // Copy JavaScript files
-        var jsTemplatePath = Path.Combine(templatePath, "wwwroot", "js");
-        var jsTargetPath = Path.Combine(projectPath, "wwwroot", "js");
-        Directory.CreateDirectory(jsTargetPath);
-
-        if (Directory.Exists(jsTemplatePath))
-        {
-            foreach (
-                var jsSource in Directory
-                    .EnumerateFiles(jsTemplatePath, "*.js", SearchOption.TopDirectoryOnly)
-                    .OrderBy(Path.GetFileName, StringComparer.Ordinal)
-            )
-            {
-                var fileName = Path.GetFileName(jsSource);
-
-                if (
-                    (
-                        !withCharts
-                        && fileName.Equals("vibe-chart.js", StringComparison.OrdinalIgnoreCase)
-                    )
-                    || (
-                        noTheme
-                        && fileName.Equals("vibe-theme.js", StringComparison.OrdinalIgnoreCase)
-                    )
+        bool withCharts,
+        bool withFluentValidation
+    ) =>
+        InfrastructureInstaller.CopyAsync(
+            projectPath,
+            InfrastructureInstaller.Plan(
+                InfrastructureInstaller.FindTemplatePath(),
+                new InfrastructureSelection(
+                    Themes: !noTheme,
+                    Charts: withCharts,
+                    FluentValidation: withFluentValidation,
+                    IncludeBaseStylesheet: true
                 )
-                {
-                    continue;
-                }
-
-                await CopyFileIfExistsAsync(jsSource, Path.Combine(jsTargetPath, fileName));
-            }
-        }
-    }
-
-    private static async Task CopyFileIfExistsAsync(string source, string target)
-    {
-        if (File.Exists(source))
-        {
-            await File.WriteAllTextAsync(target, await File.ReadAllTextAsync(source));
-        }
-    }
-
-    private async Task CopyDirectoryAsync(string sourceDir, string targetDir)
-    {
-        if (!Directory.Exists(sourceDir))
-            return;
-
-        Directory.CreateDirectory(targetDir);
-
-        // Copy all files
-        foreach (var file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
-        {
-            var relativePath = Path.GetRelativePath(sourceDir, file);
-            var targetFile = Path.Combine(targetDir, relativePath);
-            var targetFileDir = Path.GetDirectoryName(targetFile);
-
-            if (!string.IsNullOrEmpty(targetFileDir))
-            {
-                Directory.CreateDirectory(targetFileDir);
-            }
-
-            await File.WriteAllTextAsync(targetFile, await File.ReadAllTextAsync(file));
-        }
-    }
-
-    private string GetTemplatePath()
-    {
-        var assemblyLocation =
-            Path.GetDirectoryName(typeof(InitCommand).Assembly.Location)
-            ?? AppContext.BaseDirectory;
-
-        // Try multiple possible paths for Templates directory
-        var possiblePaths = new[]
-        {
-            // 1. Development mode: relative to CLI project
-            Path.GetFullPath(Path.Combine(assemblyLocation, "..", "..", "..", "Templates")),
-            // 2. Packaged with CLI in Templates folder (adjacent to executable)
-            Path.Combine(assemblyLocation, "Templates"),
-            // 3. Dotnet global tool: Templates folder in package root (../../.. from tools/net10.0/any)
-            Path.GetFullPath(Path.Combine(assemblyLocation, "..", "..", "..", "Templates")),
-            // 4. Using AppContext.BaseDirectory
-            Path.Combine(AppContext.BaseDirectory, "Templates"),
-            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Templates")),
-        };
-
-        foreach (var path in possiblePaths)
-        {
-            if (Directory.Exists(path))
-            {
-                return path;
-            }
-        }
-
-        throw new DirectoryNotFoundException(
-            $"Could not find Templates directory. Please ensure Vibe.UI.CLI is installed correctly. "
-                + $"Searched locations: {string.Join(", ", possiblePaths)}"
+            )
         );
-    }
 
     /// <summary>
     /// Applies the selected color scheme by appending color-specific CSS variables
@@ -600,6 +388,40 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         }
     }
 
+    /// <summary>Says what adding the adapter did to the project files.</summary>
+    internal static void WriteFluentValidationSummary(
+        FluentValidationAdapterInstaller.ProjectChanges changes
+    )
+    {
+        var project = Path.GetFileName(changes.ProjectFile);
+        var version = FluentValidationAdapterInstaller.PackageVersion;
+        if (changes.CentralPackageFile is null)
+        {
+            AnsiConsole.MarkupLine(
+                changes.AddsReference
+                    ? $"[grey]FluentValidation {version} added to {project}[/]"
+                    : $"[grey]{project} already references FluentValidation; left as it is. The adapter is tested with {version}.[/]"
+            );
+        }
+        else
+        {
+            var packages = changes.CentralPackageFile;
+            AnsiConsole.MarkupLine(
+                changes.AddsCentralVersion
+                    ? $"[grey]Central package management: FluentValidation {version} added to {packages}[/]"
+                    : $"[grey]Central package management: {packages} already sets a FluentValidation version; left as it is. The adapter is tested with {version}.[/]"
+            );
+            if (changes.AddsReference)
+            {
+                AnsiConsole.MarkupLine($"[grey]FluentValidation reference added to {project}[/]");
+            }
+        }
+
+        AnsiConsole.MarkupLine(
+            "[grey]Call services.AddVibeFluentValidation() and register your validators, in the client as well as on the server.[/]"
+        );
+    }
+
     private static InitProjectTarget ResolveInitTarget(
         ProjectTopology topology,
         string requestedProjectPath,
@@ -666,41 +488,6 @@ public class InitCommand : AsyncCommand<InitCommand.Settings>
         );
 
     private sealed record InitProjectTarget(string ProjectPath, string Description);
-
-    /// <summary>
-    /// Finds the .csproj file in the project directory.
-    /// </summary>
-    private static string? FindCsprojFile(string projectPath)
-    {
-        var csprojFiles = Directory.GetFiles(
-            projectPath,
-            "*.csproj",
-            SearchOption.TopDirectoryOnly
-        );
-
-        if (csprojFiles.Length == 0)
-        {
-            // Try one level up (in case user is in a subdirectory)
-            var parentDir = Directory.GetParent(projectPath)?.FullName;
-            if (parentDir != null)
-            {
-                csprojFiles = Directory.GetFiles(
-                    parentDir,
-                    "*.csproj",
-                    SearchOption.TopDirectoryOnly
-                );
-            }
-        }
-
-        return csprojFiles.Length switch
-        {
-            0 => null,
-            1 => csprojFiles[0],
-            _ => csprojFiles.FirstOrDefault(f =>
-                !Path.GetFileName(f).Contains("Test", StringComparison.OrdinalIgnoreCase)
-            ) ?? csprojFiles[0],
-        };
-    }
 
     /// <summary>
     /// Adds the Vibe.UI.CSS package reference and build configuration to a project file.

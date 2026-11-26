@@ -8,6 +8,41 @@ public class ProjectService
 {
     private const string VibeConfigFileName = "vibe.json";
 
+    /// <summary>
+    /// Finds the .csproj file in the project directory.
+    /// </summary>
+    public static string? FindProjectFile(string projectPath)
+    {
+        var csprojFiles = Directory.GetFiles(
+            projectPath,
+            "*.csproj",
+            SearchOption.TopDirectoryOnly
+        );
+
+        if (csprojFiles.Length == 0)
+        {
+            // Try one level up (in case user is in a subdirectory)
+            var parentDir = Directory.GetParent(projectPath)?.FullName;
+            if (parentDir != null)
+            {
+                csprojFiles = Directory.GetFiles(
+                    parentDir,
+                    "*.csproj",
+                    SearchOption.TopDirectoryOnly
+                );
+            }
+        }
+
+        return csprojFiles.Length switch
+        {
+            0 => null,
+            1 => csprojFiles[0],
+            _ => csprojFiles.FirstOrDefault(f =>
+                !Path.GetFileName(f).Contains("Test", StringComparison.OrdinalIgnoreCase)
+            ) ?? csprojFiles[0],
+        };
+    }
+
     public async Task<string> DetectProjectTypeAsync(string projectPath)
     {
         var topology = await DetectProjectTopologyAsync(projectPath);
