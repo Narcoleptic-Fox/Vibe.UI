@@ -25,8 +25,7 @@ public class AccessibilityTests : E2ETestBase
         "/why-vibe-ui",
     ];
 
-    // The pages looked at for each built-in theme. RadioGroup is left out while its page still
-    // uses the fixed brand colour; it is being reworked in a separate change.
+    // The pages looked at for each built-in theme.
     private static readonly string[] ThemeRoutes =
     [
         "/",
@@ -36,6 +35,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/input",
         "/components/select",
         "/components/combobox",
+        "/components/radiogroup",
         "/components/dialog",
         "/components/table",
         "/components/datatable",
@@ -60,27 +60,48 @@ public class AccessibilityTests : E2ETestBase
                 await NavigateAndWaitForBlazorAsync(route);
                 await Page.ApplyBuiltInThemeAsync(builtInTheme);
                 await ApplyThemeAsync(mode);
-                failures.AddRange(SeriousOrCritical(await Page.RunAxe())
-                    .Select(violation => FormatViolation(route, $"{builtInTheme} {mode}", violation)));
+                failures.AddRange(
+                    SeriousOrCritical(await Page.RunAxe())
+                        .Select(violation =>
+                            FormatViolation(route, $"{builtInTheme} {mode}", violation)
+                        )
+                );
 
                 if (route == "/components/dialog")
                 {
-                    await Page.GetByRole(AriaRole.Button, new() { Name = "Open Dialog", Exact = true }).ClickAsync();
+                    await Page.GetByRole(
+                            AriaRole.Button,
+                            new() { Name = "Open Dialog", Exact = true }
+                        )
+                        .ClickAsync();
                     await Page.GetByRole(AriaRole.Dialog).First.WaitForAsync();
                     await ApplyThemeAsync(mode);
-                    failures.AddRange(SeriousOrCritical(await Page.RunAxe())
-                        .Select(violation => FormatViolation(route + "#open", $"{builtInTheme} {mode}", violation)));
+                    failures.AddRange(
+                        SeriousOrCritical(await Page.RunAxe())
+                            .Select(violation =>
+                                FormatViolation(
+                                    route + "#open",
+                                    $"{builtInTheme} {mode}",
+                                    violation
+                                )
+                            )
+                    );
                 }
             }
         }
 
-        failures.ShouldBeEmpty($"{builtInTheme} must not ship with serious or critical automated accessibility violations.");
+        failures.ShouldBeEmpty(
+            $"{builtInTheme} must not ship with serious or critical automated accessibility violations."
+        );
     }
 
-    private static IEnumerable<Deque.AxeCore.Commons.AxeResultItem> SeriousOrCritical(Deque.AxeCore.Commons.AxeResult result) =>
+    private static IEnumerable<Deque.AxeCore.Commons.AxeResultItem> SeriousOrCritical(
+        Deque.AxeCore.Commons.AxeResult result
+    ) =>
         result.Violations.Where(violation =>
             string.Equals(violation.Impact, "critical", StringComparison.OrdinalIgnoreCase)
-            || string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase));
+            || string.Equals(violation.Impact, "serious", StringComparison.OrdinalIgnoreCase)
+        );
 
     [Fact]
     public async Task FlagshipPagesHaveNoSeriousOrCriticalAxeViolations()

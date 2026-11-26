@@ -1,0 +1,85 @@
+@using Vibe.UI.Services.Theme
+@inject IJSRuntime JS
+
+@*
+    ThemePicker - lets a reader see the docs in any built-in theme.
+
+    The site is built with the default theme. Choosing another lays that theme's CSS over the
+    page, with the same :root and .dark selectors and later in the document, so it wins on order
+    and light and dark keep working. The choice is remembered in local storage.
+*@
+
+<label class="docs-theme-picker">
+    <span class="vibe-sr-only">Theme</span>
+    <select aria-label="Theme" value="@_theme" @onchange="OnChangedAsync" data-testid="theme-picker">
+        @foreach (var theme in ThemeService.BuiltInThemes)
+        {
+            <option value="@theme">@theme</option>
+        }
+    </select>
+</label>
+
+@if (_css is not null)
+{
+    <style id="docs-built-in-theme">
+        @((MarkupString)_css)
+    </style>
+}
+
+@code {
+    // No utility prefix here: the class scan reads any word that starts with it as a class.
+    private const string StorageKey = "docs-built-in-theme";
+
+    private string _theme = ThemeService.BuiltInThemes[0];
+    private string? _css;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        string? saved = null;
+        try
+        {
+            saved = await JS.InvokeAsync<string?>("localStorage.getItem", StorageKey);
+        }
+        catch (JSException)
+        {
+            // Storage can be blocked; the default theme is fine.
+        }
+
+        if (saved is not null && saved != _theme && ThemeService.BuiltInThemes.Contains(saved))
+        {
+            Apply(saved);
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnChangedAsync(ChangeEventArgs args)
+    {
+        var theme = args.Value?.ToString();
+        if (theme is null || !ThemeService.BuiltInThemes.Contains(theme))
+        {
+            return;
+        }
+
+        Apply(theme);
+        try
+        {
+            await JS.InvokeVoidAsync("localStorage.setItem", StorageKey, theme);
+        }
+        catch (JSException)
+        {
+            // Not remembered, but still applied.
+        }
+    }
+
+    private void Apply(string theme)
+    {
+        _theme = theme;
+        // The default theme is already on the page; only the others need laying over it.
+        _css = theme == ThemeService.BuiltInThemes[0] ? null : ThemeService.GenerateBuiltInThemeCss(theme);
+    }
+}
