@@ -148,7 +148,7 @@ Options:
 - `--no-theme` - Skip theme system
 - `--with-charts` - Copy the `vibe-chart.js` interop script (the Chart.js library must also be loaded by the app)
 - `--with-css` - Add build-time `Vibe.UI.CSS` generation. Hosted Web Apps configure the server as the single CSS owner and scan both server and client sources.
-- `--with-fluentvalidation` - Copy the FluentValidation adapter to `Vibe/FluentValidation/`, add the `FluentValidation` package reference to the same project, and add `@using global::Vibe.UI.FluentValidation` to its `_Imports.razor`. This is the vendored form of the `Vibe.UI.FluentValidation` package, for projects that have the components as source and no `Vibe.UI` package. In a hosted Web App it goes into the client, like the components. An existing `FluentValidation` reference is left at the version the app chose.
+- `--with-fluentvalidation` - Copy the FluentValidation adapter to `Vibe/FluentValidation/`, add the `FluentValidation` package reference to the same project, and add `@using global::Vibe.UI.FluentValidation` to its `_Imports.razor`. This is the vendored form of the `Vibe.UI.FluentValidation` package, for projects that have the components as source and no `Vibe.UI` package. In a hosted Web App it goes into the client, like the components. An existing `FluentValidation` reference is left at the version the app chose. Under central package management (`ManagePackageVersionsCentrally` with a `Directory.Packages.props`) the version goes into `Directory.Packages.props` and the reference has none, as `dotnet add package` does.
 
 #### FluentValidation
 
@@ -165,7 +165,7 @@ builder.Services.AddScoped<IValidator<Person>, PersonValidator>();
 
 and put `<FluentValidator />` inside an `EditForm`. Labels, required and limits are then read from the validator, and its errors are written into the form's `EditContext`.
 
-The option belongs to `vibe init`, so adding the adapter to a project that is already initialised means running `vibe init --with-fluentvalidation` again. That refreshes the rest of `Vibe/` and the CSS foundation files as well, and asks again for the components directory and the color; with `--yes` it takes the defaults for both. `vibe update` does not refresh the adapter.
+To add the adapter to a project that is already initialised, run `vibe update --infrastructure --with-fluentvalidation`.
 
 ### `vibe add <component>`
 Adds a component to `Components/`.
@@ -182,6 +182,29 @@ Shows all available components.
 ### `vibe update <component>`
 Updates an existing tracked component after confirmation. Locally modified
 tracked files are backed up before replacement.
+
+It does not touch the infrastructure in `Vibe/`. If that was written by an older CLI, or
+by one that did not record its version, it says so and names `vibe update --infrastructure`.
+
+### `vibe update --infrastructure`
+Refreshes what `vibe init` copied, from this CLI:
+
+- everything in `Vibe/`: base classes, the types components share, metadata, services,
+  configuration, enums, `ServiceCollectionExtensions.cs`, and the FluentValidation adapter if
+  the project has it
+- the interop scripts in `wwwroot/js/`, keeping the chart and theme scripts only if the project has them
+- `vibe-utilities.css` and `vibe-preflight.css`
+
+It does not touch components, the components directory in `vibe.json`, or `vibe-base.css`,
+which holds the colour you chose. It records the CLI version in `vibe.json`.
+
+Nothing records yet whether you edited a copied file, so it lists every file it will replace or
+add and asks before writing; any change you made to a listed file is lost. `--yes` skips the
+question. Files the CLI no longer ships are left in place.
+
+Options:
+- `--with-fluentvalidation` - Also add the FluentValidation adapter (see `vibe init`)
+- `-y|--yes` - Skip the confirmation
 
 ### `vibe css [path]`
 Scans source files or generates the application utility stylesheet. Use
