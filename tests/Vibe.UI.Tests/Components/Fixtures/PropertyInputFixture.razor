@@ -27,6 +27,8 @@
     <PropertyInput Id="secret" For="() => Model.Secret" />
     <PropertyInput Id="opens" For="() => Model.Opens" />
     <PropertyInput Id="seen" For="() => Model.Seen" />
+    <PropertyInput Id="notes" For="() => Model.Notes" />
+    <PropertyInput Id="floors" For="() => Model.Floors" />
 </EditForm>
 
 @code {
@@ -102,6 +104,16 @@
         public TimeOnly? Opens { get; set; }
 
         public DateTimeOffset Seen { get; set; }
+
+        [Required]
+        [DataType(DataType.MultilineText)]
+        [StringLength(200, MinimumLength = 5)]
+        [Display(Prompt = "Anything we should know")]
+        public string? Notes { get; set; }
+
+        // "Several lines" only means something for text. A number marked this way stays a number.
+        [DataType(DataType.MultilineText)]
+        public int Floors { get; set; }
     }
 
     [Parameter]

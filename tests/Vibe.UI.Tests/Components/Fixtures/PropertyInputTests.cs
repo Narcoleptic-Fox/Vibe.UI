@@ -62,6 +62,8 @@ public class PropertyInputTests : TestBase
     [InlineData("kind", "select", null)]
     [InlineData("priority", "select", null)]
     [InlineData("archived", "select", null)]
+    [InlineData("notes", "textarea", null)]
+    [InlineData("floors", "input", "number")]
     public void The_control_follows_the_property_type(string id, string element, string? type)
     {
         RenderForm();
@@ -104,6 +106,36 @@ public class PropertyInputTests : TestBase
 
         Control("archived").Change(string.Empty);
         Model.Archived.ShouldBeNull();
+    }
+
+    [Fact]
+    public void Text_over_several_lines_is_a_textarea_wired_like_any_other_field()
+    {
+        RenderForm(new Account { Notes = "Ring twice" });
+        var notes = Control("notes");
+
+        notes.TextContent.ShouldBe("Ring twice");
+        Label("notes").GetAttribute("for").ShouldBe("notes");
+        Label("notes").TextContent.ShouldContain("*");
+        notes.HasAttribute("required").ShouldBeTrue();
+        notes.GetAttribute("minlength").ShouldBe("5");
+        notes.GetAttribute("maxlength").ShouldBe("200");
+        notes.GetAttribute("placeholder").ShouldBe("Anything we should know");
+    }
+
+    [Fact]
+    public void A_textarea_writes_the_model_and_then_tells_the_form()
+    {
+        RenderForm();
+        Validate();
+        Messages(nameof(Account.Notes)).ShouldNotBeEmpty();
+
+        Control("notes").Input("Ring twice");
+        Control("notes").Change("Ring twice");
+
+        Model.Notes.ShouldBe("Ring twice");
+        Context.IsModified(new FieldIdentifier(Model, nameof(Account.Notes))).ShouldBeTrue();
+        Messages(nameof(Account.Notes)).ShouldBeEmpty();
     }
 
     [Fact]
