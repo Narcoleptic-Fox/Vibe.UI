@@ -1,0 +1,13 @@
+@* A control an app brings itself that takes an Id, and knows nothing about the field around it. *@
+<button type="button" class="id-picker" id="@Id" @onclick="() => ValueChanged.InvokeAsync(Value + 1)">@Value</button>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter]
+    public long Value { get; set; }
+
+    [Parameter]
+    public EventCallback<long> ValueChanged { get; set; }
+}

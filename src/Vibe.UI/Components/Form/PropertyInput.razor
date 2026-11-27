@@ -8,11 +8,12 @@
 @inherits Base.VibeComponent
 @inject IPropertyMetadataResolver Resolver
 
-@* One line per field: the control comes from the type of the property, and the label, required marker,
-   limits and messages from its metadata. FormField does the wrapping, so there is one wrapper. *@
-<FormField TValue="TValue" Id="@Id" Class="@CombinedClass" @attributes="AdditionalAttributes"
-           ValidationFor="For" Label="@(kind == ControlKind.Checkbox ? null : metadata.Label)"
-           Description="@metadata.Description" Required="@IsRequired">
+@* One line per field: the control comes from the type of the property, and its limits from the
+   metadata. FormField does the wrapping: given the same For and the same call-site parameters, it
+   works out the label, description and required marker, so that rule is written once. *@
+<FormField TValue="TValue" Id="@ControlId" Class="@CombinedClass" @attributes="AdditionalAttributes"
+           For="For" Label="@(kind == ControlKind.Checkbox ? string.Empty : Label)"
+           Description="@Description" Required="@Required">
     @switch (kind)
     {
         case ControlKind.Custom:
@@ -151,7 +152,8 @@
 
     /// <summary>
     /// Overrides the component that edits the value. It must take <c>Value</c> and
-    /// <c>ValueChanged</c> of the property's type; <c>ValueExpression</c> is passed when it has one.
+    /// <c>ValueChanged</c> of the property's type; <c>ValueExpression</c> and <c>Id</c> are passed
+    /// when it has them.
     /// </summary>
     [Parameter]
     public Type? Control { get; set; }
@@ -161,9 +163,10 @@
     /// <inheritdoc />
     protected override string ComponentClass => string.Empty;
 
-    // A bool always has a value, so "required" has nothing to ask for. Passing it on would put
-    // the required attribute on the checkbox, and the browser reads that as "must be ticked".
-    private bool IsRequired => metadata.Required == true && kind != ControlKind.Checkbox;
+    // Made here when the caller gives none, so the same id reaches the label and a named control.
+    private readonly string generatedId = "field-" + Guid.NewGuid().ToString("N");
+
+    private string ControlId => string.IsNullOrWhiteSpace(Id) ? generatedId : Id;
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -316,6 +319,13 @@
             ["Value"] = binding.Value,
             ["ValueChanged"] = EventCallback.Factory.Create<TValue?>(this, WriteAsync),
         };
+
+        // A control with an Id parameter is given the one the label points at. One without can
+        // read the cascaded FormFieldContext, as the built-in inputs do.
+        if (control.GetProperty("Id", BindingFlags.Public | BindingFlags.Instance)?.PropertyType == typeof(string))
+        {
+            parameters["Id"] = ControlId;
+        }
 
         // A control that names its field to the form gets the same expression the built-in ones do.
         if (control.GetProperty("ValueExpression", BindingFlags.Public | BindingFlags.Instance) is not null)

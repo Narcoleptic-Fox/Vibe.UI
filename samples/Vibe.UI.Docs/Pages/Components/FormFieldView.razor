@@ -38,9 +38,28 @@
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Description and required state</h3>
             <CodeBlock Code="@BasicCode" Language="razor" />
         </div>
-        <div>
+        <div class="vibe-mb-8">
             <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">EditContext validation</h3>
             <CodeBlock Code="@ValidationCode" Language="razor" />
+        </div>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Label and required marker from the model</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-3">
+                Given <code>For</code>, whatever the line leaves unset comes from the property:
+                the label, the description and the required marker. Anything set on the line wins,
+                and an empty string shows none. This is the wrapper <code>PropertyInput</code>
+                uses, around a control you choose.
+            </p>
+            <CodeBlock Code="@MetadataCode" Language="razor" />
+        </div>
+        <div>
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">A control of your own</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-3">
+                The field cascades a <code>FormFieldContext</code>. A control that reads it gets
+                the id the label points at, the ids of the description and the message, and
+                whether the field is invalid or required.
+            </p>
+            <CodeBlock Code="@OwnControlCode" Language="razor" />
         </div>
     </section>
 
@@ -97,12 +116,12 @@
     private static readonly (string Name, string Type, string Default, string Description)[] Properties =
     [
         ("Id", "string?", "generated", "Shared ID for the label and nested Vibe control"),
-        ("Label", "string?", "null", "Visible control label"),
-        ("Description", "string?", "null", "Help text linked to the control"),
+        ("Label", "string?", "from For", "Visible control label. An empty string shows none"),
+        ("Description", "string?", "from For", "Help text linked to the control. An empty string shows none"),
         ("ErrorMessage", "string?", "null", "Explicit error linked and announced for the control"),
-        ("ValidationFor", "Expression<Func<TValue>>?", "null", "Field used to read EditContext validation messages"),
+        ("For", "Expression<Func<TValue>>?", "null", "The property the field is for. Its validation messages are shown, and its metadata fills what the line leaves unset"),
         ("HasError", "bool", "false", "Force the invalid visual and ARIA state"),
-        ("Required", "bool", "false", "Render a required marker and mark the nested control required"),
+        ("Required", "bool?", "from For", "Render a required marker and mark the nested control required. From the model, a bool is never marked"),
         ("ChildContent", "RenderFragment?", "null", "Input, Select, or TextArea content")
     ];
 
@@ -126,8 +145,33 @@
     <FormField TValue=""string""
                Id=""email""
                Label=""Email""
-               ValidationFor=""@(() => model.Email)"">
+               For=""@(() => model.Email)"">
         <Input Type=""email"" @bind-Value=""model.Email"" />
     </FormField>
 </Form>";
+
+    private string MetadataCode => @"<Form Model=""model"">
+    @* [Required, Display(Name = ""Work email"", Description = ""We never share it."")] *@
+    <FormField For=""() => model.Email"">
+        <Input Type=""email"" @bind-Value=""model.Email"" />
+    </FormField>
+
+    <FormField For=""() => model.Country"" Label=""Ships to"">
+        <Combobox Options=""countries"" @bind-Value=""model.Country"" />
+    </FormField>
+</Form>";
+
+    private string OwnControlCode => @"<button type=""button"" id=""@Field?.ControlId""
+        aria-describedby=""@Field?.DescribedBy""
+        aria-invalid=""@(Field?.IsInvalid == true ? ""true"" : null)"">
+    @Value
+</button>
+
+@code {
+    [CascadingParameter]
+    private FormFieldContext? Field { get; set; }
+
+    [Parameter] public int Value { get; set; }
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+}";
 }

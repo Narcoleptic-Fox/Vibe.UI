@@ -7,7 +7,15 @@ namespace Vibe.UI.Metadata;
 internal static class PropertyExpression
 {
     /// <summary>Returns the member access in <paramref name="expression"/>, looking through a boxing or widening conversion.</summary>
-    public static MemberExpression GetPropertyAccess(LambdaExpression expression)
+    public static MemberExpression GetPropertyAccess(LambdaExpression expression) =>
+        FindPropertyAccess(expression)
+        ?? throw new ArgumentException(
+            $"Expected a property access such as x => x.Name or () => model.Name, but got '{expression.Body}'.",
+            nameof(expression)
+        );
+
+    /// <summary>The same as <see cref="GetPropertyAccess"/>, but null when the expression reads something that is not a property, such as a field.</summary>
+    public static MemberExpression? FindPropertyAccess(LambdaExpression expression)
     {
         ArgumentNullException.ThrowIfNull(expression);
 
@@ -21,13 +29,7 @@ internal static class PropertyExpression
         )
             body = convert.Operand;
 
-        if (body is MemberExpression { Member: PropertyInfo } member)
-            return member;
-
-        throw new ArgumentException(
-            $"Expected a property access such as x => x.Name or () => model.Name, but got '{expression.Body}'.",
-            nameof(expression)
-        );
+        return body is MemberExpression { Member: PropertyInfo } member ? member : null;
     }
 
     /// <summary>Returns the property in an expression of the form <c>x =&gt; x.Name</c>, rejecting nested access.</summary>

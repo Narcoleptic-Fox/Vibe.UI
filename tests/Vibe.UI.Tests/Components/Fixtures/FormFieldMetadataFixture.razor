@@ -1,0 +1,78 @@
+@* FormField as the wrapper around a control the caller supplies: given For, whatever the call site
+   leaves unset comes from the metadata of the property. FormFieldMetadataTests drives this. *@
+@using Account = Vibe.UI.Tests.Components.Fixtures.PropertyInputFixture.Account
+
+<EditForm EditContext="Context">
+    <DataAnnotationsValidator />
+
+    <FormField Id="email" For="() => Model.Email">
+        <Input @bind-Value="Model.Email" />
+    </FormField>
+
+    <FormField Id="age" For="() => Model.Age" Label="Years" Description="Whole years." Required="true">
+        <FieldAwarePicker @bind-Value="Model.Age" />
+    </FormField>
+
+    @* An empty string at the call site means none, which is not the same as leaving it unset. *@
+    <FormField Id="quiet" For="() => Model.Email" Label="" Description="" Required="false">
+        <Input @bind-Value="Model.Email" />
+    </FormField>
+
+    <FormField Id="active" For="() => Model.IsActive">
+        <Checkbox @bind-Checked="Model.IsActive" />
+    </FormField>
+
+    <FormField Id="terms" For="() => Model.IsActive" Required="true">
+        <Checkbox @bind-Checked="Model.IsActive" />
+    </FormField>
+
+    @* A public field can be named for its messages. It has no metadata to read. *@
+    <FormField Id="code" For="() => Loose.Code">
+        <Input @bind-Value="Loose.Code" />
+    </FormField>
+
+    @* A bool that can be unanswered can be required: there is something to ask for. *@
+    <FormField Id="answered" For="() => Loose.Answered">
+        <Select @bind-Value="Loose.Answered">
+            <option value="True">Yes</option>
+            <option value="False">No</option>
+        </Select>
+    </FormField>
+
+    <FormField Id="reference" For="() => Loose.Reference">
+        <output id="reference">@Loose.Reference</output>
+    </FormField>
+
+    <FormField TValue="string" Id="plain" Label="Plain">
+        <input id="plain" />
+    </FormField>
+</EditForm>
+
+@code {
+    public sealed class LooseModel
+    {
+        public string Code = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required]
+        public bool? Answered { get; set; }
+
+        // Read-only: a wrapper shows it and its label, and never writes it.
+        [System.ComponentModel.DataAnnotations.Display(Name = "Order reference")]
+        public string Reference => "R-1";
+    }
+
+    [Parameter]
+    public Account Model { get; set; } = new();
+
+    public LooseModel Loose { get; } = new();
+
+    public EditContext Context { get; private set; } = default!;
+
+    protected override void OnParametersSet()
+    {
+        if (Context is null || !ReferenceEquals(Context.Model, Model))
+        {
+            Context = new EditContext(Model);
+        }
+    }
+}

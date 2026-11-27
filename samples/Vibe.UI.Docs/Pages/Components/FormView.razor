@@ -23,13 +23,13 @@
             <div class="vibe-max-w-md">
                 <Form Model="@model" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
                     <div class="vibe-space-y-4">
-                        <FormField TValue="string" Id="name" Label="Name" ValidationFor="@(() => model.Name)" Required="true">
+                        <FormField TValue="string" Id="name" Label="Name" For="@(() => model.Name)" Required="true">
                             <Input @bind-Value="model.Name" />
                         </FormField>
-                        <FormField TValue="string" Id="email" Label="Email" ValidationFor="@(() => model.Email)" Required="true">
+                        <FormField TValue="string" Id="email" Label="Email" For="@(() => model.Email)" Required="true">
                             <Input Type="email" @bind-Value="model.Email" />
                         </FormField>
-                        <FormField TValue="int?" Id="team-size" Label="Team size" ValidationFor="@(() => model.TeamSize)" Required="true">
+                        <FormField TValue="int?" Id="team-size" Label="Team size" For="@(() => model.TeamSize)" Required="true">
                             <Input @bind-Value="model.TeamSize" />
                         </FormField>
                         <Button Type="submit">Create account</Button>
@@ -134,7 +134,7 @@
     ];
 
     private string BasicCode => @"<Form Model=""model"" OnValidSubmit=""HandleValidSubmit"" OnInvalidSubmit=""HandleInvalidSubmit"">
-    <FormField TValue=""string"" Id=""email"" Label=""Email"" ValidationFor=""@(() => model.Email)"">
+    <FormField TValue=""string"" Id=""email"" Label=""Email"" For=""@(() => model.Email)"">
         <Input Type=""email"" @bind-Value=""model.Email"" />
     </FormField>
     <Button Type=""submit"">Save</Button>

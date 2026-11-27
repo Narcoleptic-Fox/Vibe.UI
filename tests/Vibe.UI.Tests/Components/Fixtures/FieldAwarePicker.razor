@@ -1,0 +1,17 @@
+@* A control an app brings itself that wires itself to the field around it. It reads the cascaded
+   FormFieldContext, which only compiles from outside the library if that type is public. *@
+<button type="button" class="field-aware-picker" id="@Field?.ControlId"
+        aria-describedby="@Field?.DescribedBy" aria-invalid="@(Field?.IsInvalid == true ? "true" : null)"
+        aria-required="@(Field?.IsRequired == true ? "true" : null)"
+        @onclick="() => ValueChanged.InvokeAsync((Value ?? 0) + 1)">@Value</button>
+
+@code {
+    [CascadingParameter]
+    private FormFieldContext? Field { get; set; }
+
+    [Parameter]
+    public int? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<int?> ValueChanged { get; set; }
+}
