@@ -40,6 +40,7 @@
                         <PropertyInput Id="pi-news" For="() => signup.ProductNews" />
                         <PropertyInput Id="pi-customer" For="() => signup.ExistingCustomer" />
                         <PropertyInput Id="pi-start" For="() => signup.StartDate" />
+                        <PropertyInput Id="pi-notes" For="() => signup.Notes" />
                         <Button Type="submit">Sign up</Button>
                     </div>
 
@@ -177,8 +178,8 @@
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
         <CodeBlock Code="vibe add propertyinput" Language="bash" />
         <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">
-            Copies <code>FormField</code>, <code>Input</code>, <code>Select</code> and
-            <code>Checkbox</code> with it. <code>AddVibeUI()</code> registers the metadata it reads.
+            Copies <code>Checkbox</code>, <code>FormField</code>, <code>Icon</code>,
+            <code>Input</code>, <code>Select</code> and <code>TextArea</code> with it. <code>AddVibeUI()</code> registers the metadata it reads.
         </p>
     </section>
 
@@ -214,6 +215,7 @@
         ("news", "ProductNews", signup.ProductNews ? "true" : "false"),
         ("customer", "ExistingCustomer", signup.ExistingCustomer switch { true => "true", false => "false", null => "null" }),
         ("start", "StartDate", Show(signup.StartDate?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))),
+        ("notes", "Notes", Show(signup.Notes)),
     ];
 
     private static string Show(string? value) => string.IsNullOrEmpty(value) ? "null" : value;
@@ -259,11 +261,16 @@
         public bool? ExistingCustomer { get; set; }
 
         public DateOnly? StartDate { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Anything else")]
+        public string? Notes { get; set; }
     }
 
     private static readonly (string Type, string Control)[] ControlRows =
     [
         ("string, Guid", "Input, text. [EmailAddress], [Phone], [Url] and DataType.Password pick the matching input type"),
+        ("string, DataType.MultilineText", "TextArea"),
         ("int, long, short, decimal, double, float", "Input, number"),
         ("DateOnly, DateTime, DateTimeOffset, TimeOnly", "Input, with the browser's date, date-time or time picker. DataType.Date narrows a DateTime to a date"),
         ("enum", "Select, one option per value"),
@@ -307,6 +314,7 @@
     <PropertyInput For=""() => signup.ProductNews"" />
     <PropertyInput For=""() => signup.ExistingCustomer"" />
     <PropertyInput For=""() => signup.StartDate"" />
+    <PropertyInput For=""() => signup.Notes"" />
     <Button Type=""submit"">Sign up</Button>
 </Form>
 
@@ -331,6 +339,9 @@
         public bool? ExistingCustomer { get; set; }
 
         public DateOnly? StartDate { get; set; }
+
+        [DataType(DataType.MultilineText), Display(Name = ""Anything else"")]
+        public string? Notes { get; set; }
     }
 }";
 

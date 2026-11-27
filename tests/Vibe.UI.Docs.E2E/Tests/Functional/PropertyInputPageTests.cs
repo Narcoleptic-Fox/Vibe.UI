@@ -37,6 +37,20 @@ public class PropertyInputPageTests : E2ETestBase
     }
 
     [Fact]
+    public async Task AMultilineStringIsATextAreaThatWritesTheModel()
+    {
+        await NavigateAndWaitForBlazorAsync(Route);
+        // [DataType(DataType.MultilineText)] on the model picks the TextArea.
+        var notes = Page.Locator("textarea#pi-notes");
+        await Assertions.Expect(notes).ToHaveCountAsync(1);
+        await Assertions.Expect(ModelValue("notes")).ToHaveTextAsync("null");
+
+        await notes.FillAsync("Two seats to start");
+        await Page.Keyboard.PressAsync("Tab");
+        await Assertions.Expect(ModelValue("notes")).ToHaveTextAsync("Two seats to start");
+    }
+
+    [Fact]
     public async Task TheCallSiteOverridesTheLabelAndTheLimit()
     {
         await NavigateAndWaitForBlazorAsync(Route);
