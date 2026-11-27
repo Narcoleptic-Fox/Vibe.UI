@@ -266,6 +266,8 @@ public class PropertyInputTests : TestBase
         overrides.FindAll("#seats-label").ShouldBeEmpty();
 
         Find("#active").HasAttribute("disabled").ShouldBeTrue();
+        Find("#notes").HasAttribute("disabled").ShouldBeTrue();
+        Find("#title").LocalName.ShouldBe("textarea");
         overrides.Find(".vibe-checkbox-label").TextContent.Trim().ShouldBe("Enabled");
     }
 
