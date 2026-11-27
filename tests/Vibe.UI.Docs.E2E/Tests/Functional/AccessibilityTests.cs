@@ -37,6 +37,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/select",
         "/components/combobox",
         "/components/radiogroup",
+        "/components/propertyinput",
         "/components/dialog",
         "/components/table",
         "/components/datatable",

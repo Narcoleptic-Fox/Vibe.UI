@@ -1,0 +1,363 @@
+@page "/components/propertyinput"
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+@using Microsoft.AspNetCore.Components.Forms
+@using Vibe.UI.Components
+
+<PageTitle>PropertyInput - Vibe.UI</PageTitle>
+
+<div class="vibe-max-w-4xl vibe-mx-auto">
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./">Docs</a><span>/</span><a href="components">Components</a><span>/</span>
+            <span class="vibe-text-foreground">PropertyInput</span>
+        </div>
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">PropertyInput</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
+            A form field in one line. The control comes from the property's type; the label,
+            required marker, limits and messages come from its metadata. Anything you set on the
+            line itself wins.
+        </p>
+    </header>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
+            <div class="vibe-max-w-md">
+                @* novalidate turns off the browser check, so an empty submit shows the messages of the form. *@
+                <Form Model="@signup" ShowValidationSummary="false" novalidate
+                      OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+                    <div class="vibe-space-y-4">
+                        <PropertyInput Id="pi-name" For="() => signup.Name" />
+                        <PropertyInput Id="pi-email" For="() => signup.Email" />
+                        <PropertyInput Id="pi-team-size" For="() => signup.TeamSize" Label="Seats needed" Maximum="50" />
+                        <PropertyInput Id="pi-plan" For="() => signup.Plan" />
+                        @if (signup.Plan == Plan.Enterprise)
+                        {
+                            <PropertyInput Id="pi-company-number" For="() => signup.CompanyNumber" />
+                        }
+                        <PropertyInput Id="pi-billing" For="() => signup.Billing" Control="typeof(RadioGroup<BillingCycle>)" />
+                        <PropertyInput Id="pi-news" For="() => signup.ProductNews" />
+                        <PropertyInput Id="pi-customer" For="() => signup.ExistingCustomer" />
+                        <PropertyInput Id="pi-start" For="() => signup.StartDate" />
+                        <PropertyInput Id="pi-notes" For="() => signup.Notes" />
+                        <Button Type="submit">Sign up</Button>
+                    </div>
+
+                    @* Inside the form, so it follows each field: the form re-renders its content when a field changes. *@
+                    <dl class="vibe-mt-6 vibe-text-sm vibe-space-y-1" data-testid="pi-model">
+                        @foreach (var (key, label, value) in ModelRows)
+                        {
+                            <div class="vibe-flex vibe-gap-2">
+                                <dt class="vibe-text-muted-foreground">@label:</dt>
+                                <dd class="vibe-m-0 vibe-font-mono" id="pi-model-@key">@value</dd>
+                            </div>
+                        }
+                    </dl>
+                </Form>
+                @if (!string.IsNullOrEmpty(submitStatus))
+                {
+                    <output class="vibe-block vibe-mt-3 vibe-text-sm vibe-text-muted-foreground" data-testid="pi-status">@submitStatus</output>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Examples</h2>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">One line per field</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-3">
+                No type argument, no label, no limits: they come from the property and its
+                attributes. A validator from FluentValidation feeds the same chain when the
+                adapter is registered.
+            </p>
+            <CodeBlock Code="@BasicCode" Language="razor" />
+        </div>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Override on the line</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-3">
+                Each parameter set here replaces what the metadata says for that one field. A limit
+                set here goes on the input, as the browser's own <code>min</code>, <code>max</code>
+                or <code>maxlength</code>; the validation rules still come from the model.
+            </p>
+            <CodeBlock Code="@OverrideCode" Language="razor" />
+        </div>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Name the control</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-3">
+                <code>Control</code> replaces the control the type would get. It must take
+                <code>Value</code> and <code>ValueChanged</code> of the property's type, and it is
+                given <code>ValueExpression</code> when it has one, which is how it tells the form.
+                A model profile can name it once for every form: <code>Control&lt;T&gt;()</code>.
+            </p>
+            <CodeBlock Code="@ControlCode" Language="razor" />
+        </div>
+        <div class="vibe-mb-8">
+            <h3 class="vibe-text-lg vibe-font-medium vibe-text-foreground vibe-mb-3">Content that depends on another field</h3>
+            <p class="vibe-text-muted-foreground vibe-mb-3">
+                The model is written in place, so nothing tells your page. Inside a
+                <code>Form</code> that is fine: the form re-renders its content when a field
+                changes. In a plain <code>EditForm</code>, or with no form, listen with
+                <code>ValueChanged</code>, and state the parameter's type.
+            </p>
+            <CodeBlock Code="@DependentCode" Language="razor" />
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">Which control</h2>
+        <div class="vibe-overflow-x-auto" tabindex="0">
+            <table class="vibe-w-full vibe-text-sm" data-testid="pi-control-table">
+                <thead><tr class="vibe-border-b vibe-border-border">
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Property type</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Control</th>
+                </tr></thead>
+                <tbody class="vibe-divide-y vibe-divide-border">
+                    @foreach (var (type, control) in ControlRows)
+                    {
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono">@type</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@control</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Limits today</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
+            <li>
+                A <code>ValueChanged</code> handler must state its parameter's type:
+                <code>ValueChanged="(AccountKind kind) =&gt; ..."</code>. The compiler rejects an
+                untyped lambda and a method group here, as it does for the typed inputs.
+            </li>
+            <li><code>Format</code> from the metadata is not applied. A browser input shows its own format.</li>
+            <li>Today, a named control gets no id, so the label's <code>for</code> points at nothing.</li>
+            <li>
+                A named control gets only <code>Value</code>, <code>ValueChanged</code> and
+                <code>ValueExpression</code>. A control that needs more, such as a
+                <code>Combobox</code> with its options, goes in a <code>FormField</code> of its own.
+            </li>
+            <li>
+                Content that depends on another field re-renders inside <code>Form</code>. In a
+                plain <code>EditForm</code> or outside a form it needs <code>ValueChanged</code>.
+            </li>
+            <li>A call-site limit sets the input's limit, not the validation rule.</li>
+        </ul>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
+        <div class="vibe-overflow-x-auto" tabindex="0">
+            <table class="vibe-w-full vibe-text-sm">
+                <thead><tr class="vibe-border-b vibe-border-border">
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Name</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Type</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Default</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Description</th>
+                </tr></thead>
+                <tbody class="vibe-divide-y vibe-divide-border">
+                    @foreach (var property in Properties)
+                    {
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono">@property.Name</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="@property.Type" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <CodeBlock Code="vibe add propertyinput" Language="bash" />
+        <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">
+            Copies <code>Checkbox</code>, <code>FormField</code>, <code>Icon</code>,
+            <code>Input</code>, <code>Select</code> and <code>TextArea</code> with it. <code>AddVibeUI()</code> registers the metadata it reads.
+        </p>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
+            @foreach (var item in AccessibilityItems)
+            {
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <Icon Name="check-circle" Size="20" CssClass="vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" />
+                    @item
+                </li>
+            }
+        </ul>
+    </section>
+</div>
+
+@code {
+    private readonly Signup signup = new();
+    private string submitStatus = string.Empty;
+
+    private void HandleValidSubmit(EditContext _) => submitStatus = "Signed up.";
+    private void HandleInvalidSubmit(EditContext _) => submitStatus = "Review the highlighted fields.";
+
+    private IEnumerable<(string Key, string Label, string Value)> ModelRows =>
+    [
+        ("name", "Name", Show(signup.Name)),
+        ("email", "Email", Show(signup.Email)),
+        ("team-size", "TeamSize", Show(signup.TeamSize?.ToString(CultureInfo.InvariantCulture))),
+        ("plan", "Plan", signup.Plan.ToString()),
+        ("company-number", "CompanyNumber", Show(signup.CompanyNumber)),
+        ("billing", "Billing", signup.Billing.ToString()),
+        ("news", "ProductNews", signup.ProductNews ? "true" : "false"),
+        ("customer", "ExistingCustomer", signup.ExistingCustomer switch { true => "true", false => "false", null => "null" }),
+        ("start", "StartDate", Show(signup.StartDate?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))),
+        ("notes", "Notes", Show(signup.Notes)),
+    ];
+
+    private static string Show(string? value) => string.IsNullOrEmpty(value) ? "null" : value;
+
+    public enum Plan
+    {
+        Starter,
+        Team,
+        Enterprise,
+    }
+
+    public enum BillingCycle
+    {
+        Monthly,
+        Yearly,
+    }
+
+    public sealed class Signup
+    {
+        [Required]
+        [Display(Name = "Full name")]
+        public string? Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Work email", Prompt = "you@work.com")]
+        public string? Email { get; set; }
+
+        [Range(1, 500)]
+        public int? TeamSize { get; set; }
+
+        public Plan Plan { get; set; }
+
+        [Display(Name = "Company number", Description = "Asked only on the Enterprise plan.")]
+        public string? CompanyNumber { get; set; }
+
+        public BillingCycle Billing { get; set; }
+
+        [Display(Name = "Send me product news")]
+        public bool ProductNews { get; set; }
+
+        [Display(Name = "Already a customer")]
+        public bool? ExistingCustomer { get; set; }
+
+        public DateOnly? StartDate { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Anything else")]
+        public string? Notes { get; set; }
+    }
+
+    private static readonly (string Type, string Control)[] ControlRows =
+    [
+        ("string, Guid", "Input, text. [EmailAddress], [Phone], [Url] and DataType.Password pick the matching input type"),
+        ("string, DataType.MultilineText", "TextArea"),
+        ("int, long, short, decimal, double, float", "Input, number"),
+        ("DateOnly, DateTime, DateTimeOffset, TimeOnly", "Input, with the browser's date, date-time or time picker. DataType.Date narrows a DateTime to a date"),
+        ("enum", "Select, one option per value"),
+        ("bool", "Checkbox, with the label beside the box"),
+        ("bool?", "Select: yes, no, or the empty option"),
+        ("any of these, nullable", "The same control; a Select gains an empty option"),
+        ("anything else", "An error that names the property and says to name a control"),
+    ];
+
+    private static readonly (string Name, string Type, string Default, string Description)[] Properties =
+    [
+        ("For", "Expression<Func<TValue>>", "required", "The property to edit, as () => model.Name"),
+        ("ValueChanged", "EventCallback<TValue?>", "none", "Raised after the model is written. State the parameter type"),
+        ("Id", "string?", "generated", "The control's id, and the base of its message id"),
+        ("Label", "string?", "metadata", "Overrides the label. An empty string shows none"),
+        ("Description", "string?", "metadata", "Overrides the description"),
+        ("Placeholder", "string?", "metadata", "Overrides the placeholder"),
+        ("Required", "bool?", "metadata", "Overrides whether the field is required"),
+        ("MinLength", "int?", "metadata", "Overrides the shortest text, as minlength"),
+        ("MaxLength", "int?", "metadata", "Overrides the longest text, as maxlength"),
+        ("Minimum", "object?", "metadata", "Overrides the smallest value, as min"),
+        ("Maximum", "object?", "metadata", "Overrides the largest value, as max"),
+        ("DataType", "DataType?", "metadata", "Overrides the kind of value: email, password and so on"),
+        ("Control", "Type?", "metadata", "Names the control to use instead of the one the type gets"),
+        ("Disabled", "bool", "false", "Disables the control"),
+    ];
+
+    private static readonly string[] AccessibilityItems =
+    [
+        "Renders a FormField: the label is tied to the control, and the message is read with it",
+        "A required field gets the required attribute and a marker beside its label",
+        "A checkbox carries its own label beside the box, so the label is said once",
+        "A validation message is linked to the control with aria-errormessage",
+    ];
+
+    private string BasicCode => @"<Form Model=""signup"" OnValidSubmit=""Save"">
+    <PropertyInput For=""() => signup.Name"" />
+    <PropertyInput For=""() => signup.Email"" />
+    <PropertyInput For=""() => signup.TeamSize"" />
+    <PropertyInput For=""() => signup.Plan"" />
+    <PropertyInput For=""() => signup.ProductNews"" />
+    <PropertyInput For=""() => signup.ExistingCustomer"" />
+    <PropertyInput For=""() => signup.StartDate"" />
+    <PropertyInput For=""() => signup.Notes"" />
+    <Button Type=""submit"">Sign up</Button>
+</Form>
+
+@code {
+    public sealed class Signup
+    {
+        [Required, Display(Name = ""Full name"")]
+        public string? Name { get; set; }
+
+        [Required, EmailAddress, Display(Name = ""Work email"", Prompt = ""you@work.com"")]
+        public string? Email { get; set; }
+
+        [Range(1, 500)]
+        public int? TeamSize { get; set; }
+
+        public Plan Plan { get; set; }
+
+        [Display(Name = ""Send me product news"")]
+        public bool ProductNews { get; set; }
+
+        [Display(Name = ""Already a customer"")]
+        public bool? ExistingCustomer { get; set; }
+
+        public DateOnly? StartDate { get; set; }
+
+        [DataType(DataType.MultilineText), Display(Name = ""Anything else"")]
+        public string? Notes { get; set; }
+    }
+}";
+
+    private string OverrideCode => @"<PropertyInput For=""() => signup.TeamSize"" Label=""Seats needed"" Maximum=""50"" />";
+
+    private string ControlCode => @"<PropertyInput For=""() => signup.Billing"" Control=""typeof(RadioGroup<BillingCycle>)"" />";
+
+    private string DependentCode => @"@* Inside Form: re-renders by itself *@
+<Form Model=""signup"">
+    <PropertyInput For=""() => signup.Plan"" />
+    @if (signup.Plan == Plan.Enterprise)
+    {
+        <PropertyInput For=""() => signup.CompanyNumber"" />
+    }
+</Form>
+
+@* In a plain EditForm, or with no form: listen, and type the parameter *@
+<PropertyInput For=""() => signup.Plan"" ValueChanged=""(Plan plan) => StateHasChanged()"" />";
+}
