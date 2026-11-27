@@ -133,7 +133,7 @@
             A record whose properties are <code>init</code>-only is edited in place. The field
             writes the instance the form was given, so the form keeps its
             <code>EditContext</code>, and with it which fields were changed and which messages
-            show. The form at the top of this page is bound to one.
+            show.
         </p>
         <CodeBlock Code="@RecordCode" Language="razor" />
         <ul class="vibe-space-y-2 vibe-text-muted-foreground vibe-mt-3">
@@ -383,7 +383,8 @@
     }
 }";
 
-    private string RecordCode => @"@inject IPropertyMetadataResolver Metadata
+    private string RecordCode => @"@using Vibe.UI.Metadata
+@inject IPropertyMetadataResolver Metadata
 
 <Form Model=""command"" OnValidSubmit=""Save"">
     <PropertyInput For=""() => command.Name"" />
