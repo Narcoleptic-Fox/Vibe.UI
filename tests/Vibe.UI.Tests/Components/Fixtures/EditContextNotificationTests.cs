@@ -156,6 +156,7 @@ public class EditContextNotificationTests : TestBase
             Accepted = true,
             Notify = true,
             Due = new System.DateTime(2026, 1, 15),
+            Notes = "Ring twice",
         };
 
     private IElement Quantity => cut.Find(".vibe-form-field input");
@@ -287,6 +288,55 @@ public class EditContextNotificationTests : TestBase
 
         Model.Notify.ShouldBeTrue();
         ShouldNowBeValidAndModified(nameof(Order.Notify));
+    }
+
+    [Fact]
+    public void TextArea_notifies_when_the_text_is_committed()
+    {
+        RenderInvalid();
+        Messages(nameof(Order.Notes)).ShouldNotBeEmpty();
+
+        cut.Find("#notes").Input("Leave it at the door");
+        cut.Find("#notes").Change("Leave it at the door");
+
+        Model.Notes.ShouldBe("Leave it at the door");
+        ShouldNowBeValidAndModified(nameof(Order.Notes));
+    }
+
+    [Fact]
+    public void TextArea_does_not_notify_on_each_key()
+    {
+        RenderInvalid();
+
+        cut.Find("#notes").Input("L");
+
+        Model.Notes.ShouldBe("L");
+        IsModified(nameof(Order.Notes)).ShouldBeFalse();
+        Messages(nameof(Order.Notes)).ShouldNotBeEmpty();
+    }
+
+    [Fact]
+    public void TextArea_reports_text_that_arrives_with_the_change_alone()
+    {
+        RenderInvalid();
+
+        // An autofill or a script can commit text no key reported.
+        cut.Find("#notes").Change("Pasted by the browser");
+
+        Model.Notes.ShouldBe("Pasted by the browser");
+        ShouldNowBeValidAndModified(nameof(Order.Notes));
+    }
+
+    [Fact]
+    public void TextArea_bound_to_a_static_member_outside_a_form_still_works()
+    {
+        StaticBindingFixture.Shared = null;
+        var bare = Render<StaticBindingFixture>();
+
+        bare.Find("#shared-notes").Input("x");
+        bare.Find("#shared-notes").Change("x");
+
+        StaticBindingFixture.Shared.ShouldBe("x");
     }
 
     [Fact]

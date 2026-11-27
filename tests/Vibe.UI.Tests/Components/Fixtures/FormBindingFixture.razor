@@ -47,6 +47,8 @@
     <Switch Id="notify" @bind-Checked="Model.Notify" Label="Notify me" />
 
     <DatePicker @bind-Date="Model.Due" />
+
+    <TextArea Id="notes" @bind-Value="Model.Notes" />
 </EditForm>
 
 @code {
@@ -84,6 +86,9 @@
 
         [Required]
         public DateTime? Due { get; set; }
+
+        [Required]
+        public string? Notes { get; set; }
     }
 
     private readonly List<ComboboxOption<string>> frameworks = [new() { Label = "Blazor", Value = "blazor" }];
