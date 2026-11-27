@@ -11,16 +11,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
+# One deployment at a time, and never cancel one that has started.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# Two jobs on purpose. In one job the deploy step asked for the artifact 0.7 seconds after the
+# upload and was told there was none, and re-running that job uploaded a second artifact of the
+# same name, which the deploy step refuses. With the upload in its own job, the artifact is
+# complete before deploy starts, and re-running a failed deploy uploads nothing.
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -54,7 +58,11 @@ jobs:
           fi
 
       - name: Change base-tag in index.html
-        run: sed -i 's/<base href="\/" \/>/<base href="\/Vibe.UI\/" \/>/g' release/wwwroot/index.html
+        run: |
+          set -euo pipefail
+          sed -i 's/<base href="\/" \/>/<base href="\/Vibe.UI\/" \/>/g' release/wwwroot/index.html
+          # sed exits 0 when nothing matched, and the site would then load nothing under /Vibe.UI/.
+          grep -q '<base href="/Vibe.UI/" />' release/wwwroot/index.html
 
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
@@ -67,6 +75,17 @@ jobs:
         with:
           path: 'release/wwwroot'
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5.0.0
