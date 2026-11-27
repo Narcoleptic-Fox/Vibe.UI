@@ -17,6 +17,12 @@
     <PropertyInput Id="title" For="() => Model.Title" DataType="DataType.MultilineText" />
     <PropertyInput Id="picker" For="() => Model.Seats" Control="typeof(SeatPicker)" />
 
+    @* A named control with an Id parameter is given the id the label points at, here a generated one. *@
+    <PropertyInput For="() => Model.Visits" Label="Visits so far" Control="typeof(IdPicker)" />
+
+    @* Said at the call site, required on a bool means what it says. *@
+    <PropertyInput Id="terms" For="() => Model.IsActive" Required="true" />
+
     @* A named control that can name its field to the form is given the expression to do it. *@
     <PropertyInput Id="explicit" For="() => Model.Age" Control="typeof(Input<int?>)" />
 

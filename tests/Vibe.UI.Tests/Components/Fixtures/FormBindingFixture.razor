@@ -10,7 +10,7 @@
 
     @if (ShowQuantity)
     {
-        <FormField Label="Quantity" ValidationFor="() => Model.Quantity">
+        <FormField Label="Quantity" For="() => Model.Quantity">
             <Input @bind-Value="Model.Quantity" />
         </FormField>
     }

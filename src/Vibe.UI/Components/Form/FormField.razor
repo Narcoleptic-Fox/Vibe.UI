@@ -1,17 +1,20 @@
 @namespace Vibe.UI.Components
 @using System.Linq.Expressions
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.DependencyInjection
+@using Vibe.UI.Metadata
 @typeparam TValue
 @inherits Base.VibeComponent
 @implements IDisposable
+@inject IServiceProvider Services
 
 <div @attributes="RootAttributes" class="@CombinedClass">
     <div class="form-field-container @ValidationClass">
         @if (HasLabel)
         {
             <label class="form-field-label" id="@LabelId" for="@EffectiveId">
-                <span>@Label</span>
-                @if (Required)
+                <span>@shown.Label</span>
+                @if (IsRequired)
                 {
                     <span class="form-field-required" aria-hidden="true">*</span>
                 }
@@ -26,7 +29,7 @@
 
         @if (HasDescription)
         {
-            <div class="form-field-description" id="@DescriptionId">@Description</div>
+            <div class="form-field-description" id="@DescriptionId">@shown.Description</div>
         }
 
         @if (HasExplicitError)
@@ -42,9 +45,9 @@
                 }
             </div>
         }
-        else if (ValidationFor != null && CurrentEditContext != null)
+        else if (For != null && CurrentEditContext != null)
         {
-            <ValidationMessage For="@ValidationFor" class="form-validation-message" />
+            <ValidationMessage For="@For" class="form-validation-message" />
         }
     </div>
 </div>
@@ -53,18 +56,25 @@
     private readonly string _generatedId = "form-field-" + Guid.NewGuid().ToString("N");
     private EditContext? _previousEditContext;
     private FieldIdentifier? _fieldIdentifier;
+    private IPropertyMetadataResolver? _resolver;
+
+    // The label, description and required marker once the call site and the metadata of the
+    // property have been merged.
+    private PropertyMetadata shown = PropertyMetadata.Empty;
 
     [CascadingParameter]
     private EditContext? CurrentEditContext { get; set; }
 
     /// <summary>
-    /// Gets or sets the field label.
+    /// Gets or sets the field label. Unset, it comes from the metadata of the property named by
+    /// <see cref="For"/>; an empty string shows none.
     /// </summary>
     [Parameter]
     public string? Label { get; set; }
 
     /// <summary>
-    /// Gets or sets the field description.
+    /// Gets or sets the field description. Unset, it comes from the metadata of the property
+    /// named by <see cref="For"/>; an empty string shows none.
     /// </summary>
     [Parameter]
     public string? Description { get; set; }
@@ -76,10 +86,12 @@
     public string? ErrorMessage { get; set; }
 
     /// <summary>
-    /// Gets or sets the field validation expression.
+    /// The property this field is for, as <c>() =&gt; model.Name</c>. Inside a form its validation
+    /// messages are shown here, and whatever the call site leaves unset (label, description,
+    /// required marker) comes from the metadata of the property.
     /// </summary>
     [Parameter]
-    public Expression<Func<TValue>>? ValidationFor { get; set; }
+    public Expression<Func<TValue>>? For { get; set; }
 
     /// <summary>
     /// Gets or sets the field content.
@@ -100,10 +112,11 @@
     public bool HasError { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the field is required.
+    /// Gets or sets whether the field is required. Unset, the metadata of the property named by
+    /// <see cref="For"/> decides, except for a <c>bool</c>, which always has a value.
     /// </summary>
     [Parameter]
-    public bool Required { get; set; }
+    public bool? Required { get; set; }
 
     /// <summary>
     /// Gets the component CSS class name.
@@ -123,9 +136,11 @@
 
     private string ErrorId => $"{EffectiveId}-error";
 
-    private bool HasLabel => !string.IsNullOrWhiteSpace(Label);
+    private bool HasLabel => !string.IsNullOrWhiteSpace(shown.Label);
 
-    private bool HasDescription => !string.IsNullOrWhiteSpace(Description);
+    private bool HasDescription => !string.IsNullOrWhiteSpace(shown.Description);
+
+    private bool IsRequired => shown.Required == true;
 
     private bool HasExplicitError => !string.IsNullOrWhiteSpace(ErrorMessage);
 
@@ -144,7 +159,7 @@
         ControlDescribedBy,
         EffectiveErrorId,
         EffectiveHasError,
-        Required,
+        IsRequired,
         CurrentEditContext is null ? null : _fieldIdentifier);
 
     private IReadOnlyList<string> ValidationMessages => GetValidationMessages();
@@ -152,9 +167,27 @@
     private Dictionary<string, object>? RootAttributes => BuildRootAttributes();
 
     /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Asked for, not injected: a field with no For needs no metadata, and an app that has not
+        // called AddVibeUI still gets a working wrapper with what the call site says.
+        _resolver = Services.GetService<IPropertyMetadataResolver>();
+    }
+
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
+        // The parameter was ValidationFor before 1.0.0-beta.1. Left in place it would be taken as
+        // an HTML attribute and the field would quietly stop showing its messages.
+        if (AdditionalAttributes?.Keys.Any(key => key.Equals("ValidationFor", StringComparison.OrdinalIgnoreCase)) == true)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(FormField<TValue>)} no longer has a ValidationFor parameter. Use For: For=\"() => model.Name\".");
+        }
 
         if (!ReferenceEquals(_previousEditContext, CurrentEditContext))
         {
@@ -171,7 +204,31 @@
             _previousEditContext = CurrentEditContext;
         }
 
-        _fieldIdentifier = ValidationFor == null ? null : FieldIdentifier.Create(ValidationFor);
+        _fieldIdentifier = For == null ? null : FieldIdentifier.Create(For);
+        shown = new PropertyMetadata
+        {
+            Label = Label,
+            Description = Description,
+            Required = Required,
+        }.OverlayOn(MetadataOfProperty());
+    }
+
+    // What the metadata of the property says about the three things this wrapper shows.
+    private PropertyMetadata MetadataOfProperty()
+    {
+        // A field can be named for its messages alone, and so can a public field of a model,
+        // which has no metadata to read.
+        if (For is null || _resolver is null || PropertyExpression.FindPropertyAccess(For) is null)
+        {
+            return PropertyMetadata.Empty;
+        }
+
+        PropertyMetadata metadata = _resolver.Bind(For).Metadata;
+
+        // A bool always has a value, so "required" from a validator has nothing to ask for.
+        // Passed on, it would reach a checkbox as "must be ticked". Saying Required at the call
+        // site still means exactly that.
+        return typeof(TValue) == typeof(bool) ? metadata with { Required = null } : metadata;
     }
 
     /// <inheritdoc />

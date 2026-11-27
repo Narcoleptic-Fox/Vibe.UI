@@ -160,7 +160,7 @@ public class FormFieldTests : TestBase
                         childBuilder.OpenComponent<FormField<string>>(0);
                         childBuilder.AddAttribute(1, "Id", "name");
                         childBuilder.AddAttribute(2, "Label", "Name");
-                        childBuilder.AddAttribute(3, "ValidationFor", validationFor);
+                        childBuilder.AddAttribute(3, "For", validationFor);
                         childBuilder.AddAttribute(4, "ChildContent", RenderInput());
                         childBuilder.CloseComponent();
                         childBuilder.AddMarkupContent(5, "<button type=\"submit\">Submit</button>");
@@ -188,7 +188,7 @@ public class FormFieldTests : TestBase
 
         var cut = Render<FormField<string>>(parameters =>
             parameters
-                .Add(p => p.ValidationFor, validationFor)
+                .Add(p => p.For, validationFor)
                 .AddChildContent("<input id=\"name\" />")
         );
 

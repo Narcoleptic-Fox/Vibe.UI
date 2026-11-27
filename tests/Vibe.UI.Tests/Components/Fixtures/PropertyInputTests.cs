@@ -272,6 +272,27 @@ public class PropertyInputTests : TestBase
     }
 
     [Fact]
+    public void A_named_control_that_takes_an_Id_is_given_the_one_the_label_points_at()
+    {
+        var overrides = Render<PropertyInputOverridesFixture>();
+
+        var picker = overrides.Find(".id-picker");
+        var label = overrides.FindAll("label").Single(l => l.TextContent.Contains("Visits so far"));
+
+        picker.Id.ShouldNotBeNullOrWhiteSpace();
+        label.GetAttribute("for").ShouldBe(picker.Id);
+    }
+
+    [Fact]
+    public void Required_said_at_the_call_site_reaches_a_checkbox()
+    {
+        var overrides = Render<PropertyInputOverridesFixture>();
+
+        overrides.Find("#terms").HasAttribute("required").ShouldBeTrue();
+        overrides.Find("#active").HasAttribute("required").ShouldBeFalse();
+    }
+
+    [Fact]
     public void A_control_named_at_the_call_site_replaces_the_one_the_type_would_get()
     {
         var model = new Account { Seats = 2 };
