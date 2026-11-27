@@ -1,0 +1,39 @@
+@* Every call-site parameter set against a property whose metadata says something else. *@
+@using System.ComponentModel.DataAnnotations
+@using Account = Vibe.UI.Tests.Components.Fixtures.PropertyInputFixture.Account
+
+<EditForm Model="Model">
+    <DataAnnotationsValidator />
+
+    <PropertyInput Id="email" For="() => Model.Email"
+                   Label="Contact" Description="Used for receipts." Placeholder="name@example.com"
+                   Required="false" MinLength="5" MaxLength="20" DataType="DataType.Text" />
+    <PropertyInput Id="age" For="() => Model.Age" Class="wide" data-field="age" Required="true" Minimum="21" Maximum="65" />
+    <PropertyInput Id="seats" For="() => Model.Seats" Label="" />
+    <PropertyInput Id="active" For="() => Model.IsActive" Label="Enabled" Disabled="true" />
+    <PropertyInput Id="picker" For="() => Model.Seats" Control="typeof(SeatPicker)" />
+
+    @* A named control that can name its field to the form is given the expression to do it. *@
+    <PropertyInput Id="explicit" For="() => Model.Age" Control="typeof(Input<int?>)" />
+
+    <PropertyInput Id="start" For="() => Model.Start" Minimum="Earliest" Maximum="Latest" />
+    <PropertyInput Id="changed" For="() => Model.Changed" Minimum="Earliest" />
+    <PropertyInput Id="opens" For="() => Model.Opens" Minimum="OpensAt" />
+    <PropertyInput Id="seen" For="() => Model.Seen" Minimum="SeenFrom" />
+    <PropertyInput Id="born" For="() => Model.Born" Maximum="BornBy" />
+</EditForm>
+
+@code {
+    [Parameter]
+    public Account Model { get; set; } = new();
+
+    private static readonly object Earliest = new DateTime(2026, 1, 2);
+
+    private static readonly object OpensAt = new TimeOnly(9, 0);
+
+    private static readonly object SeenFrom = new DateTimeOffset(2026, 1, 2, 8, 0, 0, TimeSpan.Zero);
+
+    private static readonly object BornBy = new DateOnly(2010, 6, 30);
+
+    private static readonly object Latest = new DateTime(2026, 12, 30);
+}

@@ -283,9 +283,10 @@ public class ComponentService
             ["transferlist"] = new ComponentInfo { Name = "TransferList", Category = "Inputs", Description = "Dual-list selector for moving items between lists" },
             ["imagecropper"] = new ComponentInfo { Name = "ImageCropper", Category = "Inputs", Description = "Pointer and keyboard image cropping with zoom and rotation", HasCss = true, HasJavaScript = true },
 
-            // Form Components (7 components)
+            // Form Components (8 components)
             ["form"] = new ComponentInfo { Name = "Form", Category = "Form", Description = "Building forms with validation", HasCss = false },
             ["formfield"] = new ComponentInfo { Name = "FormField", Category = "Form", Description = "A form field wrapper", HasCss = false },
+            ["propertyinput"] = new ComponentInfo { Name = "PropertyInput", Category = "Form", Description = "A form field written in one line: the control, label and limits come from the property", HasCss = false },
             ["formlabel"] = new ComponentInfo { Name = "FormLabel", Category = "Form", Description = "Renders an accessible label associated with controls", HasCss = false },
             ["formmessage"] = new ComponentInfo { Name = "FormMessage", Category = "Form", Description = "Displays form validation messages", HasCss = false },
             ["label"] = new ComponentInfo { Name = "Label", Category = "Form", Description = "Renders an accessible label associated with controls", HasCss = false },

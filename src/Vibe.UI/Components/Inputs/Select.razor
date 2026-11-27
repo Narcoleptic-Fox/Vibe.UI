@@ -213,7 +213,7 @@
         var selected = args.Value?.ToString() ?? string.Empty;
 
         // The converter also rejects a number that is not a defined enum value, such as "99".
-        if (!BindConverter.TryConvertTo<TValue>(selected, CultureInfo.InvariantCulture, out var value))
+        if (!TryConvert(selected, out var value))
         {
             // Dropping it would leave the control showing one thing and the model holding another.
             throw new InvalidOperationException(
@@ -232,6 +232,25 @@
         {
             await OnChange.InvokeAsync(args);
         }
+    }
+
+    private static bool TryConvert(string text, out TValue? value)
+    {
+        if (ValueType != typeof(bool))
+        {
+            return BindConverter.TryConvertTo<TValue>(text, CultureInfo.InvariantCulture, out value);
+        }
+
+        // The framework's converter takes a bool only as a bool, which is what a checkbox sends.
+        // An option sends text, so "True" has to be read here.
+        if (bool.TryParse(text, out var flag))
+        {
+            value = (TValue)(object)flag;
+            return true;
+        }
+
+        value = default;
+        return text.Length == 0 && Nullable.GetUnderlyingType(typeof(TValue)) is not null;
     }
 
     private Dictionary<string, object>? GetSelectAttributes()

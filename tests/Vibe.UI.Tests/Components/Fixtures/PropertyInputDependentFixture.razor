@@ -1,0 +1,49 @@
+@* Content that depends on another field's value. A PropertyInput writes the model in place, so
+   nothing re-renders this component by itself: the form has to, or the caller has to listen. *@
+@using Account = Vibe.UI.Tests.Components.Fixtures.PropertyInputFixture.Account
+@using AccountKind = Vibe.UI.Tests.Components.Fixtures.PropertyInputFixture.AccountKind
+
+@if (InForm)
+{
+    <Form Model="Model" ShowValidationSummary="false">
+        <PropertyInput Id="kind" For="() => Model.Kind" />
+        @Dependent
+    </Form>
+}
+else if (Listen)
+{
+    @* The parameter type is stated: with TValue inferred from For, the compiler accepts neither
+       an untyped lambda nor a method group here (tried 2026-11-26). *@
+    <PropertyInput Id="kind" For="() => Model.Kind" ValueChanged="(AccountKind kind) => Heard = kind" />
+    @Dependent
+}
+else
+{
+    <PropertyInput Id="kind" For="() => Model.Kind" />
+    @Dependent
+}
+
+@code {
+    [Parameter]
+    public bool InForm { get; set; }
+
+    [Parameter]
+    public bool Listen { get; set; }
+
+    // Set to hand the form another model, as a page does when it loads another record.
+    [Parameter]
+    public Account? Replacement { get; set; }
+
+    private readonly Account original = new();
+
+    public Account Model => Replacement ?? original;
+
+    public AccountKind? Heard { get; private set; }
+
+    private RenderFragment Dependent => @<text>
+        @if (Model.Kind == AccountKind.SmallCompany)
+        {
+            <p id="company-only">Company number</p>
+        }
+    </text>;
+}

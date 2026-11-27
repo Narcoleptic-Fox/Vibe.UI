@@ -84,6 +84,37 @@ public class SelectTypedValueTests : TestBase
     }
 
     [Fact]
+    public void A_bool_binds_both_ways_and_a_nullable_one_can_be_cleared()
+    {
+        // The framework's converter reads a bool only from a bool, and an option sends text.
+        bool flag = true;
+        var plain = RenderSelect<bool>(
+            flag,
+            v => flag = v,
+            "<option value='True'>Yes</option><option value='False'>No</option>"
+        );
+        plain.Find("select").GetAttribute("value").ShouldBe("True");
+        plain.Find("select").Change("False");
+        flag.ShouldBeFalse();
+
+        bool? answer = null;
+        var nullable = RenderSelect<bool?>(
+            answer,
+            v => answer = v,
+            "<option value='True'>Yes</option><option value='False'>No</option>"
+        );
+        nullable.Find("select").Change("True");
+        answer.ShouldBe(true);
+        nullable.Find("select").Change("");
+        answer.ShouldBeNull();
+
+        Should.Throw<InvalidOperationException>(() => plain.Find("select").Change("maybe"));
+        // Only the empty option clears a nullable bool. Other text is still a mistake.
+        Should.Throw<InvalidOperationException>(() => nullable.Find("select").Change("maybe"));
+        Should.Throw<InvalidOperationException>(() => plain.Find("select").Change(""));
+    }
+
+    [Fact]
     public void Guid_binds_both_ways()
     {
         Guid model = First;
