@@ -270,6 +270,10 @@ public class PropertyInputTests : TestBase
         overrides.Find("#start").GetAttribute("max").ShouldBe("2026-12-30");
         overrides.Find("#changed").GetAttribute("min").ShouldBe("2026-01-02T00:00:00");
         overrides.Find("#opens").GetAttribute("min").ShouldBe("09:00:00");
+        overrides.Find("#seen").GetAttribute("min").ShouldBe("2026-01-02T08:00:00");
+        overrides.Find("#born").GetAttribute("max").ShouldBe("2010-06-30");
+        // The call site set only the latest date; the earliest still comes from the attribute.
+        overrides.Find("#born").GetAttribute("min").ShouldBe("1900-01-01");
     }
 
     [Fact]
@@ -445,6 +449,39 @@ public class PropertyInputTests : TestBase
 
         thrown.Message.ShouldContain("Unsupported.Tags");
         thrown.Message.ShouldContain("Control");
+    }
+
+    [Fact]
+    public void A_field_with_no_For_says_what_to_write()
+    {
+        var thrown = Should.Throw<InvalidOperationException>(() => Render<PropertyInput<string>>());
+
+        thrown.Message.ShouldContain("For=\"() => model.Name\"");
+    }
+
+    [Fact]
+    public void A_Form_follows_a_new_model_and_stops_listening_to_the_old_one()
+    {
+        var page = Render<PropertyInputDependentFixture>(p => p.Add(f => f.InForm, true));
+        var form = page.FindComponent<Form<Account>>();
+        var first = page.FindComponent<EditForm>().Instance.EditContext!;
+        var renders = form.RenderCount;
+
+        page.Render(p => p.Add(f => f.InForm, true).Add(f => f.Replacement, new Account()));
+        var second = page.FindComponent<EditForm>().Instance.EditContext!;
+        second.ShouldNotBeSameAs(first);
+        renders = form.RenderCount;
+
+        // The old context is no longer this form's business.
+        page.InvokeAsync(() => first.NotifyFieldChanged(first.Field(nameof(Account.Name))));
+        form.RenderCount.ShouldBe(renders);
+
+        page.InvokeAsync(() => second.NotifyFieldChanged(second.Field(nameof(Account.Name))));
+        form.RenderCount.ShouldBeGreaterThan(renders);
+
+        // Once the form is gone, a change to its context reaches nothing.
+        page.Render(p => p.Add(f => f.InForm, false));
+        Should.NotThrow(() => page.InvokeAsync(() => second.NotifyFieldChanged(second.Field(nameof(Account.Name)))));
     }
 
     [Fact]

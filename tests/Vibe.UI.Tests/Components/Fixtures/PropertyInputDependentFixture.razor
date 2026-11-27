@@ -30,7 +30,13 @@ else
     [Parameter]
     public bool Listen { get; set; }
 
-    public Account Model { get; } = new();
+    // Set to hand the form another model, as a page does when it loads another record.
+    [Parameter]
+    public Account? Replacement { get; set; }
+
+    private readonly Account original = new();
+
+    public Account Model => Replacement ?? original;
 
     public AccountKind? Heard { get; private set; }
 

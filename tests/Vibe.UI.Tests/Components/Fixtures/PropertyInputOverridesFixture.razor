@@ -19,6 +19,8 @@
     <PropertyInput Id="start" For="() => Model.Start" Minimum="Earliest" Maximum="Latest" />
     <PropertyInput Id="changed" For="() => Model.Changed" Minimum="Earliest" />
     <PropertyInput Id="opens" For="() => Model.Opens" Minimum="OpensAt" />
+    <PropertyInput Id="seen" For="() => Model.Seen" Minimum="SeenFrom" />
+    <PropertyInput Id="born" For="() => Model.Born" Maximum="BornBy" />
 </EditForm>
 
 @code {
@@ -28,6 +30,10 @@
     private static readonly object Earliest = new DateTime(2026, 1, 2);
 
     private static readonly object OpensAt = new TimeOnly(9, 0);
+
+    private static readonly object SeenFrom = new DateTimeOffset(2026, 1, 2, 8, 0, 0, TimeSpan.Zero);
+
+    private static readonly object BornBy = new DateOnly(2010, 6, 30);
 
     private static readonly object Latest = new DateTime(2026, 12, 30);
 }

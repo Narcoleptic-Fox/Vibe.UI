@@ -288,8 +288,7 @@
         TimeOnly time => time.ToString("HH:mm:ss", CultureInfo.InvariantCulture),
         DateTime dateTime => dateTime.ToString(DateTimeLimitFormat, CultureInfo.InvariantCulture),
         DateTimeOffset offset => offset.ToString(DateTimeLimitFormat, CultureInfo.InvariantCulture),
-        IFormattable formattable => formattable.ToString(null, CultureInfo.InvariantCulture),
-        _ => limit.ToString(),
+        _ => Convert.ToString(limit, CultureInfo.InvariantCulture),
     };
 
     private string DateTimeLimitFormat => inputType == "date" ? "yyyy-MM-dd" : "yyyy-MM-ddTHH:mm:ss";
