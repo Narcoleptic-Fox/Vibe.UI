@@ -88,7 +88,8 @@
             <p class="vibe-text-muted-foreground vibe-mb-3">
                 <code>Control</code> replaces the control the type would get. It must take
                 <code>Value</code> and <code>ValueChanged</code> of the property's type, and it is
-                given <code>ValueExpression</code> when it has one, which is how it tells the form.
+                given <code>ValueExpression</code> when it has one, which is how it tells the form,
+                and <code>Id</code> when it has one, which is what the label points at.
                 A model profile can name it once for every form: <code>Control&lt;T&gt;()</code>.
             </p>
             <CodeBlock Code="@ControlCode" Language="razor" />
@@ -135,10 +136,14 @@
                 untyped lambda and a method group here, as it does for the typed inputs.
             </li>
             <li><code>Format</code> from the metadata is not applied. A browser input shows its own format.</li>
-            <li>Today, a named control gets no id, so the label's <code>for</code> points at nothing.</li>
             <li>
-                A named control gets only <code>Value</code>, <code>ValueChanged</code> and
-                <code>ValueExpression</code>. A control that needs more, such as a
+                A named control that has no <code>Id</code> parameter and does not read the
+                cascaded <code>FormFieldContext</code> leaves the label's <code>for</code>
+                pointing at nothing. <code>RadioGroup</code> is one.
+            </li>
+            <li>
+                A named control gets only <code>Value</code>, <code>ValueChanged</code>,
+                <code>ValueExpression</code> and <code>Id</code>. A control that needs more, such as a
                 <code>Combobox</code> with its options, goes in a <code>FormField</code> of its own.
             </li>
             <li>
@@ -146,6 +151,10 @@
                 plain <code>EditForm</code> or outside a form it needs <code>ValueChanged</code>.
             </li>
             <li>A call-site limit sets the input's limit, not the validation rule.</li>
+            <li>
+                <code>Required="true"</code> on the line for a <code>bool</code> means "must be
+                ticked". Required that comes from the model never does.
+            </li>
         </ul>
     </section>
 
