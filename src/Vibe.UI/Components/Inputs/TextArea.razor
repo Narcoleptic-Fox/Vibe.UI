@@ -1,4 +1,7 @@
 @namespace Vibe.UI.Components
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
+@implements IDisposable
 @inherits Vibe.UI.Base.VibeComponent
 
 <textarea @attributes="GetTextAreaAttributes()" id="@EffectiveId" class="@CombinedClass" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" rows="@Rows"
@@ -6,7 +9,11 @@
 
 @code {
     private readonly string _generatedId = Guid.NewGuid().ToString("N");
+    private readonly EditContextField formField = new();
     private string currentValue = string.Empty;
+
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
 
     [CascadingParameter]
     private FormFieldContext? FieldContext { get; set; }
@@ -54,6 +61,13 @@
     public EventCallback<string?> ValueChanged { get; set; }
 
     /// <summary>
+    /// Names the bound property to the form. <c>@bind-Value</c> supplies it; it is what lets the
+    /// component tell an <see cref="EditContext"/> which field changed.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<string?>>? ValueExpression { get; set; }
+
+    /// <summary>
     /// Gets or sets the callback for when the input event occurs
     /// </summary>
     [Parameter]
@@ -75,8 +89,11 @@
 
     protected override void OnParametersSet()
     {
+        formField.Update(EditContext, ValueExpression);
         currentValue = Value ?? string.Empty;
     }
+
+    public void Dispose() => formField.Dispose();
 
     private async Task OnInputHandler(ChangeEventArgs args)
     {
@@ -112,6 +129,17 @@
         {
             await OnChange.InvokeAsync(args);
         }
+
+        // The binding follows every key. If a change arrives with text no key reported, such as
+        // one a script or an autofill wrote, it is reported here before the form is told.
+        if (args.Value is string value && value != currentValue)
+        {
+            currentValue = value;
+            await ValueChanged.InvokeAsync(value);
+        }
+
+        // The form hears once the text is committed, not on each key, as the typed Input does.
+        formField.NotifyChanged();
     }
 
     private Dictionary<string, object>? GetTextAreaAttributes()
