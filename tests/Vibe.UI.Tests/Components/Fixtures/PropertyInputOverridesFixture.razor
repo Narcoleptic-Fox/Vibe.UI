@@ -11,6 +11,10 @@
     <PropertyInput Id="age" For="() => Model.Age" Class="wide" data-field="age" Required="true" Minimum="21" Maximum="65" />
     <PropertyInput Id="seats" For="() => Model.Seats" Label="" />
     <PropertyInput Id="active" For="() => Model.IsActive" Label="Enabled" Disabled="true" />
+    <PropertyInput Id="notes" For="() => Model.Notes" Disabled="true" />
+
+    @* Said at the call site, several lines is enough to pick the textarea. *@
+    <PropertyInput Id="title" For="() => Model.Title" DataType="DataType.MultilineText" />
     <PropertyInput Id="picker" For="() => Model.Seats" Control="typeof(SeatPicker)" />
 
     @* A named control that can name its field to the form is given the expression to do it. *@

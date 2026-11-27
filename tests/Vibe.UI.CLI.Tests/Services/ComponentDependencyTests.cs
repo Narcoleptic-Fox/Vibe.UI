@@ -30,6 +30,8 @@ public class ComponentDependencyTests
     [InlineData("treeview", new[] { "Icon", "TreeViewNode" })]
     // A companion the parent never names in its own source: declared in the registry.
     [InlineData("radiogroup", new[] { "RadioGroupItem" })]
+    // Every control PropertyInput can pick, so vibe add propertyinput leaves nothing unresolved.
+    [InlineData("propertyinput", new[] { "Checkbox", "FormField", "Icon", "Input", "Select", "TextArea" })]
     [InlineData("button", new string[0])]
     public void GetRequiredComponents_ReturnsTheTransitiveSet(
         string componentName,

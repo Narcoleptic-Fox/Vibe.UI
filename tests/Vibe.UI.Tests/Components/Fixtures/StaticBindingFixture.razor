@@ -4,6 +4,7 @@
 <Checkbox Id="shared-checkbox" @bind-Checked="SharedFlag" />
 <Switch Id="shared-switch" @bind-Checked="SharedFlag" />
 <DatePicker @bind-Date="SharedDate" />
+<TextArea Id="shared-notes" @bind-Value="Shared" />
 
 @code {
     public static string? Shared { get; set; }

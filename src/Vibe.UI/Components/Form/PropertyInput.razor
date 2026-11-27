@@ -34,6 +34,13 @@
                     ChildContent="@(ValueType == typeof(bool) ? YesNoOptions : null)" />
             break;
 
+        case ControlKind.TextArea:
+            <TextArea Value="@((string?)(object?)binding.Value)"
+                      ValueChanged="@(EventCallback.Factory.Create<string?>(this, value => WriteAsync((TValue?)(object?)value)))"
+                      ValueExpression="@((Expression<Func<string?>>)(object)For)"
+                      Placeholder="@metadata.Placeholder" Disabled="@Disabled" @attributes="inputAttributes" />
+            break;
+
         default:
             <Input TValue="TValue" Value="@binding.Value"
                    ValueChanged="@(EventCallback.Factory.Create<TValue?>(this, WriteAsync))"
@@ -49,6 +56,7 @@
         Input,
         Select,
         Checkbox,
+        TextArea,
         Custom,
     }
 
@@ -193,7 +201,7 @@
 
         kind = PickControl();
         inputType = kind == ControlKind.Input ? InputTypeFor(metadata.DataType) : null;
-        inputAttributes = kind == ControlKind.Input ? BuildInputAttributes() : null;
+        inputAttributes = kind is ControlKind.Input or ControlKind.TextArea ? BuildInputAttributes() : null;
     }
 
     private ControlKind PickControl()
@@ -211,6 +219,13 @@
         if (ValueType.IsEnum)
         {
             return ControlKind.Select;
+        }
+
+        // Text meant to run over several lines: notes, a description, an address.
+        if (ValueType == typeof(string)
+            && metadata.DataType == System.ComponentModel.DataAnnotations.DataType.MultilineText)
+        {
+            return ControlKind.TextArea;
         }
 
         if (InputTypes.Contains(ValueType))
