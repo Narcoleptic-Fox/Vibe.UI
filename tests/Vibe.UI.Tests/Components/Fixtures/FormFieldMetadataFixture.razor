@@ -39,6 +39,10 @@
         </Select>
     </FormField>
 
+    <FormField Id="reference" For="() => Loose.Reference">
+        <output id="reference">@Loose.Reference</output>
+    </FormField>
+
     <FormField TValue="string" Id="plain" Label="Plain">
         <input id="plain" />
     </FormField>
@@ -51,6 +55,10 @@
 
         [System.ComponentModel.DataAnnotations.Required]
         public bool? Answered { get; set; }
+
+        // Read-only: a wrapper shows it and its label, and never writes it.
+        [System.ComponentModel.DataAnnotations.Display(Name = "Order reference")]
+        public string Reference => "R-1";
     }
 
     [Parameter]

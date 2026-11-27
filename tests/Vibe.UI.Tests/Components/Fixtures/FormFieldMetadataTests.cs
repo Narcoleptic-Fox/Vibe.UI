@@ -104,6 +104,14 @@ public class FormFieldMetadataTests : TestBase
     }
 
     [Fact]
+    public void A_property_with_no_setter_still_gets_its_label_from_the_metadata()
+    {
+        RenderForm();
+
+        Label("reference").TextContent.Trim().ShouldBe("Order reference");
+    }
+
+    [Fact]
     public void Without_the_metadata_services_a_field_still_shows_what_the_call_site_says()
     {
         // An app that never called AddVibeUI: nothing is registered.
