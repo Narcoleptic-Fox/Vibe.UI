@@ -156,7 +156,7 @@
                                         aria-current="@(day.IsToday ? "date" : null)"
                                         aria-selected="@AriaBool(IsStartSelected(day))"
                                         @onfocus="() => HandleDayFocus(day.Date, true)"
-                                        @onkeydown="e => HandleDayKeyDown(e, day.Date, true)"
+                                        @onkeydown="e => HandleDayKeyDown(e, day.Date)"
                                         @onclick="() => SelectStartDate(day.Date)">
                                         @day.DayNumber
                                     </button>
@@ -195,7 +195,7 @@
                                         aria-current="@(day.IsToday ? "date" : null)"
                                         aria-selected="@AriaBool(IsEndSelected(day))"
                                         @onfocus="() => HandleDayFocus(day.Date, false)"
-                                        @onkeydown="e => HandleDayKeyDown(e, day.Date, false)"
+                                        @onkeydown="e => HandleDayKeyDown(e, day.Date)"
                                         @onclick="() => SelectEndDate(day.Date)">
                                         @day.DayNumber
                                     </button>
@@ -524,7 +524,7 @@
         _focusedDate = date.Date;
     }
 
-    private void HandleDayKeyDown(KeyboardEventArgs args, DateTime date, bool isStartCalendar)
+    private void HandleDayKeyDown(KeyboardEventArgs args, DateTime date)
     {
         var dayOffset = args.Key switch
         {
@@ -541,14 +541,7 @@
             // focus call for the last move completes, the browser can still have focus on the
             // previous day (or on the start calendar after a start date was picked), and a second
             // key from there would repeat or misplace the first move.
-            if (_focusedDate.HasValue)
-            {
-                MoveDayFocus(_focusedDate.Value, dayOffset, StartDateFocused);
-            }
-            else
-            {
-                MoveDayFocus(date, dayOffset, isStartCalendar);
-            }
+            MoveDayFocus(_focusedDate ?? date, dayOffset, StartDateFocused);
         }
     }
 
