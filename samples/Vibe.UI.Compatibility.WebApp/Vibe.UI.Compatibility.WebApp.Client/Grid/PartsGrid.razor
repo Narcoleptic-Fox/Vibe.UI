@@ -1,0 +1,48 @@
+@* A list page's grid as one component: the provider, the columns and the grid itself. A static
+   page hosts it with @rendermode and passes only Mode, a string. The provider is a delegate and
+   the columns are child content, and neither can cross from a static page to an interactive
+   component, so they never leave this one. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<section data-testid="grid-@Mode">
+    <VibeGrid TGridItem="Part" ItemsProvider="Provide" ItemKey="part => part.Id">
+        <PropertyColumn Property="part => part.Name" Sortable="true" />
+        <PropertyColumn Property="part => part.Stock" Sortable="true" Align="Align.End" />
+    </VibeGrid>
+
+    <p data-testid="grid-@Mode-requests">Requests: @requests</p>
+    <button type="button" data-testid="grid-@Mode-poke" @onclick="() => pokes++">Poked @pokes</button>
+</section>
+
+@code {
+    public sealed record Part(int Id, string Name, int Stock);
+
+    private static readonly List<Part> Parts = Enumerable
+        .Range(1, 95)
+        .Select(i => new Part(i, $"Part {i:000}", i % 7))
+        .ToList();
+
+    private int requests;
+    private int pokes;
+
+    /// <summary>Names the hosting render mode in the test ids, so each page can be told apart.</summary>
+    [Parameter, EditorRequired]
+    public string Mode { get; set; } = string.Empty;
+
+    private ValueTask<VibeGridPage<Part>> Provide(VibeGridRequest request)
+    {
+        requests++;
+        IEnumerable<Part> ordered = (request.SortBy, request.SortDescending) switch
+        {
+            (nameof(Part.Stock), false) => Parts.OrderBy(part => part.Stock).ThenBy(part => part.Id),
+            (nameof(Part.Stock), true) => Parts.OrderByDescending(part => part.Stock).ThenBy(part => part.Id),
+            (nameof(Part.Name), true) => Parts.OrderByDescending(part => part.Name),
+            _ => Parts,
+        };
+        List<Part> page = ordered.Skip(request.Page * request.PageSize).Take(request.PageSize).ToList();
+
+        // The count is drawn by this component, which the grid does not render.
+        _ = InvokeAsync(StateHasChanged);
+        return ValueTask.FromResult(new VibeGridPage<Part>(page, Parts.Count));
+    }
+}
