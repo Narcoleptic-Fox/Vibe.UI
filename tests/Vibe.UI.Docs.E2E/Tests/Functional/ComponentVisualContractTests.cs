@@ -924,6 +924,10 @@ public class ComponentVisualContractTests : E2ETestBase
     [Fact]
     public async Task ConfettiRendersCanvasPixelsAndCleansUpAfterCompletion()
     {
+        // Confetti is motion, and the component draws none when motion is reduced, so this one
+        // test puts the preference back.
+        await Page.EmulateMediaAsync(new() { ReducedMotion = ReducedMotion.NoPreference });
+
         await Page.SetViewportSizeAsync(390, 844);
         await NavigateAndWaitForBlazorAsync("/components/confetti");
 
