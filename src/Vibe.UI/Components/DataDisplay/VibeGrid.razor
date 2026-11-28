@@ -42,6 +42,10 @@
     // Set by RefreshAsync: the next question goes to the provider whatever is remembered.
     private bool mustFetch;
 
+    // Cancelled when the grid is disposed. QuickGrid cancels a question when it asks a newer
+    // one, but not when it is taken off the page, so a question still out would run on.
+    private readonly CancellationTokenSource disposal = new();
+
     public VibeGrid()
     {
         provider = ProvideAsync;
@@ -134,9 +138,12 @@
         else
         {
             mustFetch = false;
+            using var stopped = CancellationTokenSource.CreateLinkedTokenSource(
+                request.CancellationToken, disposal.Token);
+
             // With a pagination state the start is always a whole number of pages.
             page = await ItemsProvider(new VibeGridRequest(
-                request.StartIndex / pageSize, pageSize, sort.PropertyName, descending, request.CancellationToken));
+                request.StartIndex / pageSize, pageSize, sort.PropertyName, descending, stopped.Token));
             last = (key, page);
         }
 
@@ -148,7 +155,12 @@
     private void OnTotalItemCountChanged(object? sender, int? total) => _ = InvokeAsync(StateHasChanged);
 
     /// <inheritdoc />
-    public void Dispose() => pagination.TotalItemCountChanged -= OnTotalItemCountChanged;
+    public void Dispose()
+    {
+        pagination.TotalItemCountChanged -= OnTotalItemCountChanged;
+        disposal.Cancel();
+        disposal.Dispose();
+    }
 
     private readonly record struct RequestKey(int StartIndex, int PageSize, string? SortBy, bool SortDescending);
 }
