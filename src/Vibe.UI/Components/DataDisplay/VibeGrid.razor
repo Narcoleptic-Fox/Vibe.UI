@@ -112,6 +112,16 @@
     [Parameter]
     public string? StateKey { get; set; }
 
+    /// <summary>
+    /// Whether the page fetched while prerendering is kept for the interactive render. On by
+    /// default. The page is kept as JSON, and the grid drops it when the rows do not read back as
+    /// written. It cannot tell when a row was written short: a member marked
+    /// <c>[JsonIgnore]</c>, or a public field, is left out and comes back empty. Over rows like
+    /// that, set this to <see langword="false"/> and the grid fetches again once interactive.
+    /// </summary>
+    [Parameter]
+    public bool KeepPrerenderedPage { get; set; } = true;
+
     /// <inheritdoc />
     protected override string ComponentClass => "vibe-grid";
 
@@ -134,7 +144,7 @@
         // That host is every component test that does not ask for one, and nothing past this
         // point is reached there: such a test need not say how it is being rendered.
         keptState = Services.GetService(typeof(PersistentComponentState)) as PersistentComponentState;
-        if (keptState is null)
+        if (keptState is null || !KeepPrerenderedPage)
         {
             return;
         }

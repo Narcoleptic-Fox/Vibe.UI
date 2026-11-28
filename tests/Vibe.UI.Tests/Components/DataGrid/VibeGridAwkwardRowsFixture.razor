@@ -15,6 +15,12 @@
             <PropertyColumn Property="row => row.Name" />
         </VibeGrid>
         break;
+    case Kind.HideAMember:
+        <VibeGrid TGridItem="Hidden" ItemsProvider="ProvideHidden" PageSize="5" KeepPrerenderedPage="@Keep">
+            <PropertyColumn Property="row => row.Name" />
+            <TemplateColumn Title="Owner"><span class="owner">@context.Owner?.Name</span></TemplateColumn>
+        </VibeGrid>
+        break;
     case Kind.CarryACallback:
         <VibeGrid TGridItem="WithCallback" ItemsProvider="ProvideCallbacks" PageSize="5">
             <PropertyColumn Property="row => row.Name" />
@@ -33,6 +39,7 @@
         ReferToThemselves,
         CannotBeRebuilt,
         CarryACallback,
+        HideAMember,
         ComeBackEmpty,
     }
 
@@ -84,8 +91,24 @@
         public Action? Open { get; set; }
     }
 
+    /// <summary>
+    /// A row with a member JSON is told not to write, as an entity has for the thing it belongs
+    /// to. Nothing fails: the row is written without it and comes back without it.
+    /// </summary>
+    public sealed class Hidden
+    {
+        public string Name { get; set; } = "";
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        public Hidden? Owner { get; set; }
+    }
+
     [Parameter]
     public Kind Rows { get; set; }
+
+    /// <summary>Passed to the grid over rows that hide a member.</summary>
+    [Parameter]
+    public bool Keep { get; set; } = true;
 
     /// <summary>How many times a provider was asked.</summary>
     public int Requests { get; private set; }
@@ -123,6 +146,16 @@
             .Select(i => new WithCallback { Name = "Callback " + i, Open = () => { } })
             .ToList();
         return ValueTask.FromResult(new VibeGridPage<WithCallback>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<Hidden>> ProvideHidden(VibeGridRequest request)
+    {
+        Requests++;
+        List<Hidden> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => new Hidden { Name = "Hidden " + i, Owner = new Hidden { Name = "Owner " + i } })
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<Hidden>(rows, 40));
     }
 
     private ValueTask<VibeGridPage<Lossy>> ProvideLossy(VibeGridRequest request)

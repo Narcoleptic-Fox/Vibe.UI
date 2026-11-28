@@ -1,3 +1,4 @@
+using Hidden = Vibe.UI.Tests.Components.DataGrid.VibeGridAwkwardRowsFixture.Hidden;
 using Kind = Vibe.UI.Tests.Components.DataGrid.VibeGridAwkwardRowsFixture.Kind;
 using Loop = Vibe.UI.Tests.Components.DataGrid.VibeGridAwkwardRowsFixture.Loop;
 using Lossy = Vibe.UI.Tests.Components.DataGrid.VibeGridAwkwardRowsFixture.Lossy;
@@ -33,6 +34,51 @@ public class VibeGridAwkwardRowsTests : GridTestBase
             more?.Invoke(p);
         });
         page.WaitForAssertion(() => page.FindAll("tbody tr[aria-rowindex]").Count.ShouldBe(5));
+    }
+
+    private string FirstOwner() => page.Find("tbody tr[aria-rowindex] .owner").TextContent.Trim();
+
+    [Fact]
+    public void A_member_JSON_is_told_not_to_write_comes_back_empty_and_the_grid_cannot_tell()
+    {
+        // The limit of the handoff, pinned so that it is not rediscovered: the kept page reads
+        // back as exactly what was written, so nothing marks it as short of a member. This is
+        // what KeepPrerenderedPage is for.
+        Prerender(Kind.HideAMember);
+        FirstOwner().ShouldBe("Owner 1");
+        string kept = KeptAfterPrerender<Hidden>().ShouldNotBeNull();
+
+        KeptState.Persist(KeptPageName<Hidden>(), kept);
+        RenderAs(interactive: true);
+        RenderRows(Kind.HideAMember);
+
+        page.Instance.Requests.ShouldBe(0);
+        FirstCell().ShouldBe("Hidden 1");
+        FirstOwner().ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Told_not_to_keep_its_page_the_grid_keeps_nothing_while_prerendering()
+    {
+        RenderAs(interactive: false);
+        RenderRows(Kind.HideAMember, p => p.Add(f => f.Keep, false).SetAssignedRenderMode(Interactive));
+
+        KeptAfterPrerender<Hidden>().ShouldBeNull();
+    }
+
+    [Fact]
+    public void Told_not_to_keep_its_page_the_grid_fetches_and_leaves_a_kept_page_alone()
+    {
+        Prerender(Kind.HideAMember);
+        string kept = KeptAfterPrerender<Hidden>().ShouldNotBeNull();
+
+        KeptState.Persist(KeptPageName<Hidden>(), kept);
+        RenderAs(interactive: true);
+        RenderRows(Kind.HideAMember, p => p.Add(f => f.Keep, false));
+
+        page.Instance.Requests.ShouldBe(1);
+        FirstOwner().ShouldBe("Owner 1");
+        KeptState.TryTake(KeptPageName<Hidden>(), out string? _).ShouldBeTrue();
     }
 
     private string FirstCell() => page.Find("tbody tr[aria-rowindex] td").TextContent.Trim();
