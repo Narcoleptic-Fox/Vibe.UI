@@ -1,0 +1,52 @@
+@* A form over an immutable command, written as a CRISP page writes it: the model is a record
+   whose properties are all init-only, the rules live in a validator, and each field is one line.
+   InitOnlyRecordFormTests drives this. @bind-Value would not compile against these properties,
+   so PropertyInput is the only thing here that writes. *@
+@using Vibe.UI.FluentValidation
+@using Vibe.UI.Metadata
+@inject IPropertyMetadataResolver Metadata
+
+<Form Model="Command" EnableDataAnnotationsValidator="false" ShowValidationSummary="false"
+      OnValidSubmit="Submitted">
+    <FluentValidator Validator="validator" />
+
+    <PropertyInput Id="name" For="() => Command.Name" />
+    <PropertyInput Id="description" For="() => Command.Description" />
+    <PropertyInput Id="quantity" For="() => Command.Quantity" />
+    <PropertyInput Id="active" For="() => Command.IsActive" />
+    <PropertyInput Id="shipped" For="() => Command.Shipped" />
+
+    @* A control the page wires by hand, which is what a Combobox with its options needs.
+       It cannot assign the property, so it writes through the resolver. *@
+    <FormField Id="owner" For="() => Command.Owner">
+        <Combobox Options="owners" Value="Command.Owner"
+                  ValueExpression="() => Command.Owner"
+                  ValueChanged="(string? owner) => Metadata.Bind(() => Command.Owner).Value = owner" />
+    </FormField>
+
+    <button id="save" type="submit">Save</button>
+</Form>
+
+@* Something else on the page that changes, so the page renders again around the form. *@
+<p id="ticks">@Ticks</p>
+
+@code {
+    private readonly UpdateStockValidator validator = new();
+
+    private readonly List<ComboboxOption<string>> owners =
+    [
+        new() { Value = "ada", Label = "Ada" },
+        new() { Value = "grace", Label = "Grace" },
+    ];
+
+    [Parameter]
+    public UpdateStock Command { get; set; } = new();
+
+    [Parameter]
+    public int Ticks { get; set; }
+
+    /// <summary>What the page was handed when the form was submitted valid.</summary>
+    public EditContext? Submission { get; private set; }
+
+    private void Submitted(EditContext context) => Submission = context;
+}
