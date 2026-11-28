@@ -1,0 +1,140 @@
+/* ========================================
+   VIBE GRID - SCOPED STYLES
+   ========================================
+   The "vibe" theme for Microsoft's QuickGrid. Asking QuickGrid for a theme other than its
+   default drops every rule in its own Themes/Default.css, so all that is left to style over is
+   its structural CSS. The table is QuickGrid's markup, a child component's, so every rule
+   reaches it from this component's root.
+
+   Rules marked OVERRIDE exist only to undo a value QuickGrid hard-codes.
+   No rule here needs the important flag, and VibeGridThemeTests keeps it that way. */
+
+.vibe-grid {
+  width: 100%;
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--vibe-foreground);
+}
+
+/* ----------------------------------------
+   HEADER AND CELLS
+   ---------------------------------------- */
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] > thead > tr > th {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--vibe-border);
+  color: var(--vibe-muted-foreground);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] > tbody > tr > td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--vibe-border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Data rows carry aria-rowindex. The rows QuickGrid adds to pad a short last page do not. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] > tbody > tr[aria-rowindex]:hover {
+  background: var(--vibe-accent);
+}
+
+.vibe-grid
+  ::deep
+  .quickgrid[theme="vibe"]
+  > tbody
+  > tr:not([aria-rowindex])
+  > td {
+  border-bottom-color: transparent;
+  height: 2.75rem;
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"].loading > tbody {
+  opacity: 0.5;
+  transition: opacity 100ms linear 25ms;
+}
+
+/* ----------------------------------------
+   SORTABLE TITLES
+   ---------------------------------------- */
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-title {
+  gap: 0.25rem;
+  color: inherit;
+  font: inherit;
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] button.col-title:hover {
+  color: var(--vibe-foreground);
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] button.col-title:focus-visible,
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-options-button:focus-visible {
+  outline: 2px solid var(--vibe-ring);
+  outline-offset: 2px;
+  border-radius: var(--vibe-radius-sm);
+}
+
+/* OVERRIDE 1: the sort arrow is a black background image. Repainted as a mask, it follows the
+   text colour, in dark mode too. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-sort-asc .sort-indicator,
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-sort-desc .sort-indicator {
+  background-image: none;
+  background-color: currentColor;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 2 3.25 L 12 20.75 L 22 3.25 L 12 10 z" /></svg>')
+    center / 0.75rem no-repeat;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 2 3.25 L 12 20.75 L 22 3.25 L 12 10 z" /></svg>')
+    center / 0.75rem no-repeat;
+}
+
+/* ----------------------------------------
+   COLUMN OPTIONS (FILTERS)
+   ---------------------------------------- */
+
+/* OVERRIDE 2: the options button draws currentColor inside a data URL, where it stays black. */
+.vibe-grid
+  ::deep
+  .quickgrid[theme="vibe"]
+  > thead
+  > tr
+  > th
+  .col-options-button {
+  width: 1.25rem;
+  margin-left: 0.25rem;
+  cursor: pointer;
+  background: currentColor;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M7 12h10M10 19h4" /></svg>')
+    center / 0.9rem no-repeat;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"><path d="M3 5h18M7 12h10M10 19h4" /></svg>')
+    center / 0.9rem no-repeat;
+}
+
+/* OVERRIDE 3: the options popup is hard-coded white with a silver border. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] > thead > tr > th > .col-options {
+  min-width: 14rem;
+  margin-top: 0.25rem;
+  padding: 0.75rem;
+  background: var(--vibe-popover);
+  color: var(--vibe-popover-foreground);
+  border: 1px solid var(--vibe-border);
+  border-radius: var(--vibe-radius-md);
+  box-shadow: var(--vibe-shadow-md);
+}
+
+/* ----------------------------------------
+   PAGINATOR
+   ---------------------------------------- */
+
+.vibe-grid-pager {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
