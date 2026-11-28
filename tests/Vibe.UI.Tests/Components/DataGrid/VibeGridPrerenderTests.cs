@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AngleSharp.Dom;
 using Vibe.UI.Components;
 using Part = Vibe.UI.Tests.Components.DataGrid.VibeGridFixture.Part;
@@ -29,7 +30,10 @@ public class VibeGridPrerenderTests : GridTestBase
 
     // The interactive grid is a new object. The framework gives it the kept page before it starts.
     private void StartWith(VibeGridSnapshot<Part> kept) =>
-        ComponentFactories.Add<VibeGrid<Part>>(() => new VibeGrid<Part> { PrerenderedPage = kept });
+        StartWith(JsonSerializer.Serialize(kept));
+
+    private void StartWith(string keptJson) =>
+        ComponentFactories.Add<VibeGrid<Part>>(() => new VibeGrid<Part> { PrerenderedPage = keptJson });
 
     private static VibeGridSnapshot<Part> KeptPage(int pageSize = 10, string? sortBy = null) =>
         new(
@@ -51,7 +55,8 @@ public class VibeGridPrerenderTests : GridTestBase
         RenderPage();
 
         Requests.Count.ShouldBe(1);
-        VibeGridSnapshot<Part> kept = page.Instance.Grid.PrerenderedPage.ShouldNotBeNull();
+        string json = page.Instance.Grid.PrerenderedPage.ShouldNotBeNull();
+        VibeGridSnapshot<Part> kept = JsonSerializer.Deserialize<VibeGridSnapshot<Part>>(json).ShouldNotBeNull();
         kept.StartIndex.ShouldBe(0);
         kept.PageSize.ShouldBe(10);
         kept.SortBy.ShouldBeNull();
@@ -129,5 +134,21 @@ public class VibeGridPrerenderTests : GridTestBase
         Requests.Count.ShouldBe(1);
         Requests[0].SortBy.ShouldBeNull();
         FirstCell().ShouldBe("Part 001");
+    }
+
+    [Theory]
+    [InlineData("not json at all")]
+    [InlineData("{}")]
+    [InlineData("null")]
+    [InlineData("{\"StartIndex\":0,\"PageSize\":10,\"Page\":null}")]
+    public void Kept_text_that_is_not_a_page_is_ignored_and_the_grid_fetches(string keptJson)
+    {
+        StartWith(keptJson);
+
+        RenderPage();
+
+        Requests.Count.ShouldBe(1);
+        FirstCell().ShouldBe("Part 001");
+        page.Instance.Grid.PrerenderedPage.ShouldBeNull();
     }
 }

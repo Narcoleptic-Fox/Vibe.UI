@@ -1,0 +1,81 @@
+@* Two row types that do not survive being kept as JSON. A page over either worked before the
+   grid kept anything, so it has to go on working: at the cost of one more request, never of the
+   page. VibeGridAwkwardRowsTests drives this. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@if (RowsReferToThemselves)
+{
+    <VibeGrid @ref="Looped" TGridItem="Loop" ItemsProvider="ProvideLoops" PageSize="5">
+        <PropertyColumn Property="row => row.Name" />
+    </VibeGrid>
+}
+else
+{
+    <VibeGrid @ref="Closed" TGridItem="NotRebuildable" ItemsProvider="ProvideClosed" PageSize="5">
+        <PropertyColumn Property="row => row.Name" />
+    </VibeGrid>
+}
+
+@code {
+    /// <summary>A row that points back at itself: JSON cannot write it.</summary>
+    public sealed class Loop
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; } = "";
+
+        public Loop? Self { get; set; }
+    }
+
+    /// <summary>
+    /// A row JSON can write but cannot rebuild: it has no parameterless constructor, and none
+    /// whose parameters are named after its properties.
+    /// </summary>
+    public sealed class NotRebuildable
+    {
+        public NotRebuildable(int key, string label)
+        {
+            Id = key;
+            Name = label;
+        }
+
+        public int Id { get; }
+
+        public string Name { get; }
+    }
+
+    [Parameter]
+    public bool RowsReferToThemselves { get; set; }
+
+    public VibeGrid<Loop>? Looped { get; private set; }
+
+    public VibeGrid<NotRebuildable>? Closed { get; private set; }
+
+    /// <summary>How many times a provider was asked.</summary>
+    public int Requests { get; private set; }
+
+    private ValueTask<VibeGridPage<Loop>> ProvideLoops(VibeGridRequest request)
+    {
+        Requests++;
+        List<Loop> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i =>
+            {
+                var row = new Loop { Id = i, Name = "Loop " + i };
+                row.Self = row;
+                return row;
+            })
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<Loop>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<NotRebuildable>> ProvideClosed(VibeGridRequest request)
+    {
+        Requests++;
+        List<NotRebuildable> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => new NotRebuildable(i, "Closed " + i))
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<NotRebuildable>(rows, 40));
+    }
+}

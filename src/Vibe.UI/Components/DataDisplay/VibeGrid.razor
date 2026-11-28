@@ -1,4 +1,5 @@
 @namespace Vibe.UI.Components
+@using System.Text.Json
 @using Microsoft.AspNetCore.Components.QuickGrid
 @typeparam TGridItem
 @* Named as QuickGrid names it, and cascaded, so that a PropertyColumn written inside
@@ -89,11 +90,16 @@
 
     /// <summary>
     /// Set by the framework, not by a page. The page fetched while the server prerenders is
-    /// kept here, so the interactive render that follows starts with it and does not fetch
-    /// it a second time. It is empty at every other moment.
+    /// kept here, as JSON, so the interactive render that follows starts with it and does not
+    /// fetch it a second time. It is empty at every other moment.
     /// </summary>
+    /// <remarks>
+    /// It is text, written and read by the grid itself, so that a row type JSON cannot write or
+    /// cannot rebuild costs one more request and not the page: handed to the framework as an
+    /// object, a row it could not rebuild ended the circuit.
+    /// </remarks>
     [PersistentState]
-    public VibeGridSnapshot<TGridItem>? PrerenderedPage { get; set; }
+    public string? PrerenderedPage { get; set; }
 
     /// <inheritdoc />
     protected override string ComponentClass => "vibe-grid";
@@ -107,10 +113,13 @@
         // question here is answered without asking the provider. Then it is let go: the same
         // property is also saved when an Interactive Server circuit is paused, and a page resumed
         // later must ask again, since the grid cannot tell that its filter is still the same.
-        if (PrerenderedPage is { } carried)
+        if (PrerenderedPage is { } json)
         {
-            last = (new RequestKey(carried.StartIndex, carried.PageSize, carried.SortBy, carried.SortDescending), carried.Page);
             PrerenderedPage = null;
+            if (ReadKeptPage(json) is { } carried)
+            {
+                last = (new RequestKey(carried.StartIndex, carried.PageSize, carried.SortBy, carried.SortDescending), carried.Page);
+            }
         }
     }
 
@@ -171,14 +180,48 @@
             // Only a render that is not interactive is followed by one that is.
             if (!RendererInfo.IsInteractive)
             {
-                PrerenderedPage = new VibeGridSnapshot<TGridItem>(
-                    key.StartIndex, key.PageSize, key.SortBy, key.SortDescending, page);
+                PrerenderedPage = WriteKeptPage(new VibeGridSnapshot<TGridItem>(
+                    key.StartIndex, key.PageSize, key.SortBy, key.SortDescending, page));
             }
         }
 
         return GridItemsProviderResult.From(
             page.Items as ICollection<TGridItem> ?? page.Items.ToList(), page.TotalCount);
     }
+
+    // Null when the rows cannot be written: a row that refers back to itself, say. Then
+    // nothing is kept and the interactive render fetches, as it did before there was a handoff.
+    private static string? WriteKeptPage(VibeGridSnapshot<TGridItem> kept)
+    {
+        try
+        {
+            return JsonSerializer.Serialize(kept);
+        }
+        catch (Exception error) when (IsJsonFailure(error))
+        {
+            return null;
+        }
+    }
+
+    // Null when what was kept cannot be turned back into rows: a row type with no constructor
+    // JSON can use, or text that is not a page at all.
+    private static VibeGridSnapshot<TGridItem>? ReadKeptPage(string json)
+    {
+        try
+        {
+            VibeGridSnapshot<TGridItem>? kept = JsonSerializer.Deserialize<VibeGridSnapshot<TGridItem>>(json);
+            return kept?.Page?.Items is null ? null : kept;
+        }
+        catch (Exception error) when (IsJsonFailure(error))
+        {
+            return null;
+        }
+    }
+
+    // What System.Text.Json throws for a type it cannot handle. The third is the one it uses for
+    // a constructor whose parameters do not match the type's properties.
+    private static bool IsJsonFailure(Exception error) =>
+        error is JsonException or NotSupportedException or InvalidOperationException;
 
     // The paginator is drawn by this component, so it has to render when the total arrives.
     private void OnTotalItemCountChanged(object? sender, int? total) => _ = InvokeAsync(StateHasChanged);
