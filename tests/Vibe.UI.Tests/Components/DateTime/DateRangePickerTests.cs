@@ -533,6 +533,27 @@ public class DateRangePickerTests : TestBase
     }
 
     [Fact]
+    public void DateRangePicker_ArrowKeyInTheEndCalendar_MovesTheEndDay()
+    {
+        JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
+        var end = new System.DateTime(2024, 6, 15);
+        var cut = Render<DateRangePicker>(parameters => parameters
+            .Add(p => p.StartDate, new System.DateTime(2024, 6, 10))
+            .Add(p => p.EndDate, end));
+
+        cut.FindAll(".daterange-inputs input")[1].Click();
+        FindEndDateButton(cut, end).GetAttribute("tabindex")!.ShouldBe("0");
+
+        FindEndDateButton(cut, end).KeyDown("ArrowLeft");
+
+        var focusedDay = FindEndDateButton(cut, end.AddDays(-1));
+        focusedDay.GetAttribute("tabindex")!.ShouldBe("0");
+        cut.FindAll(".daterange-day").Count(day => day.GetAttribute("tabindex") == "0").ShouldBe(1);
+        JSInterop.Invocations.Last().Identifier.ShouldBe("focusElement");
+        JSInterop.Invocations.Last().Arguments[0].ShouldBe(focusedDay.Id);
+    }
+
+    [Fact]
     public void DateRangePicker_EscapeClosesPopup_AndRestoresOriginatingEndInputFocus()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
