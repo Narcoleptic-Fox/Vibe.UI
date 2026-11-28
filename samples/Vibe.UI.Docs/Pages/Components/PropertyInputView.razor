@@ -161,7 +161,8 @@
             A <code>PropertyInput</code> takes an expression, and a <code>Form</code> takes child
             content. Neither can be serialized, so neither can be handed from a statically
             rendered page to an interactive component. Put the form and its fields inside one
-            component, and give that component the render mode. This is Blazor's rule for
+            component, and give that component the render mode. A page with its own
+            <code>@@rendermode</code> is already one. This is Blazor's rule for
             <a class="vibe-text-link vibe-underline" href="https://learn.microsoft.com/aspnet/core/blazor/components/render-modes#render-mode-propagation">render mode propagation</a>:
             parameters passed from a static parent to an interactive child must be JSON
             serializable.
@@ -170,7 +171,7 @@
         <ul class="vibe-space-y-2 vibe-text-muted-foreground vibe-mt-3">
             <li>
                 <code>&lt;PropertyInput For="..." @@rendermode="InteractiveServer" /&gt;</code>
-                on a static page fails the request. The error names neither the component nor
+                on a static page fails the request, in each interactive mode. The error names neither the component nor
                 <code>For</code>:
                 <code>Serialization and deserialization of 'System.Type' instances is not supported.</code>
             </li>
