@@ -173,6 +173,20 @@
 
       <!-- The FluentValidation version the adapter is built and tested with, read from the
            adapter's own project so the version `vibe init` writes cannot drift from it. -->
+      <!-- The version of each package a copied component needs, read from the library's own
+           project so the version `vibe add` writes cannot drift from the one it is built with. -->
+      <Target Name="RecordComponentPackageVersions" BeforeTargets="GetAssemblyAttributes">
+            <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)../Vibe.UI/Vibe.UI.csproj"
+                     Query="/Project/ItemGroup/PackageReference[@Include='Microsoft.AspNetCore.Components.QuickGrid']/@Version">
+                  <Output TaskParameter="Result" PropertyName="LibraryQuickGridVersion" />
+            </XmlPeek>
+            <Error Condition="'$(LibraryQuickGridVersion)' == ''"
+                   Text="Could not read the QuickGrid version from Vibe.UI.csproj." />
+            <ItemGroup>
+                  <AssemblyMetadata Include="ComponentPackageVersion:Microsoft.AspNetCore.Components.QuickGrid" Value="$(LibraryQuickGridVersion)" />
+            </ItemGroup>
+      </Target>
+
       <Target Name="RecordAdapterFluentValidationVersion" BeforeTargets="GetAssemblyAttributes">
             <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)../Vibe.UI.FluentValidation/Vibe.UI.FluentValidation.csproj"
                      Query="/Project/ItemGroup/PackageReference[@Include='FluentValidation']/@Version">
