@@ -1,0 +1,166 @@
+@namespace Vibe.UI.Components
+@using Microsoft.AspNetCore.Components.QuickGrid
+@typeparam TGridItem
+@* Named as QuickGrid names it, and cascaded, so that a PropertyColumn written inside
+   works out its row type as it does inside a QuickGrid. *@
+@attribute [CascadingTypeParameter(nameof(TGridItem))]
+@inherits Base.VibeComponent
+@implements IDisposable
+
+@* Microsoft's QuickGrid with the parts every page otherwise repeats: the pagination state, a
+   paginator bound to it, the vibe theme, and one answer per question asked of the server. The
+   columns are QuickGrid's own, written as its child content. *@
+<div class="@CombinedClass" @attributes="AdditionalAttributes">
+    <QuickGrid @ref="grid" TGridItem="TGridItem" ItemsProvider="provider" Pagination="pagination" Theme="vibe"
+               ItemKey="@(ItemKey ?? DefaultItemKey)" RowClass="RowClass">
+        @ChildContent
+    </QuickGrid>
+
+    @if (ShowPagination && PageCount > 1)
+    {
+        <div class="vibe-grid-pager">
+            <Pagination CurrentPage="@(pagination.CurrentPageIndex + 1)" TotalPages="PageCount"
+                        AriaLabel="@PaginationLabel"
+                        PageChanged="@(page => pagination.SetCurrentPageIndexAsync(page - 1))" />
+        </div>
+    }
+</div>
+
+@code {
+    private static readonly Func<TGridItem, object> DefaultItemKey = item => item!;
+
+    private readonly PaginationState pagination = new();
+    private readonly GridItemsProvider<TGridItem> provider;
+    private QuickGrid<TGridItem>? grid;
+
+    // The last page fetched and the question it answered. The same question asked again is
+    // answered from here, because QuickGrid does ask again: it notes the state of its pagination
+    // before the provider answers, that state includes the total, and it sets the total from the
+    // answer. So after any answer that changes the total, its next render repeats the question.
+    private (RequestKey Key, VibeGridPage<TGridItem> Page)? last;
+
+    // Set by RefreshAsync: the next question goes to the provider whatever is remembered.
+    private bool mustFetch;
+
+    // Cancelled when the grid is disposed. QuickGrid cancels a question when it asks a newer
+    // one, but not when it is taken off the page, so a question still out would run on.
+    private readonly CancellationTokenSource disposal = new();
+
+    public VibeGrid()
+    {
+        provider = ProvideAsync;
+        pagination.TotalItemCountChanged += OnTotalItemCountChanged;
+    }
+
+    /// <summary>
+    /// Fetches one page. Called once for each different question: on load, and on a change of
+    /// page, page size or sort. The same question is not asked twice in a row unless
+    /// <see cref="RefreshAsync"/> is called.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public Func<VibeGridRequest, ValueTask<VibeGridPage<TGridItem>>> ItemsProvider { get; set; } = default!;
+
+    /// <summary>The columns: QuickGrid's <c>PropertyColumn</c> and <c>TemplateColumn</c>.</summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>How many rows a page holds.</summary>
+    [Parameter]
+    public int PageSize { get; set; } = 10;
+
+    /// <summary>Whether the paginator is shown when there is more than one page.</summary>
+    [Parameter]
+    public bool ShowPagination { get; set; } = true;
+
+    /// <summary>The accessible name of the paginator.</summary>
+    [Parameter]
+    public string PaginationLabel { get; set; } = "Pages";
+
+    /// <summary>
+    /// What identifies a row across renders, such as <c>item =&gt; item.Id</c>. Unset, the row
+    /// itself is the key.
+    /// </summary>
+    [Parameter]
+    public Func<TGridItem, object>? ItemKey { get; set; }
+
+    /// <summary>A CSS class for a row, by its item.</summary>
+    [Parameter]
+    public Func<TGridItem, string?>? RowClass { get; set; }
+
+    /// <inheritdoc />
+    protected override string ComponentClass => "vibe-grid";
+
+    private int PageCount => (pagination.LastPageIndex ?? 0) + 1;
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        if (ItemsProvider is null)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(VibeGrid<TGridItem>)} needs an {nameof(ItemsProvider)}.");
+        }
+
+        pagination.ItemsPerPage = Math.Max(1, PageSize);
+    }
+
+    /// <summary>
+    /// Asks the provider again. Call it when something outside the grid has changed what the
+    /// provider would answer: a filter, or a row added or removed.
+    /// </summary>
+    /// <param name="toFirstPage">Go back to the first page, as a changed filter needs.</param>
+    public async Task RefreshAsync(bool toFirstPage = false)
+    {
+        mustFetch = true;
+        if (toFirstPage && pagination.CurrentPageIndex != 0)
+        {
+            // Changing the page makes QuickGrid ask by itself.
+            await pagination.SetCurrentPageIndexAsync(0);
+        }
+        else if (grid is not null)
+        {
+            await grid.RefreshDataAsync();
+        }
+    }
+
+    private async ValueTask<GridItemsProviderResult<TGridItem>> ProvideAsync(GridItemsProviderRequest<TGridItem> request)
+    {
+        int pageSize = request.Count ?? pagination.ItemsPerPage;
+        SortedProperty sort = request.GetSortByProperties().FirstOrDefault();
+        bool descending = sort.Direction == SortDirection.Descending;
+        var key = new RequestKey(request.StartIndex, pageSize, sort.PropertyName, descending);
+
+        VibeGridPage<TGridItem> page;
+        if (!mustFetch && last is { } remembered && remembered.Key == key)
+        {
+            page = remembered.Page;
+        }
+        else
+        {
+            mustFetch = false;
+            using var stopped = CancellationTokenSource.CreateLinkedTokenSource(
+                request.CancellationToken, disposal.Token);
+
+            // With a pagination state the start is always a whole number of pages.
+            page = await ItemsProvider(new VibeGridRequest(
+                request.StartIndex / pageSize, pageSize, sort.PropertyName, descending, stopped.Token));
+            last = (key, page);
+        }
+
+        return GridItemsProviderResult.From(
+            page.Items as ICollection<TGridItem> ?? page.Items.ToList(), page.TotalCount);
+    }
+
+    // The paginator is drawn by this component, so it has to render when the total arrives.
+    private void OnTotalItemCountChanged(object? sender, int? total) => _ = InvokeAsync(StateHasChanged);
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        pagination.TotalItemCountChanged -= OnTotalItemCountChanged;
+        disposal.Cancel();
+        disposal.Dispose();
+    }
+
+    private readonly record struct RequestKey(int StartIndex, int PageSize, string? SortBy, bool SortDescending);
+}

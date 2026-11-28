@@ -127,4 +127,70 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         (await Page.Locator("[data-testid='boundary-none-echo']").TextContentAsync()).ShouldBe("[]");
         AssertNoBrowserErrors();
     }
+
+    // ---- The grid across the same boundary ----
+    // VibeGrid takes a provider, which is a delegate, and columns, which are child content.
+
+    [Theory]
+    [InlineData("server")]
+    [InlineData("client")]
+    [InlineData("auto")]
+    public async Task AGridInsideOneInteractiveComponentPagesAndSortsInEachRenderMode(string mode)
+    {
+        await NavigateToSmokePageAsync($"/grid/inside/{mode}", $"grid-{mode}");
+
+        var grid = Page.Locator($"[data-testid='grid-{mode}']");
+        var rows = grid.Locator("tbody tr[aria-rowindex]");
+        var firstCell = rows.First.Locator("td").First;
+        var requests = grid.Locator($"[data-testid='grid-{mode}-requests']");
+        var poke = grid.Locator($"[data-testid='grid-{mode}-poke']");
+
+        // Prerendered rows are there before anything is interactive.
+        await Assertions.Expect(rows).ToHaveCountAsync(10);
+        await Assertions.Expect(firstCell).ToHaveTextAsync("Part 001");
+
+        // Interactive once a click is counted. Each attempt is a new click, so it can be repeated.
+        var deadline = DateTimeOffset.UtcNow.AddSeconds(30);
+        while (true)
+        {
+            await poke.ClickAsync();
+            try
+            {
+                await Assertions.Expect(poke).Not.ToHaveTextAsync("Poked 0", new() { Timeout = 1000 });
+                break;
+            }
+            catch (PlaywrightException) when (DateTimeOffset.UtcNow < deadline)
+            {
+            }
+        }
+
+        // The interactive component is a new one: it has asked once, and the page rendering again
+        // around the grid, which the clicks above did, asked nothing more.
+        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 1");
+
+        await grid.Locator(".vibe-grid-pager").GetByText("2", new() { Exact = true }).ClickAsync();
+        await Assertions.Expect(firstCell).ToHaveTextAsync("Part 011");
+        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 2");
+
+        await grid.Locator("thead button.col-title", new() { HasTextString = "Stock" }).ClickAsync();
+        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 3");
+        await Assertions
+            .Expect(grid.Locator("thead th", new() { HasTextString = "Stock" }))
+            .ToHaveAttributeAsync("aria-sort", "ascending");
+
+        AssertNoBrowserErrors();
+    }
+
+    [Fact]
+    public async Task AProviderHandedFromAStaticPageToAnInteractiveGridFailsTheRequest()
+    {
+        var response = await Page.GotoAsync($"{BaseUrl.TrimEnd('/')}/grid/provider-across");
+
+        response.ShouldNotBeNull().Status.ShouldBe(500);
+        var body = System.Net.WebUtility.HtmlDecode(await response.TextAsync());
+
+        // A delegate is refused by name, unlike the expression a PropertyInput takes.
+        body.ShouldContain("Cannot pass the parameter 'ItemsProvider' to component 'VibeGrid`1' with rendermode 'InteractiveServerRenderMode'");
+        body.ShouldContain("cannot be serialized");
+    }
 }

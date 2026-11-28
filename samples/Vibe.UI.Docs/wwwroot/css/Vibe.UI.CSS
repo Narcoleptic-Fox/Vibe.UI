@@ -624,6 +624,7 @@ body {
 .vibe-gap-6 { gap: 1.5rem; }
 .vibe-gap-8 { gap: 2rem; }
 .vibe-items-center { align-items: center; }
+.vibe-items-end { align-items: flex-end; }
 .vibe-items-start { align-items: flex-start; }
 .vibe-justify-between { justify-content: space-between; }
 .vibe-justify-center { justify-content: center; }

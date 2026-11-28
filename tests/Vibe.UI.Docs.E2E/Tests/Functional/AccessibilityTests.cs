@@ -38,6 +38,7 @@ public class AccessibilityTests : E2ETestBase
         "/components/combobox",
         "/components/radiogroup",
         "/components/propertyinput",
+        "/components/vibegrid",
         "/components/dialog",
         "/components/table",
         "/components/datatable",

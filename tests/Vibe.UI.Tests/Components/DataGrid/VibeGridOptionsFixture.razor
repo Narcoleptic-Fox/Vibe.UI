@@ -1,0 +1,30 @@
+@* The grid set up the less usual ways: no row key, the paginator switched off, and a provider
+   whose page is a collection the grid cannot hand to QuickGrid as it is. VibeGridOptionsTests
+   drives this. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<VibeGrid TGridItem="Row" ItemsProvider="Provide" ShowPagination="ShowPagination" PaginationLabel="Result pages">
+    <PropertyColumn Property="row => row.Name" />
+</VibeGrid>
+
+@code {
+    public sealed record Row(int Id, string Name);
+
+    [Parameter]
+    public bool ShowPagination { get; set; } = true;
+
+    /// <summary>How many times the provider was asked.</summary>
+    public int Requests { get; private set; }
+
+    private ValueTask<VibeGridPage<Row>> Provide(VibeGridRequest request)
+    {
+        Requests++;
+
+        // A Queue is a read-only collection and not an ICollection, which is what QuickGrid takes.
+        var page = new Queue<Row>(
+            Enumerable
+                .Range(request.Page * request.PageSize + 1, request.PageSize)
+                .Select(i => new Row(i, "Row " + i)));
+        return ValueTask.FromResult(new VibeGridPage<Row>(page, 95));
+    }
+}

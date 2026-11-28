@@ -115,6 +115,24 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         table.AddRow("Description", component.Description ?? "No description");
         table.AddRow("Dependencies", dependencies.Count > 0 ? string.Join(", ", dependencies) : "None");
 
+        // Packages the copied source needs. Worked out before anything is written, so a project
+        // that cannot be given the reference is refused untouched.
+        List<PackageReferencePlan> packages;
+        try
+        {
+            packages = PlanPackages(componentService, component.Name, dependencies, projectPath);
+        }
+        catch (InvalidOperationException error)
+        {
+            AnsiConsole.MarkupLine($"[red]Error:[/] {Markup.Escape(error.Message)}");
+            return 1;
+        }
+
+        if (packages.Count > 0)
+        {
+            table.AddRow("Packages", string.Join(", ", packages.Select(package => $"{package.PackageId} {package.Version}")));
+        }
+
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
 
@@ -160,6 +178,14 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
 
         await RazorImportsService.EnsureVibeImportsAsync(projectPath, includeComponents: true);
 
+        foreach (var package in packages.Where(package => package.ChangesAnything))
+        {
+            await PackageReferenceEditor.ApplyAsync(package);
+            AnsiConsole.MarkupLine(
+                $"[green]✓[/] Added a reference to {package.PackageId} {package.Version} in "
+                    + string.Join(", ", package.EditedFiles().Select(Path.GetFileName)));
+        }
+
         var displayName = settings.Name ?? component.Name;
         AnsiConsole.MarkupLine($"\n[green]✓[/] Success! {displayName} has been added to your project.");
 
@@ -198,6 +224,36 @@ public class AddCommand : AsyncCommand<AddCommand.Settings>
         AnsiConsole.MarkupLine($"\n[dim]💡 Tip: Run [blue]vibe add {component.Name} --help[/] for more options.[/]");
 
         return 0;
+    }
+
+    // The component's own packages and those of everything it brings with it.
+    private static List<PackageReferencePlan> PlanPackages(
+        ComponentService componentService,
+        string componentName,
+        IEnumerable<string> dependencies,
+        string projectPath)
+    {
+        var packageIds = dependencies
+            .Prepend(componentName)
+            .SelectMany(name => componentService.GetComponent(name)?.Packages ?? [])
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+        if (packageIds.Count == 0)
+        {
+            return [];
+        }
+
+        var projectFile = ProjectService.FindProjectFile(projectPath);
+        if (projectFile is null || !File.Exists(projectFile))
+        {
+            throw new InvalidOperationException(
+                $"No .csproj file found for {projectPath}. {componentName} needs a project to add "
+                    + $"a reference to {string.Join(", ", packageIds)}.");
+        }
+
+        return packageIds
+            .Select(packageId => PackageReferenceEditor.Plan(projectFile, packageId, ComponentPackages.VersionOf(packageId)))
+            .ToList();
     }
 
     private static bool PathsEqual(string left, string right) =>

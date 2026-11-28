@@ -1,0 +1,15 @@
+@page "/grid/provider-across"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Vibe.UI.Compatibility.WebApp.Client.Grid
+
+@* The rule broken, on purpose: this page is static, and it hands the provider, a delegate, to
+   an interactive VibeGrid. WebAppCompatibilityTests pins the failure and its text. Do not fix
+   this page. *@
+<PageTitle>A provider passed across the interactive boundary</PageTitle>
+
+<VibeGrid TGridItem="PartsGrid.Part" ItemsProvider="Provide" @rendermode="InteractiveServer" />
+
+@code {
+    private static ValueTask<VibeGridPage<PartsGrid.Part>> Provide(VibeGridRequest request) =>
+        ValueTask.FromResult(new VibeGridPage<PartsGrid.Part>([], 0));
+}

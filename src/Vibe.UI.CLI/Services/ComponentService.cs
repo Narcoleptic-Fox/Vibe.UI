@@ -298,6 +298,7 @@ public class ComponentService
             ["datatable"] = new ComponentInfo { Name = "DataTable", Category = "DataDisplay", Description = "Powerful table with sorting, filtering, and pagination" },
             ["progress"] = new ComponentInfo { Name = "Progress", Category = "DataDisplay", Description = "Displays an indicator showing the completion progress of a task" },
             ["table"] = new ComponentInfo { Name = "Table", Category = "DataDisplay", Description = "A responsive table component", HasCss = false },
+            ["vibegrid"] = new ComponentInfo { Name = "VibeGrid", Category = "DataDisplay", Description = "Microsoft's QuickGrid with paging, the vibe theme and one request per page", Packages = new List<string> { ComponentPackages.QuickGrid } },
             ["chart"] = new ComponentInfo { Name = "Chart", Category = "DataDisplay", Description = "Data visualization charts", HasCss = false, HasJavaScript = true },
             ["timeline"] = new ComponentInfo { Name = "Timeline", Category = "DataDisplay", Description = "Event timeline with status indicators and timestamps" },
             ["tag"] = new ComponentInfo { Name = "Tag", Category = "DataDisplay", Description = "Compact label/pill component with variants and optional remove action" },

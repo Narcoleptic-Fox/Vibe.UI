@@ -1,0 +1,55 @@
+@* The control: Microsoft's QuickGrid with nothing of ours around it, set up the two ways a page
+   would. RawQuickGridTests counts what it asks its provider, which is the number VibeGrid exists
+   to bring down. If a later QuickGrid stops repeating itself, those tests go red and VibeGrid's
+   memory can be removed. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+@implements IDisposable
+
+<QuickGrid TGridItem="Row" ItemsProvider="provider" Pagination="pagination">
+    <PropertyColumn Property="row => row.Name" />
+</QuickGrid>
+
+@if (PaginatorRendersWithThePage)
+{
+    @* A paginator drawn by the page has to render when the total arrives, so the page does. *@
+    <Pagination CurrentPage="@(pagination.CurrentPageIndex + 1)" TotalPages="@((pagination.LastPageIndex ?? 0) + 1)"
+                PageChanged="@(page => pagination.SetCurrentPageIndexAsync(page - 1))" />
+}
+
+<button id="poke" type="button" @onclick="() => pokes++">Poked @pokes</button>
+
+@code {
+    public sealed record Row(int Id, string Name);
+
+    private readonly PaginationState pagination = new() { ItemsPerPage = 10 };
+    private GridItemsProvider<Row> provider = default!;
+    private int pokes;
+
+    [Parameter]
+    public bool PaginatorRendersWithThePage { get; set; }
+
+    /// <summary>How many times the provider was asked.</summary>
+    public int Requests { get; private set; }
+
+    protected override void OnInitialized()
+    {
+        provider = request =>
+        {
+            Requests++;
+            List<Row> rows = Enumerable
+                .Range(request.StartIndex, request.Count ?? 10)
+                .Select(i => new Row(i, "Row " + i))
+                .ToList();
+            return ValueTask.FromResult(GridItemsProviderResult.From<Row>(rows, 95));
+        };
+
+        if (PaginatorRendersWithThePage)
+        {
+            pagination.TotalItemCountChanged += OnTotalItemCountChanged;
+        }
+    }
+
+    private void OnTotalItemCountChanged(object? sender, int? total) => _ = InvokeAsync(StateHasChanged);
+
+    public void Dispose() => pagination.TotalItemCountChanged -= OnTotalItemCountChanged;
+}

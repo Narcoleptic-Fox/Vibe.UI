@@ -1,0 +1,41 @@
+@* A grid whose provider answers when the test says so, as a server does: later, and not always
+   in the order it was asked. VibeGridSlowProviderTests drives this. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<VibeGrid @ref="Grid" TGridItem="Row" ItemsProvider="Provide" ItemKey="row => row.Id">
+    <PropertyColumn Property="row => row.Name" Sortable="true" />
+</VibeGrid>
+
+<button id="poke" type="button" @onclick="() => pokes++">Poked @pokes</button>
+
+@code {
+    public sealed record Row(int Id, string Name);
+
+    public sealed record Asked(VibeGridRequest Request, TaskCompletionSource<VibeGridPage<Row>> Answer);
+
+    private int pokes;
+
+    public VibeGrid<Row> Grid { get; private set; } = default!;
+
+    /// <summary>Every question asked, each with the answer the test has yet to give.</summary>
+    public List<Asked> Questions { get; } = [];
+
+    /// <summary>Whether the provider gives up, as HttpClient does, when its token is cancelled.</summary>
+    [Parameter]
+    public bool ThrowsWhenCancelled { get; set; }
+
+    private async ValueTask<VibeGridPage<Row>> Provide(VibeGridRequest request)
+    {
+        var asked = new Asked(request, new TaskCompletionSource<VibeGridPage<Row>>());
+        Questions.Add(asked);
+        if (ThrowsWhenCancelled)
+        {
+            request.CancellationToken.Register(() => asked.Answer.TrySetCanceled(request.CancellationToken));
+        }
+
+        return await asked.Answer.Task;
+    }
+
+    public static VibeGridPage<Row> Page(string prefix, int count, int total) =>
+        new(Enumerable.Range(1, count).Select(i => new Row(i, $"{prefix} {i}")).ToList(), total);
+}
