@@ -8,6 +8,15 @@ namespace Vibe.UI.Docs.E2E.Tests.Functional;
 [Trait("Category", TestCategories.Functional)]
 public class ComponentVisualContractTests : E2ETestBase
 {
+    // Every docs page slides up 12 px over 0.4 s as it enters (vibe-page-enter). These tests
+    // measure boxes one browser call at a time, so two boxes read during the slide are read at
+    // two different heights. Reduced motion drops the slide; nothing here is about motion.
+    public override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
+        await Page.EmulateMediaAsync(new() { ReducedMotion = ReducedMotion.Reduce });
+    }
+
     [Fact]
     public async Task CheckboxPreviewSupportsMixedAndPointerStates()
     {
@@ -618,9 +627,15 @@ public class ComponentVisualContractTests : E2ETestBase
         firstContent.X.ShouldBeGreaterThan(firstMarker.X + firstMarker.Width);
         (secondContent.X + secondContent.Width).ShouldBeLessThan(secondMarker.X);
 
-        var firstConnector = await items.Nth(0).Locator(".timeline-connector").BoundingBoxAsync();
-        firstConnector.ShouldNotBeNull();
-        Math.Abs((firstConnector.Y + firstConnector.Height) - secondMarker.Y).ShouldBeLessThanOrEqualTo(2);
+        // Both boxes in one reading. The rail is laid out to end exactly where the next marker
+        // begins, so the only room left is for rounding.
+        var railToNextMarker = await timeline.EvaluateAsync<double>(
+            @"list => {
+                const items = list.querySelectorAll('[role=listitem]');
+                return items[0].querySelector('.timeline-connector').getBoundingClientRect().bottom
+                    - items[1].querySelector('.timeline-marker').getBoundingClientRect().top;
+            }");
+        Math.Abs(railToNextMarker).ShouldBeLessThan(0.5);
 
         await Page.SetViewportSizeAsync(390, 844);
         await Page.WaitForTimeoutAsync(120);
