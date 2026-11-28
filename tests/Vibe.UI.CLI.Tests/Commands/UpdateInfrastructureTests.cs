@@ -217,6 +217,9 @@ public class UpdateInfrastructureTests : IDisposable
     {
         await InitAsync();
         await AddComponentAsync("button");
+        // Only what the update prints is in question. Init reports "Copying infrastructure
+        // files..." through a spinner, which draws only when init is slow enough to need one.
+        var printedBeforeTheUpdate = _console.Output.Length;
 
         var result = await UpdateAsync(
             infrastructure: false,
@@ -225,7 +228,7 @@ public class UpdateInfrastructureTests : IDisposable
         );
 
         result.Should().Be(0);
-        _console.Output.Should().NotContain("infrastructure");
+        _console.Output[printedBeforeTheUpdate..].Should().NotContain("infrastructure");
     }
 
     [Fact]

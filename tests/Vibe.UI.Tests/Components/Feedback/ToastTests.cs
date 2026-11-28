@@ -221,7 +221,7 @@ public class ToastTests : TestBase
             .Add(p => p.Duration, 20)
             .Add(p => p.OnClose, () => closeCount++));
 
-        cut.WaitForAssertion(() => closeCount.ShouldBe(1), TimeSpan.FromSeconds(1));
+        cut.WaitForAssertion(() => closeCount.ShouldBe(1));
 
         var toast = cut.Find(".vibe-toast");
         toast.GetAttribute("data-state").ShouldBe("closed");
