@@ -6,7 +6,8 @@
    its structural CSS. The table is QuickGrid's markup, a child component's, so every rule
    reaches it from this component's root.
 
-   Rules marked OVERRIDE exist only to undo a value QuickGrid hard-codes.
+   Rules marked OVERRIDE undo a value QuickGrid hard-coded when the theme was first written
+   against it. They are not yet checked in a browser: no page here opens a column's options.
    No rule here needs the important flag, and VibeGridThemeTests keeps it that way. */
 
 .vibe-grid {
@@ -31,8 +32,37 @@
   color: var(--vibe-muted-foreground);
   font-size: 0.8rem;
   font-weight: 500;
-  text-align: left;
   white-space: nowrap;
+}
+
+/* A column's Align puts one of these three classes on its header and its cells. The rules that
+   act on them are in QuickGrid's default theme, which asking for this theme drops. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-justify-start {
+  text-align: left;
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-justify-center {
+  text-align: center;
+}
+
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-justify-end {
+  text-align: right;
+}
+
+.vibe-grid
+  ::deep
+  .quickgrid[theme="vibe"]
+  .col-justify-center
+  .col-header-content {
+  justify-content: center;
+}
+
+.vibe-grid
+  ::deep
+  .quickgrid[theme="vibe"]
+  .col-justify-end
+  .col-header-content {
+  justify-content: flex-end;
 }
 
 .vibe-grid ::deep .quickgrid[theme="vibe"] > tbody > tr > td {
@@ -66,10 +96,27 @@
    SORTABLE TITLES
    ---------------------------------------- */
 
+/* How a header is laid out is in the default theme as well. Left to the browser, the title and
+   the arrow are two blocks, one under the other. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-header-content {
+  display: flex;
+  align-items: center;
+}
+
 .vibe-grid ::deep .quickgrid[theme="vibe"] .col-title {
+  display: inline-flex;
+  align-items: center;
   gap: 0.25rem;
   color: inherit;
   font: inherit;
+}
+
+/* A sortable title is a button. Without these it looks like one in an app with no reset. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] button.col-title {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
 .vibe-grid ::deep .quickgrid[theme="vibe"] button.col-title:hover {
@@ -83,11 +130,15 @@
   border-radius: var(--vibe-radius-sm);
 }
 
-/* OVERRIDE 1: the sort arrow is a black background image. Repainted as a mask, it follows the
-   text colour, in dark mode too. */
+/* The sort arrow. QuickGrid's own is a black image in its default theme, which this theme
+   replaces, so there is none to undo: the arrow is drawn here, as a mask filled with the text
+   colour, and so follows it in dark mode. */
 .vibe-grid ::deep .quickgrid[theme="vibe"] .col-sort-asc .sort-indicator,
 .vibe-grid ::deep .quickgrid[theme="vibe"] .col-sort-desc .sort-indicator {
-  background-image: none;
+  /* Its size is in the default theme too. Without one the arrow has no height. */
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
   background-color: currentColor;
   -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 2 3.25 L 12 20.75 L 22 3.25 L 12 10 z" /></svg>')
     center / 0.75rem no-repeat;
@@ -95,11 +146,16 @@
     center / 0.75rem no-repeat;
 }
 
+/* The shape points down, which is descending. Ascending is the same shape turned over. */
+.vibe-grid ::deep .quickgrid[theme="vibe"] .col-sort-asc .sort-indicator {
+  transform: scaleY(-1);
+}
+
 /* ----------------------------------------
    COLUMN OPTIONS (FILTERS)
    ---------------------------------------- */
 
-/* OVERRIDE 2: the options button draws currentColor inside a data URL, where it stays black. */
+/* OVERRIDE 1: the options button draws currentColor inside a data URL, where it stays black. */
 .vibe-grid
   ::deep
   .quickgrid[theme="vibe"]
@@ -117,7 +173,7 @@
     center / 0.9rem no-repeat;
 }
 
-/* OVERRIDE 3: the options popup is hard-coded white with a silver border. */
+/* OVERRIDE 2: the options popup is hard-coded white with a silver border. */
 .vibe-grid ::deep .quickgrid[theme="vibe"] > thead > tr > th > .col-options {
   min-width: 14rem;
   margin-top: 0.25rem;
