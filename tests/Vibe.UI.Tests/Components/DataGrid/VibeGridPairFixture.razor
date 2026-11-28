@@ -1,0 +1,56 @@
+@* Two grids of one row type side by side, as a page with two lists of the same thing has them.
+   What each keeps across a prerender depends on whether their keys differ.
+   VibeGridPairTests drives this. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@if (!WithoutFirst)
+{
+    <div id="first">
+        <VibeGrid TGridItem="Row" ItemsProvider="ProvideFirst" PageSize="5" StateKey="@FirstKey">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+    </div>
+}
+<div id="second">
+    <VibeGrid TGridItem="Row" ItemsProvider="ProvideSecond" PageSize="5" StateKey="@SecondKey">
+        <PropertyColumn Property="row => row.Name" />
+    </VibeGrid>
+</div>
+
+@code {
+    public sealed record Row(int Id, string Name);
+
+    [Parameter]
+    public string? FirstKey { get; set; }
+
+    [Parameter]
+    public string? SecondKey { get; set; }
+
+    /// <summary>Takes the first grid off the page, as a page does that changes its mind.</summary>
+    [Parameter]
+    public bool WithoutFirst { get; set; }
+
+    public int FirstRequests { get; private set; }
+
+    public int SecondRequests { get; private set; }
+
+    private ValueTask<VibeGridPage<Row>> ProvideFirst(VibeGridRequest request)
+    {
+        FirstRequests++;
+        return Rows("First", request);
+    }
+
+    private ValueTask<VibeGridPage<Row>> ProvideSecond(VibeGridRequest request)
+    {
+        SecondRequests++;
+        return Rows("Second", request);
+    }
+
+    private static ValueTask<VibeGridPage<Row>> Rows(string name, VibeGridRequest request) =>
+        ValueTask.FromResult(
+            new VibeGridPage<Row>(
+                Enumerable.Range(1, request.PageSize).Select(i => new Row(i, $"{name} {i}")).ToList(),
+                40
+            )
+        );
+}

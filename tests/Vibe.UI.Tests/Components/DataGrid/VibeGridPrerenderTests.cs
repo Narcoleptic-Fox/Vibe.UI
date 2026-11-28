@@ -8,9 +8,9 @@ namespace Vibe.UI.Tests.Components.DataGrid;
 /// <summary>
 /// B3.2: a page is prerendered on the server and then rendered again, interactively, by a new
 /// component. The grid keeps the page it fetched the first time so that the second does not
-/// fetch it again. These tests take the two halves apart: what the grid keeps when it is not
-/// interactive, and what it does when it starts with a kept page. The compatibility tests put
-/// the halves together in a real app.
+/// fetch it again. These tests take the two halves apart: what the grid keeps, and when; and what
+/// a grid does that starts with a kept page. The compatibility tests put the halves together in
+/// a real app.
 /// </summary>
 public class VibeGridPrerenderTests : GridTestBase
 {
@@ -22,18 +22,29 @@ public class VibeGridPrerenderTests : GridTestBase
 
     private string FirstCell() => DataRows()[0].QuerySelector("td")!.TextContent.Trim();
 
-    private void RenderPage(int pageSize = 10)
+    private void RenderPage(
+        int pageSize = 10,
+        string? stateKey = null,
+        bool prerenderingForInteractive = false
+    )
     {
-        page = Render<VibeGridFixture>(p => p.Add(f => f.PageSize, pageSize));
+        page = Render<VibeGridFixture>(p =>
+        {
+            p.Add(f => f.PageSize, pageSize).Add(f => f.StateKey, stateKey);
+            if (prerenderingForInteractive)
+            {
+                p.SetAssignedRenderMode(Interactive);
+            }
+        });
         page.WaitForAssertion(() => DataRows().Count.ShouldBeGreaterThan(0));
     }
 
-    // The interactive grid is a new object. The framework gives it the kept page before it starts.
-    private void StartWith(VibeGridSnapshot<Part> kept) =>
-        StartWith(JsonSerializer.Serialize(kept));
+    // The framework hands the interactive grid what the prerender kept, before the grid starts.
+    private void StartWith(VibeGridSnapshot<Part> kept, string? stateKey = null) =>
+        StartWith(JsonSerializer.Serialize(kept), stateKey);
 
-    private void StartWith(string keptJson) =>
-        ComponentFactories.Add<VibeGrid<Part>>(() => new VibeGrid<Part> { PrerenderedPage = keptJson });
+    private void StartWith(string keptJson, string? stateKey = null) =>
+        KeptState.Persist(KeptPageName<Part>(stateKey), keptJson);
 
     private static VibeGridSnapshot<Part> KeptPage(int pageSize = 10, string? sortBy = null) =>
         new(
@@ -47,16 +58,20 @@ public class VibeGridPrerenderTests : GridTestBase
             )
         );
 
+    // ---- What a grid keeps, and when ----
+
     [Fact]
-    public void While_prerendering_the_grid_keeps_the_page_it_fetched()
+    public void While_prerendering_for_an_interactive_render_the_grid_keeps_the_page_it_fetched()
     {
         RenderAs(interactive: false);
 
-        RenderPage();
+        RenderPage(prerenderingForInteractive: true);
 
         Requests.Count.ShouldBe(1);
-        string json = page.Instance.Grid.PrerenderedPage.ShouldNotBeNull();
-        VibeGridSnapshot<Part> kept = JsonSerializer.Deserialize<VibeGridSnapshot<Part>>(json).ShouldNotBeNull();
+        string json = KeptAfterPrerender<Part>().ShouldNotBeNull();
+        VibeGridSnapshot<Part> kept = JsonSerializer
+            .Deserialize<VibeGridSnapshot<Part>>(json)
+            .ShouldNotBeNull();
         kept.StartIndex.ShouldBe(0);
         kept.PageSize.ShouldBe(10);
         kept.SortBy.ShouldBeNull();
@@ -66,14 +81,43 @@ public class VibeGridPrerenderTests : GridTestBase
     }
 
     [Fact]
+    public void On_a_page_with_no_render_mode_the_grid_keeps_nothing()
+    {
+        // Not interactive, and no interactive render will follow, so there is nothing to keep
+        // a page for. The compatibility tests check what this costs a neighbour when it is wrong.
+        RenderAs(interactive: false);
+
+        RenderPage(prerenderingForInteractive: false);
+
+        Requests.Count.ShouldBe(1);
+        DataRows().Count.ShouldBe(10);
+        KeptAfterPrerender<Part>().ShouldBeNull();
+    }
+
+    [Fact]
     public void Once_interactive_the_grid_keeps_nothing()
     {
         RenderPage();
 
-        // Kept only for the render that follows a prerender. Saved at any other moment it could
+        // Kept only for the render that follows a prerender. Kept at any other moment it could
         // come back later, to a page whose filter is no longer the one it was fetched for.
-        page.Instance.Grid.PrerenderedPage.ShouldBeNull();
+        KeptAfterPrerender<Part>().ShouldBeNull();
     }
+
+    [Fact]
+    public void The_page_is_kept_under_the_grids_own_key()
+    {
+        RenderAs(interactive: false);
+
+        RenderPage(stateKey: "spares", prerenderingForInteractive: true);
+
+        KeptState.TriggerOnPersisting();
+        KeptState.TryTake(KeptPageName<Part>("spares"), out string? underItsKey).ShouldBeTrue();
+        underItsKey.ShouldNotBeNull().ShouldContain("Part 001");
+        KeptState.TryTake(KeptPageName<Part>(), out string? _).ShouldBeFalse();
+    }
+
+    // ---- A grid that starts with a kept page ----
 
     [Fact]
     public void A_grid_that_starts_with_a_kept_page_shows_it_and_asks_nothing()
@@ -89,7 +133,8 @@ public class VibeGridPrerenderTests : GridTestBase
         // The paginator is drawn from the kept total: 95 items, 10 to a page.
         page.FindAll(".vibe-grid-pager a, .vibe-grid-pager button")
             .ShouldContain(e => e.TextContent.Trim() == "10");
-        page.Instance.Grid.PrerenderedPage.ShouldBeNull();
+        // Taken, not copied: nothing is left for another grid to start with.
+        KeptState.TryTake(KeptPageName<Part>(), out string? _).ShouldBeFalse();
     }
 
     [Fact]
@@ -136,11 +181,30 @@ public class VibeGridPrerenderTests : GridTestBase
         FirstCell().ShouldBe("Part 001");
     }
 
+    [Fact]
+    public void A_page_kept_under_another_key_is_not_this_grids()
+    {
+        StartWith(KeptPage(), stateKey: "spares");
+
+        RenderPage(stateKey: "orders");
+
+        Requests.Count.ShouldBe(1);
+        FirstCell().ShouldBe("Part 001");
+        // And it is still there for the grid it belongs to.
+        KeptState.TryTake(KeptPageName<Part>("spares"), out string? _).ShouldBeTrue();
+    }
+
     [Theory]
     [InlineData("not json at all")]
     [InlineData("{}")]
     [InlineData("null")]
     [InlineData("{\"StartIndex\":0,\"PageSize\":10,\"Page\":null}")]
+    // The next two read back as exactly what they are, so only the look at the rows stops them.
+    [InlineData("{\"StartIndex\":0,\"PageSize\":10,\"SortBy\":null,\"SortDescending\":false,\"Page\":null}")]
+    [InlineData(
+        "{\"StartIndex\":0,\"PageSize\":10,\"SortBy\":null,\"SortDescending\":false,"
+            + "\"Page\":{\"Items\":null,\"TotalCount\":0}}"
+    )]
     public void Kept_text_that_is_not_a_page_is_ignored_and_the_grid_fetches(string keptJson)
     {
         StartWith(keptJson);
@@ -149,6 +213,5 @@ public class VibeGridPrerenderTests : GridTestBase
 
         Requests.Count.ShouldBe(1);
         FirstCell().ShouldBe("Part 001");
-        page.Instance.Grid.PrerenderedPage.ShouldBeNull();
     }
 }

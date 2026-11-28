@@ -1,22 +1,41 @@
-@* Two row types that do not survive being kept as JSON. A page over either worked before the
-   grid kept anything, so it has to go on working: at the cost of one more request, never of the
-   page. VibeGridAwkwardRowsTests drives this. *@
+@* Three row types that do not survive being kept as JSON. A page over any of them worked before
+   the grid kept anything, so it has to go on working: at the cost of one more request, never of
+   the page, and never with rows that have lost their values. VibeGridAwkwardRowsTests drives this. *@
 @using Microsoft.AspNetCore.Components.QuickGrid
 
-@if (RowsReferToThemselves)
+@switch (Rows)
 {
-    <VibeGrid @ref="Looped" TGridItem="Loop" ItemsProvider="ProvideLoops" PageSize="5">
-        <PropertyColumn Property="row => row.Name" />
-    </VibeGrid>
-}
-else
-{
-    <VibeGrid @ref="Closed" TGridItem="NotRebuildable" ItemsProvider="ProvideClosed" PageSize="5">
-        <PropertyColumn Property="row => row.Name" />
-    </VibeGrid>
+    case Kind.ReferToThemselves:
+        <VibeGrid TGridItem="Loop" ItemsProvider="ProvideLoops" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+    case Kind.CannotBeRebuilt:
+        <VibeGrid TGridItem="NotRebuildable" ItemsProvider="ProvideClosed" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+    case Kind.CarryACallback:
+        <VibeGrid TGridItem="WithCallback" ItemsProvider="ProvideCallbacks" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+    default:
+        <VibeGrid TGridItem="Lossy" ItemsProvider="ProvideLossy" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
 }
 
 @code {
+    public enum Kind
+    {
+        ReferToThemselves,
+        CannotBeRebuilt,
+        CarryACallback,
+        ComeBackEmpty,
+    }
+
     /// <summary>A row that points back at itself: JSON cannot write it.</summary>
     public sealed class Loop
     {
@@ -44,12 +63,29 @@ else
         public string Name { get; }
     }
 
+    /// <summary>
+    /// A row JSON writes in full and rebuilds without complaint and without its name: the
+    /// setter is private, so the value is written and then not read back.
+    /// </summary>
+    public sealed class Lossy
+    {
+        public int Id { get; set; }
+
+        public string Name { get; private set; } = "";
+
+        public static Lossy Named(int id, string name) => new() { Id = id, Name = name };
+    }
+
+    /// <summary>A row that carries something to run: JSON does not write delegates at all.</summary>
+    public sealed class WithCallback
+    {
+        public string Name { get; set; } = "";
+
+        public Action? Open { get; set; }
+    }
+
     [Parameter]
-    public bool RowsReferToThemselves { get; set; }
-
-    public VibeGrid<Loop>? Looped { get; private set; }
-
-    public VibeGrid<NotRebuildable>? Closed { get; private set; }
+    public Kind Rows { get; set; }
 
     /// <summary>How many times a provider was asked.</summary>
     public int Requests { get; private set; }
@@ -77,5 +113,25 @@ else
             .Select(i => new NotRebuildable(i, "Closed " + i))
             .ToList();
         return ValueTask.FromResult(new VibeGridPage<NotRebuildable>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<WithCallback>> ProvideCallbacks(VibeGridRequest request)
+    {
+        Requests++;
+        List<WithCallback> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => new WithCallback { Name = "Callback " + i, Open = () => { } })
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<WithCallback>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<Lossy>> ProvideLossy(VibeGridRequest request)
+    {
+        Requests++;
+        List<Lossy> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => Lossy.Named(i, "Lossy " + i))
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<Lossy>(rows, 40));
     }
 }

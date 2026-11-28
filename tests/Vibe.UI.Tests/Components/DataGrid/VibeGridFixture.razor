@@ -3,7 +3,8 @@
    drives this. *@
 @using Microsoft.AspNetCore.Components.QuickGrid
 
-<VibeGrid @ref="Grid" TGridItem="Part" ItemsProvider="Provide" PageSize="PageSize" ItemKey="part => part.Id">
+<VibeGrid @ref="Grid" TGridItem="Part" ItemsProvider="Provide" PageSize="PageSize" ItemKey="part => part.Id"
+          StateKey="@StateKey">
     <PropertyColumn Property="part => part.Name" Sortable="true" />
     <PropertyColumn Property="part => part.Stock" Sortable="true" />
 </VibeGrid>
@@ -18,6 +19,9 @@
 
     [Parameter]
     public int PageSize { get; set; } = 10;
+
+    [Parameter]
+    public string? StateKey { get; set; }
 
     public VibeGrid<Part> Grid { get; private set; } = default!;
 
