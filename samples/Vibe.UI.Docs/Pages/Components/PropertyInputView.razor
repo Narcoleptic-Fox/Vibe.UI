@@ -156,6 +156,37 @@
     </section>
 
     <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">In a Blazor Web App</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-3">
+            A <code>PropertyInput</code> takes an expression, and a <code>Form</code> takes child
+            content. Neither can be serialized, so neither can be handed from a statically
+            rendered page to an interactive component. Put the form and its fields inside one
+            component, and give that component the render mode. This is Blazor's rule for
+            <a class="vibe-text-link vibe-underline" href="https://learn.microsoft.com/aspnet/core/blazor/components/render-modes#render-mode-propagation">render mode propagation</a>:
+            parameters passed from a static parent to an interactive child must be JSON
+            serializable.
+        </p>
+        <CodeBlock Code="@BoundaryCode" Language="razor" />
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground vibe-mt-3">
+            <li>
+                <code>&lt;PropertyInput For="..." @@rendermode="InteractiveServer" /&gt;</code>
+                on a static page fails the request. The error names neither the component nor
+                <code>For</code>:
+                <code>Serialization and deserialization of 'System.Type' instances is not supported.</code>
+            </li>
+            <li>
+                <code>&lt;Form @@rendermode="InteractiveServer"&gt;</code> with fields inside, on a
+                static page, fails the request with
+                <code>Cannot pass the parameter 'ChildContent' to component 'Form`1'</code>.
+            </li>
+            <li>
+                With no render mode anywhere the page loads and the field is drawn, label and
+                all, but typing never reaches the model. There is no error to see.
+            </li>
+        </ul>
+    </section>
+
+    <section class="vibe-mb-12">
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Limits today</h2>
         <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li>
@@ -382,6 +413,17 @@
         public string? Notes { get; set; }
     }
 }";
+
+    private string BoundaryCode => @"@* ReservationForm.razor: the form and its fields, in one component *@
+<Form Model=""reservation"" OnValidSubmit=""Save"">
+    <PropertyInput For=""() => reservation.Name"" />
+    <PropertyInput For=""() => reservation.Guests"" />
+</Form>
+
+@* The page, statically rendered: only the component crosses the boundary *@
+@page ""/reserve""
+
+<ReservationForm @rendermode=""InteractiveServer"" />";
 
     private string RecordCode => @"@using Vibe.UI.Metadata
 @inject IPropertyMetadataResolver Metadata

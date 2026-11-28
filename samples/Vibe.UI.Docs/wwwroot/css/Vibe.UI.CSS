@@ -795,6 +795,7 @@ body {
 .vibe-tracking-tight { letter-spacing: -0.025em; }
 .vibe-tracking-wider { letter-spacing: 0.05em; }
 .vibe-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vibe-underline { text-decoration-line: underline; }
 .vibe-uppercase { text-transform: uppercase; }
 .vibe-bg-amber-100 { background-color: #fef3c7; }
 .vibe-bg-black\/50 { background-color: rgb(0 0 0 / 0.5); }
