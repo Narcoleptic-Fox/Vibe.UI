@@ -1,0 +1,7 @@
+@page "/boundary/inside/client"
+@using Vibe.UI.Compatibility.WebApp.Client.Boundary
+
+@* The rule kept: a static page, and the form with its fields inside one interactive component. *@
+<PageTitle>Form inside the interactive boundary (InteractiveWebAssembly)</PageTitle>
+
+<ReservationForm Mode="client" @rendermode="InteractiveWebAssembly" />

@@ -1,0 +1,14 @@
+@page "/boundary/form-across"
+@using Vibe.UI.Compatibility.WebApp.Client.Boundary
+
+@* The rule broken, on purpose: this page is static, and it hands child content to an
+   interactive Form. A RenderFragment cannot be serialized either. Do not fix this page. *@
+<PageTitle>Child content passed across the interactive boundary</PageTitle>
+
+<Form Model="reservation" @rendermode="InteractiveServer">
+    <PropertyInput Id="across-name" For="() => reservation.Name" />
+</Form>
+
+@code {
+    private readonly Reservation reservation = new();
+}

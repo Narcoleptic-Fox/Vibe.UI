@@ -1,0 +1,13 @@
+@page "/boundary/field-across"
+@using Vibe.UI.Compatibility.WebApp.Client.Boundary
+
+@* The rule broken, on purpose: this page is static, and it hands For to an interactive
+   PropertyInput. An expression cannot be serialized, so the request fails while prerendering.
+   WebAppCompatibilityTests pins the failure and its text. Do not fix this page. *@
+<PageTitle>For passed across the interactive boundary</PageTitle>
+
+<PropertyInput Id="across-name" For="() => reservation.Name" @rendermode="InteractiveServer" />
+
+@code {
+    private readonly Reservation reservation = new();
+}
