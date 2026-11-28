@@ -9,6 +9,8 @@ namespace Vibe.UI.Docs.E2E.Tests.Functional;
 [Trait("Category", "Accessibility")]
 public class DatePickerKeyboardTests : E2ETestBase
 {
+    // The pickers move focus after they render, through a script call. A focus check therefore
+    // waits for it: read straight after the popup shows, the answer depends on the machine.
     [Fact]
     public async Task DatePickerSupportsKeyboardSelectionAndRestoresInputFocus()
     {
@@ -23,7 +25,7 @@ public class DatePickerKeyboardTests : E2ETestBase
         var popup = preview.Locator(".date-popup");
         await popup.WaitForAsync();
         var activeDay = preview.Locator(".date-day[tabindex='0']");
-        (await activeDay.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(activeDay).ToBeFocusedAsync();
         (await activeDay.EvaluateAsync<string>("element => getComputedStyle(element).outlineStyle")).ShouldNotBe("none");
 
         var initialDayId = await activeDay.GetAttributeAsync("id");
@@ -31,7 +33,7 @@ public class DatePickerKeyboardTests : E2ETestBase
 
         var nextActiveDay = preview.Locator(".date-day[tabindex='0']");
         (await nextActiveDay.GetAttributeAsync("id")).ShouldNotBe(initialDayId);
-        (await nextActiveDay.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(nextActiveDay).ToBeFocusedAsync();
 
         await nextActiveDay.PressAsync("Escape");
         await popup.WaitForAsync(new() { State = WaitForSelectorState.Detached });
@@ -39,7 +41,7 @@ public class DatePickerKeyboardTests : E2ETestBase
         await Page.WaitForFunctionAsync(
             "elementId => document.activeElement?.id === elementId",
             inputId);
-        (await input.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(input).ToBeFocusedAsync();
 
         await input.PressAsync("Enter");
         activeDay = preview.Locator(".date-day[tabindex='0']");
@@ -66,11 +68,11 @@ public class DatePickerKeyboardTests : E2ETestBase
         var popup = preview.Locator(".daterange-popup");
         await popup.WaitForAsync();
         var activeDay = preview.Locator(".daterange-day[tabindex='0']");
-        (await activeDay.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(activeDay).ToBeFocusedAsync();
 
         await activeDay.PressAsync("Enter");
         var activeEndDay = preview.Locator(".daterange-calendar").Nth(1).Locator(".daterange-day[tabindex='0']");
-        (await activeEndDay.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(activeEndDay).ToBeFocusedAsync();
 
         await activeEndDay.PressAsync("ArrowRight");
         activeEndDay = preview.Locator(".daterange-calendar").Nth(1).Locator(".daterange-day[tabindex='0']");
@@ -91,7 +93,7 @@ public class DatePickerKeyboardTests : E2ETestBase
         await Page.WaitForFunctionAsync(
             "elementId => document.activeElement?.id === elementId",
             endInputId);
-        (await endInput.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(endInput).ToBeFocusedAsync();
     }
 
     [Theory]
@@ -111,7 +113,7 @@ public class DatePickerKeyboardTests : E2ETestBase
 
         var activeDay = preview.Locator(activeDaySelector);
         await activeDay.WaitForAsync();
-        (await activeDay.EvaluateAsync<bool>("element => document.activeElement === element")).ShouldBeTrue();
+        await Assertions.Expect(activeDay).ToBeFocusedAsync();
 
         var initialDayId = await activeDay.GetAttributeAsync("id");
         initialDayId.ShouldNotBeNullOrWhiteSpace();
