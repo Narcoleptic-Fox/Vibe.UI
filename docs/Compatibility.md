@@ -82,6 +82,16 @@ The `/boundary` routes pin what happens otherwise, as observed on .NET 10:
 
 All three compile with no warning, so nothing stops them before the page is requested. Do not repair the two broken pages: the tests assert that they fail.
 
+## A 404 in Safari's console on pages below the root
+
+Found 2026-11-27, on .NET 10. It is not a missing file and nothing on the page is broken.
+
+- The app's bundled stylesheet (`<App>.styles.css`) imports the library's scoped bundle, and the server sends a matching header on it: `Link: <_content/Vibe.UI/Vibe.UI.<hash>.bundle.scp.css>; rel="preload"; as="style"`. The address is relative.
+- WebKit resolves that address against the page, not the stylesheet. On `/boundary/none` it asks for `/boundary/_content/Vibe.UI/Vibe.UI.<hash>.bundle.scp.css`, gets a 404 or drops the request, and then loads the right file from the `@import`.
+- Chromium and Firefox do not make the extra request. A page at the root does not show it in any browser, which is why the smoke pages never did.
+
+The header comes from the .NET SDK's static web assets, not from Vibe.UI, so any Blazor Web App with scoped CSS from a component library will show it. The browser tests ignore exactly that address and report every other error response by its URL.
+
 ## CI Gate
 
 The CI workflow restores and builds both fixtures in Release configuration, installs the Playwright browser runtime, and runs the `Category=Compatibility` browser smoke tests in Chromium, Firefox, and WebKit.
