@@ -537,7 +537,18 @@
 
         if (dayOffset != 0)
         {
-            MoveDayFocus(date, dayOffset, isStartCalendar);
+            // From the day that has the roving focus, not the cell the key landed on: until the
+            // focus call for the last move completes, the browser can still have focus on the
+            // previous day (or on the start calendar after a start date was picked), and a second
+            // key from there would repeat or misplace the first move.
+            if (_focusedDate.HasValue)
+            {
+                MoveDayFocus(_focusedDate.Value, dayOffset, StartDateFocused);
+            }
+            else
+            {
+                MoveDayFocus(date, dayOffset, isStartCalendar);
+            }
         }
     }
 
