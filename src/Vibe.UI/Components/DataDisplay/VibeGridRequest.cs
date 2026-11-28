@@ -22,3 +22,22 @@ public readonly record struct VibeGridRequest(
 /// <param name="Items">The items on this page.</param>
 /// <param name="TotalCount">The number of items on every page together.</param>
 public sealed record VibeGridPage<TItem>(IReadOnlyCollection<TItem> Items, int TotalCount);
+
+/// <summary>
+/// A page together with the question it answered. It is what a <see cref="VibeGrid{TGridItem}"/>
+/// saves while the server prerenders, so that the interactive render does not fetch the page
+/// again. It is written and read as JSON, so the rows must survive that.
+/// </summary>
+/// <typeparam name="TItem">The type of a row.</typeparam>
+/// <param name="StartIndex">The index of the page's first item among all items.</param>
+/// <param name="PageSize">How many items a page holds.</param>
+/// <param name="SortBy">The name of the property sorted by, or null.</param>
+/// <param name="SortDescending">Whether the sort runs from high to low.</param>
+/// <param name="Page">The page that answered.</param>
+public sealed record VibeGridSnapshot<TItem>(
+    int StartIndex,
+    int PageSize,
+    string? SortBy,
+    bool SortDescending,
+    VibeGridPage<TItem> Page
+);

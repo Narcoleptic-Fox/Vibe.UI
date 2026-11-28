@@ -87,10 +87,32 @@
     [Parameter]
     public Func<TGridItem, string?>? RowClass { get; set; }
 
+    /// <summary>
+    /// Set by the framework, not by a page. The page fetched while the server prerenders is
+    /// kept here, so the interactive render that follows starts with it and does not fetch
+    /// it a second time. It is empty at every other moment.
+    /// </summary>
+    [PersistentState]
+    public VibeGridSnapshot<TGridItem>? PrerenderedPage { get; set; }
+
     /// <inheritdoc />
     protected override string ComponentClass => "vibe-grid";
 
     private int PageCount => (pagination.LastPageIndex ?? 0) + 1;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        // What the prerender fetched becomes the first thing remembered, so QuickGrid's first
+        // question here is answered without asking the provider. Then it is let go: the same
+        // property is also saved when an Interactive Server circuit is paused, and a page resumed
+        // later must ask again, since the grid cannot tell that its filter is still the same.
+        if (PrerenderedPage is { } carried)
+        {
+            last = (new RequestKey(carried.StartIndex, carried.PageSize, carried.SortBy, carried.SortDescending), carried.Page);
+            PrerenderedPage = null;
+        }
+    }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -145,6 +167,13 @@
             page = await ItemsProvider(new VibeGridRequest(
                 request.StartIndex / pageSize, pageSize, sort.PropertyName, descending, stopped.Token));
             last = (key, page);
+
+            // Only a render that is not interactive is followed by one that is.
+            if (!RendererInfo.IsInteractive)
+            {
+                PrerenderedPage = new VibeGridSnapshot<TGridItem>(
+                    key.StartIndex, key.PageSize, key.SortBy, key.SortDescending, page);
+            }
         }
 
         return GridItemsProviderResult.From(
