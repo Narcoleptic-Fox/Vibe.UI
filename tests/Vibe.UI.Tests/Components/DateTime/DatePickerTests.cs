@@ -316,6 +316,27 @@ public class DatePickerTests : TestBase
     }
 
     [Fact]
+    public void DatePicker_ArrowKeysBeforeFocusArrives_MoveFromTheFocusedDay()
+    {
+        // The focus call for a move is still out when the next key arrives (a slow device or
+        // circuit), so the browser sends that key from the previous day. bUnit moves no focus,
+        // which is the same situation: both presses land on the day the popup opened on.
+        JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
+        var openedOn = new System.DateTime(2024, 6, 12);
+        var cut = Render<DatePicker>(parameters => parameters.Add(p => p.Date, openedOn));
+
+        cut.Find(".date-icon").Click();
+        FindDateButton(cut, openedOn).KeyDown("ArrowRight");
+        FindDateButton(cut, openedOn).KeyDown("ArrowRight");
+
+        var focusedDay = FindDateButton(cut, openedOn.AddDays(2));
+        focusedDay.GetAttribute("tabindex")!.ShouldBe("0");
+        cut.FindAll(".date-day").Count(day => day.GetAttribute("tabindex") == "0").ShouldBe(1);
+        JSInterop.Invocations.Last().Identifier.ShouldBe("focusElement");
+        JSInterop.Invocations.Last().Arguments[0].ShouldBe(focusedDay.Id);
+    }
+
+    [Fact]
     public void DatePicker_EscapeClosesPopup_AndRestoresOriginatingInputFocus()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");

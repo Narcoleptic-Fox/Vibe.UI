@@ -401,7 +401,10 @@
 
         if (dayOffset != 0)
         {
-            MoveDayFocus(date, dayOffset);
+            // From the day that has the roving focus, not the cell the key landed on: until the
+            // focus call for the last move completes, the browser can still have focus on the
+            // previous day, and a second key from there would repeat the first move.
+            MoveDayFocus(_focusedDate ?? date, dayOffset);
         }
     }
 

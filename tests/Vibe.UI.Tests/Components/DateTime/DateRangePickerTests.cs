@@ -483,6 +483,77 @@ public class DateRangePickerTests : TestBase
     }
 
     [Fact]
+    public void DateRangePicker_ArrowKeysBeforeFocusArrives_MoveFromTheFocusedDay()
+    {
+        // The focus call for a move is still out when the next key arrives (a slow device or
+        // circuit), so the browser sends that key from the previous day. bUnit moves no focus,
+        // which is the same situation: both presses land on the day the popup opened on.
+        JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
+        var openedOn = new System.DateTime(2024, 6, 12);
+        var cut = Render<DateRangePicker>(parameters => parameters
+            .Add(p => p.StartDate, openedOn)
+            .Add(p => p.EndDate, new System.DateTime(2024, 6, 20)));
+
+        cut.Find(".daterange-icon").Click();
+        FindStartDateButton(cut, openedOn).KeyDown("ArrowRight");
+        FindStartDateButton(cut, openedOn).KeyDown("ArrowRight");
+
+        var focusedDay = FindStartDateButton(cut, openedOn.AddDays(2));
+        focusedDay.GetAttribute("tabindex")!.ShouldBe("0");
+        cut.FindAll(".daterange-day").Count(day => day.GetAttribute("tabindex") == "0").ShouldBe(1);
+        JSInterop.Invocations.Last().Identifier.ShouldBe("focusElement");
+        JSInterop.Invocations.Last().Arguments[0].ShouldBe(focusedDay.Id);
+    }
+
+    [Fact]
+    public void DateRangePicker_ArrowKeyBeforeFocusReachesTheEndCalendar_MovesInTheEndCalendar()
+    {
+        // Picking a start date moves the roving focus to the end calendar. A key sent before that
+        // focus call completes still comes from the start day; it must move the end day.
+        JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
+        var start = new System.DateTime(2024, 6, 12);
+        var cut = Render<DateRangePicker>(parameters => parameters
+            .Add(p => p.StartDate, start)
+            .Add(p => p.EndDate, new System.DateTime(2024, 6, 20)));
+
+        cut.Find(".daterange-icon").Click();
+        FindStartDateButton(cut, start).Click();
+        var endStop = cut.FindAll(".daterange-calendar")[1]
+            .QuerySelectorAll(".daterange-day")
+            .Single(day => day.GetAttribute("tabindex") == "0");
+        var endStopDate = System.DateTime.ParseExact(endStop.Id![^8..], "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+
+        FindStartDateButton(cut, start).KeyDown("ArrowRight");
+
+        var focusedDay = FindEndDateButton(cut, endStopDate.AddDays(1));
+        focusedDay.GetAttribute("tabindex")!.ShouldBe("0");
+        cut.FindAll(".daterange-day").Count(day => day.GetAttribute("tabindex") == "0").ShouldBe(1);
+        JSInterop.Invocations.Last().Identifier.ShouldBe("focusElement");
+        JSInterop.Invocations.Last().Arguments[0].ShouldBe(focusedDay.Id);
+    }
+
+    [Fact]
+    public void DateRangePicker_ArrowKeyInTheEndCalendar_MovesTheEndDay()
+    {
+        JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
+        var end = new System.DateTime(2024, 6, 15);
+        var cut = Render<DateRangePicker>(parameters => parameters
+            .Add(p => p.StartDate, new System.DateTime(2024, 6, 10))
+            .Add(p => p.EndDate, end));
+
+        cut.FindAll(".daterange-inputs input")[1].Click();
+        FindEndDateButton(cut, end).GetAttribute("tabindex")!.ShouldBe("0");
+
+        FindEndDateButton(cut, end).KeyDown("ArrowLeft");
+
+        var focusedDay = FindEndDateButton(cut, end.AddDays(-1));
+        focusedDay.GetAttribute("tabindex")!.ShouldBe("0");
+        cut.FindAll(".daterange-day").Count(day => day.GetAttribute("tabindex") == "0").ShouldBe(1);
+        JSInterop.Invocations.Last().Identifier.ShouldBe("focusElement");
+        JSInterop.Invocations.Last().Arguments[0].ShouldBe(focusedDay.Id);
+    }
+
+    [Fact]
     public void DateRangePicker_EscapeClosesPopup_AndRestoresOriginatingEndInputFocus()
     {
         JSInterop.SetupModule("./_content/Vibe.UI/js/vibe-dom.js");
