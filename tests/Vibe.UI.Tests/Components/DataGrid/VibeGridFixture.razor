@@ -1,0 +1,48 @@
+@* A list page written as an app writes it: columns as QuickGrid's own, one provider, and a
+   filter the page owns. The provider is a fake that counts what it is asked. VibeGridTests
+   drives this. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<VibeGrid @ref="Grid" TGridItem="Part" ItemsProvider="Provide" PageSize="PageSize" ItemKey="part => part.Id">
+    <PropertyColumn Property="part => part.Name" Sortable="true" />
+    <PropertyColumn Property="part => part.Stock" Sortable="true" />
+</VibeGrid>
+
+@* Something else on the page that changes, so the page renders again around the grid. *@
+<button id="poke" type="button" @onclick="() => pokes++">Poked @pokes</button>
+
+@code {
+    public sealed record Part(int Id, string Name, int Stock);
+
+    private int pokes;
+
+    [Parameter]
+    public int PageSize { get; set; } = 10;
+
+    public VibeGrid<Part> Grid { get; private set; } = default!;
+
+    /// <summary>Every question the provider was asked, in order.</summary>
+    public List<VibeGridRequest> Requests { get; } = [];
+
+    /// <summary>What the page filters by. Changing it changes the answer and the total.</summary>
+    public string Filter { get; set; } = "";
+
+    private ValueTask<VibeGridPage<Part>> Provide(VibeGridRequest request)
+    {
+        Requests.Add(request);
+        IEnumerable<Part> all = Enumerable
+            .Range(1, 95)
+            .Select(i => new Part(i, $"Part {i:000}", i % 7))
+            .Where(part => part.Name.Contains(Filter, StringComparison.Ordinal));
+        all = (request.SortBy, request.SortDescending) switch
+        {
+            (nameof(Part.Stock), false) => all.OrderBy(part => part.Stock).ThenBy(part => part.Id),
+            (nameof(Part.Stock), true) => all.OrderByDescending(part => part.Stock).ThenBy(part => part.Id),
+            (nameof(Part.Name), true) => all.OrderByDescending(part => part.Name),
+            _ => all,
+        };
+        List<Part> matching = all.ToList();
+        List<Part> page = matching.Skip(request.Page * request.PageSize).Take(request.PageSize).ToList();
+        return ValueTask.FromResult(new VibeGridPage<Part>(page, matching.Count));
+    }
+}
