@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 <section data-testid="grid-@Mode">
-    <VibeGrid TGridItem="Part" ItemsProvider="Provide" ItemKey="part => part.Id">
+    <VibeGrid TGridItem="Part" ItemsProvider="Provide" ItemKey="part => part.Id" StateKey="@StateKey">
         <PropertyColumn Property="part => part.Name" Sortable="true" />
         <PropertyColumn Property="part => part.Stock" Sortable="true" Align="Align.End" />
     </VibeGrid>
@@ -17,10 +17,7 @@
 @code {
     public sealed record Part(int Id, string Name, int Stock);
 
-    private static readonly List<Part> Parts = Enumerable
-        .Range(1, 95)
-        .Select(i => new Part(i, $"Part {i:000}", i % 7))
-        .ToList();
+    private List<Part> Parts = [];
 
     private int requests;
     private int pokes;
@@ -28,6 +25,17 @@
     /// <summary>Names the hosting render mode in the test ids, so each page can be told apart.</summary>
     [Parameter, EditorRequired]
     public string Mode { get; set; } = string.Empty;
+
+    /// <summary>What the rows are called, so two of these on one page can be told apart.</summary>
+    [Parameter]
+    public string Label { get; set; } = "Part";
+
+    /// <summary>Passed to the grid: tells its prerendered page apart from another grid's.</summary>
+    [Parameter]
+    public string? StateKey { get; set; }
+
+    protected override void OnInitialized() =>
+        Parts = Enumerable.Range(1, 95).Select(i => new Part(i, $"{Label} {i:000}", i % 7)).ToList();
 
     private ValueTask<VibeGridPage<Part>> Provide(VibeGridRequest request)
     {

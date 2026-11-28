@@ -1,36 +1,20 @@
-@* Two grids in one component. The framework tells a component's saved state apart by its
-   parent, its type and its key, so two grids of one row type under one parent are the same to
-   it unless each has a key. Keyed, each starts with its own prerendered page. Unkeyed, neither
-   is given one and each fetches again, with its own rows: slower, never wrong. *@
+@* Two grids of one row type in one component. Each keeps its prerendered page under its row
+   type and its StateKey, so with a key each they start with their own pages. With none they
+   share a name, nothing is kept for either, and each fetches again, with its own rows: slower,
+   never wrong. *@
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 <section data-testid="two-grids">
-    @if (Keyed)
-    {
-        <div data-testid="first">
-            <VibeGrid @key="@("alpha")" TGridItem="Row" ItemsProvider="ProvideAlpha" PageSize="5">
-                <PropertyColumn Property="row => row.Name" />
-            </VibeGrid>
-        </div>
-        <div data-testid="second">
-            <VibeGrid @key="@("beta")" TGridItem="Row" ItemsProvider="ProvideBeta" PageSize="5">
-                <PropertyColumn Property="row => row.Name" />
-            </VibeGrid>
-        </div>
-    }
-    else
-    {
-        <div data-testid="first">
-            <VibeGrid TGridItem="Row" ItemsProvider="ProvideAlpha" PageSize="5">
-                <PropertyColumn Property="row => row.Name" />
-            </VibeGrid>
-        </div>
-        <div data-testid="second">
-            <VibeGrid TGridItem="Row" ItemsProvider="ProvideBeta" PageSize="5">
-                <PropertyColumn Property="row => row.Name" />
-            </VibeGrid>
-        </div>
-    }
+    <div data-testid="first">
+        <VibeGrid TGridItem="Row" ItemsProvider="ProvideAlpha" PageSize="5" StateKey="@(Keyed ? "alpha" : null)">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+    </div>
+    <div data-testid="second">
+        <VibeGrid TGridItem="Row" ItemsProvider="ProvideBeta" PageSize="5" StateKey="@(Keyed ? "beta" : null)">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+    </div>
 
     <p data-testid="two-grids-requests">Alpha: @alpha, Beta: @beta</p>
     <button type="button" data-testid="two-grids-poke" @onclick="() => pokes++">Poked @pokes</button>

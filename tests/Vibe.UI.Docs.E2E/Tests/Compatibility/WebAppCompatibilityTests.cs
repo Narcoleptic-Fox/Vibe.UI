@@ -153,20 +153,7 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         var requests = grid.Locator($"[data-testid='grid-{mode}-requests']");
         var poke = grid.Locator($"[data-testid='grid-{mode}-poke']");
 
-        // Interactive once a click is counted. Each attempt is a new click, so it can be repeated.
-        var deadline = DateTimeOffset.UtcNow.AddSeconds(30);
-        while (true)
-        {
-            await poke.ClickAsync();
-            try
-            {
-                await Assertions.Expect(poke).Not.ToHaveTextAsync("Poked 0", new() { Timeout = 1000 });
-                break;
-            }
-            catch (PlaywrightException) when (DateTimeOffset.UtcNow < deadline)
-            {
-            }
-        }
+        await PokeUntilInteractiveAsync(poke);
 
         // The interactive component is a new one, and it has asked nothing: it started with the
         // page the server fetched. The rows and the paginator are drawn from that page.
@@ -209,6 +196,75 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         await NavigateToSmokePageAsync($"/grid/two/{route}", "two-grids");
 
         var poke = Page.GetByTestId("two-grids-poke");
+        await PokeUntilInteractiveAsync(poke);
+
+        // Keyed: neither asks. Unkeyed: the two share a name, so nothing is kept for either and
+        // each asks once. Either way each grid shows its own rows.
+        await Assertions.Expect(Page.GetByTestId("two-grids-requests")).ToHaveTextAsync(interactiveRequests);
+        await Assertions
+            .Expect(Page.Locator("[data-testid='first'] tbody tr[aria-rowindex] td").First)
+            .ToHaveTextAsync("Alpha 1");
+        await Assertions
+            .Expect(Page.Locator("[data-testid='second'] tbody tr[aria-rowindex] td").First)
+            .ToHaveTextAsync("Beta 1");
+
+        AssertNoBrowserErrors();
+    }
+
+    [Theory]
+    [InlineData("keyed", "Requests: 0")]
+    [InlineData("unkeyed", "Requests: 1")]
+    public async Task TheSameGridComponentTwiceOnAPageShowsItsOwnRowsAndKeepsItsPageOnlyWithAKey(string route, string interactiveRequests)
+    {
+        await NavigateToSmokePageAsync($"/grid/twice/{route}", "grid-left");
+
+        foreach (var (mode, label) in new[] { ("left", "Left"), ("right", "Right") })
+        {
+            var grid = Page.Locator($"[data-testid='grid-{mode}']");
+            await PokeUntilInteractiveAsync(grid.Locator($"[data-testid='grid-{mode}-poke']"));
+
+            await Assertions.Expect(grid.Locator($"[data-testid='grid-{mode}-requests']")).ToHaveTextAsync(interactiveRequests);
+            await Assertions.Expect(grid.Locator("tbody tr[aria-rowindex]")).ToHaveCountAsync(10);
+            await Assertions.Expect(grid.Locator("tbody tr[aria-rowindex] td").First).ToHaveTextAsync($"{label} 001");
+        }
+
+        // A grid under its own name keeps its page whatever the other two do with theirs.
+        var third = Page.Locator("[data-testid='grid-third']");
+        await PokeUntilInteractiveAsync(third.Locator("[data-testid='grid-third-poke']"));
+        await Assertions.Expect(third.Locator("[data-testid='grid-third-requests']")).ToHaveTextAsync("Requests: 0");
+        await Assertions.Expect(third.Locator("tbody tr[aria-rowindex] td").First).ToHaveTextAsync("Third 001");
+
+        AssertNoBrowserErrors();
+    }
+
+    [Fact]
+    public async Task AGridOnAPageWithNoRenderModeIsRenderedAndAnInteractiveGridBesideItStillStartsWithItsPage()
+    {
+        // With the attribute the framework offers for this, a grid on a static page failed the
+        // request: a component with no render mode cannot keep state. Seen as an HTTP 500.
+        var response = await Page.Context.APIRequest.GetAsync($"{BaseUrl.TrimEnd('/')}/grid/static");
+        response.Status.ShouldBe(200);
+        var html = await response.TextAsync();
+        html.ShouldContain("Static 001");
+        html.ShouldContain("Beside 001");
+
+        await NavigateToSmokePageAsync("/grid/static", "grid-static");
+
+        var still = Page.Locator("[data-testid='grid-static']");
+        await Assertions.Expect(still.Locator("tbody tr[aria-rowindex]")).ToHaveCountAsync(10);
+        await Assertions.Expect(still.Locator("[data-testid='grid-static-requests']")).ToHaveTextAsync("Requests: 1");
+
+        var beside = Page.Locator("[data-testid='grid-beside']");
+        await PokeUntilInteractiveAsync(beside.Locator("[data-testid='grid-beside-poke']"));
+        await Assertions.Expect(beside.Locator("[data-testid='grid-beside-requests']")).ToHaveTextAsync("Requests: 0");
+        await Assertions.Expect(beside.Locator("tbody tr[aria-rowindex] td").First).ToHaveTextAsync("Beside 001");
+
+        AssertNoBrowserErrors();
+    }
+
+    // Interactive once a click is counted. Each attempt is a new click, so it can be repeated.
+    private static async Task PokeUntilInteractiveAsync(ILocator poke)
+    {
         var deadline = DateTimeOffset.UtcNow.AddSeconds(30);
         while (true)
         {
@@ -222,17 +278,5 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
             {
             }
         }
-
-        // Keyed: neither asks. Unkeyed: the framework cannot tell them apart, so neither is given
-        // a page and each asks once. Either way each grid shows its own rows.
-        await Assertions.Expect(Page.GetByTestId("two-grids-requests")).ToHaveTextAsync(interactiveRequests);
-        await Assertions
-            .Expect(Page.Locator("[data-testid='first'] tbody tr[aria-rowindex] td").First)
-            .ToHaveTextAsync("Alpha 1");
-        await Assertions
-            .Expect(Page.Locator("[data-testid='second'] tbody tr[aria-rowindex] td").First)
-            .ToHaveTextAsync("Beta 1");
-
-        AssertNoBrowserErrors();
     }
 }
