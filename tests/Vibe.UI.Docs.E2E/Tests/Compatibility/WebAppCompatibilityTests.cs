@@ -51,16 +51,20 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         (await Page.Locator($"#{mode}-name-label").TextContentAsync()).ShouldNotBeNull().ShouldContain("Guest name");
 
         // Typed before the runtime attaches, text is lost, so type until the model answers.
+        // Each attempt types something new: a browser reports a change only when the value
+        // differs from the last one it reported, so the same text twice would be no retry.
         var name = Page.Locator($"#{mode}-name");
         var echo = Page.Locator($"[data-testid='boundary-{mode}-echo']");
         var deadline = DateTimeOffset.UtcNow.AddSeconds(30);
-        while (true)
+        var typed = string.Empty;
+        for (var attempt = 1; ; attempt++)
         {
-            await name.FillAsync("Ada");
+            typed = $"Ada{attempt}";
+            await name.FillAsync(typed);
             await name.BlurAsync();
             try
             {
-                await Assertions.Expect(echo).ToHaveTextAsync("Ada for 2", new() { Timeout = 1000 });
+                await Assertions.Expect(echo).ToHaveTextAsync($"{typed} for 2", new() { Timeout = 1000 });
                 break;
             }
             catch (PlaywrightException) when (DateTimeOffset.UtcNow < deadline)
@@ -71,15 +75,18 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         var guests = Page.Locator($"#{mode}-guests");
         await guests.FillAsync("5");
         await guests.BlurAsync();
-        await Assertions.Expect(echo).ToHaveTextAsync("Ada for 5");
+        await Assertions.Expect(echo).ToHaveTextAsync($"{typed} for 5");
 
         AssertNoBrowserErrors();
     }
 
-    [Fact]
-    public async Task ForHandedFromAStaticPageToAnInteractivePropertyInputFailsTheRequest()
+    [Theory]
+    [InlineData("server", "ServerComponentSerializer")]
+    [InlineData("client", "WebAssemblyComponentSerializer")]
+    [InlineData("auto", "ServerComponentSerializer")]
+    public async Task ForHandedFromAStaticPageToAnInteractivePropertyInputFailsTheRequest(string mode, string serializer)
     {
-        var response = await Page.GotoAsync($"{BaseUrl.TrimEnd('/')}/boundary/field-across");
+        var response = await Page.GotoAsync($"{BaseUrl.TrimEnd('/')}/boundary/field-across/{mode}");
 
         response.ShouldNotBeNull().Status.ShouldBe(500);
         var body = System.Net.WebUtility.HtmlDecode(await response.TextAsync());
@@ -87,8 +94,10 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         // The framework's message names neither PropertyInput nor For. This is the text a
         // developer sees, so the docs quote it; if it changes, the docs are wrong.
         body.ShouldContain("Serialization and deserialization of 'System.Type' instances is not supported");
-        // And it is raised where the static renderer serializes an interactive component's parameters.
+        // And it is raised where the static renderer serializes an interactive component's
+        // parameters, by the serializer of that render mode.
         body.ShouldContain("SSRRenderModeBoundary");
+        body.ShouldContain(serializer);
     }
 
     [Fact]
