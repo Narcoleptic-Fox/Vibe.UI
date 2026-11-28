@@ -1,0 +1,302 @@
+@page "/components/vibegrid"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Vibe.UI.Components
+
+<PageTitle>VibeGrid - Vibe.UI</PageTitle>
+
+<div class="vibe-max-w-4xl vibe-mx-auto">
+    <header class="vibe-mb-8">
+        <div class="vibe-flex vibe-items-center vibe-gap-2 vibe-text-sm vibe-text-muted-foreground vibe-mb-2">
+            <a href="./">Docs</a><span>/</span><a href="components">Components</a><span>/</span>
+            <span class="vibe-text-foreground">VibeGrid</span>
+        </div>
+        <h1 class="vibe-text-3xl vibe-font-bold vibe-text-foreground vibe-mb-3">VibeGrid</h1>
+        <p class="vibe-text-lg vibe-text-muted-foreground">
+            Microsoft's QuickGrid with the parts every list page repeats: the pagination state, a
+            paginator, the vibe theme, and one request to your server for each page shown. The
+            columns are QuickGrid's own.
+        </p>
+    </header>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Preview</h2>
+        <div class="vibe-p-4 sm:vibe-p-6 vibe-bg-card vibe-rounded-lg vibe-border vibe-border-border">
+            <div class="vibe-flex vibe-flex-wrap vibe-items-end vibe-gap-4 vibe-mb-4">
+                <div class="vibe-max-w-xs">
+                    <Input TValue="string" Id="grid-filter" Label="Name contains" Value="@filter"
+                           ValueChanged="ApplyFilter" Placeholder="Part 09" />
+                </div>
+                <p class="vibe-text-sm vibe-text-muted-foreground" data-testid="grid-requests">
+                    Requests to the provider: @requests
+                </p>
+            </div>
+
+            <VibeGrid @ref="grid" TGridItem="Part" ItemsProvider="Provide" ItemKey="part => part.Id">
+                <PropertyColumn Property="part => part.Name" Sortable="true" />
+                <PropertyColumn Property="part => part.Stock" Sortable="true" Align="Align.End" />
+                <TemplateColumn Title="Status">
+                    <Badge Variant="@(context.Stock == 0 ? "secondary" : "default")">
+                        @(context.Stock == 0 ? "Out of stock" : "In stock")
+                    </Badge>
+                </TemplateColumn>
+            </VibeGrid>
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Usage</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-3">
+            Give it a provider and write the columns inside, as you would inside a
+            <code>QuickGrid</code>. The provider is asked for a page number, a page size and a
+            sort; it answers with the items and the total. It names nothing from your server's
+            contract, so mapping onto your own paged query is a few lines.
+        </p>
+        <CodeBlock Code="@UsageCode" Language="razor" />
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">One request for each page shown</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-3">
+            QuickGrid asks its provider again after any answer that changes the total, at the
+            next render of the page around it. Nothing on screen shows it: the rows are right
+            either way. <code>VibeGrid</code> remembers the last answer and gives it again for the
+            same question. Counted in the component tests, with a provider that records every
+            call:
+        </p>
+        <div class="vibe-overflow-x-auto" tabindex="0">
+            <table class="vibe-w-full vibe-text-sm">
+                <thead><tr class="vibe-border-b vibe-border-border">
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Action</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">QuickGrid alone</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">VibeGrid</th>
+                </tr></thead>
+                <tbody class="vibe-divide-y vibe-divide-border">
+                    @foreach (var (action, alone, wrapped) in RequestRows)
+                    {
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4">@action</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@alone</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@wrapped</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Filters and changed data</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-3">
+            The grid cannot see a filter: it lives in your page, and your provider reads it. When
+            it changes, tell the grid. <code>RefreshAsync(toFirstPage: true)</code> goes back to
+            the first page and asks once. After a row is added or removed,
+            <code>RefreshAsync()</code> asks again for the page already showing. Every call asks,
+            so call it only when the filter has really changed: an <code>Input</code> reports
+            its value while it is typed and once more when it is left.
+        </p>
+        <CodeBlock Code="@FilterCode" Language="razor" />
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">In a Blazor Web App</h2>
+        <p class="vibe-text-muted-foreground">
+            The provider is a delegate and the columns are child content. Neither can be handed
+            from a statically rendered page to an interactive component, so the page that holds
+            the grid, or a component around it, carries the render mode. The same rule and its
+            error messages are on the
+            <a class="vibe-text-link vibe-underline" href="components/propertyinput">PropertyInput</a> page.
+        </p>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Limits today</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
+            <li>Sorting is by one column. Changing the sort keeps the current page.</li>
+            <li>Paging is by page number, with a paginator. There is no virtual scrolling.</li>
+            <li>
+                The type parameter is <code>TGridItem</code>, as QuickGrid's is. A column works out
+                its row type from a parameter of that name.
+            </li>
+            <li>
+                On a short last page QuickGrid adds empty rows up to the page size, so the page
+                does not jump. They carry no <code>aria-rowindex</code>.
+            </li>
+            <li>
+                A page fetched while the server prerenders is fetched again when the page becomes
+                interactive.
+            </li>
+        </ul>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-6">API Reference</h2>
+        <div class="vibe-overflow-x-auto" tabindex="0">
+            <table class="vibe-w-full vibe-text-sm">
+                <thead><tr class="vibe-border-b vibe-border-border">
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Name</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Type</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Default</th>
+                    <th scope="col" class="vibe-text-left vibe-py-3 vibe-px-4 vibe-font-medium">Description</th>
+                </tr></thead>
+                <tbody class="vibe-divide-y vibe-divide-border">
+                    @foreach (var property in Properties)
+                    {
+                        <tr>
+                            <td class="vibe-py-3 vibe-px-4 vibe-font-mono">@property.Name</td>
+                            <td class="vibe-py-3 vibe-px-4"><TypeBadge Type="@property.Type" /></td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Default</td>
+                            <td class="vibe-py-3 vibe-px-4 vibe-text-muted-foreground">@property.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Installation</h2>
+        <CodeBlock Code="vibe add vibegrid" Language="bash" />
+        <p class="vibe-mt-3 vibe-text-sm vibe-text-muted-foreground">
+            Copies <code>Pagination</code> with it, and adds a reference to
+            <code>Microsoft.AspNetCore.Components.QuickGrid</code> to your project. A reference
+            you already have is left as it is.
+        </p>
+    </section>
+
+    <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Accessibility</h2>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
+            @foreach (var item in AccessibilityItems)
+            {
+                <li class="vibe-flex vibe-items-start vibe-gap-2">
+                    <Icon Name="check-circle" Size="20" CssClass="vibe-text-green-500 vibe-mt-0.5 vibe-shrink-0" />
+                    @item
+                </li>
+            }
+        </ul>
+    </section>
+</div>
+
+@code {
+    public sealed record Part(int Id, string Name, int Stock);
+
+    private static readonly List<Part> Parts = Enumerable
+        .Range(1, 95)
+        .Select(i => new Part(i, $"Part {i:000}", i % 7))
+        .ToList();
+
+    private VibeGrid<Part>? grid;
+    private string filter = string.Empty;
+    private int requests;
+
+    private ValueTask<VibeGridPage<Part>> Provide(VibeGridRequest request)
+    {
+        requests++;
+        IEnumerable<Part> matching = Parts.Where(part =>
+            part.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
+        matching = (request.SortBy, request.SortDescending) switch
+        {
+            (nameof(Part.Name), true) => matching.OrderByDescending(part => part.Name),
+            (nameof(Part.Stock), false) => matching.OrderBy(part => part.Stock).ThenBy(part => part.Id),
+            (nameof(Part.Stock), true) => matching.OrderByDescending(part => part.Stock).ThenBy(part => part.Id),
+            _ => matching.OrderBy(part => part.Name),
+        };
+        List<Part> all = matching.ToList();
+        List<Part> page = all.Skip(request.Page * request.PageSize).Take(request.PageSize).ToList();
+
+        // The count on screen is drawn by this page, which the grid does not render.
+        _ = InvokeAsync(StateHasChanged);
+        return ValueTask.FromResult(new VibeGridPage<Part>(page, all.Count));
+    }
+
+    private async Task ApplyFilter(string? value)
+    {
+        // A text field reports its value as it is typed and again when it is left. The second
+        // report changes nothing, and must not cost a request.
+        if ((value ?? string.Empty) == filter)
+        {
+            return;
+        }
+
+        filter = value ?? string.Empty;
+        if (grid is not null)
+        {
+            await grid.RefreshAsync(toFirstPage: true);
+        }
+    }
+
+    private static readonly (string Action, string Alone, string Wrapped)[] RequestRows =
+    [
+        ("Page load", "2, or 1 and 1 more at the next render", "1"),
+        ("Another page", "1", "1"),
+        ("Another sort", "1", "1"),
+        ("The page rendering again", "0, or the 1 owed from load", "0"),
+        ("RefreshAsync", "", "1"),
+    ];
+
+    private static readonly (string Name, string Type, string Default, string Description)[] Properties =
+    [
+        ("ItemsProvider", "Func<VibeGridRequest, ValueTask<VibeGridPage<TGridItem>>>", "required", "Fetches one page. Asked once for each different question"),
+        ("ChildContent", "RenderFragment", "null", "The columns: QuickGrid's PropertyColumn and TemplateColumn"),
+        ("PageSize", "int", "10", "How many rows a page holds"),
+        ("ItemKey", "Func<TGridItem, object>?", "the row itself", "What identifies a row across renders, such as item => item.Id"),
+        ("RowClass", "Func<TGridItem, string?>?", "null", "A CSS class for a row, by its item"),
+        ("ShowPagination", "bool", "true", "Whether the paginator is shown when there is more than one page"),
+        ("PaginationLabel", "string", "\"Pages\"", "The accessible name of the paginator"),
+        ("RefreshAsync(toFirstPage)", "Task", "", "Method. Asks the provider again; with toFirstPage, from the first page"),
+    ];
+
+    private static readonly string[] AccessibilityItems =
+    [
+        "QuickGrid renders a table: column headers are th cells with a column scope",
+        "A sortable header is a button, and its column says how it is sorted with aria-sort",
+        "The paginator is a nav landmark with a name, and marks the current page",
+        "Focus rings on the header buttons use the theme's ring colour, in light and dark",
+    ];
+
+    private const string UsageCode = """
+        @using Microsoft.AspNetCore.Components.QuickGrid
+
+        <VibeGrid TGridItem="Part" ItemsProvider="Provide" ItemKey="part => part.Id">
+            <PropertyColumn Property="part => part.Name" Sortable="true" />
+            <PropertyColumn Property="part => part.Stock" Sortable="true" />
+        </VibeGrid>
+
+        @code {
+            private async ValueTask<VibeGridPage<Part>> Provide(VibeGridRequest request)
+            {
+                var query = new GetParts
+                {
+                    Page = request.Page,
+                    PageSize = request.PageSize,
+                    SortBy = request.SortBy,
+                    SortDescending = request.SortDescending,
+                };
+                var response = await Parts.Send(query, request.CancellationToken);
+                return new VibeGridPage<Part>(response.Items, response.TotalCount);
+            }
+        }
+        """;
+
+    private const string FilterCode = """
+        <Input TValue="string" Label="Name contains" Value="@filter" ValueChanged="ApplyFilter" />
+
+        <VibeGrid @ref="grid" TGridItem="Part" ItemsProvider="Provide">
+            ...
+        </VibeGrid>
+
+        @code {
+            private VibeGrid<Part>? grid;
+            private string filter = "";
+
+            private async Task ApplyFilter(string? value)
+            {
+                // Input reports while typing and again on leaving the field.
+                if ((value ?? "") == filter) return;
+
+                filter = value ?? "";
+                await grid!.RefreshAsync(toFirstPage: true);
+            }
+        }
+        """;
+}
