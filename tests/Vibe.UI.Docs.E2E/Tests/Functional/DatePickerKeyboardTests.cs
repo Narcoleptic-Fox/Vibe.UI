@@ -233,6 +233,41 @@ public class DatePickerKeyboardTests : E2ETestBase
         (await Page.EvaluateAsync<int>("() => document.scrollingElement.scrollTop")).ShouldBe(scrollTop);
     }
 
+    // Decision, not accident: clicking a month button moves focus to the first selectable day of
+    // the month it shows, as the pickers' own month handlers ask, with no keyboard focus ring.
+    // The grid guard's focus rescue must not change that end state in any browser. In WebKit a
+    // click leaves focus on the body rather than the button, so there the rescue is what
+    // focuses that day first; elsewhere the button keeps focus until the picker's call lands.
+    [Theory]
+    [InlineData("/components/datepicker", ".date-input-wrapper input", ".date-day[tabindex='0']", ".date-nav-btn", ".date-grid")]
+    [InlineData("/components/daterangepicker", ".daterange-inputs input", ".daterange-day[tabindex='0']", ".daterange-nav-btn", ".daterange-grid")]
+    public async Task MouseMonthNavigationAfterKeyboardFocus_FocusesTheFirstSelectableDayWithoutAFocusRing(
+        string route,
+        string inputSelector,
+        string activeDaySelector,
+        string navButtonSelector,
+        string gridSelector)
+    {
+        await NavigateAndWaitForBlazorAsync(route);
+
+        var preview = Page.Locator("main section").First;
+        var input = preview.Locator(inputSelector).First;
+        await input.FocusAsync();
+        await input.PressAsync("Enter");
+        await Assertions.Expect(preview.Locator(activeDaySelector)).ToBeFocusedAsync();
+
+        var firstGrid = preview.Locator(gridSelector).First;
+        var firstSelectableDay = firstGrid.Locator("[role='gridcell']:not([disabled])").First;
+
+        await preview.Locator(navButtonSelector).Last.ClickAsync();
+        await Assertions.Expect(firstSelectableDay).ToBeFocusedAsync();
+        (await firstSelectableDay.EvaluateAsync<bool>("element => element.matches(':focus-visible')")).ShouldBeFalse();
+
+        await preview.Locator(navButtonSelector).First.ClickAsync();
+        await Assertions.Expect(firstSelectableDay).ToBeFocusedAsync();
+        (await firstSelectableDay.EvaluateAsync<bool>("element => element.matches(':focus-visible')")).ShouldBeFalse();
+    }
+
     // Wraps vibe-dom.js's focusElement: while window.__vibeFocusCalls.closed is set, each call is
     // held until the test releases it.
     private async Task GateFocusCallsAsync()
