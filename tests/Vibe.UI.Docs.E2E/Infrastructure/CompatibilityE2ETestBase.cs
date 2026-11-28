@@ -8,6 +8,7 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
 {
     private readonly List<string> _consoleErrors = [];
     private readonly List<string> _failedRequests = [];
+    private readonly List<(int Status, string Url)> _errorResponses = [];
 
     protected IPlaywright Playwright { get; private set; } = null!;
     protected IBrowser Browser { get; private set; } = null!;
@@ -60,7 +61,20 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
 
         Page.RequestFailed += (_, request) =>
         {
-            _failedRequests.Add($"[{request.Method}] {request.Url} - {request.Failure}");
+            // WebKit drops the misdirected preload once the right file arrives, or gets a 404.
+            if (!IsMisdirectedBundlePreload(request.Url))
+            {
+                _failedRequests.Add($"[{request.Method}] {request.Url} - {request.Failure}");
+            }
+        };
+
+        // The browser's console line for a failed response does not say which one. This does.
+        Page.Response += (_, response) =>
+        {
+            if (response.Status >= 400)
+            {
+                _errorResponses.Add((response.Status, response.Url));
+            }
         };
     }
 
@@ -100,6 +114,7 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
     {
         _consoleErrors.Clear();
         _failedRequests.Clear();
+        _errorResponses.Clear();
 
         await Page.GotoAsync($"{BaseUrl.TrimEnd('/')}{path}", new()
         {
@@ -215,6 +230,13 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
             .Where(failure => !IsIgnorableNetworkFailure(failure))
             .ToList();
 
+        var criticalResponses = _errorResponses
+            .Where(response => !IsIgnorableErrorResponse(response.Status, response.Url))
+            .Select(response => $"{response.Status} {response.Url}")
+            .ToList();
+
+        // First, because it names the address: the console check below would only say "404".
+        criticalResponses.ShouldBeEmpty($"Error responses found:{Environment.NewLine}{string.Join(Environment.NewLine, criticalResponses)}");
         criticalErrors.ShouldBeEmpty($"Browser console errors found:{Environment.NewLine}{string.Join(Environment.NewLine, criticalErrors)}");
         criticalFailures.ShouldBeEmpty($"Failed browser requests found:{Environment.NewLine}{string.Join(Environment.NewLine, criticalFailures)}");
     }
@@ -254,10 +276,36 @@ public abstract class CompatibilityE2ETestBase : IAsyncLifetime
             "moz-extension://",
             "Failed to load source map",
             "DevTools failed to load",
-            "ResizeObserver loop"
+            "ResizeObserver loop",
+            // Counted by address in _errorResponses, where the ones to ignore can be told apart.
+            "Failed to load resource: the server responded with a status of"
         };
 
         return ignorable.Any(value => error.Contains(value, StringComparison.OrdinalIgnoreCase));
+    }
+
+    // On a page below the root, such as /boundary/none, WebKit asks for
+    // /boundary/_content/Vibe.UI/Vibe.UI.<hash>.bundle.scp.css, gets a 404 or cancels the
+    // request, and loads the right file. The server sends `Link: <_content/...bundle.scp.css>; rel="preload"` on the
+    // app's stylesheet, with a relative address, and WebKit resolves it against the page, not
+    // the stylesheet. Chromium and Firefox do not. The address is the SDK's, not ours, and
+    // nothing is missing from the page. A bundle missing at its real address is still reported:
+    // that one starts at /_content.
+    private static bool IsIgnorableErrorResponse(int status, string url)
+    {
+        if (url.Contains("favicon.ico", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return status == 404 && IsMisdirectedBundlePreload(url);
+    }
+
+    private static bool IsMisdirectedBundlePreload(string url)
+    {
+        var path = new Uri(url).AbsolutePath;
+        return path.EndsWith(".bundle.scp.css", StringComparison.Ordinal)
+            && path.IndexOf("/_content/", StringComparison.Ordinal) > 0;
     }
 
     private static bool IsIgnorableNetworkFailure(string failure)
