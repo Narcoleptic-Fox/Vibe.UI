@@ -1,0 +1,18 @@
+@page "/boundary/none"
+@using Vibe.UI.Compatibility.WebApp.Client.Boundary
+
+@* No render mode anywhere: the page answers 200 and the field is drawn with its label, but
+   nothing is interactive, so typing never reaches the model. This one fails without an error. *@
+<PageTitle>A form with no interactive boundary</PageTitle>
+
+<section data-testid="boundary-none">
+    <Form Model="reservation" ShowValidationSummary="false">
+        <PropertyInput Id="none-name" For="() => reservation.Name" />
+
+        <p data-testid="boundary-none-echo">[@reservation.Name]</p>
+    </Form>
+</section>
+
+@code {
+    private readonly Reservation reservation = new();
+}

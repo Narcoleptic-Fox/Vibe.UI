@@ -1,0 +1,21 @@
+@* The whole form is one component, so one render mode covers the Form and every PropertyInput
+   in it. A static page hosts it with @rendermode and passes only Mode, a string, which can be
+   serialized across the boundary. The expressions never leave this component. *@
+<section data-testid="boundary-@Mode">
+    <Form Model="reservation" ShowValidationSummary="false">
+        <PropertyInput Id="@($"{Mode}-name")" For="() => reservation.Name" />
+        <PropertyInput Id="@($"{Mode}-guests")" For="() => reservation.Guests" />
+
+        @* Inside the Form, which renders again when a field changes. Outside it nothing would
+           tell this component that the model was written. *@
+        <p data-testid="boundary-@Mode-echo">@reservation.Name for @reservation.Guests</p>
+    </Form>
+</section>
+
+@code {
+    private readonly Reservation reservation = new();
+
+    /// <summary>Names the hosting render mode in the ids, so each page can be told apart.</summary>
+    [Parameter, EditorRequired]
+    public string Mode { get; set; } = string.Empty;
+}
