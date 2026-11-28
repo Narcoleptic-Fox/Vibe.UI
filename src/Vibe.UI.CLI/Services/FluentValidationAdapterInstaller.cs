@@ -1,7 +1,4 @@
 using System.Reflection;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace Vibe.UI.CLI.Services;
 
@@ -104,42 +101,16 @@ public static class FluentValidationAdapterInstaller
             );
         }
 
-        var hasReference = HasItem(projectFile, "PackageReference");
-        var importsFile = RazorImportsService.ImportsPath(projectPath);
-        var addsUsing = RazorImportsService.MissingUsings(projectPath, [RazorUsing]).Count > 0;
-        if (!CentralPackageManagement.IsEnabled(projectFile))
-        {
-            return new ProjectChanges(
-                projectPath,
-                projectFile,
-                null,
-                !hasReference,
-                false,
-                importsFile,
-                addsUsing
-            );
-        }
-
-        // Central package management rejects a Version on a PackageReference. The version goes
-        // to Directory.Packages.props instead, as `dotnet add package` does.
-        var packagesFile =
-            CentralPackageManagement.FindPackagesFile(projectFile)
-            ?? throw new InvalidOperationException(
-                $"{Path.GetFileName(projectFile)} uses central package management, but no "
-                    + "Directory.Packages.props was found in its directory or above it. Add "
-                    + $"<PackageVersion Include=\"{PackageId}\" Version=\"{PackageVersion}\" /> to the "
-                    + "file that holds your package versions, and "
-                    + $"<PackageReference Include=\"{PackageId}\" /> to {Path.GetFileName(projectFile)}."
-            );
-
+        // The package half is the same for any package: see PackageReferenceEditor.
+        var package = PackageReferenceEditor.Plan(projectFile, PackageId, PackageVersion);
         return new ProjectChanges(
             projectPath,
             projectFile,
-            packagesFile,
-            !hasReference,
-            !HasItem(packagesFile, "PackageVersion"),
-            importsFile,
-            addsUsing
+            package.CentralPackageFile,
+            package.AddsReference,
+            package.AddsCentralVersion,
+            RazorImportsService.ImportsPath(projectPath),
+            RazorImportsService.MissingUsings(projectPath, [RazorUsing]).Count > 0
         );
     }
 
@@ -149,19 +120,16 @@ public static class FluentValidationAdapterInstaller
     /// </summary>
     public static async Task ApplyProjectChangesAsync(ProjectChanges changes)
     {
-        if (changes.AddsCentralVersion && changes.CentralPackageFile is not null)
-        {
-            await AddItemAsync(changes.CentralPackageFile, "PackageVersion", withVersion: true);
-        }
-
-        if (changes.AddsReference)
-        {
-            await AddItemAsync(
+        await PackageReferenceEditor.ApplyAsync(
+            new PackageReferencePlan(
                 changes.ProjectFile,
-                "PackageReference",
-                withVersion: changes.CentralPackageFile is null
-            );
-        }
+                changes.CentralPackageFile,
+                PackageId,
+                PackageVersion,
+                changes.AddsReference,
+                changes.AddsCentralVersion
+            )
+        );
 
         await RazorImportsService.EnsureUsingsAsync(changes.ProjectPath, [RazorUsing]);
     }
@@ -231,81 +199,5 @@ public static class FluentValidationAdapterInstaller
             "Could not find the FluentValidation adapter sources. Searched: "
                 + string.Join(", ", candidates)
         );
-    }
-
-    private static bool HasItem(string file, string itemName)
-    {
-        var root = XDocument.Load(file).Root;
-        if (root is null)
-        {
-            return false;
-        }
-
-        return root.Descendants(root.GetDefaultNamespace() + itemName)
-            .Any(item =>
-                string.Equals(
-                    item.Attribute("Include")?.Value,
-                    PackageId,
-                    StringComparison.OrdinalIgnoreCase
-                )
-            );
-    }
-
-    /// <summary>
-    /// Adds <c>&lt;itemName Include="FluentValidation" [Version="…"] /&gt;</c> after the last item
-    /// of that kind, or in a new ItemGroup. The file keeps its whitespace, line endings and lack
-    /// of an XML declaration: the only change is the added line.
-    /// </summary>
-    private static async Task AddItemAsync(string file, string itemName, bool withVersion)
-    {
-        var text = await File.ReadAllTextAsync(file);
-        var newLine = text.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
-        var document = XDocument.Parse(text, LoadOptions.PreserveWhitespace);
-        var root =
-            document.Root ?? throw new InvalidOperationException($"{file} has no root element.");
-        var ns = root.GetDefaultNamespace();
-
-        var item = new XElement(ns + itemName, new XAttribute("Include", PackageId));
-        if (withVersion)
-        {
-            item.Add(new XAttribute("Version", PackageVersion));
-        }
-
-        var lastItem = root.Elements(ns + "ItemGroup")
-            .SelectMany(group => group.Elements(ns + itemName))
-            .LastOrDefault();
-        if (lastItem is not null)
-        {
-            var indentation = lastItem.PreviousNode is XText leading
-                ? leading.Value[(leading.Value.LastIndexOf('\n') + 1)..]
-                : "    ";
-            lastItem.AddAfterSelf(new XText(newLine + indentation), item);
-        }
-        else
-        {
-            // Before the closing tag, after whatever whitespace precedes it.
-            root.Add(
-                new XText("  "),
-                new XElement(
-                    ns + "ItemGroup",
-                    new XText(newLine + "    "),
-                    item,
-                    new XText(newLine + "  ")
-                ),
-                new XText(newLine)
-            );
-        }
-
-        var settings = new XmlWriterSettings
-        {
-            Async = true,
-            OmitXmlDeclaration = document.Declaration is null,
-            NewLineHandling = NewLineHandling.None,
-            Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
-        };
-        await using (var writer = XmlWriter.Create(file, settings))
-        {
-            await document.SaveAsync(writer, CancellationToken.None);
-        }
     }
 }
