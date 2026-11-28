@@ -126,9 +126,15 @@
                 each row, not only the ones in a column.
             </li>
             <li>
-                A row type JSON cannot write, cannot rebuild, or rebuilds with values missing (a
-                property with a private setter, say) is not kept: the grid fetches again, as it
-                would with no prerender.
+                A row type JSON cannot write or cannot rebuild is not kept, and neither is one
+                that does not read back as it was written (a property with a private setter,
+                say): the grid fetches again, as it would with no prerender.
+            </li>
+            <li>
+                The grid cannot tell when a row was written short. A member marked
+                <code>[JsonIgnore]</code>, or a public field, is left out and comes back empty,
+                and a column over it is blank until the next fetch. Over rows like that, set
+                <code>KeepPrerenderedPage="false"</code>.
             </li>
             <li>
                 Two grids of the same row type on one page need a different
@@ -276,6 +282,7 @@
         ("ShowPagination", "bool", "true", "Whether the paginator is shown when there is more than one page"),
         ("PaginationLabel", "string", "\"Pages\"", "The accessible name of the paginator"),
         ("RefreshAsync(toFirstPage)", "Task", "", "Method. Asks the provider again; with toFirstPage, from the first page"),
+        ("KeepPrerenderedPage", "bool", "true", "Whether the page fetched while prerendering is kept for the interactive render. Set false over rows JSON writes short"),
         ("StateKey", "string?", "null", "Tells this grid's prerendered page apart from that of another grid of the same row type on the page"),
     ];
 
