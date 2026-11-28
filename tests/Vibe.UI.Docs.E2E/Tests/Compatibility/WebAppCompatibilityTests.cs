@@ -135,8 +135,16 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
     [InlineData("server")]
     [InlineData("client")]
     [InlineData("auto")]
-    public async Task AGridInsideOneInteractiveComponentPagesAndSortsInEachRenderMode(string mode)
+    public async Task AGridStartsWithThePageTheServerFetchedThenPagesAndSortsInEachRenderMode(string mode)
     {
+        // What the server sends, before any script runs: the page is there, and fetching it
+        // took one request.
+        var prerendered = await Page.Context.APIRequest.GetAsync($"{BaseUrl.TrimEnd('/')}/grid/inside/{mode}");
+        prerendered.Status.ShouldBe(200);
+        var html = await prerendered.TextAsync();
+        html.ShouldContain("Part 001");
+        html.ShouldContain("Requests: 1");
+
         await NavigateToSmokePageAsync($"/grid/inside/{mode}", $"grid-{mode}");
 
         var grid = Page.Locator($"[data-testid='grid-{mode}']");
@@ -144,10 +152,6 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         var firstCell = rows.First.Locator("td").First;
         var requests = grid.Locator($"[data-testid='grid-{mode}-requests']");
         var poke = grid.Locator($"[data-testid='grid-{mode}-poke']");
-
-        // Prerendered rows are there before anything is interactive.
-        await Assertions.Expect(rows).ToHaveCountAsync(10);
-        await Assertions.Expect(firstCell).ToHaveTextAsync("Part 001");
 
         // Interactive once a click is counted. Each attempt is a new click, so it can be repeated.
         var deadline = DateTimeOffset.UtcNow.AddSeconds(30);
@@ -164,16 +168,19 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
             }
         }
 
-        // The interactive component is a new one: it has asked once, and the page rendering again
-        // around the grid, which the clicks above did, asked nothing more.
-        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 1");
+        // The interactive component is a new one, and it has asked nothing: it started with the
+        // page the server fetched. The rows and the paginator are drawn from that page.
+        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 0");
+        await Assertions.Expect(rows).ToHaveCountAsync(10);
+        await Assertions.Expect(firstCell).ToHaveTextAsync("Part 001");
+        await Assertions.Expect(grid.Locator(".vibe-grid-pager").GetByText("10", new() { Exact = true })).ToBeVisibleAsync();
 
         await grid.Locator(".vibe-grid-pager").GetByText("2", new() { Exact = true }).ClickAsync();
         await Assertions.Expect(firstCell).ToHaveTextAsync("Part 011");
-        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 2");
+        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 1");
 
         await grid.Locator("thead button.col-title", new() { HasTextString = "Stock" }).ClickAsync();
-        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 3");
+        await Assertions.Expect(requests).ToHaveTextAsync("Requests: 2");
         await Assertions
             .Expect(grid.Locator("thead th", new() { HasTextString = "Stock" }))
             .ToHaveAttributeAsync("aria-sort", "ascending");
@@ -192,5 +199,40 @@ public class WebAppCompatibilityTests : CompatibilityE2ETestBase
         // A delegate is refused by name, unlike the expression a PropertyInput takes.
         body.ShouldContain("Cannot pass the parameter 'ItemsProvider' to component 'VibeGrid`1' with rendermode 'InteractiveServerRenderMode'");
         body.ShouldContain("cannot be serialized");
+    }
+
+    [Theory]
+    [InlineData("keyed", "Alpha: 0, Beta: 0")]
+    [InlineData("unkeyed", "Alpha: 1, Beta: 1")]
+    public async Task TwoGridsInOneComponentStartWithTheirOwnPagesOnlyWhenEachHasAKey(string route, string interactiveRequests)
+    {
+        await NavigateToSmokePageAsync($"/grid/two/{route}", "two-grids");
+
+        var poke = Page.GetByTestId("two-grids-poke");
+        var deadline = DateTimeOffset.UtcNow.AddSeconds(30);
+        while (true)
+        {
+            await poke.ClickAsync();
+            try
+            {
+                await Assertions.Expect(poke).Not.ToHaveTextAsync("Poked 0", new() { Timeout = 1000 });
+                break;
+            }
+            catch (PlaywrightException) when (DateTimeOffset.UtcNow < deadline)
+            {
+            }
+        }
+
+        // Keyed: neither asks. Unkeyed: the framework cannot tell them apart, so neither is given
+        // a page and each asks once. Either way each grid shows its own rows.
+        await Assertions.Expect(Page.GetByTestId("two-grids-requests")).ToHaveTextAsync(interactiveRequests);
+        await Assertions
+            .Expect(Page.Locator("[data-testid='first'] tbody tr[aria-rowindex] td").First)
+            .ToHaveTextAsync("Alpha 1");
+        await Assertions
+            .Expect(Page.Locator("[data-testid='second'] tbody tr[aria-rowindex] td").First)
+            .ToHaveTextAsync("Beta 1");
+
+        AssertNoBrowserErrors();
     }
 }
