@@ -68,6 +68,7 @@ Routes:
 - `/boundary/none` - a `Form` with no render mode anywhere
 - `/grid/inside/server`, `/grid/inside/client`, `/grid/inside/auto` - a static page hosting one interactive component that holds a `VibeGrid`, its provider and its columns
 - `/grid/provider-across` - broken on purpose: a static page hands a provider to an interactive `VibeGrid`
+- `/grid/two/keyed`, `/grid/two/unkeyed` - two grids in one component, with and without a `@key` each
 
 ## The interactive boundary
 
@@ -82,7 +83,7 @@ The `/boundary` routes pin what happens otherwise, as observed on .NET 10:
 | `<Form @rendermode="InteractiveServer">` with fields inside (tried in Interactive Server only) | HTTP 500. ``InvalidOperationException: Cannot pass the parameter 'ChildContent' to component 'Form`1' with rendermode 'InteractiveServerRenderMode'`` |
 | `<Form>` with fields, no render mode | HTTP 200. The field is drawn with its label, and typing never reaches the model. No error |
 
-`VibeGrid` meets the same rule: its provider is a delegate and its columns are child content. A provider handed across fails with ``InvalidOperationException: Cannot pass the parameter 'ItemsProvider' to component 'VibeGrid`1' with rendermode 'InteractiveServerRenderMode'``, which does name the parameter. Inside one interactive component it loads, pages and sorts with one request each, in all three render modes. The page that the server prerenders is fetched again when the component becomes interactive: that is not yet handed over.
+`VibeGrid` meets the same rule: its provider is a delegate and its columns are child content. A provider handed across fails with ``InvalidOperationException: Cannot pass the parameter 'ItemsProvider' to component 'VibeGrid`1' with rendermode 'InteractiveServerRenderMode'``, which does name the parameter. Inside one interactive component it loads, pages and sorts with one request each, in all three render modes. The page the server prerenders is not fetched again: the server's HTML reports one request and the interactive component reports none. Two grids in one component each start with their own page only when each has a `@key`; without keys each fetches again, with its own rows.
 
 All three compile with no warning, so nothing stops them before the page is requested. Do not repair the two broken pages: the tests assert that they fail.
 
@@ -114,4 +115,5 @@ The browser tests verify:
 - Blazor Web App `InteractiveWebAssembly` interactivity from the `.Client` project.
 - Blazor Web App `InteractiveAuto` prerender and activation behavior.
 - The interactive boundary: a form inside one interactive component works in each render mode, and the three ways of getting it wrong fail as described above.
-- A `VibeGrid` inside one interactive component: one request on load, one per page change and one per sort, in each render mode.
+- A `VibeGrid` inside one interactive component: one request while the server prerenders and none when it becomes interactive, then one per page change and one per sort, in each render mode.
+- Two grids in one component, keyed and unkeyed.

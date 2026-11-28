@@ -109,6 +109,39 @@
     </section>
 
     <section class="vibe-mb-12">
+        <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Prerendering</h2>
+        <p class="vibe-text-muted-foreground vibe-mb-3">
+            In a Blazor Web App a page is rendered on the server first and then again,
+            interactively, by a new component. The grid keeps the page it fetched the first time
+            and starts the second with it, so the first page costs one request, not two. It needs
+            nothing from you.
+        </p>
+        <ul class="vibe-space-y-2 vibe-text-muted-foreground">
+            <li>
+                Your provider is not called when the page becomes interactive. Anything it sets
+                besides the rows, a result count for instance, is not set until it is next asked.
+            </li>
+            <li>
+                The page is kept as JSON in the HTML the server sends. It holds every property of
+                each row, not only the ones in a column.
+            </li>
+            <li>
+                A row type JSON cannot write, or cannot rebuild, is not kept: the grid fetches
+                again, as it would with no prerender.
+            </li>
+            <li>
+                Two grids of the same row type in one component need a <code>@@key</code> each.
+                The framework tells saved state apart by parent, type and key. Without keys
+                neither is given its page and each fetches again, with its own rows.
+            </li>
+            <li>
+                Only the render that follows a prerender starts this way. A page reached by
+                navigating inside the app, or resumed later, asks its provider.
+            </li>
+        </ul>
+    </section>
+
+    <section class="vibe-mb-12">
         <h2 class="vibe-text-xl vibe-font-semibold vibe-text-foreground vibe-mb-4">Limits today</h2>
         <ul class="vibe-space-y-2 vibe-text-muted-foreground">
             <li>Sorting is by one column. Changing the sort keeps the current page.</li>
@@ -120,10 +153,6 @@
             <li>
                 On a short last page QuickGrid adds empty rows up to the page size, so the page
                 does not jump. They carry no <code>aria-rowindex</code>.
-            </li>
-            <li>
-                A page fetched while the server prerenders is fetched again when the page becomes
-                interactive.
             </li>
         </ul>
     </section>
@@ -228,6 +257,7 @@
     private static readonly (string Action, string Alone, string Wrapped)[] RequestRows =
     [
         ("Page load", "2, or 1 and 1 more at the next render", "1"),
+        ("Page load after a prerender", "the same again", "0"),
         ("Another page", "1", "1"),
         ("Another sort", "1", "1"),
         ("The page rendering again", "0, or the 1 owed from load", "0"),
@@ -244,6 +274,7 @@
         ("ShowPagination", "bool", "true", "Whether the paginator is shown when there is more than one page"),
         ("PaginationLabel", "string", "\"Pages\"", "The accessible name of the paginator"),
         ("RefreshAsync(toFirstPage)", "Task", "", "Method. Asks the provider again; with toFirstPage, from the first page"),
+        ("PrerenderedPage", "string?", "null", "Set by the framework, not by a page: the prerendered page, kept as JSON for the interactive render"),
     ];
 
     private static readonly string[] AccessibilityItems =
