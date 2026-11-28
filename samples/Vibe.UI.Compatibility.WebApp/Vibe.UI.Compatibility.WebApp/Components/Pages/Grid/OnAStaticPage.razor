@@ -1,0 +1,12 @@
+@page "/grid/static"
+@using Vibe.UI.Compatibility.WebApp.Client.Grid
+
+@* The first grid has no render mode: it is rendered once, on the server, and nothing follows.
+   It keeps no page, and it does not count as a user of its name. The second is interactive
+   and under the same name as the first: counted together, neither would keep a page. So the
+   second still starts with its own prerendered page. *@
+<PageTitle>A grid on a static page, beside an interactive one</PageTitle>
+
+<PartsGrid Mode="static" Label="Static" />
+
+<PartsGrid Mode="beside" Label="Beside" @rendermode="InteractiveServer" />

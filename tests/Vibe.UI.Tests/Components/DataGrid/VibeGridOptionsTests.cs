@@ -7,7 +7,7 @@ namespace Vibe.UI.Tests.Components.DataGrid;
 /// The grid's less usual settings, and what it does when it is given too little or is taken
 /// away while a question is still out.
 /// </summary>
-public class VibeGridOptionsTests : TestBase
+public class VibeGridOptionsTests : GridTestBase
 {
     [Fact]
     public void Without_a_row_key_and_with_a_page_that_is_not_a_list_the_rows_are_still_drawn()

@@ -9,7 +9,7 @@ namespace Vibe.UI.Tests.Components.DataGrid;
 /// for the page, and with one request to the provider per page shown. Raw QuickGrid asks twice
 /// after any answer that changes the total; these tests count.
 /// </summary>
-public class VibeGridTests : TestBase
+public class VibeGridTests : GridTestBase
 {
     private IRenderedComponent<VibeGridFixture> page = default!;
 

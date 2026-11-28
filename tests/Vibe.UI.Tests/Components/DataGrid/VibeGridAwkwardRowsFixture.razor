@@ -1,0 +1,170 @@
+@* Three row types that do not survive being kept as JSON. A page over any of them worked before
+   the grid kept anything, so it has to go on working: at the cost of one more request, never of
+   the page, and never with rows that have lost their values. VibeGridAwkwardRowsTests drives this. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@switch (Rows)
+{
+    case Kind.ReferToThemselves:
+        <VibeGrid TGridItem="Loop" ItemsProvider="ProvideLoops" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+    case Kind.CannotBeRebuilt:
+        <VibeGrid TGridItem="NotRebuildable" ItemsProvider="ProvideClosed" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+    case Kind.HideAMember:
+        <VibeGrid TGridItem="Hidden" ItemsProvider="ProvideHidden" PageSize="5" KeepPrerenderedPage="@Keep">
+            <PropertyColumn Property="row => row.Name" />
+            <TemplateColumn Title="Owner"><span class="owner">@context.Owner?.Name</span></TemplateColumn>
+        </VibeGrid>
+        break;
+    case Kind.CarryACallback:
+        <VibeGrid TGridItem="WithCallback" ItemsProvider="ProvideCallbacks" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+    default:
+        <VibeGrid TGridItem="Lossy" ItemsProvider="ProvideLossy" PageSize="5">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+        break;
+}
+
+@code {
+    public enum Kind
+    {
+        ReferToThemselves,
+        CannotBeRebuilt,
+        CarryACallback,
+        HideAMember,
+        ComeBackEmpty,
+    }
+
+    /// <summary>A row that points back at itself: JSON cannot write it.</summary>
+    public sealed class Loop
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; } = "";
+
+        public Loop? Self { get; set; }
+    }
+
+    /// <summary>
+    /// A row JSON can write but cannot rebuild: it has no parameterless constructor, and none
+    /// whose parameters are named after its properties.
+    /// </summary>
+    public sealed class NotRebuildable
+    {
+        public NotRebuildable(int key, string label)
+        {
+            Id = key;
+            Name = label;
+        }
+
+        public int Id { get; }
+
+        public string Name { get; }
+    }
+
+    /// <summary>
+    /// A row JSON writes in full and rebuilds without complaint and without its name: the
+    /// setter is private, so the value is written and then not read back.
+    /// </summary>
+    public sealed class Lossy
+    {
+        public int Id { get; set; }
+
+        public string Name { get; private set; } = "";
+
+        public static Lossy Named(int id, string name) => new() { Id = id, Name = name };
+    }
+
+    /// <summary>A row that carries something to run: JSON does not write delegates at all.</summary>
+    public sealed class WithCallback
+    {
+        public string Name { get; set; } = "";
+
+        public Action? Open { get; set; }
+    }
+
+    /// <summary>
+    /// A row with a member JSON is told not to write, as an entity has for the thing it belongs
+    /// to. Nothing fails: the row is written without it and comes back without it.
+    /// </summary>
+    public sealed class Hidden
+    {
+        public string Name { get; set; } = "";
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        public Hidden? Owner { get; set; }
+    }
+
+    [Parameter]
+    public Kind Rows { get; set; }
+
+    /// <summary>Passed to the grid over rows that hide a member.</summary>
+    [Parameter]
+    public bool Keep { get; set; } = true;
+
+    /// <summary>How many times a provider was asked.</summary>
+    public int Requests { get; private set; }
+
+    private ValueTask<VibeGridPage<Loop>> ProvideLoops(VibeGridRequest request)
+    {
+        Requests++;
+        List<Loop> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i =>
+            {
+                var row = new Loop { Id = i, Name = "Loop " + i };
+                row.Self = row;
+                return row;
+            })
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<Loop>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<NotRebuildable>> ProvideClosed(VibeGridRequest request)
+    {
+        Requests++;
+        List<NotRebuildable> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => new NotRebuildable(i, "Closed " + i))
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<NotRebuildable>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<WithCallback>> ProvideCallbacks(VibeGridRequest request)
+    {
+        Requests++;
+        List<WithCallback> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => new WithCallback { Name = "Callback " + i, Open = () => { } })
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<WithCallback>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<Hidden>> ProvideHidden(VibeGridRequest request)
+    {
+        Requests++;
+        List<Hidden> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => new Hidden { Name = "Hidden " + i, Owner = new Hidden { Name = "Owner " + i } })
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<Hidden>(rows, 40));
+    }
+
+    private ValueTask<VibeGridPage<Lossy>> ProvideLossy(VibeGridRequest request)
+    {
+        Requests++;
+        List<Lossy> rows = Enumerable
+            .Range(1, request.PageSize)
+            .Select(i => Lossy.Named(i, "Lossy " + i))
+            .ToList();
+        return ValueTask.FromResult(new VibeGridPage<Lossy>(rows, 40));
+    }
+}

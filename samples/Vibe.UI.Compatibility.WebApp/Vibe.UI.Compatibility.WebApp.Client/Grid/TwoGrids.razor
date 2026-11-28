@@ -1,0 +1,54 @@
+@* Two grids of one row type in one component. Each keeps its prerendered page under its row
+   type and its StateKey, so with a key each they start with their own pages. With none they
+   share a name, nothing is kept for either, and each fetches again, with its own rows: slower,
+   never wrong. *@
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<section data-testid="two-grids">
+    <div data-testid="first">
+        <VibeGrid TGridItem="Row" ItemsProvider="ProvideAlpha" PageSize="5" StateKey="@(Keyed ? "alpha" : null)">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+    </div>
+    <div data-testid="second">
+        <VibeGrid TGridItem="Row" ItemsProvider="ProvideBeta" PageSize="5" StateKey="@(Keyed ? "beta" : null)">
+            <PropertyColumn Property="row => row.Name" />
+        </VibeGrid>
+    </div>
+
+    <p data-testid="two-grids-requests">Alpha: @alpha, Beta: @beta</p>
+    <button type="button" data-testid="two-grids-poke" @onclick="() => pokes++">Poked @pokes</button>
+</section>
+
+@code {
+    public sealed record Row(int Id, string Name);
+
+    private int alpha;
+    private int beta;
+    private int pokes;
+
+    [Parameter]
+    public bool Keyed { get; set; }
+
+    private ValueTask<VibeGridPage<Row>> ProvideAlpha(VibeGridRequest request)
+    {
+        alpha++;
+        _ = InvokeAsync(StateHasChanged);
+        return Page("Alpha", request);
+    }
+
+    private ValueTask<VibeGridPage<Row>> ProvideBeta(VibeGridRequest request)
+    {
+        beta++;
+        _ = InvokeAsync(StateHasChanged);
+        return Page("Beta", request);
+    }
+
+    private static ValueTask<VibeGridPage<Row>> Page(string prefix, VibeGridRequest request) =>
+        ValueTask.FromResult(new VibeGridPage<Row>(
+            Enumerable
+                .Range(request.Page * request.PageSize + 1, request.PageSize)
+                .Select(i => new Row(i, $"{prefix} {i}"))
+                .ToList(),
+            40));
+}

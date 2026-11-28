@@ -8,7 +8,7 @@ namespace Vibe.UI.Tests.Components.DataGrid;
 /// remembers the last answer so that QuickGrid's repeated question costs nothing; these tests
 /// are about which answer it may remember.
 /// </summary>
-public class VibeGridSlowProviderTests : TestBase
+public class VibeGridSlowProviderTests : GridTestBase
 {
     private IRenderedComponent<VibeGridSlowFixture> page = default!;
 

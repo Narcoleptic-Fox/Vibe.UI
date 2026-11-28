@@ -1,4 +1,6 @@
 @namespace Vibe.UI.Components
+@using System.Runtime.CompilerServices
+@using System.Text.Json
 @using Microsoft.AspNetCore.Components.QuickGrid
 @typeparam TGridItem
 @* Named as QuickGrid names it, and cascaded, so that a PropertyColumn written inside
@@ -6,6 +8,7 @@
 @attribute [CascadingTypeParameter(nameof(TGridItem))]
 @inherits Base.VibeComponent
 @implements IDisposable
+@inject IServiceProvider Services
 
 @* Microsoft's QuickGrid with the parts every page otherwise repeats: the pagination state, a
    paginator bound to it, the vibe theme, and one answer per question asked of the server. The
@@ -41,6 +44,19 @@
 
     // Set by RefreshAsync: the next question goes to the provider whatever is remembered.
     private bool mustFetch;
+
+    // The prerender handoff. A page is prerendered on the server and then rendered again,
+    // interactively, by a new grid. The first keeps the page it fetched, as JSON, and the second
+    // starts with it. The grid does the writing and reading itself, so that a row type JSON
+    // cannot write or cannot rebuild costs one more request and not the page.
+    private static readonly ConditionalWeakTable<PersistentComponentState, Dictionary<string, int>> NamesInUse = new();
+    private PersistentComponentState? keptState;
+    private PersistingComponentStateSubscription keeping;
+    private string? keptJson;
+
+    // The name this grid is counted under, from the moment it is counted. Not worked out
+    // again later: a StateKey that changed would count it out of a name it was never in.
+    private string? keptName;
 
     // Cancelled when the grid is disposed. QuickGrid cancels a question when it asks a newer
     // one, but not when it is taken off the page, so a question still out would run on.
@@ -87,10 +103,90 @@
     [Parameter]
     public Func<TGridItem, string?>? RowClass { get; set; }
 
+    /// <summary>
+    /// Tells this grid's prerendered page apart from another's. The page the server fetches
+    /// while prerendering is kept for the interactive render under the row type and this key.
+    /// Two grids of one row type on a page need different keys; left the same, neither page is
+    /// kept and each grid fetches again.
+    /// </summary>
+    [Parameter]
+    public string? StateKey { get; set; }
+
+    /// <summary>
+    /// Whether the page fetched while prerendering is kept for the interactive render. On by
+    /// default. The page is kept as JSON, and the grid drops it when the rows do not read back as
+    /// written. It cannot tell when a row was written short: a member marked
+    /// <c>[JsonIgnore]</c>, or a public field, is left out and comes back empty. Over rows like
+    /// that, set this to <see langword="false"/> and the grid fetches again once interactive.
+    /// </summary>
+    [Parameter]
+    public bool KeepPrerenderedPage { get; set; } = true;
+
     /// <inheritdoc />
     protected override string ComponentClass => "vibe-grid";
 
     private int PageCount => (pagination.LastPageIndex ?? 0) + 1;
+
+    // Under which name this grid's prerendered page is kept.
+    private string KeptPageName => $"Vibe.UI.VibeGrid:{typeof(TGridItem).FullName}:{StateKey}";
+
+    // Whether this render is a prerender that an interactive render will follow. A page with no
+    // render mode is also not interactive, and nothing follows it. A grid there has nothing to
+    // keep, and counted as a user of its name it would cost an interactive grid beside it,
+    // under the same name, its page.
+    private bool IsPrerenderingForAnInteractiveRender =>
+        !RendererInfo.IsInteractive && AssignedRenderMode is not null;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        // Not injected: a host that has no such service still gets a grid, without the handoff.
+        // That host is every component test that does not ask for one, and nothing past this
+        // point is reached there: such a test need not say how it is being rendered.
+        keptState = Services.GetService(typeof(PersistentComponentState)) as PersistentComponentState;
+        if (keptState is null || !KeepPrerenderedPage)
+        {
+            return;
+        }
+
+        if (RendererInfo.IsInteractive)
+        {
+            // What the prerender fetched becomes the first thing remembered, so QuickGrid's
+            // first question here is answered without asking the provider.
+            if (keptState.TryTakeFromJson(KeptPageName, out string? json)
+                && json is not null
+                && ReadKeptPage(json) is { } carried)
+            {
+                last = (new RequestKey(carried.StartIndex, carried.PageSize, carried.SortBy, carried.SortDescending), carried.Page);
+            }
+        }
+        else if (IsPrerenderingForAnInteractiveRender)
+        {
+            keptName = KeptPageName;
+            Dictionary<string, int> names = NamesInUse.GetOrCreateValue(keptState);
+            names[keptName] = names.GetValueOrDefault(keptName) + 1;
+            // The framework takes the render mode to keep the page for from this component.
+            keeping = keptState.RegisterOnPersisting(KeepPageAsync);
+        }
+    }
+
+    // Runs once the prerender is finished, when every grid on the page has been counted.
+    private Task KeepPageAsync()
+    {
+        // The framework refuses a name that is already in use, and a refusal costs the page
+        // everything kept on it: seen in a browser, where two grids under one name left a third,
+        // under a name of its own, to fetch again. So a name used twice keeps nothing.
+        if (keptJson is not null
+            && keptName is not null
+            && keptState is not null
+            && NamesInUse.TryGetValue(keptState, out Dictionary<string, int>? names)
+            && names.GetValueOrDefault(keptName) == 1)
+        {
+            keptState.PersistAsJson(keptName, keptJson);
+        }
+
+        return Task.CompletedTask;
+    }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -145,11 +241,60 @@
             page = await ItemsProvider(new VibeGridRequest(
                 request.StartIndex / pageSize, pageSize, sort.PropertyName, descending, stopped.Token));
             last = (key, page);
+
+            if (keptName is not null)
+            {
+                keptJson = WriteKeptPage(new VibeGridSnapshot<TGridItem>(
+                    key.StartIndex, key.PageSize, key.SortBy, key.SortDescending, page));
+            }
         }
 
         return GridItemsProviderResult.From(
             page.Items as ICollection<TGridItem> ?? page.Items.ToList(), page.TotalCount);
     }
+
+    // Null when the rows cannot be written: a row that refers back to itself, say. Then
+    // nothing is kept and the interactive render fetches, as it did before there was a handoff.
+    private static string? WriteKeptPage(VibeGridSnapshot<TGridItem> kept)
+    {
+        try
+        {
+            return JsonSerializer.Serialize(kept);
+        }
+        catch (Exception error) when (IsJsonFailure(error))
+        {
+            return null;
+        }
+    }
+
+    // Null when what was kept cannot be turned back into the same rows: a row type with no
+    // constructor JSON can use, text that is not a page at all, or rows that come back with
+    // something missing.
+    private static VibeGridSnapshot<TGridItem>? ReadKeptPage(string json)
+    {
+        try
+        {
+            VibeGridSnapshot<TGridItem>? kept = JsonSerializer.Deserialize<VibeGridSnapshot<TGridItem>>(json);
+            if (kept?.Page?.Items is null)
+            {
+                return null;
+            }
+
+            // JSON rebuilds some types without complaint and without all their values: a
+            // property with a private setter is written and then left empty. Written again, such
+            // rows do not give the text they came from, and blank rows are worse than a request.
+            return JsonSerializer.Serialize(kept) == json ? kept : null;
+        }
+        catch (Exception error) when (IsJsonFailure(error))
+        {
+            return null;
+        }
+    }
+
+    // What System.Text.Json throws for a type it cannot handle. The third is the one it uses for
+    // a constructor whose parameters do not match the type's properties.
+    private static bool IsJsonFailure(Exception error) =>
+        error is JsonException or NotSupportedException or InvalidOperationException;
 
     // The paginator is drawn by this component, so it has to render when the total arrives.
     private void OnTotalItemCountChanged(object? sender, int? total) => _ = InvokeAsync(StateHasChanged);
@@ -158,6 +303,17 @@
     public void Dispose()
     {
         pagination.TotalItemCountChanged -= OnTotalItemCountChanged;
+
+        // A grid taken off the page while it is prerendered keeps nothing, and no longer stands
+        // in the way of another under its name.
+        keeping.Dispose();
+        if (keptName is not null
+            && keptState is not null
+            && NamesInUse.TryGetValue(keptState, out Dictionary<string, int>? names))
+        {
+            names[keptName]--;
+        }
+
         disposal.Cancel();
         disposal.Dispose();
     }

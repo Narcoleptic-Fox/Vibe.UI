@@ -6,7 +6,7 @@ namespace Vibe.UI.Tests.Components.DataGrid;
 /// that state includes the total, which it sets from the answer. So after any answer that changes
 /// the total, the next render of the page makes it ask again for the page it already has.
 /// </summary>
-public class RawQuickGridTests : TestBase
+public class RawQuickGridTests : GridTestBase
 {
     [Fact]
     public void With_a_paginator_that_renders_with_the_page_QuickGrid_asks_twice_on_load()

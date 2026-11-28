@@ -1,0 +1,14 @@
+@page "/grid/twice/keyed"
+@using Vibe.UI.Compatibility.WebApp.Client.Grid
+
+@* One component that holds a grid, placed twice on a page: two lists of the same thing.
+   Each is given a key for its grid. *@
+<PageTitle>The same grid component twice, keyed</PageTitle>
+
+<PartsGrid Mode="left" Label="Left" StateKey="left" @rendermode="InteractiveWebAssembly" />
+
+<PartsGrid Mode="right" Label="Right" StateKey="right" @rendermode="InteractiveWebAssembly" />
+
+@* A third grid under a name of its own. What the two above do with their name must not cost
+   this one its page. *@
+<PartsGrid Mode="third" Label="Third" StateKey="third" @rendermode="InteractiveWebAssembly" />
